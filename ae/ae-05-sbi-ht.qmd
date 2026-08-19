@@ -1,0 +1,133 @@
+---
+title: "AE 05: Simulation-Based Inference (HT Focus)"
+subtitle: "Bikeshare"
+editor: visual
+format:
+  html:
+    embed-resources: true
+---
+
+::: callout-important
+-   Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-03a"
+-   Upload the `ae-03a-sbi-ht.qmd` and `dcbikeshare.csv` files into the folder you just created.
+:::
+
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(ggformula)
+library(broom)
+library(kableExtra)
+```
+
+## Data
+
+Our dataset contains daily rentals from the Capital Bikeshare in Washington, DC in 2011 and 2012. It was obtained from the `dcbikeshare` data set in the `dsbox` R package.
+
+We will focus on the following variables in the analysis:
+
+-   `count`: total bike rentals
+-   `temp_orig`: Temperature in degrees Celsius
+
+```{r glimpse-data}
+bikeshare <- read_csv("../data/dcbikeshare.csv") |>
+  mutate(season = case_when(
+    season == 1 ~ "winter",
+    season == 2 ~ "spring",
+    season == 3 ~ "summer",
+    season == 4 ~ "fall"
+  ),
+  season = factor(season))
+glimpse(bikeshare)
+```
+
+## Exercises
+
+In this activity, each group will be assigned a season to use:
+
+-   Groups 1 and 5: `winter`
+-   Groups 2 and 6: `spring`
+-   Groups 3 and 7: `summer`
+-   Groups 4 and 8: `fall`
+
+### Exercise 0
+
+Filter the `bikeshare` data set so that it only contains observations from your assigned season. Make sure to give the new data set a different name.
+
+### Exercise 1
+
+Conduct a little EDA. Generate a scatter plot of the number of bike rentals vs the temperature for your season by filling in the blanks in the code below. What do you think `alpha` does?
+
+```{r scatterplot}
+#| eval: FALSE
+
+gf______(______, data = ______, alpha = 0.7) |> 
+  gf_labs(
+    x = "Temperature (C)",
+    y = "Number of Bike Rentals",
+  )
+```
+
+### Exercise 2
+
+Fit a simple linear regression model, display the results to two decimal places, and be prepared to discuss the interpretation of the resulting slope and intercept.
+
+```{r fit-model}
+#| eval: FALSE
+
+model_fit <- lm(_____ ~ ______, data = _____)
+
+tidy(_____)
+```
+
+### Exercise 3
+
+Write down your research question in words then state the null and alternative hypotheses in both words and mathematical notation. You can use dollar signs to engage "math mode".
+
+$$
+H_0: 
+$$
+
+### Exercise 4
+
+Fit a simple linear regression model, but use `shuffle` to randomize your response variable. Run the code below a few times and comment on how your answer changes.
+
+### Exercise 5
+
+Generate the **null distribution**:
+
+1. Fit a SLR using `shuffle` to randomize your response variable.
+2. Use `do` to repeat the process 1000 times.
+3. Save the result back into a data frame called `null_dist`.
+
+### Exercise 6
+
+Plot the null distribution. Visually, does your observed slope look unusual? What does this imply about your research question?
+
+### Exercise 7
+
+Answer the following questions about the null distribution:
+
+1. What does each row in `null_dist` represent?
+2. What does each row in `bakeshare` or your data set (e.g. `winter`, `summer`, etc.) represent?
+3. How are these different?
+4. How is the number of rows in `null_dist` different than the sample size?
+5. If I were to increase the number of shuffles, how would you expact the plot in the previous exercise to change?
+6. If I were to increase the sample size, (i.e. the number of days), how would you expect the null distribution to change?
+
+### Exercise 8
+
+Fill in the code below to compute the p-value. Have your reporter write the value on the board.
+
+
+### Exercise 9
+
+-   Do larger or smaller p-values provide evidence for the alternative hypothesis?
+-   Do larger or smaller p-values provide evidence for your research question?
+-   Interpret your p-value in the context of the problem. Do you think your data provides strong evidence for your research question?
+
+::: callout-important
+To submit the AE:
+- Render the document to produce the HTML with all of your work from today's class.
+- The driver for your group should upload your .qmd and .html files to the Canvas assignment.
+:::

@@ -1,0 +1,58 @@
+---
+title: "Project Overview"
+---
+
+:::{.callout-tip icon=false}
+## Important dates
+
+* 11/5/25 (Wednesday) Project 1: Pilot
+* 11/12/25 (Wednesday) Project 2: Power
+* 11/19/25 (Wednesday) Project 3: Preliminary Analysis
+* 12/1/25 (Monday) Project 4: Full draft
+* 12/10/25 (Wednesday) Project 5: Final (edited) Project, Reflection, and Poster Presentation
+::: 
+
+# Project Overview
+
+## Pilot
+
+The [pilot project](project-pilot.qmd) will be based on a preliminary data collection.  Details about the structure of the data are given in the assignment, note that the response variable must be numerical.  You will have an opportunity to collect more data as we go, but the better the original data are, the better the follow-up data collection will be. The goal of the pilot study assignment is to develop a preliminary research question and to collect some initial data, both in preparation for your group Island project.
+
+## Power
+
+The [power analysis](project-power.qmd) will use the pilot data to estimate the sample size which will be needed to see the effect of interest.  Most of the code will be written by the professor, but you will need to understand both **why** the power analysis is important and **how** the power analysis is implemented.  The goal of the power analysis assignment is to estimate how many observations are needed for an Islands project to reach significance.
+
+## Preliminary Analysis
+
+The [preliminary analysis](project-preliminary.qmd) will contain numerical and graphical summaries.  Additionally, one regression model should be run. The goal of the preliminary data analysis assignment is to start working with the variables including visualizations, numerical summaries, and modeling.
+
+## Full Draft
+
+The [complete draft](project-draft.qmd) of the project will contain a full set of analyses designed to answer the research question (and practice with multiple regression).  The report will continue to have sections which communicate the study background and methods to the reader.  All plots and tables should be well labelled. The goal of the assignment is to provide a complete analysis of the data collected on the Islands as a research project.
+
+## Poster Presentation
+
+The [poster presentation](project-poster.qmd) will bring together your work and showcase your ideas. The goal of this assignment is to synthesize your study and your results into a clear and succinct presentation to your peers.
+
+## Final Project and Reflection
+
+The [final project](project-final.qmd) will compile all of the project pieces together into a beautiful and clear report. The paper will have sections which communicate the study background and methods to the reader as well a conclusions of the experiment.  All plots and tables should be well labelled. The goal of the assignment is to provide a complete analysis of the data collected on the Islands as a research project.
+
+Along with the final project report, each student will fill out an individual reflection piece and a group dynamic report.
+
+A detailed grading rubric is provided to assist you in putting the entire project together.
+
+# Grading
+
+## Grading Criteria
+
+- Technical depth and sophistication  
+- Quality of written report (organization, clarity, correctness, appropriate visuals)  
+- Quality of oral presentation (organization, visuals, ability to answer questions)  
+- Group collaboration and equitable workload distribution
+
+
+
+## Acknowledgements
+
+This project is adapted from Dr. Jo Hardin's Semester Project for her Introduction to Biostatistics course at Pomona College.

@@ -1,0 +1,124 @@
+---
+title: "AE 06: Simulation-Based Inference (Bootstrap CI)"
+subtitle: "Bikeshare"
+editor: visual
+format:
+  html:
+    embed-resources: true
+---
+
+::: callout-important
+-   Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-03"
+-   Go to the [Canvas](https://cofi.instructure.com/courses/CANVAS_ID_TBD/assignments/202831) and locate your `AE 03` assignment to get started.
+-   Upload the `ae-03-sbi.qmd` and `dcbikeshare.csv` files into the folder you just created.
+:::
+
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(ggformula)
+library(broom)
+```
+
+## Data
+
+Our dataset contains daily rentals from the Capital Bikeshare in Washington, DC in 2011 and 2012. It was obtained from the `dcbikeshare` data set in the `dsbox` R package.
+
+We will focus on the following variables in the analysis:
+
+-   `count`: total bike rentals
+-   `temp_orig`: Temperature in degrees Celsius
+
+```{r glimpse-data}
+bikeshare <- read_csv("../data/dcbikeshare.csv") |>
+  mutate(season = case_when(
+    season == 1 ~ "winter",
+    season == 2 ~ "spring",
+    season == 3 ~ "summer",
+    season == 4 ~ "fall"
+  ),
+  season = factor(season))
+glimpse(bikeshare)
+```
+
+## Exercises
+
+In this activity, each group will be assigned a season to use:
+
+-   Groups 1 and 5: `winter`
+-   Groups 2 and 6: `spring`
+-   Groups 3 and 7: `summer`
+-   Groups 4 and 8: `fall`
+
+### Exercise 0
+
+Filter the `bikeshare` data set so that it only contains observations from your assigned season. Make sure to give the new data set a different name.
+
+### Exercise 1
+
+Conduct a little EDA. Generate a scatter plot of the number of bike rentals vs the temperature.
+
+### Exercise 2
+
+Fit a simple linear regression model, display the results. What is your "observed slope".
+
+### Exercise 3
+
+Load the `mosaic` package at the beginning of this document where the other packages are loaded. In general, it is good practice to keep all your packages at the beginning of your analyses.
+
+Set a seed, take *1000* bootstrap samples using `resample`, and fit linear models to each one. This is called the *sampling distribution*. Where do you think the center of this distribution will be? How will it be different than the center of the null distribution?
+
+-   Why do we set a seed before taking the bootstrap samples?
+
+### Exercise 4
+
+Make a histogram of the bootstrap samples to visualize the bootstrap distribution. Optionally, highlight there area of the histogram corresponding to a 95% confidence interval. To do so, please load the `coursekata` packages.
+
+```{r boot-hist}
+# Code for histogram
+```
+
+### Exercise 5
+
+Discuss the following with your group and be prepared to share your thoughts with the class:
+
+-   How is this process of resampling different than the process of shuffling we did for hypothesis testing?
+-   Thinking about the goals of a hypothesis test vs the goals of a confidence interval, why are we using these two different techniques?
+
+### Exercise 6
+
+Compute *and interpret* the 95% confidence interval as the middle 95% of the bootstrap distribution.
+
+### Exercise 7
+
+Modify the code from Exercise 6 to create a 90% confidence interval. Before you run your code, do you expect the interval to get narrower or wider?
+
+### Exercise 8
+
+Modify the code from Exercise 6 to create a 99% confidence interval. Before you run your code, do you expect the interval to get narrower or wider?
+
+```{r 99-ci}
+# Paste code for 90% confidence interval
+```
+
+### Exercise 9
+
+-   Which confidence level produces the most accurate confidence interval (90%, 95%, 99%)? Explain
+
+-   Which confidence level produces the most precise confidence interval (90%, 95%, 99%)? Explain
+
+-   If we want to be very certain that we capture the population parameter, should we use a wider or a narrower interval? What drawbacks are associated with using a wider interval?
+
+### Exercise 10
+
+-   If your sample size $n$ is increased, what impact do you think this will have on accuracy and precision?
+
+-   What about if you increase the number of bootstrapped replicates?
+
+### Exercise 11
+
+Your professor is interested in calculating the average amount of time CofI students spend doing homework.
+
+-   If he collects a set of data and asks 100 students to compute 95% confidence intervals from that data, how many of those would you expect to contain the true average?
+
+-   If, instead, he has each of those 100 students collect their own data and compute 95% confidence intervals from their own data, how many would you expect to contain the true average?

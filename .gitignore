@@ -1,0 +1,13 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+/project/Rotation.xlsx
+
+/.quarto/
+/_site/
+/docs/
+.DS_Store
+
+**/*.quarto_ipynb
+exam/

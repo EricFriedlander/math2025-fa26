@@ -1,0 +1,95 @@
+project:
+  type: website
+  render:
+    - "*.qmd"
+    - "!exam/*.qmd"
+    - "!*.ipynb"
+
+  
+execute:
+  freeze: auto
+
+website:
+  page-navigation: true
+  title: "MATH 2025 - Fall 2026"
+  description: "Homepage for MATH 2025 - Multiple Regression Analysis at the College of Idaho, Fall 2026"
+  site-url: https://ericfriedlander.github.io/math2025-fa26/
+  favicon: "images/logo.png"
+
+  repo-url: https://github.com/EricFriedlander/math2025-fa26
+  repo-actions: [edit, issue]
+  
+  page-footer:
+    background: "#412d5e"
+    left: |
+      &copy; Copyright 2026, Eric Friedlander
+    right: |
+      This site is built with [Quarto](https://quarto.org/)
+      
+  sidebar:
+    background: "#bbbbbb"
+    logo: "images/logo.png"
+    align: center
+    tools: 
+      - icon: code-square
+        href: https://rstudio.collegeofidaho.edu/
+        text: "RStudio"
+      - icon: person
+        href: https://cofi.instructure.com/courses/CANVAS_ID_TBD
+        text: "Canvas"
+    style: "docked"
+    search: true
+    collapse-level: 1
+    contents:
+      - schedule.qmd
+      - syllabus.qmd
+      - support.qmd
+      - links.qmd
+      - section: Computing
+        contents: 
+        - href: computing-access.qmd
+        - href: computing-inferencesummary.qmd
+        - href: computing-r-resources.qmd
+          text: R resources
+      - section: Project
+        contents:
+        - href: project/project-overview.qmd
+          text: "Overview"
+        - href: project/project-rubric.qmd
+          text: "Project Rubric"
+        - href: project/poster-rubric.qmd
+          text: "Poster Rubric"
+        - href: project/project-islands-tips.qmd
+          text: "Tips on Islands"
+        - href: project/project-group-dynamics.qmd
+          text: "Group Dynamics"
+      # - section: Exams
+      #   contents:
+      #   - href: exam/exam-rubric.qmd
+      #     text: "Oral Exam Rubric"
+      #   - href: exam/exam-01-review.qmd
+      #     text: "Exam 1 Overview"
+      #   - href: exam/exam-01-practice.qmd
+      #     text: "Exam 1 Practice"
+      #   - href: exam/exam-02-review.qmd
+      #     text: "Exam 2 Overview"
+      #   - href: exam/exam-02-practice.qmd
+      #     text: "Exam 2 Practice"
+        
+  
+ 
+format:
+  html:
+    theme:
+      - cosmo
+      - theme.scss
+    mainfont: "Open Sans"
+    code-copy: true
+    code-overflow: wrap
+    toc: true
+
+editor: source
+    
+
+
+
