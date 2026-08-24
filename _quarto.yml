@@ -5,7 +5,7 @@ project:
     - "!exam/*.qmd"
     - "!*.ipynb"
 
-  
+
 execute:
   freeze: auto
 
@@ -18,21 +18,23 @@ website:
 
   repo-url: https://github.com/EricFriedlander/math2025-fa26
   repo-actions: [edit, issue]
-  
+
   page-footer:
     background: "#412d5e"
     left: |
       &copy; Copyright 2026, Eric Friedlander
     right: |
       This site is built with [Quarto](https://quarto.org/)
-      
+
   sidebar:
     background: "#bbbbbb"
     logo: "images/logo.png"
     align: center
-    tools: 
+    tools:
       - icon: code-square
-        href: https://rstudio.collegeofidaho.edu/
+        # Kept in sync by hand with rstudio_url in _variables.yml — Quarto's
+        # {{< var >}} shortcode can't substitute inside _quarto.yml itself.
+        href: "https://rstudio.collegeofidaho.edu/"
         text: "RStudio"
       - icon: person
         href: https://cofi.instructure.com/courses/CANVAS_ID_TBD
@@ -46,23 +48,23 @@ website:
       - support.qmd
       - links.qmd
       - section: Computing
-        contents: 
+        contents:
         - href: computing-access.qmd
         - href: computing-inferencesummary.qmd
         - href: computing-r-resources.qmd
           text: R resources
-      - section: Project
-        contents:
-        - href: project/project-overview.qmd
-          text: "Overview"
-        - href: project/project-rubric.qmd
-          text: "Project Rubric"
-        - href: project/poster-rubric.qmd
-          text: "Poster Rubric"
-        - href: project/project-islands-tips.qmd
-          text: "Tips on Islands"
-        - href: project/project-group-dynamics.qmd
-          text: "Group Dynamics"
+      # - section: Project
+      #   contents:
+      #   - href: project/project-overview.qmd
+      #     text: "Overview"
+      #   - href: project/project-rubric.qmd
+      #     text: "Project Rubric"
+      #   - href: project/poster-rubric.qmd
+      #     text: "Poster Rubric"
+      #   - href: project/project-islands-tips.qmd
+      #     text: "Tips on Islands"
+      #   - href: project/project-group-dynamics.qmd
+      #     text: "Group Dynamics"
       # - section: Exams
       #   contents:
       #   - href: exam/exam-rubric.qmd
@@ -75,9 +77,9 @@ website:
       #     text: "Exam 2 Overview"
       #   - href: exam/exam-02-practice.qmd
       #     text: "Exam 2 Practice"
-        
-  
- 
+
+
+
 format:
   html:
     theme:
@@ -89,7 +91,3 @@ format:
     toc: true
 
 editor: source
-    
-
-
-

@@ -8,7 +8,7 @@ title: "Project 1: Pilot Study"
 
 #### Due Date
 
-**Wednesday, November 5, 2025**
+**Wednesday, November 4, 2026**
 
 #### Goal
 
@@ -16,7 +16,7 @@ The goal of the pilot study assignment is to develop a preliminary research ques
 
 #### To Turn In
 
-In assigned Deepnote project:
+In your team's shared RStudio Project folder:
 
 - Names of investigators and their roles  
 - Research question (1–2 sentences)  
@@ -32,7 +32,7 @@ In Canvas:
 - Review [the Islands tips](project-islands-tips.qmd) document.
 - Work through **one shared login** to the Islands.  
 - Use a **shared Google Sheet** for data (tidy format: one row per person, one column per variable).  
-- Use your **assigned Deepnote project** for writing.  
+- Use your team's **shared RStudio Project folder** for writing.
 
 ## Research Question
 

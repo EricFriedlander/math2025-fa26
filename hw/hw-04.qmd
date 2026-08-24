@@ -19,11 +19,11 @@ By the end of the homework you will be able to...
 
 # Getting started
 
--   Go to [RStudio](https://rstudio.collegeofidaho.edu) and login with your College of Idaho Email and Password.
+-   Go to [RStudio]({{< var rstudio_url >}}) and login with your College of Idaho Email and Password.
 
 -   Make a subfolder in your `hw` directory to store this homework.
 
--   Log into [Canvas](https://cofi.instructure.com/courses/CANVAS_ID_TBD/assignments/202862), navigate to Homework 4 and upload the `hw-04.qmd` and `alumni-salaries.csv` file into the folder your just made.
+-   Log into [Canvas](https://cofi.instructure.com/courses/CANVAS_ID_TBD), navigate to Homework 4 and upload the `hw-04.qmd` and `alumni-salaries.csv` file into the folder you just made.
 
 # Packages
 

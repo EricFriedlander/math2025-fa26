@@ -21,11 +21,11 @@ In this assignment, you will...
 
 # Getting started
 
--   Go to <https://rstudio.collegeofidaho.edu> and login with your College of Idaho Email and Password.
+-   Go to <{{< var rstudio_url >}}> and login with your College of Idaho Email and Password.
 
 -   Make a subfolder called `hw02` in your `hw` directory to store this homework.
 
--   Log into [Canvas](https://cofi.instructure.com/courses/CANVAS_ID_TBD/assignments/202860), navigate to Homework 2 and upload the `hw-02.qmd` and `us-counties-sample.csv` files into the folder your just made.
+-   Log into [Canvas](https://cofi.instructure.com/courses/CANVAS_ID_TBD), navigate to Homework 2 and upload the `hw-02.qmd` and `us-counties-sample.csv` files into the folder you just made.
 
 # Packages
 
@@ -172,7 +172,7 @@ Explain why the following statement doesn't make sense: "There is a 95% probabil
 
 ### Exercise 14 (Extra Credit)
 
-You are asked to use a reproducible workflow for all of your work in the class, and the goal of this question to is better understand potential real-world implications of doing (or not) doing so. [Here](https://mat212wi25.netlify.app/slides/01-welcome#/when-things-go-wrong) are some real-life examples in which having a non-reproducible workflow resulted in errors that impacted research and public records.
+You are asked to use a reproducible workflow for all of your work in the class, and the goal of this question to is better understand potential real-world implications of doing (or not) doing so. [Here](/slides/01-big-picture.html#when-things-go-wrong) are some real-life examples in which having a non-reproducible workflow resulted in errors that impacted research and public records.
 
 Choose one of the scenarios from the table and read the linked article discussing what went wrong. Then,
 

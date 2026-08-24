@@ -333,7 +333,7 @@ predict(winter_fit, new_day)
 
 ## Exercise 12
 
-In your Deepnote project answer the following question (you'll need to create a new markdown block):
+In your Quarto document answer the following question (you'll need to add a new text section):
 
 > Using only addition, subtraction, multiplication, and division. Compute the number of rentals our model would predict if it were 10 degrees Celcius outside.
 

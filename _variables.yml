@@ -1,0 +1,9 @@
+# Site-wide text variables, referenced in .qmd content via {{< var key >}}.
+#
+# rstudio_url: the College of Idaho Posit Workbench URL. The servers are being
+# updated this semester and this address may change — when it does, update it
+# here. NOTE: this does NOT cover the "RStudio" sidebar tool link in
+# _quarto.yml — Quarto var shortcodes only substitute inside rendered .qmd
+# content, not inside _quarto.yml itself, so that href must be updated by
+# hand to match. See TODO.md.
+rstudio_url: "https://rstudio.collegeofidaho.edu/"

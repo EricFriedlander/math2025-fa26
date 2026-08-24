@@ -46,7 +46,7 @@ ggplot2::theme_set(ggplot2::theme_bw(base_size = 16))
 ## Multivariate Relationships
 
 ::: appex
-📋 [AE 02 - Multivariate Relationships](https://deepnote.com/workspace/CofI-MATH-269748c4-4966-4cc3-b064-2a31b9db85a4/project/AE-02-Multivariate-Relationships-ebce91c8-0f2f-47fd-a6ef-c4d663f9235b/notebook/ae-02-multivariate-relationships-11ff27b42b2c4545b0f393095f59683b?utm_source=share-modal&utm_medium=product-shared-content&utm_campaign=notebook&utm_content=ebce91c8-0f2f-47fd-a6ef-c4d663f9235b)
+📋 [AE 02 - Multivariate Relationships](../ae/ae-02-multivariate-relationships.qmd)
 :::
 
 - Complete Exercises 1-5
@@ -316,7 +316,7 @@ $${\small \hat{\text{carb}} = \hat{\beta}_0 + \hat{\beta}_1 ~\text{calories} + \
 - For Wednesday
   - Complete and submit AE 02
   - Completed readings
-- For Monday
+- For Friday, Sep 18
   - HW 01
   
 ## References

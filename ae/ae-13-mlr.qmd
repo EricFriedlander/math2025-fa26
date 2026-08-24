@@ -8,9 +8,9 @@ format:
 ---
 
 ::: callout-important
--   Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-07".
+-   Open [RStudio]({{< var rstudio_url >}}) and create a subfolder in your AE folder called "AE-07".
 
--   Go to the [Canvas](https://cofi.instructure.com/courses/CANVAS_ID_TBD/assignments/202838) and locate your `AE-07` assignment to get started.
+-   Go to the [Canvas](https://cofi.instructure.com/courses/CANVAS_ID_TBD) and locate your `AE-07` assignment to get started.
 
 -   Upload the `ae-07.qmd` file into the folder you just created.
 :::

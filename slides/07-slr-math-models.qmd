@@ -29,7 +29,7 @@ bibliography: references.bib
 # Application exercise
 
 ::: appex
-📋 AE 07: Mathematical Models: Navigate to Deepnote
+📋 [AE 07: Mathematical Models](../ae/ae-07-math-models.qmd)
 :::
 
 Complete Exercises 0-2.

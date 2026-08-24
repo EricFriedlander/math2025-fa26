@@ -8,7 +8,7 @@ title: "Project 3: Preliminary Analysis"
 
 #### Due Date
 
-**Wednesday, November 19, 2025**
+**Wednesday, November 18, 2026**
 
 #### Goal
 
@@ -16,7 +16,7 @@ The goal of this assignment is to begin analyzing your collected data, producing
 
 #### To Turn In
 
-In existing Deepnote project create a **new notebook** called **Preliminary Analysis** and including your preliminary analysis. All members contribute to **both** writing and computation.
+In your team's shared RStudio Project folder, create a **new Quarto document** called `preliminary-analysis.qmd` including your preliminary analysis. All members contribute to **both** writing and computation.
  
 :::
 
@@ -45,4 +45,4 @@ Your preliminary analysis should include the following components:
    - Provide a short interpretation (one or more sentences).
 
 6. **Reproducibility**  
-   - All analysis must be in a single notebook with code integrated into the narrative. **DO NOT** write all your code at the top and then the text below. 
+   - All analysis must be in a single Quarto document with code integrated into the narrative. **DO NOT** write all your code at the top and then the text below.

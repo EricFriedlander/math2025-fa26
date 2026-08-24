@@ -29,7 +29,7 @@ bibliography: references.bib
 # Application exercise
 
 ::: appex
-📋 AE 08: Predicion and Conditions - Open in Deepnote
+📋 AE 08: Prediction and Conditions
 :::
 
 Complete Exercises 0-1.

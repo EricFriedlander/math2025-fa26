@@ -3,22 +3,22 @@ title: "Welcome to MATH 2025!"
 author: "Prof. Eric Friedlander"
 footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/schedule)"
 logo: "../images/logo.png"
-format: 
+format:
   revealjs:
     theme: slides.scss
     multiplex: false
     transition: fade
     slide-number: false
-    incremental: false 
+    incremental: false
     chalkboard: true
 execute:
   freeze: auto
   echo: true
 knitr:
-  opts_chunk: 
-    R.options:      
+  opts_chunk:
+    R.options:
     width: 200
-bibliography: references.bib  
+bibliography: references.bib
 ---
 
 ```{r}
@@ -71,9 +71,10 @@ Send me an email with answers to the following questions following questions:
 1. What would you like me to call you?
 2. Why are you taking this class?
 3. How are you feeling about taking this class? Be honest... you won't hurt my feelings.
-4. How much experience with R, if any, do you have?
-5. Is there anything else you would like me to know about you? E.g. athlete, preferred pronouns, accommodations, etc...
-6. What are some song recommendations for the class playlist (nothing that will get me in trouble)?
+4. Have you taken any statistics courses before (including high school)?
+5. Have you ever written any code before? If so, in what lanuages?
+6. Is there anything else you would like me to know about you? E.g. athlete, preferred pronouns, accommodations, etc...
+7. What are some song recommendations for the class playlist (nothing that will get me in trouble)?
 
 ```{r}
 #| echo: FALSE
@@ -126,17 +127,6 @@ Source: [Wikipedia](https://en.wikipedia.org/wiki/Regression_analysis) (previous
 
 Note:  I don't really like the terms "independent" and "dependent" variables
 
-
-## Examples of regression in practice
-
--   [New Yorkers Will Pay \$56 A Month To Trim A Minute Off Their Commute](https://fivethirtyeight.com/features/new-yorkers-will-pay-56-a-month-to-trim-a-minute-off-their-commute/)
-
--   [How FiveThirtyEight's 2020 Presidential Forecast Works --- And What's Different Because Of COVID-19](https://fivethirtyeight.com/features/how-fivethirtyeights-2020-presidential-forecast-works-and-whats-different-because-of-covid-19/)
-
--   [Effect of Forensic Evidence on Criminal Justice Case Processing](https://onlinelibrary.wiley.com/doi/10.1111/1556-4029.12020)
-
--   [Why it's so freaking hard to make a good COVID-19 model](https://fivethirtyeight.com/features/why-its-so-freaking-hard-to-make-a-good-covid-19-model/) (from March 2020)
-
 # MATH 2025
 
 ## Course FAQ {.smaller}
@@ -167,7 +157,7 @@ A - Yes and No. The course is primarily focused on application; however, we will
 
 **Q - How much time should I be spending on this class?**
 
-A - This is a 4-credit class 75 minutes twice a week. That means that you should be spending approximately 9 hours *per week* working on this course (i.e. 6.5 hours outside of class)
+A - This is a 4-credit class that meets for 75 minutes, twice a week. That means that you should be spending approximately 9 hours *per week* working on this course (i.e. 6.5 hours outside of class)
 
 ## Course learning objectives {.midi}
 
@@ -203,14 +193,14 @@ By the end of the semester, you will be able to...
 
 -   Write reproducible reports in Quarto
 
--   Access RStudio through [College of Idaho posit Workbench](https://rstudio.collegeofidaho.edu/)
-  
+-   Access RStudio through [College of Idaho Posit Workbench]({{< var rstudio_url >}})
+
     +     Use your College of Idaho email and password
 :::
 
 ::: {.fragment fragment-index="3"}
--   Sign into RStudio!
-  
+-   ~~Sign into RStudio!~~ Currently under maintenance... will use on Monday.
+
 ```{r}
 #| echo: FALSE
 countdown::countdown(minutes = 3L)
@@ -246,22 +236,18 @@ countdown::countdown(minutes = 3L)
 
 | Category              | Percentage |
 |-----------------------|------------|
-| Homework              | 25%        |
+| Homework              | 15%        |
 | Final Project         | 25%        |
-| Exam 01               | 20%        |
-| Exam 02               | 20%        |
+| Exam 01               | 25%        |
+| Exam 02               | 25%        |
 | Application Exercises | 10%        |
-
-*Note: You must receive at least a 60% on your two exams to pass the course.*
 
 See the [syllabus](https://ericfriedlander.github.io/math2025-fa26/syllabus) for details on how the final letter grade will be calculated.
 
 ## Support
 
 -   Attend office hours to meet with Prof. Friedlander (Boone 126B)
-    -   Mon 3:30 - 4:30pm 
-    -   Tue 10:20 - 11:20am 
-    -   Thu 1:30 - 3:30pm
+    -   TBD
 -   Use email for questions regarding personal matters and/or grades
 -   See the [Course Support](https://ericfriedlander.github.io/math2025-fa26/support) page for more details
 
@@ -273,7 +259,7 @@ See the [syllabus](https://ericfriedlander.github.io/math2025-fa26/syllabus) for
 
 ## Late Application Exercises
 
-AEs are due the class after they are assigned. No late work is accepted for application exercises, since these are designed as in-class activities to help you prepare for homework. 
+AEs are due the class after they are assigned. No late work is accepted for application exercises, since these are designed as in-class activities to help you prepare for homework.
 
 ## School-Sponsored Events
 
@@ -287,7 +273,7 @@ By participating in this course, you are agreeing that all your work and conduct
 
 ## Collaboration & sharing code
 
--   I have policies! 
+-   I have policies!
 
 -   Let's read about them in the [Academic honesty](/syllabus.qmd#academic-honesty) section of the syllabus
 
@@ -318,8 +304,6 @@ By participating in this course, you are agreeing that all your work and conduct
 
 ## What should I know about this class
 
--   This class is a lot of work
-
 -   Steep learning curve in the beginning... stick with it! I promise you can do it!
 
 -   More writing than you probably expected... it is not enough for Dr. F to know what you mean to say... you must say that! Dr F. always asks: "If this student said this in a job interview, would they get hired?"
@@ -335,6 +319,3 @@ By participating in this course, you are agreeing that all your work and conduct
 What questions do we have?
 
 ## References
-
-
-

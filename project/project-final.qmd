@@ -8,7 +8,7 @@ title: "Project 5: Final Submission + Reflection"
 
 #### Due Date
 
-**Wednesday, December 10, 2025**
+**Final exam period, December 7-10, 2026 (exact slot TBD)**
 
 #### Goal
 
@@ -17,7 +17,7 @@ The goal of the complete draft and final edited project is to synthesize all pri
 #### To Turn In
 
 - As a group:
-   -  In existing Deepnote project go back to the notebook you used for the draft and make any changes or additions based on feedback you received. All members contribute to **both** writing and computation.
+   -  In your team's shared RStudio Project folder, go back to the Quarto document you used for the draft and make any changes or additions based on feedback you received. All members contribute to **both** writing and computation.
 - Individually:
    - Personal reflection as a PDF file submitted individually to Canvas.
    - Group dynamic report submitted as a PDF file individually to Canvas.

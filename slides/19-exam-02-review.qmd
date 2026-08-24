@@ -29,7 +29,7 @@ knitr:
 
 -   20% of final course grade
 
--   In-class: 75 minutes during Wed, Dec 3
+-   In-class: 75 minutes during Wed, Dec 2
 
 ## Content {.midi}
 

@@ -2,4 +2,8 @@
 title: "Computing access"
 ---
 
-To access RStudio at the College of Idaho, go to the [CofI Posit Workbench](https://rstudio.collegeofidaho.edu/) website and sign-in using the CofI email and password.
+To access RStudio at the College of Idaho, go to the [CofI Posit Workbench]({{< var rstudio_url >}}) website and sign in using your CofI email and password.
+
+::: callout-note
+The Workbench servers are being updated this semester, so this address may change. Check back here or watch for an announcement if the link stops working.
+:::

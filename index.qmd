@@ -16,7 +16,7 @@ We will cover approaches for analyzing multivariate data sets, emphasizing linea
 
 |             |                             |                     |
 |-------------|-----------------------------|---------------------|
-| **Lecture** | MW 1:35 - 2:50pm | Cruzen-Murray Library (CML) 208            |
+| **Lecture** | MW 10:50am - 12:05pm | Cruzen-Murray Library (CML) 105            |
 
 ## Instructor
 
@@ -26,8 +26,6 @@ Outside of school, Eric is an avid fan of the New York Giants, New York Knicks, 
 
 | Office hours (Boone 126B) | |
 |---------------------------|------------------|
-| Mon | 3:30pm - 4:30pm |
-| Tue | 10:20am - 11:20am |
-| Thu | 1:30pm - 3:30pm |
+| TBD | TBD |
 | *or by appointment.* |
 

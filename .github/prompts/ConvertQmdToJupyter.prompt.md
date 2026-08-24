@@ -1,3 +1,5 @@
+> **Legacy / unused.** FA26 uses Posit Cloud (RStudio + Quarto), not Deepnote/Jupyter, so `.qmd` -> `.ipynb` conversion is no longer part of the workflow. Kept for reference only; the Deepnote submission cell it injects (see the "Under the title cell" instruction below) does not reflect current course setup.
+
 The purpose of this prompt is to provide precise, implementable directions for converting homeworks originally written in Quarto markdown (.qmd) format to Jupyter notebook (.ipynb) format.
 
 ## High-level goals

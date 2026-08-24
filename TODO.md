@@ -4,80 +4,81 @@ Checklist of everything that needs attention before the first day of class. Scaf
 
 ---
 
-## Decide first (blocks other work)
+## Decided
 
-- [ ] Deepnote vs. Posit Workbench for FA26 — every AE/HW intro callout and the `ae`/`hw` schedule columns depend on this. Both `.qmd` and `.ipynb` were copied over undecided.
-- [ ] Get the College of Idaho Fall 2026 academic calendar: first/last class day, breaks, final exam slot.
+- [x] **Computing platform: CofI Posit Workbench** (`{{< var rstudio_url >}}` / `_variables.yml`), not Deepnote and not Posit Cloud. The Workbench servers are being updated this semester and the URL may change mid-semester — see the "URL may change" item below. See `computing-access.qmd`, `CLAUDE.md`.
+- [x] **FA26 academic calendar**, from the [College of Idaho catalog](https://collegeofidaho.smartcatalogiq.com/current/undergraduate-catalog/academic-calendar): classes begin Wed Aug 26, Labor Day Mon Sep 7, drop deadline Sep 9, Fall Break Thu-Fri Oct 15-16, withdraw deadline Nov 19, Thanksgiving Break Mon-Fri Nov 23-27, last day of classes Thu Dec 3, finals Mon-Thu Dec 7-10 (exact slot for our MW 10:50am section not yet published by the registrar).
+- [x] **Meeting pattern**: MW 10:50am-12:05pm, CML 105.
+
+---
+
+## Done this pass
+
+- [x] Reinstalled/added R packages for R 4.6.1 via `renv` (`corrplot`, `countdown`, `coursekata`, `emo`, `fivethirtyeight`, `GGally`, `ggformula`, `gt`, `hexSticker`, `infer`, `IRkernel`, `ISLR2`, `janitor`, `kableExtra`, `moderndive`, `mosaic`, `mosaicData`, `olsrr`, `openintro`, `palmerpenguins`, `patchwork`, `plotly`, `priceR`, `rms`, `Stat2Data`, `supernova`, `tidycensus`, `tidymodels`, `yardstick`, `writexl`) and snapshotted. `renv::status()` reports in sync. A full `quarto render` (including `syllabus.qmd --to pdf`) now succeeds.
+- [x] Filled in all FA26 MW lecture dates in `schedule.xlsx` (26 class meetings, lectures 0-25, matching the existing arc exactly), added a Labor Day row, dedicated Friday due-date rows for HW 01-07, and wired the `project` column for all five remaining deliverables (previously only the pilot was linked).
+- [x] Re-dated Thanksgiving Break (Mon Nov 23 / Wed Nov 25), Exam 1 (Wed Oct 14), Exam 2 (Wed Dec 2), and the Poster Session row (placeholder date Dec 7 within the Dec 7-10 finals window — see below).
+- [x] Swapped every Deepnote reference for the CofI Posit Workbench across `computing-access.qmd`, `links.qmd`, `_quarto.yml`, all 14 AE intro callouts, all 7 HW intro callouts, `slides/00-welcome.qmd`, `slides/01-big-picture.qmd`, `slides/04-slr-fit-prediction.qmd`, the `kable()` comments in `slides/10-model-eval.qmd`/`18-comparison.qmd`, and all six `project/` deliverable pages (team file-sharing there now reads "shared RStudio Project folder" rather than Deepnote's/Posit Cloud's shareable-project model). `ae` schedule links point at repo paths.
+- [x] **Centralized the Workbench URL** in `_variables.yml` (`rstudio_url`), referenced everywhere via `{{< var rstudio_url >}}` — a mid-semester URL change (servers are being updated) is now a one-line edit there, **except** the "RStudio" sidebar tool `href` in `_quarto.yml`, which Quarto's shortcode can't reach and must be kept in sync by hand (comment left at both spots pointing to the other).
+- [x] Updated meeting days/times/room (MW 10:50am-12:05pm, CML 105) in `syllabus.qmd` and `index.qmd`.
+- [x] Fixed the prerequisite in `syllabus.qmd` (was self-referential `MATH-2025`; now `MATH-1025, ... or CSCI-1040 ... or qualifying placement score`, matching the current catalog).
+- [x] Fixed the catalog description typo (`MAT-2025 rather than MAT-1025` → `MATH-2025 rather than MATH-1025`).
+- [x] Re-dated `syllabus.qmd` "Important dates", `slides/19-exam-02-review.qmd` (`Wed, Dec 3` → `Wed, Dec 2`), `support.qmd`'s office-hours pledge date (`9/3` → `9/2`), and the "For Monday"/"For Wednesday" to-do slides in `01-big-picture.qmd`/`02-multivariate-relationships.qmd` (day pattern shifted because lecture 1 now falls on a Monday).
+- [x] Re-dated all six project deadline pages and `project-overview.qmd`'s summary table (see table below).
+- [x] Fixed the broken YAML delimiter (and malformed `format:` indentation) in `ae/ae-18-comparison.qmd`.
+- [x] Fixed the three dead `mat212wi25.netlify.app` links: `hw/hw-01.qmd` (rewritten to point at `computing-r-resources.qmd`, since neither RStudio-IDE nor Quarto-anatomy anchors exist on this site's decks), `hw/hw-02.qmd` → `/slides/01-big-picture.html#when-things-go-wrong`, `hw/hw-06.qmd` → `/slides/15-mlr-inference.html#mlr-hypothesis-test-treatment`.
+- [x] Fixed the "the folder your just made" typo in all 7 `hw/*.qmd` files.
+- [x] Fixed `hw/hw-07.qmd` referring to itself as "Homework 8" / `hw-08.qmd`.
+- [x] Stripped stale FA25 Canvas `/assignments/NNNNNN` deep links down to the bare `CANVAS_ID_TBD` course URL (13 AE files) so only one token per file needs replacing once Canvas exists.
+- [x] Marked office hours **TBD** everywhere they appeared (`syllabus.qmd`, `index.qmd`, `slides/00-welcome.qmd`) pending the FA26 schedule.
+
+### FA26 due-date table (as entered in `schedule.xlsx` / project pages)
+
+| Item | Due |
+|------|-----|
+| HW 01 | Fri Sep 18 |
+| HW 02 | Fri Sep 25 |
+| HW 03 | Fri Oct 2 |
+| HW 04 | Fri Oct 9 |
+| HW 05 | Fri Oct 23 |
+| HW 06 | Fri Oct 30 |
+| HW 07 | Fri Nov 13 |
+| Project 1: Pilot | Wed Nov 4 |
+| Project 2: Power | Wed Nov 11 |
+| Project 3: Preliminary | Wed Nov 18 |
+| Project 4: Full draft | Mon Nov 30 |
+| Project 5: Final + Poster | Finals week, Dec 7-10 (slot TBD) |
+
+Sanity-check the HW spread against however the semester actually unfolds — it was chosen to front-load HW so nothing but the project is due after Nov 13.
+
+---
+
+## Struck (not actually issues)
+
+- ~~Re-date the hardcoded "November 15" references in `ae-15/16/17`, `slides/16`, `slides/17`~~ — these are the PVPC rail-trail data's *collection dates* (April 5-Nov 15, 2005), not course dates. Leave as-is.
+- ~~Re-date "January 1" / "September 11" in `hw/hw-07.qmd`~~ — dataset vintage for the LEGO themes (Jan 1, 2018-Sep 11, 2020), not course dates. Leave as-is.
 
 ---
 
 ## Infrastructure
 
-- [ ] Reinstall R packages for R 4.6.1 (`tidyverse`, `gt`, `mosaic`, `ggformula`, `broom`, `knitr`, `countdown`, `kableExtra`, `plotly`, `readxl`, `fontawesome`, `glue`) — nothing with an R chunk renders until this is done. `readxl` currently fails with an `undefined symbol` error, not just "package missing," so this may need a full reinstall from source rather than `update.packages()`.
-- [ ] Create `EricFriedlander/math2025-fa26` on GitHub and push (see below).
-- [ ] `quarto publish gh-pages`, then confirm GitHub Pages is enabled in repo settings.
-- [ ] Consider `renv::init()` to pin package versions and prevent this recurring.
+- [x] Create `EricFriedlander/math2025-fa26` on GitHub and push — **the remote already exists and `master` is pushed** (`origin` points at it, `d63f23b` is on `origin/master`), so this is effectively done; just keep pushing new commits.
+- [x] `quarto publish gh-pages`, then confirm GitHub Pages is enabled in repo settings — `gh api repos/EricFriedlander/math2025-fa26/pages` currently 404s, so Pages has never been turned on. The site now renders cleanly end-to-end, so this is unblocked.
+- [ ] **Workbench URL may change mid-semester** (servers being updated) — when it does, update `rstudio_url` in `_variables.yml` AND the "RStudio" sidebar tool `href` in `_quarto.yml` (the latter can't be centralized; Quarto shortcodes don't reach `_quarto.yml`).
 - [ ] Replace all `CANVAS_ID_TBD` tokens once the Canvas course exists: `grep -rn CANVAS_ID_TBD .`
+- [ ] Confirm the exact Dec 7-10 final-exam slot for our MW 10:50am section with the registrar, then replace the "exact slot TBD" placeholder in `schedule.xlsx` and `project/project-final.qmd` / `project/project-poster.qmd`.
+- [ ] Decide and fill in real office hours for FA26 (currently TBD in `syllabus.qmd`, `index.qmd`, `slides/00-welcome.qmd`).
 
 ---
 
-## Schedule (`schedule.xlsx`)
+## Deferred
 
-- [ ] Fill in all 25+ lecture dates for the FA26 MW pattern (all dates were cleared during scaffolding).
-- [ ] Re-date Thanksgiving break, Exam 1, Exam 2, and the poster session.
-- [ ] Confirm the 25-lecture arc still fits the FA26 calendar.
-- [ ] The `ae` and `hw` columns were normalized to `/ae/...` and `/hw/...` repo paths (replacing FA25's Deepnote share links, several of which were dead `https://deepnote.com/` placeholders anyway). If Deepnote is chosen, swap in real share links row by row.
-
----
-
-## Syllabus (`syllabus.qmd`)
-
-- [ ] Update meeting days/times and room (FA25: MW 1:35–2:50pm, CML 208).
-- [ ] Update office hours (FA25: Mon 3:30–4:30, Tue 10:20–11:20, Thu 1:30–3:30, Boone 126B).
-- [ ] **Fix the prerequisite** — currently reads "MATH-2025, grade of C- or better," i.e. the course lists itself as its own prereq. Carried over unchanged from FA25.
-- [ ] **Fix the catalog description** — says "MAT-2025 rather than MAT-1025" (wrong prefix; `index.qmd` has the corrected "MATH-2025 rather than MATH-1025" wording).
+- [ ] **AE numbering reconciliation.** File numbers, in-file titles, folder names students are told to create, and Canvas assignment names all disagree (e.g. `ae-18-comparison.qmd` is titled "AE 11"; `ae-15`/`ae-16` both reference "AE-08"; `ae-10` references "AE 05"). No `ae-04` or `ae-12`; both `ae-05-conditions.qmd` and `ae-05-sbi-ht.qmd` exist for lecture 5; `ae-08-math-models-conditions` and `ae-14-cat-int` exist only as `.ipynb` (no `.qmd`, so no schedule link and no rendered page). Needs one deliberate renumbering pass, not mixed into date/platform fixes.
+- [ ] Once AE numbering is fixed, fill in the `ae` column for the schedule rows still missing it (lecture 8 onward mostly), and consider whether `ae-08`/`ae-14` need `.qmd` versions written to match the rest of the course.
+- [ ] Course logo — `images/logo.png` is reused from FA25 as-is; regenerate via `GenerateSticker.R` if you want a year change.
+- [ ] Review slides for anything time-sensitive (dataset vintages, current events) — e.g. `slides/00-welcome.qmd`'s COVID/FiveThirtyEight reference from March 2020.
+- [ ] The syllabus lists logistic regression as a learning objective, but there are no logistic-regression slides — decide whether to add them or drop the objective.
 - [ ] Review the AI / academic integrity policy for 2026.
 - [ ] Review the accommodations statement for the current term.
-- [ ] `quarto render syllabus.qmd --to pdf` once R packages are working.
-
----
-
-## Front page (`index.qmd`)
-
-- [ ] Update subtitle/meeting-time/office-hours details for FA26.
-
----
-
-## Project (`project/`)
-
-- [ ] Re-date all six deadline pages: `project-pilot.qmd` (was Nov 5), `project-power.qmd` (Nov 12), `project-preliminary.qmd` (Nov 19), `project-draft.qmd` (Dec 1), `project-final.qmd` / `project-poster.qmd` (Dec 10).
-- [ ] Confirm the poster session lands in the FA26 final-exam slot.
-- [ ] Decide whether groups of two still fits enrollment.
-
----
-
-## Assignments
-
-- [ ] Re-date the hardcoded "November 15" references in `ae/ae-15-mlr-inference.qmd`, `ae/ae-16-mlr-conditions.qmd`, `ae/ae-17-multicollinearity.qmd`, `slides/16-mlr-conditions.qmd`, `slides/17-multicollinearity.qmd`.
-- [ ] Fix `hw/hw-07.qmd` (references "January 1" and "September 11" — check both are intentional and correct for FA26).
-- [ ] Decide whether HW 01–07 is the right count for the FA26 calendar.
-- [ ] Reconcile AE numbering gaps carried over from FA25 (no `ae-04`, no `ae-12`; both `ae-05-conditions.qmd` and `ae-05-sbi-ht.qmd` exist for lecture 5).
+- [ ] Decide whether groups of two still fits enrollment (`project/project-overview.qmd`).
 - [ ] Re-check every `data/` CSV still loads, especially anything sourced via `scripts/UpdateCensus.R`.
-- [ ] Fix a broken YAML delimiter in `ae/ae-18-comparison.qmd` — the file starts with `7---` instead of `---`, so its `title:` frontmatter is silently dropped on render (carried over unchanged from FA25, where the built page also renders without a title).
-- [ ] Fix three links to the old MAT-212 Winter 2025 site (predecessor to MATH2025FA25, never updated even in FA25) that don't point at this repo: `hw/hw-01.qmd:40`, `hw/hw-02.qmd:175`, `hw/hw-06.qmd:105`, all `https://mat212wi25.netlify.app/slides/...`. Slide numbering differs between that site and this one (e.g. its `01-welcome` is this repo's `00-welcome`), so map each anchor by hand rather than doing a straight URL swap.
-
----
-
-## Content
-
-- [ ] Course logo — `images/logo.png` is reused from FA25 as-is; regenerate via `GenerateSticker.R` if you want a year change.
-- [ ] Review slides for anything time-sensitive (dataset vintages, current events).
-- [ ] The syllabus lists logistic regression as a learning objective, but there are no logistic-regression slides — decide whether to add them or drop the objective.
-
----
-
-## GitHub / deployment
-
-- [ ] `gh repo create EricFriedlander/math2025-fa26 --public --source=. --push` (or push manually once the remote exists).
-- [ ] `quarto publish gh-pages` — **do this only after** the R-package issue above is resolved; a full `quarto render` currently fails on `schedule.qmd` and the slide decks.
-- [ ] Update the Canvas course link and RStudio/Posit link in `_quarto.yml` sidebar tools if they change.
+- [ ] Update the Canvas course link in `_quarto.yml` sidebar tools once the real URL exists (see Infrastructure above).

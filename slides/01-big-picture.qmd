@@ -114,7 +114,7 @@ Source: @ostblom2022
 
 -   **Scriptability** $\rightarrow$ R
 
--   **Literate programming** (code, narrative, output in one place) Jupyter-notebooks and Deepnote
+-   **Literate programming** (code, narrative, output in one place) $\rightarrow$ Quarto
 
 -   **Version control** $\rightarrow$ Git / GitHub (Beyond the scope of this course)
 
@@ -123,31 +123,31 @@ Source: @ostblom2022
 
 -   R is a statistical programming language
 
--   Jupyter notebooks are a convenient interface for R
+-   RStudio is a convenient interface for R
 
 ![Source: [Statistical Inference via Data Science](https://moderndive.com/1-getting-started.html)](images/01/r_vs_rstudio_1.png){fig-align="center"}
 
 ------------------------------------------------------------------------
 
-## Deepnote
+## RStudio
 
-Let's all create a Deepnote account using our CofI email addresses.
+Let's all sign into [RStudio]({{< var rstudio_url >}}) using our CofI email addresses.
 
 ------------------------------------------------------------------------
 
-## Deepnote
+## Quarto
 
--   Fully reproducible reports -- the analysis is run from the beginning each time you Run the full notebook
+-   Fully reproducible reports -- the analysis is run from the beginning each time you Render the full document
 
--   Code blocks for writing code and markdown blocks for writing prose
+-   Code chunks for writing code and markdown text for writing prose
 
--   Visual editor to make document editing experience similar to a word processor (Google docs, Word, Pages, etc.)
+-   RStudio's Visual editor makes the document editing experience similar to a word processor (Google docs, Word, Pages, etc.)
 
-## How will we use Deepnote?
+## How will we use RStudio?
 
--   Every application exercise and assignment is written in a Jupyter notebook
+-   Every application exercise and assignment is written as a Quarto (`.qmd`) document
 
--   You'll have a template notebook to start with
+-   You'll have a template document to start with
 
 -   The amount of scaffolding in the template will decrease over the semester
 
@@ -171,7 +171,7 @@ Any time we are working on AEs, I will randomly assign you to groups of two or t
 # Getting Started
 
 ::: appex
-📋 [AE 01 - Getting Started](https://deepnote.com/workspace/CofI-MATH-269748c4-4966-4cc3-b064-2a31b9db85a4/project/AE-01-Getting-Started-f838426f-b7b7-45f4-87a9-5b7c929aa823/notebook/ae-01-getting-started-626fe75c7a02400584058fd9dc0e23ad?utm_source=share-modal&utm_medium=product-shared-content&utm_campaign=notebook&utm_content=f838426f-b7b7-45f4-87a9-5b7c929aa823)
+📋 [AE 01 - Getting Started](../ae/ae-01-getting-started.qmd)
 :::
 
 Complete the activity.
@@ -185,7 +185,7 @@ Complete the activity.
 - R is the language we use for analysis; RStudio is the IDE; Quarto is for creating reproducible documents.
 - Group work in class uses defined roles to help everyone participate and learn.
 
-## For Monday
+## For Wednesday
 
 - Complete and submit AE 01
 - Complete readings

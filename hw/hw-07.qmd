@@ -21,11 +21,11 @@ In this assignment, you will...
 
 ## Getting started
 
--   Go to [RStudio](https://rstudio.collegeofidaho.edu) and login with your College of Idaho Email and Password.
+-   Go to [RStudio]({{< var rstudio_url >}}) and login with your College of Idaho Email and Password.
 
 -   Make a subfolder in your `hw` directory to store this homework.
 
--   Log into [Canvas](https://cofi.instructure.com/courses/CANVAS_ID_TBD/assignments/202866), navigate to Homework 8 and upload the `hw-08.qmd` and `lego-sample.csv` files into the folder your just made.
+-   Log into [Canvas](https://cofi.instructure.com/courses/CANVAS_ID_TBD), navigate to Homework 7 and upload the `hw-07.qmd` and `lego-sample.csv` files into the folder you just made.
 
 ## Packages
 

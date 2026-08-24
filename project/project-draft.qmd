@@ -8,7 +8,7 @@ title: "Project 4: Final Draft"
 
 #### Due Date
 
-**Monday, December 1, 2025**
+**Monday, November 30, 2026**
 
 #### Goal
 
@@ -16,7 +16,7 @@ The goal of the complete draft and final edited project is to synthesize all pri
 
 #### To Turn In
 
-In existing Deepnote project go back to the notebook you used for the pilot (the one including your methods section) and complete this part of the assignment there. All members contribute to **both** writing and computation.
+In your team's shared RStudio Project folder, go back to the Quarto document you used for the pilot (the one including your methods section) and complete this part of the assignment there. All members contribute to **both** writing and computation.
  
 :::
 

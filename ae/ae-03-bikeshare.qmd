@@ -8,9 +8,9 @@ format:
 ---
 
 ::: callout-important
--   Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-02"
+-   Open [RStudio]({{< var rstudio_url >}}) and create a subfolder in your AE folder called "AE-02"
 
--   Go to the [Canvas](https://cofi.instructure.com/courses/CANVAS_ID_TBD/assignments/202853) and locate the `AE-2` assignment. That link should take you directly there.
+-   Go to the [Canvas](https://cofi.instructure.com/courses/CANVAS_ID_TBD) and locate the `AE-2` assignment. That link should take you directly there.
 
 -   Upload the `ae-02.qmd` and `dcbikeshare.csv` files into the folder you just created.
 :::

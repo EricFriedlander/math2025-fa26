@@ -8,7 +8,7 @@ title: "Project 2: Power Analysis"
 
 #### Due Date
 
-**Wednesday, November 12th, 2025**
+**Wednesday, November 11, 2026**
 
 #### Goal
 
@@ -16,7 +16,7 @@ The goal of this assignment is to estimate how many observations are required fo
 
 #### To Turn In
 
-In existing Deepnote project create a **new notebook** called **Power Analysis** and including your power analysis. All members contribute to **both** writing and computation.
+In your team's shared RStudio Project folder, create a **new Quarto document** called `power-analysis.qmd` including your power analysis. All members contribute to **both** writing and computation.
  
 :::
 
@@ -59,6 +59,6 @@ power
 5. **State whether the pilot data** will be included in your full dataset, and justify the decision.
 
 6. **Ensure reproducibility**:  
-   - Analysis must run from your in your Deepnote project.  
+   - Analysis must run from your team's shared RStudio Project folder.
 
 7. The analysis and justification must be **clear and readable**.  

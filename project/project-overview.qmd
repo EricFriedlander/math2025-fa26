@@ -5,11 +5,11 @@ title: "Project Overview"
 :::{.callout-tip icon=false}
 ## Important dates
 
-* 11/5/25 (Wednesday) Project 1: Pilot
-* 11/12/25 (Wednesday) Project 2: Power
-* 11/19/25 (Wednesday) Project 3: Preliminary Analysis
-* 12/1/25 (Monday) Project 4: Full draft
-* 12/10/25 (Wednesday) Project 5: Final (edited) Project, Reflection, and Poster Presentation
+* 11/4/26 (Wednesday) Project 1: Pilot
+* 11/11/26 (Wednesday) Project 2: Power
+* 11/18/26 (Wednesday) Project 3: Preliminary Analysis
+* 11/30/26 (Monday) Project 4: Full draft
+* 12/7/26-12/10/26 (Final exam period, exact slot TBD) Project 5: Final (edited) Project, Reflection, and Poster Presentation
 ::: 
 
 # Project Overview

@@ -213,7 +213,7 @@ Is this model good?
 ```{r}
 anova(tip_fit) |>
   tidy() |> # tidy just makes it look pretty
-  kable(digits = 2) # You don't need kable in deepnote
+  kable(digits = 2)
 ```
 
 # Analysis of variance (ANOVA)

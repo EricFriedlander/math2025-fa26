@@ -4,5 +4,5 @@ title: "Useful links"
 
 |                            |                                                                                        |
 |----------------|--------------------------------------------------------|
-| RStudio       | 🔗 on [CofI Posit Workbench](https://rstudio.collegeofidaho.edu)                   |
+| RStudio       | 🔗 on [CofI Posit Workbench]({{< var rstudio_url >}})                   |
 | Canvas Course      | 🔗 on [Canvas](https://cofi.instructure.com/courses/CANVAS_ID_TBD)                          |

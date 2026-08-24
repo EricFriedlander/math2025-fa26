@@ -1,6 +1,6 @@
 ---
 title: Syllabus
-format: 
+format:
   html: default
   pdf: default
 ---
@@ -14,8 +14,8 @@ format:
 
 |             |                           |                     |
 |-------------|---------------------------|---------------------|
-| **Lecture** | Mon & Wed 1:35 - 2:50pm   | Cruzen-Murray Library (CML) 208 |
-| **Office Hours** | Mon 3:30 - 4:30pm <br> Tue 10:20 - 11:20am <br>  Thu 1:30 - 3:30pm  | Boone 126B  |
+| **Lecture** | Mon & Wed 10:50am - 12:05pm   | Cruzen-Murray Library (CML) 105 |
+| **Office Hours** | TBD  | Boone 126B  |
 
 Office hours are also available by appointment, just email me!
 
@@ -28,11 +28,11 @@ Office hours are also available by appointment, just email me!
 -   **Email**: <efriedlander@collegeofidaho.edu>
 
 ### Catalog Description
-An introduction to statistical modeling and methods. Topics may include model construction and analysis using multiple linear regression, analysis of variance, and logistic regression. The course makes substantial use of statistical software. Students who have taken more than one calculus course should generally take MAT-2025 rather than MAT-1025.
+An introduction to statistical modeling and methods. Topics may include model construction and analysis using multiple linear regression, analysis of variance, and logistic regression. The course makes substantial use of statistical software. Students who have taken more than one calculus course should generally take MATH-2025 rather than MATH-1025.
 
 ### Pre-requisites
 
-MATH-2025, grade of C- or better; or CSCI-1040, grade of C- or better; or qualifying placement score.
+MATH-1025, grade of C- or better; or CSCI-1040, grade of C- or better; or qualifying placement score.
 
 ## Course Learning Objectives
 
@@ -43,6 +43,9 @@ By the end of the semester, you will be able to...
 -   assess whether a proposed model is appropriate and describe its limitations.
 -   use Quarto to write reproducible reports.
 -   effectively communicate statistical results through writing and oral presentations.
+
+The College of Idaho is committed to offering all students experiential learning opportunities and High-Impact Practices (HIP). In this specific course, students will participate in: collaborative assignments, research projects, simulations, testing original hypotheses, common experiences, public sharing of student generated material, and real world application of material as part of our college-wide, evidence-based approach to teaching and learning. These practices are designed to help students engage with the content, master core concepts, and understand how to apply skills in real world settings.
+
 
 ## Course community
 
@@ -90,19 +93,19 @@ You are expected to bring a laptop, tablet, or Chromebook to each class so that 
 
 ## Activities & Assessment
 
-You will be assessed based on four components: application exercises, homework, project, and oral exams.
+You will be assessed based on four components: application exercises, homework, project, and written exams.
 
 ### Application Exercises
 
-Most lectures will have Application Exercises (AEs) that go along with them. These exercises will give you an opportunity to practice applying the statistical concepts and code introduced in the readings and lectures. Typically, students who are present will receive full credit on AEs and do not need to turn anything in. However, there will be times where you must complete an AE outside of class and submit it. Students who are late to class or miss class entirely must turn in a .qmd and .pdf file for their AE before the start of the next lecture. Students with an excused absence will be graded for completion, students without an excused absence will be graded for correctness.
+Most lectures will have Application Exercises (AEs) that go along with them. These exercises will give you an opportunity to practice applying the statistical concepts and code introduced in the readings and lectures. Typically, students who are present will receive full credit on AEs for completion of the exercise. Students who are late to class or miss class entirely (without an excuse) will be graded for correctness.
 
 ### Homework
 
-In homework, you will apply what you've learned during lecture to complete data analysis tasks. You may discuss homework assignments with other students; however, homework should be completed and submitted individually. Similar to lab assignments, homework must be typed up using Quarto and submitted as .qmd and .pdf files in Canvas.
+In homework, you will apply what you've learned during lecture to complete data analysis tasks. You may discuss homework assignments with other students; however, homework should be completed and submitted individually.
 
 ### Exams
 
-There will be two in-class exams in this course. Each exam will be completed without a computer and will be closed notes. Through these exams you have the opportunity to demonstrate what you've learned in the course thus far. The exams will focus on conceptual understanding of the content. The content of the exam will be related to the content in reading assignments, lectures, application exercises, and homework assignments. More detail about the exams will be given during the semester. Please note the following course policy: You MUST receive at least an average of 60% on your exams to pass the class.
+There will be two in-class exams in this course. Each exam will be completed without a computer and will be closed notes. Through these exams you have the opportunity to demonstrate what you've learned in the course thus far. The exams will focus on conceptual understanding of the content. The content of the exam will be related to the content in reading assignments, lectures, application exercises, and homework assignments. More detail about the exams will be given during the semester.
 
 ### Project
 
@@ -116,13 +119,11 @@ The final course grade will be calculated as follows:
 
 | Category              | Percentage |
 |-----------------------|------------|
-| Homework              | 25%        |
+| Homework              | 15%        |
 | Final Project         | 25%        |
-| Exam 01               | 20%        |
-| Exam 02               | 20%        |
+| Exam 01               | 25%        |
+| Exam 02               | 25%        |
 | Application Exercises | 10%        |
-
-*Note: You must receive at least a 60% on your two exams to pass the course.*
 
 </center>
 
@@ -173,29 +174,38 @@ Your success in this course depends very much on you and the effort you put into
 
 -   For the projects, collaboration within teams is not only allowed, but expected. Communication between teams at a high level is also allowed however you may not share code or components of the project across teams.
 
--   **Reusing code**: Unless explicitly stated otherwise, you may make use of online resources (e.g. StackOverflow) for coding examples on assignments. If you directly use code from an outside source (or use it as inspiration), you must explicitly cite where you obtained the code. Any recycled code that is discovered and is not explicitly cited will be treated as plagiarism. Furthermore, **you are responsible for understanding the code you submit**.
+#### Reusing code
 
--   **Coding conventions**: Unless explicitly stated otherwise, you are expected to complete all assignments using only function and packages introduced in class. If you would like to use a different set of tools, you must email Dr. Friedlander for permission. Any code that deviates from the conventions of the course will receive zero credit.
+Unless explicitly stated otherwise, you may make use of online resources (e.g. StackOverflow) for coding examples on assignments. If you directly use code from an outside source (or use it as inspiration), you must explicitly cite where you obtained the code. Any recycled code that is discovered and is not explicitly cited will be treated as plagiarism. Furthermore, **you are responsible for understanding the code you submit**.
 
--   **Use of artificial intelligence (AI)**: I will be honest, AI can correctly complete many, of the problems that I assign you in class, and frankly, I believe that using LLMs to generate code will be an important skill for the workplace. However, I also believe that we are a long way away from a world in which you will be using AI to write a lot of code that you could not generate and understand yourself. Here are a few questions to consider:
+#### Coding conventions
 
-1. Can you achieve **Task X** *faster* with an LLM, compared to your peers? If you take an hour to do **Task X**, but your peers take a few minutes to do **Task X**, why should someone slower be hired?
-2. Can you achieve **Task X** *correctly* with an LLM, compared to your peers? If **Task X** is done incorrectly with an LLM, but your peers do **Task X** correctly with an LLM, why should someone who gives wrong answers be hired? Moreover, if you *can't evaluate* whether an answer that an LLM gives is correct, why should you be hired?
-3. Can you achieve **Task X** using less energy output with an LLM, compared to your peers? If you use 10 million tokens to do **Task X**, but your peers only need 1 million tokens to do **Task X** with an LLM, why should someone wasting energy and money be hired?
-4. Can you accurately describe how you used LLMs to achieve **Task X**, so someone else knows what to check (in case an LLM screws up)? If you cannot describe how you used an LLM, or if you claim you did not use one when you did, why would someone unreliable be hired?
+Unless explicitly stated otherwise, you are expected to complete all assignments using only functions and packages introduced in class. If you would like to use a different set of tools, you must email Dr. Friedlander for permission. Any code that deviates from the conventions of the course will receive zero credit.
 
-This is a 2000-level class, meaning we are still providing you with the foundational knowledge necessary to succeed in more advanced courses. I will frequently be asking you to complete exercises without the use of AI, even though AI can complete them. The reason is that the skills and knowledge you gain from this course will (a) be built on in future courses and (b) be instrumental to items 1–4 above. Understanding how to write and structure code is instrumental to effectively prompting AI to do the things you want it to do, more accurately, more quickly, and with less effort. [Here is a short video](https://www.youtube.com/watch?v=A_YE9dC7YdE) that I think provides an interesting take from someone who isn't one of your professors.
+#### College of Idaho AI Statement
 
+Artificial Intelligence (AI) policies and practices vary between professors, courses, and assignments. Some faculty members may encourage or even require the use of AI, while others will prohibit AI use. There is not a single approach that suits all subjects, so students need to be prepared to follow individual course AI policies. Navigating varying AI course policies prepares students for the real world where different workplaces, industries, and projects require situation-specific, adaptable, and ethical use of AI.
 
-For this reason, you should treat AI tools, such as ChatGPT, the same as other online resources. There are two guiding principles that govern how you can use AI in this course:[^1] (1) *Cognitive dimension:* Working with AI should not reduce your ability to think clearly. We will practice using AI to facilitate---rather than hinder---learning. (2) *Ethical dimension*: Students using AI should be transparent about their use and make sure it aligns with academic integrity.
+#### Dr. Friedlanders Thoughts on AI
 
-  -   **AI tools for code:** You may make use of the technology for coding examples on assignments; if you do so, you must explicitly cite where you obtained the code. Any recycled code that is discovered and is not explicitly cited will be treated as plagiarism. You may use [these guidelines](https://guides.lib.monash.edu/c.php?g=219786&p=6972087) for citing AI-generated content.
+::: {.column style="float: left; width: 60%; margin-right: 15px;"}
+![](images/waymo.png)
+:::
 
-  -   **No AI tools for narrative:** Unless instructed otherwise, AI is [**not**]{.underline} permitted for writing narrative on assignments. In general, you may use AI as a resource as you complete assignments but not to answer the exercises for you. You are ultimately responsible for the work you turn in; it should reflect your understanding of the course content.
+Generative AI tools can assist in providing explanations and suggestions and can be very useful when used correctly. However, these tools should not be used for direct answers to graded assignments. You should not submit AI-generated content as your own work. I will be honest, AI can correctly complete many (if not most) of the problems that I will assign you in this class, and frankly, I believe that using LLMs will be an important skill for the workplace. However, it is not just the content of this course that is important. It is the process of learning, the ability to solve problems, the ability to craft and interpret quantitative arguments, and the growth that you experience because of, what education researchers call, productive struggle.
+Please remember that your skills and knowledge are the prodcut of this class not the work you complete in this class and the assignments you turn in. See the meme to the left for a humorous take on the situation.
 
-[^1]: These guiding principles are based on [*Course Policies related to ChatGPT and other AI Tools*](https://docs.google.com/document/d/1WpCeTyiWCPQ9MNCsFeKMDQLSTsg1oKfNIH6MzoSFXqQ/preview) developed by Joel Gladd, Ph.D.[↩︎](https://sta101-f23.github.io/course-syllabus.html#fnref1)
+This is a 2000-level course, meaning we are still providing you with the foundational knowledge necessary to succeed in more advanced courses. I will frequently be asking you to complete exercises without the use of AI, even though AI can complete them. The reason is that the skills and knowledge you gain from this course will (a) be built on in future courses and (b) allow you to extend beyond this material and get to a place where you exceed the capabilities of AI.
 
-Note, for any of these models having the correct "prompt" is necessary. So you may have varying levels of success using these models to gain conceptual understanding, and in many cases just talking to your instructors/course assistant/peers or even doing straight up googling is likely to yield better results. If you do decide to use these models, it is your responsibility to also fact check the insights that you gain and explicitly describe how you used AI and provide a link to your chat history. You are always invited to meet with me for clarification on my policy surrounding the use of AI. *If any uncited AI use is suspected, Dr. Friedlander reserves the right to invite you to a meeting in which you are asked to explain your answer. If you are unable to do so, you will receive a zero for the assignment, regardless of whether you used AI or not.*
+#### Official AI Policy For This Course
+
+In general, I prefer that you don't use any generative AI tools to produce material in this course (unless directed otherwise). However, you may use AI to write code under the following circumstances:
+
+-   **AI tools for code:** If you get completely stuck on a problem, you may use AI to generate the code for you. However, you must explicitly write "I got stuck here and had to use AI" AND THEN make an appointment with me to get extra help.
+
+-   **No AI tools for narrative:** Unless instructed otherwise, AI is [**not**]{.underline} permitted for writing narrative on assignments. In general, you may use AI as a resource as you complete assignments but not to answer the exercises for you. You are ultimately responsible for the work you turn in; it should reflect your understanding of the course content.
+
+*If any uncited AI use is suspected, Dr. Friedlander reserves the right to invite you to a meeting in which you are asked to explain your answer. If you are unable to do so, you will receive a zero for the assignment, regardless of whether you used AI or not.*
 
 If you are unsure if the use of a particular resource complies with the academic honesty policy, please ask.
 
@@ -207,9 +217,9 @@ The due dates for assignments are there to help you keep up with the course mate
 
 -   **Late Homework:** There will be a 5% deduction for each 24-hour period the assignment is late for the first two days. After 2 days, students will receive a 30% reduction. No homework will be accepted after it is returned to the class
 
--   **Late Application Exercises:** AEs are due the day after the class they are assigned. No late work is accepted for application exercises, since these are designed as in-class activities to help you prepare for homework. 
+-   **Late Application Exercises:** AEs are due the day after the class they are assigned. No late work is accepted for application exercises, since these are designed as in-class activities to help you prepare for homework.
 
--   **School-Sponsored Events/Illness:** If an application exercise, exam, or project must be missed due to a school-sponsored event, you must let me know at least a week ahead of time so that we can schedule a time for you to make up the work before you leave. If you must miss a exam or a project presentation due to illness, you must let me know before class that day so that we can schedule a time for you to take a make-up quiz or exam. Failure to adhere to this policy will result in a 35% penalty on the corresponding assignment.  
+-   **School-Sponsored Events/Illness:** If an application exercise, exam, or project must be missed due to a school-sponsored event, you must let me know at least a week ahead of time so that we can schedule a time for you to make up the work before you leave. If you must miss a exam or a project presentation due to illness, you must let me know before class that day so that we can schedule a time for you to take a make-up quiz or exam. Failure to adhere to this policy will result in a 35% penalty on the corresponding assignment.
 
 ### Regrade Requests
 
@@ -219,12 +229,14 @@ Regrade requests must be submitted via email within a week of when an assignment
 
 ## Important dates
 
--   **Aug 27:** Classes begin
--   **Sep 1:** Labor Day - NO CLASS
--   **Sep 10:** Last day to drop
--   **Nov 20:** Last day to withdraw with W or elect Pass/Fail
--   **Nov 24-28:** Thanksgiving Holiday - NO CLASSES
--   **Dec 4:**  Last Day of Classes
+-   **Aug 26:** Classes begin
+-   **Sep 7:** Labor Day - NO CLASS
+-   **Sep 9:** Last day to drop
+-   **Oct 15-16:** Fall Break - NO CLASSES
+-   **Nov 19:** Last day to withdraw with W or elect Pass/Fail
+-   **Nov 23-27:** Thanksgiving Break - NO CLASSES
+-   **Dec 3:** Last Day of Classes
+-   **Dec 7-10:** Final examinations
 
 
 ### College of Idaho Honor Code
@@ -236,4 +248,3 @@ By participating in this course, you are agreeing that all your work and conduct
 ### Disability Accommodation Statement
 
 The College of Idaho seeks to provide an educational environment that is accessible to the needs of students with disabilities. The College provides reasonable services to enrolled students who have a documented permanent or temporary physical, psychological, learning, intellectual, or sensory disability that qualifies the student for accommodations under the Americans with Disabilities Act or section 504 of the Rehabilitation Act of 1973. If you have, or think you may have, a disability that impacts your performance as a student in this class, you are encouraged to arrange support services and/or accommodations through the Department of Accessibility and Learning Excellence located in McCain 201B and available via email at <accessibility@collegeofidaho.edu>. Reasonable academic accommodations may be provided to students who submit appropriate and current documentation of their disability. Accommodations can be arranged only through this process and are not retroactively applied. More information can be found on the DALE webpage (<https://www.collegeofidaho.edu/accessibility>).
-

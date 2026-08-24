@@ -8,7 +8,7 @@ format:
 ---
 
 ::: callout-important
--   Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-03a"
+-   Open [RStudio]({{< var rstudio_url >}}) and create a subfolder in your AE folder called "AE-03a"
 -   Upload the `ae-03a-sbi-ht.qmd` and `dcbikeshare.csv` files into the folder you just created.
 :::
 

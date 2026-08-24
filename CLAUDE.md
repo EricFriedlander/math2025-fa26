@@ -26,9 +26,9 @@ quarto publish gh-pages       # deploy to GitHub Pages
 
 A VS Code task ("Quarto Preview") runs `quarto preview` — `Ctrl+Shift+P` → "Tasks: Run Task".
 
-### Known issue: R packages
+### R packages
 
-R was upgraded to 4.6.1 on this machine, but the package library is still under `~/R/x86_64-pc-linux-gnu-library/4.5/`. Under 4.6, core packages this site depends on (`tidyverse`, `gt`, and even `readxl` — which fails to load with an `undefined symbol` error, not just a missing-package error) are unusable. `schedule.qmd` and every slide deck have R chunks and will not render until packages are reinstalled for 4.6. Root pages without R chunks (`index`, `syllabus`, `support`, `links`, `computing-*`) render fine regardless. See `TODO.md`.
+Managed via `renv` (`renv.lock`, `renv/`). All packages the site depends on are installed for R 4.6.1 and the project is in sync (`renv::status()`). A full `quarto render` succeeds, including the syllabus PDF. Run `renv::install(...)` + `renv::snapshot()` when adding a new package to a `.qmd` file.
 
 ## Architecture
 
@@ -54,9 +54,15 @@ R was upgraded to 4.6.1 on this machine, but the package library is still under 
 
 All assignments (readings, activities, homework, project) and slides are published to the schedule page (`schedule.qmd`), which reads `schedule.xlsx` for what to publish and where to link.
 
-### `.qmd` and `.ipynb` pairs
+### Computing platform: CofI Posit Workbench
 
-Many `ae/` and `hw/` files exist as both `.qmd` and `.ipynb`. The computing platform for FA26 (Deepnote vs. Posit Workbench/RStudio) is undecided — see `TODO.md`. Until that's settled, keep both formats in sync. If a `.qmd` needs converting to `.ipynb`, follow `.github/prompts/ConvertQmdToJupyter.prompt.md`.
+FA26 uses the College of Idaho's own Posit Workbench (RStudio Server), not Deepnote and not Posit Cloud. Students sign in with their CofI email/password and work in `.qmd` files, in a subfolder they create per assignment. `computing-access.qmd` is the student-facing setup page.
+
+The Workbench URL is centralized in `_variables.yml` as `rstudio_url` and referenced everywhere via `{{< var rstudio_url >}}` — the servers are being updated mid-semester and the address may change, so a future URL change should be a single edit there. The one exception is the sidebar "RStudio" tool `href` in `_quarto.yml`: Quarto's `{{< var >}}` shortcode only substitutes inside rendered `.qmd` content, not inside `_quarto.yml` itself, so that href is a literal string kept in sync by hand (both spots carry a comment pointing at the other).
+
+Many `ae/` and `hw/` files still carry a legacy `.ipynb` twin from when Deepnote/Jupyter was under consideration. These are not rendered (`_quarto.yml` excludes `*.ipynb`) and are not being kept in sync — treat the `.qmd` as the only source of truth. `.github/prompts/ConvertQmdToJupyter.prompt.md` is legacy and unused.
+
+Many `ae/` and `hw/` files still carry a legacy `.ipynb` twin from when Deepnote/Jupyter was under consideration. These are not rendered (`_quarto.yml` excludes `*.ipynb`) and are not being kept in sync — treat the `.qmd` as the only source of truth. `.github/prompts/ConvertQmdToJupyter.prompt.md` is legacy and unused.
 
 ## `schedule.xlsx` column definitions
 
@@ -81,5 +87,5 @@ Numbers on activities, slides, and prepare assignments track the **lecture** num
 
 - **Nav registration**: new pages must be added to the `contents:` list in `_quarto.yml` sidebar to appear in navigation.
 - **Slide metadata**: each slide deck sets its own `footer`/`logo`/`bibliography` in YAML front matter (no shared `_metadata.yml` in this repo, unlike newer course sites).
-- **Freeze**: `execute: freeze: auto` — computed outputs cache in `_freeze/`.
+- **Freeze**: `execute: freeze: auto` — computed outputs cache in `_freeze/`. This has been observed to reuse stale content after a prose-only edit (no code chunk changes) to a file that was already rendered once this session — a second `quarto render` can silently keep the old text instead of picking up the edit. If a rendered page in `_site/` doesn't reflect a recent source change, delete that file's `_freeze/<path>/` entry (or `.quarto/` and `_freeze/` entirely for a guaranteed-clean rebuild) and re-render before concluding the edit didn't take.
 - **Ignored from render**: `TODO.md`, `README.md`, `CLAUDE.md` (see `.quartoignore`); `exam/*.qmd` and `*.ipynb` (see `_quarto.yml` render exclusions).

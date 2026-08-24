@@ -29,15 +29,15 @@ By the end of this homework, you will...
 
 ### Log in to RStudio
 
--   Go to <https://rstudio.collegeofidaho.edu> and login with your College of Idaho Email and Password.
+-   Go to <{{< var rstudio_url >}}> and login with your College of Idaho Email and Password.
 
 -   Make a folder called `hw`to store all of your homework for the semester. Create a subfolder called `hw01` to store this homework.
 
--   Log into [Canvas](https://cofi.instructure.com/courses/CANVAS_ID_TBD/assignments/202858), navigate to HW-01 and upload the `hw-01.qmd` and `parks.csv` file into the folder your just made. The previous link should take you right to the assignment.
+-   Log into [Canvas](https://cofi.instructure.com/courses/CANVAS_ID_TBD), navigate to HW-01 and upload the `hw-01.qmd` and `parks.csv` file into the folder you just made.
 
-## R and R Studio
+## R and RStudio
 
-[Here](https://mat212wi25.netlify.app/slides/01-welcome#/rstudio-ide) are the components of the RStudio IDE and [here](https://mat212wi25.netlify.app/slides/01-welcome#/quarto-1) are the components of an Quarto (.qmd) file.
+See the [R resources](/computing-r-resources.qmd) page for a guide to the RStudio IDE and Quarto file components.
 
 ### YAML
 

@@ -43,7 +43,7 @@ knitr::opts_chunk$set(
 ## Application exercise
 
 ::: appex
-📋 AE 10/11 - Transformations + Outliers: Complete in Deepnote
+📋 [AE 10/11 - Transformations + Outliers](../ae/ae-11-transformations.qmd)
 :::
 
 Complete Exercises 0-3.

@@ -46,7 +46,7 @@ ggplot2::theme_set(ggplot2::theme_bw(base_size = 16))
 ## Application exercise
 
 ::: appex
-📋 [AE 05 - Simulation Based Inference](https://deepnote.com/workspace/CofI-MATH-269748c4-4966-4cc3-b064-2a31b9db85a4/project/Eric-Friedlanders-Untitled-project-a50d53f1-7c77-4add-8c8b-898d3ea049d6/notebook/Init-f04e0c5b989743a1b76aea279b0c034a?utm_source=share-modal&utm_medium=product-shared-content&utm_campaign=notebook&utm_content=a50d53f1-7c77-4add-8c8b-898d3ea049d6)
+📋 [AE 05 - Simulation Based Inference](../ae/ae-05-sbi-ht.qmd)
 :::
 
 Complete Exercises 0-2.
