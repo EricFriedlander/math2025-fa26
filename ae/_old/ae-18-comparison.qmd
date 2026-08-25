@@ -9,7 +9,7 @@ format:
 ::: callout-important
 -   Open [RStudio]({{< var rstudio_url >}}) and create a subfolder in your AE folder called "AE-11".
 
--   Go to the [Canvas](https://cofi.instructure.com/courses/CANVAS_ID_TBD) and locate your `AE-11` assignment to get started.
+-   Go to the [Canvas](https://cofi.instructure.com/courses/18743) and locate your `AE-11` assignment to get started.
 
 -   Upload the `ae-11.qmd` and `tip-data.csv` files into the folder you just created. The `.qmd` and PDF responses are due in Canvas. You can check the due date on the Canvas assignment.
 :::

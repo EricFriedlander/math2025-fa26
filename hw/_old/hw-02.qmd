@@ -25,7 +25,7 @@ In this assignment, you will...
 
 -   Make a subfolder called `hw02` in your `hw` directory to store this homework.
 
--   Log into [Canvas](https://cofi.instructure.com/courses/CANVAS_ID_TBD), navigate to Homework 2 and upload the `hw-02.qmd` and `us-counties-sample.csv` files into the folder you just made.
+-   Log into [Canvas](https://cofi.instructure.com/courses/18743), navigate to Homework 2 and upload the `hw-02.qmd` and `us-counties-sample.csv` files into the folder you just made.
 
 # Packages
 

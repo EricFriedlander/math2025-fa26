@@ -23,7 +23,7 @@ By the end of the homework you will be able to...
 
 -   Make a subfolder in your `hw` directory to store this homework.
 
--   Log into [Canvas](https://cofi.instructure.com/courses/CANVAS_ID_TBD), navigate to Homework 4 and upload the `hw-04.qmd` and `alumni-salaries.csv` file into the folder you just made.
+-   Log into [Canvas](https://cofi.instructure.com/courses/18743), navigate to Homework 4 and upload the `hw-04.qmd` and `alumni-salaries.csv` file into the folder you just made.
 
 # Packages
 

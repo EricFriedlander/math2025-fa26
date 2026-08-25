@@ -64,7 +64,7 @@ Sanity-check the HW spread against however the semester actually unfolds — it 
 - [x] Create `EricFriedlander/math2025-fa26` on GitHub and push — **the remote already exists and `master` is pushed** (`origin` points at it, `d63f23b` is on `origin/master`), so this is effectively done; just keep pushing new commits.
 - [x] `quarto publish gh-pages`, then confirm GitHub Pages is enabled in repo settings — `gh api repos/EricFriedlander/math2025-fa26/pages` currently 404s, so Pages has never been turned on. The site now renders cleanly end-to-end, so this is unblocked.
 - [ ] **Workbench URL may change mid-semester** (servers being updated) — when it does, update `rstudio_url` in `_variables.yml` AND the "RStudio" sidebar tool `href` in `_quarto.yml` (the latter can't be centralized; Quarto shortcodes don't reach `_quarto.yml`).
-- [ ] Replace all `CANVAS_ID_TBD` tokens once the Canvas course exists: `grep -rn CANVAS_ID_TBD .`
+- [x] Canvas course now exists (`https://cofi.instructure.com/courses/18743`, unpublished) — replaced all `CANVAS_ID_TBD` tokens with `18743` across `_quarto.yml`, `links.qmd`, and the AE/HW files. The four committed `project/*.html` build artifacts still carry the old token in their rendered sidebars; they'll pick up the fix on the next `quarto render`.
 - [ ] Confirm the exact Dec 7-10 final-exam slot for our MW 10:50am section with the registrar, then replace the "exact slot TBD" placeholder in `schedule.xlsx` and `project/project-final.qmd` / `project/project-poster.qmd`.
 - [ ] Decide and fill in real office hours for FA26 (currently TBD in `syllabus.qmd`, `index.qmd`, `slides/00-welcome.qmd`).
 
@@ -81,4 +81,4 @@ Sanity-check the HW spread against however the semester actually unfolds — it 
 - [ ] Review the accommodations statement for the current term.
 - [ ] Decide whether groups of two still fits enrollment (`project/project-overview.qmd`).
 - [ ] Re-check every `data/` CSV still loads, especially anything sourced via `scripts/UpdateCensus.R`.
-- [ ] Update the Canvas course link in `_quarto.yml` sidebar tools once the real URL exists (see Infrastructure above).
+- [x] Update the Canvas course link in `_quarto.yml` sidebar tools once the real URL exists (see Infrastructure above).

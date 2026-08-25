@@ -37,13 +37,15 @@ website:
         href: "https://rstudio.collegeofidaho.edu/"
         text: "RStudio"
       - icon: person
-        href: https://cofi.instructure.com/courses/CANVAS_ID_TBD
+        href: https://cofi.instructure.com/courses/18743
         text: "Canvas"
     style: "docked"
     search: true
     collapse-level: 1
     contents:
-      - schedule.qmd
+      - index.qmd
+      - href: about.qmd
+        text: About
       - syllabus.qmd
       - support.qmd
       - links.qmd

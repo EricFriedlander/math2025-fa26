@@ -35,9 +35,9 @@ Managed via `renv` (`renv.lock`, `renv/`). All packages the site depends on are 
 | Path | Purpose |
 |------|---------|
 | `_quarto.yml` | Master config: site title, sidebar nav, theming, footer, output format |
-| `index.qmd` | Course homepage |
+| `index.qmd` | Course homepage — renders the schedule table by reading `schedule.xlsx` |
+| `about.qmd` | Course overview / instructor bio page (formerly the homepage) |
 | `syllabus.qmd` | Full syllabus (renders to HTML and PDF) |
-| `schedule.qmd` | Renders the schedule table by reading `schedule.xlsx` |
 | `schedule.xlsx` | **Source of truth for the schedule** — see column definitions below |
 | `support.qmd`, `links.qmd` | Course-support and useful-links pages |
 | `computing-*.qmd` | Computing access / inference-summary / R-resources pages |
@@ -52,7 +52,7 @@ Managed via `renv` (`renv.lock`, `renv/`). All packages the site depends on are 
 | `_freeze/` | Quarto's computed-output cache (`execute: freeze: auto`) — not committed by default here |
 | `_site/` | Generated static site — do not edit directly, not committed |
 
-All assignments (readings, activities, homework, project) and slides are published to the schedule page (`schedule.qmd`), which reads `schedule.xlsx` for what to publish and where to link.
+All assignments (readings, activities, homework, project) and slides are published to the schedule page (`index.qmd`, the site homepage), which reads `schedule.xlsx` for what to publish and where to link.
 
 ### Computing platform: CofI Posit Workbench
 
