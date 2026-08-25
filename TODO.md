@@ -66,7 +66,7 @@ Sanity-check the HW spread against however the semester actually unfolds — it 
 - [ ] **Workbench URL may change mid-semester** (servers being updated) — when it does, update `rstudio_url` in `_variables.yml` AND the "RStudio" sidebar tool `href` in `_quarto.yml` (the latter can't be centralized; Quarto shortcodes don't reach `_quarto.yml`).
 - [x] Canvas course now exists (`https://cofi.instructure.com/courses/18743`, unpublished) — replaced all `CANVAS_ID_TBD` tokens with `18743` across `_quarto.yml`, `links.qmd`, and the AE/HW files. The four committed `project/*.html` build artifacts still carry the old token in their rendered sidebars; they'll pick up the fix on the next `quarto render`.
 - [ ] Confirm the exact Dec 7-10 final-exam slot for our MW 10:50am section with the registrar, then replace the "exact slot TBD" placeholder in `schedule.xlsx` and `project/project-final.qmd` / `project/project-poster.qmd`.
-- [ ] Decide and fill in real office hours for FA26 (currently TBD in `syllabus.qmd`, `index.qmd`, `slides/00-welcome.qmd`).
+- [x] Decide and fill in real office hours for FA26 — Tue & Wed 2:15pm-3:45pm, Thu 3:00pm-4:00pm, Boone 126B, set in `syllabus.qmd`, `about.qmd`, `slides/00-welcome.qmd`.
 
 ---
 

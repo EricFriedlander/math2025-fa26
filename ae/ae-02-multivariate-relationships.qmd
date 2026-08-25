@@ -1,5 +1,5 @@
 ---
-title: "AE 01: Multivariate Relationships"
+title: "AE 02: Multivariate Relationships"
 author: "Your name here"
 editor: visual
 format:
@@ -10,16 +10,16 @@ format:
 ::: callout-important
 -   For this exercise, you will work in groups, but everyone will work through the document and submit their solution.
 
--   Open [RStudio]({{< var rstudio_url >}}) and create a subfolder in your AE folder called "AE-01"
+-   Open [RStudio]({{< var rstudio_url >}}) and create a subfolder in your AE folder called "AE-02"
 
--   Go to the [Canvas](https://cofi.instructure.com/courses/18743) and locate your `AE 01` assignment to get started.
+-   Go to the [Canvas](https://cofi.instructure.com/courses/18743) and locate your `AE 02` assignment to get started.
 
--   Upload the `ae-01.qmd` files into the folder you just created. To submit this Activity, upload the `.qmd` and `.html` responses in the corresponding Canvas assignment.
+-   Upload the `ae-02.qmd` files into the folder you just created. To submit this Activity, upload the `.qmd` and `.html` responses in the corresponding Canvas assignment.
 :::
 
 ```{r}
 #| include: FALSE
-knitr::opts_chunk$set(warning = FALSE, 
+knitr::opts_chunk$set(warning = FALSE,
                       message = FALSE)
 ```
 
@@ -173,7 +173,7 @@ The following is a little bit of data wrangling to get the source data in shape 
 ```{r}
 #| eval: FALSE
 
-starbucks <- starbucks |> 
+starbucks <- starbucks |>
   mutate(bakery = factor(if_else(type == "bakery", "bakery", "non-bakery")))
 ```
 

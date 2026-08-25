@@ -15,7 +15,7 @@ format:
 |             |                           |                     |
 |-------------|---------------------------|---------------------|
 | **Lecture** | Mon & Wed 10:50am - 12:05pm   | Cruzen-Murray Library (CML) 105 |
-| **Office Hours** | TBD  | Boone 126B  |
+| **Office Hours** | Tue & Wed 2:15pm - 3:45pm, Thu 3:00pm - 4:00pm | Boone 126B  |
 
 Office hours are also available by appointment, just email me!
 
