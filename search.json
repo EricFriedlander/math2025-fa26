@@ -215,8 +215,211 @@
     "text": "References\n\n\n\n\nAlexander, Rohan. 2023. Telling Stories with Data. June 20. https://doi.org/10.1201/9781003229407.\n\n\nOstblom, Joel, and Tiffany Timbers. 2022. “Opinionated Practices for Teaching Reproducibility: Motivation, Guided Instruction and Practice.” Journal of Statistics and Data Science Education 30 (3): 241–50. https://doi.org/10.1080/26939169.2022.2074922."
   },
   {
-    "objectID": "schedule.html",
-    "href": "schedule.html",
+    "objectID": "project/project-rubric.html",
+    "href": "project/project-rubric.html",
+    "title": "Project Rubric",
+    "section": "",
+    "text": "This rubric outlines the evaluation criteria for the Islands Research Project."
+  },
+  {
+    "objectID": "project/project-rubric.html#overview",
+    "href": "project/project-rubric.html#overview",
+    "title": "Project Rubric",
+    "section": "",
+    "text": "This rubric outlines the evaluation criteria for the Islands Research Project."
+  },
+  {
+    "objectID": "project/project-rubric.html#evaluation-structure",
+    "href": "project/project-rubric.html#evaluation-structure",
+    "title": "Project Rubric",
+    "section": "Evaluation Structure",
+    "text": "Evaluation Structure\n\n\n\nComponent\nWeight\n\n\n\n\nFinal Project\n40%\n\n\nInterim Assignments (Complete/Detailed)\n30%\n\n\nPoster Presentation\n10%\n\n\nIndividual Reflection\n15%\n\n\nGroup Assessment\n5%"
+  },
+  {
+    "objectID": "project/project-rubric.html#rubric-for-grading-the-final-project",
+    "href": "project/project-rubric.html#rubric-for-grading-the-final-project",
+    "title": "Project Rubric",
+    "section": "Rubric for Grading the Final Project",
+    "text": "Rubric for Grading the Final Project\n\nIntroduction — 10 Points Total\n\n\n\n\n\n\n\nCriteria\nPoints\n\n\n\n\nBackground and significance are clear, logically organized, and move from general to specific.\n0–4\n\n\nObjective or research question is stated clearly; final paragraph defines hypothesis/goals.\n0–4\n\n\nConsideration of ethical or practical implications (e.g., usefulness, harm).\n0–2\n\n\n\n\n\nMethods — 20 Points Total\n\n\n\n\n\n\n\nCriteria\nPoints\n\n\n\n\nStudy design: provides enough information for replication.\n0–4\n\n\nSampling and eligibility: well described and justified.\n0–4\n\n\nVariable descriptions: includes definitions, levels, and any transformations.\n0–1\n\n\nSample size justification and power analysis are clearly explained.\n0–6\n\n\nStatistical methods are appropriate, logical, and motivated by the research question.\n0–5\n\n\n\n\n\nResults — 25 Points Total\n\n\n\n\n\n\n\nCriteria\nPoints\n\n\n\n\nBaseline variables summarized and demographic balance addressed.\n0–5\n\n\nResults of interest explained, summarized, and visualized appropriately.\n0–10\n\n\nEach table is described (no “naked” tables).\n0–3\n\n\nEach figure is described (no “naked” figures).\n0–3\n\n\nTechnical assumptions assessed and documented.\n0–4\n\n\n\n\n\nDiscussion and Conclusions — 10 Points Total\n\n\n\n\n\n\n\nCriteria\nPoints\n\n\n\n\nRestates objectives and key results clearly.\n0–2\n\n\nStates whether results support or reject the hypothesis.\n0–3\n\n\nCites specific analyses and results to support interpretations; discusses limitations.\n0–3\n\n\nSuggests ideas for future work based on current findings.\n0–2\n\n\n\n\n\nLimitations — 10 Points Total\n\n\n\n\n\n\n\nCriteria\nPoints\n\n\n\n\nSampling limitations and generalizability described and evaluated.\n0–4\n\n\nRandomization limitations and causal inference discussed.\n0–4\n\n\nOther study constraints (sample size, missing variables, etc.) acknowledged.\n0–2\n\n\n\n\n\nCoverage and Clarity — 25 Points Total\n\n\n\n\n\n\n\nCriteria\nPoints\n\n\n\n\nDescriptive and appropriate title.\n0–1\n\n\nNames of all group members included.\n0–1\n\n\nDataset complete, tidy (rows = observations, columns = variables).\n0–2\n\n\nOrganization and labeled sections clear and professional.\n0–4\n\n\nEdited and proofread (minimal grammar/spelling issues).\n0–4\n\n\nTables and figures labeled, with captions and readable axes.\n0–5\n\n\nWork reproducible; instructor can run notebook with no edits.\n0–4\n\n\nCode interspersed with text for clarity.\n0–4\n\n\n\n\n\nTotal Points\n100 Possible Points\n\n\n\nCategory\nPoints\n\n\n\n\nIntroduction\n10\n\n\nMethods\n20\n\n\nResults\n25\n\n\nDiscussion / Conclusions\n10\n\n\nLimitations\n10\n\n\nCoverage / Clarity\n25\n\n\nTotal\n100"
+  },
+  {
+    "objectID": "project/project-power.html",
+    "href": "project/project-power.html",
+    "title": "Project 2: Power Analysis",
+    "section": "",
+    "text": "ImportantQuick Facts\n\n\n\n\n\nWednesday, November 11, 2026\n\n\n\nThe goal of this assignment is to estimate how many observations are required for an Islands project to achieve statistical significance.\n\n\n\nIn your team’s shared RStudio Project folder, create a new Quarto document called power-analysis.qmd including your power analysis. All members contribute to both writing and computation."
+  },
+  {
+    "objectID": "project/project-power.html#explanation-of-power-analysis",
+    "href": "project/project-power.html#explanation-of-power-analysis",
+    "title": "Project 2: Power Analysis",
+    "section": "Explanation of Power Analysis",
+    "text": "Explanation of Power Analysis\nA power analysis estimates the sample size required to detect an effect of a given size with a given degree of confidence. In this assignment, you will use the pilot data collected in Part 1 to estimate the sample size needed to detect the effect you are interested in studying.\nThe power of a statistical test is the probability of rejecting the null hypothesis when the alternative hypothesis is true. To calculate this number, we need to assume something called an effect size. The effect size is a measure of the magnitude of the effect of the treatment or intervention being studied. Larger effect sizes are easier to detect, while smaller effect sizes require larger sample sizes to achieve the same level of power.\nPower is affected by several factors, including:\n\nEffect size: Larger effects are easier to detect, requiring smaller sample sizes.\nSample size: Larger samples provide more information and increase power.\nSignificance level (()): Lowering () (e.g., from 0.05 to 0.01) reduces power.\nVariability: More variable data requires larger samples to detect effects."
+  },
+  {
+    "objectID": "project/project-power.html#assignment-deliverables",
+    "href": "project/project-power.html#assignment-deliverables",
+    "title": "Project 2: Power Analysis",
+    "section": "Assignment Deliverables",
+    "text": "Assignment Deliverables\nUsing your pilot study data:\n\nCompute the sample size necessary to achieve a power = 0.7 You can repurpose the code below to perform a simulation-based power analysis. Modify the sample_size variable until you achieve the desired power.\n\n\nsample_size &lt;- 100 # modify this value until you get a power of 0.7\nsampling_distribution &lt;- do(1000) * lm(response ~ explanatory, data = resample(pilot_data, n = sample_size)) |&gt; tidy() |&gt; filter(term == \"explanatory\")\npower &lt;- mean(sampling_distribution$p.value &lt; 0.05)\npower\n\n\nReflect on whether the required sample size is realistic given the context of your study and decide on how many samples you will collect for your full study.\nEstimate actual power given your planned sample size (if smaller than ideal).\nJustify your chosen number of observations.\n\nInclude both statistical reasoning (from power analysis) and logistical or research-based constraints.\n\nState whether the pilot data will be included in your full dataset, and justify the decision.\nEnsure reproducibility:\n\nAnalysis must run from your team’s shared RStudio Project folder.\n\nThe analysis and justification must be clear and readable."
+  },
+  {
+    "objectID": "project/project-pilot.html",
+    "href": "project/project-pilot.html",
+    "title": "Project 1: Pilot Study",
+    "section": "",
+    "text": "ImportantQuick Facts\n\n\n\n\n\nWednesday, November 4, 2026\n\n\n\nThe goal of the pilot study assignment is to develop a preliminary research question and to collect some initial data, both in preparation for your group Island project.\n\n\n\nIn your team’s shared RStudio Project folder:\n\nNames of investigators and their roles\n\nResearch question (1–2 sentences)\n\nDraft of methods section\n\nIn Canvas:\n\nLink to Google Sheet with data"
+  },
+  {
+    "objectID": "project/project-pilot.html#preliminaries",
+    "href": "project/project-pilot.html#preliminaries",
+    "title": "Project 1: Pilot Study",
+    "section": "Preliminaries",
+    "text": "Preliminaries\n\nReview the Islands tips document.\nWork through one shared login to the Islands.\n\nUse a shared Google Sheet for data (tidy format: one row per person, one column per variable).\n\nUse your team’s shared RStudio Project folder for writing."
+  },
+  {
+    "objectID": "project/project-pilot.html#research-question",
+    "href": "project/project-pilot.html#research-question",
+    "title": "Project 1: Pilot Study",
+    "section": "Research Question",
+    "text": "Research Question\n\nDevelop a question that is interesting and feasible.\n\nYou may use the PICO structure (Population, Intervention, Comparison, Outcome).\n\nDescription: https://guides.mclibrary.duke.edu/ebm/pico\nSample PICO questions: https://libraryguides.nau.edu/c.php?g=665927&p=4682772\n\nQuestions can be experimental or observational.\n\nFinal form: 1–2 sentences describing the population, treatment/exposure, comparison, and outcome."
+  },
+  {
+    "objectID": "project/project-pilot.html#design-a-study",
+    "href": "project/project-pilot.html#design-a-study",
+    "title": "Project 1: Pilot Study",
+    "section": "Design a Study",
+    "text": "Design a Study\n\nRead this Chapter on study design.\nDesign a study to answer your research question.\n\nDescribe how subjects were selected.\n\nRandom sampling is not required, but justify representativeness.\n\nResponse variable must be quantitative.\n\nCollect at least four demographic information that you think may confound your results (at least two must be numeric).\n\n\n\nPreliminary Data Collection\nUsing your study design, measure at least 20 islanders for a pilot study."
+  },
+  {
+    "objectID": "project/project-pilot.html#methods-section",
+    "href": "project/project-pilot.html#methods-section",
+    "title": "Project 1: Pilot Study",
+    "section": "Methods Section",
+    "text": "Methods Section\nClearly describe the following in your methods section:\n\nStudy design (e.g., experimental, case-control, cohort)\n\nTarget population\n\nInclusion/exclusion criteria\n\nSampling methods\n\nExplanatory variable(s)\nOutcome (numeric response variable)\n\nDemographic variables (≥4 total, ≥2 numeric)\n\nRandomization and blinding methods (if applicable)\n\nStudy implementation and timing\n\nPlanned statistical methods (to appear in final project)\n\nWrite clearly and concisely without repetition."
+  },
+  {
+    "objectID": "project/project-islands-tips.html",
+    "href": "project/project-islands-tips.html",
+    "title": "Working with the Islands",
+    "section": "",
+    "text": "Visit: https://islands.smp.uq.edu.au/index.php\nIf you have forgotten your password, click “Need to set or reset your password?”, enter your College of Idaho email, and a reset link will be sent.\nContact the instructor if you cannot access the Islands."
+  },
+  {
+    "objectID": "project/project-islands-tips.html#accessing-the-islands",
+    "href": "project/project-islands-tips.html#accessing-the-islands",
+    "title": "Working with the Islands",
+    "section": "",
+    "text": "Visit: https://islands.smp.uq.edu.au/index.php\nIf you have forgotten your password, click “Need to set or reset your password?”, enter your College of Idaho email, and a reset link will be sent.\nContact the instructor if you cannot access the Islands."
+  },
+  {
+    "objectID": "project/project-islands-tips.html#explore-the-visitor-center",
+    "href": "project/project-islands-tips.html#explore-the-visitor-center",
+    "title": "Working with the Islands",
+    "section": "Explore the Visitor Center",
+    "text": "Explore the Visitor Center\nThe Visitor Center contains information about the islands and the islanders. A good place to start is by looking through the “Guides Tab” in this page. I’ve linked some videos below that will help you get started:\n\nIsland Overview\nWorking with the Islanders\nFinding Groups on the Islands\nTime on the Islands"
+  },
+  {
+    "objectID": "project/project-islands-tips.html#explore-the-academy",
+    "href": "project/project-islands-tips.html#explore-the-academy",
+    "title": "Working with the Islands",
+    "section": "Explore the Academy",
+    "text": "Explore the Academy\nQuestions to guide exploration:\n\nWhat studies are interesting?\n\nIs the response variable quantitative or categorical?\n\nHow many explanatory variables exist, and what types are they?\n\nHow many observational units were collected?"
+  },
+  {
+    "objectID": "project/project-islands-tips.html#islanders-tips",
+    "href": "project/project-islands-tips.html#islanders-tips",
+    "title": "Working with the Islands",
+    "section": "Islanders Tips",
+    "text": "Islanders Tips\n\nMultiple islanders can complete tasks simultaneously, but each islander can only complete one task at a time."
+  },
+  {
+    "objectID": "project/project-final.html",
+    "href": "project/project-final.html",
+    "title": "Project 5: Final Submission + Reflection",
+    "section": "",
+    "text": "ImportantQuick Facts\n\n\n\n\n\nFinal exam period, December 7-10, 2026 (exact slot TBD)\n\n\n\nThe goal of the complete draft and final edited project is to synthesize all prior work into a cohesive research paper analyzing your collected Islands data.\n\n\n\n\nAs a group:\n\nIn your team’s shared RStudio Project folder, go back to the Quarto document you used for the draft and make any changes or additions based on feedback you received. All members contribute to both writing and computation.\n\nIndividually:\n\nPersonal reflection as a PDF file submitted individually to Canvas.\nGroup dynamic report submitted as a PDF file individually to Canvas."
+  },
+  {
+    "objectID": "project/project-final.html#assignment-deliverables",
+    "href": "project/project-final.html#assignment-deliverables",
+    "title": "Project 5: Final Submission + Reflection",
+    "section": "Assignment Deliverables",
+    "text": "Assignment Deliverables\nSee project-draft.qmd for details on the group submission of the complete draft of your Islands research project combining all prior components into a unified, publication-style report."
+  },
+  {
+    "objectID": "project/project-final.html#reflection-and-group-dynamics",
+    "href": "project/project-final.html#reflection-and-group-dynamics",
+    "title": "Project 5: Final Submission + Reflection",
+    "section": "Reflection and Group Dynamics",
+    "text": "Reflection and Group Dynamics\nEach student must individually submit:\n\nPersonal Reflection (1–2 pages):\nDescribe what you learned from the Islands Project.\nAddress questions such as:\n\nWhich parts were most enjoyable or most challenging?\n\nWhich parts connected most to class material?\n\nWhich skills transfer to other contexts?\n\nWhat statistical ideas do you want to explore further?\n\nGroup Dynamic Report:\nReflect on collaboration quality and role distribution.\nDiscuss:\n\nWhether all members contributed equally.\n\nHow well task division and assigned roles worked.\n\nAny concerns or commendations regarding group performance.\n\nAnything you wish to share confidentially about teamwork."
+  },
+  {
+    "objectID": "project/poster-rubric.html",
+    "href": "project/poster-rubric.html",
+    "title": "Final poster rubric",
+    "section": "",
+    "text": "Your poster will be evaluated as follows. Each student will be required to fill out the following rubric for every other poster. In addition, Dr. Friedlander will fill out the following rubric. 50% of your final poster grade will be based on Dr. Friedlander’s assessment and 50% will be based on your peer’s assessment.\nInstructions to reviewer: Use these criteria to rate the poster presentation on a scale of 1-5 (1=strongly disagree; 3=neutral; 5=strongly agree).\n\nPoster Organization\n\nPoster presentation is easy to follow. 1 2 3 4 5\nGraphics or other visuals on the poster enhance the oral description. 1 2 3 4 5\n\n\n\nPresentation Content\n\nQuestion or hypothesis being addressed is stated clearly, 1 2 3 4 5\nA model answering the research question is presented and analyzed used content from class. 1 2 3 4 5\nThe model selected and the inferential techniques applied are approrpiate for the problem being addressed. 1 2 3 4 5\nContent is easy to understand. 1 2 3 4 5\nThere is enough detail about methods for me to understand the results. 1 2 3 4 5\nResults are stated clearly. 1 2 3 4 5\n\n\n\nQuestion and Answer\n\nPresenter’s response to questions demonstrated knowledge of subject matter. 1 2 3 4 5\nPresenter’s response to questions demonstrated knowledge of the statistical approach taken with the project. 1 2 3 4 5"
+  },
+  {
+    "objectID": "prepare/prep-07.html",
+    "href": "prepare/prep-07.html",
+    "title": "Preparation for Mathematical Inference",
+    "section": "",
+    "text": "Introduction to Regression Analysis: A Data Science Approach: Ch 5: Inference for simple linear regression 5.1-5.6 (optional)\nIntroduction to Regression Analysis: A Data Science Approach: Ch 5: Inference for simple linear regression 5.8 (required)\n\nhttps://introregression.netlify.app/05-5-conditions"
+  },
+  {
+    "objectID": "prepare/prep-07.html#assigned-reading",
+    "href": "prepare/prep-07.html#assigned-reading",
+    "title": "Preparation for Mathematical Inference",
+    "section": "",
+    "text": "Introduction to Regression Analysis: A Data Science Approach: Ch 5: Inference for simple linear regression 5.1-5.6 (optional)\nIntroduction to Regression Analysis: A Data Science Approach: Ch 5: Inference for simple linear regression 5.8 (required)\n\nhttps://introregression.netlify.app/05-5-conditions"
+  },
+  {
+    "objectID": "prepare/prep-05.html",
+    "href": "prepare/prep-05.html",
+    "title": "Preparation for Simulation Based Inference",
+    "section": "",
+    "text": "📖 IMS, Sec 24.2: Randomization test for the slope\n📖 IMS, Sec 24.3: Bootstrap confidence interval for the slope"
+  },
+  {
+    "objectID": "prepare/prep-05.html#assigned-reading",
+    "href": "prepare/prep-05.html#assigned-reading",
+    "title": "Preparation for Simulation Based Inference",
+    "section": "",
+    "text": "📖 IMS, Sec 24.2: Randomization test for the slope\n📖 IMS, Sec 24.3: Bootstrap confidence interval for the slope"
+  },
+  {
+    "objectID": "prepare/prep-03.html",
+    "href": "prepare/prep-03.html",
+    "title": "Preparation for Simple Linear Regression",
+    "section": "",
+    "text": "Introduction to Regression Analysis: A Data Science Approach: Ch 4: Simple linear regression\nIntroduction to Modern Statistics (IMS) Ch 7: Linear regression with a single predictor"
+  },
+  {
+    "objectID": "prepare/prep-03.html#assigned-reading",
+    "href": "prepare/prep-03.html#assigned-reading",
+    "title": "Preparation for Simple Linear Regression",
+    "section": "",
+    "text": "Introduction to Regression Analysis: A Data Science Approach: Ch 4: Simple linear regression\nIntroduction to Modern Statistics (IMS) Ch 7: Linear regression with a single predictor"
+  },
+  {
+    "objectID": "prepare/prep-01.html",
+    "href": "prepare/prep-01.html",
+    "title": "Preparation for the Big Picture",
+    "section": "",
+    "text": "Review Syllabus"
+  },
+  {
+    "objectID": "prepare/prep-01.html#assigned-reading",
+    "href": "prepare/prep-01.html#assigned-reading",
+    "title": "Preparation for the Big Picture",
+    "section": "",
+    "text": "Review Syllabus"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
     "title": "Schedule",
     "section": "",
     "text": "This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses, with all changes documented here.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nlecture\ndow\ndate\ntopic\nprepare\nslides\nae\nhw\nproject\nnotes\n\n\n\n\n0\nW\nAug 26\nWelcome to MATH 2025!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome!\n\n\n1\nM\nAug 31\nThe Big Picture\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOur first AE!",
@@ -225,32 +428,257 @@
     ]
   },
   {
-    "objectID": "project/project-preliminary.html",
-    "href": "project/project-preliminary.html",
-    "title": "Project 3: Preliminary Analysis",
+    "objectID": "computing-inferencesummary.html",
+    "href": "computing-inferencesummary.html",
+    "title": "R Cheatsheet",
     "section": "",
-    "text": "ImportantQuick Facts\n\n\n\n\n\nWednesday, November 18, 2026\n\n\n\nThe goal of this assignment is to begin analyzing your collected data, producing visualizations, summaries, and your first regression model.\n\n\n\nIn your team’s shared RStudio Project folder, create a new Quarto document called preliminary-analysis.qmd including your preliminary analysis. All members contribute to both writing and computation."
+    "text": "Histogram: gf_histogram( ~ variable, data = data_name)\nBoxplot: gf_boxplot( ~ variable, data = data_name)\nDotplot: gf_dotplot( ~ variable, data = data_name)\nBarchart: gf_bar( ~ variable, data = data_name)\nSide-by-side “dodged” barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position=\"dodge\")\nStacked barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data)\nStandardized barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position=\"fill\")\nSide-by-side boxplot: gf_boxplot( variable1 ~ variable2, data = data_name)\nScatterplot: gf_point(variable1 ~ variable2, data = data_name)\nScatterplot with a third variable as color: gf_point(variable1 ~ variable2, color = ~ variable3, data = data_name)",
+    "crumbs": [
+      "Computing",
+      "R Cheatsheet"
+    ]
   },
   {
-    "objectID": "project/project-preliminary.html#assignment-deliverables",
-    "href": "project/project-preliminary.html#assignment-deliverables",
-    "title": "Project 3: Preliminary Analysis",
+    "objectID": "computing-inferencesummary.html#useful-code-for-calculating-summary-statistics-requires-mosaic",
+    "href": "computing-inferencesummary.html#useful-code-for-calculating-summary-statistics-requires-mosaic",
+    "title": "R Cheatsheet",
+    "section": "Useful code for calculating summary statistics: (requires mosaic)",
+    "text": "Useful code for calculating summary statistics: (requires mosaic)\n\nMeans: mean( ~ variable, data = data_name) or mean(variable1 ~ variable2, data = data_name)\nCounts/Tables: tally( ~ variable, data = data_name) or tally(variable1 ~ variable2, data = data_name)\n5-number-summary etc: favstats( ~ variable, data = data_name) or favstats(variable1 ~ variable2, data = data_name)\n\n\nUseful functions fitting and analyzing models\n\n\n\nModel type\nAction\nFunction\n\n\n\n\nSimple Linear Regression\nFit Model\nlm(Y ~ X, data = data_name)",
+    "crumbs": [
+      "Computing",
+      "R Cheatsheet"
+    ]
+  },
+  {
+    "objectID": "ae/ae-01-getting-started.html",
+    "href": "ae/ae-01-getting-started.html",
+    "title": "AE 01: Getting Started",
+    "section": "",
+    "text": "Important\n\n\n\n\nFor this exercise, you will work in groups, but everyone will work through the document and submit their solution.\nOpen RStudio and create a subfolder in your AE folder called “AE-01”\nGo to the Canvas and locate your AE 01 assignment to get started.\nUpload the ae-01.qmd files into the folder you just created. To submit this Activity, upload the .qmd and .html responses in the corresponding Canvas assignment."
+  },
+  {
+    "objectID": "ae/ae-01-getting-started.html#quarto",
+    "href": "ae/ae-01-getting-started.html#quarto",
+    "title": "AE 01: Getting Started",
+    "section": "Quarto",
+    "text": "Quarto\nThe thing you are reading right now is a Quarto document (very similar to R Markdown if you’ve ever used that). Quarto runs inside RStudio. Quarto is a simple formatting syntax for authoring web pages, Word documents, PDFs, and many more file types. You can find the link to a useful Quarto guide here.\nWhen you click the Render button at the top of this window an html file will be generated that includes both content as well as the output of any embedded R code chunks within the document. Not only can you embed the R code, you can embed the output produced by the R code. In this way, your analysis is fully reproducible and updatable. All of your homework assignments must be prepared using Quarto.\nThe nice thing about Quarto is that you can write prose (as I am doing now), mathematical equations using LaTeX syntax (like \\(y_i = a + b x_i\\)), and R code/output/plots all in one synthesized document. This makes it approximately 10,000 times easier to use than doing the same thing in Word or LaTeX. As you go through this introduction, I recommend that you look also at the .qmd file and your output file side-by-side to get an idea of how Quarto works. (Since you’re going to have to use Quarto this semester, you might as well start learning it now!)\nIn the future, I will typically give you a Quarto template to fill out. However, occasionally you will need to create your own Quarto document. When you want to start a new Quarto document, click “File &gt; New File &gt; Quarto Document…” Put yourself as author, and make sure to give it a descriptive title!\n\nExercise 1\nClick Render at the top of this document. Show Dr. Friedlander before moving on."
+  },
+  {
+    "objectID": "ae/ae-01-getting-started.html#using-r-as-a-calculator-and-running-code-within-a-quarto-document",
+    "href": "ae/ae-01-getting-started.html#using-r-as-a-calculator-and-running-code-within-a-quarto-document",
+    "title": "AE 01: Getting Started",
+    "section": "Using R as a Calculator and Running Code within a Quarto Document",
+    "text": "Using R as a Calculator and Running Code within a Quarto Document\nWith R by your side, you will never need your TI-84 again. Consider the simple arithmetic in the chunk below. You can run this code chunk all at once by clicking the Run button, the sideways green arrow in the top right of the chunk. Notice the interactive nature of the output. You can click through to see the different pieces of output.\nAs you work through this document, you should Run each chunk as you come to it.\n\nExercise 2\nRun the code chunk below.\n\n5 + 3\n\n[1] 8\n\n5.3 * 23.4\n\n[1] 124.02\n\nsqrt(16) # this is a comment.  R will not 'see' anything past a #, but you can use it to explain your code\n\n[1] 4\n\n\nLook closely at how Quarto denotes the R code and the output. Also note in the .qmd file how I include R code as separate from prose. These are called “chunks”. The easiest way to add a new chunk is to click on the green “c” icon with a plus in the corner above, then choose “R”. R code that is not inside of a chunk will not be run by Quarto!\n\n\nExercise 3\nCreate an R code chunk and compute the log of 10 using the function log. Why do you think the answer isn’t 1?\n\n\nExercise 4\nYou can also save values to named variables, to be used later:\n\nproduct &lt;- 15.3 * 23.4 #save result\n\nIf you save something like this, R will not show the output unless you expressly ask for it:\n\nproduct #show result\n\n[1] 358.02\n\n\nThe symbol “&lt;-” is the assignment operator. Imagine that R maintains a warehouse filled with boxes containing all kinds of stuff. When you use “&lt;-”, R will create a new box, write whatever name you put to the left of “&lt;-”, and put whatever is to the right of “&lt;-” in the box. Then whenever you want to go get the box, you can just use whatever name you gave it. In the example above, the box is called “product” and it contains the number 358.02 (the result of 15.3 times 23.4). When you just write “product”, R will go grab the box called “product” and dump it onto the screen. In the future, we will be giving names to entire datasets and using “functions” in R to analyze them.\nIf you’ve ever programmed before, “=” is the most common assignment operator. In R, you can use “=” as the assignment operator but there are cases where “&lt;-” works and “=” doesn’t, so it’s good to get into the habit of using “&lt;-” now.\nOnce variables are defined, they can be referenced with other operators and functions. Try executing each line of code individually by placing your cursor on the first line of the chunk below and pressing Ctrl+Enter (Cmd +Enter for Mac users); then do the same for the second line. (This is how you can run a single line within a larger chunk.)\n\n.5 * product # half of the product\n\n[1] 179.01\n\nproduct^(1/4) # fourth root of the product\n\n[1] 4.349875\n\n\n\n\nExercise 5\nYou can also use inline R code in Quarto, which can be useful when calling defined variables. Did you know that the natural log of 358.02 is 5.8805889?\n\n\nExercise 6\nOnly R code (and comments) should be inside chunks. Prose (interpretations/explanations/descriptions) should never be put inside a chunk; prose should be below or above the chunk, as I have done above (and continue to do throughout this document). You should also never cut-and-paste output or graphs into the chunks. The whole point of code chunks is that they contain the code and they’ll run the code (resulting in the output and/or graphs).\nIf you want to run something in R but don’t want it to appear in the Quarto document, simply run it in the Console in the lower-left quadrant of RStudio. Type the last line of R code above into the Console and see what happens.\n\n\nExercise 7\nRun the cell below three times and note what the output is. Then, Render the document and note what the output is. Are they the same?\n\nproduct &lt;- product *2\nproduct\n\n[1] 716.04\n\n\n\n\n\n\n\n\nImportant\n\n\n\nWhen you click the run button for a chunk, it simply runs the code in the console below. When you Render your Quarto document, it wipes your environment and re-runs the entire document from the beginning. For this reason, if you run your cells multiple times or out of order, you may get unexpected results when you Render your document. Before you submit your documents, always Render and then double check your answers to make sure that your answers match your explanations."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "MATH 2025: Multiple Regression Analysis",
+    "section": "",
+    "text": "An introduction to statistical modeling and methods. Topics may include model construction and analysis using multiple linear regression, analysis of variance, and logistic regression. The course makes substantial use of statistical software. Students who have taken more than one calculus course should generally take MATH-2025 rather than MATH-1025.\n\n\n\nWe will cover approaches for analyzing multivariate data sets, emphasizing linear and logistic regression. You will learn techniques for checking the appropriateness of proposed models, such as residual analyses, and techniques for selecting models. You will gain experience dealing with the challenges that arise in practice through assignments that utilize real-world data. This class emphasizes data analysis over mathematical theory.",
+    "crumbs": [
+      "About"
+    ]
+  },
+  {
+    "objectID": "about.html#catalog-description",
+    "href": "about.html#catalog-description",
+    "title": "MATH 2025: Multiple Regression Analysis",
+    "section": "",
+    "text": "An introduction to statistical modeling and methods. Topics may include model construction and analysis using multiple linear regression, analysis of variance, and logistic regression. The course makes substantial use of statistical software. Students who have taken more than one calculus course should generally take MATH-2025 rather than MATH-1025.",
+    "crumbs": [
+      "About"
+    ]
+  },
+  {
+    "objectID": "about.html#erics-addition",
+    "href": "about.html#erics-addition",
+    "title": "MATH 2025: Multiple Regression Analysis",
+    "section": "",
+    "text": "We will cover approaches for analyzing multivariate data sets, emphasizing linear and logistic regression. You will learn techniques for checking the appropriateness of proposed models, such as residual analyses, and techniques for selecting models. You will gain experience dealing with the challenges that arise in practice through assignments that utilize real-world data. This class emphasizes data analysis over mathematical theory.",
+    "crumbs": [
+      "About"
+    ]
+  },
+  {
+    "objectID": "about.html#instructor",
+    "href": "about.html#instructor",
+    "title": "MATH 2025: Multiple Regression Analysis",
+    "section": "Instructor",
+    "text": "Instructor\nEric is an Assistant Professor in the Department of Mathematics and Physical Sciences at the College of Idaho. His expertise lies in the areas of probability, statistics, and statistics education. He joined the College of Idaho faculty in 2024 after spending three years as an Assistant Professor at St. Norbert College in De Pere, Wisconsin. He received his bachelor’s degree in mathematics and statistics from Rice University in 2011. After earning his degree, he worked for Capital One for two years in their home loans division before enrolling in graduate school. In 2018, Eric received his Ph.D. in statistics and operations research from the University of North Carolina at Chapel Hill studying under professor Amarjit Budhiraja. His dissertation work focused on modeling and analyzing large systems which arise in industrial engineering (e.g. large server and communication networks). Following his Ph.D., Eric did a postdoc in the Department of Ecology & Evolution at the University of Chicago under the direction of professor Matthias Steinrücken where he used stochastic processes to study natural selection and population genetics.\nOutside of school, Eric is an avid fan of the New York Giants, New York Knicks, and North Carolina Tarheels. In addition, he enjoys comic books, the Fast and the Furious franchise, and spending time with his lovely wife Maria and lovable dogs Allie, Tony, and Miriam.\n\n\n\nOffice hours (Boone 126B)\n\n\n\n\n\nTBD\nTBD\n\n\nor by appointment.",
+    "crumbs": [
+      "About"
+    ]
+  },
+  {
+    "objectID": "computing-access.html",
+    "href": "computing-access.html",
+    "title": "Computing access",
+    "section": "",
+    "text": "To access RStudio at the College of Idaho, go to the CofI Posit Workbench website and sign in using your CofI email and password.\n\n\n\n\n\n\nNote\n\n\n\nThe Workbench servers are being updated this semester, so this address may change. Check back here or watch for an announcement if the link stops working.",
+    "crumbs": [
+      "Computing",
+      "Computing access"
+    ]
+  },
+  {
+    "objectID": "computing-r-resources.html",
+    "href": "computing-r-resources.html",
+    "title": "Resources for learning R",
+    "section": "",
+    "text": "R for Data Science by Hadley Wickham & Garrett Grolemund\nTidy Modeling with R by Max Kuhn & Julia Silge",
+    "crumbs": [
+      "Computing",
+      "R resources"
+    ]
+  },
+  {
+    "objectID": "computing-r-resources.html#books-free-online",
+    "href": "computing-r-resources.html#books-free-online",
+    "title": "Resources for learning R",
+    "section": "",
+    "text": "R for Data Science by Hadley Wickham & Garrett Grolemund\nTidy Modeling with R by Max Kuhn & Julia Silge",
+    "crumbs": [
+      "Computing",
+      "R resources"
+    ]
+  },
+  {
+    "objectID": "computing-r-resources.html#rstudio-primers",
+    "href": "computing-r-resources.html#rstudio-primers",
+    "title": "Resources for learning R",
+    "section": "RStudio Primers",
+    "text": "RStudio Primers\n\nInteractive LearnR Tutorial\nR Primers for full list of tutorials. Note that we will be using a simplified version of ggplot2 in this course.",
+    "crumbs": [
+      "Computing",
+      "R resources"
+    ]
+  },
+  {
+    "objectID": "computing-r-resources.html#additional-resources",
+    "href": "computing-r-resources.html#additional-resources",
+    "title": "Resources for learning R",
+    "section": "Additional resources",
+    "text": "Additional resources\n\nRStudio Cheatsheets\nR Fun workshops and videos by Duke Center for Data and Visualization Sciences.",
+    "crumbs": [
+      "Computing",
+      "R resources"
+    ]
+  },
+  {
+    "objectID": "links.html",
+    "href": "links.html",
+    "title": "Useful links",
+    "section": "",
+    "text": "RStudio\n🔗 on CofI Posit Workbench\n\n\nCanvas Course\n🔗 on Canvas",
+    "crumbs": [
+      "Useful links"
+    ]
+  },
+  {
+    "objectID": "prepare/prep-02.html",
+    "href": "prepare/prep-02.html",
+    "title": "Preparation for Multivariate Relationships",
+    "section": "",
+    "text": "None"
+  },
+  {
+    "objectID": "prepare/prep-02.html#assigned-reading",
+    "href": "prepare/prep-02.html#assigned-reading",
+    "title": "Preparation for Multivariate Relationships",
+    "section": "",
+    "text": "None"
+  },
+  {
+    "objectID": "prepare/prep-04.html",
+    "href": "prepare/prep-04.html",
+    "title": "Preparation for Simulation Based Inference",
+    "section": "",
+    "text": "📖 IMS, Sec 24.2: Randomization test for the slope"
+  },
+  {
+    "objectID": "prepare/prep-04.html#assigned-reading",
+    "href": "prepare/prep-04.html#assigned-reading",
+    "title": "Preparation for Simulation Based Inference",
+    "section": "",
+    "text": "📖 IMS, Sec 24.2: Randomization test for the slope"
+  },
+  {
+    "objectID": "prepare/prep-06.html",
+    "href": "prepare/prep-06.html",
+    "title": "Preparation for Simulation Based Inference",
+    "section": "",
+    "text": "📖 IMS, Sec 24.3: Bootstrap confidence interval for the slope"
+  },
+  {
+    "objectID": "prepare/prep-06.html#assigned-reading",
+    "href": "prepare/prep-06.html#assigned-reading",
+    "title": "Preparation for Simulation Based Inference",
+    "section": "",
+    "text": "📖 IMS, Sec 24.3: Bootstrap confidence interval for the slope"
+  },
+  {
+    "objectID": "prepare/prep-08.html",
+    "href": "prepare/prep-08.html",
+    "title": "Preparation for Mathematical Inference",
+    "section": "",
+    "text": "Introduction to Regression Analysis: A Data Science Approach: Ch 6: Model Conditions and Diagnostics"
+  },
+  {
+    "objectID": "prepare/prep-08.html#assigned-reading",
+    "href": "prepare/prep-08.html#assigned-reading",
+    "title": "Preparation for Mathematical Inference",
+    "section": "",
+    "text": "Introduction to Regression Analysis: A Data Science Approach: Ch 6: Model Conditions and Diagnostics"
+  },
+  {
+    "objectID": "project/project-draft.html",
+    "href": "project/project-draft.html",
+    "title": "Project 4: Final Draft",
+    "section": "",
+    "text": "ImportantQuick Facts\n\n\n\n\n\nMonday, November 30, 2026\n\n\n\nThe goal of the complete draft and final edited project is to synthesize all prior work into a cohesive research paper analyzing your collected Islands data.\n\n\n\nIn your team’s shared RStudio Project folder, go back to the Quarto document you used for the pilot (the one including your methods section) and complete this part of the assignment there. All members contribute to both writing and computation."
+  },
+  {
+    "objectID": "project/project-draft.html#assignment-deliverables",
+    "href": "project/project-draft.html#assignment-deliverables",
+    "title": "Project 4: Final Draft",
     "section": "Assignment Deliverables",
-    "text": "Assignment Deliverables\nYour preliminary analysis should include the following components:\n\nResearch Question\nRestate your question and provide sufficient background so that all variables are clearly defined.\nSampling Reflection\nDiscuss whether aspects of your sampling may limit generalization to all Islanders.\nVisualizations (3–4 minimum)\n\nEach plot must have accurate and descriptive labels.\n\nInclude at least one plot assessing randomization effectiveness (e.g., demographic balance across treatments).\n\nEach visualization must be followed by at least one interpretive sentence—no “naked plots.” That is, each visualization must have a purpose.\n\nNumerical Summaries\n\nProvide descriptive statistics for relevant variables.\n\nEach table or summary must be followed by explanatory text—no “naked tables.”\n\nRegression Model\n\nInclude output from at least one regression predicting the response variable.\n\nProvide a short interpretation (one or more sentences).\n\nReproducibility\n\nAll analysis must be in a single Quarto document with code integrated into the narrative. DO NOT write all your code at the top and then the text below."
+    "text": "Assignment Deliverables\nSubmit a complete draft of your Islands research project that combines all previous components into a unified, publication-style report.\nThe report must include the following sections:\n\nMotivation and Research Question\n\nExplain the motivation and background of your study.\n\nClearly state the research question.\n\nMethods Section\n\nFully describe the design, sampling, intervention/exposure, response, demographics, and statistical approach. You should build upon and refine the methods section from your pilot submission.\n\nKeep this concise and non-redundant.\n\nPower Analysis Summary\n\nInclude a brief recap of your power analysis and sample size determination.\n\nShow key calculations but omit full output.\n\nVisual and Numerical Summaries\n\nPresent descriptive analyses of all key variables.\n\nMultiple Regression Model\n\nFit and describe a multiple regression model addressing your main research question.\n\nDiscuss rationale for variable inclusion and model structure.\n\nDiscussion of Significance\n\nInterpret which variables are significant and how they relate to your hypotheses.\n\nConclusion\n\nSummarize the findings, implications, and potential extensions."
   },
   {
-    "objectID": "project/project-poster.html",
-    "href": "project/project-poster.html",
-    "title": "Project 5: Poster Presentation",
+    "objectID": "project/project-group-dynamics.html",
+    "href": "project/project-group-dynamics.html",
+    "title": "Group Dynamics",
     "section": "",
-    "text": "ImportantQuick Facts\n\n\n\n\n\nFinal exam period, December 7-10, 2026 (exact slot TBD)\n\n\n\nThe goal of this assignment is to present your study and results in a clear, concise, and engaging way to your peers.\n\n\n\nA poster summarizing your Islands project as a PDF file uploaded to Canvas. All members contribute to both writing and design. You can find template on Canvas.\nThe following is from Passion-Driven Statistics:\nYou have conducted a quantitative research project. Now you will learn how to present your results as a research poster and presentation. Posters offer the opportunity to engage with an audience and to meaningfully disseminate your research findings to others.\nLearn keys to a successful poster presentation. Consider your audience and frame your research question and results in an understandable and interesting way. Understand you should be brief, use large font size, and incorporate graphics instead of text whenever possible. See how being clear and concise with a logical layout will ensure the viewing experience is intellectually and aesthetically satisfying for your audience. Click HERE to a watch the video lesson.\nYou will create a 3 column, 40” X 36” poster including an introduction, research questions, methods, results, and discussion."
+    "text": "No one is as smart as the entire group.\n\nEveryone contributes and helps others.\n\nEveryone is responsible for understanding the full project."
   },
   {
-    "objectID": "project/project-poster.html#presentation-logistics",
-    "href": "project/project-poster.html#presentation-logistics",
-    "title": "Project 5: Poster Presentation",
-    "section": "Presentation Logistics",
-    "text": "Presentation Logistics\n\nEvery group member must participate verbally.\n\nYour group will present during our scheduled final exam time.\nSlides can be created in any software (PowerPoint, Google Slides, etc.) but must be uploaded to Canvas as a PDF. Templates are available on Canvas."
+    "objectID": "project/project-group-dynamics.html#class-norms",
+    "href": "project/project-group-dynamics.html#class-norms",
+    "title": "Group Dynamics",
+    "section": "",
+    "text": "No one is as smart as the entire group.\n\nEveryone contributes and helps others.\n\nEveryone is responsible for understanding the full project."
+  },
+  {
+    "objectID": "project/project-group-dynamics.html#roles",
+    "href": "project/project-group-dynamics.html#roles",
+    "title": "Group Dynamics",
+    "section": "Roles",
+    "text": "Roles\nEach person has two roles which may change across stages but must be clearly designated for each submission.\n\nOrganizational role (group dynamics)\n\nProject Manager: Keeps the group organized, schedules meetings, and maintains workflow plans.\n\nTask Manager: Tracks individual progress and follows up between meetings. Calls meetings as needed.\n\nFacilitator: Ensures all voices are heard. Encourages participation and prevents dominance.\n\nTechnical role (project facilitation)\n\nDirector of Research: Oversees literature/background research, manages citations, coordinates searches.\n\nDirector of Computation: Designs and integrates code. Ensures all scripts and analyses align.\nReporter: Maintains documentation and compiles written materials. Edits and unifies final report."
+  },
+  {
+    "objectID": "project/project-group-dynamics.html#group-accountability",
+    "href": "project/project-group-dynamics.html#group-accountability",
+    "title": "Group Dynamics",
+    "section": "Group Accountability",
+    "text": "Group Accountability\n\nAddress workload imbalances with the instructor if necessary.\n\nAll group members typically receive the same project grade."
+  },
+  {
+    "objectID": "project/project-group-dynamics.html#acknowledgements",
+    "href": "project/project-group-dynamics.html#acknowledgements",
+    "title": "Group Dynamics",
+    "section": "Acknowledgements",
+    "text": "Acknowledgements\nThis project is adapted from Dr. Jo Hardin’s Semester Project for her Introduction to Biostatistics course at Pomona College."
   },
   {
     "objectID": "project/project-overview.html",
@@ -316,448 +744,32 @@
     "text": "Acknowledgements\nThis project is adapted from Dr. Jo Hardin’s Semester Project for her Introduction to Biostatistics course at Pomona College."
   },
   {
-    "objectID": "project/project-group-dynamics.html",
-    "href": "project/project-group-dynamics.html",
-    "title": "Group Dynamics",
+    "objectID": "project/project-poster.html",
+    "href": "project/project-poster.html",
+    "title": "Project 5: Poster Presentation",
     "section": "",
-    "text": "No one is as smart as the entire group.\n\nEveryone contributes and helps others.\n\nEveryone is responsible for understanding the full project."
+    "text": "ImportantQuick Facts\n\n\n\n\n\nFinal exam period, December 7-10, 2026 (exact slot TBD)\n\n\n\nThe goal of this assignment is to present your study and results in a clear, concise, and engaging way to your peers.\n\n\n\nA poster summarizing your Islands project as a PDF file uploaded to Canvas. All members contribute to both writing and design. You can find template on Canvas.\nThe following is from Passion-Driven Statistics:\nYou have conducted a quantitative research project. Now you will learn how to present your results as a research poster and presentation. Posters offer the opportunity to engage with an audience and to meaningfully disseminate your research findings to others.\nLearn keys to a successful poster presentation. Consider your audience and frame your research question and results in an understandable and interesting way. Understand you should be brief, use large font size, and incorporate graphics instead of text whenever possible. See how being clear and concise with a logical layout will ensure the viewing experience is intellectually and aesthetically satisfying for your audience. Click HERE to a watch the video lesson.\nYou will create a 3 column, 40” X 36” poster including an introduction, research questions, methods, results, and discussion."
   },
   {
-    "objectID": "project/project-group-dynamics.html#class-norms",
-    "href": "project/project-group-dynamics.html#class-norms",
-    "title": "Group Dynamics",
+    "objectID": "project/project-poster.html#presentation-logistics",
+    "href": "project/project-poster.html#presentation-logistics",
+    "title": "Project 5: Poster Presentation",
+    "section": "Presentation Logistics",
+    "text": "Presentation Logistics\n\nEvery group member must participate verbally.\n\nYour group will present during our scheduled final exam time.\nSlides can be created in any software (PowerPoint, Google Slides, etc.) but must be uploaded to Canvas as a PDF. Templates are available on Canvas."
+  },
+  {
+    "objectID": "project/project-preliminary.html",
+    "href": "project/project-preliminary.html",
+    "title": "Project 3: Preliminary Analysis",
     "section": "",
-    "text": "No one is as smart as the entire group.\n\nEveryone contributes and helps others.\n\nEveryone is responsible for understanding the full project."
+    "text": "ImportantQuick Facts\n\n\n\n\n\nWednesday, November 18, 2026\n\n\n\nThe goal of this assignment is to begin analyzing your collected data, producing visualizations, summaries, and your first regression model.\n\n\n\nIn your team’s shared RStudio Project folder, create a new Quarto document called preliminary-analysis.qmd including your preliminary analysis. All members contribute to both writing and computation."
   },
   {
-    "objectID": "project/project-group-dynamics.html#roles",
-    "href": "project/project-group-dynamics.html#roles",
-    "title": "Group Dynamics",
-    "section": "Roles",
-    "text": "Roles\nEach person has two roles which may change across stages but must be clearly designated for each submission.\n\nOrganizational role (group dynamics)\n\nProject Manager: Keeps the group organized, schedules meetings, and maintains workflow plans.\n\nTask Manager: Tracks individual progress and follows up between meetings. Calls meetings as needed.\n\nFacilitator: Ensures all voices are heard. Encourages participation and prevents dominance.\n\nTechnical role (project facilitation)\n\nDirector of Research: Oversees literature/background research, manages citations, coordinates searches.\n\nDirector of Computation: Designs and integrates code. Ensures all scripts and analyses align.\nReporter: Maintains documentation and compiles written materials. Edits and unifies final report."
-  },
-  {
-    "objectID": "project/project-group-dynamics.html#group-accountability",
-    "href": "project/project-group-dynamics.html#group-accountability",
-    "title": "Group Dynamics",
-    "section": "Group Accountability",
-    "text": "Group Accountability\n\nAddress workload imbalances with the instructor if necessary.\n\nAll group members typically receive the same project grade."
-  },
-  {
-    "objectID": "project/project-group-dynamics.html#acknowledgements",
-    "href": "project/project-group-dynamics.html#acknowledgements",
-    "title": "Group Dynamics",
-    "section": "Acknowledgements",
-    "text": "Acknowledgements\nThis project is adapted from Dr. Jo Hardin’s Semester Project for her Introduction to Biostatistics course at Pomona College."
-  },
-  {
-    "objectID": "project/project-draft.html",
-    "href": "project/project-draft.html",
-    "title": "Project 4: Final Draft",
-    "section": "",
-    "text": "ImportantQuick Facts\n\n\n\n\n\nMonday, November 30, 2026\n\n\n\nThe goal of the complete draft and final edited project is to synthesize all prior work into a cohesive research paper analyzing your collected Islands data.\n\n\n\nIn your team’s shared RStudio Project folder, go back to the Quarto document you used for the pilot (the one including your methods section) and complete this part of the assignment there. All members contribute to both writing and computation."
-  },
-  {
-    "objectID": "project/project-draft.html#assignment-deliverables",
-    "href": "project/project-draft.html#assignment-deliverables",
-    "title": "Project 4: Final Draft",
+    "objectID": "project/project-preliminary.html#assignment-deliverables",
+    "href": "project/project-preliminary.html#assignment-deliverables",
+    "title": "Project 3: Preliminary Analysis",
     "section": "Assignment Deliverables",
-    "text": "Assignment Deliverables\nSubmit a complete draft of your Islands research project that combines all previous components into a unified, publication-style report.\nThe report must include the following sections:\n\nMotivation and Research Question\n\nExplain the motivation and background of your study.\n\nClearly state the research question.\n\nMethods Section\n\nFully describe the design, sampling, intervention/exposure, response, demographics, and statistical approach. You should build upon and refine the methods section from your pilot submission.\n\nKeep this concise and non-redundant.\n\nPower Analysis Summary\n\nInclude a brief recap of your power analysis and sample size determination.\n\nShow key calculations but omit full output.\n\nVisual and Numerical Summaries\n\nPresent descriptive analyses of all key variables.\n\nMultiple Regression Model\n\nFit and describe a multiple regression model addressing your main research question.\n\nDiscuss rationale for variable inclusion and model structure.\n\nDiscussion of Significance\n\nInterpret which variables are significant and how they relate to your hypotheses.\n\nConclusion\n\nSummarize the findings, implications, and potential extensions."
-  },
-  {
-    "objectID": "prepare/prep-08.html",
-    "href": "prepare/prep-08.html",
-    "title": "Preparation for Mathematical Inference",
-    "section": "",
-    "text": "Introduction to Regression Analysis: A Data Science Approach: Ch 6: Model Conditions and Diagnostics"
-  },
-  {
-    "objectID": "prepare/prep-08.html#assigned-reading",
-    "href": "prepare/prep-08.html#assigned-reading",
-    "title": "Preparation for Mathematical Inference",
-    "section": "",
-    "text": "Introduction to Regression Analysis: A Data Science Approach: Ch 6: Model Conditions and Diagnostics"
-  },
-  {
-    "objectID": "prepare/prep-06.html",
-    "href": "prepare/prep-06.html",
-    "title": "Preparation for Simulation Based Inference",
-    "section": "",
-    "text": "📖 IMS, Sec 24.3: Bootstrap confidence interval for the slope"
-  },
-  {
-    "objectID": "prepare/prep-06.html#assigned-reading",
-    "href": "prepare/prep-06.html#assigned-reading",
-    "title": "Preparation for Simulation Based Inference",
-    "section": "",
-    "text": "📖 IMS, Sec 24.3: Bootstrap confidence interval for the slope"
-  },
-  {
-    "objectID": "prepare/prep-04.html",
-    "href": "prepare/prep-04.html",
-    "title": "Preparation for Simulation Based Inference",
-    "section": "",
-    "text": "📖 IMS, Sec 24.2: Randomization test for the slope"
-  },
-  {
-    "objectID": "prepare/prep-04.html#assigned-reading",
-    "href": "prepare/prep-04.html#assigned-reading",
-    "title": "Preparation for Simulation Based Inference",
-    "section": "",
-    "text": "📖 IMS, Sec 24.2: Randomization test for the slope"
-  },
-  {
-    "objectID": "prepare/prep-02.html",
-    "href": "prepare/prep-02.html",
-    "title": "Preparation for Multivariate Relationships",
-    "section": "",
-    "text": "None"
-  },
-  {
-    "objectID": "prepare/prep-02.html#assigned-reading",
-    "href": "prepare/prep-02.html#assigned-reading",
-    "title": "Preparation for Multivariate Relationships",
-    "section": "",
-    "text": "None"
-  },
-  {
-    "objectID": "links.html",
-    "href": "links.html",
-    "title": "Useful links",
-    "section": "",
-    "text": "RStudio\n🔗 on CofI Posit Workbench\n\n\nCanvas Course\n🔗 on Canvas",
-    "crumbs": [
-      "Useful links"
-    ]
-  },
-  {
-    "objectID": "computing-r-resources.html",
-    "href": "computing-r-resources.html",
-    "title": "Resources for learning R",
-    "section": "",
-    "text": "R for Data Science by Hadley Wickham & Garrett Grolemund\nTidy Modeling with R by Max Kuhn & Julia Silge",
-    "crumbs": [
-      "Computing",
-      "R resources"
-    ]
-  },
-  {
-    "objectID": "computing-r-resources.html#books-free-online",
-    "href": "computing-r-resources.html#books-free-online",
-    "title": "Resources for learning R",
-    "section": "",
-    "text": "R for Data Science by Hadley Wickham & Garrett Grolemund\nTidy Modeling with R by Max Kuhn & Julia Silge",
-    "crumbs": [
-      "Computing",
-      "R resources"
-    ]
-  },
-  {
-    "objectID": "computing-r-resources.html#rstudio-primers",
-    "href": "computing-r-resources.html#rstudio-primers",
-    "title": "Resources for learning R",
-    "section": "RStudio Primers",
-    "text": "RStudio Primers\n\nInteractive LearnR Tutorial\nR Primers for full list of tutorials. Note that we will be using a simplified version of ggplot2 in this course.",
-    "crumbs": [
-      "Computing",
-      "R resources"
-    ]
-  },
-  {
-    "objectID": "computing-r-resources.html#additional-resources",
-    "href": "computing-r-resources.html#additional-resources",
-    "title": "Resources for learning R",
-    "section": "Additional resources",
-    "text": "Additional resources\n\nRStudio Cheatsheets\nR Fun workshops and videos by Duke Center for Data and Visualization Sciences.",
-    "crumbs": [
-      "Computing",
-      "R resources"
-    ]
-  },
-  {
-    "objectID": "computing-access.html",
-    "href": "computing-access.html",
-    "title": "Computing access",
-    "section": "",
-    "text": "To access RStudio at the College of Idaho, go to the CofI Posit Workbench website and sign in using your CofI email and password.\n\n\n\n\n\n\nNote\n\n\n\nThe Workbench servers are being updated this semester, so this address may change. Check back here or watch for an announcement if the link stops working.",
-    "crumbs": [
-      "Computing",
-      "Computing access"
-    ]
-  },
-  {
-    "objectID": "ae/ae-01-getting-started.html",
-    "href": "ae/ae-01-getting-started.html",
-    "title": "AE 01: Getting Started",
-    "section": "",
-    "text": "Important\n\n\n\n\nFor this exercise, you will work in groups, but everyone will work through the document and submit their solution.\nOpen RStudio and create a subfolder in your AE folder called “AE-01”\nGo to the Canvas and locate your AE 01 assignment to get started.\nUpload the ae-01.qmd files into the folder you just created. To submit this Activity, upload the .qmd and .html responses in the corresponding Canvas assignment."
-  },
-  {
-    "objectID": "ae/ae-01-getting-started.html#quarto",
-    "href": "ae/ae-01-getting-started.html#quarto",
-    "title": "AE 01: Getting Started",
-    "section": "Quarto",
-    "text": "Quarto\nThe thing you are reading right now is a Quarto document (very similar to R Markdown if you’ve ever used that). Quarto runs inside RStudio. Quarto is a simple formatting syntax for authoring web pages, Word documents, PDFs, and many more file types. You can find the link to a useful Quarto guide here.\nWhen you click the Render button at the top of this window an html file will be generated that includes both content as well as the output of any embedded R code chunks within the document. Not only can you embed the R code, you can embed the output produced by the R code. In this way, your analysis is fully reproducible and updatable. All of your homework assignments must be prepared using Quarto.\nThe nice thing about Quarto is that you can write prose (as I am doing now), mathematical equations using LaTeX syntax (like \\(y_i = a + b x_i\\)), and R code/output/plots all in one synthesized document. This makes it approximately 10,000 times easier to use than doing the same thing in Word or LaTeX. As you go through this introduction, I recommend that you look also at the .qmd file and your output file side-by-side to get an idea of how Quarto works. (Since you’re going to have to use Quarto this semester, you might as well start learning it now!)\nIn the future, I will typically give you a Quarto template to fill out. However, occasionally you will need to create your own Quarto document. When you want to start a new Quarto document, click “File &gt; New File &gt; Quarto Document…” Put yourself as author, and make sure to give it a descriptive title!\n\nExercise 1\nClick Render at the top of this document. Show Dr. Friedlander before moving on."
-  },
-  {
-    "objectID": "ae/ae-01-getting-started.html#using-r-as-a-calculator-and-running-code-within-a-quarto-document",
-    "href": "ae/ae-01-getting-started.html#using-r-as-a-calculator-and-running-code-within-a-quarto-document",
-    "title": "AE 01: Getting Started",
-    "section": "Using R as a Calculator and Running Code within a Quarto Document",
-    "text": "Using R as a Calculator and Running Code within a Quarto Document\nWith R by your side, you will never need your TI-84 again. Consider the simple arithmetic in the chunk below. You can run this code chunk all at once by clicking the Run button, the sideways green arrow in the top right of the chunk. Notice the interactive nature of the output. You can click through to see the different pieces of output.\nAs you work through this document, you should Run each chunk as you come to it.\n\nExercise 2\nRun the code chunk below.\n\n5 + 3\n\n[1] 8\n\n5.3 * 23.4\n\n[1] 124.02\n\nsqrt(16) # this is a comment.  R will not 'see' anything past a #, but you can use it to explain your code\n\n[1] 4\n\n\nLook closely at how Quarto denotes the R code and the output. Also note in the .qmd file how I include R code as separate from prose. These are called “chunks”. The easiest way to add a new chunk is to click on the green “c” icon with a plus in the corner above, then choose “R”. R code that is not inside of a chunk will not be run by Quarto!\n\n\nExercise 3\nCreate an R code chunk and compute the log of 10 using the function log. Why do you think the answer isn’t 1?\n\n\nExercise 4\nYou can also save values to named variables, to be used later:\n\nproduct &lt;- 15.3 * 23.4 #save result\n\nIf you save something like this, R will not show the output unless you expressly ask for it:\n\nproduct #show result\n\n[1] 358.02\n\n\nThe symbol “&lt;-” is the assignment operator. Imagine that R maintains a warehouse filled with boxes containing all kinds of stuff. When you use “&lt;-”, R will create a new box, write whatever name you put to the left of “&lt;-”, and put whatever is to the right of “&lt;-” in the box. Then whenever you want to go get the box, you can just use whatever name you gave it. In the example above, the box is called “product” and it contains the number 358.02 (the result of 15.3 times 23.4). When you just write “product”, R will go grab the box called “product” and dump it onto the screen. In the future, we will be giving names to entire datasets and using “functions” in R to analyze them.\nIf you’ve ever programmed before, “=” is the most common assignment operator. In R, you can use “=” as the assignment operator but there are cases where “&lt;-” works and “=” doesn’t, so it’s good to get into the habit of using “&lt;-” now.\nOnce variables are defined, they can be referenced with other operators and functions. Try executing each line of code individually by placing your cursor on the first line of the chunk below and pressing Ctrl+Enter (Cmd +Enter for Mac users); then do the same for the second line. (This is how you can run a single line within a larger chunk.)\n\n.5 * product # half of the product\n\n[1] 179.01\n\nproduct^(1/4) # fourth root of the product\n\n[1] 4.349875\n\n\n\n\nExercise 5\nYou can also use inline R code in Quarto, which can be useful when calling defined variables. Did you know that the natural log of 358.02 is 5.8805889?\n\n\nExercise 6\nOnly R code (and comments) should be inside chunks. Prose (interpretations/explanations/descriptions) should never be put inside a chunk; prose should be below or above the chunk, as I have done above (and continue to do throughout this document). You should also never cut-and-paste output or graphs into the chunks. The whole point of code chunks is that they contain the code and they’ll run the code (resulting in the output and/or graphs).\nIf you want to run something in R but don’t want it to appear in the Quarto document, simply run it in the Console in the lower-left quadrant of RStudio. Type the last line of R code above into the Console and see what happens.\n\n\nExercise 7\nRun the cell below three times and note what the output is. Then, Render the document and note what the output is. Are they the same?\n\nproduct &lt;- product *2\nproduct\n\n[1] 716.04\n\n\n\n\n\n\n\n\nImportant\n\n\n\nWhen you click the run button for a chunk, it simply runs the code in the console below. When you Render your Quarto document, it wipes your environment and re-runs the entire document from the beginning. For this reason, if you run your cells multiple times or out of order, you may get unexpected results when you Render your document. Before you submit your documents, always Render and then double check your answers to make sure that your answers match your explanations."
-  },
-  {
-    "objectID": "computing-inferencesummary.html",
-    "href": "computing-inferencesummary.html",
-    "title": "R Cheatsheet",
-    "section": "",
-    "text": "Histogram: gf_histogram( ~ variable, data = data_name)\nBoxplot: gf_boxplot( ~ variable, data = data_name)\nDotplot: gf_dotplot( ~ variable, data = data_name)\nBarchart: gf_bar( ~ variable, data = data_name)\nSide-by-side “dodged” barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position=\"dodge\")\nStacked barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data)\nStandardized barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position=\"fill\")\nSide-by-side boxplot: gf_boxplot( variable1 ~ variable2, data = data_name)\nScatterplot: gf_point(variable1 ~ variable2, data = data_name)\nScatterplot with a third variable as color: gf_point(variable1 ~ variable2, color = ~ variable3, data = data_name)",
-    "crumbs": [
-      "Computing",
-      "R Cheatsheet"
-    ]
-  },
-  {
-    "objectID": "computing-inferencesummary.html#useful-code-for-calculating-summary-statistics-requires-mosaic",
-    "href": "computing-inferencesummary.html#useful-code-for-calculating-summary-statistics-requires-mosaic",
-    "title": "R Cheatsheet",
-    "section": "Useful code for calculating summary statistics: (requires mosaic)",
-    "text": "Useful code for calculating summary statistics: (requires mosaic)\n\nMeans: mean( ~ variable, data = data_name) or mean(variable1 ~ variable2, data = data_name)\nCounts/Tables: tally( ~ variable, data = data_name) or tally(variable1 ~ variable2, data = data_name)\n5-number-summary etc: favstats( ~ variable, data = data_name) or favstats(variable1 ~ variable2, data = data_name)\n\n\nUseful functions fitting and analyzing models\n\n\n\nModel type\nAction\nFunction\n\n\n\n\nSimple Linear Regression\nFit Model\nlm(Y ~ X, data = data_name)",
-    "crumbs": [
-      "Computing",
-      "R Cheatsheet"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "MATH 2025: Multiple Regression Analysis",
-    "section": "",
-    "text": "An introduction to statistical modeling and methods. Topics may include model construction and analysis using multiple linear regression, analysis of variance, and logistic regression. The course makes substantial use of statistical software. Students who have taken more than one calculus course should generally take MATH-2025 rather than MATH-1025.\n\n\n\nWe will cover approaches for analyzing multivariate data sets, emphasizing linear and logistic regression. You will learn techniques for checking the appropriateness of proposed models, such as residual analyses, and techniques for selecting models. You will gain experience dealing with the challenges that arise in practice through assignments that utilize real-world data. This class emphasizes data analysis over mathematical theory."
-  },
-  {
-    "objectID": "index.html#catalog-description",
-    "href": "index.html#catalog-description",
-    "title": "MATH 2025: Multiple Regression Analysis",
-    "section": "",
-    "text": "An introduction to statistical modeling and methods. Topics may include model construction and analysis using multiple linear regression, analysis of variance, and logistic regression. The course makes substantial use of statistical software. Students who have taken more than one calculus course should generally take MATH-2025 rather than MATH-1025."
-  },
-  {
-    "objectID": "index.html#erics-addition",
-    "href": "index.html#erics-addition",
-    "title": "MATH 2025: Multiple Regression Analysis",
-    "section": "",
-    "text": "We will cover approaches for analyzing multivariate data sets, emphasizing linear and logistic regression. You will learn techniques for checking the appropriateness of proposed models, such as residual analyses, and techniques for selecting models. You will gain experience dealing with the challenges that arise in practice through assignments that utilize real-world data. This class emphasizes data analysis over mathematical theory."
-  },
-  {
-    "objectID": "index.html#instructor",
-    "href": "index.html#instructor",
-    "title": "MATH 2025: Multiple Regression Analysis",
-    "section": "Instructor",
-    "text": "Instructor\nEric is an Assistant Professor in the Department of Mathematics and Physical Sciences at the College of Idaho. His expertise lies in the areas of probability, statistics, and statistics education. He joined the College of Idaho faculty in 2024 after spending three years as an Assistant Professor at St. Norbert College in De Pere, Wisconsin. He received his bachelor’s degree in mathematics and statistics from Rice University in 2011. After earning his degree, he worked for Capital One for two years in their home loans division before enrolling in graduate school. In 2018, Eric received his Ph.D. in statistics and operations research from the University of North Carolina at Chapel Hill studying under professor Amarjit Budhiraja. His dissertation work focused on modeling and analyzing large systems which arise in industrial engineering (e.g. large server and communication networks). Following his Ph.D., Eric did a postdoc in the Department of Ecology & Evolution at the University of Chicago under the direction of professor Matthias Steinrücken where he used stochastic processes to study natural selection and population genetics.\nOutside of school, Eric is an avid fan of the New York Giants, New York Knicks, and North Carolina Tarheels. In addition, he enjoys comic books, the Fast and the Furious franchise, and spending time with his lovely wife Maria and lovable dogs Allie, Tony, and Miriam.\n\n\n\nOffice hours (Boone 126B)\n\n\n\n\n\nTBD\nTBD\n\n\nor by appointment."
-  },
-  {
-    "objectID": "prepare/prep-01.html",
-    "href": "prepare/prep-01.html",
-    "title": "Preparation for the Big Picture",
-    "section": "",
-    "text": "Review Syllabus"
-  },
-  {
-    "objectID": "prepare/prep-01.html#assigned-reading",
-    "href": "prepare/prep-01.html#assigned-reading",
-    "title": "Preparation for the Big Picture",
-    "section": "",
-    "text": "Review Syllabus"
-  },
-  {
-    "objectID": "prepare/prep-03.html",
-    "href": "prepare/prep-03.html",
-    "title": "Preparation for Simple Linear Regression",
-    "section": "",
-    "text": "Introduction to Regression Analysis: A Data Science Approach: Ch 4: Simple linear regression\nIntroduction to Modern Statistics (IMS) Ch 7: Linear regression with a single predictor"
-  },
-  {
-    "objectID": "prepare/prep-03.html#assigned-reading",
-    "href": "prepare/prep-03.html#assigned-reading",
-    "title": "Preparation for Simple Linear Regression",
-    "section": "",
-    "text": "Introduction to Regression Analysis: A Data Science Approach: Ch 4: Simple linear regression\nIntroduction to Modern Statistics (IMS) Ch 7: Linear regression with a single predictor"
-  },
-  {
-    "objectID": "prepare/prep-05.html",
-    "href": "prepare/prep-05.html",
-    "title": "Preparation for Simulation Based Inference",
-    "section": "",
-    "text": "📖 IMS, Sec 24.2: Randomization test for the slope\n📖 IMS, Sec 24.3: Bootstrap confidence interval for the slope"
-  },
-  {
-    "objectID": "prepare/prep-05.html#assigned-reading",
-    "href": "prepare/prep-05.html#assigned-reading",
-    "title": "Preparation for Simulation Based Inference",
-    "section": "",
-    "text": "📖 IMS, Sec 24.2: Randomization test for the slope\n📖 IMS, Sec 24.3: Bootstrap confidence interval for the slope"
-  },
-  {
-    "objectID": "prepare/prep-07.html",
-    "href": "prepare/prep-07.html",
-    "title": "Preparation for Mathematical Inference",
-    "section": "",
-    "text": "Introduction to Regression Analysis: A Data Science Approach: Ch 5: Inference for simple linear regression 5.1-5.6 (optional)\nIntroduction to Regression Analysis: A Data Science Approach: Ch 5: Inference for simple linear regression 5.8 (required)\n\nhttps://introregression.netlify.app/05-5-conditions"
-  },
-  {
-    "objectID": "prepare/prep-07.html#assigned-reading",
-    "href": "prepare/prep-07.html#assigned-reading",
-    "title": "Preparation for Mathematical Inference",
-    "section": "",
-    "text": "Introduction to Regression Analysis: A Data Science Approach: Ch 5: Inference for simple linear regression 5.1-5.6 (optional)\nIntroduction to Regression Analysis: A Data Science Approach: Ch 5: Inference for simple linear regression 5.8 (required)\n\nhttps://introregression.netlify.app/05-5-conditions"
-  },
-  {
-    "objectID": "project/poster-rubric.html",
-    "href": "project/poster-rubric.html",
-    "title": "Final poster rubric",
-    "section": "",
-    "text": "Your poster will be evaluated as follows. Each student will be required to fill out the following rubric for every other poster. In addition, Dr. Friedlander will fill out the following rubric. 50% of your final poster grade will be based on Dr. Friedlander’s assessment and 50% will be based on your peer’s assessment.\nInstructions to reviewer: Use these criteria to rate the poster presentation on a scale of 1-5 (1=strongly disagree; 3=neutral; 5=strongly agree).\n\nPoster Organization\n\nPoster presentation is easy to follow. 1 2 3 4 5\nGraphics or other visuals on the poster enhance the oral description. 1 2 3 4 5\n\n\n\nPresentation Content\n\nQuestion or hypothesis being addressed is stated clearly, 1 2 3 4 5\nA model answering the research question is presented and analyzed used content from class. 1 2 3 4 5\nThe model selected and the inferential techniques applied are approrpiate for the problem being addressed. 1 2 3 4 5\nContent is easy to understand. 1 2 3 4 5\nThere is enough detail about methods for me to understand the results. 1 2 3 4 5\nResults are stated clearly. 1 2 3 4 5\n\n\n\nQuestion and Answer\n\nPresenter’s response to questions demonstrated knowledge of subject matter. 1 2 3 4 5\nPresenter’s response to questions demonstrated knowledge of the statistical approach taken with the project. 1 2 3 4 5"
-  },
-  {
-    "objectID": "project/project-final.html",
-    "href": "project/project-final.html",
-    "title": "Project 5: Final Submission + Reflection",
-    "section": "",
-    "text": "ImportantQuick Facts\n\n\n\n\n\nFinal exam period, December 7-10, 2026 (exact slot TBD)\n\n\n\nThe goal of the complete draft and final edited project is to synthesize all prior work into a cohesive research paper analyzing your collected Islands data.\n\n\n\n\nAs a group:\n\nIn your team’s shared RStudio Project folder, go back to the Quarto document you used for the draft and make any changes or additions based on feedback you received. All members contribute to both writing and computation.\n\nIndividually:\n\nPersonal reflection as a PDF file submitted individually to Canvas.\nGroup dynamic report submitted as a PDF file individually to Canvas."
-  },
-  {
-    "objectID": "project/project-final.html#assignment-deliverables",
-    "href": "project/project-final.html#assignment-deliverables",
-    "title": "Project 5: Final Submission + Reflection",
-    "section": "Assignment Deliverables",
-    "text": "Assignment Deliverables\nSee project-draft.qmd for details on the group submission of the complete draft of your Islands research project combining all prior components into a unified, publication-style report."
-  },
-  {
-    "objectID": "project/project-final.html#reflection-and-group-dynamics",
-    "href": "project/project-final.html#reflection-and-group-dynamics",
-    "title": "Project 5: Final Submission + Reflection",
-    "section": "Reflection and Group Dynamics",
-    "text": "Reflection and Group Dynamics\nEach student must individually submit:\n\nPersonal Reflection (1–2 pages):\nDescribe what you learned from the Islands Project.\nAddress questions such as:\n\nWhich parts were most enjoyable or most challenging?\n\nWhich parts connected most to class material?\n\nWhich skills transfer to other contexts?\n\nWhat statistical ideas do you want to explore further?\n\nGroup Dynamic Report:\nReflect on collaboration quality and role distribution.\nDiscuss:\n\nWhether all members contributed equally.\n\nHow well task division and assigned roles worked.\n\nAny concerns or commendations regarding group performance.\n\nAnything you wish to share confidentially about teamwork."
-  },
-  {
-    "objectID": "project/project-islands-tips.html",
-    "href": "project/project-islands-tips.html",
-    "title": "Working with the Islands",
-    "section": "",
-    "text": "Visit: https://islands.smp.uq.edu.au/index.php\nIf you have forgotten your password, click “Need to set or reset your password?”, enter your College of Idaho email, and a reset link will be sent.\nContact the instructor if you cannot access the Islands."
-  },
-  {
-    "objectID": "project/project-islands-tips.html#accessing-the-islands",
-    "href": "project/project-islands-tips.html#accessing-the-islands",
-    "title": "Working with the Islands",
-    "section": "",
-    "text": "Visit: https://islands.smp.uq.edu.au/index.php\nIf you have forgotten your password, click “Need to set or reset your password?”, enter your College of Idaho email, and a reset link will be sent.\nContact the instructor if you cannot access the Islands."
-  },
-  {
-    "objectID": "project/project-islands-tips.html#explore-the-visitor-center",
-    "href": "project/project-islands-tips.html#explore-the-visitor-center",
-    "title": "Working with the Islands",
-    "section": "Explore the Visitor Center",
-    "text": "Explore the Visitor Center\nThe Visitor Center contains information about the islands and the islanders. A good place to start is by looking through the “Guides Tab” in this page. I’ve linked some videos below that will help you get started:\n\nIsland Overview\nWorking with the Islanders\nFinding Groups on the Islands\nTime on the Islands"
-  },
-  {
-    "objectID": "project/project-islands-tips.html#explore-the-academy",
-    "href": "project/project-islands-tips.html#explore-the-academy",
-    "title": "Working with the Islands",
-    "section": "Explore the Academy",
-    "text": "Explore the Academy\nQuestions to guide exploration:\n\nWhat studies are interesting?\n\nIs the response variable quantitative or categorical?\n\nHow many explanatory variables exist, and what types are they?\n\nHow many observational units were collected?"
-  },
-  {
-    "objectID": "project/project-islands-tips.html#islanders-tips",
-    "href": "project/project-islands-tips.html#islanders-tips",
-    "title": "Working with the Islands",
-    "section": "Islanders Tips",
-    "text": "Islanders Tips\n\nMultiple islanders can complete tasks simultaneously, but each islander can only complete one task at a time."
-  },
-  {
-    "objectID": "project/project-pilot.html",
-    "href": "project/project-pilot.html",
-    "title": "Project 1: Pilot Study",
-    "section": "",
-    "text": "ImportantQuick Facts\n\n\n\n\n\nWednesday, November 4, 2026\n\n\n\nThe goal of the pilot study assignment is to develop a preliminary research question and to collect some initial data, both in preparation for your group Island project.\n\n\n\nIn your team’s shared RStudio Project folder:\n\nNames of investigators and their roles\n\nResearch question (1–2 sentences)\n\nDraft of methods section\n\nIn Canvas:\n\nLink to Google Sheet with data"
-  },
-  {
-    "objectID": "project/project-pilot.html#preliminaries",
-    "href": "project/project-pilot.html#preliminaries",
-    "title": "Project 1: Pilot Study",
-    "section": "Preliminaries",
-    "text": "Preliminaries\n\nReview the Islands tips document.\nWork through one shared login to the Islands.\n\nUse a shared Google Sheet for data (tidy format: one row per person, one column per variable).\n\nUse your team’s shared RStudio Project folder for writing."
-  },
-  {
-    "objectID": "project/project-pilot.html#research-question",
-    "href": "project/project-pilot.html#research-question",
-    "title": "Project 1: Pilot Study",
-    "section": "Research Question",
-    "text": "Research Question\n\nDevelop a question that is interesting and feasible.\n\nYou may use the PICO structure (Population, Intervention, Comparison, Outcome).\n\nDescription: https://guides.mclibrary.duke.edu/ebm/pico\nSample PICO questions: https://libraryguides.nau.edu/c.php?g=665927&p=4682772\n\nQuestions can be experimental or observational.\n\nFinal form: 1–2 sentences describing the population, treatment/exposure, comparison, and outcome."
-  },
-  {
-    "objectID": "project/project-pilot.html#design-a-study",
-    "href": "project/project-pilot.html#design-a-study",
-    "title": "Project 1: Pilot Study",
-    "section": "Design a Study",
-    "text": "Design a Study\n\nRead this Chapter on study design.\nDesign a study to answer your research question.\n\nDescribe how subjects were selected.\n\nRandom sampling is not required, but justify representativeness.\n\nResponse variable must be quantitative.\n\nCollect at least four demographic information that you think may confound your results (at least two must be numeric).\n\n\n\nPreliminary Data Collection\nUsing your study design, measure at least 20 islanders for a pilot study."
-  },
-  {
-    "objectID": "project/project-pilot.html#methods-section",
-    "href": "project/project-pilot.html#methods-section",
-    "title": "Project 1: Pilot Study",
-    "section": "Methods Section",
-    "text": "Methods Section\nClearly describe the following in your methods section:\n\nStudy design (e.g., experimental, case-control, cohort)\n\nTarget population\n\nInclusion/exclusion criteria\n\nSampling methods\n\nExplanatory variable(s)\nOutcome (numeric response variable)\n\nDemographic variables (≥4 total, ≥2 numeric)\n\nRandomization and blinding methods (if applicable)\n\nStudy implementation and timing\n\nPlanned statistical methods (to appear in final project)\n\nWrite clearly and concisely without repetition."
-  },
-  {
-    "objectID": "project/project-power.html",
-    "href": "project/project-power.html",
-    "title": "Project 2: Power Analysis",
-    "section": "",
-    "text": "ImportantQuick Facts\n\n\n\n\n\nWednesday, November 11, 2026\n\n\n\nThe goal of this assignment is to estimate how many observations are required for an Islands project to achieve statistical significance.\n\n\n\nIn your team’s shared RStudio Project folder, create a new Quarto document called power-analysis.qmd including your power analysis. All members contribute to both writing and computation."
-  },
-  {
-    "objectID": "project/project-power.html#explanation-of-power-analysis",
-    "href": "project/project-power.html#explanation-of-power-analysis",
-    "title": "Project 2: Power Analysis",
-    "section": "Explanation of Power Analysis",
-    "text": "Explanation of Power Analysis\nA power analysis estimates the sample size required to detect an effect of a given size with a given degree of confidence. In this assignment, you will use the pilot data collected in Part 1 to estimate the sample size needed to detect the effect you are interested in studying.\nThe power of a statistical test is the probability of rejecting the null hypothesis when the alternative hypothesis is true. To calculate this number, we need to assume something called an effect size. The effect size is a measure of the magnitude of the effect of the treatment or intervention being studied. Larger effect sizes are easier to detect, while smaller effect sizes require larger sample sizes to achieve the same level of power.\nPower is affected by several factors, including:\n\nEffect size: Larger effects are easier to detect, requiring smaller sample sizes.\nSample size: Larger samples provide more information and increase power.\nSignificance level (()): Lowering () (e.g., from 0.05 to 0.01) reduces power.\nVariability: More variable data requires larger samples to detect effects."
-  },
-  {
-    "objectID": "project/project-power.html#assignment-deliverables",
-    "href": "project/project-power.html#assignment-deliverables",
-    "title": "Project 2: Power Analysis",
-    "section": "Assignment Deliverables",
-    "text": "Assignment Deliverables\nUsing your pilot study data:\n\nCompute the sample size necessary to achieve a power = 0.7 You can repurpose the code below to perform a simulation-based power analysis. Modify the sample_size variable until you achieve the desired power.\n\n\nsample_size &lt;- 100 # modify this value until you get a power of 0.7\nsampling_distribution &lt;- do(1000) * lm(response ~ explanatory, data = resample(pilot_data, n = sample_size)) |&gt; tidy() |&gt; filter(term == \"explanatory\")\npower &lt;- mean(sampling_distribution$p.value &lt; 0.05)\npower\n\n\nReflect on whether the required sample size is realistic given the context of your study and decide on how many samples you will collect for your full study.\nEstimate actual power given your planned sample size (if smaller than ideal).\nJustify your chosen number of observations.\n\nInclude both statistical reasoning (from power analysis) and logistical or research-based constraints.\n\nState whether the pilot data will be included in your full dataset, and justify the decision.\nEnsure reproducibility:\n\nAnalysis must run from your team’s shared RStudio Project folder.\n\nThe analysis and justification must be clear and readable."
-  },
-  {
-    "objectID": "project/project-rubric.html",
-    "href": "project/project-rubric.html",
-    "title": "Project Rubric",
-    "section": "",
-    "text": "This rubric outlines the evaluation criteria for the Islands Research Project."
-  },
-  {
-    "objectID": "project/project-rubric.html#overview",
-    "href": "project/project-rubric.html#overview",
-    "title": "Project Rubric",
-    "section": "",
-    "text": "This rubric outlines the evaluation criteria for the Islands Research Project."
-  },
-  {
-    "objectID": "project/project-rubric.html#evaluation-structure",
-    "href": "project/project-rubric.html#evaluation-structure",
-    "title": "Project Rubric",
-    "section": "Evaluation Structure",
-    "text": "Evaluation Structure\n\n\n\nComponent\nWeight\n\n\n\n\nFinal Project\n40%\n\n\nInterim Assignments (Complete/Detailed)\n30%\n\n\nPoster Presentation\n10%\n\n\nIndividual Reflection\n15%\n\n\nGroup Assessment\n5%"
-  },
-  {
-    "objectID": "project/project-rubric.html#rubric-for-grading-the-final-project",
-    "href": "project/project-rubric.html#rubric-for-grading-the-final-project",
-    "title": "Project Rubric",
-    "section": "Rubric for Grading the Final Project",
-    "text": "Rubric for Grading the Final Project\n\nIntroduction — 10 Points Total\n\n\n\n\n\n\n\nCriteria\nPoints\n\n\n\n\nBackground and significance are clear, logically organized, and move from general to specific.\n0–4\n\n\nObjective or research question is stated clearly; final paragraph defines hypothesis/goals.\n0–4\n\n\nConsideration of ethical or practical implications (e.g., usefulness, harm).\n0–2\n\n\n\n\n\nMethods — 20 Points Total\n\n\n\n\n\n\n\nCriteria\nPoints\n\n\n\n\nStudy design: provides enough information for replication.\n0–4\n\n\nSampling and eligibility: well described and justified.\n0–4\n\n\nVariable descriptions: includes definitions, levels, and any transformations.\n0–1\n\n\nSample size justification and power analysis are clearly explained.\n0–6\n\n\nStatistical methods are appropriate, logical, and motivated by the research question.\n0–5\n\n\n\n\n\nResults — 25 Points Total\n\n\n\n\n\n\n\nCriteria\nPoints\n\n\n\n\nBaseline variables summarized and demographic balance addressed.\n0–5\n\n\nResults of interest explained, summarized, and visualized appropriately.\n0–10\n\n\nEach table is described (no “naked” tables).\n0–3\n\n\nEach figure is described (no “naked” figures).\n0–3\n\n\nTechnical assumptions assessed and documented.\n0–4\n\n\n\n\n\nDiscussion and Conclusions — 10 Points Total\n\n\n\n\n\n\n\nCriteria\nPoints\n\n\n\n\nRestates objectives and key results clearly.\n0–2\n\n\nStates whether results support or reject the hypothesis.\n0–3\n\n\nCites specific analyses and results to support interpretations; discusses limitations.\n0–3\n\n\nSuggests ideas for future work based on current findings.\n0–2\n\n\n\n\n\nLimitations — 10 Points Total\n\n\n\n\n\n\n\nCriteria\nPoints\n\n\n\n\nSampling limitations and generalizability described and evaluated.\n0–4\n\n\nRandomization limitations and causal inference discussed.\n0–4\n\n\nOther study constraints (sample size, missing variables, etc.) acknowledged.\n0–2\n\n\n\n\n\nCoverage and Clarity — 25 Points Total\n\n\n\n\n\n\n\nCriteria\nPoints\n\n\n\n\nDescriptive and appropriate title.\n0–1\n\n\nNames of all group members included.\n0–1\n\n\nDataset complete, tidy (rows = observations, columns = variables).\n0–2\n\n\nOrganization and labeled sections clear and professional.\n0–4\n\n\nEdited and proofread (minimal grammar/spelling issues).\n0–4\n\n\nTables and figures labeled, with captions and readable axes.\n0–5\n\n\nWork reproducible; instructor can run notebook with no edits.\n0–4\n\n\nCode interspersed with text for clarity.\n0–4\n\n\n\n\n\nTotal Points\n100 Possible Points\n\n\n\nCategory\nPoints\n\n\n\n\nIntroduction\n10\n\n\nMethods\n20\n\n\nResults\n25\n\n\nDiscussion / Conclusions\n10\n\n\nLimitations\n10\n\n\nCoverage / Clarity\n25\n\n\nTotal\n100"
+    "text": "Assignment Deliverables\nYour preliminary analysis should include the following components:\n\nResearch Question\nRestate your question and provide sufficient background so that all variables are clearly defined.\nSampling Reflection\nDiscuss whether aspects of your sampling may limit generalization to all Islanders.\nVisualizations (3–4 minimum)\n\nEach plot must have accurate and descriptive labels.\n\nInclude at least one plot assessing randomization effectiveness (e.g., demographic balance across treatments).\n\nEach visualization must be followed by at least one interpretive sentence—no “naked plots.” That is, each visualization must have a purpose.\n\nNumerical Summaries\n\nProvide descriptive statistics for relevant variables.\n\nEach table or summary must be followed by explanatory text—no “naked tables.”\n\nRegression Model\n\nInclude output from at least one regression predicting the response variable.\n\nProvide a short interpretation (one or more sentences).\n\nReproducibility\n\nAll analysis must be in a single Quarto document with code integrated into the narrative. DO NOT write all your code at the top and then the text below."
   },
   {
     "objectID": "slides/00-welcome.html#meet-prof.-friedlander",
