@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Prof.&nbsp;Eric Friedlander">
-  <title>MATH 2025 - Fall 2026 – Welcome to MATH 2025!</title>
+  <title>MATH 2025 - Fall 2026 – Multivariate Relationships</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -193,15 +193,13 @@
       margin-right: 0; 
     }
   </style>
-  <link href="../site_libs/countdown-0.6.0/countdown.css" rel="stylesheet">
-  <script src="../site_libs/countdown-0.6.0/countdown.js"></script>
 </head>
 <body class="quarto-light">
   <div class="reveal">
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Welcome to MATH 2025!</h1>
+  <h1 class="title">Multivariate Relationships</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -212,392 +210,216 @@ Prof.&nbsp;Eric Friedlander
 </div>
 
 </section>
-<section>
-<section id="welcome" class="title-slide slide level1 center">
-<h1>Welcome!</h1>
-
-</section>
-<section id="meet-prof.-friedlander" class="slide level2 midi">
-<h2>Meet Prof.&nbsp;Friedlander!</h2>
+<section id="multivariate-relationships" class="slide level2">
+<h2>Multivariate Relationships</h2>
+<div class="appex">
+<p>📋 <a href="../ae/ae-02-multivariate-relationships.html">AE 02 - Multivariate Relationships</a></p>
+</div>
 <ul>
-<li class="fragment">Education and career journey
-<ul>
-<li class="fragment">Grew up outside New York City</li>
-<li class="fragment">BS in Math &amp; Statistics from Rice University (Houston, TX)</li>
-<li class="fragment">Business Analyst at Capital One (Plano, TX)</li>
-<li class="fragment">MS and PhD in Statistics &amp; Operations Research from UNC-Chapel Hill</li>
-<li class="fragment">Postdoc in Population Genetics at University of Chicago</li>
-<li class="fragment">Assistant Professor of Math at St.&nbsp;Norbert College (Green Bay, WI)</li>
-</ul></li>
-<li class="fragment">Work focuses on statistics education, queuing theory, and population genetics</li>
-<li class="fragment">Big sports fan: <strong>2026 NBA Champion NY Knicks</strong>, Giants, Rangers, Yankees, UNC Tarheels</li>
-<li class="fragment">Dad of three cute dogs: Allie, Miriam, Tony</li>
+<li>Complete Exercises 1-5</li>
 </ul>
 </section>
-<section id="meet-prof.-friedlander-1" class="slide level2 midi">
-<h2>Meet Prof.&nbsp;Friedlander!</h2>
-<div class="columns">
-<div class="column">
-<p><img data-src="images/01/IMG_3400.JPG"></p>
-</div><div class="column">
-<p><img data-src="images/og-tip-in.jpg"></p>
-</div></div>
-</section>
-<section id="tell-me-about-yourself" class="slide level2 smaller">
-<h2>Tell me about yourself</h2>
-<p>Send me an email with answers to the following questions following questions:</p>
-<ol type="1">
-<li>What would you like me to call you?</li>
-<li>Why are you taking this class and how are you feeling about it? Be honest… you won’t hurt my feelings.</li>
-<li>Have you taken any statistics courses before (including high school)?</li>
-<li>Have you ever written any code before? If so, in what languages?</li>
-<li>Is there anything else you would like me to know about you? E.g. athlete, preferred pronouns, accommodations, etc…</li>
-<li>What are some song recommendations for the class playlist (nothing that will get me in trouble)?</li>
-</ol>
+<section id="carbohydrates-in-starbucks-food" class="slide level2">
+<h2>Carbohydrates in Starbucks food</h2>
+<ul>
+<li><p>Starbucks often displays the total calories in their food items but not the other nutritional information.</p></li>
+<li><p>Carbohydrates are a body’s main fuel source. The Dietary Guidelines for America recommend that carbohydrates make up 45% to 65% of total daily calories.<sup>1</sup></p></li>
+<li><p>Our goal is to understand the relationship between the amount of carbohydrates and calories in Starbucks food items. We’d also like to assess if the relationship differs based on the type of food item (bakery, salad, sandwich, etc.)</p></li>
+</ul>
+<p>Complete the activity.</p>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>Source: <a href="https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/carbohydrates/art-20045705#:~:text=How%20many%20carbohydrates%20do%20you,grams%20of%20carbs%20a%20day.">Mayo Clinic</a></p></li></ol></aside></section>
+<section id="starbucks-data" class="slide level2 smaller">
+<h2>Starbucks data</h2>
 <div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_cbcb1fab" minutes="5" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">library</span>(openintro)</span>
+<span id="cb1-2"><a></a></span>
+<span id="cb1-3"><a></a>starbucks <span class="ot">&lt;-</span> starbucks <span class="sc">|&gt;</span> </span>
+<span id="cb1-4"><a></a>  <span class="fu">mutate</span>(<span class="at">bakery =</span> <span class="fu">factor</span>(<span class="fu">if_else</span>(type <span class="sc">==</span> <span class="st">"bakery"</span>, <span class="st">"bakery"</span>, <span class="st">"non-bakery"</span>)))</span>
+<span id="cb1-5"><a></a></span>
+<span id="cb1-6"><a></a><span class="fu">glimpse</span>(starbucks)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 77
+Columns: 8
+$ item     &lt;chr&gt; "8-Grain Roll", "Apple Bran Muffin", "Apple Fritter", "Banana…
+$ calories &lt;int&gt; 350, 350, 420, 490, 130, 370, 460, 370, 310, 420, 380, 320, 3…
+$ fat      &lt;dbl&gt; 8, 9, 20, 19, 6, 14, 22, 14, 18, 25, 17, 12, 17, 21, 5, 18, 1…
+$ carb     &lt;int&gt; 67, 64, 59, 75, 17, 47, 61, 55, 32, 39, 51, 53, 34, 57, 52, 7…
+$ fiber    &lt;int&gt; 5, 7, 0, 4, 0, 5, 2, 0, 0, 0, 2, 3, 2, 2, 3, 3, 2, 3, 0, 2, 0…
+$ protein  &lt;int&gt; 10, 6, 5, 7, 0, 6, 7, 6, 5, 7, 4, 6, 5, 5, 12, 7, 8, 6, 0, 10…
+$ type     &lt;fct&gt; bakery, bakery, bakery, bakery, bakery, bakery, bakery, baker…
+$ bakery   &lt;fct&gt; bakery, bakery, bakery, bakery, bakery, bakery, bakery, baker…</code></pre>
 </div>
 </div>
-</section></section>
-<section>
-<section id="statistical-modeling" class="title-slide slide level1 center">
-<h1>Statistical modeling</h1>
-
+<ul>
+<li><strong>Observations</strong>: 77 Starbucks food items</li>
+<li><strong>Variables:</strong>
+<ul>
+<li><code>carb</code>: Total carbohydrates (in grams)</li>
+<li><code>calories</code>: Total calories</li>
+<li><code>bakery</code>: <code>bakery</code>: bakery food item, <code>non-bakery</code>: other food type</li>
+</ul></li>
+</ul>
 </section>
-<section id="what-is-statistics" class="slide level2">
-<h2>What is statistics?</h2>
-<p>Statistics is the study of <strong>variation</strong>. Two primary tasks:</p>
-<ol type="1">
-<li>Explaining variation
+<section id="terminology" class="slide level2">
+<h2>Terminology</h2>
 <ul>
-<li>Why are things different?</li>
-<li>How are things different?</li>
-<li>Are things actually different?</li>
+<li><code>carb</code> is the <strong>response variable</strong>
+<ul>
+<li>variable whose variation we want to understand / variable we wish to predict</li>
+<li>also known as <em>outcome</em> or <em>target</em> variable</li>
 </ul></li>
-<li>Predicting variation
-<ul>
-<li>How different will things be?</li>
-</ul></li>
-</ol>
-</section>
-<section id="what-is-a-model" class="slide level2">
-<h2>What is a model?</h2>
-<ul>
-<li class="fragment">DATA = MODEL + ERROR</li>
-<li class="fragment">DATA = PATTERN + DEPARTURES FROM PATTERN
-<ul>
-<li class="fragment">How do we identify the actual pattern?</li>
-</ul></li>
-<li class="fragment">TOTAL VARIATION = EXPLAINED VARIATION + UNEXPLAINED VARIATION</li>
-<li class="fragment"><strong>GOAL:</strong> Find a model for a relationship between a <strong>response variable</strong> <span class="math inline">\(Y\)</span> and one (or more) <strong>explanatory variables</strong> (<span class="math inline">\(X_1,\ldots,X_k\)</span>)</li>
-<li class="fragment">Models are a simplified but tractable version of reality</li>
 </ul>
 <div class="fragment">
+<ul>
+<li><code>calories</code>, <code>bakery</code> are the <strong>explanatory variables</strong>
+<ul>
+<li>variables used to account for variation in the response</li>
+<li>also known as <em>predictor</em>, or <em>input</em> variables</li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<p>Complete the remainder of the Exercises.</p>
+</div>
+</section>
+<section id="univariate-exploratory-data-analysis" class="slide level2">
+<h2>Univariate exploratory data analysis</h2>
+
+<img data-src="02-multivariate-relationships_files/figure-revealjs/univariate-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
+<section id="bivariate-exploratory-data-analysis" class="slide level2">
+<h2>Bivariate exploratory data analysis</h2>
+
+<img data-src="02-multivariate-relationships_files/figure-revealjs/bivariate-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
+<section id="function-between-response-and-predictors" class="slide level2">
+<h2>Function between response and predictors</h2>
+<div class="goal">
+<p><span class="math display">\[\text{carb} = f(\text{calories}, \text{bakery}) + \epsilon\]</span></p>
+</div>
+<ul>
+<li><strong>Goal</strong>: Determine <span class="math inline">\(f\)</span></li>
+<li>How do we determine <span class="math inline">\(f\)</span>?
+<ul>
+<li>Make an assumption about the functional form <span class="math inline">\(f\)</span> (parametric model)</li>
+<li>Use the data to fit a model based on that form</li>
+</ul></li>
+</ul>
+</section>
+<section id="determine-f" class="slide level2">
+<h2>Determine <span class="math inline">\(f\)</span></h2>
+<ol type="1">
+<li>Choose the functional form of <span class="math inline">\(f\)</span>, i.e., <strong>choose the appropriate model given the response variable</strong></li>
+</ol>
+<ul>
+<li>Suppose <span class="math inline">\(f\)</span> takes the form of a linear model<br>
+<span class="math display">\[y = f(\mathbf{X}) = \beta_0 + \beta_1 x_1 + \dots + \beta_p x_p + \epsilon\]</span></li>
+</ul>
+<div class="fragment">
+<ol start="2" type="1">
+<li>Use the data to fit (or train) the model, i.e, <strong>estimate the model parameters,</strong> <span class="math inline">\(\beta_0, \beta_1, \ldots, \beta_p\)</span></li>
+</ol>
+</div>
+</section>
+<section id="carb-vs.-calories" class="slide level2">
+<h2>Carb vs.&nbsp;Calories</h2>
+
+<img data-src="02-multivariate-relationships_files/figure-revealjs/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><p><span class="math display">\[\text{carb} = \beta_0 + \beta_1 ~\text{calories} + \epsilon\]</span></p>
+</section>
+<section id="carb-vs.-calories-bakery" class="slide level2">
+<h2>Carb vs.&nbsp;Calories + Bakery</h2>
+
+<img data-src="02-multivariate-relationships_files/figure-revealjs/unnamed-chunk-4-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><p><span class="math display">\[\text{carb} = \beta_0 + \beta_1 ~\text{calories} + \beta_2 ~\text{bakery} + \epsilon\]</span></p>
+</section>
+<section id="carb-vs.-calories-bakery-with-interaction" class="slide level2">
+<h2>Carb vs.&nbsp;Calories + Bakery (with interaction)</h2>
+
+<img data-src="02-multivariate-relationships_files/figure-revealjs/unnamed-chunk-5-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><p><span class="math display">\[{\small \text{carb} = \beta_0 + \beta_1 ~\text{calories} + \beta_2 ~\text{bakery} + \beta_3 ~ \text{calories} \times \text{bakery}  + \epsilon}\]</span></p>
+</section>
+<section>
+<section id="simpsons-paradox" class="title-slide slide level1 center">
+<h1>Simpson’s Paradox</h1>
+
+</section>
+<section id="example-palmers-penguins" class="slide level2">
+<h2>Example: Palmer’s Penguins</h2>
+<p>Size measurements, clutch observations, and blood isotope ratios for adult foraging Adélie, Chinstrap, and Gentoo penguins observed on islands in the Palmer Archipelago near Palmer Station, Antarctica.</p>
+
+<img data-src="images/01/culmen_depth.png" class="r-stretch"></section>
+<section id="example-palmers-penguins-1" class="slide level2">
+<h2>Example: Palmer’s Penguins</h2>
+
+<img data-src="02-multivariate-relationships_files/figure-revealjs/unnamed-chunk-6-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><div class="question">
+<p>What does the relationship between Length and Depth look like?</p>
+</div>
+</section>
+<section id="example-palmers-penguins-2" class="slide level2">
+<h2>Example: Palmer’s Penguins</h2>
+
+<img data-src="02-multivariate-relationships_files/figure-revealjs/unnamed-chunk-7-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><div class="question">
+<p>What does the relationship between Length and Depth look like now?</p>
+</div>
+</section>
+<section id="simpsons-paradox-1" class="slide level2">
+<h2>Simpson’s Paradox</h2>
+<p>Simpson’s Paradox is when there is a clear relationship between two variables but when you introduce a third variable that relationship disappears of reverses.</p>
+</section>
+<section id="statistical-model-vs.-regression-equation" class="slide level2 midi">
+<h2>Statistical model vs.&nbsp;regression equation</h2>
+<p><strong>Statistical model (also known as data-generating model)</strong></p>
+<p><span class="math display">\[{\small \text{carb} = \beta_0 + \beta_1 ~\text{calories} + \beta_2 ~\text{bakery} + \beta_3 ~ \text{calories} \times \text{bakery}  + \epsilon}\]</span></p>
+<p>Models the process for generating values of the response in the population (function + error)</p>
+<p><br></p>
+<div class="fragment">
+<p><strong>Regression equation</strong></p>
+<p>Estimate of the function using the sample data</p>
+<p><span class="math display">\[{\small \hat{\text{carb}} = \hat{\beta}_0 + \hat{\beta}_1 ~\text{calories} + \hat{\beta}_2 ~\text{bakery} + \hat{\beta}_3 ~ \text{calories} \times \text{bakery}}\]</span></p>
+</div>
+</section>
+<section id="why-fit-a-model" class="slide level2">
+<h2>Why fit a model?</h2>
+<ul>
+<li><p><strong>Prediction:</strong> Expected value of the response variable for given values of the predictor variables</p></li>
+<li><p><strong>Inference:</strong> Conclusion about the relationship between the response and predictor variables</p></li>
+</ul>
 <div class="question">
-<p>What are <em>response</em> and <em>explanatory</em> variables?</p>
-</div>
-</div>
-</section>
-<section id="geoge-e.-p.-box" class="slide level2">
-<h2>Geoge E. P. Box</h2>
-<div class="columns">
-<div class="column">
 <ul>
-<li>From Wikipedia: British statistician, who worked in the areas of quality control, time-series analysis, design of experiments, and Bayesian inference. He has been called “one of the great statistical minds of the 20th century”.</li>
-<li>“all models are wrong, but some are useful”</li>
+<li><p>What is an example of a <strong>prediction</strong> question that can be answered using the model of carb vs.&nbsp;calories and bakery?</p></li>
+<li><p>What is an example of an <strong>inference</strong> question that can be answered using the model of carb vs.&nbsp;calories and bakery?</p></li>
 </ul>
-</div><div class="column">
-<p><img data-src="images/01/GeorgeEPBox.jpg"></p>
-</div></div>
+</div>
 </section>
-<section id="why-build-a-model" class="slide level2">
-<h2>Why build a model?</h2>
-<ol type="1">
-<li>Making predictions</li>
-<li>Understanding relationships</li>
-<li>Assessing differences</li>
-</ol>
-</section>
-<section id="activity" class="slide level2">
-<h2>Activity!</h2>
+<section id="recap" class="slide level2 midi">
+<h2>Recap</h2>
 <ul>
-<li>Get in groups</li>
-<li>You have 10 minutes</li>
-<li>Goal: estimate the are of the state of California (closest team wins)</li>
-<li>You may only use Google Maps and the “Measure Distance” tool</li>
+<li><p>We can use exploratory data analysis to describe the relationship between two variables</p></li>
+<li><p>We make an assumption about the relationship between variables when doing linear regression</p></li>
+<li><p>The two main objectives for fitting a linear regression model are (1) prediction and (2) inference</p></li>
 </ul>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>countdown<span class="sc">::</span><span class="fu">countdown</span>(<span class="at">minutes=</span><span class="dv">10</span>L)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_21420dac" minutes="10" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
-</div>
-</div>
 </section>
-<section id="what-is-regression-analysis" class="slide level2">
-<h2>What is regression analysis?</h2>
-<div style="font-size: 0.85em;">
-<blockquote>
-<p>“In statistical modeling, regression analysis is a set of statistical processes for estimating the relationships among variables. It includes many techniques for modeling and analyzing several variables, when <strong><em>the focus is on the relationship between a dependent variable and one or more independent variables (or ‘predictors’)</em></strong>. More specifically, regression analysis helps one understand how the typical value of the dependent variable (or ‘criterion variable’) changes when any one of the independent variables is varied, while the other independent variables are held fixed.”</p>
-</blockquote>
-<p>Source: <a href="https://en.wikipedia.org/wiki/Regression_analysis">Wikipedia</a> (previous definition)</p>
-</div>
-<p>Note: I don’t really like the terms “independent” and “dependent” variables</p>
-</section></section>
-<section>
-<section id="math-2025" class="title-slide slide level1 center">
-<h1>MATH 2025</h1>
-
-</section>
-<section id="course-faq" class="slide level2 smaller">
-<h2>Course FAQ</h2>
-<p><strong>Q - What background is assumed for the course?</strong></p>
-<p>A - Introductory statistics or previous experience with mathematics at a level that would allow you to learn intro stats concepts relatively easily</p>
-<div class="fragment">
-<p><strong>Q - Will we be doing computing?</strong></p>
-<p>A - Yes. We will use the computing language R for analysis and Quarto for writing up results.</p>
-</div>
-<div class="fragment">
-<p><strong>Q - Am I expected to have experience using any of these tools?</strong></p>
-<p>A - No.&nbsp;I do not expect you to have any exposure to R and certainly not Quarto.</p>
-</div>
-<div class="fragment">
-<p><strong>Q - Will we learn the mathematical theory of regression?</strong></p>
-<p>A - Yes and No.&nbsp;The course is primarily focused on application; however, we will discuss some of the mathematics of simple linear regression.</p>
-</div>
-<div class="fragment">
-<p><strong>Q - How much time should I be spending on this class?</strong></p>
-<p>A - This is a 4-credit class that meets for 75 minutes, twice a week. That means that you should be spending approximately 9 hours <em>per week</em> working on this course (i.e.&nbsp;6.5 hours outside of class)</p>
-</div>
-</section>
-<section id="course-learning-objectives" class="slide level2 midi">
-<h2>Course learning objectives</h2>
-<p>By the end of the semester, you will be able to…</p>
+<section id="to-do" class="slide level2">
+<h2>To-Do</h2>
 <ul>
-<li>analyze real-world data to answer questions about multivariable relationships.</li>
-<li>use R to fit and evaluate linear and logistic regression models.</li>
-<li>assess whether a proposed model is appropriate and describe its limitations.</li>
-<li>use Quarto to write reproducible reports.</li>
-<li>effectively communicate statistical results through writing and oral presentations.</li>
-</ul>
-</section></section>
-<section>
-<section id="course-overview" class="title-slide slide level1 center">
-<h1>Course overview</h1>
-
-</section>
-<section id="course-toolkit" class="slide level2 midi">
-<h2>Course toolkit</h2>
+<li>For Wednesday
 <ul>
-<li><strong>Course website</strong>: <a href="https://ericfriedlander.github.io/math2025-fa26">ericfriedlander.github.io/math2025-fa26</a>
-<ul>
-<li>Central hub for the course!</li>
-<li><strong>Tour of the website</strong></li>
+<li>Complete and submit AE 02</li>
+<li>Completed readings</li>
 </ul></li>
-<li><strong>Canvas</strong>: <a href="https://cofi.instructure.com/">cofi.instructure.com</a>
+<li>For Friday, Sep 18
 <ul>
-<li>Gradebook</li>
-<li>Assignment submissions</li>
-<li>Announcements</li>
+<li>HW 01</li>
 </ul></li>
 </ul>
-</section>
-<section id="computing-toolkit" class="slide level2">
-<h2>Computing toolkit</h2>
-<div class="fragment" data-fragment-index="1">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/01/rstudio.png" class="quarto-figure quarto-figure-center" style="width:5.61in;height:1.6in" alt="RStudio logo"></p>
-</figure>
-</div>
-</div>
-<div class="fragment" data-fragment-index="2">
-<ul>
-<li><p>All analyses using R, a statistical programming language</p></li>
-<li><p>Write reproducible reports in Quarto</p></li>
-<li><p>Access RStudio through <a href="https://rstudio.collegeofidaho.edu/">College of Idaho Posit Workbench</a></p>
-<ul>
-<li><pre><code>Use your College of Idaho email and password</code></pre></li>
-</ul></li>
-</ul>
-</div>
-<div class="fragment" data-fragment-index="3">
-<ul>
-<li><del>Sign into RStudio!</del> Currently under maintenance… will use on Monday.</li>
-</ul>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_d889ff39" minutes="3" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
-</div>
-</div>
-</div>
-</section></section>
-<section>
-<section id="activities-assessments" class="title-slide slide level1 center">
-<h1>Activities + assessments</h1>
-
-</section>
-<section id="prepare-participate-practice-perform" class="slide level2">
-<h2>Prepare, Participate, Practice, Perform</h2>
-<div class="small">
-<ul>
-<li class="fragment"><p><strong>Prepare:</strong> Introduce new content and prepare for lectures by completing the readings (and sometimes watching videos)</p></li>
-<li class="fragment"><p><strong>Participate:</strong> Attend and actively participate in lectures, office hours, team meetings</p></li>
-<li class="fragment"><p><strong>Practice:</strong> Practice applying statistical concepts and computing with application exercises during lecture, graded for completion</p></li>
-<li class="fragment"><p><strong>Perform:</strong> Put together what you’ve learned to analyze real-world data</p>
-<ul>
-<li class="fragment"><p>Homework assignments (individual)</p></li>
-<li class="fragment"><p>Two exams</p></li>
-<li class="fragment"><p>Final group project</p></li>
-</ul></li>
-</ul>
-</div>
-</section>
-<section id="grading" class="slide level2 smaller">
-<h2>Grading</h2>
-<center>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Category</th>
-<th>Percentage</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Homework</td>
-<td>15%</td>
-</tr>
-<tr class="even">
-<td>Final Project</td>
-<td>25%</td>
-</tr>
-<tr class="odd">
-<td>Exam 01</td>
-<td>25%</td>
-</tr>
-<tr class="even">
-<td>Exam 02</td>
-<td>25%</td>
-</tr>
-<tr class="odd">
-<td>Application Exercises</td>
-<td>10%</td>
-</tr>
-</tbody>
-</table>
-<p>See the <a href="https://ericfriedlander.github.io/math2025-fa26/syllabus">syllabus</a> for details on how the final letter grade will be calculated.</p>
-</center></section>
-<section id="support" class="slide level2">
-<h2>Support</h2>
-<ul>
-<li>Attend office hours to meet with Prof.&nbsp;Friedlander (Boone 126B)
-<ul>
-<li>Tue &amp; Wed 2:15pm - 3:45pm, Thu 3:00pm - 4:00pm</li>
-</ul></li>
-<li>Use email for questions regarding personal matters and/or grades</li>
-<li>See the <a href="https://ericfriedlander.github.io/math2025-fa26/support">Course Support</a> page for more details</li>
-</ul>
-</section></section>
-<section>
-<section id="course-policies" class="title-slide slide level1 center">
-<h1>Course policies</h1>
-
-</section>
-<section id="late-homework" class="slide level2">
-<h2>Late Homework</h2>
-<ul>
-<li>There will be a 5% deduction for each 24-hour period the assignment is late for the first two days. After 2 days, students will receive a 30% reduction. No homework will be accepted after it is returned to the class.</li>
-</ul>
-</section>
-<section id="late-application-exercises" class="slide level2">
-<h2>Late Application Exercises</h2>
-<p>AEs are due the class after they are assigned. No late work is accepted for application exercises, since these are designed as in-class activities to help you prepare for homework.</p>
-</section>
-<section id="school-sponsored-events" class="slide level2">
-<h2>School-Sponsored Events</h2>
-<ul>
-<li>If an application exercise, exam, or project must be missed due to a school-sponsored event, you must let me know at least a week ahead of time so that we can schedule a time for you to make up the work before you leave. If you must miss an exam or a project presentation due to illness, you must let me know before class that day so that we can schedule a time for you to take a make-up. Failure to adhere to this policy will result in a 35% penalty on the corresponding assignment.</li>
-</ul>
-</section>
-<section id="academic-integrity" class="slide level2 smaller">
-<h2>Academic integrity</h2>
-<blockquote>
-<p>The College of Idaho maintains that academic honesty and integrity are essential values in the educational process. Operating under an Honor Code philosophy, the College expects conduct rooted in honesty, integrity, and understanding, allowing members of a diverse student body to live together and interact and learn from one another in ways that protect both personal freedom and community standards. Violations of academic honesty are addressed primarily by the instructor and may be referred to the <a href="https://collegeofidaho.smartcatalogiq.com/en/current/Undergraduate-Catalog/Policies-and-Procedures/Academic-Misconduct">Student Judicial Board</a>.</p>
-</blockquote>
-<p>By participating in this course, you are agreeing that all your work and conduct will be in accordance with the College of Idaho Honor Code.</p>
-</section>
-<section id="collaboration-sharing-code" class="slide level2">
-<h2>Collaboration &amp; sharing code</h2>
-<ul>
-<li><p>I have policies!</p></li>
-<li><p>Let’s read about them in the <a href="../syllabus.html#academic-honesty">Academic honesty</a> section of the syllabus</p></li>
-</ul>
-</section>
-<section id="use-of-artificial-intelligence-ai" class="slide level2 midi">
-<h2>Use of artificial intelligence (AI)</h2>
-<ul>
-<li>Class discussion</li>
-<li>Break into groups of three and find a space on the board</li>
-<li>Discuss the following questions:
-<ul>
-<li>How well do you understand what generative AI is and what it is doing?</li>
-<li>What skills do you think will be less important in the future due to AI?</li>
-<li>What skills do you think are enduring?</li>
-<li>What do you think the course policy should be around AI use?</li>
-</ul></li>
-</ul>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>countdown<span class="sc">::</span><span class="fu">countdown</span>(<span class="at">minutes=</span><span class="dv">10</span>L)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_a54a8dcf" minutes="10" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
-</div>
-</div>
-</section></section>
-<section>
-<section id="having-a-successful-semester-in-math-2025" class="title-slide slide level1 center">
-<h1>Having a successful semester in MATH 2025</h1>
-
-</section>
-<section id="five-tips-for-success" class="slide level2">
-<h2>Five tips for success</h2>
-<ol type="1">
-<li><p>Complete all the preparation work (readings and videos) before class.</p></li>
-<li><p>Ask questions and come to office hours.</p></li>
-<li><p>Start your work (homework and projects) early!</p></li>
-<li><p>Don’t procrastinate and don’t let a day pass by with lingering questions.</p></li>
-<li><p>Stay up-to-date on announcements on Canvas and sent via email.</p></li>
-</ol>
-</section>
-<section id="what-should-i-know-about-this-class" class="slide level2">
-<h2>What should I know about this class</h2>
-<ul>
-<li><p>Steep learning curve in the beginning… stick with it! I promise you can do it!</p></li>
-<li><p>More writing than you probably expected… it is not enough for Dr.&nbsp;F to know what you mean to say… you must say that! Dr F. always asks: “If this student said this in a job interview, would they get hired?”</p></li>
-<li><p>In statistics, there is rarely one RIGHT answer… it’s all about extracting information from data to make arguments</p></li>
-</ul>
-</section>
-<section id="dr.-fs-biggest-pet-peeve" class="slide level2">
-<h2>Dr.&nbsp;F’s Biggest Pet Peeve</h2>
-<ul>
-<li>Showing up late to class</li>
-</ul>
-</section></section>
-<section>
-<section id="questions" class="title-slide slide level1 center">
-<h1>Questions?</h1>
-<p>What questions do we have?</p>
 </section>
 <section id="references" class="slide level2">
 <h2>References</h2>
 
 
 </section></section>
+
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <p><img src="../images/logo.png" class="slide-logo"></p>
 <div class="footer footer-default">
-<p><a href="https://ericfriedlander.github.io/math2025-fa26/">🔗 MATH 2025 - Fall 2026 - Schedule</a></p>
+<p><a href="https://ericfriedlander.github.io/math2025-fa26/schedule">🔗 MATH 2025 - Fall 2026 - Schedule</a></p>
 </div>
 </div></div>
 
