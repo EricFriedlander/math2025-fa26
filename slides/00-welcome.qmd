@@ -56,25 +56,31 @@ ggplot2::theme_set(ggplot2::theme_bw(base_size = 16))
     -   Postdoc in Population Genetics at University of Chicago
     -   Assistant Professor of Math at St. Norbert College (Green Bay, WI)
 -   Work focuses on statistics education, queuing theory, and population genetics
--   Big sports fan: NY Knicks, Giants, Rangers, Yankees, UNC Tarheels
+-   Big sports fan: **2026 NBA Champion NY Knicks**, Giants, Rangers, Yankees, UNC Tarheels
 -   Dad of three cute dogs: Allie, Miriam, Tony
 :::
 
 ## Meet Prof. Friedlander! {.midi}
 
+::::{.columns}
+:::{.column}
 ![](images/01/IMG_3400.JPG)
+:::
+:::{.column}
+![](images/og-tip-in.jpg)
+:::
+::::
 
 ## Tell me about yourself {.smaller}
 
 Send me an email with answers to the following questions following questions:
 
 1. What would you like me to call you?
-2. Why are you taking this class?
-3. How are you feeling about taking this class? Be honest... you won't hurt my feelings.
-4. Have you taken any statistics courses before (including high school)?
-5. Have you ever written any code before? If so, in what lanuages?
-6. Is there anything else you would like me to know about you? E.g. athlete, preferred pronouns, accommodations, etc...
-7. What are some song recommendations for the class playlist (nothing that will get me in trouble)?
+2. Why are you taking this class and how are you feeling about it? Be honest... you won't hurt my feelings.
+3. Have you taken any statistics courses before (including high school)?
+4. Have you ever written any code before? If so, in what languages?
+5. Is there anything else you would like me to know about you? E.g. athlete, preferred pronouns, accommodations, etc...
+6. What are some song recommendations for the class playlist (nothing that will get me in trouble)?
 
 ```{r}
 #| echo: FALSE
@@ -84,16 +90,29 @@ countdown::countdown(minutes = 5L)
 
 # Statistical modeling
 
+## What is statistics?
+
+Statistics is the study of **variation**. Two primary tasks:
+
+1. Explaining variation
+    - Why are things different?
+    - How are things different?
+    - Are things actually different?
+2. Predicting variation
+    - How different will things be?
+
 ## What is a model?
 
 :::{.incremental}
 - DATA = MODEL + ERROR
 - DATA = PATTERN + DEPARTURES FROM PATTERN
   - How do we identify the actual pattern?
-- **GOAL:** Find a model for a relationship between a **response/outcome/target variable** $Y$ and one (or more) **explanatory/predictor variables** ($X_1,\ldots,X_k$)
+- TOTAL VARIATION = EXPLAINED VARIATION + UNEXPLAINED VARIATION
+- **GOAL:** Find a model for a relationship between a **response variable** $Y$ and one (or more) **explanatory variables** ($X_1,\ldots,X_k$)
 - Models are a simplified but tractable version of reality
 :::
 
+. . .
 
 :::{.question}
 What are *response* and *explanatory* variables?
@@ -116,6 +135,17 @@ What are *response* and *explanatory* variables?
 1. Making predictions
 2. Understanding relationships
 3. Assessing differences
+
+## Activity!
+
+- Get in groups
+- You have 10 minutes
+- Goal: estimate the are of the state of California (closest team wins)
+- You may only use Google Maps and the "Measure Distance" tool
+
+```{r}
+countdown::countdown(minutes=10L)
+```
 
 ## What is regression analysis?
 
@@ -287,6 +317,9 @@ By participating in this course, you are agreeing that all your work and conduct
     -   What skills do you think are enduring?
     -   What do you think the course policy should be around AI use?
 
+```{r}
+countdown::countdown(minutes=10L)
+```
 
 # Having a successful semester in MATH 2025
 
@@ -294,7 +327,7 @@ By participating in this course, you are agreeing that all your work and conduct
 
 1.  Complete all the preparation work (readings and videos) before class.
 
-2.  Ask questions.
+2.  Ask questions and come to office hours.
 
 3.  Start your work (homework and projects) early!
 
