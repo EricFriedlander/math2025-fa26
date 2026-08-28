@@ -318,6 +318,7 @@ By participating in this course, you are agreeing that all your work and conduct
     -   What do you think the course policy should be around AI use?
 
 ```{r}
+#| echo: FALSE
 countdown::countdown(minutes=10L)
 ```
 

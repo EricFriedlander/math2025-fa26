@@ -3,22 +3,22 @@ title: "The Big Picture"
 author: "Prof. Eric Friedlander"
 footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/)"
 logo: "../images/logo.png"
-format: 
+format:
   revealjs:
     theme: slides.scss
     multiplex: false
     transition: fade
     slide-number: false
-    incremental: false 
+    incremental: false
     chalkboard: true
 execute:
   freeze: auto
   echo: true
 knitr:
-  opts_chunk: 
-    R.options:      
+  opts_chunk:
+    R.options:
     width: 200
-bibliography: references.bib  
+bibliography: references.bib
 ---
 
 ```{r}
@@ -63,13 +63,24 @@ Source: [*R for Data Science*](https://r4ds.hadley.nz/)
 
 # Reproducibility
 
-## Reproducibility checklist
+## What is reproducibility?
+
+Discuss the following questions in groups:
 
 ::: question
-What does it mean for an analysis to be reproducible?
+1. What does it mean for an analysis to be reproducible?
+2. Why do you think repoducibility is important?
+3. Why do you think people don't prioritize reproducibility?
 :::
 
-. . .
+
+```{r}
+#| echo: FALSE
+countdown::countdown(minutes = 6L)
+```
+
+## Reproducibility checklist
+
 
 **Near term goals**:
 
@@ -112,12 +123,11 @@ Source: @ostblom2022
 
 ## Toolkit
 
--   **Scriptability** $\rightarrow$ R
-
--   **Literate programming** (code, narrative, output in one place) $\rightarrow$ Quarto
-
--   **Version control** $\rightarrow$ Git / GitHub (Beyond the scope of this course)
-
+-   This class:
+    -   **Scriptability** $\rightarrow$ R
+    -   **Literate programming** (code, narrative, output in one place) $\rightarrow$ Quarto
+-   Beyond the scope of this course (but important):
+    -   **Version control** $\rightarrow$ Git / GitHub
 
 ## R and RStudio
 
@@ -157,16 +167,23 @@ Let's all sign into [RStudio]({{< var rstudio_url >}}) using our CofI email addr
 
 Any time we are working on AEs, I will randomly assign you to groups of two or three. Each person will have a role:
 
-- **Coder:** 
+- **Coder:**
     +   Shares screen and is the only person to type.
     +   Runs code, saves work, and makes the submission.
     +   Reads comments back when asked and asks for clarification when unsure.
-- **Developer:**  
+- **Developer:**
     +   Directs the next steps: explains intent, outlines logic, and points out likely errors.
     +   Watches output, reads error messages aloud, and suggests targeted fixes.
-- **Communicator:** 
+- **Communicator:**
     +   Looks up help when needed.
     +   Reports group answers to the class.
+
+## Today will be different
+
+- I want everyone to get experience using R so everyone is all three roles
+- Two options:
+    - Guided: Dr. F will work through the activity live
+    - Self-paced: You can work through the activity at your own pace in the back of the classroom or just outside the classroom
 
 # Getting Started
 
@@ -191,6 +208,3 @@ Complete the activity.
 - Complete readings
 
 ## References
-
-
-

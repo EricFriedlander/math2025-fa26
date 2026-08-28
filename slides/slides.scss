@@ -3,14 +3,49 @@
 // fonts
 @import 'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap';
 
-$font-family-sans-serif: "Open Sans", sans-serif;
-$presentation-heading-color: #412d5e;
+$font-family-sans-serif: "Atkinson Hyperlegible", sans-serif;
 $presentation-title-slide-text-align: "left";
-$presentation-font-size-root: 36px;
 $code-block-font-size: 0.7em;
-$link-color: #a49363;
+
+// Brand palette (see ../style/dark.scss for the site-wide source of truth)
+$coyote-purple: #533860;
+$coyote-purple-dark: #412d5e;
+$coyote-gold: #FFCB70;
+
+$body-bg: #ffffff;
+$body-color: #2b2230; // near-black, warmed slightly toward the purple
+$link-color: $coyote-purple;
+$code-color: $coyote-purple-dark;
+
+// Headings in Coyote Purple, no uppercase transform (Atkinson Hyperlegible
+// reads better in mixed case; uppercase defeats some of its legibility gains)
+$presentation-heading-font: $font-family-sans-serif;
+$presentation-heading-color: $coyote-purple;
+$presentation-heading-font-weight: 700;
+$presentation-heading-text-transform: none;
+$presentation-heading-letter-spacing: normal;
+
+$presentation-font-size-root: 32px;
 
 /*-- scss:rules --*/
+
+// Logo: sits in the bottom corner; keep it modest in size so it doesn't
+// compete with content.
+.reveal .slide-logo {
+  max-height: 45px;
+  opacity: 0.95;
+}
+
+// Footer link color matches the site's link treatment
+.reveal .footer a {
+  color: $coyote-purple;
+}
+
+// Blockquotes / asides pick up a touch of the brand purple instead of the
+// reveal.js default gray, for visual consistency with the site
+.reveal blockquote {
+  border-left-color: $coyote-purple;
+}
 
 details>summary {
   font-size: 0.75em;
@@ -121,7 +156,6 @@ font-size: 0.85em;
   white-space: pre;
 }
 
-.strong .b{ 
+.strong .b{
   color: orange ;
 }
-

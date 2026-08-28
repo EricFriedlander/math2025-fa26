@@ -1,0 +1,28 @@
+/*-- scss:defaults --*/
+
+// Base document colors
+$body-bg: #533860;
+$body-color: white;
+$link-color: #FFCB70;
+
+$light: #533860;
+
+// Navigation element colors
+$footer-bg: #412d5e;
+$navbar-bg: #543A61;
+$sidebar-bg: #533860;
+
+// Bootstrap popovers
+$popover-bg: #242424;
+
+// Bootstrap inputs
+$input-bg: #242424;
+
+
+/*-- scss:rules --*/
+
+/* remove after https://github.com/quarto-dev/quarto-cli/pull/8193/files is merged */
+
+#quarto-content > #quarto-sidebar-glass {
+  padding-top: 0px;
+}

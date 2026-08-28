@@ -1,0 +1,60 @@
+/* Exercise / answer boxes for AEs and homeworks.
+   Canonical source: copy this whole file into the include-in-header <style>
+   block of any AE/HW .qmd so it still renders correctly when students
+   download and render it standalone outside this project. */
+
+body { counter-reset: exercise; }
+
+.exercise, .answer {
+  border-left: 4px solid #533860;
+  padding: .6em 1em;
+  margin: 1em 0;
+  border-radius: 4px;
+}
+
+.exercise {
+  background: #f2eef5;
+}
+
+.exercise::before {
+  counter-increment: exercise;
+  content: "Exercise " counter(exercise);
+  display: block;
+  font-weight: 700;
+  color: #533860;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  font-size: .85em;
+  margin-bottom: .35em;
+}
+
+.answer {
+  background: transparent;
+  border-left-color: #a49363;
+  border-left-style: dashed;
+  min-height: 3.5em;
+}
+
+.answer::before {
+  content: "Your answer";
+  display: block;
+  font-weight: 700;
+  color: #8a7a4f;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  font-size: .85em;
+  margin-bottom: .35em;
+}
+
+.quarto-dark .exercise {
+  background: rgba(255, 255, 255, .08);
+  border-left-color: #FFCB70;
+}
+
+.quarto-dark .exercise::before {
+  color: #FFCB70;
+}
+
+.quarto-dark .answer::before {
+  color: #ffd283;
+}

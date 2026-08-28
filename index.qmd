@@ -2,104 +2,55 @@
 title: "Schedule"
 navbar: false
 editor: source
-freeze: false
 ---
 
 *This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses, with all changes documented here.*
 
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-
-library(readxl)
-library(gt)
-library(tidyverse)
-# gs4_deauth()
-d <- read_excel("schedule.xlsx")
-```
-
 ::: column-screen-right
-```{r}
-#| echo: false
-
-d |>
-  filter(Publish == "x") |> 
-  select(-Publish, -`Eric's Notes`) |>
-  mutate(
-    date = as.Date(date),
-    lecture = ifelse(is.na(lecture), "", lecture)
-  ) |>
-  gt() |>
-  text_transform(cells_body(columns = c(prepare)),
-    fn = function(x) {
-      ifelse(is.na(x), fontawesome::fa("book", fill_opacity = 0.1),
-        glue::glue("<a href = {x}>{fontawesome::fa('book')}</a>")
-      )
-    }
-  ) |>
-  text_transform(cells_body(columns = c(slides)),
-    fn = function(x) {
-      ifelse(is.na(x), fontawesome::fa("laptop", fill_opacity = 0.1),
-        glue::glue("<a href = {x}>{fontawesome::fa('laptop')}</a>")
-      )
-    }
-  ) |>
-  text_transform(cells_body(columns = c(ae)),
-    fn = function(x) {
-      ifelse(is.na(x), fontawesome::fa("users", fill_opacity = 0.1),
-        glue::glue("<a href = {x}>{fontawesome::fa('users')}</a>")
-      )
-    }
-  ) |>
-  text_transform(cells_body(columns = c(hw)),
-    fn = function(x) {
-      ifelse(is.na(x), fontawesome::fa("pen-to-square", fill_opacity = 0.1),
-        glue::glue("<a href = {x}>{fontawesome::fa('pen-to-square')}</a>")
-      )
-    }
-  ) |>
-  # text_transform(cells_body(columns = c(lab)),
-  #   fn = function(x) {
-  #     ifelse(is.na(x), fontawesome::fa("file-code", fill_opacity = 0.1),
-  #       glue::glue("<a href = {x}>{fontawesome::fa('file-code')}</a>")
-  #     )
-  #   }
-  # ) |>
-  # text_transform(cells_body(columns = c(exam)),
-  #   fn = function(x) {
-  #     ifelse(is.na(x), fontawesome::fa("square-check", fill_opacity = 0.1),
-  #       glue::glue("<a href = {x}>{fontawesome::fa('square-check')}</a>")
-  #     )
-  #   }
-  # ) |>
-  text_transform(cells_body(columns = c(project)),
-    fn = function(x) {
-      ifelse(is.na(x), fontawesome::fa("chart-line", fill_opacity = 0.1),
-        glue::glue("<a href = {x}>{fontawesome::fa('chart-line')}</a>")
-      )
-    }
-  ) |>
-  fmt_date(date, date_style = 30) |>
-  sub_missing(columns = c(date, topic, notes), missing_text = "") |>
-  cols_align(
-    align = "center", 
-    columns = c(lecture, dow, prepare, slides, ae, hw,project)
-    ) |>
-  cols_align(
-    align = "left", 
-    columns = c(date, topic, notes)
-    ) |>
-  tab_style(
-    style = cell_borders(
-      sides = "right",
-      color = "#D3D3D3",
-      style = "solid"
-    ),
-    locations = cells_body(
-      columns = c(date, topic, prepare,project)
-    )
-  )
-
-```
+| Lecture | DOW | Date | Topic | Prepare | Slides | AE | HW | Project | Notes |
+|:---:|:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|:---|
+| 0 | W | Aug 26 | Welcome to MATH 2025! | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}](/slides/00-welcome.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} | Welcome! |
+| 1 | M | Aug 31 | The Big Picture | [{{< fa book >}}](/prepare/prep-01.qmd) | [{{< fa laptop >}}](/slides/01-big-picture.qmd) | [{{< fa users >}}](/ae/ae-01-getting-started.qmd) | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} | Our first AE! |
+<!-- | 2 | W | Sep 2 | Multivariate Relationships | [{{< fa book >}}](/prepare/prep-02.qmd) | [{{< fa laptop >}}](/slides/02-multivariate-relationships.qmd) | [{{< fa users >}}](/ae/ae-02-multivariate-relationships.qmd) | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- |  | M | Sep 7 | No Class - Labor Day | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} | Labor Day - No Classes | -->
+<!-- | 3 | W | Sep 9 | Introduction to Simple Linear Regression | [{{< fa book >}}](/prepare/prep-03.qmd) | [{{< fa laptop >}}](/slides/03-slr-intro.qmd) | [{{< fa users >}}](/ae/ae-03-bikeshare.qmd) | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 4 | M | Sep 14 | Prediction and Testing | [{{< fa book >}}](/prepare/prep-04.qmd) | [{{< fa laptop >}}](/slides/04-slr-fit-prediction.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 5 | W | Sep 16 | Hypothesis Testing | [{{< fa book >}}](/prepare/prep-05.qmd) | [{{< fa laptop >}}](/slides/05-slr-hypothesis-testing.qmd) | [{{< fa users >}}](/ae/ae-05-sbi-ht.qmd) | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- |  | F | Sep 18 | Homework 1 Due | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}](/hw/hw-01.qmd) | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 6 | M | Sep 21 | Hypothesis Testing and Intervals | [{{< fa book >}}](/prepare/prep-06.qmd) | [{{< fa laptop >}}](/slides/05-slr-hypothesis-testing.qmd) | [{{< fa users >}}](/ae/ae-05-sbi-ht.qmd) | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 7 | W | Sep 23 | Confidence Intervals | [{{< fa book >}}](/prepare/prep-06.qmd) | [{{< fa laptop >}}](/slides/06-slr-confidence-intervals.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- |  | F | Sep 25 | Homework 2 Due | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}](/hw/hw-02.qmd) | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 8 | M | Sep 28 | Mathematical Models for Inference | [{{< fa book >}}](/prepare/prep-07.qmd) | [{{< fa laptop >}}](/slides/07-slr-math-models.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 9 | W | Sep 30 | Mathematical Models for Inference (Continued) | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}](/slides/07-slr-math-models.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- |  | F | Oct 2 | Homework 3 Due | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}](/hw/hw-03.qmd) | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 10 | M | Oct 5 | Prediction and Conditions | [{{< fa book >}}](/prepare/prep-08.qmd) | [{{< fa laptop >}}](/slides/08-slr-prediction-conditions.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 11 | W | Oct 7 | Prediction and Conditions | [{{< fa book >}}](/prepare/prep-08.qmd) | [{{< fa laptop >}}](/slides/08-slr-prediction-conditions.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- |  | F | Oct 9 | Homework 4 Due | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}](/hw/hw-04.qmd) | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 12 | M | Oct 12 | Exam Review | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}](/slides/09-exam-01-review.qmd) | [{{< fa users >}}](/ae/ae-09-exam01-handwritten.qmd) | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 13 | W | Oct 14 | Exam 1 | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 14 | M | Oct 19 | Model Evaluation and ANOVA | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}](/slides/10-model-eval.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 15 | W | Oct 21 | Transformations | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}](/slides/11-slr-transformations.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- |  | F | Oct 23 | Homework 5 Due | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}](/hw/hw-05.qmd) | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 16 | M | Oct 26 | Outliers | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}](/slides/12-slr-outliers.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 17 | W | Oct 28 | MLR | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}](/slides/13-mlr.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- |  | F | Oct 30 | Homework 6 Due | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}](/hw/hw-06.qmd) | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 18 | M | Nov 2 | Categorical Predictors | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}](/slides/14-categorical-predictors.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 19 | W | Nov 4 | MLR: Inference | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}](/slides/15-mlr-inference.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}](/project/project-pilot.qmd) | Project 1: Pilot due | -->
+<!-- | 20 | M | Nov 9 | MLR: Conditions | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}](/slides/16-mlr-conditions.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 21 | W | Nov 11 | MLR Conditions Cont. | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}](/slides/16-mlr-conditions.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}](/project/project-power.qmd) | Project 2: Power due | -->
+<!-- |  | F | Nov 13 | Homework 7 Due | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}](/hw/hw-07.qmd) | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 22 | M | Nov 16 | Multicollinearity | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}](/slides/17-multicollinearity.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 23 | W | Nov 18 | Model Evaluation | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}](/slides/18-comparison.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}](/project/project-preliminary.qmd) | Project 3: Preliminary Analysis due | -->
+<!-- | x | M | Nov 23 | No Class Thanksgiving Break | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | x | W | Nov 25 | No Class Thanksgiving Break | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | 24 | M | Nov 30 | Final Exam Review | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}](/slides/19-exam-02-review.qmd) | [{{< fa users >}}](/ae/ae-19-Exam2-practice.qmd) | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}](/project/project-draft.qmd) | Project 4: Full draft due | -->
+<!-- | 25 | W | Dec 2 | Exam 2 | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+<!-- | Final | W | Dec 7 | Poster Session | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}](/project/project-poster.qmd) | Final examination period, Dec 7-10 - exact slot TBD. Project 5: Final project + poster due. | -->
 :::
+
+<!--
+Publishing a row: find its line above (it starts with `<!--` and ends with
+`-->`), delete those two markers, and it joins the table above. Rows stay in
+date order and commented rows sit contiguously right below the published
+ones, so uncommenting the next row never requires moving it.
+-->

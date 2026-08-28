@@ -1,0 +1,45 @@
+/*-- scss:defaults --*/
+
+@import 'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap';
+
+$font-family: "Atkinson Hyperlegible", sans-serif;
+
+$primary: #412d5e;
+$secondary: #533860;
+$link-color: #a49363;
+
+/*-- scss:rules --*/
+
+/* Dimmed Font Awesome icon used in the schedule table for not-yet-linked
+   items (mirrors the old gt fill_opacity = 0.1 look). */
+.fa-dim {
+  opacity: 0.15;
+}
+
+/* Sidebar background is always Coyote Purple in both themes, so force the
+   dark-mode (light-on-purple) colors for the tool icons and the active page
+   link. Without this, the light theme colors them dark-on-purple. */
+
+// Tool icons under the logo (RStudio link, Canvas link, dark-mode toggle).
+// Scoped to .sidebar-navigation so this beats Bootstrap's higher-specificity
+// ".sidebar-navigation a { color: inherit }" rule.
+.sidebar-navigation .quarto-navigation-tool {
+  color: #ded9e1;
+}
+
+// Selected / active page in the sidebar
+div.sidebar-item-container .active,
+div.sidebar-item-container .show > .nav-link,
+div.sidebar-item-container .sidebar-link > code {
+  color: #f0b13d;
+}
+
+// Dark-mode toggle icon: its color comes from an SVG `fill` baked into a
+// background-image data URI, not `color`, so the .quarto-navigation-tool
+// override above has no effect on it. Re-declare with the dark-mode fill.
+.sidebar-navigation .quarto-color-scheme-toggle:not(.alternate) .bi::before {
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgba(230, 230, 230, 1)" class="bi bi-toggle-off" viewBox="0 0 16 16"><path d="M11 4a4 4 0 0 1 0 8H8a4.992 4.992 0 0 0 2-4 4.992 4.992 0 0 0-2-4h3zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5z"/></svg>');
+}
+.sidebar-navigation .quarto-color-scheme-toggle.alternate .bi::before {
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgba(230, 230, 230, 1)" class="bi bi-toggle-on" viewBox="0 0 16 16"><path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10H5zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>');
+}

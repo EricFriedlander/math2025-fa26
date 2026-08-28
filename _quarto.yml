@@ -27,7 +27,7 @@ website:
       This site is built with [Quarto](https://quarto.org/)
 
   sidebar:
-    background: "#bbbbbb"
+    background: "#533860"
     logo: "images/logo.png"
     align: center
     tools:
@@ -85,9 +85,12 @@ website:
 format:
   html:
     theme:
-      - cosmo
-      - theme.scss
-    mainfont: "Open Sans"
+      light: [cosmo, style/math2025.scss]
+      dark: [cosmo, style/math2025.scss, style/dark.scss]
+    css: style/exercise-boxes.css
+    linkcolor: "#533860"
+    mainfont: "Atkinson Hyperlegible"
+    highlight-style: a11y-light
     code-copy: true
     code-overflow: wrap
     toc: true
