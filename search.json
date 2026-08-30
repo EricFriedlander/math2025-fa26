@@ -1052,134 +1052,134 @@
     "text": "Rubric for Grading the Final Project\n\nIntroduction — 10 Points Total\n\n\n\n\n\n\n\nCriteria\nPoints\n\n\n\n\nBackground and significance are clear, logically organized, and move from general to specific.\n0–4\n\n\nObjective or research question is stated clearly; final paragraph defines hypothesis/goals.\n0–4\n\n\nConsideration of ethical or practical implications (e.g., usefulness, harm).\n0–2\n\n\n\n\n\nMethods — 20 Points Total\n\n\n\n\n\n\n\nCriteria\nPoints\n\n\n\n\nStudy design: provides enough information for replication.\n0–4\n\n\nSampling and eligibility: well described and justified.\n0–4\n\n\nVariable descriptions: includes definitions, levels, and any transformations.\n0–1\n\n\nSample size justification and power analysis are clearly explained.\n0–6\n\n\nStatistical methods are appropriate, logical, and motivated by the research question.\n0–5\n\n\n\n\n\nResults — 25 Points Total\n\n\n\n\n\n\n\nCriteria\nPoints\n\n\n\n\nBaseline variables summarized and demographic balance addressed.\n0–5\n\n\nResults of interest explained, summarized, and visualized appropriately.\n0–10\n\n\nEach table is described (no “naked” tables).\n0–3\n\n\nEach figure is described (no “naked” figures).\n0–3\n\n\nTechnical assumptions assessed and documented.\n0–4\n\n\n\n\n\nDiscussion and Conclusions — 10 Points Total\n\n\n\n\n\n\n\nCriteria\nPoints\n\n\n\n\nRestates objectives and key results clearly.\n0–2\n\n\nStates whether results support or reject the hypothesis.\n0–3\n\n\nCites specific analyses and results to support interpretations; discusses limitations.\n0–3\n\n\nSuggests ideas for future work based on current findings.\n0–2\n\n\n\n\n\nLimitations — 10 Points Total\n\n\n\n\n\n\n\nCriteria\nPoints\n\n\n\n\nSampling limitations and generalizability described and evaluated.\n0–4\n\n\nRandomization limitations and causal inference discussed.\n0–4\n\n\nOther study constraints (sample size, missing variables, etc.) acknowledged.\n0–2\n\n\n\n\n\nCoverage and Clarity — 25 Points Total\n\n\n\n\n\n\n\nCriteria\nPoints\n\n\n\n\nDescriptive and appropriate title.\n0–1\n\n\nNames of all group members included.\n0–1\n\n\nDataset complete, tidy (rows = observations, columns = variables).\n0–2\n\n\nOrganization and labeled sections clear and professional.\n0–4\n\n\nEdited and proofread (minimal grammar/spelling issues).\n0–4\n\n\nTables and figures labeled, with captions and readable axes.\n0–5\n\n\nWork reproducible; instructor can run notebook with no edits.\n0–4\n\n\nCode interspersed with text for clarity.\n0–4\n\n\n\n\n\nTotal Points\n100 Possible Points\n\n\n\nCategory\nPoints\n\n\n\n\nIntroduction\n10\n\n\nMethods\n20\n\n\nResults\n25\n\n\nDiscussion / Conclusions\n10\n\n\nLimitations\n10\n\n\nCoverage / Clarity\n25\n\n\nTotal\n100"
   },
   {
-    "objectID": "slides/01-big-picture.html#topics",
-    "href": "slides/01-big-picture.html#topics",
+    "objectID": "slides/01-intro-to-r.html#topics",
+    "href": "slides/01-intro-to-r.html#topics",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "Topics",
     "text": "Topics\n\nData analysis life cycle\nReproducible data analysis"
   },
   {
-    "objectID": "slides/01-big-picture.html#section",
-    "href": "slides/01-big-picture.html#section",
+    "objectID": "slides/01-intro-to-r.html#section",
+    "href": "slides/01-intro-to-r.html#section",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "",
     "text": "Source: R for Data Science with additions from The Art of Statistics: How to Learn from Data."
   },
   {
-    "objectID": "slides/01-big-picture.html#section-1",
-    "href": "slides/01-big-picture.html#section-1",
+    "objectID": "slides/01-intro-to-r.html#section-1",
+    "href": "slides/01-intro-to-r.html#section-1",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "",
     "text": "Source: R for Data Science"
   },
   {
-    "objectID": "slides/01-big-picture.html#what-is-reproducibility",
-    "href": "slides/01-big-picture.html#what-is-reproducibility",
+    "objectID": "slides/01-intro-to-r.html#what-is-reproducibility",
+    "href": "slides/01-intro-to-r.html#what-is-reproducibility",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "What is reproducibility?",
     "text": "What is reproducibility?\nDiscuss the following questions in groups:\n\n\nWhat does it mean for an analysis to be reproducible?\nWhy do you think repoducibility is important?\nWhy do you think people don’t prioritize reproducibility?"
   },
   {
-    "objectID": "slides/01-big-picture.html#reproducibility-checklist",
-    "href": "slides/01-big-picture.html#reproducibility-checklist",
+    "objectID": "slides/01-intro-to-r.html#reproducibility-checklist",
+    "href": "slides/01-intro-to-r.html#reproducibility-checklist",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "Reproducibility checklist",
     "text": "Reproducibility checklist\nNear term goals:\n✔️ Can the tables and figures be exactly reproduced from the code and data?\n✔️ Does the code actually do what you think it does?\n✔️ In addition to what was done, is it clear why it was done?\n\nLong term goals:\n✔️ Can the code be used for other data?\n✔️ Can you extend the code to do other things?"
   },
   {
-    "objectID": "slides/01-big-picture.html#why-is-reproducibility-important",
-    "href": "slides/01-big-picture.html#why-is-reproducibility-important",
+    "objectID": "slides/01-intro-to-r.html#why-is-reproducibility-important",
+    "href": "slides/01-intro-to-r.html#why-is-reproducibility-important",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "Why is reproducibility important?",
     "text": "Why is reproducibility important?\n\nResults produced are more reliable and trustworthy (Ostblom and Timbers 2022)\nFacilitates more effective collaboration (Ostblom and Timbers 2022)\nContributing to science, which builds and organizes knowledge in terms of testable hypotheses (Alexander 2023)\nPossible to identify and correct errors or biases in the analysis process (Alexander 2023)"
   },
   {
-    "objectID": "slides/01-big-picture.html#when-things-go-wrong",
-    "href": "slides/01-big-picture.html#when-things-go-wrong",
+    "objectID": "slides/01-intro-to-r.html#when-things-go-wrong",
+    "href": "slides/01-intro-to-r.html#when-things-go-wrong",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "When things go wrong",
     "text": "When things go wrong\n\n\n\nReproducibility error\nConsequence\nSource(s)\n\n\n\n\nLimitations in Excel data formats\nLoss of 16,000 COVID case records in the UK\n(Kelion 2020)\n\n\nAutomatic formatting in Excel\nImportant genes disregarded in scientific studies\n(Ziemann, Eren, and El-Osta 2016)\n\n\nDeletion of a cell caused rows to shift\nMix-up of which patient group received the treatment\n(Wallensteen et al. 2018)\n\n\nUsing binary instead of explanatory labels\nMix-up of the intervention with the control group\n(Aboumatar and Wise 2019)\n\n\nUsing the same notation for missing data and zero values\nPaper retraction\n(Whitehouse et al. 2021)\n\n\nIncorrectly copying data in a spreadsheet\nDelay in the opening of a hospital\n(Picken 2020)\n\n\n\nSource: Ostblom and Timbers (2022)"
   },
   {
-    "objectID": "slides/01-big-picture.html#toolkit",
-    "href": "slides/01-big-picture.html#toolkit",
+    "objectID": "slides/01-intro-to-r.html#toolkit",
+    "href": "slides/01-intro-to-r.html#toolkit",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "Toolkit",
     "text": "Toolkit\n\nThis class:\n\nScriptability \\(\\rightarrow\\) R\nLiterate programming (code, narrative, output in one place) \\(\\rightarrow\\) Quarto\n\nBeyond the scope of this course (but important):\n\nVersion control \\(\\rightarrow\\) Git / GitHub"
   },
   {
-    "objectID": "slides/01-big-picture.html#r-and-rstudio",
-    "href": "slides/01-big-picture.html#r-and-rstudio",
+    "objectID": "slides/01-intro-to-r.html#r-and-rstudio",
+    "href": "slides/01-intro-to-r.html#r-and-rstudio",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "R and RStudio",
     "text": "R and RStudio\n\nR is a statistical programming language\nRStudio is a convenient interface for R\n\n\nSource: Statistical Inference via Data Science"
   },
   {
-    "objectID": "slides/01-big-picture.html#quarto",
-    "href": "slides/01-big-picture.html#quarto",
+    "objectID": "slides/01-intro-to-r.html#quarto",
+    "href": "slides/01-intro-to-r.html#quarto",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "Quarto",
     "text": "Quarto\n\nFully reproducible reports – the analysis is run from the beginning each time you Render the full document\nCode chunks for writing code and markdown text for writing prose\nRStudio’s Visual editor makes the document editing experience similar to a word processor (Google docs, Word, Pages, etc.)"
   },
   {
-    "objectID": "slides/01-big-picture.html#how-will-we-use-rstudio",
-    "href": "slides/01-big-picture.html#how-will-we-use-rstudio",
+    "objectID": "slides/01-intro-to-r.html#how-will-we-use-rstudio",
+    "href": "slides/01-intro-to-r.html#how-will-we-use-rstudio",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "How will we use RStudio?",
     "text": "How will we use RStudio?\n\nEvery application exercise and assignment is written as a Quarto (.qmd) document\nYou’ll have a template document to start with\nThe amount of scaffolding in the template will decrease over the semester"
   },
   {
-    "objectID": "slides/01-big-picture.html#group-work-roles",
-    "href": "slides/01-big-picture.html#group-work-roles",
+    "objectID": "slides/01-intro-to-r.html#group-work-roles",
+    "href": "slides/01-intro-to-r.html#group-work-roles",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "Group Work Roles",
     "text": "Group Work Roles\nAny time we are working on AEs, I will randomly assign you to groups of two or three. Each person will have a role:\n\nCoder:\n\nShares screen and is the only person to type.\nRuns code, saves work, and makes the submission.\nReads comments back when asked and asks for clarification when unsure.\n\nDeveloper:\n\nDirects the next steps: explains intent, outlines logic, and points out likely errors.\nWatches output, reads error messages aloud, and suggests targeted fixes.\n\nCommunicator:\n\nLooks up help when needed.\nReports group answers to the class."
   },
   {
-    "objectID": "slides/01-big-picture.html#today-will-be-different",
-    "href": "slides/01-big-picture.html#today-will-be-different",
+    "objectID": "slides/01-intro-to-r.html#today-will-be-different",
+    "href": "slides/01-intro-to-r.html#today-will-be-different",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "Today will be different",
     "text": "Today will be different\n\nI want everyone to get experience using R so everyone is all three roles\nTwo options:\n\nGuided: Dr. F will work through the activity live\nSelf-paced: You can work through the activity at your own pace in the back of the classroom or just outside the classroom"
   },
   {
-    "objectID": "slides/01-big-picture.html#rstudio",
-    "href": "slides/01-big-picture.html#rstudio",
+    "objectID": "slides/01-intro-to-r.html#rstudio",
+    "href": "slides/01-intro-to-r.html#rstudio",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "RStudio",
     "text": "RStudio\nLet’s all sign into RStudio using our CofI email addresses."
   },
   {
-    "objectID": "slides/01-big-picture.html#rstudio-ide",
-    "href": "slides/01-big-picture.html#rstudio-ide",
+    "objectID": "slides/01-intro-to-r.html#rstudio-ide",
+    "href": "slides/01-intro-to-r.html#rstudio-ide",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "RStudio IDE",
     "text": "RStudio IDE"
   },
   {
-    "objectID": "slides/01-big-picture.html#quarto-1",
-    "href": "slides/01-big-picture.html#quarto-1",
+    "objectID": "slides/01-intro-to-r.html#quarto-1",
+    "href": "slides/01-intro-to-r.html#quarto-1",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "Quarto",
     "text": "Quarto"
   },
   {
-    "objectID": "slides/01-big-picture.html#recap",
-    "href": "slides/01-big-picture.html#recap",
+    "objectID": "slides/01-intro-to-r.html#recap",
+    "href": "slides/01-intro-to-r.html#recap",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "Recap",
     "text": "Recap\n\nThe data analysis life cycle involves collecting, cleaning, exploring, modeling, and communicating data.\nReproducibility ensures that results can be trusted and analyses can be repeated or extended.\nCommon errors in data handling can have serious consequences—using reproducible tools helps avoid these problems.\nR is the language we use for analysis; RStudio is the IDE; Quarto is for creating reproducible documents.\nGroup work in class uses defined roles to help everyone participate and learn."
   },
   {
-    "objectID": "slides/01-big-picture.html#for-wednesday",
-    "href": "slides/01-big-picture.html#for-wednesday",
+    "objectID": "slides/01-intro-to-r.html#for-wednesday",
+    "href": "slides/01-intro-to-r.html#for-wednesday",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "For Wednesday",
     "text": "For Wednesday\n\nComplete and submit AE 01\nComplete readings"
   },
   {
-    "objectID": "slides/01-big-picture.html#references",
-    "href": "slides/01-big-picture.html#references",
+    "objectID": "slides/01-intro-to-r.html#references",
+    "href": "slides/01-intro-to-r.html#references",
     "title": "Getting Starting with R, Quarto, & RStudio",
     "section": "References",
     "text": "References\n\n\n\n\nAlexander, Rohan. 2023. Telling Stories with Data. June 20. https://doi.org/10.1201/9781003229407.\n\n\nOstblom, Joel, and Tiffany Timbers. 2022. “Opinionated Practices for Teaching Reproducibility: Motivation, Guided Instruction and Practice.” Journal of Statistics and Data Science Education 30 (3): 241–50. https://doi.org/10.1080/26939169.2022.2074922."
