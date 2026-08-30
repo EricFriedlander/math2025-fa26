@@ -10,7 +10,7 @@ editor: source
 | Lecture | DOW | Date | Topic | Prepare | Slides | AE | HW | Project | Notes |
 |:---:|:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|:---|
 | 0 | W | Aug 26 | Welcome to MATH 2025! | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}](/slides/00-welcome.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} | Welcome! |
-| 1 | M | Aug 31 | Getting Started with R & Quarto | [{{< fa book >}}](/prepare/prep-01.qmd) | [{{< fa laptop >}}](/slides/01-big-picture.qmd) | [{{< fa users >}}](/ae/ae-01-getting-started.qmd) | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} | Our first AE! |
+| 1 | M | Aug 31 | Getting Started with R & Quarto | [{{< fa book >}}](/prepare/prep-01.qmd) | [{{< fa laptop >}}](/slides/01-intro-to-r.qmd) | [{{< fa users >}}](/ae/ae-01-getting-started.qmd) | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} | Our first AE! |
 | 2 | W | Sep 2 | Multivariate Relationships | [{{< fa book >}}](/prepare/prep-02.qmd) | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  |
 <!-- |  | M | Sep 7 | No Class - Labor Day | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} | Labor Day - No Classes | -->
 <!-- | 3 | W | Sep 9 | Introduction to Simple Linear Regression | [{{< fa book >}}](/prepare/prep-03.qmd) | [{{< fa laptop >}}](/slides/03-slr-intro.qmd) | [{{< fa users >}}](/ae/ae-03-bikeshare.qmd) | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
