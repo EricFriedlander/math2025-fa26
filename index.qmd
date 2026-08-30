@@ -10,8 +10,8 @@ editor: source
 | Lecture | DOW | Date | Topic | Prepare | Slides | AE | HW | Project | Notes |
 |:---:|:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|:---|
 | 0 | W | Aug 26 | Welcome to MATH 2025! | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}](/slides/00-welcome.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} | Welcome! |
-| 1 | M | Aug 31 | The Big Picture | [{{< fa book >}}](/prepare/prep-01.qmd) | [{{< fa laptop >}}](/slides/01-big-picture.qmd) | [{{< fa users >}}](/ae/ae-01-getting-started.qmd) | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} | Our first AE! |
-<!-- | 2 | W | Sep 2 | Multivariate Relationships | [{{< fa book >}}](/prepare/prep-02.qmd) | [{{< fa laptop >}}](/slides/02-multivariate-relationships.qmd) | [{{< fa users >}}](/ae/ae-02-multivariate-relationships.qmd) | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
+| 1 | M | Aug 31 | Getting Started with R & Quarto | [{{< fa book >}}](/prepare/prep-01.qmd) | [{{< fa laptop >}}](/slides/01-big-picture.qmd) | [{{< fa users >}}](/ae/ae-01-getting-started.qmd) | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} | Our first AE! |
+| 2 | W | Sep 2 | Multivariate Relationships | [{{< fa book >}}](/prepare/prep-02.qmd) | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  |
 <!-- |  | M | Sep 7 | No Class - Labor Day | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} | Labor Day - No Classes | -->
 <!-- | 3 | W | Sep 9 | Introduction to Simple Linear Regression | [{{< fa book >}}](/prepare/prep-03.qmd) | [{{< fa laptop >}}](/slides/03-slr-intro.qmd) | [{{< fa users >}}](/ae/ae-03-bikeshare.qmd) | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
 <!-- | 4 | M | Sep 14 | Prediction and Testing | [{{< fa book >}}](/prepare/prep-04.qmd) | [{{< fa laptop >}}](/slides/04-slr-fit-prediction.qmd) | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
@@ -47,10 +47,3 @@ editor: source
 <!-- | 25 | W | Dec 2 | Exam 2 | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  | -->
 <!-- | Final | W | Dec 7 | Poster Session | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}](/project/project-poster.qmd) | Final examination period, Dec 7-10 - exact slot TBD. Project 5: Final project + poster due. | -->
 :::
-
-<!--
-Publishing a row: find its line above (it starts with `<!--` and ends with
-`-->`), delete those two markers, and it joins the table above. Rows stay in
-date order and commented rows sit contiguously right below the published
-ones, so uncommenting the next row never requires moving it.
--->

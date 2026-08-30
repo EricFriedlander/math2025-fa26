@@ -1,5 +1,5 @@
 ---
-title: "The Big Picture"
+title: "Getting Starting with R, Quarto, & RStudio"
 author: "Prof. Eric Friedlander"
 footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/)"
 logo: "../images/logo.png"
@@ -137,14 +137,6 @@ Source: @ostblom2022
 
 ![Source: [Statistical Inference via Data Science](https://moderndive.com/1-getting-started.html)](images/01/r_vs_rstudio_1.png){fig-align="center"}
 
-------------------------------------------------------------------------
-
-## RStudio
-
-Let's all sign into [RStudio]({{< var rstudio_url >}}) using our CofI email addresses.
-
-------------------------------------------------------------------------
-
 ## Quarto
 
 -   Fully reproducible reports -- the analysis is run from the beginning each time you Render the full document
@@ -185,14 +177,23 @@ Any time we are working on AEs, I will randomly assign you to groups of two or t
     - Guided: Dr. F will work through the activity live
     - Self-paced: You can work through the activity at your own pace in the back of the classroom or just outside the classroom
 
+## RStudio
+
+Let's all sign into [RStudio]({{< var rstudio_url >}}) using our CofI email addresses.
+
+## RStudio IDE
+
+![](images/01/rstudio-panes.png){fig-align="center"}
+
+## Quarto
+
+![](images/01/quarto.png){fig-align="center"}
+
 # Getting Started
 
 ::: appex
 📋 [AE 01 - Getting Started](../ae/ae-01-getting-started.qmd)
 :::
-
-Complete the activity.
-
 
 ## Recap {.midi}
 

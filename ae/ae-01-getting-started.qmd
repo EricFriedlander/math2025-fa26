@@ -48,37 +48,46 @@ format:
         </style>
 ---
 
-::: callout-important
-
--   Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-01"
-
--   Go to the [Canvas](https://cofi.instructure.com/courses/18743/assignments/242372) and locate your `AE 01` assignment to get started.
-
--   Upload the `ae-01.qmd` files into the folder you just created. To submit this Activity, upload the `.qmd` and `.html` responses in the corresponding Canvas assignment.
-:::
-
-
 # Getting Started with R, RStudio, and Quarto
 
 ## Setting Up Your Home Directory For Class
 
+We will be doing a lot of work in RStudio, so it's important to set up your home directory for class so that we can keep everything organized.
+
+:::{.exercise}
+- First navigate to [R Studio](https://rstudio.collegeofidaho.edu/).
+- Click `File` -> `New Project` -> `New Directory` -> `New Project`
+- In `Directory name:` write `math2025fa26`
+- Don't check any of the boxed and click **Create Project**
+- In the bottom left panel: let's create the following file structure:
+    - Top-level folder for class (should already be created): `math2025fa26`
+        - Folder for AEs: `ae`
+        - Folder for Hws: `hw`
+        - Folder for Datasets: `data`
+- Going forward, you'll create sub-folders for each AE or HW as needed.
+- For today: create a sub-folder of `ae` called `ae-01`
+- Navigate to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743/assignments/242372)
+    - Download the `ae-01.qmd` file and upload it into the folder you just created.
+    - Open it... You should now be looking at a Quarto document.
+:::
+
 ## Quarto
 
-The thing you are reading right now is a **Quarto** document (very similar to R Markdown if you've ever used that). Quarto runs *inside* RStudio. Quarto is a simple formatting syntax for authoring web pages, Word documents, PDFs, and many more file types. You can find the link to a useful Quarto guide [here](https://quarto.org/docs/guide/).
+The thing you are reading right now is a **Quarto** document. Quarto runs *inside* RStudio. Quarto is a simple formatting syntax for authoring web pages, Word documents, PDFs, and many more file types. You can find the link to a useful Quarto guide [here](https://quarto.org/docs/guide/).
 
 When you click the **Render** button at the top of this window an html file will be generated that includes both content as well as the output of any embedded R code chunks within the document. Not only can you embed the R *code*, you can embed the *output* produced by the R code. In this way, your analysis is fully reproducible and updatable. **All of your homework assignments must be prepared using Quarto**.
+
+:::{.exercise}
+- The big block at the top is called the yaml header and it contains metadata about the document.
+- Go to the top, replace `Your name here` with your actual name and then click **Render**. You can ignore the rest for now, but don't delete it!
+- Notice two things:
+    - A preview of your document should pop-up
+    - An file `ae-01.html` will appear next to your `ae-01.qmd` file in the lower right panel.These are the two files that you will need to turn in for most assignments.
+:::
 
 The nice thing about Quarto is that you can write prose (as I am doing now), mathematical equations using LaTeX syntax (like $y_i = a + b x_i$), and R code/output/plots all in one synthesized document. This makes it approximately 10,000 times easier to use than doing the same thing in Word or LaTeX. As you go through this introduction, I recommend that you look also at the .qmd file and your output file side-by-side to get an idea of how Quarto works. (Since you're going to have to use Quarto this semester, you might as well start learning it now!)
 
 In the future, I will typically give you a Quarto template to fill out. However, occasionally you will need to create your own Quarto document. When you want to start a new Quarto document, click "File \> New File \> Quarto Document..." Put yourself as author, and make sure to give it a descriptive title!
-
-::: {.exercise}
-Click Render at the top of this document. Show Dr. Friedlander before moving on.
-:::
-
-::: {.answer}
-
-:::
 
 ## Using R as a Calculator and Running Code within a Quarto Document
 
@@ -98,43 +107,53 @@ sqrt(16) # this is a comment.  R will not 'see' anything past a #, but you can u
 ```
 :::
 
-::: {.answer}
-
-:::
-
 Look closely at how Quarto denotes the R code and the output. Also note in the .qmd file how I include R code as separate from prose. These are called "chunks". The easiest way to add a new chunk is to click on the green "c" icon with a plus in the corner above, then choose "R". R code that is not inside of a chunk *will not* be run by Quarto!
 
 ::: {.exercise}
-Create an R code chunk and compute the log of 10 using the function `log`. Why do you think the answer isn't 1?
+Notice below the block labeled `answer`. Whenever you are writing the answer to a problem, you chould make sure it is inside an `answer` block. Note that you can put R code chunks and prose instead an `answer` block.
+
+In the `answer` block below, create an R code chunk and compute 10 raised to the 2nd power.
 :::
 
 ::: {.answer}
 
 :::
 
-::: {.exercise}
-You can also save values to named variables, to be used later:
+In R, we'll frequently make use of things called functions.
+You can think of functions like machines that take inputs and product outputs.
+The inputs are called arguments, and the outputs are called return values.
+To use a function you can simply run `function_name(argument1, argument2, ...)`.
+
+:::{.exercise}
+Create a code chunk and use the `log` function to computer the log of 10. Why do you think the answer isn't 1?
+:::
+
+:::{.answer}
+
+:::
+
+You can also save values to named variables, to be used later.
+I like to think of these variables like boxes. Set we want to put the value `15.3 * 23.4` into a box called `product`.
+We'd run:
 
 ```{r}
 product <- 15.3 * 23.4 #save result
 ```
 
-If you save something like this, R will not show the output unless you expressly ask for it:
+Look in the top-right **Environment** pane... It should now have something called `product`.
+Notice that when you ran the above code chunk, R did not show the output.
+If you save something like this, R will not show the output unless you expressly ask for it (this is a good thing).
+If you want to see the value of `product`, you can run `product` in a code chunk:
 
 ```{r}
 product #show result
 ```
-:::
 
-::: {.answer}
+The symbol "<-" is called the *assignment operator*. Imagine that R maintains a warehouse filled with boxes containing all kinds of stuff. When you use "<-", R will create a new box, write whatever name you put to the left of "<-", and put whatever is to the right of "<-" in the box. Then whenever you want to go get the box, you can just use whatever name you gave it. In the example above, the box is called "product" and it contains the number 358.02 (the result of 15.3 times 23.4). When you just write "product", R will go grab the box called "product" and dump it onto the screen. In the future, we will be giving names to entire datasets and using "functions" in R to analyze them.
 
-:::
+If you've ever programmed before, "=" is the most common assignment operator. In R, you can use "=" as the assignment operator but there are cases where "<-" works and "=" doesn't, so it's good to get into the habit of using "<-" now.
 
-The symbol "\<-" is the *assignment operator*. Imagine that R maintains a warehouse filled with boxes containing all kinds of stuff. When you use "\<-", R will create a new box, write whatever name you put to the left of "\<-", and put whatever is to the right of "\<-" in the box. Then whenever you want to go get the box, you can just use whatever name you gave it. In the example above, the box is called "product" and it contains the number 358.02 (the result of 15.3 times 23.4). When you just write "product", R will go grab the box called "product" and dump it onto the screen. In the future, we will be giving names to entire datasets and using "functions" in R to analyze them.
-
-If you've ever programmed before, "=" is the most common assignment operator. In R, you can use "=" as the assignment operator but there are cases where "\<-" works and "=" doesn't, so it's good to get into the habit of using "\<-" now.
-
-Once variables are defined, they can be referenced with other operators and functions. Try executing each line of code individually by placing your cursor on the first line of the chunk below and pressing *Ctrl+Enter* (*Cmd +Enter* for Mac users); then do the same for the second line. (This is how you can run a single line within a larger chunk.)
+Once variables are defined, they can be referenced with other operators (e.g. `+`, `-`, `*`, `/`) and functions. Try executing each line of code individually by placing your cursor on the first line of the chunk below and pressing *Ctrl+Enter* (*Cmd +Enter* for Mac users); then do the same for the second line. (This is how you can run a single line within a larger chunk.)
 
 ```{r}
 .5 * product # half of the product
@@ -142,24 +161,39 @@ product^(1/4) # fourth root of the product
 ```
 
 ::: {.exercise}
-You can also use inline R code in Quarto, which can be useful when calling defined variables. Did you know that the natural log of `r product` is `r log(product)`?
+Write a code chunk that computes the `log` of `product`, saves it to a variable called `log_product`, and prints `log_product`.
 :::
 
-::: {.answer}
+:::{.answer}
 
 :::
+
+## Using the Console
+
+*Only R code (and comments) should be inside chunks.*
+Prose should never be put inside a chunk.
+In general, prose should be below or above the chunk, as I have done above (and continue to do throughout this document).
+In this class, YOUR prose should always be in side an answer block for AEs and HWs.
+You should also never cut-and-paste output or graphs into the chunks. The whole point of code chunks is that they contain the code *and* they'll run the code (resulting in the output and/or graphs).
 
 ::: {.exercise}
-*Only R code (and comments) should be inside chunks.* Prose (interpretations/explanations/descriptions) should never be put inside a chunk; prose should be below or above the chunk, as I have done above (and continue to do throughout this document). You should also never cut-and-paste output or graphs into the chunks. The whole point of code chunks is that they contain the code *and* they'll run the code (resulting in the output and/or graphs).
-
-If you want to run something in R but don't want it to appear in the Quarto document, simply run it in the **Console** in the lower-left quadrant of RStudio. Type the last line of R code above into the Console and see what happens.
+If you want to run something in R but don't want it to appear in the Quarto document, simply run it in the **Console** in the lower-left quadrant of RStudio.
+In fact, when you hit the little play button, it actually just runs the code in the console below.
+Type the last line of R code above into the Console and see what happens.
 :::
 
-::: {.answer}
+### Rendering vs. Chunks vs. The Console
 
-:::
+Think about the **Environment** as a warehouse that stores the current state of our variables.
+Whenever you run code in the console (or directly from a chunk), R will use the current version of the environment.
+However, when you click the render button, R will completely wipe the environment and run all the chunks in a quarto document from top to bottom, in order.
+If, as you are writing your Quarto document, you run code chunks multiple times, or out of order, it is possible to get a different result when you render your document compared to what the console shows.
 
 ::: {.exercise}
+Consider the code cell below.
+What do you think will happen if you run it three times in a row?
+What do you think the output will be when you render the document?
+
 Run the cell below three times and note what the output is. Then, Render the document and note what the output is. Are they the same?
 
 ```{r}
@@ -173,5 +207,15 @@ product
 :::
 
 ::: callout-important
-When you click the run button for a chunk, it simply runs the code in the console below. When you Render your Quarto document, it wipes your environment and re-runs the entire document from the beginning. For this reason, if you run your cells multiple times or out of order, you may get unexpected results when you Render your document. Before you submit your documents, **always Render and then double check your answers to make sure that your answers match your explanations.**
+I recommend rendering your documents periodically to make sure that your code is working as expected.
+In addition, before you submit your documents, **always Render and then double check your answers to make sure that your answers match your explanations.**
+:::
+
+
+## Submitting Your Assignment
+
+:::{.exercise}
+1. Click **Render** one last time to render your document.
+2. Review the html output to make sure it reflects what you want it to say.
+3. Upload the `qmd` and `html` files to Canvas.
 :::
