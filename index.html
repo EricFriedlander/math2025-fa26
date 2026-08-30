@@ -41,10 +41,16 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-33269adcf1721b81efc5ea7fcfe7f0ee.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-33269adcf1721b81efc5ea7fcfe7f0ee.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-33269adcf1721b81efc5ea7fcfe7f0ee.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c021e52db9ba5b5f9af966df71bcd8c9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-d7c90056328f4e2c5af6baa3e42bd608.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-20612555bb24fd3a3d264fc65286bba6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-d7c90056328f4e2c5af6baa3e42bd608.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -74,9 +80,172 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
+<link rel="stylesheet" href="style/exercise-boxes.css">
 </head>
 
-<body class="nav-sidebar docked quarto-light">
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -103,9 +272,10 @@ ul.task-list li input[type="checkbox"] {
       <img src="./images/logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
       <img src="./images/logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
       </a>
-      <div class="sidebar-tools-main">
+      <div class="sidebar-tools-main tools-wide">
     <a href="https://rstudio.collegeofidaho.edu/" title="RStudio" class="quarto-navigation-tool px-1" aria-label="RStudio"><i class="bi bi-code-square"></i></a>
     <a href="https://cofi.instructure.com/courses/18743" title="Canvas" class="quarto-navigation-tool px-1" aria-label="Canvas"><i class="bi bi-person"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -185,6 +355,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
 
+
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Schedule</h1>
@@ -206,544 +377,94 @@ ul.task-list li input[type="checkbox"] {
 
 <p><em>This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses, with all changes documented here.</em></p>
 <div class="column-screen-right">
-<div class="cell">
-<div class="cell-output-display">
-<div id="blmpwezszz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#blmpwezszz table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#blmpwezszz thead, #blmpwezszz tbody, #blmpwezszz tfoot, #blmpwezszz tr, #blmpwezszz td, #blmpwezszz th {
-  border-style: none;
-}
-
-#blmpwezszz p {
-  margin: 0;
-  padding: 0;
-}
-
-#blmpwezszz .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#blmpwezszz .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#blmpwezszz .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#blmpwezszz .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#blmpwezszz .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#blmpwezszz .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#blmpwezszz .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#blmpwezszz .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#blmpwezszz .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#blmpwezszz .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#blmpwezszz .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#blmpwezszz .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#blmpwezszz .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#blmpwezszz .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#blmpwezszz .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#blmpwezszz .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#blmpwezszz .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#blmpwezszz .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#blmpwezszz .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#blmpwezszz .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#blmpwezszz .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#blmpwezszz .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#blmpwezszz .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#blmpwezszz .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#blmpwezszz .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#blmpwezszz .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#blmpwezszz .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#blmpwezszz .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#blmpwezszz .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#blmpwezszz .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#blmpwezszz .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#blmpwezszz .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#blmpwezszz .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#blmpwezszz .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#blmpwezszz .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#blmpwezszz .gt_left {
-  text-align: left;
-}
-
-#blmpwezszz .gt_center {
-  text-align: center;
-}
-
-#blmpwezszz .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#blmpwezszz .gt_font_normal {
-  font-weight: normal;
-}
-
-#blmpwezszz .gt_font_bold {
-  font-weight: bold;
-}
-
-#blmpwezszz .gt_font_italic {
-  font-style: italic;
-}
-
-#blmpwezszz .gt_super {
-  font-size: 65%;
-}
-
-#blmpwezszz .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#blmpwezszz .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#blmpwezszz .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#blmpwezszz .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#blmpwezszz .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#blmpwezszz .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#blmpwezszz .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#blmpwezszz .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#blmpwezszz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
-<colgroup>
-<col style="width: 10%">
-<col style="width: 10%">
-<col style="width: 10%">
-<col style="width: 10%">
-<col style="width: 10%">
-<col style="width: 10%">
-<col style="width: 10%">
-<col style="width: 10%">
-<col style="width: 10%">
-<col style="width: 10%">
-</colgroup>
+<table class="caption-top table">
 <thead>
-<tr class="gt_col_headings header">
-<th id="lecture" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">lecture</th>
-<th id="dow" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">dow</th>
-<th id="date" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">date</th>
-<th id="topic" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">topic</th>
-<th id="prepare" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">prepare</th>
-<th id="slides" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">slides</th>
-<th id="ae" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">ae</th>
-<th id="hw" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">hw</th>
-<th id="project" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">project</th>
-<th id="notes" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">notes</th>
+<tr class="header">
+<th style="text-align: center;">Lecture</th>
+<th style="text-align: center;">DOW</th>
+<th style="text-align: left;">Date</th>
+<th style="text-align: left;">Topic</th>
+<th style="text-align: center;">Prepare</th>
+<th style="text-align: center;">Slides</th>
+<th style="text-align: center;">AE</th>
+<th style="text-align: center;">HW</th>
+<th style="text-align: center;">Project</th>
+<th style="text-align: left;">Notes</th>
 </tr>
 </thead>
-<tbody class="gt_table_body">
+<tbody>
 <tr class="odd">
-<td class="gt_row gt_center" headers="lecture">0</td>
-<td class="gt_row gt_center" headers="dow">W</td>
-<td class="gt_row gt_left" headers="date" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">Aug 26</td>
-<td class="gt_row gt_left" headers="topic" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">Welcome to MATH 2025!</td>
-<td class="gt_row gt_center" headers="prepare" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><svg aria-hidden="true" role="img" viewbox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;fill-opacity:0.1;position:relative;">
-<path d="M96 0C43 0 0 43 0 96V416c0 53 43 96 96 96H384h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V384c17.7 0 32-14.3 32-32V32c0-17.7-14.3-32-32-32H384 96zm0 384H352v64H96c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zm16 48H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16s7.2-16 16-16z"></path>
-</svg></td>
-<td class="gt_row gt_center" headers="slides"><a href="./slides/00-welcome.html">
-<svg aria-hidden="true" role="img" viewbox="0 0 640 512" style="height:1em;width:1.25em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;">
-<path d="M128 32C92.7 32 64 60.7 64 96V352h64V96H512V352h64V96c0-35.3-28.7-64-64-64H128zM19.2 384C8.6 384 0 392.6 0 403.2C0 445.6 34.4 480 76.8 480H563.2c42.4 0 76.8-34.4 76.8-76.8c0-10.6-8.6-19.2-19.2-19.2H19.2z"></path>
-</svg>
-</a></td>
-<td class="gt_row gt_center" headers="ae"><svg aria-hidden="true" role="img" viewbox="0 0 640 512" style="height:1em;width:1.25em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;fill-opacity:0.1;position:relative;">
-<path d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192h42.7c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0H21.3C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7h42.7C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3H405.3zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352H378.7C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7H154.7c-14.7 0-26.7-11.9-26.7-26.7z"></path>
-</svg></td>
-<td class="gt_row gt_center" headers="hw"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;fill-opacity:0.1;position:relative;">
-<path d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z"></path>
-</svg></td>
-<td class="gt_row gt_center" headers="project" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;fill-opacity:0.1;position:relative;">
-<path d="M64 64c0-17.7-14.3-32-32-32S0 46.3 0 64V400c0 44.2 35.8 80 80 80H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H80c-8.8 0-16-7.2-16-16V64zm406.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L320 210.7l-57.4-57.4c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L240 221.3l57.4 57.4c12.5 12.5 32.8 12.5 45.3 0l128-128z"></path>
-</svg></td>
-<td class="gt_row gt_left" headers="notes">Welcome!</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">W</td>
+<td style="text-align: left;">Aug 26</td>
+<td style="text-align: left;">Welcome to MATH 2025!</td>
+<td style="text-align: center;"><span class="fa-dim"><i class="fa-solid fa-book" aria-label="book"></i></span></td>
+<td style="text-align: center;"><a href="./slides/00-welcome.html"><i class="fa-solid fa-laptop" aria-label="laptop"></i></a></td>
+<td style="text-align: center;"><span class="fa-dim"><i class="fa-solid fa-users" aria-label="users"></i></span></td>
+<td style="text-align: center;"><span class="fa-dim"><i class="fa-solid fa-pen-to-square" aria-label="pen-to-square"></i></span></td>
+<td style="text-align: center;"><span class="fa-dim"><i class="fa-solid fa-chart-line" aria-label="chart-line"></i></span></td>
+<td style="text-align: left;">Welcome!</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_center" headers="lecture">1</td>
-<td class="gt_row gt_center" headers="dow">M</td>
-<td class="gt_row gt_left" headers="date" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">Aug 31</td>
-<td class="gt_row gt_left" headers="topic" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">The Big Picture</td>
-<td class="gt_row gt_center" headers="prepare" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><a href="./prepare/prep-01.html">
-<svg aria-hidden="true" role="img" viewbox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;">
-<path d="M96 0C43 0 0 43 0 96V416c0 53 43 96 96 96H384h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V384c17.7 0 32-14.3 32-32V32c0-17.7-14.3-32-32-32H384 96zm0 384H352v64H96c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zm16 48H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16s7.2-16 16-16z"></path>
-</svg>
-</a></td>
-<td class="gt_row gt_center" headers="slides"><a href="./slides/01-big-picture.html">
-<svg aria-hidden="true" role="img" viewbox="0 0 640 512" style="height:1em;width:1.25em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;">
-<path d="M128 32C92.7 32 64 60.7 64 96V352h64V96H512V352h64V96c0-35.3-28.7-64-64-64H128zM19.2 384C8.6 384 0 392.6 0 403.2C0 445.6 34.4 480 76.8 480H563.2c42.4 0 76.8-34.4 76.8-76.8c0-10.6-8.6-19.2-19.2-19.2H19.2z"></path>
-</svg>
-</a></td>
-<td class="gt_row gt_center" headers="ae"><a href="./ae/ae-01-getting-started.html">
-<svg aria-hidden="true" role="img" viewbox="0 0 640 512" style="height:1em;width:1.25em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;">
-<path d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192h42.7c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0H21.3C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7h42.7C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3H405.3zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352H378.7C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7H154.7c-14.7 0-26.7-11.9-26.7-26.7z"></path>
-</svg>
-</a></td>
-<td class="gt_row gt_center" headers="hw"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;fill-opacity:0.1;position:relative;">
-<path d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z"></path>
-</svg></td>
-<td class="gt_row gt_center" headers="project" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;fill-opacity:0.1;position:relative;">
-<path d="M64 64c0-17.7-14.3-32-32-32S0 46.3 0 64V400c0 44.2 35.8 80 80 80H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H80c-8.8 0-16-7.2-16-16V64zm406.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L320 210.7l-57.4-57.4c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L240 221.3l57.4 57.4c12.5 12.5 32.8 12.5 45.3 0l128-128z"></path>
-</svg></td>
-<td class="gt_row gt_left" headers="notes">Our first AE!</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">M</td>
+<td style="text-align: left;">Aug 31</td>
+<td style="text-align: left;">Getting Started with R &amp; Quarto</td>
+<td style="text-align: center;"><a href="./prepare/prep-01.html"><i class="fa-solid fa-book" aria-label="book"></i></a></td>
+<td style="text-align: center;"><a href="./slides/01-big-picture.html"><i class="fa-solid fa-laptop" aria-label="laptop"></i></a></td>
+<td style="text-align: center;"><a href="./ae/ae-01-getting-started.html"><i class="fa-solid fa-users" aria-label="users"></i></a></td>
+<td style="text-align: center;"><span class="fa-dim"><i class="fa-solid fa-pen-to-square" aria-label="pen-to-square"></i></span></td>
+<td style="text-align: center;"><span class="fa-dim"><i class="fa-solid fa-chart-line" aria-label="chart-line"></i></span></td>
+<td style="text-align: left;">Our first AE!</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">W</td>
+<td style="text-align: left;">Sep 2</td>
+<td style="text-align: left;">Multivariate Relationships</td>
+<td style="text-align: center;"><a href="./prepare/prep-02.html"><i class="fa-solid fa-book" aria-label="book"></i></a></td>
+<td style="text-align: center;"><span class="fa-dim"><i class="fa-solid fa-laptop" aria-label="laptop"></i></span></td>
+<td style="text-align: center;"><span class="fa-dim"><i class="fa-solid fa-users" aria-label="users"></i></span></td>
+<td style="text-align: center;"><span class="fa-dim"><i class="fa-solid fa-pen-to-square" aria-label="pen-to-square"></i></span></td>
+<td style="text-align: center;"><span class="fa-dim"><i class="fa-solid fa-chart-line" aria-label="chart-line"></i></span></td>
+<td style="text-align: left;"></td>
 </tr>
 </tbody>
 </table>
-
-</div>
-</div>
-</div>
+<!-- |  | M | Sep 7 | No Class - Labor Day | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | Labor Day - No Classes | -->
+<!-- | 3 | W | Sep 9 | Introduction to Simple Linear Regression | [](/prepare/prep-03.qmd) | [](/slides/03-slr-intro.qmd) | [](/ae/ae-03-bikeshare.qmd) | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- | 4 | M | Sep 14 | Prediction and Testing | [](/prepare/prep-04.qmd) | [](/slides/04-slr-fit-prediction.qmd) | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- | 5 | W | Sep 16 | Hypothesis Testing | [](/prepare/prep-05.qmd) | [](/slides/05-slr-hypothesis-testing.qmd) | [](/ae/ae-05-sbi-ht.qmd) | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- |  | F | Sep 18 | Homework 1 Due | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | [](/hw/hw-01.qmd) | []{.fa-dim} |  | -->
+<!-- | 6 | M | Sep 21 | Hypothesis Testing and Intervals | [](/prepare/prep-06.qmd) | [](/slides/05-slr-hypothesis-testing.qmd) | [](/ae/ae-05-sbi-ht.qmd) | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- | 7 | W | Sep 23 | Confidence Intervals | [](/prepare/prep-06.qmd) | [](/slides/06-slr-confidence-intervals.qmd) | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- |  | F | Sep 25 | Homework 2 Due | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | [](/hw/hw-02.qmd) | []{.fa-dim} |  | -->
+<!-- | 8 | M | Sep 28 | Mathematical Models for Inference | [](/prepare/prep-07.qmd) | [](/slides/07-slr-math-models.qmd) | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- | 9 | W | Sep 30 | Mathematical Models for Inference (Continued) | []{.fa-dim} | [](/slides/07-slr-math-models.qmd) | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- |  | F | Oct 2 | Homework 3 Due | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | [](/hw/hw-03.qmd) | []{.fa-dim} |  | -->
+<!-- | 10 | M | Oct 5 | Prediction and Conditions | [](/prepare/prep-08.qmd) | [](/slides/08-slr-prediction-conditions.qmd) | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- | 11 | W | Oct 7 | Prediction and Conditions | [](/prepare/prep-08.qmd) | [](/slides/08-slr-prediction-conditions.qmd) | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- |  | F | Oct 9 | Homework 4 Due | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | [](/hw/hw-04.qmd) | []{.fa-dim} |  | -->
+<!-- | 12 | M | Oct 12 | Exam Review | []{.fa-dim} | [](/slides/09-exam-01-review.qmd) | [](/ae/ae-09-exam01-handwritten.qmd) | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- | 13 | W | Oct 14 | Exam 1 | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- | 14 | M | Oct 19 | Model Evaluation and ANOVA | []{.fa-dim} | [](/slides/10-model-eval.qmd) | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- | 15 | W | Oct 21 | Transformations | []{.fa-dim} | [](/slides/11-slr-transformations.qmd) | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- |  | F | Oct 23 | Homework 5 Due | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | [](/hw/hw-05.qmd) | []{.fa-dim} |  | -->
+<!-- | 16 | M | Oct 26 | Outliers | []{.fa-dim} | [](/slides/12-slr-outliers.qmd) | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- | 17 | W | Oct 28 | MLR | []{.fa-dim} | [](/slides/13-mlr.qmd) | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- |  | F | Oct 30 | Homework 6 Due | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | [](/hw/hw-06.qmd) | []{.fa-dim} |  | -->
+<!-- | 18 | M | Nov 2 | Categorical Predictors | []{.fa-dim} | [](/slides/14-categorical-predictors.qmd) | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- | 19 | W | Nov 4 | MLR: Inference | []{.fa-dim} | [](/slides/15-mlr-inference.qmd) | []{.fa-dim} | []{.fa-dim} | [](/project/project-pilot.qmd) | Project 1: Pilot due | -->
+<!-- | 20 | M | Nov 9 | MLR: Conditions | []{.fa-dim} | [](/slides/16-mlr-conditions.qmd) | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- | 21 | W | Nov 11 | MLR Conditions Cont. | []{.fa-dim} | [](/slides/16-mlr-conditions.qmd) | []{.fa-dim} | []{.fa-dim} | [](/project/project-power.qmd) | Project 2: Power due | -->
+<!-- |  | F | Nov 13 | Homework 7 Due | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | [](/hw/hw-07.qmd) | []{.fa-dim} |  | -->
+<!-- | 22 | M | Nov 16 | Multicollinearity | []{.fa-dim} | [](/slides/17-multicollinearity.qmd) | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- | 23 | W | Nov 18 | Model Evaluation | []{.fa-dim} | [](/slides/18-comparison.qmd) | []{.fa-dim} | []{.fa-dim} | [](/project/project-preliminary.qmd) | Project 3: Preliminary Analysis due | -->
+<!-- | x | M | Nov 23 | No Class Thanksgiving Break | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- | x | W | Nov 25 | No Class Thanksgiving Break | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- | 24 | M | Nov 30 | Final Exam Review | []{.fa-dim} | [](/slides/19-exam-02-review.qmd) | [](/ae/ae-19-Exam2-practice.qmd) | []{.fa-dim} | [](/project/project-draft.qmd) | Project 4: Full draft due | -->
+<!-- | 25 | W | Dec 2 | Exam 2 | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} |  | -->
+<!-- | Final | W | Dec 7 | Poster Session | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | []{.fa-dim} | [](/project/project-poster.qmd) | Final examination period, Dec 7-10 - exact slot TBD. Project 5: Final project + poster due. | -->
 </div>
 
 
@@ -751,6 +472,19 @@ ul.task-list li input[type="checkbox"] {
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {

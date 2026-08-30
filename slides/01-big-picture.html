@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Prof.&nbsp;Eric Friedlander">
-  <title>MATH 2025 - Fall 2026 – The Big Picture</title>
+  <title>MATH 2025 - Fall 2026 – Getting Starting with R, Quarto, &amp; RStudio</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -52,7 +52,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-79616c004a19fe9d8d22e049353151e9.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-3e75b18a091661a42b5a8f36bbfd11f1.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -146,13 +146,15 @@
       margin-right: 0; 
     }
   </style>
+  <link href="../site_libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+  <script src="../site_libs/countdown-0.6.0/countdown.js"></script>
 </head>
 <body class="quarto-light">
   <div class="reveal">
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">The Big Picture</h1>
+  <h1 class="title">Getting Starting with R, Quarto, &amp; RStudio</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -185,17 +187,28 @@ Prof.&nbsp;Eric Friedlander
 <h1>Reproducibility</h1>
 
 </section>
+<section id="what-is-reproducibility" class="slide level2">
+<h2>What is reproducibility?</h2>
+<p>Discuss the following questions in groups:</p>
+<div class="question">
+<ol type="1">
+<li>What does it mean for an analysis to be reproducible?</li>
+<li>Why do you think repoducibility is important?</li>
+<li>Why do you think people don’t prioritize reproducibility?</li>
+</ol>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_402c3585" minutes="6" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+</div>
+</div>
+</section>
 <section id="reproducibility-checklist" class="slide level2">
 <h2>Reproducibility checklist</h2>
-<div class="question">
-<p>What does it mean for an analysis to be reproducible?</p>
-</div>
-<div class="fragment">
 <p><strong>Near term goals</strong>:</p>
 <p>✔️ Can the tables and figures be exactly reproduced from the code and data?</p>
 <p>✔️ Does the code actually do what you think it does?</p>
 <p>✔️ In addition to what was done, is it clear <em>why</em> it was done?</p>
-</div>
 <div class="fragment">
 <p><strong>Long term goals</strong>:</p>
 <p>✔️ Can the code be used for other data?</p>
@@ -259,9 +272,15 @@ Prof.&nbsp;Eric Friedlander
 <section id="toolkit" class="slide level2">
 <h2>Toolkit</h2>
 <ul>
-<li><p><strong>Scriptability</strong> <span class="math inline">\(\rightarrow\)</span> R</p></li>
-<li><p><strong>Literate programming</strong> (code, narrative, output in one place) <span class="math inline">\(\rightarrow\)</span> Quarto</p></li>
-<li><p><strong>Version control</strong> <span class="math inline">\(\rightarrow\)</span> Git / GitHub (Beyond the scope of this course)</p></li>
+<li>This class:
+<ul>
+<li><strong>Scriptability</strong> <span class="math inline">\(\rightarrow\)</span> R</li>
+<li><strong>Literate programming</strong> (code, narrative, output in one place) <span class="math inline">\(\rightarrow\)</span> Quarto</li>
+</ul></li>
+<li>Beyond the scope of this course (but important):
+<ul>
+<li><strong>Version control</strong> <span class="math inline">\(\rightarrow\)</span> Git / GitHub</li>
+</ul></li>
 </ul>
 </section>
 <section id="r-and-rstudio" class="slide level2">
@@ -272,10 +291,6 @@ Prof.&nbsp;Eric Friedlander
 </ul>
 
 <img data-src="images/01/r_vs_rstudio_1.png" class="r-stretch quarto-figure-center"><p class="caption">Source: <a href="https://moderndive.com/1-getting-started.html">Statistical Inference via Data Science</a></p></section>
-<section id="rstudio" class="slide level2">
-<h2>RStudio</h2>
-<p>Let’s all sign into <a href="https://rstudio.collegeofidaho.edu/">RStudio</a> using our CofI email addresses.</p>
-</section>
 <section id="quarto" class="slide level2">
 <h2>Quarto</h2>
 <ul>
@@ -318,14 +333,36 @@ Prof.&nbsp;Eric Friedlander
 <li>Reports group answers to the class.</li>
 </ul></li>
 </ul>
-</section></section>
+</section>
+<section id="today-will-be-different" class="slide level2">
+<h2>Today will be different</h2>
+<ul>
+<li>I want everyone to get experience using R so everyone is all three roles</li>
+<li>Two options:
+<ul>
+<li>Guided: Dr.&nbsp;F will work through the activity live</li>
+<li>Self-paced: You can work through the activity at your own pace in the back of the classroom or just outside the classroom</li>
+</ul></li>
+</ul>
+</section>
+<section id="rstudio" class="slide level2">
+<h2>RStudio</h2>
+<p>Let’s all sign into <a href="https://rstudio.collegeofidaho.edu/">RStudio</a> using our CofI email addresses.</p>
+</section>
+<section id="rstudio-ide" class="slide level2">
+<h2>RStudio IDE</h2>
+
+<img data-src="images/01/rstudio-panes.png" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="quarto-1" class="slide level2">
+<h2>Quarto</h2>
+
+<img data-src="images/01/quarto.png" class="quarto-figure quarto-figure-center r-stretch"></section></section>
 <section>
 <section id="getting-started" class="title-slide slide level1 center">
 <h1>Getting Started</h1>
 <div class="appex">
 <p>📋 <a href="../ae/ae-01-getting-started.html">AE 01 - Getting Started</a></p>
 </div>
-<p>Complete the activity.</p>
 </section>
 <section id="recap" class="slide level2 midi">
 <h2>Recap</h2>
