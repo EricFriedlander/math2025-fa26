@@ -3,22 +3,22 @@ title: "Multivariate Relationships"
 author: "Prof. Eric Friedlander"
 footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/schedule)"
 logo: "../images/logo.png"
-format: 
+format:
   revealjs:
     theme: slides.scss
     multiplex: false
     transition: fade
     slide-number: false
-    incremental: false 
+    incremental: false
     chalkboard: true
 execute:
   freeze: auto
   echo: true
 knitr:
-  opts_chunk: 
-    R.options:      
+  opts_chunk:
+    R.options:
     width: 200
-bibliography: references.bib  
+bibliography: references.bib
 ---
 
 ```{r}
@@ -49,7 +49,24 @@ ggplot2::theme_set(ggplot2::theme_bw(base_size = 16))
 📋 [AE 02 - Multivariate Relationships](../ae/ae-02-multivariate-relationships.qmd)
 :::
 
-- Complete Exercises 1-5
+Get the activity set-up in your RStudio project like we did last time.
+
+## Packages in R {.smaller}
+
+- R is an **open source** programming language and environment for statistical computing and graphics
+- This means that anyone can use R for free, and anyone can contribute to the development of R
+- R has a large ecosystem of packages that extend its functionality
+    - Think of these like expansion packs for R
+- If you're on your own computer, each packages needs to be install once using the function `install.packages()`
+- Regardless of what computer you're on each package needs to be loaded using the function `library()` every timne you want to use it
+- We typically load all packages at the beginning of our scripts and Quarto files
+
+. . .
+
+::: appex
+Let't complete Exercise 1 in the Activity.
+:::
+
 
 ## Carbohydrates in Starbucks food
 
@@ -61,8 +78,9 @@ ggplot2::theme_set(ggplot2::theme_bw(base_size = 16))
 
 [^2]: Source: [Mayo Clinic](https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/carbohydrates/art-20045705#:~:text=How%20many%20carbohydrates%20do%20you,grams%20of%20carbs%20a%20day.)
 
-
-Complete the activity.
+::: aapex
+Complete Exercises 2-5.
+:::
 
 
 ## Starbucks data {.smaller}
@@ -72,7 +90,7 @@ Complete the activity.
 
 library(openintro)
 
-starbucks <- starbucks |> 
+starbucks <- starbucks |>
   mutate(bakery = factor(if_else(type == "bakery", "bakery", "non-bakery")))
 
 glimpse(starbucks)
@@ -96,9 +114,61 @@ glimpse(starbucks)
     -   variables used to account for variation in the response
     -   also known as *predictor*, or *input* variables
 
+
+## Model-centric approach {.smaller}
+
+For the purposes of our class, it's useful to learn a model-centric approach to R. The pseudo-code below is going to be our foundation for the rest of the class:
+
+`function( Y ~ X, data = DataSetName )`
+
+Here's a short description of each part in the pseudo-code above:
+
+-   `function` is an R function that dictates something you want to do with your data; for example,
+    -   `mean` calculates the mean
+    -   `lm` fits a linear regression model
+-   `Y` is the response variable
+-   `X` is some explanatory variable; you can use `1` as a placeholder if there is no explanatory variable
+-   `DataSetName` is the name of a data set loaded into the R environment
+
+# EDA: Exploratory data analysis
+
+## Exploratory data analysis
+
+A research question:
+
+> *How do the number of carbs compare for `bakery` and `non-bakery` items?*
+
+Goal: learn as much as you can about your research question **before doing any statistical modeling**
+
 . . .
 
-Complete the remainder of the Exercises.
+::: appex
+Complete Exercises 6 & 7.
+:::
+
+## Guiding Questions
+
+Before visualizing or analyzing any data, you want to ask two types of questions:
+
+1. How many variables do you want to analyze simultaneously?
+2. What kind of variables are they?
+
+## Terminology
+
+- One variable at a timne: **univariate** analysis
+- Two variables at a time: **bivariate** analysis
+- Three or more variables at a time: **multivariate** analysis
+
+## Guide to plotting
+
+| Setting | Plots To Use|
+|--------|-------------|
+| Quantitative | Histogram, Boxplot, Jitter Plot |
+| Categorical | Bar chart |
+| Quant vs. Quant | Scatter plot |
+| Quant vs. Cat | Side-by-side boxplots or jitter plots |
+| Cat vs. Cat | Side-by-side, stacked, standardized bar charts |
+| Multivariate | depends |
 
 ## Univariate exploratory data analysis
 
@@ -318,8 +388,5 @@ $${\small \hat{\text{carb}} = \hat{\beta}_0 + \hat{\beta}_1 ~\text{calories} + \
   - Completed readings
 - For Friday, Sep 18
   - HW 01
-  
+
 ## References
-
-
-
