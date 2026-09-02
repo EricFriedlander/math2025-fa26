@@ -59,7 +59,6 @@ knitr::opts_chunk$set(warning = FALSE,
 
 This HW will go through much of the same workflow we've demonstrated in class.
 The main goal is to reinforce our demo of R and RStudio, which we will be using throughout the course both to learn the statistical concepts and to analyze real data and come to informed conclusions.
-Many of the things written in here, we've learned in class and should feel like review.
 
 ::: callout-note
 R is the name of the programming language itself and RStudio is a convenient interface.
@@ -69,19 +68,19 @@ R is the name of the programming language itself and RStudio is a convenient int
 
 By the end of this homework, you will...
 
-- Be familiar with the workflow using RStudio
-- Gain practice writing a reproducible report using Quarto
-- Be able to create data visualizations using `ggformula` and use those visualizations to describe distributions
+-   Be familiar with the workflow using RStudio
+-   Gain practice writing a reproducible report using Quarto
+-   Be able to create data visualizations using `ggformula` and use those visualizations to describe distributions
 
 # Getting Started
 
 ### Log in to RStudio
 
-- Go to RStudio and login with your College of Idaho Email and Password.
+-   Go to RStudio and login with your College of Idaho Email and Password.
 
-- Make a folder called `hw`to store all of your homework for the semester. Create a subfolder called `hw01` to store this homework.
+-   Make a folder called `hw`to store all of your homework for the semester. Create a subfolder called `hw01` to store this homework.
 
-- Log into [Canvas](https://cofi.instructure.com/courses/18743), navigate to HW-01 and upload the `hw-01.qmd` file into the folder you just made. Unlike some future homeworks, there is no separate data file to upload: today's data loads directly from the internet, so you'll need to be online when you render.
+-   Log into [Canvas](https://cofi.instructure.com/courses/18743), navigate to HW-01 and upload the `hw-01.qmd` file into the folder you just made. Unlike some future homeworks, there is no separate data file to upload: today's data loads directly from the internet, so you'll need to be online when you render.
 
 ## R and RStudio
 
@@ -89,13 +88,18 @@ See the [R resources](/computing-r-resources.qmd) page for a guide to the RStudi
 
 ### YAML
 
-The top portion of your Quarto file (between the three dashed lines) is called **YAML**. It stands for "Yet Another Markup Language". It is a human friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document.
+The top portion of your Quarto file (between the three dashed lines) is called **YAML**. It stands for ""Yet Another Markup Language". It is a human friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document.
+
+::: callout-important
+Open the Quarto (.qmd) file in your project, change the author name to your name, and render the document. Examine the rendered document. You can now work off of that file.
+:::
 
 # Packages
 
 We will use the following packages in today's HW. The line `eval: FALSE` prevents R from running the corresponding chunk. As you work through this HW please delete these lines as you go.
 
 ```{r load-packages}
+#| eval: FALSE
 library(tidyverse)
 library(mosaic)
 library(ggformula)
@@ -105,8 +109,7 @@ library(janitor)
 
 # Data
 
-Dr. F is a full on wierdo and has been keeping a spreadsheet of every cup of coffee he's brewed at home since January 2026 with the hope of learning how to brew the perfect cup. He records the beans and roaster, the brewing method and setup, and his own ratings of how the cup turned out. Each row in the data set is a single cup of coffee.
-The cell below contains code that reads the data into R from a Google Sheet and cleans up the column names. You will need to run this code to get started.
+Dr. F has been keeping a spreadsheet of every cup of coffee he's brewed at home since January 2026: the beans and roaster, the brewing method and setup, and his own ratings of how the cup turned out. Each row in the data set is a single cup of coffee.
 
 ```{r read-data}
 #| eval: FALSE
@@ -116,11 +119,11 @@ coffee <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTI_1K-jHHdb
 
 The full spreadsheet has many columns recording things like grind size, water temperature, and bean-to-water ratio. This homework will focus on just a handful of them:
 
-- `vibes_rating`: Dr. F's overall rating of the cup, on a scale from 0 to 10.
-- `roast`: the roast level of the beans (`Light`, `Light-Medium`, `Medium`, or `Dark`).
-- `origin`: the country (or countries) the beans came from.
-- `brewer`: the device used to brew the cup (e.g. Aeropress, V60).
-- `aroma`, `sweetness`, `acidity`, `body`, `finish`: sub-scores, also on a 0 to 10 scale, that Dr. F assigns to specific aspects of the cup's flavor.
+-   `vibes_rating`: Dr. F's overall rating of the cup, on a scale from 0 to 10.
+-   `roast`: the roast level of the beans (`Light`, `Light-Medium`, `Medium`, or `Dark`).
+-   `origin`: the country (or countries) the beans came from.
+-   `brewer`: the device used to brew the cup (e.g. Aeropress, V60).
+-   `aroma`, `sweetness`, `acidity`, `body`, `finish`: sub-scores, also on a 0 to 10 scale, that Dr. F assigns to specific aspects of the cup's flavor.
 
 ::: callout-note
 You'll also see a column called `average`. It's calculated from the five flavor sub-scores (`aroma`, `sweetness`, `acidity`, `body`, `finish`) and, unsurprisingly, is strongly related to `vibes_rating`. Because it's essentially a summary of variables we're already using, **don't use `average` anywhere in this analysis**: it won't tell you anything the other variables don't already show.
@@ -132,22 +135,28 @@ What makes a good cup of coffee, at least by Dr. F's own standards? The goal of 
 
 # Exercises
 
-Write all code and narrative in your Quarto file. Write all narrative in complete sentences.
-Remember to write all of your responses in an answer box below, there should be a one created for each exercise already.
-Throughout the assignment, you should periodically **render** your Quarto document to produce the updated HTML file.
+Write all code and narrative in your Quarto file. Write all narrative in complete sentences. Throughout the assignment, you should periodically **render** your Quarto document to produce the updated HTML file.
+
+::: callout-tip
+Make sure we can read all of your code in your HTML file. This means you will need to break up long lines of code. One way to help avoid long lines of code is to start a new line after every pipe (`|>`).
+:::
 
 ::: {.exercise}
 Run the code below to get a first look at the `coffee` data set.
-Create a code chunk in the answer block below and write a little bit of code to take quick look at your data so you can answer these questions.
+
+```{r glimpse-data}
+#| eval: FALSE
+glimpse(coffee)
+names(coffee)
+```
+
 How many observations (rows) and how many variables (columns) does `coffee` have? In your own words, what does a single row of this data set represent?
 :::
 
-::: {.answer}
+::: callout-note
+In your `hw-01.qmd` document you'll see that each task is wrapped in an `exercise` box, with an empty `answer` box below it for you to fill in your response. Use this format for the remaining exercises.
 
-:::
-
-::: {.exercise}
-Using the variable descriptions above, classify each of the following as **quantitative** or **categorical**: `vibes_rating`, `roast`, `origin`, `brewer`, `aroma`, `sweetness`, `acidity`, `body`, `finish`.
+Also note that the code chunk above has a label: `glimpse-data`. It's not required, but it's good practice and highly encouraged to label your code chunks using short, meaningful names. (*Hint: Do not use spaces in code chunk labels. Use `-` to separate multiple words, and don't repeat labels.*)
 :::
 
 ::: {.answer}
@@ -155,20 +164,57 @@ Using the variable descriptions above, classify each of the following as **quant
 :::
 
 ::: {.exercise}
-Let's look at the distribution of our response variable, `vibes_rating`.
-In the code chunk that is in the answer block below, fill in the blanks below to create a histogram and to calculate summary statistics using the `favstats` function from the `mosaic` package. Remember to change `eval: FALSE` to `eval: TRUE`.
+Look at the output of `names(coffee)` from the previous exercise. The original spreadsheet has column headers like "Vibes Rating" and "Beans Weight g", but that's not what `names(coffee)` prints.
 
-Use the plot and summary statistics to describe the distribution of `vibes_rating`: comment on its shape, center, spread, and the presence of any apparent outliers.
+-   What did the `clean_names()` function (from the `janitor` package) do to the column names?
+-   Why is it useful to have column names in this format when writing R code?
+
+Then, using the variable descriptions above, classify each of the following as **quantitative** or **categorical**: `vibes_rating`, `roast`, `origin`, `brewer`, `aroma`, `sweetness`, `acidity`, `body`, `finish`.
 :::
 
 ::: {.answer}
+
+:::
+
+::: {.exercise}
+In the console, look at the distinct roast levels with `unique(coffee$roast)`. By default, R will treat `roast` as a plain character variable, which means any plot involving `roast` will list the levels alphabetically: `Dark`, `Light`, `Light-Medium`, `Medium`.
+
+Fill in the blanks below to turn `roast` into a **factor** with its levels ordered from lightest to darkest roast instead. Make sure you change `eval: FALSE` to `eval: TRUE`.
+
+```{r order-roast}
+#| eval: FALSE
+coffee <- coffee |>
+  mutate(roast = factor(roast, levels = c("____", "____", "____", "____")))
+```
+
+Why is R's default alphabetical ordering a problem for a variable like `roast`? What would change in a bar chart of `roast` once the levels are ordered from lightest to darkest?
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Let's look at the distribution of our response variable, `vibes_rating`. Fill in the blanks below to create a histogram with an informative title and axis labels, and to calculate summary statistics using the `favstats` function from the `mosaic` package. Remember to change `eval: FALSE` to `eval: TRUE`.
 
 ```{r}
 #| eval: FALSE
-gf_histogram(~____, data = ____)
+gf_histogram(~____, data = ____) |>
+  gf_labs(x = "_____",
+       y = "_____",
+       title = "_____")
 
 favstats(~____, data = ____)
 ```
+
+Use the plot and summary statistics to describe the distribution of `vibes_rating`: comment on its shape, center, spread, and the presence of any apparent outliers.
+
+::: callout-tip
+This is a good place to render your document.
+:::
+:::
+
+::: {.answer}
 
 :::
 
@@ -176,6 +222,7 @@ favstats(~____, data = ____)
 Now let's look at the categorical variables. The code below makes a bar chart of `roast`:
 
 ```{r}
+#| eval: FALSE
 gf_bar(~roast, data = coffee) |>
   gf_labs(x = "Roast",
        y = "Count",
@@ -188,25 +235,21 @@ Which roast, origin, and brewer show up most often in Dr. F's coffee log? You'll
 :::
 
 ::: {.answer}
-
 ```{r}
 
 ```
-
 :::
 
 ::: {.exercise}
 Now examine the distributions of the five flavor sub-scores: `aroma`, `sweetness`, `acidity`, `body`, and `finish`. For each one, create a histogram (with an informative title and axis labels) and calculate summary statistics with `favstats`.
 
-Based on your plots and summary statistics: which sub-score does Dr. F tend to rate highest on average? Which does he rate lowest? Which sub-score varies the most from cup to cup? (_Hint: look at the standard deviation, `sd`, in the `favstats` output._)
+Based on your plots and summary statistics: which sub-score does Dr. F tend to rate highest on average? Which does he rate lowest? Which sub-score varies the most from cup to cup? (*Hint: look at the standard deviation, `sd`, in the `favstats` output.*)
 :::
 
 ::: {.answer}
-
 ```{r}
 
 ```
-
 :::
 
 ::: {.exercise}
@@ -216,17 +259,15 @@ Based on your plots and summary statistics, what kinds of roasts does Dr. F seem
 :::
 
 ::: {.answer}
-
 ```{r}
 
 ```
-
 :::
 
 ::: {.exercise}
 Now do the same comparison for `brewer`: a side-by-side boxplot of `vibes_rating` by `brewer`, plus the corresponding `favstats`.
 
-Even if one brewer has a noticeably higher mean rating, explain why we can't conclude that brewer _causes_ better-tasting coffee. (_Hint: over the months represented in this data set, did Dr. F change anything else besides the brewer, such as the beans, roaster, or grinder, at around the same time he changed brewers?_)
+Even if one brewer has a noticeably higher mean rating, explain why we can't conclude that brewer *causes* better-tasting coffee. (*Hint: over the months represented in this data set, did Dr. F change anything else besides the brewer, such as the beans, roaster, or grinder, at around the same time he changed brewers?*)
 
 ::: callout-tip
 This is another good place to render your document.
@@ -234,11 +275,9 @@ This is another good place to render your document.
 :::
 
 ::: {.answer}
-
 ```{r}
 
 ```
-
 :::
 
 ::: {.exercise}
@@ -252,11 +291,9 @@ For each relationship, describe its direction, form, and strength. Then answer t
 :::
 
 ::: {.answer}
-
 ```{r}
 
 ```
-
 :::
 
 ::: {.exercise}
@@ -267,7 +304,7 @@ So far we've looked at variables two at a time. Now create one plot that shows *
 gf_point(vibes_rating ~ acidity, color = ~roast, data = coffee)
 ```
 
-Does the relationship between `vibes_rating` and the sub-score you chose look the same within each roast level as it did overall in the previous exercise, or does it change depending on the roast? (_This is the same idea behind Simpson's Paradox from lecture: a relationship between two variables can look different, or even reverse, once you account for a third._)
+Does the relationship between `vibes_rating` and the sub-score you chose look the same within each roast level as it did overall in the previous exercise, or does it change depending on the roast? (*This is the same idea behind Simpson's Paradox from lecture: a relationship between two variables can look different, or even reverse, once you account for a third.*)
 
 Finally, in a short paragraph, discuss the limitations of this data set. Dr. F chose which cups to brew, brewed them himself, and rated them himself, usually knowing which beans and method he was using at the time. Given that, what can this analysis reasonably tell us, and what can't it tell us?
 :::
@@ -284,21 +321,20 @@ You're done and ready to submit your work! Render your document and upload the .
 
 <br>
 
-| Component             | Points |
-| :-------------------- | :----- |
-| Ex 1                  | 1      |
-| Ex 2                  | 2      |
-| Ex 3                  | 2      |
-| Ex 4                  | 2      |
-| Ex 5                  | 2      |
-| Ex 6                  | 2      |
-| Ex 7                  | 3      |
-| Ex 8                  | 2      |
-| Ex 9                  | 3      |
-| Ex 10                 | 3      |
-| Grammar & Writing     | 1[^1]  |
-| Workflow & formatting | 1[^2]  |
+| Component              | Points |
+|:------------------------|:-------|
+| Ex 1                    | 1      |
+| Ex 2                    | 2      |
+| Ex 3                    | 2      |
+| Ex 4                    | 2      |
+| Ex 5                    | 2      |
+| Ex 6                    | 2      |
+| Ex 7                    | 3      |
+| Ex 8                    | 2      |
+| Ex 9                    | 3      |
+| Ex 10                   | 3      |
+| Grammar & Writing       | 1[^1]  |
+| Workflow & formatting   | 1[^2]  |
 
 [^1]: The "Grammar & Writing" grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.
-
 [^2]: The "Workflow & formatting" grade is to assess the reproducible workflow and document format. This includes having a neatly organized document with readable code and your name and the date in the YAML.
