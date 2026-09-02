@@ -81,7 +81,7 @@ By the end of this homework, you will...
 
 - Make a folder called `hw` to store all of your homework for the semester. Create a subfolder called `hw01` to store this homework.
 
-- Log into [Canvas](https://cofi.instructure.com/courses/18743), navigate to HW-01, and download the `hw-01.qmd` file. Then upload it into the folder you just made. Unlike some future homeworks, there is no separate data file to upload: today's data loads directly from the internet, so you'll need to be online when you render.
+- Log into [Canvas](https://cofi.instructure.com/courses/18743/assignments/242687), navigate to HW-01, and download the `hw-01.qmd` file. Then upload it into the folder you just made. Unlike some future homeworks, there is no separate data file to upload: today's data loads directly from the internet, so you'll need to be online when you render.
 
 ## R and RStudio
 

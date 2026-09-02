@@ -53,7 +53,7 @@ format:
 
 -   Open **RStudio** and create a subfolder in your AE folder called "AE-02"
 
--   Go to the [Canvas](insert link) and locate your `AE 02` assignment to get started.
+-   Go to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743/assignments/242686) to get started.
 
 -   Upload the `ae-02.qmd` files into the folder you just created. To submit this Activity, upload the `.qmd` and `.html` responses in the corresponding Canvas assignment.
 :::
