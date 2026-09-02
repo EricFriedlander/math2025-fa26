@@ -1,7 +1,9 @@
 ---
-title: "Preparation for the Big Picture"
+title: "Preparation for Introduction to R, Quarto, & RStudio"
 ---
 
 ## Assigned reading
 
 - Review Syllabus
+<!-- - [Read 1 Regression in the data science workflow](https://introregression.netlify.app/01-intro)
+<!--- [Read 2 ](https://introregression.netlify.app/02-review-r)-->

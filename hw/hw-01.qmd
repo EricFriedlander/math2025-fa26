@@ -79,21 +79,21 @@ By the end of this homework, you will...
 
 - Go to RStudio and login with your College of Idaho Email and Password.
 
-- Make a folder called `hw`to store all of your homework for the semester. Create a subfolder called `hw01` to store this homework.
+- Make a folder called `hw` to store all of your homework for the semester. Create a subfolder called `hw01` to store this homework.
 
-- Log into [Canvas](https://cofi.instructure.com/courses/18743), navigate to HW-01 and upload the `hw-01.qmd` file into the folder you just made. Unlike some future homeworks, there is no separate data file to upload: today's data loads directly from the internet, so you'll need to be online when you render.
+- Log into [Canvas](https://cofi.instructure.com/courses/18743), navigate to HW-01, and download the `hw-01.qmd` file. Then upload it into the folder you just made. Unlike some future homeworks, there is no separate data file to upload: today's data loads directly from the internet, so you'll need to be online when you render.
 
 ## R and RStudio
 
-See the [R resources](/computing-r-resources.qmd) page for a guide to the RStudio IDE and Quarto file components.
+See the [R resources](https://ericfriedlander.github.io/math2025-fa26/computing-r-resources.html) page for a guide to the RStudio IDE and Quarto file components.
 
 ### YAML
 
-The top portion of your Quarto file (between the three dashed lines) is called **YAML**. It stands for "Yet Another Markup Language". It is a human friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document.
+The top portion of your Quarto file (between the three dashed lines) is called **YAML**. It stands for "Yet Another Markup Language". It is a human-friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document.
 
 # Packages
 
-We will use the following packages in today's HW. The line `eval: FALSE` prevents R from running the corresponding chunk. As you work through this HW please delete these lines as you go.
+We will use the following packages in today's HW.
 
 ```{r load-packages}
 library(tidyverse)
@@ -105,11 +105,10 @@ library(janitor)
 
 # Data
 
-Dr. F is a full on wierdo and has been keeping a spreadsheet of every cup of coffee he's brewed at home since January 2026 with the hope of learning how to brew the perfect cup. He records the beans and roaster, the brewing method and setup, and his own ratings of how the cup turned out. Each row in the data set is a single cup of coffee.
-The cell below contains code that reads the data into R from a Google Sheet and cleans up the column names. You will need to run this code to get started.
+Dr. F is a full-on weirdo and has been keeping a spreadsheet of every cup of coffee he's brewed at home since January 2026 with the hope of learning how to brew the perfect cup. He records the beans and roaster, the brewing method and setup, and his own ratings of how the cup turned out. Each row in the data set is a single cup of coffee.
+The code chunk below reads the data into R from a Google Sheet and cleans up the column names. You will need to run this code to get started.
 
 ```{r read-data}
-#| eval: FALSE
 coffee <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTI_1K-jHHdbpi11aB5tX3Avr2eRXULfLg9BoveWhId4soH1BAnIJWuu0CiqO7YiP1TVoqsGi6kLbli/pub?gid=0&single=true&output=csv") |>
   clean_names()
 ```
@@ -132,13 +131,20 @@ What makes a good cup of coffee, at least by Dr. F's own standards? The goal of 
 
 # Exercises
 
+
+## Tips
+
+
 Write all code and narrative in your Quarto file. Write all narrative in complete sentences.
-Remember to write all of your responses in an answer box below, there should be a one created for each exercise already.
+Write each of your responses in the answer box below the corresponding exercise; one has already been created for each exercise.
 Throughout the assignment, you should periodically **render** your Quarto document to produce the updated HTML file.
 
+If you get stuck and can't remember how to do something, try looking back at [Lecture 1](https://ericfriedlander.github.io/math2025-fa26/slides/01-intro-to-r.html) and [Lecture 2](https://ericfriedlander.github.io/math2025-fa26/slides/02-exploratory-data-analysis.html) and the two Application Exercises that you completed alongside them.
+
+## Taking a *glimpse* (hint hint) at the data
+
 ::: {.exercise}
-Run the code below to get a first look at the `coffee` data set.
-Create a code chunk in the answer block below and write a little bit of code to take quick look at your data so you can answer these questions.
+Create a code chunk in the answer block below and write a little bit of code to take a quick look at your data so you can answer these questions.
 How many observations (rows) and how many variables (columns) does `coffee` have? In your own words, what does a single row of this data set represent?
 :::
 
@@ -154,9 +160,25 @@ Using the variable descriptions above, classify each of the following as **quant
 
 :::
 
+## Visualizing the data
+
+We'll start by taking a look at our response variable `vibes_rating`.
+
+:::{.exercise}
+Remember the two questions you should ask before plotting a variable:
+
+1. How many variables am I trying to visualize?
+2. What type of variables are they?
+
+Consider `vibes_rating`. Answer the two questions above, then specify what type(s) of plots would be most appropriate. (List at least two.)
+:::
+
+:::{.answer}
+
+:::
+
 ::: {.exercise}
-Let's look at the distribution of our response variable, `vibes_rating`.
-In the code chunk that is in the answer block below, fill in the blanks below to create a histogram and to calculate summary statistics using the `favstats` function from the `mosaic` package. Remember to change `eval: FALSE` to `eval: TRUE`.
+In the code chunk that is in the answer block below, create at least one of the plots you specified above to visualize `vibes_rating`. Then use `favstats` to calculate summary statistics for `vibes_rating`.
 
 Use the plot and summary statistics to describe the distribution of `vibes_rating`: comment on its shape, center, spread, and the presence of any apparent outliers.
 :::
@@ -164,15 +186,11 @@ Use the plot and summary statistics to describe the distribution of `vibes_ratin
 ::: {.answer}
 
 ```{r}
-#| eval: FALSE
-gf_histogram(~____, data = ____)
 
-favstats(~____, data = ____)
 ```
 
 :::
 
-::: {.exercise}
 Now let's look at the categorical variables. The code below makes a bar chart of `roast`:
 
 ```{r}
@@ -182,9 +200,16 @@ gf_bar(~roast, data = coffee) |>
        title = "Distribution of Roast Levels")
 ```
 
-Using this as a template, create your own bar charts for `origin` and `brewer`, each with an informative title and axis labels.
+Note that we haven't talked about the symbol `|>` or the function `gf_labs` in class.
+The function `gf_labs` is used to add informative axis labels and a title to a `ggplot` object.
+The symbol `|>` is called a "pipe" operator and is used to chain together multiple functions in a readable way.
+When you encounter a pipe in code say "and then" to yourself in your head.
+For the code above you can say "Make a bar chart of `roast` *and then* add informative axis labels and a title."
 
-Which roast, origin, and brewer show up most often in Dr. F's coffee log? You'll likely notice that `origin` has some messy categories (for example, blends of multiple countries) and that some categories have only a handful of cups. Why is that worth keeping in mind for the comparisons we'll make in the rest of this homework?
+::: {.exercise}
+Using code for a bar chart as a template, create your own bar charts for `origin` and `brewer`, each with an informative title and axis labels. Note that some of the categories may overlap or be messy, don't worry about fixing that yet.
+
+Which roast, origin, and brewer show up most often in Dr. F's coffee log? You'll likely notice that some of the categories are messy and don't appear in a nice order. We'll talk about how to fix this later on. For now, call out 1-3 things that you'd like to fix if you knew how.
 :::
 
 ::: {.answer}
@@ -198,7 +223,7 @@ Which roast, origin, and brewer show up most often in Dr. F's coffee log? You'll
 ::: {.exercise}
 Now examine the distributions of the five flavor sub-scores: `aroma`, `sweetness`, `acidity`, `body`, and `finish`. For each one, create a histogram (with an informative title and axis labels) and calculate summary statistics with `favstats`.
 
-Based on your plots and summary statistics: which sub-score does Dr. F tend to rate highest on average? Which does he rate lowest? Which sub-score varies the most from cup to cup? (_Hint: look at the standard deviation, `sd`, in the `favstats` output._)
+Based on your plots and summary statistics: Which sub-score varies the most from cup to cup? (_Hint: look at the standard deviation, `sd`, in the `favstats` output._)
 :::
 
 ::: {.answer}
@@ -210,8 +235,23 @@ Based on your plots and summary statistics: which sub-score does Dr. F tend to r
 :::
 
 ::: {.exercise}
-Let's compare `vibes_rating` across categories. Create side-by-side boxplots of `vibes_rating` by `roast`, and another set by `origin`. For each, also calculate `favstats(vibes_rating ~ roast, data = coffee)` (and the equivalent for `origin`).
+Remember, our ultimate goal is to figure out what makes the best cup of coffee.
+That is, we want to understand what factors contribute to a high `vibes_rating`.
+Let's compare `vibes_rating` across categories. We want to generate one plot of `vibes_rating` vs. `roast`.
 
+Answer these two questions about the plot and then state what kinds of plots you could make:
+
+1. How many variables are we trying to visualize at once?
+2. What kind of variables are these?
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Make at least one of the plots you described above to visualize `vibes_rating` vs. `roast` and another plot of `vibes_rating` vs. `origin`.
+For each pair, also calculate `favstats(vibes_rating ~ roast, data = coffee)` (and the equivalent for `origin`).
 Based on your plots and summary statistics, what kinds of roasts does Dr. F seem to prefer? What about origins? Be sure to reference the group sizes (`n` in the `favstats` output): how much should we trust a comparison built on a group with only two or three cups?
 :::
 
@@ -226,11 +266,27 @@ Based on your plots and summary statistics, what kinds of roasts does Dr. F seem
 ::: {.exercise}
 Now do the same comparison for `brewer`: a side-by-side boxplot of `vibes_rating` by `brewer`, plus the corresponding `favstats`.
 
-Even if one brewer has a noticeably higher mean rating, explain why we can't conclude that brewer _causes_ better-tasting coffee. (_Hint: over the months represented in this data set, did Dr. F change anything else besides the brewer, such as the beans, roaster, or grinder, at around the same time he changed brewers?_)
+Even if one brewer has a noticeably higher mean rating, explain why we can't conclude that brewer _causes_ better-tasting coffee.
+:::
+
+::: {.answer}
+
+```{r}
+
+```
+
+:::
 
 ::: callout-tip
 This is another good place to render your document.
 :::
+
+::: {.exercise}
+Finally, let's look at how `vibes_rating` relates to the flavor sub-scores. Choose at least three of `aroma`, `sweetness`, `acidity`, `body`, and `finish`. For each one, create a plot of `vibes_rating` against that sub-score. While you don't need to write the answers here, remember to ask the two questions above.
+
+For each relationship, do your best to describe its direction and strength.
+
+Bonus: You'll notice that since everything is on a scale from 1 to 10, alot of the points are overlapping and it's hard to see the real relationships if you use `gf_point`. Instead try using `gf_jitter`. What do you think this does?
 :::
 
 ::: {.answer}
@@ -242,34 +298,11 @@ This is another good place to render your document.
 :::
 
 ::: {.exercise}
-Finally, let's look at how `vibes_rating` relates to the flavor sub-scores. Choose at least three of `aroma`, `sweetness`, `acidity`, `body`, and `finish`. For each one, create a scatterplot of `vibes_rating` against that sub-score with a fitted line (e.g. `gf_point(vibes_rating ~ acidity, data = coffee) |> gf_lm()`), and calculate the correlation (e.g. `cor(vibes_rating ~ acidity, data = coffee, use = "complete.obs")`).
+Based on the analysis you've done so far, write a brief summary addressing the following:
 
-::: callout-note
-A few cups are missing a rating, so `cor()` needs to be told to skip those rows: that's what the `use = "complete.obs"` argument does. Without it, `cor()` will return `NA`.
-:::
-
-For each relationship, describe its direction, form, and strength. Then answer the analysis question from the beginning of this homework: based on what you found, which flavor characteristic seems to matter most to Dr. F's overall rating? Which one seems to matter least?
-:::
-
-::: {.answer}
-
-```{r}
-
-```
-
-:::
-
-::: {.exercise}
-So far we've looked at variables two at a time. Now create one plot that shows **three** variables at once, for example:
-
-```{r}
-#| eval: FALSE
-gf_point(vibes_rating ~ acidity, color = ~roast, data = coffee)
-```
-
-Does the relationship between `vibes_rating` and the sub-score you chose look the same within each roast level as it did overall in the previous exercise, or does it change depending on the roast? (_This is the same idea behind Simpson's Paradox from lecture: a relationship between two variables can look different, or even reverse, once you account for a third._)
-
-Finally, in a short paragraph, discuss the limitations of this data set. Dr. F chose which cups to brew, brewed them himself, and rated them himself, usually knowing which beans and method he was using at the time. Given that, what can this analysis reasonably tell us, and what can't it tell us?
+- What recommendations would you make to Dr. Friedlander about the most important factors in finding his favorite coffee?
+- Why might you not want to fully trust these conclusions? Hint: Think about confounding variables.
+- If you were going to study this question further, what additional information would you want?
 :::
 
 ::: {.answer}
@@ -280,25 +313,26 @@ Finally, in a short paragraph, discuss the limitations of this data set. Dr. F c
 You're done and ready to submit your work! Render your document and upload the .qmd and .html files to Canvas.
 :::
 
-# Grading (24 pts)
+# Grading (22 pts + 1 bonus pt)
 
 <br>
 
 | Component             | Points |
 | :-------------------- | :----- |
-| Ex 1                  | 1      |
-| Ex 2                  | 2      |
-| Ex 3                  | 2      |
+| Ex 1                  | 2      |
+| Ex 2                  | 1      |
+| Ex 3                  | 1      |
 | Ex 4                  | 2      |
 | Ex 5                  | 2      |
 | Ex 6                  | 2      |
-| Ex 7                  | 3      |
+| Ex 7                  | 1      |
 | Ex 8                  | 2      |
-| Ex 9                  | 3      |
-| Ex 10                 | 3      |
+| Ex 9                  | 2      |
+| Ex 10                 | 2 (1 bonus pt) |
+| Ex 11                 | 3      |
 | Grammar & Writing     | 1[^1]  |
 | Workflow & formatting | 1[^2]  |
 
 [^1]: The "Grammar & Writing" grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.
 
-[^2]: The "Workflow & formatting" grade is to assess the reproducible workflow and document format. This includes having a neatly organized document with readable code and your name and the date in the YAML.
+[^2]: The "Workflow & formatting" grade is to assess the reproducible workflow and document format. This includes having a neatly organized document with readable code, your name in the YAML, and all answers in answer blocks.

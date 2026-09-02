@@ -1,5 +1,5 @@
 ---
-title: "AE 02: Multivariate Relationships"
+title: "AE 02: Exploratory Data Analysis"
 author: "Your name here"
 editor: visual
 format:

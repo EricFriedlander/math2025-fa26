@@ -78,7 +78,7 @@ By the end of this homework, you will...
 
 ## R and RStudio
 
-See the [R resources](/computing-r-resources.qmd) page for a guide to the RStudio IDE and Quarto file components.
+See the [R resources](https://ericfriedlander.github.io/math2025-fa26/computing-r-resources.html) page for a guide to the RStudio IDE and Quarto file components.
 
 ### YAML
 

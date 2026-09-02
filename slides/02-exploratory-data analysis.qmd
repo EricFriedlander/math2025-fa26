@@ -1,5 +1,5 @@
 ---
-title: "Multivariate Relationships"
+title: "Exploratory Data Analysis"
 author: "Prof. Eric Friedlander"
 footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/schedule)"
 logo: "../images/logo.png"

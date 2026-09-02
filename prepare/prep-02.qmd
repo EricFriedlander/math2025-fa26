@@ -1,5 +1,5 @@
 ---
-title: "Preparation for Multivariate Relationships"
+title: "Preparation for Exploratory Data Analysis"
 ---
 
 ## Assigned reading
