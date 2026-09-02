@@ -114,7 +114,7 @@
     "href": "slides/02-exploratory-data-analysis.html#multivariate-relationships",
     "title": "Exploratory Data Analysis",
     "section": "Multivariate Relationships",
-    "text": "Multivariate Relationships\n\n📋 AE 02 - Multivariate Relationships\n\nGet the activity set-up in your RStudio project like we did last time."
+    "text": "Multivariate Relationships\n\n📋 AE 02 - Exploratory Data Analysis\n\nGet the activity set-up in your RStudio project like we did last time."
   },
   {
     "objectID": "slides/02-exploratory-data-analysis.html#packages-in-r",
@@ -856,7 +856,7 @@
     "href": "ae/ae-02-exploratory-data-analysis.html",
     "title": "AE 02: Exploratory Data Analysis",
     "section": "",
-    "text": "Important\n\n\n\n\nFor this exercise, you will work in groups, but everyone will work through the document and submit their solution.\nOpen RStudio and create a subfolder in your AE folder called “AE-02”\nGo to the Canvas and locate your AE 02 assignment to get started.\nUpload the ae-02.qmd files into the folder you just created. To submit this Activity, upload the .qmd and .html responses in the corresponding Canvas assignment."
+    "text": "Important\n\n\n\n\nFor this exercise, you will work in groups, but everyone will work through the document and submit their solution.\nOpen RStudio and create a subfolder in your AE folder called “AE-02”\nGo to the assignment for this activity in Canvas to get started.\nUpload the ae-02.qmd files into the folder you just created. To submit this Activity, upload the .qmd and .html responses in the corresponding Canvas assignment."
   },
   {
     "objectID": "ae/ae-02-exploratory-data-analysis.html#carbohydrates-and-starbucks",
