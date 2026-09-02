@@ -110,142 +110,184 @@
     ]
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#multivariate-relationships",
-    "href": "slides/02-multivariate-relationships.html#multivariate-relationships",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#multivariate-relationships",
+    "href": "slides/02-exploratory-data analysis.html#multivariate-relationships",
+    "title": "Exploratory Data Analysis",
     "section": "Multivariate Relationships",
-    "text": "Multivariate Relationships\n\n📋 AE 02 - Multivariate Relationships\n\n\nComplete Exercises 1-5"
+    "text": "Multivariate Relationships\n\n📋 AE 02 - Multivariate Relationships\n\nGet the activity set-up in your RStudio project like we did last time."
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#carbohydrates-in-starbucks-food",
-    "href": "slides/02-multivariate-relationships.html#carbohydrates-in-starbucks-food",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#packages-in-r",
+    "href": "slides/02-exploratory-data analysis.html#packages-in-r",
+    "title": "Exploratory Data Analysis",
+    "section": "Packages in R",
+    "text": "Packages in R\n\nR is an open source programming language and environment for statistical computing and graphics\nThis means that anyone can use R for free, and anyone can contribute to the development of R\nR has a large ecosystem of packages that extend its functionality\n\nThink of these like expansion packs for R\n\nIf you’re on your own computer, each packages needs to be install once using the function install.packages()\nRegardless of what computer you’re on each package needs to be loaded using the function library() every timne you want to use it\nWe typically load all packages at the beginning of our scripts and Quarto files\n\n\n\nLet’t complete Exercise 1 in the Activity."
+  },
+  {
+    "objectID": "slides/02-exploratory-data analysis.html#carbohydrates-in-starbucks-food",
+    "href": "slides/02-exploratory-data analysis.html#carbohydrates-in-starbucks-food",
+    "title": "Exploratory Data Analysis",
     "section": "Carbohydrates in Starbucks food",
-    "text": "Carbohydrates in Starbucks food\n\nStarbucks often displays the total calories in their food items but not the other nutritional information.\nCarbohydrates are a body’s main fuel source. The Dietary Guidelines for America recommend that carbohydrates make up 45% to 65% of total daily calories.1\nOur goal is to understand the relationship between the amount of carbohydrates and calories in Starbucks food items. We’d also like to assess if the relationship differs based on the type of food item (bakery, salad, sandwich, etc.)\n\nComplete the activity.\nSource: Mayo Clinic"
+    "text": "Carbohydrates in Starbucks food\n\nStarbucks often displays the total calories in their food items but not the other nutritional information.\nCarbohydrates are a body’s main fuel source. The Dietary Guidelines for America recommend that carbohydrates make up 45% to 65% of total daily calories.1\nOur goal is to understand the relationship between the amount of carbohydrates and calories in Starbucks food items. We’d also like to assess if the relationship differs based on the type of food item (bakery, salad, sandwich, etc.)\n\n\nComplete Exercises 2-5.\n\nSource: Mayo Clinic"
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#starbucks-data",
-    "href": "slides/02-multivariate-relationships.html#starbucks-data",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#starbucks-data",
+    "href": "slides/02-exploratory-data analysis.html#starbucks-data",
+    "title": "Exploratory Data Analysis",
     "section": "Starbucks data",
-    "text": "Starbucks data\n\nlibrary(openintro)\n\nstarbucks &lt;- starbucks |&gt; \n  mutate(bakery = factor(if_else(type == \"bakery\", \"bakery\", \"non-bakery\")))\n\nglimpse(starbucks)\n\nRows: 77\nColumns: 8\n$ item     &lt;chr&gt; \"8-Grain Roll\", \"Apple Bran Muffin\", \"Apple Fritter\", \"Banana…\n$ calories &lt;int&gt; 350, 350, 420, 490, 130, 370, 460, 370, 310, 420, 380, 320, 3…\n$ fat      &lt;dbl&gt; 8, 9, 20, 19, 6, 14, 22, 14, 18, 25, 17, 12, 17, 21, 5, 18, 1…\n$ carb     &lt;int&gt; 67, 64, 59, 75, 17, 47, 61, 55, 32, 39, 51, 53, 34, 57, 52, 7…\n$ fiber    &lt;int&gt; 5, 7, 0, 4, 0, 5, 2, 0, 0, 0, 2, 3, 2, 2, 3, 3, 2, 3, 0, 2, 0…\n$ protein  &lt;int&gt; 10, 6, 5, 7, 0, 6, 7, 6, 5, 7, 4, 6, 5, 5, 12, 7, 8, 6, 0, 10…\n$ type     &lt;fct&gt; bakery, bakery, bakery, bakery, bakery, bakery, bakery, baker…\n$ bakery   &lt;fct&gt; bakery, bakery, bakery, bakery, bakery, bakery, bakery, baker…\n\n\n\nObservations: 77 Starbucks food items\nVariables:\n\ncarb: Total carbohydrates (in grams)\ncalories: Total calories\nbakery: bakery: bakery food item, non-bakery: other food type"
+    "text": "Starbucks data\n\nlibrary(openintro)\n\nstarbucks &lt;- starbucks |&gt;\n  mutate(bakery = factor(if_else(type == \"bakery\", \"bakery\", \"non-bakery\")))\n\nglimpse(starbucks)\n\nRows: 77\nColumns: 8\n$ item     &lt;chr&gt; \"8-Grain Roll\", \"Apple Bran Muffin\", \"Apple Fritter\", \"Banana…\n$ calories &lt;int&gt; 350, 350, 420, 490, 130, 370, 460, 370, 310, 420, 380, 320, 3…\n$ fat      &lt;dbl&gt; 8, 9, 20, 19, 6, 14, 22, 14, 18, 25, 17, 12, 17, 21, 5, 18, 1…\n$ carb     &lt;int&gt; 67, 64, 59, 75, 17, 47, 61, 55, 32, 39, 51, 53, 34, 57, 52, 7…\n$ fiber    &lt;int&gt; 5, 7, 0, 4, 0, 5, 2, 0, 0, 0, 2, 3, 2, 2, 3, 3, 2, 3, 0, 2, 0…\n$ protein  &lt;int&gt; 10, 6, 5, 7, 0, 6, 7, 6, 5, 7, 4, 6, 5, 5, 12, 7, 8, 6, 0, 10…\n$ type     &lt;fct&gt; bakery, bakery, bakery, bakery, bakery, bakery, bakery, baker…\n$ bakery   &lt;fct&gt; bakery, bakery, bakery, bakery, bakery, bakery, bakery, baker…\n\n\n\nObservations: 77 Starbucks food items\nVariables:\n\ncarb: Total carbohydrates (in grams)\ncalories: Total calories\nbakery: bakery: bakery food item, non-bakery: other food type"
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#terminology",
-    "href": "slides/02-multivariate-relationships.html#terminology",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#terminology",
+    "href": "slides/02-exploratory-data analysis.html#terminology",
+    "title": "Exploratory Data Analysis",
     "section": "Terminology",
-    "text": "Terminology\n\ncarb is the response variable\n\nvariable whose variation we want to understand / variable we wish to predict\nalso known as outcome or target variable\n\n\n\n\ncalories, bakery are the explanatory variables\n\nvariables used to account for variation in the response\nalso known as predictor, or input variables\n\n\n\n\nComplete the remainder of the Exercises."
+    "text": "Terminology\n\ncarb is the response variable\n\nvariable whose variation we want to understand / variable we wish to predict\nalso known as outcome or target variable\n\n\n\n\ncalories, bakery are the explanatory variables\n\nvariables used to account for variation in the response\nalso known as predictor, or input variables"
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#univariate-exploratory-data-analysis",
-    "href": "slides/02-multivariate-relationships.html#univariate-exploratory-data-analysis",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#model-centric-approach",
+    "href": "slides/02-exploratory-data analysis.html#model-centric-approach",
+    "title": "Exploratory Data Analysis",
+    "section": "Model-centric approach",
+    "text": "Model-centric approach\nFor the purposes of our class, it’s useful to learn a model-centric approach to R. The pseudo-code below is going to be our foundation for the rest of the class:\nfunction( Y ~ X, data = DataSetName )\nHere’s a short description of each part in the pseudo-code above:\n\nfunction is an R function that dictates something you want to do with your data; for example,\n\nmean calculates the mean\nlm fits a linear regression model\n\nY is the response variable\nX is some explanatory variable; you can use 1 as a placeholder if there is no explanatory variable\nDataSetName is the name of a data set loaded into the R environment"
+  },
+  {
+    "objectID": "slides/02-exploratory-data analysis.html#exploratory-data-analysis",
+    "href": "slides/02-exploratory-data analysis.html#exploratory-data-analysis",
+    "title": "Exploratory Data Analysis",
+    "section": "Exploratory data analysis",
+    "text": "Exploratory data analysis\nA research question:\n\nHow do the number of carbs compare for bakery and non-bakery items?\n\nGoal: learn as much as you can about your research question before doing any statistical modeling\n\n\nComplete Exercises 6 & 7."
+  },
+  {
+    "objectID": "slides/02-exploratory-data analysis.html#guiding-questions",
+    "href": "slides/02-exploratory-data analysis.html#guiding-questions",
+    "title": "Exploratory Data Analysis",
+    "section": "Guiding Questions",
+    "text": "Guiding Questions\nBefore visualizing or analyzing any data, you want to ask two types of questions:\n\nHow many variables do you want to analyze simultaneously?\nWhat kind of variables are they?"
+  },
+  {
+    "objectID": "slides/02-exploratory-data analysis.html#terminology-1",
+    "href": "slides/02-exploratory-data analysis.html#terminology-1",
+    "title": "Exploratory Data Analysis",
+    "section": "Terminology",
+    "text": "Terminology\n\nOne variable at a timne: univariate analysis\nTwo variables at a time: bivariate analysis\nThree or more variables at a time: multivariate analysis"
+  },
+  {
+    "objectID": "slides/02-exploratory-data analysis.html#guide-to-plotting",
+    "href": "slides/02-exploratory-data analysis.html#guide-to-plotting",
+    "title": "Exploratory Data Analysis",
+    "section": "Guide to plotting",
+    "text": "Guide to plotting\n\n\n\nSetting\nPlots To Use\n\n\n\n\nQuantitative\nHistogram, Boxplot, Jitter Plot\n\n\nCategorical\nBar chart\n\n\nQuant vs. Quant\nScatter plot\n\n\nQuant vs. Cat\nSide-by-side boxplots or jitter plots\n\n\nCat vs. Cat\nSide-by-side, stacked, standardized bar charts\n\n\nMultivariate\ndepends"
+  },
+  {
+    "objectID": "slides/02-exploratory-data analysis.html#univariate-exploratory-data-analysis",
+    "href": "slides/02-exploratory-data analysis.html#univariate-exploratory-data-analysis",
+    "title": "Exploratory Data Analysis",
     "section": "Univariate exploratory data analysis",
     "text": "Univariate exploratory data analysis"
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#bivariate-exploratory-data-analysis",
-    "href": "slides/02-multivariate-relationships.html#bivariate-exploratory-data-analysis",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#bivariate-exploratory-data-analysis",
+    "href": "slides/02-exploratory-data analysis.html#bivariate-exploratory-data-analysis",
+    "title": "Exploratory Data Analysis",
     "section": "Bivariate exploratory data analysis",
     "text": "Bivariate exploratory data analysis"
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#function-between-response-and-predictors",
-    "href": "slides/02-multivariate-relationships.html#function-between-response-and-predictors",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#function-between-response-and-predictors",
+    "href": "slides/02-exploratory-data analysis.html#function-between-response-and-predictors",
+    "title": "Exploratory Data Analysis",
     "section": "Function between response and predictors",
     "text": "Function between response and predictors\n\n\\[\\text{carb} = f(\\text{calories}, \\text{bakery}) + \\epsilon\\]\n\n\nGoal: Determine \\(f\\)\nHow do we determine \\(f\\)?\n\nMake an assumption about the functional form \\(f\\) (parametric model)\nUse the data to fit a model based on that form"
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#determine-f",
-    "href": "slides/02-multivariate-relationships.html#determine-f",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#determine-f",
+    "href": "slides/02-exploratory-data analysis.html#determine-f",
+    "title": "Exploratory Data Analysis",
     "section": "Determine \\(f\\)",
     "text": "Determine \\(f\\)\n\nChoose the functional form of \\(f\\), i.e., choose the appropriate model given the response variable\n\n\nSuppose \\(f\\) takes the form of a linear model\n\\[y = f(\\mathbf{X}) = \\beta_0 + \\beta_1 x_1 + \\dots + \\beta_p x_p + \\epsilon\\]\n\n\n\nUse the data to fit (or train) the model, i.e, estimate the model parameters, \\(\\beta_0, \\beta_1, \\ldots, \\beta_p\\)"
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#carb-vs.-calories",
-    "href": "slides/02-multivariate-relationships.html#carb-vs.-calories",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#carb-vs.-calories",
+    "href": "slides/02-exploratory-data analysis.html#carb-vs.-calories",
+    "title": "Exploratory Data Analysis",
     "section": "Carb vs. Calories",
     "text": "Carb vs. Calories\n\n\\[\\text{carb} = \\beta_0 + \\beta_1 ~\\text{calories} + \\epsilon\\]"
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#carb-vs.-calories-bakery",
-    "href": "slides/02-multivariate-relationships.html#carb-vs.-calories-bakery",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#carb-vs.-calories-bakery",
+    "href": "slides/02-exploratory-data analysis.html#carb-vs.-calories-bakery",
+    "title": "Exploratory Data Analysis",
     "section": "Carb vs. Calories + Bakery",
     "text": "Carb vs. Calories + Bakery\n\n\\[\\text{carb} = \\beta_0 + \\beta_1 ~\\text{calories} + \\beta_2 ~\\text{bakery} + \\epsilon\\]"
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#carb-vs.-calories-bakery-with-interaction",
-    "href": "slides/02-multivariate-relationships.html#carb-vs.-calories-bakery-with-interaction",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#carb-vs.-calories-bakery-with-interaction",
+    "href": "slides/02-exploratory-data analysis.html#carb-vs.-calories-bakery-with-interaction",
+    "title": "Exploratory Data Analysis",
     "section": "Carb vs. Calories + Bakery (with interaction)",
     "text": "Carb vs. Calories + Bakery (with interaction)\n\n\\[{\\small \\text{carb} = \\beta_0 + \\beta_1 ~\\text{calories} + \\beta_2 ~\\text{bakery} + \\beta_3 ~ \\text{calories} \\times \\text{bakery}  + \\epsilon}\\]"
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#example-palmers-penguins",
-    "href": "slides/02-multivariate-relationships.html#example-palmers-penguins",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#example-palmers-penguins",
+    "href": "slides/02-exploratory-data analysis.html#example-palmers-penguins",
+    "title": "Exploratory Data Analysis",
     "section": "Example: Palmer’s Penguins",
     "text": "Example: Palmer’s Penguins\nSize measurements, clutch observations, and blood isotope ratios for adult foraging Adélie, Chinstrap, and Gentoo penguins observed on islands in the Palmer Archipelago near Palmer Station, Antarctica."
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#example-palmers-penguins-1",
-    "href": "slides/02-multivariate-relationships.html#example-palmers-penguins-1",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#example-palmers-penguins-1",
+    "href": "slides/02-exploratory-data analysis.html#example-palmers-penguins-1",
+    "title": "Exploratory Data Analysis",
     "section": "Example: Palmer’s Penguins",
     "text": "Example: Palmer’s Penguins\n\n\nWhat does the relationship between Length and Depth look like?"
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#example-palmers-penguins-2",
-    "href": "slides/02-multivariate-relationships.html#example-palmers-penguins-2",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#example-palmers-penguins-2",
+    "href": "slides/02-exploratory-data analysis.html#example-palmers-penguins-2",
+    "title": "Exploratory Data Analysis",
     "section": "Example: Palmer’s Penguins",
     "text": "Example: Palmer’s Penguins\n\n\nWhat does the relationship between Length and Depth look like now?"
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#simpsons-paradox-1",
-    "href": "slides/02-multivariate-relationships.html#simpsons-paradox-1",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#simpsons-paradox-1",
+    "href": "slides/02-exploratory-data analysis.html#simpsons-paradox-1",
+    "title": "Exploratory Data Analysis",
     "section": "Simpson’s Paradox",
     "text": "Simpson’s Paradox\nSimpson’s Paradox is when there is a clear relationship between two variables but when you introduce a third variable that relationship disappears of reverses."
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#statistical-model-vs.-regression-equation",
-    "href": "slides/02-multivariate-relationships.html#statistical-model-vs.-regression-equation",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#statistical-model-vs.-regression-equation",
+    "href": "slides/02-exploratory-data analysis.html#statistical-model-vs.-regression-equation",
+    "title": "Exploratory Data Analysis",
     "section": "Statistical model vs. regression equation",
     "text": "Statistical model vs. regression equation\nStatistical model (also known as data-generating model)\n\\[{\\small \\text{carb} = \\beta_0 + \\beta_1 ~\\text{calories} + \\beta_2 ~\\text{bakery} + \\beta_3 ~ \\text{calories} \\times \\text{bakery}  + \\epsilon}\\]\nModels the process for generating values of the response in the population (function + error)\n\n\nRegression equation\nEstimate of the function using the sample data\n\\[{\\small \\hat{\\text{carb}} = \\hat{\\beta}_0 + \\hat{\\beta}_1 ~\\text{calories} + \\hat{\\beta}_2 ~\\text{bakery} + \\hat{\\beta}_3 ~ \\text{calories} \\times \\text{bakery}}\\]"
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#why-fit-a-model",
-    "href": "slides/02-multivariate-relationships.html#why-fit-a-model",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#why-fit-a-model",
+    "href": "slides/02-exploratory-data analysis.html#why-fit-a-model",
+    "title": "Exploratory Data Analysis",
     "section": "Why fit a model?",
     "text": "Why fit a model?\n\nPrediction: Expected value of the response variable for given values of the predictor variables\nInference: Conclusion about the relationship between the response and predictor variables\n\n\n\nWhat is an example of a prediction question that can be answered using the model of carb vs. calories and bakery?\nWhat is an example of an inference question that can be answered using the model of carb vs. calories and bakery?"
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#recap",
-    "href": "slides/02-multivariate-relationships.html#recap",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#recap",
+    "href": "slides/02-exploratory-data analysis.html#recap",
+    "title": "Exploratory Data Analysis",
     "section": "Recap",
     "text": "Recap\n\nWe can use exploratory data analysis to describe the relationship between two variables\nWe make an assumption about the relationship between variables when doing linear regression\nThe two main objectives for fitting a linear regression model are (1) prediction and (2) inference"
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#to-do",
-    "href": "slides/02-multivariate-relationships.html#to-do",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#to-do",
+    "href": "slides/02-exploratory-data analysis.html#to-do",
+    "title": "Exploratory Data Analysis",
     "section": "To-Do",
     "text": "To-Do\n\nFor Wednesday\n\nComplete and submit AE 02\nCompleted readings\n\nFor Friday, Sep 18\n\nHW 01"
   },
   {
-    "objectID": "slides/02-multivariate-relationships.html#references",
-    "href": "slides/02-multivariate-relationships.html#references",
-    "title": "Multivariate Relationships",
+    "objectID": "slides/02-exploratory-data analysis.html#references",
+    "href": "slides/02-exploratory-data analysis.html#references",
+    "title": "Exploratory Data Analysis",
     "section": "References",
     "text": "References"
   },
@@ -616,14 +658,14 @@
   {
     "objectID": "prepare/prep-02.html",
     "href": "prepare/prep-02.html",
-    "title": "Preparation for Multivariate Relationships",
+    "title": "Preparation for Exploratory Data Analysis",
     "section": "",
     "text": "None"
   },
   {
     "objectID": "prepare/prep-02.html#assigned-reading",
     "href": "prepare/prep-02.html#assigned-reading",
-    "title": "Preparation for Multivariate Relationships",
+    "title": "Preparation for Exploratory Data Analysis",
     "section": "",
     "text": "None"
   },
@@ -636,6 +678,41 @@
     "crumbs": [
       "Useful links"
     ]
+  },
+  {
+    "objectID": "hw/hw-02.html",
+    "href": "hw/hw-02.html",
+    "title": "HW 01: Park access",
+    "section": "",
+    "text": "This HW will go through much of the same workflow we’ve demonstrated in class. The main goal is to reinforce our demo of R and RStudio, which we will be using throughout the course both to learn the statistical concepts and to analyze real data and come to informed conclusions.\n\n\n\n\n\n\nNote\n\n\n\nR is the name of the programming language itself and RStudio is a convenient interface.\n\n\n\n\nBy the end of this homework, you will…\n\nBe familiar with the workflow using RStudio\nGain practice writing a reproducible report using Quarto\nBe able to create data visualizations using ggformula and use those visualizations to describe distributions\nBe able to fit, interpret, and evaluate simple linear regression models"
+  },
+  {
+    "objectID": "hw/hw-02.html#learning-goals",
+    "href": "hw/hw-02.html#learning-goals",
+    "title": "HW 01: Park access",
+    "section": "",
+    "text": "By the end of this homework, you will…\n\nBe familiar with the workflow using RStudio\nGain practice writing a reproducible report using Quarto\nBe able to create data visualizations using ggformula and use those visualizations to describe distributions\nBe able to fit, interpret, and evaluate simple linear regression models"
+  },
+  {
+    "objectID": "hw/hw-02.html#r-and-rstudio",
+    "href": "hw/hw-02.html#r-and-rstudio",
+    "title": "HW 01: Park access",
+    "section": "R and RStudio",
+    "text": "R and RStudio\nSee the R resources page for a guide to the RStudio IDE and Quarto file components.\n\nYAML\nThe top portion of your Quarto file (between the three dashed lines) is called YAML. It stands for ““Yet Another Markup Language”. It is a human friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document.\n\n\n\n\n\n\nImportant\n\n\n\nOpen the Quarto (.qmd) file in your project, change the author name to your name, and render the document. Examine the rendered document. You can now work off of that file."
+  },
+  {
+    "objectID": "hw/hw-02.html#analysis-goal",
+    "href": "hw/hw-02.html#analysis-goal",
+    "title": "HW 01: Park access",
+    "section": "Analysis goal",
+    "text": "Analysis goal\nOne way to improve access to public parks is for cities to spend more money creating and maintaining parks for their residents. It’s unclear, however, how much spending impacts residents’ access to parks. The goal of this analysis is to examine the relationship between spending per resident and points in the ParkScore index for the percent of residents within a 10 minute walk to a park."
+  },
+  {
+    "objectID": "hw/hw-02.html#footnotes",
+    "href": "hw/hw-02.html#footnotes",
+    "title": "HW 01: Park access",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nThe “Grammar & Writing” grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.↩︎\nThe “Workflow & formatting” grade is to assess the reproducible workflow and document format. This includes having a neatly organized document with readable code and your name and the date in the YAML.↩︎"
   },
   {
     "objectID": "computing-r-resources.html",
@@ -777,44 +854,44 @@
   {
     "objectID": "ae/ae-02-multivariate-relationships.html",
     "href": "ae/ae-02-multivariate-relationships.html",
-    "title": "AE 02: Multivariate Relationships",
+    "title": "AE 02: Exploratory Data Analysis",
     "section": "",
     "text": "Important\n\n\n\n\nFor this exercise, you will work in groups, but everyone will work through the document and submit their solution.\nOpen RStudio and create a subfolder in your AE folder called “AE-02”\nGo to the Canvas and locate your AE 02 assignment to get started.\nUpload the ae-02.qmd files into the folder you just created. To submit this Activity, upload the .qmd and .html responses in the corresponding Canvas assignment."
   },
   {
-    "objectID": "ae/ae-02-multivariate-relationships.html#quarto",
-    "href": "ae/ae-02-multivariate-relationships.html#quarto",
-    "title": "AE 02: Multivariate Relationships",
-    "section": "Quarto",
-    "text": "Quarto\nThe thing you are reading right now is an Quarto document (very similar to R Markdown if you’ve ever used that). Quarto runs inside R Studio. Quarto is a simple formatting syntax for authoring web pages, word documents, pdfs, and many more file types. You can find the link to a useful Quarto guide here.\nWhen you click the Render button at the top of this window an html file will be generated that includes both content as well as the output of any embedded R code chunks within the document. Not only can you embed the R code, you can embed the output produced by the R code. In this way, your analysis is fully reproducible and updatable. All of your homework assignments must be prepared using Quarto.\nThe nice thing about Quarto is that you can write prose (as I am doing now), mathematical equations using LaTeX syntax (like \\(y_i = a + b x_i\\)), and R code/output/plots all in one synthesized document. This makes it approximately 10,000 times easier to use than doing the same thing in Word or LaTeX. As you go through this introduction, I recommend that you look also at the .qmd file and your output file side-by-side to get an idea of how Quarto works. (Since you’re going to have to use Quarto this semester, you might as well start learning it now!)\nIn the future, I will typically give you a Quarto template to fill out. However, occasionally you will need to create your own Quarto document. When you want to start a new Quarto document, click “File &gt; New File &gt; Quarto Document…” Put yourself as author, and make sure to give it a descriptive title!\n\nClick Render at the top of this document. Show Dr. Friedlander before moving on."
-  },
-  {
-    "objectID": "ae/ae-02-multivariate-relationships.html#using-r-as-a-calculator-and-running-code-within-a-quarto-document",
-    "href": "ae/ae-02-multivariate-relationships.html#using-r-as-a-calculator-and-running-code-within-a-quarto-document",
-    "title": "AE 02: Multivariate Relationships",
-    "section": "Using R as a Calculator and Running Code within a Quarto Document",
-    "text": "Using R as a Calculator and Running Code within a Quarto Document\nWith R by your side, you will never need your TI-84 again. Consider the simple arithmetic in the chunk below. You can run this code chunk all at once by clicking the Run button, the sideways green arrow in the top right of the chunk. Notice the interactive nature of the output. You can click through to see the different pieces of output.\nAs you work through this document, you should Run each chunk as you come to it.\n\nRun the code chunk below.\n\n5 + 3\n\n[1] 8\n\n5.3 * 23.4\n\n[1] 124.02\n\nsqrt(16) # this is a comment.  R will not 'see' anything past a #, but you can use it to explain your code\n\n[1] 4\n\n\n\n\n\n\nLook closely at how Quarto denotes the R code and the output. Also note in the .qmd file how I include R code as separate from prose. These are called “chunks”. The easiest way to add a new chunk is to click on the green “c” icon with a plus in the corner above, then choose “R”. R code that is not inside of a chunk will not be run by Quarto!\n\nCreate an R code chunk and compute the log of 10 using the function log. Why do you think the answer isn’t 1?\n\n\n\n\n\nYou can also save values to named variables, to be used later:\n\nproduct &lt;- 15.3 * 23.4 #save result\n\nIf you save something like this, R will not show the output unless you expressly ask for it:\n\nproduct #show result\n\n[1] 358.02\n\n\n\n\n\n\nThe symbol “&lt;-” is the assignment operator. If you’ve ever programmed before, it’s essentially the same as “=” in this instance. There are cases where “&lt;-” works and “=” doesn’t, so it’s good to get into the habit of using “&lt;-” now.\nOnce variables are defined, they can be referenced with other operators and functions. Try executing each line of code individually by placing your cursor on the first line of the chunk below and pressing Ctrl+Enter (Cmd +Enter for Mac users); then do the same for the second line. (This is how you can run a single line within a larger chunk.)\n\n.5 * product # half of the product\n\n[1] 179.01\n\nproduct^(1/4) # fourth root of the product\n\n[1] 4.349875\n\n\n\nYou can also use in-line R code in Quarto, which can be useful when calling defined variables. Did you know that the natural log of 358.02 is 5.8805889?\n\n\n\n\n\nOnly R code (and comments) should be inside chunks. Prose (interpretations/explanations/descriptions) should never be put inside a chunk; prose should be below or above the chunk, as I have done above (and continue to do throughout this document). You should also never cut-and-paste output or graphs into the chunks. The whole point of code chunks is that they contain the code and they’ll run the code (resulting in the output and/or graphs).\nIf you want to run something in R but don’t want it to appear in the Quarto document, simply run it in the Console in the lower-left quadrant of RStudio. Type the last line of R code above into the Console and see what happens."
-  },
-  {
     "objectID": "ae/ae-02-multivariate-relationships.html#carbohydrates-and-starbucks",
     "href": "ae/ae-02-multivariate-relationships.html#carbohydrates-and-starbucks",
-    "title": "AE 02: Multivariate Relationships",
+    "title": "AE 02: Exploratory Data Analysis",
     "section": "Carbohydrates and Starbucks",
-    "text": "Carbohydrates and Starbucks\nStarbucks often displays the total calories in their food items but not the other nutritional information. Carbohydrates are a body’s main fuel source. The Dietary Guidelines for America recommend that carbohydrates make up 45% to 65% of total daily calories. Our goal is to understand the relationship between the amount of carbohydrates and calories in Starbucks food items. We’d also like to assess if the relationship differs based on the type of food item (bakery, salad, sandwich, etc.)\nYou will now be introduced to the functions we will use most frequently for exploratory data analysis (EDA) in this class. If you are moderate to advanced R user, feel free to use whatever functions you’d like to accomplish the tasks. However, you should be prepared to answer questions about any uncited code which is not covered in this class on your oral exams. The first part of this document contains explanations for beginning R users, but all students should work through the entire document.\n\n\n\n\n\n\nImportant\n\n\n\nIn general, I suggest “rendering as you go”: rendering every few chunks, to make sure things are rendering correctly, rather than waiting until the end of a document to render the whole thing (and potentially encountering lots of errors that you have to unpack)! I also ALWAYS suggest “saving as you go”: it’s a good idea to save every couple of minutes. (This is good practice for all your files.)\n\n\n\nThe code below loads the package called tidyverse which provides many functions that will be useful for manipulating data and the package called mosaic which is useful for teaching statistics. Add another line that loads a package called ggformula which we will use to plot our data and a third that loads the package openintro which will contain our data for this activity. Note that #| warning: FALSE causes the code to run without displaying any associated warnings when you render. You will often see #| eval: FALSE which prevents the code chunk from running when you render the document. Throughout this course, make sure you remove these lines or change them to #| eval: TRUE whenever you reach them. The reason that are included in the first place is so I can write scaffolded and fill-in-the-blank type exercises for you. These will cause errors (since they are incomplete code) until you finish writing them.\n\n# load packages we typically use for this class.\nlibrary(tidyverse)\nlibrary(mosaic)\nlibrary(_________) # load ggformula\n# load openintro"
+    "text": "Carbohydrates and Starbucks\nStarbucks often displays the total calories in their food items but not the other nutritional information. Carbohydrates are a body’s main fuel source. The Dietary Guidelines for America recommend that carbohydrates make up 45% to 65% of total daily calories. Our goal is to understand the relationship between the amount of carbohydrates and calories in Starbucks food items. We’d also like to assess if the relationship differs based on the type of food item (bakery, salad, sandwich, etc.)\nYou will now be introduced to the functions we will use most frequently for exploratory data analysis (EDA) in this class. The first part of this document contains explanations for beginning R users, but all students should work through the entire document.\n\n\n\n\n\n\nImportant\n\n\n\nReminder: I suggest “rendering as you go”: rendering every few chunks, to make sure things are rendering correctly, rather than waiting until the end of a document to render the whole thing (and potentially encountering lots of errors that you have to unpack)! I also ALWAYS suggest “saving as you go”: it’s a good idea to save every couple of minutes. (This is good practice for all your files.)"
+  },
+  {
+    "objectID": "ae/ae-02-multivariate-relationships.html#loading-packages",
+    "href": "ae/ae-02-multivariate-relationships.html#loading-packages",
+    "title": "AE 02: Exploratory Data Analysis",
+    "section": "Loading Packages",
+    "text": "Loading Packages\nR is an open source programming language and environment for statistical computing and graphics. This means that anyone can use R for free, and anyone can contribute to the development of R. R has a large ecosystem of packages that extend its functionality. You can think of these like expansion packs for R. If you’re on your own computer, each packages needs to be install once using the function install.packages(). Since we’re working in the cloud, we don’t need to do this step. Regardless of what computer you’re on each package needs to be loaded using the function library() every timne you want to use it We typically load all packages at the beginning of our scripts and Quarto files.\n\nThe code below loads the package called tidyverse which provides many functions that will be useful for manipulating data and the package called mosaic which is useful for teaching statistics. Add another line that loads a package called ggformula which we will use to plot our data and a third that loads the package openintro which will contain our data for this activity. Note that #| warning: FALSE causes the code to run without displaying any associated warnings when you render. You will often see #| eval: FALSE which prevents the code chunk from running when you render the document. Throughout this course, make sure you remove these lines or change them to #| eval: TRUE whenever you reach them. The reason that are included in the first place is so I can write scaffolded and fill-in-the-blank type exercises for you. These will cause errors (since they are incomplete code) until you finish writing them.\n\n\n\n# load packages we typically use for this class.\nlibrary(tidyverse)\nlibrary(mosaic)\nlibrary(_________) # load ggformula\n# load openintro"
   },
   {
     "objectID": "ae/ae-02-multivariate-relationships.html#loading-data",
     "href": "ae/ae-02-multivariate-relationships.html#loading-data",
-    "title": "AE 02: Multivariate Relationships",
+    "title": "AE 02: Exploratory Data Analysis",
     "section": "Loading data",
-    "text": "Loading data\nDoing statistics requires data. Sometimes we will have to load data from a file and sometimes we can get our data from an R package. Today’s dataset, called starbucks is from the openintro package. To load a this data from within R you can use the data command.\n\nUse the code below to load the dataset starbucks, which is part of the openintro package. Don’t forget to change eval: FALSE to eval: TRUE… Why do you think we need eval: FALSE if you aren’t actually rewriting any code?\n\ndata(\"starbucks\")\n\n\n\n\n\nThis is a great chance to remind you that R cares about letter case. This means that data(\"starbucks\") works but data(\"Starbucks\") doesn’t!\n\nInspecting the data source\nNow you’re ready to learn a little bit about the starbucks data set.\n\nRun the code below and then edit the bulleted list below to add a short description in your own words describing what each function does. Hint: if it isn’t clear based on the output you can use ? before the function name in the console to bring up the documentation on that function. Notify Dr. Friedlander when you’re finished.\n\n# Inspecting the data source\nglimpse(starbucks)\nhead(starbucks)\nnames(starbucks)\n\n\n\n\nglimpse() : this function…\nhead() : this function…\nnames() : this function…\n\n\n\nBased on the output above, how many observations and how many variables does this data set have?\n\n\n\n\n\nLet’s do a little bit of a data prep. In the console type ?starbucks and look at the definition of type.\nThe following is a little bit of data wrangling to get the source data in shape for our purposes. What do you think this code is doing? Make sure you change eval: FALSE to eval: TRUE.\n\nstarbucks &lt;- starbucks |&gt;\n  mutate(bakery = factor(if_else(type == \"bakery\", \"bakery\", \"non-bakery\")))\n\nStatisticians should always know something about the data domain in order to be useful. Why do you think we are changing our data like this?"
+    "text": "Loading data\nDoing statistics requires data. Sometimes we will have to load data from a file and sometimes we can get our data from an R package. Today’s dataset, called starbucks is from the openintro package. To load a this data from within R you can use the data command.\n\nUse the code below to load the dataset starbucks, which is part of the openintro package. Don’t forget to change eval: FALSE to eval: TRUE… Why do you think we need eval: FALSE if you aren’t actually rewriting any code?\n\n\n\ndata(\"starbucks\")\n\n\nThis is a great chance to remind you that R cares about letter case. This means that data(\"starbucks\") works but data(\"Starbucks\") doesn’t!\n\nInspecting the data\nNow you’re ready to learn a little bit about the starbucks data set.\n\nRun the code below and then edit the bulleted list below to add a short description in your own words describing what each function does. Hint: if it isn’t clear based on the output you can use ? before the function name in the console to bring up the documentation on that function.\n\n\n\n# Inspecting the data\nglimpse(starbucks)\nhead(starbucks)\nnames(starbucks)\n\n\nglimpse() : this function…\nhead() : this function…\nnames() : this function…\n\n\n\nBased on the output above, how many observations and how many variables does this data set have?\n\n\n\n\n\nLet’s do a little bit of a data prep. In the console type ?starbucks and look at the definition of type.\nThe following is a little bit of data wrangling to get the source data in shape for our purposes. What do you think this code is doing? Make sure you change eval: FALSE to eval: TRUE.\n\nstarbucks &lt;- starbucks |&gt;\n  mutate(bakery = factor(if_else(type == \"bakery\", \"bakery\", \"non-bakery\")))\n\nStatisticians should always know something about the data domain in order to be useful. Why do you think we are changing our data like this?"
   },
   {
     "objectID": "ae/ae-02-multivariate-relationships.html#exploratory-data-analysis",
     "href": "ae/ae-02-multivariate-relationships.html#exploratory-data-analysis",
-    "title": "AE 02: Multivariate Relationships",
+    "title": "AE 02: Exploratory Data Analysis",
     "section": "Exploratory Data Analysis",
-    "text": "Exploratory Data Analysis\nFor the purposes of our class, it’s useful to learn a model-centric approach to R. The pseudo-code below is going to be our foundation for the rest of the class:\nfunction( Y ~ X, data = DataSetName )\nHere’s a short description of each part in the pseudo-code above:\n\nfunction is an R function that dictates something you want to do with your data; for example,\n\nmean calculates the mean\nlm fits a linear regression model\n\nY is the outcome of interest (response variable)\nX is some explanatory variable; you can use 1 as a placeholder if there is no explanatory variable\nDataSetName is the name of a data set loaded into the R environment\n\nAlways start with clear research questions. Our question for this exercise:\n\nHow do the number of carbs compare for bakery and non-bakery items?\n\nThe purpose of the exploratory data analysis (EDA) is to learn as much as you can about your research question before doing any statistical modeling. We basically want to try and answer the research question with EDA if possible…or at least have a guess as to what the answer “should” be. Then we use statistical models to formally accommodate variability in the data and calculate the uncertainty of our conclusions.\n\nUse the R code chunk below to calculate the mean carbs by for bakery and non-bakery items. Summarize your observations below the code chunk.\n\nmean(carb ~ bakery, data = starbucks)\n\n\n\n\n\n\nOf course, there are lots of other ways to summarize a numerical variable besides the mean. Use the R code chunk to calculate the other summary statistics for the number of carbs for bakery and non-bakery items using the function favstats. Summarize your observations below the code chunk.\n(Hint: Do you not know how favstats works? Well, it’s a function just like any other: it follows the syntax described at the top of this section! Also, you can always find details and examples by searching the Help menu in the lower-right quadrant.)\n\n\n\n\n\nLet’s generate some univariate (i.e. one-variable) EDA plots for our three variables. In general, can use histograms or boxplots (gf_histogram or gf_boxplot) for quantitative variables and bar charts gf_bar for categorical variables. Fill in the blanks in the code below to generate the corresponding plots. Then create a boxplot of carb. Finally, share your observations below the code:\n\n# make a histogram of carb\ngf_histogram(~ carb, data = starbucks)\n\n# make a histogram of calories\ngf_histgoram(~ _____, data = ______)\n\n# make a bar chart of bakery\ngf_bar(~ _____, data = _____)\n\n# make a boxplot of carb\n\n\n\n\n\n\nLet’s not generate some bivariate (i.e. two-variable) EDA plots for our three variables. For two-quantitative variables we typically use a scatter plot gf_point. If we are comparing a quantitative and a categorical variable will use side-by-side boxplots gf_boxplot. Generate and plot to visualize carb and calories and one to visualize carb and bakery. Comment on your observations."
+    "text": "Exploratory Data Analysis\nFor the purposes of our class, it’s useful to learn a model-centric approach to R. The pseudo-code below is going to be our foundation for the rest of the class:\nfunction( Y ~ X, data = DataSetName )\nHere’s a short description of each part in the pseudo-code above:\n\nfunction is an R function that dictates something you want to do with your data; for example,\n\nmean calculates the mean\nlm fits a linear regression model\n\nY is the outcome of interest (response variable)\nX is some explanatory variable; you can use 1 as a placeholder if there is no explanatory variable\nDataSetName is the name of a data set loaded into the R environment\n\nAlways start with clear research questions. Our question for this exercise:\n\nHow do the number of carbs compare for bakery and non-bakery items?\n\nThe purpose of the exploratory data analysis (EDA) is to learn as much as you can about your research question before doing any statistical modeling. We basically want to try and answer the research question with EDA if possible…or at least have a guess as to what the answer “should” be. Then we use statistical models to formally accommodate variability in the data and calculate the uncertainty of our conclusions.\n\nUse the R code chunk below to calculate the mean carbs by for bakery and non-bakery items. Summarize your observations below the code chunk.\n\nmean(carb ~ bakery, data = starbucks)\n\n\n\n\n\n\nOf course, there are lots of other ways to summarize a numerical variable besides the mean. Create an R code chunk below and use the function favstats to calculate the other summary statistics for the number of carbs for bakery and non-bakery items.\nSummarize your observations below the code chunk.\n(Hint: it should look a lot like the code chunk above with mean replaced by favstats.)\n\n\n\n\n\nUnivariate plots\nLet’s generate some univariate (i.e. one-variable) EDA plots for our three variables. In general, can use histograms or boxplots (gf_histogram or gf_boxplot) for quantitative variables and bar charts gf_bar for categorical variables.\n\nFill in the blanks in the code below to generate the corresponding plots. Then create a boxplot of carb. Finally, share your observations below the code:\n\n\n\n# make a histogram of carb\ngf_histogram(~ carb, data = starbucks)\n\n# make a histogram of calories\ngf_histgoram(~ _____, data = ______)\n\n# make a bar chart of bakery\ngf_bar(~ _____, data = _____)\n\n# make a boxplot of carb\n\n\n\n\nBivariate plots\n\nLet’s now generate some bivariate (i.e. two-variable) EDA plots for our three variables. For two-quantitative variables we typically use a scatter plot gf_point. If we are comparing a quantitative and a categorical variable will use side-by-side boxplots gf_boxplot. Generate and plot to visualize carb and calories and one to visualize carb and bakery. Comment on your observations."
+  },
+  {
+    "objectID": "ae/ae-02-multivariate-relationships.html#submitting-your-assignment",
+    "href": "ae/ae-02-multivariate-relationships.html#submitting-your-assignment",
+    "title": "AE 02: Exploratory Data Analysis",
+    "section": "Submitting Your Assignment",
+    "text": "Submitting Your Assignment\n\n\nClick Render one last time to render your document.\nReview the html output to make sure it reflects what you want it to say.\nUpload the qmd and html files to Canvas."
   },
   {
     "objectID": "computing-inferencesummary.html",
@@ -839,11 +916,67 @@
     ]
   },
   {
+    "objectID": "hw/hw-01.html",
+    "href": "hw/hw-01.html",
+    "title": "HW 01: Dr. F’s Coffee",
+    "section": "",
+    "text": "This HW will go through much of the same workflow we’ve demonstrated in class. The main goal is to reinforce our demo of R and RStudio, which we will be using throughout the course both to learn the statistical concepts and to analyze real data and come to informed conclusions. Many of the things written in here, we’ve learned in class and should feel like review.\n\n\n\n\n\n\nNote\n\n\n\nR is the name of the programming language itself and RStudio is a convenient interface.\n\n\n\n\nBy the end of this homework, you will…\n\nBe familiar with the workflow using RStudio\nGain practice writing a reproducible report using Quarto\nBe able to create data visualizations using ggformula and use those visualizations to describe distributions"
+  },
+  {
+    "objectID": "hw/hw-01.html#learning-goals",
+    "href": "hw/hw-01.html#learning-goals",
+    "title": "HW 01: Dr. F’s Coffee",
+    "section": "",
+    "text": "By the end of this homework, you will…\n\nBe familiar with the workflow using RStudio\nGain practice writing a reproducible report using Quarto\nBe able to create data visualizations using ggformula and use those visualizations to describe distributions"
+  },
+  {
+    "objectID": "hw/hw-01.html#r-and-rstudio",
+    "href": "hw/hw-01.html#r-and-rstudio",
+    "title": "HW 01: Dr. F’s Coffee",
+    "section": "R and RStudio",
+    "text": "R and RStudio\nSee the R resources page for a guide to the RStudio IDE and Quarto file components.\n\nYAML\nThe top portion of your Quarto file (between the three dashed lines) is called YAML. It stands for “Yet Another Markup Language”. It is a human-friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document."
+  },
+  {
+    "objectID": "hw/hw-01.html#analysis-goal",
+    "href": "hw/hw-01.html#analysis-goal",
+    "title": "HW 01: Dr. F’s Coffee",
+    "section": "Analysis goal",
+    "text": "Analysis goal\nWhat makes a good cup of coffee, at least by Dr. F’s own standards? The goal of this analysis is to explore how the beans, brewing choices, and flavor characteristics of a cup relate to how highly Dr. F rated it."
+  },
+  {
+    "objectID": "hw/hw-01.html#tips",
+    "href": "hw/hw-01.html#tips",
+    "title": "HW 01: Dr. F’s Coffee",
+    "section": "Tips",
+    "text": "Tips\nWrite all code and narrative in your Quarto file. Write all narrative in complete sentences. Write each of your responses in the answer box below the corresponding exercise; one has already been created for each exercise. Throughout the assignment, you should periodically render your Quarto document to produce the updated HTML file.\nIf you get stuck and can’t remember how to do something, try looking back at Lecture 1 and Lecture 2 and the two Application Exercises that you completed alongside them."
+  },
+  {
+    "objectID": "hw/hw-01.html#taking-a-glimpse-hint-hint-at-the-data",
+    "href": "hw/hw-01.html#taking-a-glimpse-hint-hint-at-the-data",
+    "title": "HW 01: Dr. F’s Coffee",
+    "section": "Taking a glimpse (hint hint) at the data",
+    "text": "Taking a glimpse (hint hint) at the data\n\nCreate a code chunk in the answer block below and write a little bit of code to take a quick look at your data so you can answer these questions. How many observations (rows) and how many variables (columns) does coffee have? In your own words, what does a single row of this data set represent?\n\n\n\n\n\nUsing the variable descriptions above, classify each of the following as quantitative or categorical: vibes_rating, roast, origin, brewer, aroma, sweetness, acidity, body, finish."
+  },
+  {
+    "objectID": "hw/hw-01.html#visualizing-the-data",
+    "href": "hw/hw-01.html#visualizing-the-data",
+    "title": "HW 01: Dr. F’s Coffee",
+    "section": "Visualizing the data",
+    "text": "Visualizing the data\nWe’ll start by taking a look at our response variable vibes_rating.\n\nRemember the two questions you should ask before plotting a variable:\n\nHow many variables am I trying to visualize?\nWhat type of variables are they?\n\nConsider vibes_rating. Answer the two questions above, then specify what type(s) of plots would be most appropriate. (List at least two.)\n\n\n\n\n\nIn the code chunk that is in the answer block below, create at least one of the plots you specified above to visualize vibes_rating. Then use favstats to calculate summary statistics for vibes_rating.\nUse the plot and summary statistics to describe the distribution of vibes_rating: comment on its shape, center, spread, and the presence of any apparent outliers.\n\n\n\n\nNow let’s look at the categorical variables. The code below makes a bar chart of roast:\n\ngf_bar(~roast, data = coffee) |&gt;\n  gf_labs(x = \"Roast\",\n       y = \"Count\",\n       title = \"Distribution of Roast Levels\")\n\n\n\n\n\n\n\n\nNote that we haven’t talked about the symbol |&gt; or the function gf_labs in class. The function gf_labs is used to add informative axis labels and a title to a ggplot object. The symbol |&gt; is called a “pipe” operator and is used to chain together multiple functions in a readable way. When you encounter a pipe in code say “and then” to yourself in your head. For the code above you can say “Make a bar chart of roast and then add informative axis labels and a title.”\n\nUsing code for a bar chart as a template, create your own bar charts for origin and brewer, each with an informative title and axis labels. Note that some of the categories may overlap or be messy, don’t worry about fixing that yet.\nWhich roast, origin, and brewer show up most often in Dr. F’s coffee log? You’ll likely notice that some of the categories are messy and don’t appear in a nice order. We’ll talk about how to fix this later on. For now, call out 1-3 things that you’d like to fix if you knew how.\n\n\n\n\n\nNow examine the distributions of the five flavor sub-scores: aroma, sweetness, acidity, body, and finish. For each one, create a histogram (with an informative title and axis labels) and calculate summary statistics with favstats.\nBased on your plots and summary statistics: Which sub-score varies the most from cup to cup? (Hint: look at the standard deviation, sd, in the favstats output.)\n\n\n\n\n\nRemember, our ultimate goal is to figure out what makes the best cup of coffee. That is, we want to understand what factors contribute to a high vibes_rating. Let’s compare vibes_rating across categories. We want to generate one plot of vibes_rating vs. roast.\nAnswer these two questions about the plot and then state what kinds of plots you could make:\n\nHow many variables are we trying to visualize at once?\nWhat kind of variables are these?\n\n\n\n\n\n\nMake at least one of the plots you described above to visualize vibes_rating vs. roast and another plot of vibes_rating vs. origin. For each pair, also calculate favstats(vibes_rating ~ roast, data = coffee) (and the equivalent for origin). Based on your plots and summary statistics, what kinds of roasts does Dr. F seem to prefer? What about origins? Be sure to reference the group sizes (n in the favstats output): how much should we trust a comparison built on a group with only two or three cups?\n\n\n\n\n\nNow do the same comparison for brewer: a side-by-side boxplot of vibes_rating by brewer, plus the corresponding favstats.\nEven if one brewer has a noticeably higher mean rating, explain why we can’t conclude that brewer causes better-tasting coffee.\n\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nThis is another good place to render your document.\n\n\n\nFinally, let’s look at how vibes_rating relates to the flavor sub-scores. Choose at least three of aroma, sweetness, acidity, body, and finish. For each one, create a plot of vibes_rating against that sub-score. While you don’t need to write the answers here, remember to ask the two questions above.\nFor each relationship, do your best to describe its direction and strength.\nBonus: You’ll notice that since everything is on a scale from 1 to 10, alot of the points are overlapping and it’s hard to see the real relationships if you use gf_point. Instead try using gf_jitter. What do you think this does?\n\n\n\n\n\nBased on the analysis you’ve done so far, write a brief summary addressing the following:\n\nWhat recommendations would you make to Dr. Friedlander about the most important factors in finding his favorite coffee?\nWhy might you not want to fully trust these conclusions? Hint: Think about confounding variables.\nIf you were going to study this question further, what additional information would you want?\n\n\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nYou’re done and ready to submit your work! Render your document and upload the .qmd and .html files to Canvas."
+  },
+  {
+    "objectID": "hw/hw-01.html#footnotes",
+    "href": "hw/hw-01.html#footnotes",
+    "title": "HW 01: Dr. F’s Coffee",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nThe “Grammar & Writing” grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.↩︎\nThe “Workflow & formatting” grade is to assess the reproducible workflow and document format. This includes having a neatly organized document with readable code, your name in the YAML, and all answers in answer blocks.↩︎"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Schedule",
     "section": "",
-    "text": "This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses, with all changes documented here.\n\n\n\n\nLecture\nDOW\nDate\nTopic\nPrepare\nSlides\nAE\nHW\nProject\nNotes\n\n\n\n\n0\nW\nAug 26\nWelcome to MATH 2025!\n\n\n\n\n\nWelcome!\n\n\n1\nM\nAug 31\nGetting Started with R & Quarto\n\n\n\n\n\nOur first AE!\n\n\n2\nW\nSep 2\nMultivariate Relationships",
+    "text": "This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses, with all changes documented here.\n\n\n\n\nLecture\nDOW\nDate\nTopic\nPrepare\nSlides\nAE\nHW\nProject\nNotes\n\n\n\n\n0\nW\nAug 26\nWelcome to MATH 2025!\n\n\n\n\n\nWelcome!\n\n\n1\nM\nAug 31\nGetting Started with R & Quarto\n\n\n\n\n\nOur first AE!\n\n\n2\nW\nSep 2\nExploratory Data Analysis\n\n\n\n\n\n\n\n\n\nM\nSep 7\nNo Class - Labor Day\n\n\n\n\n\nLabor Day - No Classes\n\n\n3\nW\nSep 9\nIntroduction to Simple Linear Regression",
     "crumbs": [
       "Schedule"
     ]
@@ -851,14 +984,14 @@
   {
     "objectID": "prepare/prep-01.html",
     "href": "prepare/prep-01.html",
-    "title": "Preparation for the Big Picture",
+    "title": "Preparation for Introduction to R, Quarto, & RStudio",
     "section": "",
     "text": "Review Syllabus"
   },
   {
     "objectID": "prepare/prep-01.html#assigned-reading",
     "href": "prepare/prep-01.html#assigned-reading",
-    "title": "Preparation for the Big Picture",
+    "title": "Preparation for Introduction to R, Quarto, & RStudio",
     "section": "",
     "text": "Review Syllabus"
   },
@@ -867,14 +1000,14 @@
     "href": "prepare/prep-03.html",
     "title": "Preparation for Simple Linear Regression",
     "section": "",
-    "text": "Introduction to Regression Analysis: A Data Science Approach: Ch 4: Simple linear regression\nIntroduction to Modern Statistics (IMS) Ch 7: Linear regression with a single predictor"
+    "text": "Read on of these:\n\nIf you already feel comfortable with R & this isn’t your first statistics class:\n\nIntroduction to Regression Analysis: A Data Science Approach: Ch 4: Simple linear regression\n\nIf you’re new to R & statistics:\n\nIntroduction to Modern Statistics (IMS) Ch 7: Linear regression with a single predictor"
   },
   {
     "objectID": "prepare/prep-03.html#assigned-reading",
     "href": "prepare/prep-03.html#assigned-reading",
     "title": "Preparation for Simple Linear Regression",
     "section": "",
-    "text": "Introduction to Regression Analysis: A Data Science Approach: Ch 4: Simple linear regression\nIntroduction to Modern Statistics (IMS) Ch 7: Linear regression with a single predictor"
+    "text": "Read on of these:\n\nIf you already feel comfortable with R & this isn’t your first statistics class:\n\nIntroduction to Regression Analysis: A Data Science Approach: Ch 4: Simple linear regression\n\nIf you’re new to R & statistics:\n\nIntroduction to Modern Statistics (IMS) Ch 7: Linear regression with a single predictor"
   },
   {
     "objectID": "prepare/prep-05.html",

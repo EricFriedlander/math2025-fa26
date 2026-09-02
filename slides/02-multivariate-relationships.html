@@ -215,9 +215,26 @@ Prof.&nbsp;Eric Friedlander
 <div class="appex">
 <p>📋 <a href="../ae/ae-02-multivariate-relationships.html">AE 02 - Multivariate Relationships</a></p>
 </div>
+<p>Get the activity set-up in your RStudio project like we did last time.</p>
+</section>
+<section id="packages-in-r" class="slide level2 smaller">
+<h2>Packages in R</h2>
 <ul>
-<li>Complete Exercises 1-5</li>
+<li>R is an <strong>open source</strong> programming language and environment for statistical computing and graphics</li>
+<li>This means that anyone can use R for free, and anyone can contribute to the development of R</li>
+<li>R has a large ecosystem of packages that extend its functionality
+<ul>
+<li>Think of these like expansion packs for R</li>
+</ul></li>
+<li>If you’re on your own computer, each packages needs to be install once using the function <code>install.packages()</code></li>
+<li>Regardless of what computer you’re on each package needs to be loaded using the function <code>library()</code> every timne you want to use it</li>
+<li>We typically load all packages at the beginning of our scripts and Quarto files</li>
 </ul>
+<div class="fragment">
+<div class="appex">
+<p>Let’t complete Exercise 1 in the Activity.</p>
+</div>
+</div>
 </section>
 <section id="carbohydrates-in-starbucks-food" class="slide level2">
 <h2>Carbohydrates in Starbucks food</h2>
@@ -226,14 +243,16 @@ Prof.&nbsp;Eric Friedlander
 <li><p>Carbohydrates are a body’s main fuel source. The Dietary Guidelines for America recommend that carbohydrates make up 45% to 65% of total daily calories.<sup>1</sup></p></li>
 <li><p>Our goal is to understand the relationship between the amount of carbohydrates and calories in Starbucks food items. We’d also like to assess if the relationship differs based on the type of food item (bakery, salad, sandwich, etc.)</p></li>
 </ul>
-<p>Complete the activity.</p>
+<div class="aapex">
+<p>Complete Exercises 2-5.</p>
+</div>
 <aside><ol class="aside-footnotes"><li id="fn1"><p>Source: <a href="https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/carbohydrates/art-20045705#:~:text=How%20many%20carbohydrates%20do%20you,grams%20of%20carbs%20a%20day.">Mayo Clinic</a></p></li></ol></aside></section>
 <section id="starbucks-data" class="slide level2 smaller">
 <h2>Starbucks data</h2>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">library</span>(openintro)</span>
 <span id="cb1-2"><a></a></span>
-<span id="cb1-3"><a></a>starbucks <span class="ot">&lt;-</span> starbucks <span class="sc">|&gt;</span> </span>
+<span id="cb1-3"><a></a>starbucks <span class="ot">&lt;-</span> starbucks <span class="sc">|&gt;</span></span>
 <span id="cb1-4"><a></a>  <span class="fu">mutate</span>(<span class="at">bakery =</span> <span class="fu">factor</span>(<span class="fu">if_else</span>(type <span class="sc">==</span> <span class="st">"bakery"</span>, <span class="st">"bakery"</span>, <span class="st">"non-bakery"</span>)))</span>
 <span id="cb1-5"><a></a></span>
 <span id="cb1-6"><a></a><span class="fu">glimpse</span>(starbucks)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -278,9 +297,93 @@ $ bakery   &lt;fct&gt; bakery, bakery, bakery, bakery, bakery, bakery, bakery, b
 </ul></li>
 </ul>
 </div>
+</section>
+<section id="model-centric-approach" class="slide level2 smaller">
+<h2>Model-centric approach</h2>
+<p>For the purposes of our class, it’s useful to learn a model-centric approach to R. The pseudo-code below is going to be our foundation for the rest of the class:</p>
+<p><code>function( Y ~ X, data = DataSetName )</code></p>
+<p>Here’s a short description of each part in the pseudo-code above:</p>
+<ul>
+<li><code>function</code> is an R function that dictates something you want to do with your data; for example,
+<ul>
+<li><code>mean</code> calculates the mean</li>
+<li><code>lm</code> fits a linear regression model</li>
+</ul></li>
+<li><code>Y</code> is the response variable</li>
+<li><code>X</code> is some explanatory variable; you can use <code>1</code> as a placeholder if there is no explanatory variable</li>
+<li><code>DataSetName</code> is the name of a data set loaded into the R environment</li>
+</ul>
+</section>
+<section>
+<section id="eda-exploratory-data-analysis" class="title-slide slide level1 center">
+<h1>EDA: Exploratory data analysis</h1>
+
+</section>
+<section id="exploratory-data-analysis" class="slide level2">
+<h2>Exploratory data analysis</h2>
+<p>A research question:</p>
+<blockquote>
+<p><em>How do the number of carbs compare for <code>bakery</code> and <code>non-bakery</code> items?</em></p>
+</blockquote>
+<p>Goal: learn as much as you can about your research question <strong>before doing any statistical modeling</strong></p>
 <div class="fragment">
-<p>Complete the remainder of the Exercises.</p>
+<div class="appex">
+<p>Complete Exercises 6 &amp; 7.</p>
 </div>
+</div>
+</section>
+<section id="guiding-questions" class="slide level2">
+<h2>Guiding Questions</h2>
+<p>Before visualizing or analyzing any data, you want to ask two types of questions:</p>
+<ol type="1">
+<li>How many variables do you want to analyze simultaneously?</li>
+<li>What kind of variables are they?</li>
+</ol>
+</section>
+<section id="terminology-1" class="slide level2">
+<h2>Terminology</h2>
+<ul>
+<li>One variable at a timne: <strong>univariate</strong> analysis</li>
+<li>Two variables at a time: <strong>bivariate</strong> analysis</li>
+<li>Three or more variables at a time: <strong>multivariate</strong> analysis</li>
+</ul>
+</section>
+<section id="guide-to-plotting" class="slide level2">
+<h2>Guide to plotting</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Setting</th>
+<th>Plots To Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Quantitative</td>
+<td>Histogram, Boxplot, Jitter Plot</td>
+</tr>
+<tr class="even">
+<td>Categorical</td>
+<td>Bar chart</td>
+</tr>
+<tr class="odd">
+<td>Quant vs.&nbsp;Quant</td>
+<td>Scatter plot</td>
+</tr>
+<tr class="even">
+<td>Quant vs.&nbsp;Cat</td>
+<td>Side-by-side boxplots or jitter plots</td>
+</tr>
+<tr class="odd">
+<td>Cat vs.&nbsp;Cat</td>
+<td>Side-by-side, stacked, standardized bar charts</td>
+</tr>
+<tr class="even">
+<td>Multivariate</td>
+<td>depends</td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="univariate-exploratory-data-analysis" class="slide level2">
 <h2>Univariate exploratory data analysis</h2>
@@ -333,7 +436,7 @@ $ bakery   &lt;fct&gt; bakery, bakery, bakery, bakery, bakery, bakery, bakery, b
 <h2>Carb vs.&nbsp;Calories + Bakery (with interaction)</h2>
 
 <img data-src="02-multivariate-relationships_files/figure-revealjs/unnamed-chunk-5-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><p><span class="math display">\[{\small \text{carb} = \beta_0 + \beta_1 ~\text{calories} + \beta_2 ~\text{bakery} + \beta_3 ~ \text{calories} \times \text{bakery}  + \epsilon}\]</span></p>
-</section>
+</section></section>
 <section>
 <section id="simpsons-paradox" class="title-slide slide level1 center">
 <h1>Simpson’s Paradox</h1>
