@@ -1,0 +1,235 @@
+---
+title: "AE 03: Dr. F's Coffee"
+subtitle: "Simple linear regression"
+editor: visual
+format:
+  html:
+    embed-resources: true
+    include-in-header:
+      text: |
+        <style>
+        /* Exercise / answer boxes. Canonical source: style/exercise-boxes.css
+           in the course repo — copy from there if this ever drifts. */
+        body { counter-reset: exercise; }
+        .exercise, .answer {
+          border-left: 4px solid #533860;
+          padding: .6em 1em;
+          margin: 1em 0;
+          border-radius: 4px;
+        }
+        .exercise { background: #f2eef5; }
+        .exercise::before {
+          counter-increment: exercise;
+          content: "Exercise " counter(exercise);
+          display: block;
+          font-weight: 700;
+          color: #533860;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .answer {
+          background: transparent;
+          border-left-color: #a49363;
+          border-left-style: dashed;
+          min-height: 3.5em;
+        }
+        .answer::before {
+          content: "Your answer";
+          display: block;
+          font-weight: 700;
+          color: #8a7a4f;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        </style>
+---
+
+::: callout-important
+-   Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-03"
+
+-   Go to the [Canvas](https://cofi.instructure.com/courses/18743) and locate the `AE-03` assignment. That link should take you directly there.
+
+-   Upload the `ae-03-coffee.qmd` file into the folder you just created. There is no separate data file: today's data loads directly from the internet, so you'll need to be online when you render.
+:::
+
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(broom)
+library(ggformula)
+library(janitor)
+```
+
+## Data
+
+Our data set is Dr. F's own coffee log: every cup of coffee he's brewed at home since January 2026, along with the beans, brewing method, and his own ratings of how the cup turned out. Each row is a single cup of coffee.
+
+We will focus on the following variables in the analysis:
+
+-   `vibes_rating`: Dr. F's overall rating of the cup, on a scale from 0 to 10.
+-   `body`: sub-score for the cup's body (mouthfeel), also on a 0 to 10 scale.
+-   `roast`: the roast level of the beans (`Light`, `Light-Medium`, `Medium`, or `Dark`).
+
+::: callout-note
+There's also an `average` column, calculated from `body` and four other flavor sub-scores. Since it's essentially a summary of variables we're already using, we won't use it here, same as in HW 01.
+:::
+
+## Exercises
+
+::: {.exercise}
+The following code will load the data.
+
+```{r load-data}
+#| message: false
+coffee <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTI_1K-jHHdbpi11aB5tX3Avr2eRXULfLg9BoveWhId4soH1BAnIJWuu0CiqO7YiP1TVoqsGi6kLbli/pub?gid=0&single=true&output=csv") |>
+  clean_names()
+```
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Below is code to create visualizations of the distributions of `vibes_rating` and `body`. Create a bar chart of `roast` and store it in a variable called `p3`. Make sure to include appropriate labels. Finally, uncomment the last line of code in this chunk. What do you think this last line does? Comment on what you see.
+
+```{r coffee-viz}
+#| warning: false
+#| message: false
+
+p1 <- gf_histogram(~ vibes_rating, data = coffee, binwidth = 0.5) |>
+  gf_labs(x = "Vibes rating")
+
+p2 <- gf_histogram(~ body, data = coffee, binwidth = 1) |>
+  gf_labs(x = "Body")
+
+# (p1 | p2) / p3
+```
+:::
+
+::: {.answer}
+
+```{r}
+
+```
+
+:::
+
+::: {.exercise}
+In the raw data, `roast` is a character variable, and its levels won't sort in a sensible order on their own (alphabetical would put `Dark` first). Recode `roast` to make it a factor with levels in order from lightest to darkest roast. While you're at it, take a look at the `origin` column: fix any typos you find that would cause the same country to be counted as two different categories.
+
+```{r data-prep}
+# add code developed during livecoding here
+```
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+We want to evaluate whether the relationship between `body` and `vibes_rating` is the same for each roast level. To answer this question, first create a scatter plot of `vibes_rating` vs. `body`, faceted by `roast`. Since `body` only takes on a handful of integer values and lots of points will land on top of each other, use `gf_jitter` instead of `gf_point`.
+
+```{r facet-plot}
+# add code developed during livecoding here
+```
+:::
+
+::: {.answer}
+
+```{r}
+
+```
+
+:::
+
+::: {.exercise}
+Does the relationship between `body` and `vibes_rating` look about the same across the four roast levels, or different? Which panel(s), if any, should we be cautious about drawing conclusions from, and why?
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Use `filter` and `arrange` to find the 5 lowest-rated cups in the data set. Do they have anything in common (roast, origin, brewer, a particular sub-score)?
+
+```{r filter-lowest}
+# add code developed during livecoding here
+```
+:::
+
+::: {.answer}
+
+```{r}
+
+```
+
+:::
+
+::: {.exercise}
+Fit a linear model for predicting `vibes_rating` from `body`, using all of the cups (no filtering by roast). Use `tidy()` to format the output.
+
+```{r fit-model}
+# add code developed during livecoding here
+```
+:::
+
+::: {.answer}
+
+```{r}
+
+```
+
+:::
+
+::: {.exercise}
+Use the output to write out the estimated regression equation.
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Interpret the slope in the context of the data.
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Interpret the intercept in the context of the data. Then explain why this intercept isn't really meaningful here: is `body = 0` a value we actually observe in this data set?
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Create a visualization of the model we just fit.
+
+```{r visualize-model}
+# add code developed during livecoding here
+```
+:::
+
+::: {.answer}
+
+```{r}
+
+```
+
+:::
+
+::: callout-important
+To submit the AE:
+
+-   Render the document to produce the HTML with all of your work from today's class.
+-   The driver for your group should upload your .qmd and .html files to the Canvas assignment.
+:::
