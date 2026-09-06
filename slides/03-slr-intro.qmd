@@ -21,13 +21,37 @@ knitr:
 bibliography: references.bib
 ---
 
+# Data
+
+## DC Bikeshare
+
+Our data set contains daily rentals from the Capital Bikeshare in Washington, DC in 2011 and 2012. It was obtained from the `dcbikeshare` data set in the `dsbox` R package.
+
+We will focus on the following variables in the analysis:
+
+-   `count`: total bike rentals
+-   `temp_orig`: Temperature in degrees Celsius
+-   `season`: 1 - winter, 2 - spring, 3 - summer, 4 - fall
+
+Click [here](https://tidyverse.github.io/dsbox/reference/dcbikeshare.html) for the full list of variables and definitions.
+
+
+## Loading Data From A File
+
+- PATH: directions to get to a file
+    - Example: "ae/ae-03/dataset.csv" will take it you to `ae` then `ae-03` then `dataset.csv`
+- Two types of paths: absolute and relative
+    - Absolute: starts from the root directory (i.e. the top-level directory)
+    - Relative: starts from the current directory (`..` goes up one level)
+- RStudio & Quarto: use `read_csv("relative path/to/file.csv")` to load data from a CSV file
+
 ## Application exercise
 
 ::: appex
-📋 [AE 03 - Dr. F's Coffee](../ae/ae-03-coffee.qmd)
+📋 [AE 03 - DC Bikeshare](../ae/ae-03-bikeshare.qmd)
 :::
 
-Complete Exercises 1 and 2.
+Complete Exercises 0-2.
 
 # Introduction to Simple Linear Regression
 
@@ -37,7 +61,7 @@ Complete Exercises 1 and 2.
 
 -   Estimate the slope and intercept of the regression line using the least squares method.
 
-## Computation set up {.smaller}
+## Computational set up {.smaller}
 
 ```{r}
 #| echo: true
@@ -48,7 +72,10 @@ library(tidyverse)       # for data wrangling
 library(ggformula)       # for plotting
 library(broom)           # for formatting model output
 library(knitr)           # for formatting tables
-library(janitor)         # for cleaning column names
+```
+
+```{r}
+#| include: false
 
 # set default theme and larger font size for ggplot2
 ggplot2::theme_set(ggplot2::theme_bw(base_size = 16))
@@ -63,85 +90,241 @@ knitr::opts_chunk$set(
 )
 ```
 
+# Data cleaning
 
-# Data
+## Data cleaning
 
-## Dr. F's Coffee
+We're going to work through some data cleaning steps together.
 
-Our data set is Dr. F's own coffee log: every cup of coffee he's brewed at home since January 2026, along with the beans, brewing method, and his own ratings of how the cup turned out. Each row is a single cup of coffee.
-
-We will focus on the following variables in the analysis:
-
--   `vibes_rating`: Dr. F's overall rating of the cup, 0-10
--   `body`: sub-score for the cup's "body" (mouthfeel), 0-10
--   `roast`: the roast level of the beans (`Light`, `Light-Medium`, `Medium`, `Dark`)
-
-::: {.callout-note}
-There's also an `average` column, calculated from `body` and four other flavor sub-scores. Since it's just a summary of variables we already have, we won't use it here, same as in HW 01.
-:::
-
-Let's complete Exercises 3-6 together
 
 ## Data prep {.smaller}
 
--   Exercise 3: Order `roast` as a factor and fix a typo in `origin` (livecode)
--   Remember:
-    +   Think of `|>` as "and then"
+-   R calls categorical data "factors"'
+-   Factors have levels (categories) and can be ordered or unordered
+-   Exercise 3: Recode `season` as a factor with names instead of numbers (livecode)
+
+## Exercise 3 {.smaller}
+
+-   Idea:
+    +   Take the `bikeshare` data... AND THEN
+    +   Mutate the `season` column to recode it as a factor with names instead of numbers
     +   `mutate` creates new columns and changes (mutates) existing columns
     +   R calls categorical data "factors"
 
 ```{r}
-#| message: false
-coffee <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTI_1K-jHHdbpi11aB5tX3Avr2eRXULfLg9BoveWhId4soH1BAnIJWuu0CiqO7YiP1TVoqsGi6kLbli/pub?gid=0&single=true&output=csv") |>
-  clean_names() |>
-  mutate(
-    origin = if_else(origin == "Columbia", "Colombia", origin),
-    roast  = factor(roast, levels = c("Light", "Light-Medium", "Medium", "Dark"))
-  ) |>
-  drop_na(vibes_rating, body, roast)
+bikeshare <- read_csv("../data/dcbikeshare.csv") |>
+  mutate(season = case_when(
+    season == 1 ~ "winter",
+    season == 2 ~ "spring",
+    season == 3 ~ "summer",
+    season == 4 ~ "fall"
+  ),
+  season = factor(season))
 ```
 
-## Exploratory data analysis (Exercise 4)
+## Exploratory data analysis (Exercise 3)
 
 ```{r}
 #| echo: TRUE
-#| warning: false
 
-gf_jitter(vibes_rating ~ body | roast, data = coffee, width = 0.15, height = 0.05, alpha = 0.5) |>
-  gf_labs(x = "Body",
-          y = "Vibes rating")
+gf_point(count ~ temp_orig | season, data = bikeshare) |>
+  gf_labs(x = "Temperature (Celsius)",
+          y = "Daily bike rentals")
 ```
 
-## One relationship, four roasts
+## More data prep
 
--   (Exercise 5) Does the relationship between `body` and `vibes_rating` look about the same across roast levels, or different?
-
-. . .
-
--   Unlike a data set where the relationship really does change by group, here it looks **similar in every panel** (roughly the same upward trend for Light, Light-Medium, and Medium)
--   `Dark` only has 2 cups. That's too few to say anything about a relationship, in that panel or between roasts.
--   So instead of filtering down to one group, like we might do when groups genuinely differ, we'll fit **one line** using every cup
+-   (Exercise 5) Filter your data for the season with the strongest relationship and give the resulting data set a new name
 
 ```{r}
-#| echo: false
-m <- lm(vibes_rating ~ body, data = coffee)
+winter <- bikeshare |>
+  filter(season == "winter")
 ```
 
-## Vibes vs Body
+## Rentals vs Temperature
 
-**Goal**: Fit a line to describe the relationship between the body of a cup and Dr. F's overall rating of it.
+**Goal**: Fit a line to describe the relationship between the temperature and the number of rentals in winter.
 
 ```{r}
 #| echo: false
 #| fig-align: center
-p <- ggplot(data = coffee, mapping = aes(x = body, y = vibes_rating)) +
-  geom_point(alpha = 0.4) +
+p <- ggplot(data = winter, mapping = aes(x = temp_orig, y = count)) +
+  geom_point(alpha = 0.5) +
   geom_smooth(method = "lm", color = "red", se = FALSE) +
-  labs(x = "Body",
-       y = "Vibes rating")
+  labs(x = "Temperature (Celsius)",
+       y = "Daily bike rentals")
 
 p
 ```
+
+## Function between response and predictors
+
+::: goal
+$$\text{carb} = f(\text{calories}, \text{bakery}) + \epsilon$$
+:::
+
+-   **Goal**: Determine $f$
+-   How do we determine $f$?
+    -   Make an assumption about the functional form $f$ (parametric model)
+    -   Use the data to fit a model based on that form
+
+## Determine $f$
+
+1.  Choose the functional form of $f$, i.e., **choose the appropriate model given the response variable**
+
+-   Suppose $f$ takes the form of a linear model\
+    $$y = f(\mathbf{X}) = \beta_0 + \beta_1 x_1 + \dots + \beta_p x_p + \epsilon$$
+
+. . .
+
+2.  Use the data to fit (or train) the model, i.e, **estimate the model parameters,** $\beta_0, \beta_1, \ldots, \beta_p$
+
+## Carb vs. Calories
+
+```{r echo = F}
+ggplot(data = starbucks, aes(x = calories, y = carb)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", se = FALSE, color = "steelblue") +
+  labs(x = "Calories",
+      y  = "Carbohydrates (grams)",
+      title = "Total Carbohydrates vs. Calories")
+```
+
+$$\text{carb} = \beta_0 + \beta_1 ~\text{calories} + \epsilon$$
+
+## Carb vs. Calories + Bakery
+
+```{r echo = F}
+model1 <- lm(carb ~ calories + bakery, data = starbucks)
+model1 <- tidy(model1)
+```
+
+```{r echo = F}
+ggplot(data = starbucks, aes(x = calories, y = carb, color = bakery)) +
+  geom_point(alpha = 0.5) +
+  geom_abline(slope = model1$estimate[2], intercept = model1$estimate[1], color = "#1B9E77") +
+  geom_abline(slope = model1$estimate[2], intercept = model1$estimate[1] + model1$estimate[3], color = "#7570B3") +
+  labs(x = "Calories",
+      y  = "Carbohydrates (grams)",
+      color = "Bakery",
+      title = "Total Carbohydrates vs. Calories",
+      subtitle = "by Bakery") +
+  scale_color_manual(values=c("#1B9E77", "#7570B3"))
+```
+
+
+$$\text{carb} = \beta_0 + \beta_1 ~\text{calories} + \beta_2 ~\text{bakery} + \epsilon$$
+
+## Carb vs. Calories + Bakery (with interaction)
+
+```{r}
+#| echo: false
+
+ggplot(data = starbucks, aes(x = calories, y = carb, color = bakery)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Calories",
+      y  = "Carbohydrates (grams)",
+      color = "Bakery",
+      title = "Total Carbohydrates vs. Calories",
+      subtitle = "With Interaction") +
+  scale_color_manual(values=c("#1B9E77", "#7570B3"))
+
+```
+
+$${\small \text{carb} = \beta_0 + \beta_1 ~\text{calories} + \beta_2 ~\text{bakery} + \beta_3 ~ \text{calories} \times \text{bakery}  + \epsilon}$$
+
+# Simpson's Paradox
+
+## Example: Palmer's Penguins
+
+Size measurements, clutch observations, and blood isotope ratios for adult foraging Adélie, Chinstrap, and Gentoo penguins observed on islands in the Palmer Archipelago near Palmer Station, Antarctica.
+
+![](images/01/culmen_depth.png)
+
+## Example: Palmer's Penguins
+
+```{r}
+#| echo: FALSE
+
+penguins |>
+  gf_point(bill_depth_mm ~ bill_length_mm) |>
+  gf_lm() |>
+  gf_labs( x= "Bill Length (mm)",
+           y = "Bill Depth (mm)")
+```
+
+:::{.question}
+What does the relationship between Length and Depth look like?
+:::
+
+## Example: Palmer's Penguins
+
+```{r}
+#| echo: FALSE
+
+model <- lm(bill_depth_mm ~ bill_length_mm + species, data = penguins) |> tidy()
+
+penguins |>
+  gf_point(bill_depth_mm ~ bill_length_mm, color = ~species) |>
+  gf_abline(slope = model$estimate[2], intercept = model$estimate[1], color = "#1B9E77") |>
+  gf_abline(slope = model$estimate[2], intercept = model$estimate[1] + model$estimate[3], color = "#7570B3") |>
+  gf_abline(slope = model$estimate[2], intercept = model$estimate[1] + model$estimate[4], color = "#d53a19") |>
+  gf_labs(x= "Bill Length (mm)",
+           y = "Bill Depth (mm)") |>
+  gf_refine(
+  scale_color_manual(values=c("#1B9E77", "#7570B3", "#d53a19"))
+  )
+```
+
+
+
+:::{.question}
+What does the relationship between Length and Depth look like now?
+:::
+
+## Simpson's Paradox
+
+Simpson's Paradox is when there is a clear relationship between two variables but when you introduce a third variable that relationship disappears of reverses.
+
+## Statistical model vs. regression equation {.midi}
+
+**Statistical model (also known as data-generating model)**
+
+$${\small \text{carb} = \beta_0 + \beta_1 ~\text{calories} + \beta_2 ~\text{bakery} + \beta_3 ~ \text{calories} \times \text{bakery}  + \epsilon}$$
+
+Models the process for generating values of the response in the population (function + error)
+
+<br>
+
+. . .
+
+**Regression equation**
+
+Estimate of the function using the sample data
+
+$${\small \hat{\text{carb}} = \hat{\beta}_0 + \hat{\beta}_1 ~\text{calories} + \hat{\beta}_2 ~\text{bakery} + \hat{\beta}_3 ~ \text{calories} \times \text{bakery}}$$
+
+## Why fit a model?
+
+-   **Prediction:** Expected value of the response variable for given values of the predictor variables
+
+-   **Inference:** Conclusion about the relationship between the response and predictor variables
+
+::: question
+-   What is an example of a **prediction** question that can be answered using the model of carb vs. calories and bakery?
+
+-   What is an example of an **inference** question that can be answered using the model of carb vs. calories and bakery?
+:::
+
+
+## Recap {.midi}
+
+-   We can use exploratory data analysis to describe the relationship between two variables
+
+-   We make an assumption about the relationship between variables when doing linear regression
+
+-   The two main objectives for fitting a linear regression model are (1) prediction and (2) inference
 
 ## Why fit a line?
 
@@ -153,7 +336,7 @@ We fit a line to accomplish one or both of the following:
 **Prediction**
 :::
 
-What rating would we expect for a cup with a body score of 8?
+How many rentals are expected when it's 10 degrees out?
 
 . . .
 
@@ -161,7 +344,7 @@ What rating would we expect for a cup with a body score of 8?
 **Inference**
 :::
 
-Is body a useful predictor of the rating? By how much is the rating expected to change for each additional point of body?
+Is temperature a useful predictor of the number of rentals? By how much is the number of rentals expected to change for each degree Celsius?
 
 ## Population vs. Sample
 
@@ -173,9 +356,6 @@ Is body a useful predictor of the rating? By how much is the rating expected to 
 
 **Goal:** Build a model from your sample which generalizes to your population.
 
-::: {.callout-note}
-Here, the population is *every cup of coffee Dr. F could ever brew*, and the sample is the 127 cups he's actually logged so far. Is that sample representative? What might make it not be?
-:::
 
 ## Terminology
 
@@ -220,8 +400,8 @@ p
 ```{r}
 #| echo: false
 #| fig-align: center
-ggplot(data = coffee, mapping = aes(x = body, y = vibes_rating)) +
-  geom_point(alpha = 0.4) +
+ggplot(data = winter, mapping = aes(x = temp_orig, y = count)) +
+  geom_point(alpha = 0.5) +
   geom_smooth(method = "lm", color = "purple", se = FALSE) +
   labs(x = "X" ,
        y = "Y") +
@@ -250,10 +430,11 @@ $$
 ```{r}
 #| echo: false
 #| fig-align: center
-ggplot(data = coffee, mapping = aes(x = body, y = vibes_rating)) +
-  geom_point(alpha = 0.4) +
+m <- lm(count ~ temp_orig, data = winter)
+ggplot(data = winter, mapping = aes(x = temp_orig, y = count)) +
+  geom_point(alpha = 0.5) +
   geom_smooth(method = "lm", color = "purple", se = FALSE) +
-  geom_segment(aes(x=body, xend=body, y=vibes_rating, yend=predict(m, coffee)), color = "blue", linetype = "dotted") +
+  geom_segment(aes(x=temp_orig, xend=temp_orig, y=count, yend=predict(m, winter)), color = "blue", linetype = "dotted") +
   labs(x = "X" ,
        y = "Y") +
   theme_bw() +
@@ -293,13 +474,13 @@ $$\Large{\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X}$$
 ```{r}
 #| echo: false
 #| fig-align: center
-ggplot(data = coffee, mapping = aes(x = body, y = vibes_rating)) +
+ggplot(data = winter, mapping = aes(x = temp_orig, y = count)) +
   geom_point(alpha = 0.4) +
-  geom_abline(intercept = 3.03, slope = 0.55, color = "red") +
-  geom_abline(intercept = 5.5, slope = 0.15, color = "green") +
-  geom_abline(intercept = 1.0, slope = 0.95, color = "blue") +
-  labs(x = "Body",
-       y = "Vibes rating")
+  geom_abline(intercept = -111.0, slope = 222.4, color = "red") +
+  geom_abline(intercept = 1000, slope = 100, color = "green") +
+  geom_abline(intercept = -1000, slope = 300, color = "blue") +
+  labs(x = "Temperature (Celsius)",
+       y = "Daily bike rentals")
 ```
 
 ## Residuals
@@ -307,12 +488,12 @@ ggplot(data = coffee, mapping = aes(x = body, y = vibes_rating)) +
 ```{r}
 #| echo: false
 #| fig-align: center
-ggplot(data = coffee, mapping = aes(x = body, y = vibes_rating)) +
-  geom_point(alpha = 0.4) +
+ggplot(data = winter, mapping = aes(x = temp_orig, y = count)) +
+  geom_point(alpha = 0.5) +
   geom_smooth(method ="lm", color = "red", se = FALSE) +
-  geom_segment(aes(x=body, xend=body, y=vibes_rating, yend=predict(m, coffee)), color = "blue", linetype = "dotted") +
-  labs(x = "Body",
-       y = "Vibes rating") +
+  geom_segment(aes(x=temp_orig, xend=temp_orig, y=count, yend=predict(m, winter)), color = "blue", linetype = "dotted") +
+  labs(x = "Temperature (Celsius)",
+       y = "Daily bike rentals") +
   theme(legend.position = "none")
 ```
 
@@ -333,16 +514,13 @@ $$e^2_1 + e^2_2 + \dots + e^2_n$$
 
 ```{r}
 #| echo: false
-sx <- round(sqrt(var(coffee$body)),4)
-sy <- round(sqrt(var(coffee$vibes_rating)),4)
-r <- round(cor(coffee$body, coffee$vibes_rating),4)
-xbar <- round(mean(coffee$body),4)
-ybar <- round(mean(coffee$vibes_rating),4)
+sx <- round(sqrt(var(winter$temp_orig)),4)
+sy <- round(sqrt(var(winter$count)),4)
+r <- round(cor(winter$temp_orig, winter$count),4)
+xbar <- round(mean(winter$temp_orig),4)
+ybar <- round(mean(winter$count),4)
 ```
 
-::: appex
-Finish Exercises 7-11 on your own.
-:::
 
 ## Recap
 
@@ -356,10 +534,3 @@ Finish Exercises 7-11 on your own.
 - Least squares method chooses coefficients to minimize the sum of squared residuals
 - SLR can be used for prediction and inference
 :::
-
-## For Monday
-
-- Complete and submit AE 03
-- Completed readings
-
-## References

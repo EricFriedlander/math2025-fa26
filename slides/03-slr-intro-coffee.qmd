@@ -1,0 +1,365 @@
+---
+title: "Simple Linear Regression"
+author: "Prof. Eric Friedlander"
+footer: "[🔗 MATH 2025 - Fall 2026 -  Schedule](https://ericfriedlander.github.io/math2025-fa26/schedule)"
+logo: "../images/logo.png"
+format:
+  revealjs:
+    theme: slides.scss
+    multiplex: false
+    transition: fade
+    slide-number: false
+    incremental: false
+    chalkboard: true
+execute:
+  freeze: auto
+  echo: true
+knitr:
+  opts_chunk:
+    R.options:
+    width: 200
+bibliography: references.bib
+---
+
+## Application exercise
+
+::: appex
+📋 [AE 03 - Dr. F's Coffee](../ae/ae-03-coffee.qmd)
+:::
+
+Complete Exercises 1 and 2.
+
+# Introduction to Simple Linear Regression
+
+## Topics
+
+-   Use simple linear regression to describe the relationship between a quantitative predictor and quantitative response variable.
+
+-   Estimate the slope and intercept of the regression line using the least squares method.
+
+## Computation set up {.smaller}
+
+```{r}
+#| echo: true
+#| message: false
+
+# load packages
+library(tidyverse)       # for data wrangling
+library(ggformula)       # for plotting
+library(broom)           # for formatting model output
+library(knitr)           # for formatting tables
+library(janitor)         # for cleaning column names
+
+# set default theme and larger font size for ggplot2
+ggplot2::theme_set(ggplot2::theme_bw(base_size = 16))
+
+# set default figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.618,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%"
+)
+```
+
+
+# Data
+
+## Dr. F's Coffee
+
+Our data set is Dr. F's own coffee log: every cup of coffee he's brewed at home since January 2026, along with the beans, brewing method, and his own ratings of how the cup turned out. Each row is a single cup of coffee.
+
+We will focus on the following variables in the analysis:
+
+-   `vibes_rating`: Dr. F's overall rating of the cup, 0-10
+-   `body`: sub-score for the cup's "body" (mouthfeel), 0-10
+-   `roast`: the roast level of the beans (`Light`, `Light-Medium`, `Medium`, `Dark`)
+
+::: {.callout-note}
+There's also an `average` column, calculated from `body` and four other flavor sub-scores. Since it's just a summary of variables we already have, we won't use it here, same as in HW 01.
+:::
+
+Let's complete Exercises 3-6 together
+
+## Data prep {.smaller}
+
+-   Exercise 3: Order `roast` as a factor and fix a typo in `origin` (livecode)
+-   Remember:
+    +   Think of `|>` as "and then"
+    +   `mutate` creates new columns and changes (mutates) existing columns
+    +   R calls categorical data "factors"
+
+```{r}
+#| message: false
+coffee <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTI_1K-jHHdbpi11aB5tX3Avr2eRXULfLg9BoveWhId4soH1BAnIJWuu0CiqO7YiP1TVoqsGi6kLbli/pub?gid=0&single=true&output=csv") |>
+  clean_names() |>
+  mutate(
+    origin = if_else(origin == "Columbia", "Colombia", origin),
+    roast  = factor(roast, levels = c("Light", "Light-Medium", "Medium", "Dark"))
+  ) |>
+  drop_na(vibes_rating, body, roast)
+```
+
+## Exploratory data analysis (Exercise 4)
+
+```{r}
+#| echo: TRUE
+#| warning: false
+
+gf_jitter(vibes_rating ~ body | roast, data = coffee, width = 0.15, height = 0.05, alpha = 0.5) |>
+  gf_labs(x = "Body",
+          y = "Vibes rating")
+```
+
+## One relationship, four roasts
+
+-   (Exercise 5) Does the relationship between `body` and `vibes_rating` look about the same across roast levels, or different?
+
+. . .
+
+-   Unlike a data set where the relationship really does change by group, here it looks **similar in every panel** (roughly the same upward trend for Light, Light-Medium, and Medium)
+-   `Dark` only has 2 cups. That's too few to say anything about a relationship, in that panel or between roasts.
+-   So instead of filtering down to one group, like we might do when groups genuinely differ, we'll fit **one line** using every cup
+
+```{r}
+#| echo: false
+m <- lm(vibes_rating ~ body, data = coffee)
+```
+
+## Vibes vs Body
+
+**Goal**: Fit a line to describe the relationship between the body of a cup and Dr. F's overall rating of it.
+
+```{r}
+#| echo: false
+#| fig-align: center
+p <- ggplot(data = coffee, mapping = aes(x = body, y = vibes_rating)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "lm", color = "red", se = FALSE) +
+  labs(x = "Body",
+       y = "Vibes rating")
+
+p
+```
+
+## Why fit a line?
+
+We fit a line to accomplish one or both of the following:
+
+. . .
+
+::: {style="color: #799100"}
+**Prediction**
+:::
+
+What rating would we expect for a cup with a body score of 8?
+
+. . .
+
+::: {style="color : #799100"}
+**Inference**
+:::
+
+Is body a useful predictor of the rating? By how much is the rating expected to change for each additional point of body?
+
+## Population vs. Sample
+
+**Population:** The set of items or events that you're interested in and hoping (able) to generalize the results of your analysis to.
+
+**Sample:** The set of items that you have data for.
+
+**Representative Sample:** A sample that looks like a small version of your population.
+
+**Goal:** Build a model from your sample which generalizes to your population.
+
+::: {.callout-note}
+Here, the population is *every cup of coffee Dr. F could ever brew*, and the sample is the 127 cups he's actually logged so far. Is that sample representative? What might make it not be?
+:::
+
+## Terminology
+
+::: columns
+::: {.column width="30%"}
+-   **Response, *Y***: variable describing the outcome of interest
+
+-   **Predictor, *X***: variable we use to help understand the variability in the response
+:::
+
+::: {.column width="70%"}
+```{r}
+#| echo: false
+#| fig-align: center
+p
+```
+:::
+:::
+
+## Regression model
+
+**Regression model:** a function that describes the relationship between a quantitative response, $Y$, and the predictor, $X$ (or many predictors).
+
+```{=tex}
+\begin{aligned} Y &= \color{black}{\textbf{Model}} + \text{Error} \\[8pt]
+&= \color{black}{\mathbf{f(X)}} + \epsilon \\[8pt]
+&= \color{black}{\boldsymbol{\mu_{Y|X}}} + \epsilon \end{aligned}
+```
+
+## Regression model
+
+::: columns
+::: {.column width="30%"}
+```{=tex}
+\begin{aligned} Y &= \color{purple}{\textbf{Model}} + \text{Error} \\[8pt]
+&= \color{purple}{\mathbf{f(X)}} + \epsilon \\[8pt]
+&= \color{purple}{\boldsymbol{\mu_{Y|X}}} + \epsilon \end{aligned}
+```
+:::
+
+::: {.column width="70%"}
+```{r}
+#| echo: false
+#| fig-align: center
+ggplot(data = coffee, mapping = aes(x = body, y = vibes_rating)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "lm", color = "purple", se = FALSE) +
+  labs(x = "X" ,
+       y = "Y") +
+  theme(axis.text = element_blank(),
+  axis.ticks.x = element_blank(),
+  axis.ticks.y = element_blank())
+```
+:::
+:::
+
+$\mu_{Y|X}$ is the mean value of $Y$ given a particular value of $X$.
+
+## Regression model
+
+::: columns
+::: {.column width="30%"}
+$$
+\begin{aligned} Y &= \color{purple}{\textbf{Model}} + \color{blue}{\textbf{Error}} \\[5pt]
+&= \color{purple}{\mathbf{f(X)}} + \color{blue}{\boldsymbol{\epsilon}} \\[5pt]
+&= \color{purple}{\boldsymbol{\mu_{Y|X}}} + \color{blue}{\boldsymbol{\epsilon}} \\[5pt]
+ \end{aligned}
+$$
+:::
+
+::: {.column width="70%"}
+```{r}
+#| echo: false
+#| fig-align: center
+ggplot(data = coffee, mapping = aes(x = body, y = vibes_rating)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "lm", color = "purple", se = FALSE) +
+  geom_segment(aes(x=body, xend=body, y=vibes_rating, yend=predict(m, coffee)), color = "blue", linetype = "dotted") +
+  labs(x = "X" ,
+       y = "Y") +
+  theme_bw() +
+  theme(axis.text = element_blank(),
+  axis.ticks.x = element_blank(),
+  axis.ticks.y = element_blank())
+```
+:::
+:::
+
+# Simple linear regression (SLR)
+
+## SLR: Statistical model
+
+- **Simple linear regression:** model to describe the relationship between $Y$ and $X$ where:
+  + $Y$ is a quantitative/numerical response
+  + $X$ is a *single* quantitative predictor
+  + $$\Large{Y = \mathbf{\beta_0 + \beta_1 X} + \epsilon}$$
+
+. . .
+
+-   $\beta_1$: True slope of the relationship between $X$ and $Y$
+-   $\beta_0$: True intercept of the relationship between $X$ and $Y$
+-   $\epsilon$: Error
+
+## SLR: Regression equation
+
+$$\Large{\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X}$$
+
+-   $\hat{\beta}_1$: Estimated slope of the relationship between $X$ and $Y$
+-   $\hat{\beta}_0$: Estimated intercept of the relationship between $X$ and $Y$
+-   $\hat{Y}$: Predicted value of $Y$ for a given $X$
+-   No error term!
+
+## Choosing values for $\hat{\beta}_1$ and $\hat{\beta}_0$
+
+```{r}
+#| echo: false
+#| fig-align: center
+ggplot(data = coffee, mapping = aes(x = body, y = vibes_rating)) +
+  geom_point(alpha = 0.4) +
+  geom_abline(intercept = 3.03, slope = 0.55, color = "red") +
+  geom_abline(intercept = 5.5, slope = 0.15, color = "green") +
+  geom_abline(intercept = 1.0, slope = 0.95, color = "blue") +
+  labs(x = "Body",
+       y = "Vibes rating")
+```
+
+## Residuals
+
+```{r}
+#| echo: false
+#| fig-align: center
+ggplot(data = coffee, mapping = aes(x = body, y = vibes_rating)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method ="lm", color = "red", se = FALSE) +
+  geom_segment(aes(x=body, xend=body, y=vibes_rating, yend=predict(m, coffee)), color = "blue", linetype = "dotted") +
+  labs(x = "Body",
+       y = "Vibes rating") +
+  theme(legend.position = "none")
+```
+
+$$\text{residual} = \text{observed} - \text{predicted} = y_i - \hat{y}_i$$
+
+## Least squares line
+
+-  **Residual** for the $i^{th}$ observation:
+
+$$e_i = \text{observed} - \text{predicted}
+= y_i - \hat{y}_i$$
+
+-   **Sum of squared residuals**:
+
+$$e^2_1 + e^2_2 + \dots + e^2_n$$
+
+-   **Least squares line** is the one that minimizes the sum of squared residuals
+
+```{r}
+#| echo: false
+sx <- round(sqrt(var(coffee$body)),4)
+sy <- round(sqrt(var(coffee$vibes_rating)),4)
+r <- round(cor(coffee$body, coffee$vibes_rating),4)
+xbar <- round(mean(coffee$body),4)
+ybar <- round(mean(coffee$vibes_rating),4)
+```
+
+::: appex
+Finish Exercises 7-11 on your own.
+:::
+
+## Recap
+
+::: {.incremental style="font-size: 0.85em"}
+
+- Simple linear regression (SLR) describes the relationship between a quantitative predictor ($X$) and response ($Y$).
+- The regression equation: $\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X$
+- $\hat{\beta}_1$ (slope): estimated change in $Y$ for each unit increase in $X$
+- $\hat{\beta}_0$ (intercept): estimated value of $Y$ when $X = 0$
+- Residuals: difference between observed and predicted values ($e_i = y_i - \hat{y}_i$)
+- Least squares method chooses coefficients to minimize the sum of squared residuals
+- SLR can be used for prediction and inference
+:::
+
+## For Monday
+
+- Complete and submit AE 03
+- Completed readings
+
+## References
