@@ -21,6 +21,21 @@ knitr:
 bibliography: references.bib
 ---
 
+## Reminder: Group Work Roles {.smaller}
+
+Any time we are working on AEs, I will randomly assign you to groups of two or three. Each person will have a role:
+
+- **Coder:**
+    +   Shares screen and is the only person to type.
+    +   Runs code, saves work, and makes the submission.
+    +   Reads comments back when asked and asks for clarification when unsure.
+- **Developer:**
+    +   Directs the next steps: explains intent, outlines logic, and points out likely errors.
+    +   Watches output, reads error messages aloud, and suggests targeted fixes.
+- **Communicator:**
+    +   Looks up help when needed.
+    +   Reports group answers to the class.
+
 # Data
 
 ## DC Bikeshare
@@ -51,15 +66,15 @@ Click [here](https://tidyverse.github.io/dsbox/reference/dcbikeshare.html) for t
 📋 [AE 03 - DC Bikeshare](../ae/ae-03-bikeshare.qmd)
 :::
 
-Complete Exercises 0-2.
+Complete Exercises 1-3.
 
 # Introduction to Simple Linear Regression
 
 ## Topics
 
+-   Some based data clearning techniques
 -   Use simple linear regression to describe the relationship between a quantitative predictor and quantitative response variable.
-
--   Estimate the slope and intercept of the regression line using the least squares method.
+-   Estimate the slope and intercept of the regression line using R.
 
 ## Computational set up {.smaller}
 
@@ -76,6 +91,8 @@ library(knitr)           # for formatting tables
 
 ```{r}
 #| include: false
+bikeshare <- read_csv(here::here("data/dcbikeshare.csv"))
+
 
 # set default theme and larger font size for ggplot2
 ggplot2::theme_set(ggplot2::theme_bw(base_size = 16))
@@ -90,77 +107,10 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Data cleaning
-
-## Data cleaning
-
-We're going to work through some data cleaning steps together.
-
-
-## Data prep {.smaller}
-
--   R calls categorical data "factors"'
--   Factors have levels (categories) and can be ordered or unordered
--   Exercise 3: Recode `season` as a factor with names instead of numbers (livecode)
-
-## Exercise 3 {.smaller}
-
--   Idea:
-    +   Take the `bikeshare` data... AND THEN
-    +   Mutate the `season` column to recode it as a factor with names instead of numbers
-    +   `mutate` creates new columns and changes (mutates) existing columns
-    +   R calls categorical data "factors"
-
-```{r}
-bikeshare <- read_csv("../data/dcbikeshare.csv") |>
-  mutate(season = case_when(
-    season == 1 ~ "winter",
-    season == 2 ~ "spring",
-    season == 3 ~ "summer",
-    season == 4 ~ "fall"
-  ),
-  season = factor(season))
-```
-
-## Exploratory data analysis (Exercise 3)
-
-```{r}
-#| echo: TRUE
-
-gf_point(count ~ temp_orig | season, data = bikeshare) |>
-  gf_labs(x = "Temperature (Celsius)",
-          y = "Daily bike rentals")
-```
-
-## More data prep
-
--   (Exercise 5) Filter your data for the season with the strongest relationship and give the resulting data set a new name
-
-```{r}
-winter <- bikeshare |>
-  filter(season == "winter")
-```
-
-## Rentals vs Temperature
-
-**Goal**: Fit a line to describe the relationship between the temperature and the number of rentals in winter.
-
-```{r}
-#| echo: false
-#| fig-align: center
-p <- ggplot(data = winter, mapping = aes(x = temp_orig, y = count)) +
-  geom_point(alpha = 0.5) +
-  geom_smooth(method = "lm", color = "red", se = FALSE) +
-  labs(x = "Temperature (Celsius)",
-       y = "Daily bike rentals")
-
-p
-```
-
 ## Function between response and predictors
 
 ::: goal
-$$\text{carb} = f(\text{calories}, \text{bakery}) + \epsilon$$
+$$\text{count} = f(\text{temp_orig}) + \epsilon$$
 :::
 
 -   **Goal**: Determine $f$
@@ -173,125 +123,30 @@ $$\text{carb} = f(\text{calories}, \text{bakery}) + \epsilon$$
 1.  Choose the functional form of $f$, i.e., **choose the appropriate model given the response variable**
 
 -   Suppose $f$ takes the form of a linear model\
-    $$y = f(\mathbf{X}) = \beta_0 + \beta_1 x_1 + \dots + \beta_p x_p + \epsilon$$
+    $$y = f(\mathbf{X}) = \beta_0 + \beta_1 x_1 + \epsilon$$
 
 . . .
 
-2.  Use the data to fit (or train) the model, i.e, **estimate the model parameters,** $\beta_0, \beta_1, \ldots, \beta_p$
+2.  Use the data to fit (or train) the model, i.e, **estimate the model parameters,** $\beta_0, \beta_1$
 
-## Carb vs. Calories
+## Count vs. Temperature
 
 ```{r echo = F}
-ggplot(data = starbucks, aes(x = calories, y = carb)) +
+ggplot(data = bikeshare, aes(x = temp_orig, y = count)) +
   geom_point(alpha = 0.5) +
   geom_smooth(method = "lm", se = FALSE, color = "steelblue") +
-  labs(x = "Calories",
-      y  = "Carbohydrates (grams)",
-      title = "Total Carbohydrates vs. Calories")
+  labs(x = "Temperature (°C)",
+      y  = "Count",
+      title = "Bike Rentals vs. Temperature")
 ```
 
-$$\text{carb} = \beta_0 + \beta_1 ~\text{calories} + \epsilon$$
-
-## Carb vs. Calories + Bakery
-
-```{r echo = F}
-model1 <- lm(carb ~ calories + bakery, data = starbucks)
-model1 <- tidy(model1)
-```
-
-```{r echo = F}
-ggplot(data = starbucks, aes(x = calories, y = carb, color = bakery)) +
-  geom_point(alpha = 0.5) +
-  geom_abline(slope = model1$estimate[2], intercept = model1$estimate[1], color = "#1B9E77") +
-  geom_abline(slope = model1$estimate[2], intercept = model1$estimate[1] + model1$estimate[3], color = "#7570B3") +
-  labs(x = "Calories",
-      y  = "Carbohydrates (grams)",
-      color = "Bakery",
-      title = "Total Carbohydrates vs. Calories",
-      subtitle = "by Bakery") +
-  scale_color_manual(values=c("#1B9E77", "#7570B3"))
-```
-
-
-$$\text{carb} = \beta_0 + \beta_1 ~\text{calories} + \beta_2 ~\text{bakery} + \epsilon$$
-
-## Carb vs. Calories + Bakery (with interaction)
-
-```{r}
-#| echo: false
-
-ggplot(data = starbucks, aes(x = calories, y = carb, color = bakery)) +
-  geom_point(alpha = 0.5) +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(x = "Calories",
-      y  = "Carbohydrates (grams)",
-      color = "Bakery",
-      title = "Total Carbohydrates vs. Calories",
-      subtitle = "With Interaction") +
-  scale_color_manual(values=c("#1B9E77", "#7570B3"))
-
-```
-
-$${\small \text{carb} = \beta_0 + \beta_1 ~\text{calories} + \beta_2 ~\text{bakery} + \beta_3 ~ \text{calories} \times \text{bakery}  + \epsilon}$$
-
-# Simpson's Paradox
-
-## Example: Palmer's Penguins
-
-Size measurements, clutch observations, and blood isotope ratios for adult foraging Adélie, Chinstrap, and Gentoo penguins observed on islands in the Palmer Archipelago near Palmer Station, Antarctica.
-
-![](images/01/culmen_depth.png)
-
-## Example: Palmer's Penguins
-
-```{r}
-#| echo: FALSE
-
-penguins |>
-  gf_point(bill_depth_mm ~ bill_length_mm) |>
-  gf_lm() |>
-  gf_labs( x= "Bill Length (mm)",
-           y = "Bill Depth (mm)")
-```
-
-:::{.question}
-What does the relationship between Length and Depth look like?
-:::
-
-## Example: Palmer's Penguins
-
-```{r}
-#| echo: FALSE
-
-model <- lm(bill_depth_mm ~ bill_length_mm + species, data = penguins) |> tidy()
-
-penguins |>
-  gf_point(bill_depth_mm ~ bill_length_mm, color = ~species) |>
-  gf_abline(slope = model$estimate[2], intercept = model$estimate[1], color = "#1B9E77") |>
-  gf_abline(slope = model$estimate[2], intercept = model$estimate[1] + model$estimate[3], color = "#7570B3") |>
-  gf_abline(slope = model$estimate[2], intercept = model$estimate[1] + model$estimate[4], color = "#d53a19") |>
-  gf_labs(x= "Bill Length (mm)",
-           y = "Bill Depth (mm)") |>
-  gf_refine(
-  scale_color_manual(values=c("#1B9E77", "#7570B3", "#d53a19"))
-  )
-```
-
-
-
-:::{.question}
-What does the relationship between Length and Depth look like now?
-:::
-
-## Simpson's Paradox
-
-Simpson's Paradox is when there is a clear relationship between two variables but when you introduce a third variable that relationship disappears of reverses.
+$$\text{count} = \beta_0 + \beta_1 ~\text{temp_orig} + \epsilon$$
 
 ## Statistical model vs. regression equation {.midi}
 
 **Statistical model (also known as data-generating model)**
 
-$${\small \text{carb} = \beta_0 + \beta_1 ~\text{calories} + \beta_2 ~\text{bakery} + \beta_3 ~ \text{calories} \times \text{bakery}  + \epsilon}$$
+$${\small \text{count} = \beta_0 + \beta_1 ~\text{temp_orig} + \epsilon}$$
 
 Models the process for generating values of the response in the population (function + error)
 
@@ -303,7 +158,7 @@ Models the process for generating values of the response in the population (func
 
 Estimate of the function using the sample data
 
-$${\small \hat{\text{carb}} = \hat{\beta}_0 + \hat{\beta}_1 ~\text{calories} + \hat{\beta}_2 ~\text{bakery} + \hat{\beta}_3 ~ \text{calories} \times \text{bakery}}$$
+$${\small \hat{\text{count}} = \hat{\beta}_0 + \hat{\beta}_1 ~\text{temp_orig}}$$
 
 ## Why fit a model?
 
@@ -312,138 +167,131 @@ $${\small \hat{\text{carb}} = \hat{\beta}_0 + \hat{\beta}_1 ~\text{calories} + \
 -   **Inference:** Conclusion about the relationship between the response and predictor variables
 
 ::: question
--   What is an example of a **prediction** question that can be answered using the model of carb vs. calories and bakery?
+-   What is an example of a **prediction** question that can be answered using the model of count vs. temperature?
 
--   What is an example of an **inference** question that can be answered using the model of carb vs. calories and bakery?
+-   What is an example of an **inference** question that can be answered using the model of count vs. temperature?
 :::
 
+# Adding a third variable to our plots
 
-## Recap {.midi}
+## Skipping ahead to Exercise 5
 
--   We can use exploratory data analysis to describe the relationship between two variables
+- Suppose we want to add a third variable to our plots, such as the `season` variable. We have a few options:
+    + Color the points based on the third variables (add `color = ~season` to the `gf_point` call)
+    + Facet the plots by on the third variable by changing the formula to `count ~ temp_orig | season`
 
--   We make an assumption about the relationship between variables when doing linear regression
+## Solution
 
--   The two main objectives for fitting a linear regression model are (1) prediction and (2) inference
+```{r}
+#| echo: TRUE
 
-## Why fit a line?
+gf_point(count ~ temp_orig | season, data = bikeshare) |>
+  gf_labs(x = "Temperature (Celsius)",
+          y = "Daily bike rentals")
+```
 
-We fit a line to accomplish one or both of the following:
-
-. . .
-
-::: {style="color: #799100"}
-**Prediction**
-:::
-
-How many rentals are expected when it's 10 degrees out?
-
-. . .
-
-::: {style="color : #799100"}
-**Inference**
-:::
-
-Is temperature a useful predictor of the number of rentals? By how much is the number of rentals expected to change for each degree Celsius?
-
-## Population vs. Sample
-
-**Population:** The set of items or events that you're interested in and hoping (able) to generalize the results of your analysis to.
-
-**Sample:** The set of items that you have data for.
-
-**Representative Sample:** A sample that looks like a small version of your population.
-
-**Goal:** Build a model from your sample which generalizes to your population.
+- What do we notice about how `season` is displayed
 
 
-## Terminology
+# Data cleaning
 
-::: columns
-::: {.column width="30%"}
--   **Response, *Y***: variable describing the outcome of interest
+## `dplyr` and the `tidyverse`
 
--   **Predictor, *X***: variable we use to help understand the variability in the response
-:::
+- As R is an open-source programming language there are several difference styles and ways of doing things
+- In this class we're going to use something called the `tidyverse`
+- The `tidyverse` is a collection of R packages that share a common design philosophy
+- `dplyr` is a package within the `tidyverse` that provides a consistent interface for data manipulation
 
-::: {.column width="70%"}
+## `dplyr` verbs
+
+- `dplyr` provides a set of "verbs" for data manipulation
+- We'll going to cover two today:
+    - `mutate`: creates new columns and changes (mutates) existing columns
+    - `filter`: selects rows based on a condition
+- We'll typically chain together these verbs using the pipe operator `|>` (you may see `%>%` in older code)
+- Let's use these verbs to clean up the `bikeshare` data
+
+## Data prep {.smaller}
+
+-   R calls categorical data "factors"
+-   Factors have levels (categories) and can be ordered or unordered
+-   Exercise 4: Recode `season` as a factor with names instead of numbers (livecode)
+
+## Exercise 4 {.smaller}
+
+-   Idea:
+    +   Take the `bikeshare` data... AND THEN
+    +   Use `case_when` to mutate the `season` column... AND then
+    +   Use `factor` to convert `season` to a factor with levels in an order that makes sense
+
+## Solution
+
+```{r}
+bikeshare <- bikeshare |>
+  mutate(season = case_when(
+    season == 1 ~ "winter",
+    season == 2 ~ "spring",
+    season == 3 ~ "summer",
+    season == 4 ~ "fall"
+  ),
+  season = factor(season, levels = c("winter", "spring", "summer", "fall")))
+```
+
+## Back to Exercise 5 & 6
+
+```{r}
+#| echo: TRUE
+
+gf_point(count ~ temp_orig | season, data = bikeshare) |>
+  gf_labs(x = "Temperature (Celsius)",
+          y = "Daily bike rentals")
+```
+
+- Does it look like the relationship between `temp_orig` and `count` is the same in each season?
+- Which is strongest/weakest?
+
+## `season` is an important predictor
+
+- Later in the course we'll learn how to include both `temp_orig` and `season` in our model
+- For now, let's just focus on fitting a model to data from one season
+
+# Filtering our data
+
+## Filtering
+
+- To keep some observations use `filter(true/false statement)` and filter will keep all rows where the inside is true.
+Examples:
+    - `Thing1 > 0`: keeps all days where the temperature was above 0 degrees Celsius
+    - `Thing2 <= 1000`: keeps all days where the number of bike rentals was less than or equal to 1000
+    - `Thing1 == Thing2`: keeps everything where `Thing1` equals `Thing2`?
+    - `Thing1 != Thing2`: keeps everything where `Thing1` isn't equal to `Thing2`?
+- Each group: Choose a season.
+- Do Exercises 7 & 8
+
+
+## I'm doing fall
+
+```{r}
+fall <- bikeshare |>
+  filter(season == "fall")
+```
+
+
+## Rentals vs Temperature
+
+**Goal**: Fit a line to describe the relationship between the temperature and the number of rentals in your season.
+
 ```{r}
 #| echo: false
 #| fig-align: center
+p <- ggplot(data = fall, mapping = aes(x = temp_orig, y = count)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", color = "red", se = FALSE) +
+  labs(x = "Temperature (Celsius)",
+       y = "Daily bike rentals")
+
 p
 ```
-:::
-:::
-
-## Regression model
-
-**Regression model:** a function that describes the relationship between a quantitative response, $Y$, and the predictor, $X$ (or many predictors).
-
-```{=tex}
-\begin{aligned} Y &= \color{black}{\textbf{Model}} + \text{Error} \\[8pt]
-&= \color{black}{\mathbf{f(X)}} + \epsilon \\[8pt]
-&= \color{black}{\boldsymbol{\mu_{Y|X}}} + \epsilon \end{aligned}
-```
-
-## Regression model
-
-::: columns
-::: {.column width="30%"}
-```{=tex}
-\begin{aligned} Y &= \color{purple}{\textbf{Model}} + \text{Error} \\[8pt]
-&= \color{purple}{\mathbf{f(X)}} + \epsilon \\[8pt]
-&= \color{purple}{\boldsymbol{\mu_{Y|X}}} + \epsilon \end{aligned}
-```
-:::
-
-::: {.column width="70%"}
-```{r}
-#| echo: false
-#| fig-align: center
-ggplot(data = winter, mapping = aes(x = temp_orig, y = count)) +
-  geom_point(alpha = 0.5) +
-  geom_smooth(method = "lm", color = "purple", se = FALSE) +
-  labs(x = "X" ,
-       y = "Y") +
-  theme(axis.text = element_blank(),
-  axis.ticks.x = element_blank(),
-  axis.ticks.y = element_blank())
-```
-:::
-:::
-
-$\mu_{Y|X}$ is the mean value of $Y$ given a particular value of $X$.
-
-## Regression model
-
-::: columns
-::: {.column width="30%"}
-$$
-\begin{aligned} Y &= \color{purple}{\textbf{Model}} + \color{blue}{\textbf{Error}} \\[5pt]
-&= \color{purple}{\mathbf{f(X)}} + \color{blue}{\boldsymbol{\epsilon}} \\[5pt]
-&= \color{purple}{\boldsymbol{\mu_{Y|X}}} + \color{blue}{\boldsymbol{\epsilon}} \\[5pt]
- \end{aligned}
-$$
-:::
-
-::: {.column width="70%"}
-```{r}
-#| echo: false
-#| fig-align: center
-m <- lm(count ~ temp_orig, data = winter)
-ggplot(data = winter, mapping = aes(x = temp_orig, y = count)) +
-  geom_point(alpha = 0.5) +
-  geom_smooth(method = "lm", color = "purple", se = FALSE) +
-  geom_segment(aes(x=temp_orig, xend=temp_orig, y=count, yend=predict(m, winter)), color = "blue", linetype = "dotted") +
-  labs(x = "X" ,
-       y = "Y") +
-  theme_bw() +
-  theme(axis.text = element_blank(),
-  axis.ticks.x = element_blank(),
-  axis.ticks.y = element_blank())
-```
-:::
-:::
 
 # Simple linear regression (SLR)
 
@@ -474,7 +322,7 @@ $$\Large{\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X}$$
 ```{r}
 #| echo: false
 #| fig-align: center
-ggplot(data = winter, mapping = aes(x = temp_orig, y = count)) +
+ggplot(data = fall, mapping = aes(x = temp_orig, y = count)) +
   geom_point(alpha = 0.4) +
   geom_abline(intercept = -111.0, slope = 222.4, color = "red") +
   geom_abline(intercept = 1000, slope = 100, color = "green") +
@@ -483,43 +331,92 @@ ggplot(data = winter, mapping = aes(x = temp_orig, y = count)) +
        y = "Daily bike rentals")
 ```
 
-## Residuals
+# Estimating the regression line in R
+
+## Fit model & estimate parameters
 
 ```{r}
-#| echo: false
-#| fig-align: center
-ggplot(data = winter, mapping = aes(x = temp_orig, y = count)) +
-  geom_point(alpha = 0.5) +
-  geom_smooth(method ="lm", color = "red", se = FALSE) +
-  geom_segment(aes(x=temp_orig, xend=temp_orig, y=count, yend=predict(m, winter)), color = "blue", linetype = "dotted") +
-  labs(x = "Temperature (Celsius)",
-       y = "Daily bike rentals") +
-  theme(legend.position = "none")
+#| echo: true
+#| code-line-numbers: "|1"
+
+fall_fit <- lm(count ~ temp_orig, data = fall)
+fall_fit
 ```
 
-$$\text{residual} = \text{observed} - \text{predicted} = y_i - \hat{y}_i$$
-
-## Least squares line
-
--  **Residual** for the $i^{th}$ observation:
-
-$$e_i = \text{observed} - \text{predicted}
-= y_i - \hat{y}_i$$
-
--   **Sum of squared residuals**:
-
-$$e^2_1 + e^2_2 + \dots + e^2_n$$
-
--   **Least squares line** is the one that minimizes the sum of squared residuals
+## Look at the regression output
 
 ```{r}
-#| echo: false
-sx <- round(sqrt(var(winter$temp_orig)),4)
-sy <- round(sqrt(var(winter$count)),4)
-r <- round(cor(winter$temp_orig, winter$count),4)
-xbar <- round(mean(winter$temp_orig),4)
-ybar <- round(mean(winter$count),4)
+#| echo: true
+#| code-line-numbers: "|2"
+
+fall_fit <- lm(count ~ temp_orig, data = fall)
+fall_fit
 ```
+
+
+$$\widehat{\text{count}} = 2077.5 + 152.9 \times \text{temp_orig}$$
+
+## Use `tidy` to make it prettier
+
+We'll focus on the first column for now...
+
+```{r}
+#| echo: true
+#| code-line-numbers: "|2"
+
+fall_fit |>
+  tidy()
+```
+
+## Using `kable` to make it extra pretty
+
+
+```{r}
+#| echo: true
+#| code-line-numbers: "|3"
+
+fall_fit |>
+  tidy() |>
+  kable()
+```
+
+## Visualize Model
+
+```{r}
+#| echo: true
+
+fall |>
+  gf_point(count ~ temp_orig) |>
+  gf_lm()
+```
+
+# Interpretation
+
+## Interpreting the Slope and Intercept
+
+-  Slope: For each additional unit of $X$ we expect $Y$ to increase by $\hat{\beta}_1$, on average.
+-  Intercept: If $X$ were 0, we predict $Y$ to be $\hat{\beta}_0$
+
+## Fall Example
+
+- Slope: For each addition degree Celcius we expect the number of bike rentals to increase by `r fall_fit$coefficients[2]`, on average, in the Fall.
+- Intercept: If the temperature were 0 degrees Celcius, we predict the number of bike rentals to be `r fall_fit$coefficients[1]` in the Fall.
+
+Complete the remainder of the exercises.
+
+## Does it make sense to interpret the intercept?
+
+`r emo::ji("white_check_mark")` **The intercept is meaningful in the context of the data if**
+
+-   the predictor can feasibly take values equal to or near zero, or
+
+-   there are values near zero in the observed data.
+
+. . .
+
+`r emo::ji("stop_sign")` Otherwise, the intercept may not be meaningful!
+
+-   Note meaningful doesn't mean wrong
 
 
 ## Recap
@@ -530,7 +427,5 @@ ybar <- round(mean(winter$count),4)
 - The regression equation: $\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X$
 - $\hat{\beta}_1$ (slope): estimated change in $Y$ for each unit increase in $X$
 - $\hat{\beta}_0$ (intercept): estimated value of $Y$ when $X = 0$
-- Residuals: difference between observed and predicted values ($e_i = y_i - \hat{y}_i$)
-- Least squares method chooses coefficients to minimize the sum of squared residuals
 - SLR can be used for prediction and inference
 :::

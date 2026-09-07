@@ -49,11 +49,11 @@ format:
 ---
 
 ::: callout-important
--   Open RStudio and create a subfolder in your AE folder called "AE-02"
+-   Open RStudio and create a subfolder in your AE folder called "AE-03"
 
--   Go to the [Canvas]() and locate the `AE-02` assignment. That link should take you directly there.
+-   Go to the [Canvas]() and locate the `AE-03` assignment. That link should take you directly there.
 
--   Upload the `ae-02.qmd` into the folder you just created
+-   Upload the `ae-03.qmd` into the folder you just created
 -   Upload `dcbikeshare.csv` into your `data` folder
 :::
 
@@ -99,8 +99,8 @@ Hints:
 
 ::: {.answer}
 ```{r load-data}
-#|message: false
-#|eval: false
+#| message: false
+#| eval: false
 bikeshare <- read_csv("insert path here")
 ```
 :::
@@ -130,14 +130,12 @@ p2 <- gf_histogram(~temp_orig, data = bikeshare) |>
 
 ::: {.exercise}
 In the raw data, seasons are coded as 1, 2, 3, 4 as numerical values, corresponding to winter, spring, summer, and fall respectively. Recode the `season` variable to make it a categorical variable (a factor) with levels corresponding to season names, making sure that the levels appear in a reasonable order in the variable (i.e., not alphabetical).
-
-```{r recode-season}
-# add code developed during livecoding here
-```
 :::
 
 ::: {.answer}
-
+```{r recode-season}
+# add code developed during livecoding here
+```
 :::
 
 ::: {.exercise}
@@ -167,22 +165,6 @@ We want to evaluate whether the relationship between temperature and daily bike 
 :::
 
 ::: {.exercise}
-Filter your data for the season with the strongest apparent relationship between temperature and daily bike rentals. Give the resulting data set a new name.
-
-```{r filter-season}
-# add code developed during livecoding here
-```
-:::
-
-::: {.answer}
-
-```{r}
-
-```
-
-:::
-
-::: {.exercise}
 Going back to the scatter plot of rentals vs. temperature from earlier, there appears to be one day with a very small number of bike rentals. Use `filter` to figure out what that day was? Why were the number of bike rentals so low on that day? *Hint: You can Google the date to figure out what was going on that day.*
 :::
 
@@ -191,27 +173,28 @@ Going back to the scatter plot of rentals vs. temperature from earlier, there ap
 :::
 
 ::: {.exercise}
-Using the subset of the data from the previous exercise, fit a linear model for predicting daily bike rentals from temperature for this season.
+Filter your data for the season you've been assigned. Give the resulting data set a new name.
+:::
 
-```{r fit-model}
+::: {.answer}
+```{r filter-season}
 # add code developed during livecoding here
 ```
 :::
 
-::: {.answer}
 
+::: {.exercise}
+Using the subset of the data from the previous exercise, fit a linear model for predicting daily bike rentals from temperature for this season.
+:::
+
+::: {.answer}
 ```{r}
 
 ```
-
 :::
 
 ::: {.exercise}
-Use the output to write out the estimated regression equation.
-:::
-
-::: {.answer}
-
+Use the output to write out the estimated regression equation on the whiteboard.
 :::
 
 ::: {.exercise}
@@ -232,18 +215,12 @@ Interpret the intercept in the context of the data.
 
 ::: {.exercise}
 Create a visualization of the model we just created.
-
-```{r visualize-model}
-# add code developed during livecoding here
-```
 :::
 
 ::: {.answer}
-
 ```{r}
 
 ```
-
 :::
 
 ::: callout-important
