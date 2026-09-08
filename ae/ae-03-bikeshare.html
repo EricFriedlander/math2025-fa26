@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Insert Name Here">
 
-<title>HW 02: Park access – MATH 2025 - Fall 2026</title>
+<title>AE 03: Bike rentals in Washington, DC – MATH 2025 - Fall 2026</title>
 <style>
 
 code{white-space: pre-wrap;}
@@ -4296,7 +4295,7 @@ color: #ffd283;
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">HW 02: Park access</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">AE 03: Bike rentals in Washington, DC</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -4396,27 +4395,10 @@ color: #ffd283;
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
-  <ul class="collapse">
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link" data-scroll-target="#learning-goals">Learning goals</a></li>
-  </ul></li>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting Started</a>
-  <ul class="collapse">
-  <li><a href="#log-in-to-rstudio" id="toc-log-in-to-rstudio" class="nav-link" data-scroll-target="#log-in-to-rstudio">Log in to RStudio</a></li>
-  <li><a href="#r-and-rstudio" id="toc-r-and-rstudio" class="nav-link" data-scroll-target="#r-and-rstudio">R and RStudio</a>
-  <ul class="collapse">
-  <li><a href="#yaml" id="toc-yaml" class="nav-link" data-scroll-target="#yaml">YAML</a></li>
-  </ul></li>
-  </ul></li>
-  <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages">Packages</a></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a>
-  <ul class="collapse">
-  <li><a href="#analysis-goal" id="toc-analysis-goal" class="nav-link" data-scroll-target="#analysis-goal">Analysis goal</a></li>
-  </ul></li>
+  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data">Data</a></li>
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
-  <li><a href="#grading-17-pts" id="toc-grading-17-pts" class="nav-link" data-scroll-target="#grading-17-pts">Grading (17 pts)</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/hw/hw-02.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/ae/ae-03-bikeshare.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -4424,20 +4406,14 @@ color: #ffd283;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">HW 02: Park access</h1>
-<p class="subtitle lead">Exploratory Data Analysis + Simple Linear Regression</p>
+<h1 class="title">AE 03: Bike rentals in Washington, DC</h1>
+<p class="subtitle lead">Simple linear regression</p>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Insert Name Here </p>
-          </div>
-  </div>
     
   
     
@@ -4448,49 +4424,6 @@ color: #ffd283;
 </header>
 
 
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
-<p>This HW will go through much of the same workflow we’ve demonstrated in class. The main goal is to reinforce our demo of R and RStudio, which we will be using throughout the course both to learn the statistical concepts and to analyze real data and come to informed conclusions.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>R is the name of the programming language itself and RStudio is a convenient interface.</p>
-</div>
-</div>
-<section id="learning-goals" class="level2">
-<h2 class="anchored" data-anchor-id="learning-goals">Learning goals</h2>
-<p>By the end of this homework, you will…</p>
-<ul>
-<li>Be familiar with the workflow using RStudio</li>
-<li>Gain practice writing a reproducible report using Quarto</li>
-<li>Be able to create data visualizations using <code>ggformula</code> and use those visualizations to describe distributions</li>
-<li>Be able to fit, interpret, and evaluate simple linear regression models</li>
-</ul>
-</section>
-</section>
-<section id="getting-started" class="level1">
-<h1>Getting Started</h1>
-<section id="log-in-to-rstudio" class="level3">
-<h3 class="anchored" data-anchor-id="log-in-to-rstudio">Log in to RStudio</h3>
-<ul>
-<li><p>Go to RStudio and login with your College of Idaho Email and Password.</p></li>
-<li><p>Make a folder called <code>hw</code>to store all of your homework for the semester. Create a subfolder called <code>hw02</code> to store this homework.</p></li>
-<li><p>Log into <a href>Canvas</a>, navigate to HW-02 and upload the <code>hw-02.qmd</code> file into the folder you just made and <code>parks.csv</code> into the <code>data</code> folder.</p></li>
-</ul>
-</section>
-<section id="r-and-rstudio" class="level2">
-<h2 class="anchored" data-anchor-id="r-and-rstudio">R and RStudio</h2>
-<p>See the <a href="https://ericfriedlander.github.io/math2025-fa26/computing-r-resources.html">R resources</a> page for a guide to the RStudio IDE and Quarto file components.</p>
-<section id="yaml" class="level3">
-<h3 class="anchored" data-anchor-id="yaml">YAML</h3>
-<p>The top portion of your Quarto file (between the three dashed lines) is called <strong>YAML</strong>. It stands for ““Yet Another Markup Language”. It is a human friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -4501,180 +4434,134 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Open the Quarto (.qmd) file in your project, change the author name to your name, and render the document. Examine the rendered document. You can now work off of that file.</p>
+<ul>
+<li><p>Open RStudio and create a subfolder in your AE folder called “AE-03”</p></li>
+<li><p>Go to the <a href>Canvas</a> and locate the <code>AE-03</code> assignment. That link should take you directly there.</p></li>
+<li><p>Upload the <code>ae-03.qmd</code> into the folder you just created</p></li>
+<li><p>Upload <code>dcbikeshare.csv</code> into your <code>data</code> folder</p></li>
+</ul>
 </div>
 </div>
-</section>
-</section>
-</section>
-<section id="packages" class="level1">
-<h1>Packages</h1>
-<p>We will use the following packages in today’s HW. The line <code>eval: FALSE</code> prevents R from running the corresponding chunk. As you work through this HW please delete these lines as you go.</p>
+<div class="exercise">
+<p>Run the following code to load the packages we’ll use in this activity.</p>
+</div>
+<div class="answer">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mosaic)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggformula)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</div>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<p>Our data set contains daily rentals from the Capital Bikeshare in Washington, DC in 2011 and 2012. It was obtained from the <code>dcbikeshare</code> data set in the <code>dsbox</code> R package.</p>
+<p>We will focus on the following variables in the analysis:</p>
+<ul>
+<li><code>count</code>: total bike rentals</li>
+<li><code>temp_orig</code>: Temperature in degrees Celsius</li>
+<li><code>season</code>: 1 - winter, 2 - spring, 3 - summer, 4 - fall</li>
+</ul>
+<p>Click <a href="https://tidyverse.github.io/dsbox/reference/dcbikeshare.html">here</a> for the full list of variables and definitions.</p>
 </section>
-<section id="data" class="level1">
-<h1>Data</h1>
-<p>Today’s data is about access to parks and other public amenities in the 100 most populated cities in the United States. The data were collected by the <a href="https://www.tpl.org/parks-and-an-equitable-recovery-parkscore-report">Trust for Public Land</a>, a non-profit organization that advocates for equitable access to outdoor spaces. The data set we’ll use in this HW includes part of the data used for analysis in the 2021 special report <a href="https://www.tpl.org/parks-and-an-equitable-recovery-parkscore-report"><em>Parks and Equitable Recovery</em></a>; it was obtained from <a href="https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-06-22/readme.md">TidyTuesday</a>.</p>
-<p>This homework will focus on the following variables:</p>
+<section id="exercises" class="level2">
+<h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
+<div class="exercise">
+<p>Modify the file path to load the <code>dcbikeshare</code> data set.</p>
+<p>Hints:</p>
 <ul>
-<li><p><code>pct_near_park_points</code>: Points in the Trust for Public Land ParkScore index for the percent of residents within a 10 minute walk to park. <a href="https://www.tpl.org/parkscore">Click here</a> to learn more about the ParkScore. <strong>Note that this variable represents the number of points, not the percentage.</strong></p></li>
-<li><p><code>spend_per_resident_data</code>: Spending per resident in US dollars.</p></li>
+<li>Use a relative path</li>
+<li>You need to go up two levels and then into the <code>data</code> folder</li>
+<li>Pressing TAB while your cursor is in the quotations will help you navigate</li>
+<li>Make sure to remove the <code>#|eval: false</code> line from the answer code</li>
 </ul>
-<p><a href="https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-06-22/readme.md">Click here</a> for the full data dictionary.</p>
-<section id="analysis-goal" class="level2">
-<h2 class="anchored" data-anchor-id="analysis-goal">Analysis goal</h2>
-<p>One way to improve access to public parks is for cities to spend more money creating and maintaining parks for their residents. It’s unclear, however, how much spending impacts residents’ access to parks. The goal of this analysis is to examine the relationship between spending per resident and points in the ParkScore index for the percent of residents within a 10 minute walk to a park.</p>
-</section>
-</section>
-<section id="exercises" class="level1">
-<h1>Exercises</h1>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Write all code and narrative in your Quarto file. Write all narrative in complete sentences. Throughout the assignment, you should periodically <strong>render</strong> your Quarto document to produce the updated HTML file.</p>
-<p>Make sure we can read all of your code in your HTML file. This means you will need to break up long lines of code. One way to help avoid long lines of code is is start a new line after every pipe (<code>|&gt;</code>).</p>
-<p>In your <code>hw-02.qmd</code> document you’ll see that each task is wrapped in an <code>exercise</code> box, with an empty <code>answer</code> box below it for you to fill in your response. Use this format for the remaining exercises.</p>
-<p>Also note that the code chunk has a label: <code>glimpse-data</code>. It’s not required, but good practice and highly encouraged to label your code chunks using short meaningful names. (<em>Hint: Do not uses spaces in code chunk labels. Use <code>-</code> to separate multiple words and do not repeat labels.)</em></p>
-</div>
-</div>
-<div class="exercise">
-<p>Load the <code>parks.csv</code> data into R. Remember that you may need to change the PATH which you can accomplish by deleting the existing path, pressing the TAB button while your cursor is in between the quotes, and then selecting the file you want to load.</p>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p>Viewing a summary of the data is a useful starting point for data analysis, especially if there are a large number of observations or variables. Answer the following questions about the <code>parks</code> dataset using skills you’ve learned so far.</p>
-<p>How many observations (rows) are in <code>parks</code>? How many variables (columns)?</p>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p>The primary explanatory/predictor variable for this analysis <code>spend_per_resident_data</code> is quantitative; however, from the glimpse of the data earlier, we see its data type is <code>chr</code> (character) in R. We would expect it to be <code>dbl</code> (double), the data type for numeric data.</p>
-<ul>
-<li>Why did <code>spend_per_resident_data</code> get read by R as a character data type instead of a double? Be specific. Hint: Click on the parks data frame in the upper right hand panel to look at the data. Is there something about the data that might make R think it’s not a number?</li>
-<li>Why do we need to convert <code>spend_per_resident_data</code> to a data type suitable for quantitative data? How might leaving it as a character variable hinder the analysis?</li>
-</ul>
-<p>Don’t write any code for this question, we will fix the issue in the next exercise.</p>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p>The code below to mutates <code>spend_per_resident_data</code> so that it is correctly treated as quantitative data in R. Each line of code is numbered. Write a brief explanation of what each line of code does. You may use the internet or AI here to figure out the answer. If you do, please mention what source you used. A good technique is to put the following into your favorite AI chatbot:</p>
-<blockquote class="blockquote">
-<p>I am trying to learn R for the first time. Can you explain what each line of code here is doing? [Paste the code from below]</p>
-</blockquote>
-<p>Note that if you use AI this way, I ask that you mention which source you used and retinterpret the answer you receive to ensure that you understand the result. DO NOT DIRECTLY COPY AND PASTE THE ANSWER YOU RECEIVE FROM AI.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a>parks <span class="ot">&lt;-</span> parks <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">spend_per_resident_data =</span></span>
-<span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">str_replace</span>(spend_per_resident_data,<span class="st">&quot;</span><span class="sc">\\</span><span class="st">$&quot;</span>, <span class="st">&quot;&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">spend_per_resident_data =</span></span>
-<span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a>           <span class="fu">as.numeric</span>(spend_per_resident_data))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-<div class="answer">
-<ol type="1">
-<li>______</li>
-<li>______</li>
-<li>______</li>
-</ol>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This is a good place to render your hw-02 document.</p>
-</div>
-</div>
-<div class="exercise">
-<p>Exploratory data analysis (EDA) helps us “get to know” the data and examine the variable distributions and relationships between variables. We do so using visualizations and summary statistics.</p>
-<p>When we make visualizations, we want them to be clear and suitable for a professional audience. This means that, at a minimum, each visualization should have <strong>an informative title</strong> and <strong>informative axis labels</strong>.</p>
-<p>Fill in the code below to visualize the distribution of <code>spend_per_resident_data</code> using a histogram and calculate summary statistics for the variable using the <code>favstats</code> function from the <code>mosaic</code> R package.</p>
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gf_histogram</span>(<span class="sc">~</span>____, <span class="at">data =</span> ____) <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">x =</span> <span class="st">&quot;_____&quot;</span>,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;_____&quot;</span>,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;_____&quot;</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">favstats</span>(<span class="sc">~</span>____, <span class="at">data =</span> _____)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>bikeshare <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;insert path here&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="exercise">
-<p>Use the visualization and summary statistics from the previous exercise to describe the distribution of <code>spend_per_resident_data</code>. In your narrative, include a description of the shape, center, spread, and the presence of apparent outliers or other interesting features.</p>
+<p>Below is code to create visualizations of the distributions of daily bike rentals and temperature. Create a plot of the number of rentals vs the temperature and store it in a variable called <code>p3</code>. If you can figure it out based on context, try and add appropriate labels to the plot. Finally, uncomment the last line of code in this chunk. What do you think this last line does? Comment on what you see.</p>
 </div>
 <div class="answer">
-
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">gf_histogram</span>(<span class="sc">~</span> count, <span class="at">data =</span> bikeshare, <span class="at">binwidth =</span> <span class="dv">250</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">x =</span> <span class="st">&quot;Daily bike rentals&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">gf_histogram</span>(<span class="sc">~</span>temp_orig, <span class="at">data =</span> bikeshare) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">x =</span> <span class="st">&quot;Temperature (Celsius)&quot;</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># (p1 | p2) / p3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div>
 <div class="exercise">
-<p>Now let’s look at the distribution of the response variable <code>pct_near_park_points</code>.</p>
+<p>In the raw data, seasons are coded as 1, 2, 3, 4 as numerical values, corresponding to winter, spring, summer, and fall respectively. Recode the <code>season</code> variable to make it a categorical variable (a factor) with levels corresponding to season names, making sure that the levels appear in a reasonable order in the variable (i.e., not alphabetical).</p>
+</div>
+<div class="answer">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code developed during livecoding here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="exercise">
+<p>We want to evaluate whether the relationship between temperature and daily bike rentals is the same for each season. To answer this question:</p>
 <ul>
-<li>Visualize this distribution and calculate the summary statistics. The visualization should have an informative title and informative axis labels.</li>
-<li>Use the visualization and summary statistics to describe the distribution of <code>pct_near_park_points</code>. Recall from the previous exercise the components to include in the description.</li>
+<li>Create a scatter plot of daily bike rentals vs. temperature faceted by season</li>
+<li>Create a scatter plot of daily bike rentals vs. temperature colored by season</li>
 </ul>
 </div>
 <div class="answer">
 
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<div class="exercise">
+<ul>
+<li><p>Which season appears to have the <strong>strongest</strong> relationship between temperature and daily bike rentals? Why do you think the relationship is strongest in this season?</p></li>
+<li><p>Which season appears to have the <strong>weakest</strong> relationship between temperature and daily bike rentals? Why do you think the relationship is weakest in this season?</p></li>
+</ul>
 </div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This is another good place to render your document. Make sure you’ve been removing the <code>#| eval: FALSE</code> lines as you go.</p>
-</div>
+<div class="answer">
+
 </div>
 <div class="exercise">
-<p>The <code>parks</code> data set ranges from the year 2012 to 2020, so each row contains information about funding and public amenities for each city in a given year. Thus, there are multiple rows in <code>parks</code> for each city. We are going to learn about two new <code>dplyr</code> verbs: <code>group_by</code> and <code>summarize</code>.</p>
-<ul>
-<li><code>summarize</code>: This verb computes summary statistics. For example, <code>summarize(mean_spend = mean(____))</code> computes the mean of the <code>____</code> variable for each group.</li>
-<li><code>group_by</code>: This verb groups the data by a given variable and you typically want to use it before <code>summarize</code>. When you group by a one (or more) variable(s), summarize will compute the summary statistics for each group. Consider the following code (don’t remove the <code>#|eval: FALSE</code> lines):</li>
-</ul>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>student_data <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(major) <span class="sc">|&gt;</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_grade =</span> <span class="fu">mean</span>(gpa),</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">median_grade =</span> <span class="fu">median</span>(gpa))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Going back to the scatter plot of rentals vs. temperature from earlier, there appears to be one day with a very small number of bike rentals. Use <code>filter</code> to figure out what that day was? Why were the number of bike rentals so low on that day? <em>Hint: You can Google the date to figure out what was going on that day.</em></p>
 </div>
-<p>This code would take a dataset called <code>student_data</code> and return a dataset with one row for each major, containing the average GPA and median GPA for each major as columns.</p>
-<p>We are going to summarize the data, so there is just one row per city. Fill in the code below to create a new data frame called <code>parks_summary</code> that contains the mean spending per resident and mean points in the ParkScore index for the percent of residents within a 10-minute walk to a park.</p>
-<p>How many rows are in <code>parks_summary</code>? How many columns? Hint: You may have to write some code to answer this question.</p>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>Filter your data for the season you’ve been assigned, give the resulting data set a new name, and plot the relationship between temperature and daily bike rentals for this season.</p>
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>parks_summary <span class="ot">&lt;-</span> ____ <span class="sc">|&gt;</span> <span class="co"># insert data set</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(____) <span class="sc">|&gt;</span> <span class="co"># insert name of variable you want to group by</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_spend =</span> ____, <span class="co"># insert name of variable you want to compute the mean of</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_pts_near =</span> ____) <span class="co"># use the previous line to do the same with the second variable</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code developed during livecoding here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</div>
+<div class="exercise">
+<p>Using the subset of the data from the previous exercise, fit a linear model for predicting daily bike rentals from temperature for this season.</p>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>Use the output to write out the estimated regression equation on the whiteboard.</p>
+</div>
+<div class="exercise">
+<p>Interpret the slope in the context of the data.</p>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>Interpret the intercept in the context of the data.</p>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>Create a visualization of the model we just created.</p>
+</div>
+<div class="answer">
+
 </div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -4686,142 +4573,18 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Use <code>parks_summary</code> for exercises 9 - 10.</p>
-</div>
-</div>
-<div class="exercise">
+<p>To submit the AE:</p>
 <ul>
-<li>Create a visualization of the relationship between <code>mean_spend</code> and <code>mean_pts_near</code> between the two variables, including a line. Include an informative title and informative axis labels on the visualization.</li>
-<li>Use the visualization to describe the relationship between the two variables.</li>
+<li>Render the document to produce the HTML with all of your work from today’s class.</li>
+<li>The driver for your group should upload your .qmd and .html files to the Canvas assignment.</li>
 </ul>
 </div>
-<div class="answer">
-
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This is a good place to render your document.</p>
-</div>
-</div>
-<div class="exercise">
-<ul>
-<li>Fit a linear regression model of the relationship between <code>mean_spend</code> and <code>mean_pts_near</code>. Think carefully about which one should be the response variable. Use the <code>lm</code> function and display the model in a tidy format.</li>
-<li>Interpret the slope in the context of the data.</li>
-<li>Interpret the intercept in the context of the data. Is the interpretation useful in practice for this data? Briefly explain.</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p><a href="https://www.tpl.org/parks-and-an-equitable-recovery-parkscore-report"><em>Parks and an Equitable Recovery</em></a>, a special report by Trust for Public Land, begins with the following conclusion from their analysis:</p>
-<blockquote class="blockquote">
-<p><em>Our data shows major disparities in access to the outdoors. In the 100 most populated cities, neighborhoods where most residents identify as Black, Hispanic and Latinx, American Indian/Alaska Native or Asian American and Pacific Islander have access to an average of 44 percent less park acreage than predominantly white neighborhoods, and similar park space inequities exist in low-income neighborhoods across cities, highlighting the urgent need to center equity in park investment and planning.</em></p>
-</blockquote>
-<p>Would it be possible to reproduce the analysis results that led to this conclusion given the data we have in <code>parks.csv</code>? If so, briefly describe the steps we might take to reproduce the analysis. If not, briefly describe the additional data we need in order to reproduce the analysis.</p>
-</div>
-<div class="answer">
-
-</div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>You’re done and ready to submit your work! Render your document and upload the .qmd and .html files to Canvas.</p>
-</div>
-</div>
-</section>
-<section id="grading-17-pts" class="level1">
-<h1>Grading (17 pts)</h1>
-<p><br></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Component</th>
-<th style="text-align: left;">Points</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Ex 1</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Ex 2</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Ex 3</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Ex 4</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Ex 5</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Ex 6</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Ex 7</td>
-<td style="text-align: left;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Ex 8</td>
-<td style="text-align: left;">2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Ex 9</td>
-<td style="text-align: left;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Ex 10</td>
-<td style="text-align: left;">3</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Ex 11</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Grammar &amp; Writing</td>
-<td style="text-align: left;">1<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Workflow &amp; formatting</td>
-<td style="text-align: left;">1<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></td>
-</tr>
-</tbody>
-</table>
 
 
 </section>
 
-
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>The “Grammar &amp; Writing” grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>The “Workflow &amp; formatting” grade is to assess the reproducible workflow and document format. This includes having a neatly organized document with readable code and your name and the date in the YAML.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section></div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -5243,7 +5006,7 @@ Tip
 </div>   
     <div class="nav-footer-center">
        
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/hw/hw-02.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/ae/ae-03-bikeshare.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This site is built with <a href="https://quarto.org/">Quarto</a></p>
 </div>
