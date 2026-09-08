@@ -1,5 +1,5 @@
 ---
-title: "HW 01: Park access"
+title: "HW 02: Park access"
 author: "Insert Name Here"
 subtitle: "Exploratory Data Analysis + Simple Linear Regression"
 editor: visual
@@ -72,9 +72,9 @@ By the end of this homework, you will...
 
 -   Go to RStudio and login with your College of Idaho Email and Password.
 
--   Make a folder called `hw`to store all of your homework for the semester. Create a subfolder called `hw01` to store this homework.
+-   Make a folder called `hw`to store all of your homework for the semester. Create a subfolder called `hw02` to store this homework.
 
--   Log into [Canvas](https://cofi.instructure.com/courses/18743), navigate to HW-01 and upload the `hw-01.qmd` and `parks.csv` file into the folder you just made.
+-   Log into [Canvas](), navigate to HW-02 and upload the `hw-02.qmd` file into the folder you just made and `parks.csv` into the `data` folder.
 
 ## R and RStudio
 
@@ -120,45 +120,46 @@ One way to improve access to public parks is for cities to spend more money crea
 
 # Exercises
 
+::: callout-tip
 Write all code and narrative in your Quarto file. Write all narrative in complete sentences. Throughout the assignment, you should periodically **render** your Quarto document to produce the updated HTML file.
 
-::: callout-tip
 Make sure we can read all of your code in your HTML file. This means you will need to break up long lines of code. One way to help avoid long lines of code is is start a new line after every pipe (`|>`).
-:::
 
-Use the code below to load the data into R. Remember that you may need to change the PATH which you can accomplish by deleting the existing path, pressing the TAB button while your cursor is in between the quotes, and then selecting the file you want to load.
-
-```{r read-data}
-#| eval: FALSE
-parks <- read_csv("../data/parks.csv")
-```
-
-::: {.exercise}
-Viewing a summary of the data is a useful starting point for data analysis, especially if there are a large number of observations or variables. Run the code below to use the `glimpse` function to see a summary of the `parks` data frame.
-
-How many observations (rows) are in `parks`? How many variables (columns)?
-
-```{r glimpse-data}
-#| eval: FALSE
-glimpse(parks)
-```
-:::
-
-::: callout-note
-In your `hw-01.qmd` document you'll see that each task is wrapped in an `exercise` box, with an empty `answer` box below it for you to fill in your response. Use this format for the remaining exercises.
+In your `hw-02.qmd` document you'll see that each task is wrapped in an `exercise` box, with an empty `answer` box below it for you to fill in your response. Use this format for the remaining exercises.
 
 Also note that the code chunk has a label: `glimpse-data`. It's not required, but good practice and highly encouraged to label your code chunks using short meaningful names. (*Hint: Do not uses spaces in code chunk labels. Use `-` to separate multiple words and do not repeat labels.)*
 :::
 
+
+:::{.exercise}
+Load the `parks.csv` data into R. Remember that you may need to change the PATH which you can accomplish by deleting the existing path, pressing the TAB button while your cursor is in between the quotes, and then selecting the file you want to load.
+:::
+
+:::{.answer}
+```{r read-data}
+
+```
+:::
+
+::: {.exercise}
+Viewing a summary of the data is a useful starting point for data analysis, especially if there are a large number of observations or variables.
+Answer the following questions about the `parks` dataset using skills you've learned so far.
+
+How many observations (rows) are in `parks`? How many variables (columns)?
+:::
+
+
 ::: {.answer}
 
 :::
 
 ::: {.exercise}
-The predictor variable for this analysis `spend_per_resident_data` is quantitative; however, from the glimpse of the data in Exercise 1, we see its data type is `chr` (character) in R. We would expect it to be `dbl` (double), the data type for numeric data.
+The primary explanatory/predictor variable for this analysis `spend_per_resident_data` is quantitative; however, from the glimpse of the data earlier, we see its data type is `chr` (character) in R. We would expect it to be `dbl` (double), the data type for numeric data.
 
 -   Why did `spend_per_resident_data` get read by R as a character data type instead of a double? Be specific. Hint: Click on the parks data frame in the upper right hand panel to look at the data. Is there something about the data that might make R think it's not a number?
 -   Why do we need to convert `spend_per_resident_data` to a data type suitable for quantitative data? How might leaving it as a character variable hinder the analysis?
+
+Don't write any code for this question, we will fix the issue in the next exercise.
 :::
 
 ::: {.answer}
@@ -166,7 +167,12 @@ The predictor variable for this analysis `spend_per_resident_data` is quantitati
 :::
 
 ::: {.exercise}
-The code below to mutates `spend_per_resident_data` so that it is correctly treated as quantitative data in R. Each line of code is numbered. Write a brief explanation of what each line of code does. You may want to use the internet here to figure out the answer. If you do, don't forget to cite your source.
+The code below to mutates `spend_per_resident_data` so that it is correctly treated as quantitative data in R. Each line of code is numbered. Write a brief explanation of what each line of code does. You may use the internet or AI here to figure out the answer. If you do, please mention what source you used. A good technique is to put the following into your favorite AI chatbot:
+
+> I am trying to learn R for the first time. Can you explain what each line of code here is doing?
+> \[Paste the code from below\]
+
+Note that if you use AI this way, I ask that you mention which source you used and retinterpret the answer you receive to ensure that you understand the result. DO NOT DIRECTLY COPY AND PASTE THE ANSWER YOU RECEIVE FROM AI.
 
 ```{r}
 #| eval: false
@@ -185,7 +191,7 @@ parks <- parks |>  # <1>
 :::
 
 ::: callout-tip
-This is a good place to render your hw-01 document.
+This is a good place to render your hw-02 document.
 :::
 
 ::: {.exercise}
@@ -193,20 +199,19 @@ Exploratory data analysis (EDA) helps us "get to know" the data and examine the 
 
 When we make visualizations, we want them to be clear and suitable for a professional audience. This means that, at a minimum, each visualization should have **an informative title** and **informative axis labels**.
 
-Fill in the code below to visualize the distribution of `spend_per_resident_data` using a histogram.
+Fill in the code below to visualize the distribution of `spend_per_resident_data` using a histogram and calculate summary statistics for the variable using the `favstats` function from the `mosaic` R package.
 
+:::
+
+:::{.answer}
 ```{r}
 #| eval: false
 gf_histogram(~____, data = ____) |>
   gf_labs(x = "_____",
        y = "_____",
        title = "_____")
-```
 
-Then, fill in the code to calculate summary statistics for the variable using the `favstats` function from the mosaic R package.
 
-```{r}
-#| eval: false
 favstats(~____, data = _____)
 ```
 :::
@@ -237,30 +242,44 @@ This is another good place to render your document. Make sure you've been removi
 :::
 
 ::: {.exercise}
-The `parks` data set ranges from the year 2012 to 2020, so each row contains information about funding and public amenities for each city in a given year. Thus, there are multiple rows in `parks` for each city. We are going to summarize the data, so there is just one row per city. Fill in the code below to create a new data frame called `parks_summary` that contains the mean spending per resident and mean points in the ParkScore index for the percent of residents within a 10-minute walk to a park.
+The `parks` data set ranges from the year 2012 to 2020, so each row contains information about funding and public amenities for each city in a given year. Thus, there are multiple rows in `parks` for each city. We are going to learn about two new `dplyr` verbs: `group_by` and `summarize`.
+
+- `summarize`: This verb computes summary statistics. For example, `summarize(mean_spend = mean(____))` computes the mean of the `____` variable for each group.
+- `group_by`: This verb groups the data by a given variable and you typically want to use it before `summarize`. When you group by a one (or more) variable(s), summarize will compute the summary statistics for each group. Consider the following code (don't remove the `#|eval: FALSE` lines):
 
 ```{r}
 #| eval: false
-parks_summary <- ____ |> # insert data set
-  group_by(____) |> # insert name of variable you want to group by
-  summarise(mean_spend = mean(____), # insert name of variable you want to compute the mean of
-            mean_pts_near = ____) # use the previous line to do the same with the second variable
+
+student_data |>
+  group_by(major) |>
+  summarize(avg_grade = mean(gpa),
+            median_grade = median(gpa))
 ```
+
+This code would take a dataset called `student_data` and return a dataset with one row for each major, containing the average GPA and median GPA for each major as columns.
+
+We are going to summarize the data, so there is just one row per city. Fill in the code below to create a new data frame called `parks_summary` that contains the mean spending per resident and mean points in the ParkScore index for the percent of residents within a 10-minute walk to a park.
 
 How many rows are in `parks_summary`? How many columns? Hint: You may have to write some code to answer this question.
 :::
 
 ::: {.answer}
-
+```{r}
+#| eval: false
+parks_summary <- ____ |> # insert data set
+  group_by(____) |> # insert name of variable you want to group by
+  summarise(mean_spend = ____, # insert name of variable you want to compute the mean of
+            mean_pts_near = ____) # use the previous line to do the same with the second variable
+```
 :::
 
 ::: callout-important
-Use `parks_summary` for exercises 8 - 9.
+Use `parks_summary` for exercises 9 - 10.
 :::
 
 ::: {.exercise}
--   Create a visualization of the relationship between `mean_spend` and `mean_pts_near`, and calculate the correlation between the two variables. Include an informative title and informative axis labels on the visualization.
--   Use the visualization and correlation to describe the relationship between the two variables. Include the shape, direction, strength, presence of potential outliers, and any other interesting features in the description.
+-   Create a visualization of the relationship between `mean_spend` and `mean_pts_near` between the two variables, including a line. Include an informative title and informative axis labels on the visualization.
+-   Use the visualization to describe the relationship between the two variables.
 :::
 
 ::: {.answer}
@@ -274,7 +293,7 @@ This is a good place to render your document.
 :::
 
 ::: {.exercise}
--   Fit and display a linear regression model of the relationship between `mean_spend` and `mean_pts_near`. Think carefully about which one should be the response variable. Use the `lm` function and display the model in a tidy format.
+-   Fit a linear regression model of the relationship between `mean_spend` and `mean_pts_near`. Think carefully about which one should be the response variable. Use the `lm` function and display the model in a tidy format.
 -   Interpret the slope in the context of the data.
 -   Interpret the intercept in the context of the data. Is the interpretation useful in practice for this data? Briefly explain.
 :::
@@ -312,11 +331,12 @@ You're done and ready to submit your work! Render your document and upload the .
 | Ex 3                  | 1      |
 | Ex 4                  | 1      |
 | Ex 5                  | 1      |
-| Ex 6                  | 2      |
+| Ex 6                  | 1      |
 | Ex 7                  | 2      |
 | Ex 8                  | 2      |
-| Ex 9                  | 3      |
-| Ex 10                 | 1      |
+| Ex 9                  | 2      |
+| Ex 10                 | 3      |
+| Ex 11                 | 1      |
 | Grammar & Writing     | 1[^1]  |
 | Workflow & formatting | 1[^2]  |
 

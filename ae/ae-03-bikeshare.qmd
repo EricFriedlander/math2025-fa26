@@ -139,11 +139,10 @@ In the raw data, seasons are coded as 1, 2, 3, 4 as numerical values, correspond
 :::
 
 ::: {.exercise}
-We want to evaluate whether the relationship between temperature and daily bike rentals is the same for each season. To answer this question, first create a scatter plot of daily bike rentals vs. temperature faceted by season.
+We want to evaluate whether the relationship between temperature and daily bike rentals is the same for each season. To answer this question:
 
-```{r facet-plot}
-# add code developed during livecoding here
-```
+-   Create a scatter plot of daily bike rentals vs. temperature faceted by season
+-   Create a scatter plot of daily bike rentals vs. temperature colored by season
 :::
 
 ::: {.answer}
@@ -173,7 +172,7 @@ Going back to the scatter plot of rentals vs. temperature from earlier, there ap
 :::
 
 ::: {.exercise}
-Filter your data for the season you've been assigned. Give the resulting data set a new name.
+Filter your data for the season you've been assigned, give the resulting data set a new name, and plot the relationship between temperature and daily bike rentals for this season.
 :::
 
 ::: {.answer}
