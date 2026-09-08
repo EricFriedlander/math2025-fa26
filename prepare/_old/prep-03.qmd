@@ -1,10 +1,10 @@
 ---
-title: "Preparation for Simple Linear Regression Prediction"
+title: "Preparation for Simple Linear Regression"
 ---
 
 ## Assigned reading
 
-Finish reading these if you haven't yet:
+Read on of these:
 
 - If you already feel comfortable with R & this isn't your first statistics class:
     - Introduction to Regression Analysis: A Data Science Approach: [Ch 4: Simple linear regression](https://introregression.netlify.app/04-slr)
