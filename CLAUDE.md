@@ -50,6 +50,7 @@ Managed via `renv` (`renv.lock`, `renv/`). All packages the site depends on are 
 | `style/` | Site/slide theming (`math2025.scss`, `dark.scss`, `slides.scss` is in `slides/` instead, `exercise-boxes.css`) |
 | `_extensions/quarto-ext/fontawesome/` | Vendored Font Awesome shortcode extension (`{{< fa ... >}}`), used by the schedule table |
 | `scripts/` | Helper scripts (e.g. `UpdateCensus.R`) not part of the rendered site |
+| `.claude/skills/math2025-canvas/` | This course's Canvas conventions (course/group IDs, module & assignment naming, due-date rules, description template) — pairs with the global `canvas-course-editor` skill, which handles the API mechanics |
 | `_freeze/` | Quarto's computed-output cache (`execute: freeze: auto`) — not committed by default here |
 | `_site/` | Generated static site — do not edit directly, not committed |
 

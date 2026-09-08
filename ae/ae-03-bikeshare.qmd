@@ -51,7 +51,7 @@ format:
 ::: callout-important
 -   Open RStudio and create a subfolder in your AE folder called "AE-03"
 
--   Go to the [Canvas]() and locate the `AE-03` assignment. That link should take you directly there.
+-   Go to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743/assignments/243284) to get started.
 
 -   Upload the `ae-03.qmd` into the folder you just created
 -   Upload `dcbikeshare.csv` into your `data` folder

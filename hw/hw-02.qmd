@@ -74,7 +74,7 @@ By the end of this homework, you will...
 
 -   Make a folder called `hw`to store all of your homework for the semester. Create a subfolder called `hw02` to store this homework.
 
--   Log into [Canvas](), navigate to HW-02 and upload the `hw-02.qmd` file into the folder you just made and `parks.csv` into the `data` folder.
+-   Log into [Canvas](https://cofi.instructure.com/courses/18743/assignments/243285), navigate to HW-02 and upload the `hw-02.qmd` file into the folder you just made and `parks.csv` into the `data` folder.
 
 ## R and RStudio
 
