@@ -695,7 +695,7 @@
     "href": "index.html",
     "title": "Schedule",
     "section": "",
-    "text": "This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses, with all changes documented here.\n\n\n\n\nLecture\nDOW\nDate\nTopic\nPrepare\nSlides\nAE\nHW\nProject\nNotes\n\n\n\n\n0\nW\nAug 26\nWelcome to MATH 2025!\n\n\n\n\n\nWelcome!\n\n\n1\nM\nAug 31\nGetting Started with R & Quarto\n\n\n\n\n\nOur first AE!\n\n\n2\nW\nSep 2\nExploratory Data Analysis\n\n\n\n\n\n\n\n\n\nM\nSep 7\nNo Class - Labor Day\n\n\n\n\n\nLabor Day - No Classes\n\n\n3\nW\nSep 9\nIntroduction to Simple Linear Regression\n\n\n\n\n\nHW 1 Due\n\n\n4\nM\nSep 14\nPrediction",
+    "text": "This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses, with all changes documented here.\n\n\n\n\nLecture\nDOW\nDate\nTopic\nPrepare\nSlides\nAE\nHW\nProject\nNotes\n\n\n\n\n0\nW\nAug 26\nWelcome to MATH 2025!\n\n\n\n\n\nWelcome!\n\n\n1\nM\nAug 31\nGetting Started with R & Quarto\n\n\n\n\n\nOur first AE!\n\n\n2\nW\nSep 2\nExploratory Data Analysis\n\n\n\n\n\n\n\n\n\nM\nSep 7\nNo Class - Labor Day\n\n\n\n\n\nLabor Day - No Classes\n\n\n3\nW\nSep 9\nIntroduction to Simple Linear Regression\n\n\n\n\n\nHW 1 Due\n\n\n4\nM\nSep 14\nPrediction\n\n\n\n\n\n\n\n\n5\nW\nSep 16\nTBD\n\n\n\n\n\nHW 2 Due",
     "crumbs": [
       "Schedule"
     ]
@@ -783,7 +783,7 @@
     "href": "ae/ae-03-bikeshare.html",
     "title": "AE 03: Bike rentals in Washington, DC",
     "section": "",
-    "text": "Important\n\n\n\n\nOpen RStudio and create a subfolder in your AE folder called “AE-03”\nGo to the Canvas and locate the AE-03 assignment. That link should take you directly there.\nUpload the ae-03.qmd into the folder you just created\nUpload dcbikeshare.csv into your data folder"
+    "text": "Important\n\n\n\n\nOpen RStudio and create a subfolder in your AE folder called “AE-03”\nGo to the assignment for this activity in Canvas to get started.\nUpload the ae-03.qmd into the folder you just created\nUpload dcbikeshare.csv into your data folder"
   },
   {
     "objectID": "ae/ae-03-bikeshare.html#data",
