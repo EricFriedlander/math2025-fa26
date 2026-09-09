@@ -198,7 +198,7 @@
     "href": "slides/03-slr-intro.html#dplyr-verbs",
     "title": "Simple Linear Regression",
     "section": "dplyr verbs",
-    "text": "dplyr verbs\n\ndplyr provides a set of “verbs” for data manipulation\nWe’ll going to cover two today:\n\nmutate: creates new columns and changes (mutates) existing columns\nfilter: selects rows based on a condition\n\nWe’ll typically chain together these verbs using the pipe operator |&gt; (you may see %&gt;% in older code)\nLet’s use these verbs to clean up the bikeshare data"
+    "text": "dplyr verbs\n\ndplyr provides a set of “verbs” for data manipulation\nWe’ll going to cover two today:\n\nmutate: creates new columns and changes (mutates) existing columns\nfilter: selects rows based on a condition\n\nYour HW will go over two more:\n\nsummarize: compute summary statistics (e.g. mean, median, standard deviation)\ngroup_by: group data by one or more variables (use this before summarize usually)\n\nWe’ll typically chain together these verbs using the pipe operator |&gt; (you may see %&gt;% in older code)\nLet’s use these verbs to clean up the bikeshare data"
   },
   {
     "objectID": "slides/03-slr-intro.html#data-prep",
