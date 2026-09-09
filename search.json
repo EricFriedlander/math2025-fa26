@@ -205,7 +205,7 @@
     "href": "slides/03-slr-intro.html#data-prep",
     "title": "Simple Linear Regression",
     "section": "Data prep",
-    "text": "Data prep\n\nR calls categorical data “factors”\n\nYou may also see &lt;chr&gt; which stands for character. These are also categorical variables, but it’s almost always better to convert them to factors\n\nFactors have levels (categories) and can be ordered or unordered\n\nYou can put them in an order that makes sense so your plots looks better\n\nExercise 4: Recode season as a factor with names instead of numbers (livecode)"
+    "text": "Data prep\n\nR calls categorical data “factors”\n\nYou may also see &lt;chr&gt; which stands for character. These are also categorical variables, but it’s almost always better to convert them to factors\n\nFactors remember what all possible levels (categories) and store them in order\n\nYou can put them in an order that makes sense so your plots looks better\n\nExercise 4: Recode season as a factor with names instead of numbers (livecode)"
   },
   {
     "objectID": "slides/03-slr-intro.html#exercise-4",
