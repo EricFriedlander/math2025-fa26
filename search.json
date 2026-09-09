@@ -198,7 +198,7 @@
     "href": "slides/03-slr-intro.html#dplyr-verbs",
     "title": "Simple Linear Regression",
     "section": "dplyr verbs",
-    "text": "dplyr verbs\n\ndplyr provides a set of “verbs” for data manipulation\nWe’ll going to cover two today:\n\nmutate: creates new columns and changes (mutates) existing columns\nfilter: selects rows based on a condition\n\nYour HW will go over two more:\n\nsummarize: compute summary statistics (e.g. mean, median, standard deviation)\ngroup_by: group data by one or more variables (use this before summarize usually)\n\nWe’ll typically chain together these verbs using the pipe operator |&gt; (you may see %&gt;% in older code)\nLet’s use these verbs to clean up the bikeshare data"
+    "text": "dplyr verbs\n\ndplyr provides a set of “verbs” for data manipulation\nWe’ll going to cover two today:\n\nmutate: creates new columns and changes (mutates) existing columns\nfilter: selects rows based on a condition\n\nYour HW will go over two more:\n\nsummarize: compute summary statistics (e.g. mean, median, standard deviation)\ngroup_by: group data by one or more variables (use this before summarize usually)\n\nWe’ll typically chain together these verbs using the pipe operator |&gt; (you may see %&gt;% in older code)\nLet’s use these verbs to clean up the bikeshare data\nReminder: R Resources Tab in Sidebar"
   },
   {
     "objectID": "slides/03-slr-intro.html#data-prep",
@@ -764,128 +764,14 @@
     "text": "Footnotes\n\n\nThe “Grammar & Writing” grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.↩︎\nThe “Workflow & formatting” grade is to assess the reproducible workflow and document format. This includes having a neatly organized document with readable code, your name in the YAML, and all answers in answer blocks.↩︎"
   },
   {
-    "objectID": "computing-inferencesummary.html",
-    "href": "computing-inferencesummary.html",
-    "title": "R Cheatsheet",
+    "objectID": "computing-access.html",
+    "href": "computing-access.html",
+    "title": "Computing access",
     "section": "",
-    "text": "Histogram: gf_histogram( ~ variable, data = data_name)\nBoxplot: gf_boxplot( ~ variable, data = data_name)\nDotplot: gf_dotplot( ~ variable, data = data_name)\nBarchart: gf_bar( ~ variable, data = data_name)\nSide-by-side “dodged” barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position=\"dodge\")\nStacked barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data)\nStandardized barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position=\"fill\")\nSide-by-side boxplot: gf_boxplot( variable1 ~ variable2, data = data_name)\nScatterplot: gf_point(variable1 ~ variable2, data = data_name)\nScatterplot with a third variable as color: gf_point(variable1 ~ variable2, color = ~ variable3, data = data_name)",
+    "text": "To access RStudio at the College of Idaho, go to the CofI Posit Workbench website and sign in using your CofI email and password.\n\n\n\n\n\n\nNote\n\n\n\nThe Workbench servers are being updated this semester, so this address may change. Check back here or watch for an announcement if the link stops working.",
     "crumbs": [
       "Computing",
-      "R Cheatsheet"
-    ]
-  },
-  {
-    "objectID": "computing-inferencesummary.html#useful-code-for-calculating-summary-statistics-requires-mosaic",
-    "href": "computing-inferencesummary.html#useful-code-for-calculating-summary-statistics-requires-mosaic",
-    "title": "R Cheatsheet",
-    "section": "Useful code for calculating summary statistics: (requires mosaic)",
-    "text": "Useful code for calculating summary statistics: (requires mosaic)\n\nMeans: mean( ~ variable, data = data_name) or mean(variable1 ~ variable2, data = data_name)\nCounts/Tables: tally( ~ variable, data = data_name) or tally(variable1 ~ variable2, data = data_name)\n5-number-summary etc: favstats( ~ variable, data = data_name) or favstats(variable1 ~ variable2, data = data_name)\n\n\nUseful functions fitting and analyzing models\n\n\n\nModel type\nAction\nFunction\n\n\n\n\nSimple Linear Regression\nFit Model\nlm(Y ~ X, data = data_name)",
-    "crumbs": [
-      "Computing",
-      "R Cheatsheet"
-    ]
-  },
-  {
-    "objectID": "ae/ae-03-bikeshare.html",
-    "href": "ae/ae-03-bikeshare.html",
-    "title": "AE 03: Bike rentals in Washington, DC",
-    "section": "",
-    "text": "Important\n\n\n\n\nOpen RStudio and create a subfolder in your AE folder called “AE-03”\nGo to the assignment for this activity in Canvas to get started.\nUpload the ae-03.qmd into the folder you just created\nUpload dcbikeshare.csv into your data folder"
-  },
-  {
-    "objectID": "ae/ae-03-bikeshare.html#data",
-    "href": "ae/ae-03-bikeshare.html#data",
-    "title": "AE 03: Bike rentals in Washington, DC",
-    "section": "Data",
-    "text": "Data\nOur data set contains daily rentals from the Capital Bikeshare in Washington, DC in 2011 and 2012. It was obtained from the dcbikeshare data set in the dsbox R package.\nWe will focus on the following variables in the analysis:\n\ncount: total bike rentals\ntemp_orig: Temperature in degrees Celsius\nseason: 1 - winter, 2 - spring, 3 - summer, 4 - fall\n\nClick here for the full list of variables and definitions."
-  },
-  {
-    "objectID": "ae/ae-03-bikeshare.html#exercises",
-    "href": "ae/ae-03-bikeshare.html#exercises",
-    "title": "AE 03: Bike rentals in Washington, DC",
-    "section": "Exercises",
-    "text": "Exercises\n\nModify the file path to load the dcbikeshare data set.\nHints:\n\nUse a relative path\nYou need to go up two levels and then into the data folder\nPressing TAB while your cursor is in the quotations will help you navigate\nMake sure to remove the #|eval: false line from the answer code\n\n\n\n\nbikeshare &lt;- read_csv(\"insert path here\")\n\n\n\nBelow is code to create visualizations of the distributions of daily bike rentals and temperature. Create a plot of the number of rentals vs the temperature and store it in a variable called p3. If you can figure it out based on context, try and add appropriate labels to the plot. Finally, uncomment the last line of code in this chunk. What do you think this last line does? Comment on what you see.\n\n\n\np1 &lt;- gf_histogram(~ count, data = bikeshare, binwidth = 250) |&gt;\n  gf_labs(x = \"Daily bike rentals\")\n\np2 &lt;- gf_histogram(~temp_orig, data = bikeshare) |&gt;\n  gf_labs(x = \"Temperature (Celsius)\")\n\n# (p1 | p2) / p3\n\n\n\nIn the raw data, seasons are coded as 1, 2, 3, 4 as numerical values, corresponding to winter, spring, summer, and fall respectively. Recode the season variable to make it a categorical variable (a factor) with levels corresponding to season names, making sure that the levels appear in a reasonable order in the variable (i.e., not alphabetical).\n\n\n\n# add code developed during livecoding here\n\n\n\nWe want to evaluate whether the relationship between temperature and daily bike rentals is the same for each season. To answer this question:\n\nCreate a scatter plot of daily bike rentals vs. temperature faceted by season\nCreate a scatter plot of daily bike rentals vs. temperature colored by season\n\n\n\n\n\n\n\nWhich season appears to have the strongest relationship between temperature and daily bike rentals? Why do you think the relationship is strongest in this season?\nWhich season appears to have the weakest relationship between temperature and daily bike rentals? Why do you think the relationship is weakest in this season?\n\n\n\n\n\n\nGoing back to the scatter plot of rentals vs. temperature from earlier, there appears to be one day with a very small number of bike rentals. Use filter to figure out what that day was? Why were the number of bike rentals so low on that day? Hint: You can Google the date to figure out what was going on that day.\n\n\n\n\n\nFilter your data for the season you’ve been assigned, give the resulting data set a new name, and plot the relationship between temperature and daily bike rentals for this season.\n\n\n\n# add code developed during livecoding here\n\n\n\nUsing the subset of the data from the previous exercise, fit a linear model for predicting daily bike rentals from temperature for this season.\n\n\n\n\n\nUse the output to write out the estimated regression equation on the whiteboard.\n\n\nInterpret the slope in the context of the data.\n\n\n\n\n\nInterpret the intercept in the context of the data.\n\n\n\n\n\nCreate a visualization of the model we just created.\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTo submit the AE:\n\nRender the document to produce the HTML with all of your work from today’s class.\nThe driver for your group should upload your .qmd and .html files to the Canvas assignment."
-  },
-  {
-    "objectID": "ae/ae-01-getting-started.html",
-    "href": "ae/ae-01-getting-started.html",
-    "title": "AE 01: Getting Started",
-    "section": "",
-    "text": "We will be doing a lot of work in RStudio, so it’s important to set up your home directory for class so that we can keep everything organized.\n\n\nFirst navigate to R Studio.\nClick File -&gt; New Project -&gt; New Directory -&gt; New Project\nIn Directory name: write math2025fa26\nDon’t check any of the boxed and click Create Project\nIn the bottom left panel: let’s create the following file structure:\n\nTop-level folder for class (should already be created): math2025fa26\n\nFolder for AEs: ae\nFolder for Hws: hw\nFolder for Datasets: data\n\n\nGoing forward, you’ll create sub-folders for each AE or HW as needed.\nFor today: create a sub-folder of ae called ae-01\nNavigate to the assignment for this activity in Canvas\n\nDownload the ae-01.qmd file and upload it into the folder you just created.\nOpen it… You should now be looking at a Quarto document.\n\n\n\n\n\n\nThe thing you are reading right now is a Quarto document. Quarto runs inside RStudio. Quarto is a simple formatting syntax for authoring web pages, Word documents, PDFs, and many more file types. You can find the link to a useful Quarto guide here.\nWhen you click the Render button at the top of this window an html file will be generated that includes both content as well as the output of any embedded R code chunks within the document. Not only can you embed the R code, you can embed the output produced by the R code. In this way, your analysis is fully reproducible and updatable. All of your homework assignments must be prepared using Quarto.\n\n\nThe big block at the top is called the yaml header and it contains metadata about the document.\nGo to the top, replace Your name here with your actual name and then click Render. You can ignore the rest for now, but don’t delete it!\nNotice two things:\n\nA preview of your document should pop-up\nAn file ae-01.html will appear next to your ae-01.qmd file in the lower right panel.These are the two files that you will need to turn in for most assignments.\n\n\n\nThe nice thing about Quarto is that you can write prose (as I am doing now), mathematical equations using LaTeX syntax (like \\(y_i = a + b x_i\\)), and R code/output/plots all in one synthesized document. This makes it approximately 10,000 times easier to use than doing the same thing in Word or LaTeX. As you go through this introduction, I recommend that you look also at the .qmd file and your output file side-by-side to get an idea of how Quarto works. (Since you’re going to have to use Quarto this semester, you might as well start learning it now!)\nIn the future, I will typically give you a Quarto template to fill out. However, occasionally you will need to create your own Quarto document. When you want to start a new Quarto document, click “File &gt; New File &gt; Quarto Document…” Put yourself as author, and make sure to give it a descriptive title!\n\n\n\nWith R by your side, you will never need your TI-84 again. Consider the simple arithmetic in the chunk below. You can run this code chunk all at once by clicking the Run button, the sideways green arrow in the top right of the chunk. Notice the interactive nature of the output. You can click through to see the different pieces of output.\nAs you work through this document, you should Run each chunk as you come to it.\n\nRun the code chunk below.\n\n5 + 3\n\n[1] 8\n\n5.3 * 23.4\n\n[1] 124.02\n\nsqrt(16) # this is a comment.  R will not 'see' anything past a #, but you can use it to explain your code\n\n[1] 4\n\n\n\nLook closely at how Quarto denotes the R code and the output. Also note in the .qmd file how I include R code as separate from prose. These are called “chunks”. The easiest way to add a new chunk is to click on the green “c” icon with a plus in the corner above, then choose “R”. R code that is not inside of a chunk will not be run by Quarto!\n\nNotice below the block labeled answer. Whenever you are writing the answer to a problem, you chould make sure it is inside an answer block. Note that you can put R code chunks and prose instead an answer block.\nIn the answer block below, create an R code chunk and compute 10 raised to the 2nd power.\n\n\n\n\nIn R, we’ll frequently make use of things called functions. You can think of functions like machines that take inputs and product outputs. The inputs are called arguments, and the outputs are called return values. To use a function you can simply run function_name(argument1, argument2, ...).\n\nCreate a code chunk and use the log function to computer the log of 10. Why do you think the answer isn’t 1?\n\n\n\n\nYou can also save values to named variables, to be used later. I like to think of these variables like boxes. Set we want to put the value 15.3 * 23.4 into a box called product. We’d run:\n\nproduct &lt;- 15.3 * 23.4 #save result\n\nLook in the top-right Environment pane… It should now have something called product. Notice that when you ran the above code chunk, R did not show the output. If you save something like this, R will not show the output unless you expressly ask for it (this is a good thing). If you want to see the value of product, you can run product in a code chunk:\n\nproduct #show result\n\n[1] 358.02\n\n\nThe symbol “&lt;-” is called the assignment operator. Imagine that R maintains a warehouse filled with boxes containing all kinds of stuff. When you use “&lt;-”, R will create a new box, write whatever name you put to the left of “&lt;-”, and put whatever is to the right of “&lt;-” in the box. Then whenever you want to go get the box, you can just use whatever name you gave it. In the example above, the box is called “product” and it contains the number 358.02 (the result of 15.3 times 23.4). When you just write “product”, R will go grab the box called “product” and dump it onto the screen. In the future, we will be giving names to entire datasets and using “functions” in R to analyze them.\nIf you’ve ever programmed before, “=” is the most common assignment operator. In R, you can use “=” as the assignment operator but there are cases where “&lt;-” works and “=” doesn’t, so it’s good to get into the habit of using “&lt;-” now.\nOnce variables are defined, they can be referenced with other operators (e.g. +, -, *, /) and functions. Try executing each line of code individually by placing your cursor on the first line of the chunk below and pressing Ctrl+Enter (Cmd +Enter for Mac users); then do the same for the second line. (This is how you can run a single line within a larger chunk.)\n\n.5 * product # half of the product\n\n[1] 179.01\n\nproduct^(1/4) # fourth root of the product\n\n[1] 4.349875\n\n\n\nWrite a code chunk that computes the log of product, saves it to a variable called log_product, and prints log_product.\n\n\n\n\n\n\n\nOnly R code (and comments) should be inside chunks. Prose should never be put inside a chunk. In general, prose should be below or above the chunk, as I have done above (and continue to do throughout this document). In this class, YOUR prose should always be in side an answer block for AEs and HWs. You should also never cut-and-paste output or graphs into the chunks. The whole point of code chunks is that they contain the code and they’ll run the code (resulting in the output and/or graphs).\n\nIf you want to run something in R but don’t want it to appear in the Quarto document, simply run it in the Console in the lower-left quadrant of RStudio. In fact, when you hit the little play button, it actually just runs the code in the console below. Type the last line of R code above into the Console and see what happens.\n\n\n\nThink about the Environment as a warehouse that stores the current state of our variables. Whenever you run code in the console (or directly from a chunk), R will use the current version of the environment. However, when you click the render button, R will completely wipe the environment and run all the chunks in a quarto document from top to bottom, in order. If, as you are writing your Quarto document, you run code chunks multiple times, or out of order, it is possible to get a different result when you render your document compared to what the console shows.\n\nConsider the code cell below. What do you think will happen if you run it three times in a row? What do you think the output will be when you render the document?\nRun the cell below three times and note what the output is. Then, Render the document and note what the output is. Are they the same?\n\nproduct &lt;- product *2\nproduct\n\n[1] 716.04\n\n\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nI recommend rendering your documents periodically to make sure that your code is working as expected. In addition, before you submit your documents, always Render and then double check your answers to make sure that your answers match your explanations.\n\n\n\n\n\n\n\n\nClick Render one last time to render your document.\nReview the html output to make sure it reflects what you want it to say.\nUpload the qmd and html files to Canvas."
-  },
-  {
-    "objectID": "ae/ae-01-getting-started.html#setting-up-your-home-directory-for-class",
-    "href": "ae/ae-01-getting-started.html#setting-up-your-home-directory-for-class",
-    "title": "AE 01: Getting Started",
-    "section": "",
-    "text": "We will be doing a lot of work in RStudio, so it’s important to set up your home directory for class so that we can keep everything organized.\n\n\nFirst navigate to R Studio.\nClick File -&gt; New Project -&gt; New Directory -&gt; New Project\nIn Directory name: write math2025fa26\nDon’t check any of the boxed and click Create Project\nIn the bottom left panel: let’s create the following file structure:\n\nTop-level folder for class (should already be created): math2025fa26\n\nFolder for AEs: ae\nFolder for Hws: hw\nFolder for Datasets: data\n\n\nGoing forward, you’ll create sub-folders for each AE or HW as needed.\nFor today: create a sub-folder of ae called ae-01\nNavigate to the assignment for this activity in Canvas\n\nDownload the ae-01.qmd file and upload it into the folder you just created.\nOpen it… You should now be looking at a Quarto document."
-  },
-  {
-    "objectID": "ae/ae-01-getting-started.html#quarto",
-    "href": "ae/ae-01-getting-started.html#quarto",
-    "title": "AE 01: Getting Started",
-    "section": "",
-    "text": "The thing you are reading right now is a Quarto document. Quarto runs inside RStudio. Quarto is a simple formatting syntax for authoring web pages, Word documents, PDFs, and many more file types. You can find the link to a useful Quarto guide here.\nWhen you click the Render button at the top of this window an html file will be generated that includes both content as well as the output of any embedded R code chunks within the document. Not only can you embed the R code, you can embed the output produced by the R code. In this way, your analysis is fully reproducible and updatable. All of your homework assignments must be prepared using Quarto.\n\n\nThe big block at the top is called the yaml header and it contains metadata about the document.\nGo to the top, replace Your name here with your actual name and then click Render. You can ignore the rest for now, but don’t delete it!\nNotice two things:\n\nA preview of your document should pop-up\nAn file ae-01.html will appear next to your ae-01.qmd file in the lower right panel.These are the two files that you will need to turn in for most assignments.\n\n\n\nThe nice thing about Quarto is that you can write prose (as I am doing now), mathematical equations using LaTeX syntax (like \\(y_i = a + b x_i\\)), and R code/output/plots all in one synthesized document. This makes it approximately 10,000 times easier to use than doing the same thing in Word or LaTeX. As you go through this introduction, I recommend that you look also at the .qmd file and your output file side-by-side to get an idea of how Quarto works. (Since you’re going to have to use Quarto this semester, you might as well start learning it now!)\nIn the future, I will typically give you a Quarto template to fill out. However, occasionally you will need to create your own Quarto document. When you want to start a new Quarto document, click “File &gt; New File &gt; Quarto Document…” Put yourself as author, and make sure to give it a descriptive title!"
-  },
-  {
-    "objectID": "ae/ae-01-getting-started.html#using-r-as-a-calculator-and-running-code-within-a-quarto-document",
-    "href": "ae/ae-01-getting-started.html#using-r-as-a-calculator-and-running-code-within-a-quarto-document",
-    "title": "AE 01: Getting Started",
-    "section": "",
-    "text": "With R by your side, you will never need your TI-84 again. Consider the simple arithmetic in the chunk below. You can run this code chunk all at once by clicking the Run button, the sideways green arrow in the top right of the chunk. Notice the interactive nature of the output. You can click through to see the different pieces of output.\nAs you work through this document, you should Run each chunk as you come to it.\n\nRun the code chunk below.\n\n5 + 3\n\n[1] 8\n\n5.3 * 23.4\n\n[1] 124.02\n\nsqrt(16) # this is a comment.  R will not 'see' anything past a #, but you can use it to explain your code\n\n[1] 4\n\n\n\nLook closely at how Quarto denotes the R code and the output. Also note in the .qmd file how I include R code as separate from prose. These are called “chunks”. The easiest way to add a new chunk is to click on the green “c” icon with a plus in the corner above, then choose “R”. R code that is not inside of a chunk will not be run by Quarto!\n\nNotice below the block labeled answer. Whenever you are writing the answer to a problem, you chould make sure it is inside an answer block. Note that you can put R code chunks and prose instead an answer block.\nIn the answer block below, create an R code chunk and compute 10 raised to the 2nd power.\n\n\n\n\nIn R, we’ll frequently make use of things called functions. You can think of functions like machines that take inputs and product outputs. The inputs are called arguments, and the outputs are called return values. To use a function you can simply run function_name(argument1, argument2, ...).\n\nCreate a code chunk and use the log function to computer the log of 10. Why do you think the answer isn’t 1?\n\n\n\n\nYou can also save values to named variables, to be used later. I like to think of these variables like boxes. Set we want to put the value 15.3 * 23.4 into a box called product. We’d run:\n\nproduct &lt;- 15.3 * 23.4 #save result\n\nLook in the top-right Environment pane… It should now have something called product. Notice that when you ran the above code chunk, R did not show the output. If you save something like this, R will not show the output unless you expressly ask for it (this is a good thing). If you want to see the value of product, you can run product in a code chunk:\n\nproduct #show result\n\n[1] 358.02\n\n\nThe symbol “&lt;-” is called the assignment operator. Imagine that R maintains a warehouse filled with boxes containing all kinds of stuff. When you use “&lt;-”, R will create a new box, write whatever name you put to the left of “&lt;-”, and put whatever is to the right of “&lt;-” in the box. Then whenever you want to go get the box, you can just use whatever name you gave it. In the example above, the box is called “product” and it contains the number 358.02 (the result of 15.3 times 23.4). When you just write “product”, R will go grab the box called “product” and dump it onto the screen. In the future, we will be giving names to entire datasets and using “functions” in R to analyze them.\nIf you’ve ever programmed before, “=” is the most common assignment operator. In R, you can use “=” as the assignment operator but there are cases where “&lt;-” works and “=” doesn’t, so it’s good to get into the habit of using “&lt;-” now.\nOnce variables are defined, they can be referenced with other operators (e.g. +, -, *, /) and functions. Try executing each line of code individually by placing your cursor on the first line of the chunk below and pressing Ctrl+Enter (Cmd +Enter for Mac users); then do the same for the second line. (This is how you can run a single line within a larger chunk.)\n\n.5 * product # half of the product\n\n[1] 179.01\n\nproduct^(1/4) # fourth root of the product\n\n[1] 4.349875\n\n\n\nWrite a code chunk that computes the log of product, saves it to a variable called log_product, and prints log_product."
-  },
-  {
-    "objectID": "ae/ae-01-getting-started.html#using-the-console",
-    "href": "ae/ae-01-getting-started.html#using-the-console",
-    "title": "AE 01: Getting Started",
-    "section": "",
-    "text": "Only R code (and comments) should be inside chunks. Prose should never be put inside a chunk. In general, prose should be below or above the chunk, as I have done above (and continue to do throughout this document). In this class, YOUR prose should always be in side an answer block for AEs and HWs. You should also never cut-and-paste output or graphs into the chunks. The whole point of code chunks is that they contain the code and they’ll run the code (resulting in the output and/or graphs).\n\nIf you want to run something in R but don’t want it to appear in the Quarto document, simply run it in the Console in the lower-left quadrant of RStudio. In fact, when you hit the little play button, it actually just runs the code in the console below. Type the last line of R code above into the Console and see what happens.\n\n\n\nThink about the Environment as a warehouse that stores the current state of our variables. Whenever you run code in the console (or directly from a chunk), R will use the current version of the environment. However, when you click the render button, R will completely wipe the environment and run all the chunks in a quarto document from top to bottom, in order. If, as you are writing your Quarto document, you run code chunks multiple times, or out of order, it is possible to get a different result when you render your document compared to what the console shows.\n\nConsider the code cell below. What do you think will happen if you run it three times in a row? What do you think the output will be when you render the document?\nRun the cell below three times and note what the output is. Then, Render the document and note what the output is. Are they the same?\n\nproduct &lt;- product *2\nproduct\n\n[1] 716.04\n\n\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nI recommend rendering your documents periodically to make sure that your code is working as expected. In addition, before you submit your documents, always Render and then double check your answers to make sure that your answers match your explanations."
-  },
-  {
-    "objectID": "ae/ae-01-getting-started.html#submitting-your-assignment",
-    "href": "ae/ae-01-getting-started.html#submitting-your-assignment",
-    "title": "AE 01: Getting Started",
-    "section": "",
-    "text": "Click Render one last time to render your document.\nReview the html output to make sure it reflects what you want it to say.\nUpload the qmd and html files to Canvas."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "MATH 2025: Multiple Regression Analysis",
-    "section": "",
-    "text": "An introduction to statistical modeling and methods. Topics may include model construction and analysis using multiple linear regression, analysis of variance, and logistic regression. The course makes substantial use of statistical software. Students who have taken more than one calculus course should generally take MATH-2025 rather than MATH-1025.\n\n\n\nWe will cover approaches for analyzing multivariate data sets, emphasizing linear and logistic regression. You will learn techniques for checking the appropriateness of proposed models, such as residual analyses, and techniques for selecting models. You will gain experience dealing with the challenges that arise in practice through assignments that utilize real-world data. This class emphasizes data analysis over mathematical theory.",
-    "crumbs": [
-      "About"
-    ]
-  },
-  {
-    "objectID": "about.html#catalog-description",
-    "href": "about.html#catalog-description",
-    "title": "MATH 2025: Multiple Regression Analysis",
-    "section": "",
-    "text": "An introduction to statistical modeling and methods. Topics may include model construction and analysis using multiple linear regression, analysis of variance, and logistic regression. The course makes substantial use of statistical software. Students who have taken more than one calculus course should generally take MATH-2025 rather than MATH-1025.",
-    "crumbs": [
-      "About"
-    ]
-  },
-  {
-    "objectID": "about.html#erics-addition",
-    "href": "about.html#erics-addition",
-    "title": "MATH 2025: Multiple Regression Analysis",
-    "section": "",
-    "text": "We will cover approaches for analyzing multivariate data sets, emphasizing linear and logistic regression. You will learn techniques for checking the appropriateness of proposed models, such as residual analyses, and techniques for selecting models. You will gain experience dealing with the challenges that arise in practice through assignments that utilize real-world data. This class emphasizes data analysis over mathematical theory.",
-    "crumbs": [
-      "About"
-    ]
-  },
-  {
-    "objectID": "about.html#instructor",
-    "href": "about.html#instructor",
-    "title": "MATH 2025: Multiple Regression Analysis",
-    "section": "Instructor",
-    "text": "Instructor\nEric is an Assistant Professor in the Department of Mathematics and Physical Sciences at the College of Idaho. His expertise lies in the areas of probability, statistics, and statistics education. He joined the College of Idaho faculty in 2024 after spending three years as an Assistant Professor at St. Norbert College in De Pere, Wisconsin. He received his bachelor’s degree in mathematics and statistics from Rice University in 2011. After earning his degree, he worked for Capital One for two years in their home loans division before enrolling in graduate school. In 2018, Eric received his Ph.D. in statistics and operations research from the University of North Carolina at Chapel Hill studying under professor Amarjit Budhiraja. His dissertation work focused on modeling and analyzing large systems which arise in industrial engineering (e.g. large server and communication networks). Following his Ph.D., Eric did a postdoc in the Department of Ecology & Evolution at the University of Chicago under the direction of professor Matthias Steinrücken where he used stochastic processes to study natural selection and population genetics.\nOutside of school, Eric is an avid fan of the New York Giants, New York Knicks, and North Carolina Tarheels. In addition, he enjoys comic books, the Fast and the Furious franchise, and spending time with his lovely wife Maria and lovable dogs Allie, Tony, and Miriam.\n\n\n\nOffice hours (Boone 126B)\n\n\n\n\n\nT, W\n2:15pm - 3:45pm\n\n\nTh\n3:00pm - 4:00pm\n\n\nor by appointment.",
-    "crumbs": [
-      "About"
+      "Computing access"
     ]
   },
   {
@@ -931,36 +817,172 @@
     "text": "Submitting Your Assignment\n\n\nClick Render one last time to render your document.\nReview the html output to make sure it reflects what you want it to say.\nUpload the qmd and html files to Canvas."
   },
   {
-    "objectID": "computing-access.html",
-    "href": "computing-access.html",
-    "title": "Computing access",
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "MATH 2025: Multiple Regression Analysis",
     "section": "",
-    "text": "To access RStudio at the College of Idaho, go to the CofI Posit Workbench website and sign in using your CofI email and password.\n\n\n\n\n\n\nNote\n\n\n\nThe Workbench servers are being updated this semester, so this address may change. Check back here or watch for an announcement if the link stops working.",
+    "text": "An introduction to statistical modeling and methods. Topics may include model construction and analysis using multiple linear regression, analysis of variance, and logistic regression. The course makes substantial use of statistical software. Students who have taken more than one calculus course should generally take MATH-2025 rather than MATH-1025.\n\n\n\nWe will cover approaches for analyzing multivariate data sets, emphasizing linear and logistic regression. You will learn techniques for checking the appropriateness of proposed models, such as residual analyses, and techniques for selecting models. You will gain experience dealing with the challenges that arise in practice through assignments that utilize real-world data. This class emphasizes data analysis over mathematical theory.",
     "crumbs": [
-      "Computing",
-      "Computing access"
+      "About"
     ]
+  },
+  {
+    "objectID": "about.html#catalog-description",
+    "href": "about.html#catalog-description",
+    "title": "MATH 2025: Multiple Regression Analysis",
+    "section": "",
+    "text": "An introduction to statistical modeling and methods. Topics may include model construction and analysis using multiple linear regression, analysis of variance, and logistic regression. The course makes substantial use of statistical software. Students who have taken more than one calculus course should generally take MATH-2025 rather than MATH-1025.",
+    "crumbs": [
+      "About"
+    ]
+  },
+  {
+    "objectID": "about.html#erics-addition",
+    "href": "about.html#erics-addition",
+    "title": "MATH 2025: Multiple Regression Analysis",
+    "section": "",
+    "text": "We will cover approaches for analyzing multivariate data sets, emphasizing linear and logistic regression. You will learn techniques for checking the appropriateness of proposed models, such as residual analyses, and techniques for selecting models. You will gain experience dealing with the challenges that arise in practice through assignments that utilize real-world data. This class emphasizes data analysis over mathematical theory.",
+    "crumbs": [
+      "About"
+    ]
+  },
+  {
+    "objectID": "about.html#instructor",
+    "href": "about.html#instructor",
+    "title": "MATH 2025: Multiple Regression Analysis",
+    "section": "Instructor",
+    "text": "Instructor\nEric is an Assistant Professor in the Department of Mathematics and Physical Sciences at the College of Idaho. His expertise lies in the areas of probability, statistics, and statistics education. He joined the College of Idaho faculty in 2024 after spending three years as an Assistant Professor at St. Norbert College in De Pere, Wisconsin. He received his bachelor’s degree in mathematics and statistics from Rice University in 2011. After earning his degree, he worked for Capital One for two years in their home loans division before enrolling in graduate school. In 2018, Eric received his Ph.D. in statistics and operations research from the University of North Carolina at Chapel Hill studying under professor Amarjit Budhiraja. His dissertation work focused on modeling and analyzing large systems which arise in industrial engineering (e.g. large server and communication networks). Following his Ph.D., Eric did a postdoc in the Department of Ecology & Evolution at the University of Chicago under the direction of professor Matthias Steinrücken where he used stochastic processes to study natural selection and population genetics.\nOutside of school, Eric is an avid fan of the New York Giants, New York Knicks, and North Carolina Tarheels. In addition, he enjoys comic books, the Fast and the Furious franchise, and spending time with his lovely wife Maria and lovable dogs Allie, Tony, and Miriam.\n\n\n\nOffice hours (Boone 126B)\n\n\n\n\n\nT, W\n2:15pm - 3:45pm\n\n\nTh\n3:00pm - 4:00pm\n\n\nor by appointment.",
+    "crumbs": [
+      "About"
+    ]
+  },
+  {
+    "objectID": "ae/ae-01-getting-started.html",
+    "href": "ae/ae-01-getting-started.html",
+    "title": "AE 01: Getting Started",
+    "section": "",
+    "text": "We will be doing a lot of work in RStudio, so it’s important to set up your home directory for class so that we can keep everything organized.\n\n\nFirst navigate to R Studio.\nClick File -&gt; New Project -&gt; New Directory -&gt; New Project\nIn Directory name: write math2025fa26\nDon’t check any of the boxed and click Create Project\nIn the bottom left panel: let’s create the following file structure:\n\nTop-level folder for class (should already be created): math2025fa26\n\nFolder for AEs: ae\nFolder for Hws: hw\nFolder for Datasets: data\n\n\nGoing forward, you’ll create sub-folders for each AE or HW as needed.\nFor today: create a sub-folder of ae called ae-01\nNavigate to the assignment for this activity in Canvas\n\nDownload the ae-01.qmd file and upload it into the folder you just created.\nOpen it… You should now be looking at a Quarto document.\n\n\n\n\n\n\nThe thing you are reading right now is a Quarto document. Quarto runs inside RStudio. Quarto is a simple formatting syntax for authoring web pages, Word documents, PDFs, and many more file types. You can find the link to a useful Quarto guide here.\nWhen you click the Render button at the top of this window an html file will be generated that includes both content as well as the output of any embedded R code chunks within the document. Not only can you embed the R code, you can embed the output produced by the R code. In this way, your analysis is fully reproducible and updatable. All of your homework assignments must be prepared using Quarto.\n\n\nThe big block at the top is called the yaml header and it contains metadata about the document.\nGo to the top, replace Your name here with your actual name and then click Render. You can ignore the rest for now, but don’t delete it!\nNotice two things:\n\nA preview of your document should pop-up\nAn file ae-01.html will appear next to your ae-01.qmd file in the lower right panel.These are the two files that you will need to turn in for most assignments.\n\n\n\nThe nice thing about Quarto is that you can write prose (as I am doing now), mathematical equations using LaTeX syntax (like \\(y_i = a + b x_i\\)), and R code/output/plots all in one synthesized document. This makes it approximately 10,000 times easier to use than doing the same thing in Word or LaTeX. As you go through this introduction, I recommend that you look also at the .qmd file and your output file side-by-side to get an idea of how Quarto works. (Since you’re going to have to use Quarto this semester, you might as well start learning it now!)\nIn the future, I will typically give you a Quarto template to fill out. However, occasionally you will need to create your own Quarto document. When you want to start a new Quarto document, click “File &gt; New File &gt; Quarto Document…” Put yourself as author, and make sure to give it a descriptive title!\n\n\n\nWith R by your side, you will never need your TI-84 again. Consider the simple arithmetic in the chunk below. You can run this code chunk all at once by clicking the Run button, the sideways green arrow in the top right of the chunk. Notice the interactive nature of the output. You can click through to see the different pieces of output.\nAs you work through this document, you should Run each chunk as you come to it.\n\nRun the code chunk below.\n\n5 + 3\n\n[1] 8\n\n5.3 * 23.4\n\n[1] 124.02\n\nsqrt(16) # this is a comment.  R will not 'see' anything past a #, but you can use it to explain your code\n\n[1] 4\n\n\n\nLook closely at how Quarto denotes the R code and the output. Also note in the .qmd file how I include R code as separate from prose. These are called “chunks”. The easiest way to add a new chunk is to click on the green “c” icon with a plus in the corner above, then choose “R”. R code that is not inside of a chunk will not be run by Quarto!\n\nNotice below the block labeled answer. Whenever you are writing the answer to a problem, you chould make sure it is inside an answer block. Note that you can put R code chunks and prose instead an answer block.\nIn the answer block below, create an R code chunk and compute 10 raised to the 2nd power.\n\n\n\n\nIn R, we’ll frequently make use of things called functions. You can think of functions like machines that take inputs and product outputs. The inputs are called arguments, and the outputs are called return values. To use a function you can simply run function_name(argument1, argument2, ...).\n\nCreate a code chunk and use the log function to computer the log of 10. Why do you think the answer isn’t 1?\n\n\n\n\nYou can also save values to named variables, to be used later. I like to think of these variables like boxes. Set we want to put the value 15.3 * 23.4 into a box called product. We’d run:\n\nproduct &lt;- 15.3 * 23.4 #save result\n\nLook in the top-right Environment pane… It should now have something called product. Notice that when you ran the above code chunk, R did not show the output. If you save something like this, R will not show the output unless you expressly ask for it (this is a good thing). If you want to see the value of product, you can run product in a code chunk:\n\nproduct #show result\n\n[1] 358.02\n\n\nThe symbol “&lt;-” is called the assignment operator. Imagine that R maintains a warehouse filled with boxes containing all kinds of stuff. When you use “&lt;-”, R will create a new box, write whatever name you put to the left of “&lt;-”, and put whatever is to the right of “&lt;-” in the box. Then whenever you want to go get the box, you can just use whatever name you gave it. In the example above, the box is called “product” and it contains the number 358.02 (the result of 15.3 times 23.4). When you just write “product”, R will go grab the box called “product” and dump it onto the screen. In the future, we will be giving names to entire datasets and using “functions” in R to analyze them.\nIf you’ve ever programmed before, “=” is the most common assignment operator. In R, you can use “=” as the assignment operator but there are cases where “&lt;-” works and “=” doesn’t, so it’s good to get into the habit of using “&lt;-” now.\nOnce variables are defined, they can be referenced with other operators (e.g. +, -, *, /) and functions. Try executing each line of code individually by placing your cursor on the first line of the chunk below and pressing Ctrl+Enter (Cmd +Enter for Mac users); then do the same for the second line. (This is how you can run a single line within a larger chunk.)\n\n.5 * product # half of the product\n\n[1] 179.01\n\nproduct^(1/4) # fourth root of the product\n\n[1] 4.349875\n\n\n\nWrite a code chunk that computes the log of product, saves it to a variable called log_product, and prints log_product.\n\n\n\n\n\n\n\nOnly R code (and comments) should be inside chunks. Prose should never be put inside a chunk. In general, prose should be below or above the chunk, as I have done above (and continue to do throughout this document). In this class, YOUR prose should always be in side an answer block for AEs and HWs. You should also never cut-and-paste output or graphs into the chunks. The whole point of code chunks is that they contain the code and they’ll run the code (resulting in the output and/or graphs).\n\nIf you want to run something in R but don’t want it to appear in the Quarto document, simply run it in the Console in the lower-left quadrant of RStudio. In fact, when you hit the little play button, it actually just runs the code in the console below. Type the last line of R code above into the Console and see what happens.\n\n\n\nThink about the Environment as a warehouse that stores the current state of our variables. Whenever you run code in the console (or directly from a chunk), R will use the current version of the environment. However, when you click the render button, R will completely wipe the environment and run all the chunks in a quarto document from top to bottom, in order. If, as you are writing your Quarto document, you run code chunks multiple times, or out of order, it is possible to get a different result when you render your document compared to what the console shows.\n\nConsider the code cell below. What do you think will happen if you run it three times in a row? What do you think the output will be when you render the document?\nRun the cell below three times and note what the output is. Then, Render the document and note what the output is. Are they the same?\n\nproduct &lt;- product *2\nproduct\n\n[1] 716.04\n\n\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nI recommend rendering your documents periodically to make sure that your code is working as expected. In addition, before you submit your documents, always Render and then double check your answers to make sure that your answers match your explanations.\n\n\n\n\n\n\n\n\nClick Render one last time to render your document.\nReview the html output to make sure it reflects what you want it to say.\nUpload the qmd and html files to Canvas."
+  },
+  {
+    "objectID": "ae/ae-01-getting-started.html#setting-up-your-home-directory-for-class",
+    "href": "ae/ae-01-getting-started.html#setting-up-your-home-directory-for-class",
+    "title": "AE 01: Getting Started",
+    "section": "",
+    "text": "We will be doing a lot of work in RStudio, so it’s important to set up your home directory for class so that we can keep everything organized.\n\n\nFirst navigate to R Studio.\nClick File -&gt; New Project -&gt; New Directory -&gt; New Project\nIn Directory name: write math2025fa26\nDon’t check any of the boxed and click Create Project\nIn the bottom left panel: let’s create the following file structure:\n\nTop-level folder for class (should already be created): math2025fa26\n\nFolder for AEs: ae\nFolder for Hws: hw\nFolder for Datasets: data\n\n\nGoing forward, you’ll create sub-folders for each AE or HW as needed.\nFor today: create a sub-folder of ae called ae-01\nNavigate to the assignment for this activity in Canvas\n\nDownload the ae-01.qmd file and upload it into the folder you just created.\nOpen it… You should now be looking at a Quarto document."
+  },
+  {
+    "objectID": "ae/ae-01-getting-started.html#quarto",
+    "href": "ae/ae-01-getting-started.html#quarto",
+    "title": "AE 01: Getting Started",
+    "section": "",
+    "text": "The thing you are reading right now is a Quarto document. Quarto runs inside RStudio. Quarto is a simple formatting syntax for authoring web pages, Word documents, PDFs, and many more file types. You can find the link to a useful Quarto guide here.\nWhen you click the Render button at the top of this window an html file will be generated that includes both content as well as the output of any embedded R code chunks within the document. Not only can you embed the R code, you can embed the output produced by the R code. In this way, your analysis is fully reproducible and updatable. All of your homework assignments must be prepared using Quarto.\n\n\nThe big block at the top is called the yaml header and it contains metadata about the document.\nGo to the top, replace Your name here with your actual name and then click Render. You can ignore the rest for now, but don’t delete it!\nNotice two things:\n\nA preview of your document should pop-up\nAn file ae-01.html will appear next to your ae-01.qmd file in the lower right panel.These are the two files that you will need to turn in for most assignments.\n\n\n\nThe nice thing about Quarto is that you can write prose (as I am doing now), mathematical equations using LaTeX syntax (like \\(y_i = a + b x_i\\)), and R code/output/plots all in one synthesized document. This makes it approximately 10,000 times easier to use than doing the same thing in Word or LaTeX. As you go through this introduction, I recommend that you look also at the .qmd file and your output file side-by-side to get an idea of how Quarto works. (Since you’re going to have to use Quarto this semester, you might as well start learning it now!)\nIn the future, I will typically give you a Quarto template to fill out. However, occasionally you will need to create your own Quarto document. When you want to start a new Quarto document, click “File &gt; New File &gt; Quarto Document…” Put yourself as author, and make sure to give it a descriptive title!"
+  },
+  {
+    "objectID": "ae/ae-01-getting-started.html#using-r-as-a-calculator-and-running-code-within-a-quarto-document",
+    "href": "ae/ae-01-getting-started.html#using-r-as-a-calculator-and-running-code-within-a-quarto-document",
+    "title": "AE 01: Getting Started",
+    "section": "",
+    "text": "With R by your side, you will never need your TI-84 again. Consider the simple arithmetic in the chunk below. You can run this code chunk all at once by clicking the Run button, the sideways green arrow in the top right of the chunk. Notice the interactive nature of the output. You can click through to see the different pieces of output.\nAs you work through this document, you should Run each chunk as you come to it.\n\nRun the code chunk below.\n\n5 + 3\n\n[1] 8\n\n5.3 * 23.4\n\n[1] 124.02\n\nsqrt(16) # this is a comment.  R will not 'see' anything past a #, but you can use it to explain your code\n\n[1] 4\n\n\n\nLook closely at how Quarto denotes the R code and the output. Also note in the .qmd file how I include R code as separate from prose. These are called “chunks”. The easiest way to add a new chunk is to click on the green “c” icon with a plus in the corner above, then choose “R”. R code that is not inside of a chunk will not be run by Quarto!\n\nNotice below the block labeled answer. Whenever you are writing the answer to a problem, you chould make sure it is inside an answer block. Note that you can put R code chunks and prose instead an answer block.\nIn the answer block below, create an R code chunk and compute 10 raised to the 2nd power.\n\n\n\n\nIn R, we’ll frequently make use of things called functions. You can think of functions like machines that take inputs and product outputs. The inputs are called arguments, and the outputs are called return values. To use a function you can simply run function_name(argument1, argument2, ...).\n\nCreate a code chunk and use the log function to computer the log of 10. Why do you think the answer isn’t 1?\n\n\n\n\nYou can also save values to named variables, to be used later. I like to think of these variables like boxes. Set we want to put the value 15.3 * 23.4 into a box called product. We’d run:\n\nproduct &lt;- 15.3 * 23.4 #save result\n\nLook in the top-right Environment pane… It should now have something called product. Notice that when you ran the above code chunk, R did not show the output. If you save something like this, R will not show the output unless you expressly ask for it (this is a good thing). If you want to see the value of product, you can run product in a code chunk:\n\nproduct #show result\n\n[1] 358.02\n\n\nThe symbol “&lt;-” is called the assignment operator. Imagine that R maintains a warehouse filled with boxes containing all kinds of stuff. When you use “&lt;-”, R will create a new box, write whatever name you put to the left of “&lt;-”, and put whatever is to the right of “&lt;-” in the box. Then whenever you want to go get the box, you can just use whatever name you gave it. In the example above, the box is called “product” and it contains the number 358.02 (the result of 15.3 times 23.4). When you just write “product”, R will go grab the box called “product” and dump it onto the screen. In the future, we will be giving names to entire datasets and using “functions” in R to analyze them.\nIf you’ve ever programmed before, “=” is the most common assignment operator. In R, you can use “=” as the assignment operator but there are cases where “&lt;-” works and “=” doesn’t, so it’s good to get into the habit of using “&lt;-” now.\nOnce variables are defined, they can be referenced with other operators (e.g. +, -, *, /) and functions. Try executing each line of code individually by placing your cursor on the first line of the chunk below and pressing Ctrl+Enter (Cmd +Enter for Mac users); then do the same for the second line. (This is how you can run a single line within a larger chunk.)\n\n.5 * product # half of the product\n\n[1] 179.01\n\nproduct^(1/4) # fourth root of the product\n\n[1] 4.349875\n\n\n\nWrite a code chunk that computes the log of product, saves it to a variable called log_product, and prints log_product."
+  },
+  {
+    "objectID": "ae/ae-01-getting-started.html#using-the-console",
+    "href": "ae/ae-01-getting-started.html#using-the-console",
+    "title": "AE 01: Getting Started",
+    "section": "",
+    "text": "Only R code (and comments) should be inside chunks. Prose should never be put inside a chunk. In general, prose should be below or above the chunk, as I have done above (and continue to do throughout this document). In this class, YOUR prose should always be in side an answer block for AEs and HWs. You should also never cut-and-paste output or graphs into the chunks. The whole point of code chunks is that they contain the code and they’ll run the code (resulting in the output and/or graphs).\n\nIf you want to run something in R but don’t want it to appear in the Quarto document, simply run it in the Console in the lower-left quadrant of RStudio. In fact, when you hit the little play button, it actually just runs the code in the console below. Type the last line of R code above into the Console and see what happens.\n\n\n\nThink about the Environment as a warehouse that stores the current state of our variables. Whenever you run code in the console (or directly from a chunk), R will use the current version of the environment. However, when you click the render button, R will completely wipe the environment and run all the chunks in a quarto document from top to bottom, in order. If, as you are writing your Quarto document, you run code chunks multiple times, or out of order, it is possible to get a different result when you render your document compared to what the console shows.\n\nConsider the code cell below. What do you think will happen if you run it three times in a row? What do you think the output will be when you render the document?\nRun the cell below three times and note what the output is. Then, Render the document and note what the output is. Are they the same?\n\nproduct &lt;- product *2\nproduct\n\n[1] 716.04\n\n\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nI recommend rendering your documents periodically to make sure that your code is working as expected. In addition, before you submit your documents, always Render and then double check your answers to make sure that your answers match your explanations."
+  },
+  {
+    "objectID": "ae/ae-01-getting-started.html#submitting-your-assignment",
+    "href": "ae/ae-01-getting-started.html#submitting-your-assignment",
+    "title": "AE 01: Getting Started",
+    "section": "",
+    "text": "Click Render one last time to render your document.\nReview the html output to make sure it reflects what you want it to say.\nUpload the qmd and html files to Canvas."
+  },
+  {
+    "objectID": "ae/ae-03-bikeshare.html",
+    "href": "ae/ae-03-bikeshare.html",
+    "title": "AE 03: Bike rentals in Washington, DC",
+    "section": "",
+    "text": "Important\n\n\n\n\nOpen RStudio and create a subfolder in your AE folder called “AE-03”\nGo to the assignment for this activity in Canvas to get started.\nUpload the ae-03.qmd into the folder you just created\nUpload dcbikeshare.csv into your data folder"
+  },
+  {
+    "objectID": "ae/ae-03-bikeshare.html#data",
+    "href": "ae/ae-03-bikeshare.html#data",
+    "title": "AE 03: Bike rentals in Washington, DC",
+    "section": "Data",
+    "text": "Data\nOur data set contains daily rentals from the Capital Bikeshare in Washington, DC in 2011 and 2012. It was obtained from the dcbikeshare data set in the dsbox R package.\nWe will focus on the following variables in the analysis:\n\ncount: total bike rentals\ntemp_orig: Temperature in degrees Celsius\nseason: 1 - winter, 2 - spring, 3 - summer, 4 - fall\n\nClick here for the full list of variables and definitions."
+  },
+  {
+    "objectID": "ae/ae-03-bikeshare.html#exercises",
+    "href": "ae/ae-03-bikeshare.html#exercises",
+    "title": "AE 03: Bike rentals in Washington, DC",
+    "section": "Exercises",
+    "text": "Exercises\n\nModify the file path to load the dcbikeshare data set.\nHints:\n\nUse a relative path\nYou need to go up two levels and then into the data folder\nPressing TAB while your cursor is in the quotations will help you navigate\nMake sure to remove the #|eval: false line from the answer code\n\n\n\n\nbikeshare &lt;- read_csv(\"insert path here\")\n\n\n\nBelow is code to create visualizations of the distributions of daily bike rentals and temperature. Create a plot of the number of rentals vs the temperature and store it in a variable called p3. If you can figure it out based on context, try and add appropriate labels to the plot. Finally, uncomment the last line of code in this chunk. What do you think this last line does? Comment on what you see.\n\n\n\np1 &lt;- gf_histogram(~ count, data = bikeshare, binwidth = 250) |&gt;\n  gf_labs(x = \"Daily bike rentals\")\n\np2 &lt;- gf_histogram(~temp_orig, data = bikeshare) |&gt;\n  gf_labs(x = \"Temperature (Celsius)\")\n\n# (p1 | p2) / p3\n\n\n\nIn the raw data, seasons are coded as 1, 2, 3, 4 as numerical values, corresponding to winter, spring, summer, and fall respectively. Recode the season variable to make it a categorical variable (a factor) with levels corresponding to season names, making sure that the levels appear in a reasonable order in the variable (i.e., not alphabetical).\n\n\n\n# add code developed during livecoding here\n\n\n\nWe want to evaluate whether the relationship between temperature and daily bike rentals is the same for each season. To answer this question:\n\nCreate a scatter plot of daily bike rentals vs. temperature faceted by season\nCreate a scatter plot of daily bike rentals vs. temperature colored by season\n\n\n\n\n\n\n\nWhich season appears to have the strongest relationship between temperature and daily bike rentals? Why do you think the relationship is strongest in this season?\nWhich season appears to have the weakest relationship between temperature and daily bike rentals? Why do you think the relationship is weakest in this season?\n\n\n\n\n\n\nGoing back to the scatter plot of rentals vs. temperature from earlier, there appears to be one day with a very small number of bike rentals. Use filter to figure out what that day was? Why were the number of bike rentals so low on that day? Hint: You can Google the date to figure out what was going on that day.\n\n\n\n\n\nFilter your data for the season you’ve been assigned, give the resulting data set a new name, and plot the relationship between temperature and daily bike rentals for this season.\n\n\n\n# add code developed during livecoding here\n\n\n\nUsing the subset of the data from the previous exercise, fit a linear model for predicting daily bike rentals from temperature for this season.\n\n\n\n\n\nUse the output to write out the estimated regression equation on the whiteboard.\n\n\nInterpret the slope in the context of the data.\n\n\n\n\n\nInterpret the intercept in the context of the data.\n\n\n\n\n\nCreate a visualization of the model we just created.\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTo submit the AE:\n\nRender the document to produce the HTML with all of your work from today’s class.\nThe driver for your group should upload your .qmd and .html files to the Canvas assignment."
   },
   {
     "objectID": "computing-r-resources.html",
     "href": "computing-r-resources.html",
     "title": "Resources for learning R",
     "section": "",
-    "text": "R for Data Science by Hadley Wickham & Garrett Grolemund\nTidy Modeling with R by Max Kuhn & Julia Silge",
+    "text": "Histogram: gf_histogram( ~ variable, data = data_name)\nBoxplot: gf_boxplot( ~ variable, data = data_name)\nDotplot: gf_dotplot( ~ variable, data = data_name)\nBarchart: gf_bar( ~ variable, data = data_name)\nSide-by-side “dodged” barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position=\"dodge\")\nStacked barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data)\nStandardized barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position=\"fill\")\nSide-by-side boxplot: gf_boxplot( variable1 ~ variable2, data = data_name)\nScatterplot: gf_point(variable1 ~ variable2, data = data_name)\nScatterplot with a third variable as color: gf_point(variable1 ~ variable2, color = ~ variable3, data = data_name)",
     "crumbs": [
       "Computing",
-      "R resources"
+      "R Resources"
+    ]
+  },
+  {
+    "objectID": "computing-r-resources.html#useful-code-for-creating-basic-figures-requires-ggformula",
+    "href": "computing-r-resources.html#useful-code-for-creating-basic-figures-requires-ggformula",
+    "title": "Resources for learning R",
+    "section": "",
+    "text": "Histogram: gf_histogram( ~ variable, data = data_name)\nBoxplot: gf_boxplot( ~ variable, data = data_name)\nDotplot: gf_dotplot( ~ variable, data = data_name)\nBarchart: gf_bar( ~ variable, data = data_name)\nSide-by-side “dodged” barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position=\"dodge\")\nStacked barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data)\nStandardized barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position=\"fill\")\nSide-by-side boxplot: gf_boxplot( variable1 ~ variable2, data = data_name)\nScatterplot: gf_point(variable1 ~ variable2, data = data_name)\nScatterplot with a third variable as color: gf_point(variable1 ~ variable2, color = ~ variable3, data = data_name)",
+    "crumbs": [
+      "Computing",
+      "R Resources"
+    ]
+  },
+  {
+    "objectID": "computing-r-resources.html#useful-code-for-calculating-summary-statistics-requires-mosaic",
+    "href": "computing-r-resources.html#useful-code-for-calculating-summary-statistics-requires-mosaic",
+    "title": "Resources for learning R",
+    "section": "Useful code for calculating summary statistics: (requires mosaic)",
+    "text": "Useful code for calculating summary statistics: (requires mosaic)\n\nMeans: mean( ~ variable, data = data_name) or mean(variable1 ~ variable2, data = data_name)\nCounts/Tables: tally( ~ variable, data = data_name) or tally(variable1 ~ variable2, data = data_name)\n5-number-summary etc: favstats( ~ variable, data = data_name) or favstats(variable1 ~ variable2, data = data_name)",
+    "crumbs": [
+      "Computing",
+      "R Resources"
+    ]
+  },
+  {
+    "objectID": "computing-r-resources.html#useful-code-for-cleaning-data-requires-dplyr-loaded-via-librarytidyverse",
+    "href": "computing-r-resources.html#useful-code-for-cleaning-data-requires-dplyr-loaded-via-librarytidyverse",
+    "title": "Resources for learning R",
+    "section": "Useful code for cleaning data (requires dplyr, loaded via library(tidyverse))",
+    "text": "Useful code for cleaning data (requires dplyr, loaded via library(tidyverse))\nThese examples use dcbikeshare (columns like season, count, temp_orig, hour) as a running example, so column names below are real rather than generic placeholders.\n\nKeep only rows matching a condition: dcbikeshare |&gt; filter(season == \"fall\")\nAdd or change a column: dcbikeshare |&gt; mutate(temp_f = temp_orig * 9/5 + 32)\nGrouped summary statistics:\ndcbikeshare |&gt;\n  group_by(season) |&gt;\n  summarize(avg_count = mean(count), median_count = median(count))\nif_else: recode a column into two categories\ndcbikeshare |&gt;\n  mutate(rush_hour = if_else(hour %in% c(7, 8, 17, 18), \"rush hour\", \"off-peak\"))\ncase_when: recode a column into more than two categories\ndcbikeshare |&gt;\n  mutate(season = case_when(\n    season == 1 ~ \"winter\",\n    season == 2 ~ \"spring\",\n    season == 3 ~ \"summer\",\n    season == 4 ~ \"fall\"\n  ))\nConvert a variable to a factor and set the order of its levels (useful so plots/tables show categories in a sensible order instead of alphabetical):\ndcbikeshare |&gt;\n  mutate(season = factor(season, levels = c(\"winter\", \"spring\", \"summer\", \"fall\")))",
+    "crumbs": [
+      "Computing",
+      "R Resources"
+    ]
+  },
+  {
+    "objectID": "computing-r-resources.html#helpful-cheatsheets",
+    "href": "computing-r-resources.html#helpful-cheatsheets",
+    "title": "Resources for learning R",
+    "section": "Helpful Cheatsheets",
+    "text": "Helpful Cheatsheets\n\nRStudio Cheatsheets\n\nI recommend “Data transformation with dplyr”\n\n\n\nUseful functions fitting and analyzing models\n\n\n\nModel type\nAction\nFunction\n\n\n\n\nSimple Linear Regression\nFit Model\nlm(Y ~ X, data = data_name)",
+    "crumbs": [
+      "Computing",
+      "R Resources"
     ]
   },
   {
     "objectID": "computing-r-resources.html#books-free-online",
     "href": "computing-r-resources.html#books-free-online",
     "title": "Resources for learning R",
-    "section": "",
-    "text": "R for Data Science by Hadley Wickham & Garrett Grolemund\nTidy Modeling with R by Max Kuhn & Julia Silge",
+    "section": "Books (free online)",
+    "text": "Books (free online)\n\nR for Data Science by Hadley Wickham & Garrett Grolemund\nTidy Modeling with R by Max Kuhn & Julia Silge",
     "crumbs": [
       "Computing",
-      "R resources"
+      "R Resources"
     ]
   },
   {
@@ -971,7 +993,7 @@
     "text": "RStudio Primers\n\nInteractive LearnR Tutorial\nR Primers for full list of tutorials. Note that we will be using a simplified version of ggplot2 in this course.",
     "crumbs": [
       "Computing",
-      "R resources"
+      "R Resources"
     ]
   },
   {
@@ -979,10 +1001,10 @@
     "href": "computing-r-resources.html#additional-resources",
     "title": "Resources for learning R",
     "section": "Additional resources",
-    "text": "Additional resources\n\nRStudio Cheatsheets\nR Fun workshops and videos by Duke Center for Data and Visualization Sciences.",
+    "text": "Additional resources\n\nR Fun workshops and videos by Duke Center for Data and Visualization Sciences.",
     "crumbs": [
       "Computing",
-      "R resources"
+      "R Resources"
     ]
   },
   {
