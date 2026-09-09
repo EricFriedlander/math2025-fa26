@@ -359,7 +359,7 @@
     "href": "slides/03-slr-intro.html#recap",
     "title": "Simple Linear Regression",
     "section": "Recap",
-    "text": "Recap\n\n\nSimple linear regression (SLR) describes the relationship between a quantitative predictor (\\(X\\)) and response (\\(Y\\)).\nThe regression equation: \\(\\hat{Y} = \\hat{\\beta}_0 + \\hat{\\beta}_1 X\\)\n\\(\\hat{\\beta}_1\\) (slope): estimated change in \\(Y\\) for each unit increase in \\(X\\)\n\\(\\hat{\\beta}_0\\) (intercept): estimated value of \\(Y\\) when \\(X = 0\\)\nSLR can be used for prediction and inference"
+    "text": "Recap\n\n\nSimple linear regression (SLR) describes the relationship between a quantitative predictor (\\(X\\)) and response (\\(Y\\)).\nThe statistical model: \\(Y = \\beta_0 + \\beta_1 X\\)\nThe regression equation: \\(\\hat{Y} = \\hat{\\beta}_0 + \\hat{\\beta}_1 X\\)\n\\(\\hat{\\beta}_1\\) (slope): estimated change in \\(Y\\) for each unit increase in \\(X\\)\n\\(\\hat{\\beta}_0\\) (intercept): estimated value of \\(Y\\) when \\(X = 0\\)\nSLR can be used for prediction and inference"
   },
   {
     "objectID": "slides/01-intro-to-r.html#topics",
