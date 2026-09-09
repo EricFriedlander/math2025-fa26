@@ -110,11 +110,11 @@
     ]
   },
   {
-    "objectID": "slides/03-slr-intro.html#reminder-group-work-roles",
-    "href": "slides/03-slr-intro.html#reminder-group-work-roles",
+    "objectID": "slides/03-slr-intro.html#topics",
+    "href": "slides/03-slr-intro.html#topics",
     "title": "Simple Linear Regression",
-    "section": "Reminder: Group Work Roles",
-    "text": "Reminder: Group Work Roles\nAny time we are working on AEs, I will randomly assign you to groups of two or three. Each person will have a role:\n\nCoder:\n\nShares screen and is the only person to type.\nRuns code, saves work, and makes the submission.\nReads comments back when asked and asks for clarification when unsure.\n\nDeveloper:\n\nDirects the next steps: explains intent, outlines logic, and points out likely errors.\nWatches output, reads error messages aloud, and suggests targeted fixes.\n\nCommunicator:\n\nLooks up help when needed.\nReports group answers to the class."
+    "section": "Topics",
+    "text": "Topics\n\nSome basic data cleaning techniques\nUse simple linear regression to describe the relationship between a quantitative predictor and quantitative response variable.\nEstimate the slope and intercept of the regression line using R."
   },
   {
     "objectID": "slides/03-slr-intro.html#dc-bikeshare",
@@ -129,6 +129,13 @@
     "title": "Simple Linear Regression",
     "section": "Loading Data From A File",
     "text": "Loading Data From A File\n\nPATH: directions to get to a file\n\nExample: “ae/ae-03/dataset.csv” will take it you to ae then ae-03 then dataset.csv\n\nTwo types of paths: absolute and relative\n\nAbsolute: starts from the root directory (i.e. the top-level directory)\nRelative: starts from the current directory (.. goes up one level)\n\nRStudio & Quarto: use read_csv(\"relative_path/to/file.csv\") to load data from a CSV file\n\nBrief aside: one of the few things we put in quotes in R. Use quotes when:\n\nYou want R to look outside of R for something\nYou are defining a string (i.e. a “word” in R)"
+  },
+  {
+    "objectID": "slides/03-slr-intro.html#reminder-group-work-roles",
+    "href": "slides/03-slr-intro.html#reminder-group-work-roles",
+    "title": "Simple Linear Regression",
+    "section": "Reminder: Group Work Roles",
+    "text": "Reminder: Group Work Roles\nAny time we are working on AEs, I will randomly assign you to groups of two or three. Each person will have a role:\n\nCoder:\n\nShares screen and is the only person to type.\nRuns code, saves work, and makes the submission.\nReads comments back when asked and asks for clarification when unsure.\n\nDeveloper:\n\nDirects the next steps: explains intent, outlines logic, and points out likely errors.\nWatches output, reads error messages aloud, and suggests targeted fixes.\n\nCommunicator:\n\nLooks up help when needed.\nReports group answers to the class."
   },
   {
     "objectID": "slides/03-slr-intro.html#application-exercise",
@@ -150,13 +157,6 @@
     "title": "Simple Linear Regression",
     "section": "Determine \\(f\\)",
     "text": "Determine \\(f\\)\n\nChoose the functional form of \\(f\\), i.e., choose the appropriate model given the response variable\n\n\nSuppose \\(f\\) takes the form of a linear model\n\\[y = f(\\mathbf{X}) = \\beta_0 + \\beta_1 x_1 + \\epsilon\\]\n\n\n\nUse the data to fit (or train) the model, i.e, estimate the model parameters, \\(\\beta_0, \\beta_1\\)"
-  },
-  {
-    "objectID": "slides/03-slr-intro.html#topics",
-    "href": "slides/03-slr-intro.html#topics",
-    "title": "Simple Linear Regression",
-    "section": "Topics",
-    "text": "Topics\n\nSome basic data cleaning techniques\nUse simple linear regression to describe the relationship between a quantitative predictor and quantitative response variable.\nEstimate the slope and intercept of the regression line using R."
   },
   {
     "objectID": "slides/03-slr-intro.html#computational-set-up",
