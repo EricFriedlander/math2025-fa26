@@ -345,14 +345,14 @@
     "href": "slides/03-slr-intro.html#fall-example",
     "title": "Simple Linear Regression",
     "section": "Fall Example",
-    "text": "Fall Example\n\nSlope: For each addition degree Celcius we expect the number of bike rentals to increase by 152.87 on average, in the Fall.\nIntercept: If the temperature were 0 degrees Celcius, we predict the number of bike rentals to be 2077.48 in the Fall.\n\nComplete the remainder of the exercises."
+    "text": "Fall Example\n\nSlope: For each addition degree Celcius we expect the number of bike rentals to increase by 152.87 on average, in the Fall.\nIntercept: If the temperature were 0 degrees Celcius, we predict the number of bike rentals to be 2077.48 in the Fall."
   },
   {
     "objectID": "slides/03-slr-intro.html#does-it-make-sense-to-interpret-the-intercept",
     "href": "slides/03-slr-intro.html#does-it-make-sense-to-interpret-the-intercept",
     "title": "Simple Linear Regression",
     "section": "Does it make sense to interpret the intercept?",
-    "text": "Does it make sense to interpret the intercept?\n✅ The intercept is meaningful in the context of the data if\n\nthe predictor can feasibly take values equal to or near zero, or\nthere are values near zero in the observed data.\n\n\n🛑 Otherwise, the intercept may not be meaningful!\n\nNote meaningful doesn’t mean wrong"
+    "text": "Does it make sense to interpret the intercept?\n✅ The intercept is meaningful in the context of the data if\n\nthe predictor can feasibly take values equal to or near zero, or\nthere are values near zero in the observed data.\n\n\n🛑 Otherwise, the intercept may not be meaningful!\n\nNote meaningful doesn’t mean wrong\n\n\n\nComplete the remainder of the exercises."
   },
   {
     "objectID": "slides/03-slr-intro.html#recap",
