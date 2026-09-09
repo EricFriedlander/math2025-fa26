@@ -2,6 +2,69 @@
 title: "Resources for learning R"
 ---
 
+## Useful code for creating basic figures (requires ggformula)
+
+- Histogram: `gf_histogram( ~ variable, data = data_name)`
+- Boxplot: `gf_boxplot( ~ variable, data = data_name)`
+- Dotplot: `gf_dotplot( ~ variable, data = data_name)`
+- Barchart: `gf_bar( ~ variable, data = data_name)`
+- Side-by-side "dodged" barchart: `gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position="dodge")`
+- Stacked barchart: `gf_bar( ~ variable1, fill = ~ variable2, data = state_data)`
+- Standardized barchart: `gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position="fill")`
+- Side-by-side boxplot: `gf_boxplot( variable1 ~ variable2, data = data_name)`
+- Scatterplot: `gf_point(variable1 ~ variable2, data = data_name)`
+- Scatterplot with a third variable as color: `gf_point(variable1 ~ variable2, color = ~ variable3, data = data_name)`
+
+## Useful code for calculating summary statistics: (requires mosaic)
+
+- Means: `mean( ~ variable, data = data_name)` or `mean(variable1 ~ variable2, data = data_name)`
+- Counts/Tables: `tally( ~ variable, data = data_name)` or `tally(variable1 ~ variable2, data = data_name)`
+- 5-number-summary etc: `favstats( ~ variable, data = data_name)` or `favstats(variable1 ~ variable2, data = data_name)`
+
+## Useful code for cleaning data (requires dplyr, loaded via `library(tidyverse)`)
+
+These examples use `dcbikeshare` (columns like `season`, `count`, `temp_orig`, `hour`) as a running example, so column names below are real rather than generic placeholders.
+
+- Keep only rows matching a condition: `dcbikeshare |> filter(season == "fall")`
+- Add or change a column: `dcbikeshare |> mutate(temp_f = temp_orig * 9/5 + 32)`
+- Grouped summary statistics:
+  ```r
+  dcbikeshare |>
+    group_by(season) |>
+    summarize(avg_count = mean(count), median_count = median(count))
+  ```
+- `if_else`: recode a column into two categories
+  ```r
+  dcbikeshare |>
+    mutate(rush_hour = if_else(hour %in% c(7, 8, 17, 18), "rush hour", "off-peak"))
+  ```
+- `case_when`: recode a column into more than two categories
+  ```r
+  dcbikeshare |>
+    mutate(season = case_when(
+      season == 1 ~ "winter",
+      season == 2 ~ "spring",
+      season == 3 ~ "summer",
+      season == 4 ~ "fall"
+    ))
+  ```
+- Convert a variable to a factor and set the order of its levels (useful so plots/tables show categories in a sensible order instead of alphabetical):
+  ```r
+  dcbikeshare |>
+    mutate(season = factor(season, levels = c("winter", "spring", "summer", "fall")))
+  ```
+
+## Helpful Cheatsheets
+
+-   [RStudio Cheatsheets](https://opensource.posit.co/resources/cheatsheets/)
+    - I recommend "Data transformation with `dplyr`"
+
+### Useful functions fitting and analyzing models
+
+| Model type | Action | Function |
+| --- | -- | --- |
+| Simple Linear Regression | Fit Model | `lm(Y ~ X, data = data_name)` |
+
 ## Books (free online)
 
 -   [*R for Data Science*](https://r4ds.had.co.nz/) by Hadley Wickham & Garrett Grolemund
@@ -15,7 +78,5 @@ title: "Resources for learning R"
 - [R Primers](https://r-primers.andrewheiss.com/) for full list of tutorials. Note that we will be using a simplified version of ggplot2 in this course.
 
 ## Additional resources
-
--   [RStudio Cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
 
 -   [R Fun](https://rfun.library.duke.edu/#portfolio) workshops and videos by Duke Center for Data and Visualization Sciences.

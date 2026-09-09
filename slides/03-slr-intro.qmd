@@ -21,20 +21,12 @@ knitr:
 bibliography: references.bib
 ---
 
-## Reminder: Group Work Roles {.smaller}
 
-Any time we are working on AEs, I will randomly assign you to groups of two or three. Each person will have a role:
+## Topics
 
-- **Coder:**
-    +   Shares screen and is the only person to type.
-    +   Runs code, saves work, and makes the submission.
-    +   Reads comments back when asked and asks for clarification when unsure.
-- **Developer:**
-    +   Directs the next steps: explains intent, outlines logic, and points out likely errors.
-    +   Watches output, reads error messages aloud, and suggests targeted fixes.
-- **Communicator:**
-    +   Looks up help when needed.
-    +   Reports group answers to the class.
+-   Some basic data cleaning techniques
+-   Use simple linear regression to describe the relationship between a quantitative predictor and quantitative response variable.
+-   Estimate the slope and intercept of the regression line using R.
 
 # Data
 
@@ -62,6 +54,21 @@ Click [here](https://tidyverse.github.io/dsbox/reference/dcbikeshare.html) for t
     - Brief aside: one of the few things we put in quotes in R. Use quotes when:
         - You want R to look outside of R for something
         - You are defining a string (i.e. a "word" in R)
+
+## Reminder: Group Work Roles {.smaller}
+
+Any time we are working on AEs, I will randomly assign you to groups of two or three. Each person will have a role:
+
+- **Coder:**
+    +   Shares screen and is the only person to type.
+    +   Runs code, saves work, and makes the submission.
+    +   Reads comments back when asked and asks for clarification when unsure.
+- **Developer:**
+    +   Directs the next steps: explains intent, outlines logic, and points out likely errors.
+    +   Watches output, reads error messages aloud, and suggests targeted fixes.
+- **Communicator:**
+    +   Looks up help when needed.
+    +   Reports group answers to the class.
 
 ## Application exercise
 
@@ -94,12 +101,6 @@ $$\text{count} = f(\text{temp_orig}) + \epsilon$$
 . . .
 
 2.  Use the data to fit (or train) the model, i.e, **estimate the model parameters,** $\beta_0, \beta_1$
-
-## Topics
-
--   Some basic data cleaning techniques
--   Use simple linear regression to describe the relationship between a quantitative predictor and quantitative response variable.
--   Estimate the slope and intercept of the regression line using R.
 
 ## Computational set up {.smaller}
 
@@ -148,7 +149,7 @@ ggplot(data = bikeshare, aes(x = temp_orig, y = count)) +
 ## Skipping ahead to Exercise 5
 
 - Suppose we want to add a third variable to our plots, such as the `season` variable. We have a few options:
-    + Color the points based on the third variables (add `color = ~season` to the `gf_point` call)
+    + Color the points based on the third variable (add `color = ~season` to the `gf_point` call)
     + Facet the plots by on the third variable by changing the formula to `count ~ temp_orig | season`
 
 ## Solution
@@ -173,20 +174,24 @@ gf_point(count ~ temp_orig | season, data = bikeshare) |>
 - The `tidyverse` is a collection of R packages that share a common design philosophy
 - `dplyr` is a package within the `tidyverse` that provides a consistent interface for data manipulation
 
-## `dplyr` verbs
+## `dplyr` verbs {.smaller}
 
 - `dplyr` provides a set of "verbs" for data manipulation
 - We'll going to cover two today:
     - `mutate`: creates new columns and changes (mutates) existing columns
     - `filter`: selects rows based on a condition
+- Your HW will go over two more:
+    - `summarize`: compute summary statistics (e.g. mean, median, standard deviation)
+    - `group_by`: group data by one or more variables (use this before `summarize` usually)
 - We'll typically chain together these verbs using the pipe operator `|>` (you may see `%>%` in older code)
 - Let's use these verbs to clean up the `bikeshare` data
+- Reminder: [R Resources Tab in Sidebar](https://math2025-fa26.github.io/computing-r-resources/)
 
 ## Data prep {.smaller}
 
 -   R calls categorical data "factors"
     - You may also see `<chr>` which stands for character. These are also categorical variables, but it's almost always better to convert them to factors
--   Factors have levels (categories) and can be ordered or unordered
+-   Factors remember what all possible levels (categories) and store them in order
     - You can put them in an order that makes sense so your plots looks better
 -   Exercise 4: Recode `season` as a factor with names instead of numbers (livecode)
 
@@ -214,6 +219,7 @@ bikeshare <- bikeshare |>
 
 ```{r}
 #| echo: TRUE
+#| fig-align: center
 
 gf_point(count ~ temp_orig | season, data = bikeshare) |>
   gf_labs(x = "Temperature (Celsius)",
@@ -230,19 +236,33 @@ gf_point(count ~ temp_orig | season, data = bikeshare) |>
 
 # Filtering our data
 
-## Filtering
+## Filtering {.smaller}
 
-- To keep some observations use `filter(true/false statement)` and filter will keep all rows where the inside is true.
+::::{.columns}
+:::{.column}
+| ID | Thing1 | Thing2 | Thing3
+--- | ------ | ------ | ------
+1   | 100   | 200   | "Bleg"
+2   | 20     | 20    | "Bleg"
+3   | 30     | 40    | "Fleg"
+4   | 120    | 120   | "Fleg"
+:::
+:::{.column}
+- To keep some observations use `filter(`\[insert true/false statement here\]`)` and filter will keep all rows where the inside is true.
 Examples:
-    - `Thing1 > 0`: keeps all days where the temperature was above 0 degrees Celsius
-    - `Thing2 <= 1000`: keeps all days where the number of bike rentals was less than or equal to 1000
-    - `Thing1 == Thing2`: keeps everything where `Thing1` equals `Thing2`?
+    - `Thing2 <= 100`: keeps all rows where `Thing2` is less than or equal to 1000
+    - `Thing3 == "Fleg"`: keeps everything where `Thing3` equals `"Fleg"`? (Always write strings in quotes)
     - `Thing1 != Thing2`: keeps everything where `Thing1` isn't equal to `Thing2`?
-- Each group: Choose a season.
+:::
+::::
+
+## Activity time
+
+- Let's divide up the seasons
+- I'm doing fall
 - Do Exercises 7 & 8
 
-
-## I'm doing fall
+## Sample Solution
 
 ```{r}
 fall <- bikeshare |>
@@ -408,7 +428,6 @@ fall |>
 - Slope: For each addition degree Celcius we expect the number of bike rentals to increase by `r round(fall_fit$coefficients[2], 2)` on average, in the Fall.
 - Intercept: If the temperature were 0 degrees Celcius, we predict the number of bike rentals to be `r round(fall_fit$coefficients[1], 2)` in the Fall.
 
-Complete the remainder of the exercises.
 
 ## Does it make sense to interpret the intercept?
 
@@ -424,12 +443,15 @@ Complete the remainder of the exercises.
 
 -   Note meaningful doesn't mean wrong
 
+. . .
+
+Complete the remainder of the exercises.
 
 ## Recap
 
 ::: {.incremental style="font-size: 0.85em"}
-
 - Simple linear regression (SLR) describes the relationship between a quantitative predictor ($X$) and response ($Y$).
+- The statistical model: $Y = \beta_0 + \beta_1 X$
 - The regression equation: $\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X$
 - $\hat{\beta}_1$ (slope): estimated change in $Y$ for each unit increase in $X$
 - $\hat{\beta}_0$ (intercept): estimated value of $Y$ when $X = 0$

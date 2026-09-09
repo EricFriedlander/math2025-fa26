@@ -53,9 +53,8 @@ website:
       - section: Computing
         contents:
         - href: computing-access.qmd
-        - href: computing-inferencesummary.qmd
         - href: computing-r-resources.qmd
-          text: R resources
+          text: R Resources
       # - section: Project
       #   contents:
       #   - href: project/project-overview.qmd
