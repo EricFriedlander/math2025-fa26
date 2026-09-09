@@ -240,7 +240,7 @@
     "href": "slides/03-slr-intro.html#filtering",
     "title": "Simple Linear Regression",
     "section": "Filtering",
-    "text": "Filtering\n\nTo keep some observations use filter(true/false statement) and filter will keep all rows where the inside is true. Examples:\n\nThing1 &gt; 0: keeps all days where the temperature was above 0 degrees Celsius\nThing2 &lt;= 1000: keeps all days where the number of bike rentals was less than or equal to 1000\nThing1 == Thing2: keeps everything where Thing1 equals Thing2?\nThing1 != Thing2: keeps everything where Thing1 isn’t equal to Thing2?\n\nEach group: Choose a season.\nDo Exercises 7 & 8"
+    "text": "Filtering\n\nTo keep some observations use filter([insert true/false statement here]) and filter will keep all rows where the inside is true. Examples:\n\nThing2 &lt;= 1000: keeps all rows where Thing2 is less than or equal to 1000\nThing1 == Thing2: keeps everything where Thing1 equals Thing2?\nThing1 != Thing2: keeps everything where Thing1 isn’t equal to Thing2?\n\nEach group: Choose a season.\nDo Exercises 7 & 8"
   },
   {
     "objectID": "slides/03-slr-intro.html#im-doing-fall",
