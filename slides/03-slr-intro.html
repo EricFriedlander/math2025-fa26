@@ -455,21 +455,67 @@ Prof.&nbsp;Eric Friedlander
 <h1>Filtering our data</h1>
 
 </section>
-<section id="filtering" class="slide level2">
+<section id="filtering" class="slide level2 smaller">
 <h2>Filtering</h2>
+<div class="columns">
+<div class="column">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>ID</th>
+<th>Thing1</th>
+<th>Thing2</th>
+<th>Thing3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>100</td>
+<td>200</td>
+<td>“Bleg”</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>20</td>
+<td>20</td>
+<td>“Bleg”</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>30</td>
+<td>40</td>
+<td>“Fleg”</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>120</td>
+<td>120</td>
+<td>“Fleg”</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column">
 <ul>
 <li>To keep some observations use <code>filter(</code>[insert true/false statement here]<code>)</code> and filter will keep all rows where the inside is true. Examples:
 <ul>
-<li><code>Thing2 &lt;= 1000</code>: keeps all rows where <code>Thing2</code> is less than or equal to 1000</li>
-<li><code>Thing1 == Thing2</code>: keeps everything where <code>Thing1</code> equals <code>Thing2</code>?</li>
+<li><code>Thing2 &lt;= 100</code>: keeps all rows where <code>Thing2</code> is less than or equal to 1000</li>
+<li><code>Thing3 == "Fleg"</code>: keeps everything where <code>Thing3</code> equals <code>"Fleg"</code>? (Always write strings in quotes)</li>
 <li><code>Thing1 != Thing2</code>: keeps everything where <code>Thing1</code> isn’t equal to <code>Thing2</code>?</li>
 </ul></li>
-<li>Each group: Choose a season.</li>
+</ul>
+</div></div>
+</section>
+<section id="activity-time" class="slide level2">
+<h2>Activity time</h2>
+<ul>
+<li>Let’s divide up the seasons</li>
+<li>I’m doing fall</li>
 <li>Do Exercises 7 &amp; 8</li>
 </ul>
 </section>
-<section id="im-doing-fall" class="slide level2">
-<h2>I’m doing fall</h2>
+<section id="sample-solution" class="slide level2">
+<h2>Sample Solution</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>fall <span class="ot">&lt;-</span> bikeshare <span class="sc">|&gt;</span></span>
 <span id="cb5-2"><a></a>  <span class="fu">filter</span>(season <span class="sc">==</span> <span class="st">"fall"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

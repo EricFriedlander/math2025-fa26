@@ -240,14 +240,21 @@
     "href": "slides/03-slr-intro.html#filtering",
     "title": "Simple Linear Regression",
     "section": "Filtering",
-    "text": "Filtering\n\nTo keep some observations use filter([insert true/false statement here]) and filter will keep all rows where the inside is true. Examples:\n\nThing2 &lt;= 1000: keeps all rows where Thing2 is less than or equal to 1000\nThing1 == Thing2: keeps everything where Thing1 equals Thing2?\nThing1 != Thing2: keeps everything where Thing1 isn’t equal to Thing2?\n\nEach group: Choose a season.\nDo Exercises 7 & 8"
+    "text": "Filtering\n\n\n\n\n\nID\nThing1\nThing2\nThing3\n\n\n\n\n1\n100\n200\n“Bleg”\n\n\n2\n20\n20\n“Bleg”\n\n\n3\n30\n40\n“Fleg”\n\n\n4\n120\n120\n“Fleg”\n\n\n\n\n\nTo keep some observations use filter([insert true/false statement here]) and filter will keep all rows where the inside is true. Examples:\n\nThing2 &lt;= 100: keeps all rows where Thing2 is less than or equal to 1000\nThing3 == \"Fleg\": keeps everything where Thing3 equals \"Fleg\"? (Always write strings in quotes)\nThing1 != Thing2: keeps everything where Thing1 isn’t equal to Thing2?"
   },
   {
-    "objectID": "slides/03-slr-intro.html#im-doing-fall",
-    "href": "slides/03-slr-intro.html#im-doing-fall",
+    "objectID": "slides/03-slr-intro.html#activity-time",
+    "href": "slides/03-slr-intro.html#activity-time",
     "title": "Simple Linear Regression",
-    "section": "I’m doing fall",
-    "text": "I’m doing fall\n\nfall &lt;- bikeshare |&gt;\n  filter(season == \"fall\")"
+    "section": "Activity time",
+    "text": "Activity time\n\nLet’s divide up the seasons\nI’m doing fall\nDo Exercises 7 & 8"
+  },
+  {
+    "objectID": "slides/03-slr-intro.html#sample-solution",
+    "href": "slides/03-slr-intro.html#sample-solution",
+    "title": "Simple Linear Regression",
+    "section": "Sample Solution",
+    "text": "Sample Solution\n\nfall &lt;- bikeshare |&gt;\n  filter(season == \"fall\")"
   },
   {
     "objectID": "slides/03-slr-intro.html#rentals-vs-temperature",
