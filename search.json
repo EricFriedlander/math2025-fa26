@@ -177,7 +177,7 @@
     "href": "slides/03-slr-intro.html#skipping-ahead-to-exercise-5",
     "title": "Simple Linear Regression",
     "section": "Skipping ahead to Exercise 5",
-    "text": "Skipping ahead to Exercise 5\n\nSuppose we want to add a third variable to our plots, such as the season variable. We have a few options:\n\nColor the points based on the third variables (add color = ~season to the gf_point call)\nFacet the plots by on the third variable by changing the formula to count ~ temp_orig | season"
+    "text": "Skipping ahead to Exercise 5\n\nSuppose we want to add a third variable to our plots, such as the season variable. We have a few options:\n\nColor the points based on the third variable (add color = ~season to the gf_point call)\nFacet the plots by on the third variable by changing the formula to count ~ temp_orig | season"
   },
   {
     "objectID": "slides/03-slr-intro.html#solution",
