@@ -21,10 +21,43 @@ knitr:
 bibliography: references.bib
 ---
 
+```{r}
+#| include: false
+#| message: false
+
+# load packages
+library(tidyverse)       # for data wrangling
+library(ggformula)       # for plotting
+library(broom)           # for formatting model output
+library(knitr)           # for formatting tables
+bikeshare <- read_csv(here::here("data/dcbikeshare.csv"))
+
+
+# set default theme and larger font size for ggplot2
+ggplot2::theme_set(ggplot2::theme_bw(base_size = 16))
+
+# set default figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.618,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%"
+)
+
+bikeshare <- read_csv("../data/dcbikeshare.csv") |>
+  mutate(season = case_when(
+    season == 1 ~ "winter",
+    season == 2 ~ "spring",
+    season == 3 ~ "summer",
+    season == 4 ~ "fall"
+  ),
+  season = factor(season))
+```
+
 
 ## Topics
 
--   Some basic data cleaning techniques
 -   Use simple linear regression to describe the relationship between a quantitative predictor and quantitative response variable.
 -   Estimate the slope and intercept of the regression line using R.
 
@@ -42,197 +75,27 @@ We will focus on the following variables in the analysis:
 
 Click [here](https://tidyverse.github.io/dsbox/reference/dcbikeshare.html) for the full list of variables and definitions.
 
+## Last time {.smaller}
 
-## Loading Data From A File {.smaller}
-
-- PATH: directions to get to a file
-    - Example: "ae/ae-03/dataset.csv" will take it you to `ae` then `ae-03` then `dataset.csv`
-- Two types of paths: absolute and relative
-    - Absolute: starts from the root directory (i.e. the top-level directory)
-    - Relative: starts from the current directory (`..` goes up one level)
-- RStudio & Quarto: use `read_csv("relative_path/to/file.csv")` to load data from a CSV file
-    - Brief aside: one of the few things we put in quotes in R. Use quotes when:
-        - You want R to look outside of R for something
-        - You are defining a string (i.e. a "word" in R)
-
-## Reminder: Group Work Roles {.smaller}
-
-Any time we are working on AEs, I will randomly assign you to groups of two or three. Each person will have a role:
-
-- **Coder:**
-    +   Shares screen and is the only person to type.
-    +   Runs code, saves work, and makes the submission.
-    +   Reads comments back when asked and asks for clarification when unsure.
-- **Developer:**
-    +   Directs the next steps: explains intent, outlines logic, and points out likely errors.
-    +   Watches output, reads error messages aloud, and suggests targeted fixes.
-- **Communicator:**
-    +   Looks up help when needed.
-    +   Reports group answers to the class.
-
-## Application exercise
-
-::: appex
-📋 [AE 03 - DC Bikeshare](../ae/ae-03-bikeshare.qmd)
+::::{.columns}
+:::{.column}
+- Coloring and faceting our plots
+- Used `mutate` to recode `season` as a `factor` with `winter`, `fall`, `summer`, `spring`
+- Talked about how to use `filter` to select certain observations
+- Noticed that the relationship between `count` and `temp_orig` didn't really look linear:
+    - About to use `filter` for each group to select a season
 :::
-
-Complete Exercises 1-3.
-
-# Introduction to Simple Linear Regression
-
-## Function between response and predictors
-
-::: goal
-$$\text{count} = f(\text{temp_orig}) + \epsilon$$
-:::
-
--   **Goal**: Determine $f$
--   How do we determine $f$?
-    -   Make an assumption about the functional form $f$ (parametric model)
-    -   Use the data to fit a model based on that form
-
-## Determine $f$
-
-1.  Choose the functional form of $f$, i.e., **choose the appropriate model given the response variable**
-
--   Suppose $f$ takes the form of a linear model\
-    $$y = f(\mathbf{X}) = \beta_0 + \beta_1 x_1 + \epsilon$$
-
-. . .
-
-2.  Use the data to fit (or train) the model, i.e, **estimate the model parameters,** $\beta_0, \beta_1$
-
-## Computational set up {.smaller}
-
+:::{.column}
 ```{r}
-#| echo: true
-#| message: false
-
-# load packages
-library(tidyverse)       # for data wrangling
-library(ggformula)       # for plotting
-library(broom)           # for formatting model output
-library(knitr)           # for formatting tables
-```
-
-```{r}
-#| include: false
-bikeshare <- read_csv(here::here("data/dcbikeshare.csv"))
-
-
-# set default theme and larger font size for ggplot2
-ggplot2::theme_set(ggplot2::theme_bw(base_size = 16))
-
-# set default figure parameters for knitr
-knitr::opts_chunk$set(
-  fig.width = 8,
-  fig.asp = 0.618,
-  fig.retina = 3,
-  dpi = 300,
-  out.width = "80%"
-)
-```
-
-
-## Count vs. Temperature
-
-```{r echo = F}
+#| echo: false
 ggplot(data = bikeshare, aes(x = temp_orig, y = count)) +
   geom_point(alpha = 0.5) +
   labs(x = "Temperature (°C)",
       y  = "Count",
       title = "Bike Rentals vs. Temperature")
 ```
-
-# Adding a third variable to our plots
-
-## Skipping ahead to Exercise 5
-
-- Suppose we want to add a third variable to our plots, such as the `season` variable. We have a few options:
-    + Color the points based on the third variable (add `color = ~season` to the `gf_point` call)
-    + Facet the plots by on the third variable by changing the formula to `count ~ temp_orig | season`
-
-## Solution
-
-```{r}
-#| echo: TRUE
-
-gf_point(count ~ temp_orig | season, data = bikeshare) |>
-  gf_labs(x = "Temperature (Celsius)",
-          y = "Daily bike rentals")
-```
-
-- What do we notice about how `season` is displayed
-
-
-# Data cleaning
-
-## `dplyr` and the `tidyverse`
-
-- As R is an open-source programming language there are several difference styles and ways of doing things
-- In this class we're going to use something called the `tidyverse`
-- The `tidyverse` is a collection of R packages that share a common design philosophy
-- `dplyr` is a package within the `tidyverse` that provides a consistent interface for data manipulation
-
-## `dplyr` verbs {.smaller}
-
-- `dplyr` provides a set of "verbs" for data manipulation
-- We'll going to cover two today:
-    - `mutate`: creates new columns and changes (mutates) existing columns
-    - `filter`: selects rows based on a condition
-- Your HW will go over two more:
-    - `summarize`: compute summary statistics (e.g. mean, median, standard deviation)
-    - `group_by`: group data by one or more variables (use this before `summarize` usually)
-- We'll typically chain together these verbs using the pipe operator `|>` (you may see `%>%` in older code)
-- Let's use these verbs to clean up the `bikeshare` data
-- Reminder: [R Resources Tab in Sidebar](https://math2025-fa26.github.io/computing-r-resources/)
-
-## Data prep {.smaller}
-
--   R calls categorical data "factors"
-    - You may also see `<chr>` which stands for character. These are also categorical variables, but it's almost always better to convert them to factors
--   Factors remember what all possible levels (categories) and store them in order
-    - You can put them in an order that makes sense so your plots looks better
--   Exercise 4: Recode `season` as a factor with names instead of numbers (livecode)
-
-## Exercise 4 {.smaller}
-
--   Idea:
-    +   Take the `bikeshare` data... AND THEN
-    +   Use `case_when` to mutate the `season` column... AND THEN
-    +   Use `factor` to convert `season` to a factor with levels in an order that makes sense
-
-## Solution
-
-```{r}
-bikeshare <- bikeshare |>
-  mutate(season = case_when(
-    season == 1 ~ "winter",
-    season == 2 ~ "spring",
-    season == 3 ~ "summer",
-    season == 4 ~ "fall"
-  ),
-  season = factor(season, levels = c("winter", "spring", "summer", "fall")))
-```
-
-## Back to Exercise 5 & 6
-
-```{r}
-#| echo: TRUE
-#| fig-align: center
-
-gf_point(count ~ temp_orig | season, data = bikeshare) |>
-  gf_labs(x = "Temperature (Celsius)",
-          y = "Daily bike rentals")
-```
-
-- Does it look like the relationship between `temp_orig` and `count` is the same in each season?
-- Which is strongest/weakest?
-
-## `season` is an important predictor
-
-- Later in the course we'll learn how to include both `temp_orig` and `season` in our model
-- For now, let's just focus on fitting a model to data from one season
+:::
+::::
 
 # Filtering our data
 
@@ -256,13 +119,20 @@ Examples:
 :::
 ::::
 
-## Activity time
+## Activity time: Picking up where we left off
 
+::: appex
+📋 [AE 03 - DC Bikeshare](../ae/ae-03-bikeshare.qmd)
+:::
+
+- Get in same groups as last time
+- Rotate rolls if you feel comfortable with someone else typing on your computer (Coder -> Communicator -> Developer -> Coder)
 - Let's divide up the seasons
 - I'm doing fall
 - Do Exercises 7 & 8
+    - Note: Exercise 7 is a challenge that is unrelated to choosing a season
 
-## Sample Solution
+## Sample Solution For 8
 
 ```{r}
 fall <- bikeshare |>
@@ -446,6 +316,75 @@ fall |>
 . . .
 
 Complete the remainder of the exercises.
+
+# Prediction
+
+## Fall Model
+
+```{=tex}
+\begin{aligned}
+\widehat{Y} &=  2077.48 + 152.87 \times X\\
+
+\widehat{\text{count}} &=  2077.48 + 152.87 \times \text{temp_orig}
+\end{aligned}
+```
+
+. . .
+
+On the white board: Suppose that it's 15 degrees Celsius outside. According to this model, how many bike rentals should we expect if it's your season?
+
+## Making a prediction
+
+On the white board: Suppose that it's 15 degrees Celsius outside. According to this model, how many bike rentals should we expect if it's your season?
+
+```{=tex}
+\begin{aligned}
+
+\widehat{\text{count}} &=  2077.48 + 152.87 \times \text{temp_orig}\\
+&= 2077.48 + 152.87 \times 15 \\
+&= 4370.53
+\end{aligned}
+```
+
+About 4,371 rentals!
+
+## Prediction in R
+
+- `predict` function takes two arguments
+    - First: a model that's been fit
+    - Second: a new dataset with the **same column names** as the dataset used to train the model
+
+## Examples
+
+::::{.columns}
+:::{.column}
+```{r}
+#| echo: true
+
+fall_predictions <- predict(fall_fit, fall)
+fall_predictions |>
+  head() |> # what does this do?
+  kable()
+```
+:::
+:::{.column}
+```{r}
+#| echo: true
+
+# create a data frame for a new temperature
+new_days <- tibble(temp_orig = c(15, 20, 5, 10))
+
+# I don't need to save the predictions
+predict(fall_fit, new_days) |>
+  kable()
+```
+:::
+::::
+
+## Exercise 14
+
+1. Add a new exercise to your activity (you can start by copy pasting a previous exercise and answer block).
+2. Confirm you answer to the white board question using the `predict` in R. I.e. what would you model predict the number of bike rentals to be if it was 15 degrees out.
 
 ## Recap
 
