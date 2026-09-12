@@ -1,0 +1,226 @@
+---
+title: "AE 05: The Coffee Truck"
+subtitle: "Regression with a categorical predictor"
+editor: visual
+format:
+  html:
+    embed-resources: true
+    include-in-header:
+      text: |
+        <style>
+        /* Exercise / answer boxes. Canonical source: style/exercise-boxes.css
+           in the course repo — copy from there if this ever drifts. */
+        body { counter-reset: exercise; }
+        .exercise, .answer {
+          border-left: 4px solid #533860;
+          padding: .6em 1em;
+          margin: 1em 0;
+          border-radius: 4px;
+        }
+        .exercise { background: #f2eef5; }
+        .exercise::before {
+          counter-increment: exercise;
+          content: "Exercise " counter(exercise);
+          display: block;
+          font-weight: 700;
+          color: #533860;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .answer {
+          background: transparent;
+          border-left-color: #a49363;
+          border-left-style: dashed;
+          min-height: 3.5em;
+        }
+        .answer::before {
+          content: "Your answer";
+          display: block;
+          font-weight: 700;
+          color: #8a7a4f;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        </style>
+---
+
+::: callout-important
+
+- Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-05"
+
+- Go to the assignment for this activity in [Canvas](<>) to get started.
+
+- Upload the `ae-05-coffee-truck.qmd` file into the folder you just created. We will generate a dataset for this activity shortly
+
+:::
+
+## Data
+
+Today we're generating our own data by playing the [Coffee Truck game](https://www.stat2games.sites.grinnell.edu/games/coffeetruck.html) from Grinnell's **stat2games** project.
+
+> Jo inherited a coffee truck, has \$20,000 left after repairs, and wants help figuring out what combination of settings sells the most coffee. Every simulated shift you play records:
+
+- `Sales`: number of cups sold that shift (our response variable)
+- `Location`: Business District / City Park / City Hall / Near the Zoo
+- `Music`: No Music / Hip Hop / Alternative
+- `Price`: \$2 / \$3 / \$4 / \$5 per cup
+- `TimeOfDay`: Morning / Lunch / Afternoon / Evening
+
+::: callout-important
+This game's data lands in a table that's **public to anyone**. Do not use your real name as your Player Name.
+:::
+
+## Exercises
+
+### Playing the Game
+
+::: {.exercise}
+Play the game at the link above.
+
+- On the ID screen, enter **`MATH2025FA26`** as the Group Name.
+- Pick a Player Name that does **not** identify you, and write it in the box below (you'll need it later).
+
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Set up your design:
+
+- Start with **Location = Business District**, Music = No Music**, **Price = \$3 per cup**, **Time = Lunch**, **Weather = Relatively Constant** for the whole activity.
+- Select one additional category from **Music**, **Location**, OR **Time**
+- Set **Design Type** to `Random Sample` and **Number of Repetitions** to `10`. Confirm "Number of Days" reads `20`.
+- Click **Start Sim**.
+
+Write down which setting your group changed, and which second level you picked.
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Download your data as a CSV file, and upload it in your data folder. I recommend changing the filename to something more memorable.
+:::
+
+::: {.exercise}
+Run the following code to load the packages we'll use in this activity.
+:::
+
+:::{.answer}
+
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(mosaic)
+library(ggformula)
+library(broom)
+library(coursekata)
+```
+
+:::
+
+::: {.exercise}
+Use `read_csv` to load the data you just uploaded. Take a look at the data, make sure it has the right number of rows. If our goal is to make the most money, what should your response variable be? What is the predictor variable you varied? What are the two levels of that variable?
+:::
+
+:::{.answer}
+
+```{r load-data}
+#| message: false
+#
+```
+
+:::
+
+::: {.exercise}
+Create a plot exploring the relationship between your explanatory variables.
+:::
+
+::: {.answer}
+
+```{r plot-sales}
+
+```
+
+:::
+
+::: {.exercise}
+Use `favstats()` to find the mean `Sales` at each of your two levels.
+:::
+
+::: {.answer}
+
+```{r favstats-sales}
+
+```
+
+:::
+
+::: {.exercise}
+Fit a linear model predicting `Sales` from your variable. Use `tidy()` to format the output.
+
+- What is the reference level in your model?
+- On the whiteboard draw a plot similar to the one found [here](https://ericfriedlander.github.io/math2025-fa26/slides/05-categorical-predictors.html#/fitting-the-model) representing your model (don't worry too much about the jittered points, just get the red lines.)
+  :::
+
+::: {.answer}
+
+```{r fit-model}
+# add code developed during livecoding here
+```
+
+:::
+
+::: {.exercise}
+Use the output to write out the estimated regression equation, and the dummy coding for an observation at each level, on the whiteboard.
+:::
+
+::: {.exercise}
+Interpret the intercept in the context of the data.
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Interpret the "slope" in the context of the data.
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Compare the means you generated in exercise 7 and the coefficients from exercise 9. Show that the "model is just predicting the means" for each level of the variable. Show your work on the whiteboard.
+:::
+
+::: {.exercise}
+Use `predict()` to get the model's predicted `Sales` for each level of your variable. How many distinct predictions can this model make, and why?
+:::
+
+::: {.answer}
+
+```{r predict-sales}
+new_data <- tibble(
+  your_variable = c("level1", "level2", "level3")
+)
+
+## More code here
+```
+
+:::
+
+::: callout-important
+To submit the AE:
+
+- Render the document to produce the HTML with all of your work from today's class.
+- The driver for your group should upload your .qmd and .html files to the Canvas assignment.
+  :::

@@ -3,529 +3,312 @@ title: "Categorical Predictors"
 author: "Prof. Eric Friedlander"
 footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/schedule)"
 logo: "../images/logo.png"
-format: 
+format:
   revealjs:
     theme: slides.scss
     multiplex: false
     transition: fade
     slide-number: false
-    incremental: false 
+    incremental: false
     chalkboard: true
-html-math-method:
-  method: mathjax
-  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
 execute:
   freeze: auto
   echo: true
-  cache: false
 knitr:
-  opts_chunk: 
-    R.options:      
+  opts_chunk:
+    R.options:
     width: 200
-bibliography: references.bib  
+bibliography: references.bib
 ---
 
-## Application Exercise
-
-::: appex
-📋 AE 14 - Multiple Linear Regression and Categorical Predictors
-:::
-
-Complete Exercise 0-1.
-
-## Computational setup
-
-```{r packages}
-#| echo: true
+```{r}
+#| include: false
 #| message: false
 
 # load packages
-library(tidyverse)
-library(broom)
-library(mosaic)
-library(ISLR2)
-library(patchwork)
-library(knitr)
-library(coursekata)
-library(kableExtra)
-library(scales)
+library(tidyverse)       # for data wrangling
+library(ggformula)       # for plotting
+library(mosaic)          # for favstats
+library(broom)           # for formatting model output
+library(knitr)           # for formatting tables
+library(coursekata)      # for gf_model
 
 # set default theme and larger font size for ggplot2
-ggplot2::theme_set(ggplot2::theme_minimal(base_size = 16))
+ggplot2::theme_set(ggplot2::theme_bw(base_size = 16))
 
-# Create new variable
-
-Credit <- Credit |> 
-  mutate(Has_Balance = factor(ifelse(Balance == 0, "No", "Yes")))
+# set default figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.618,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%"
+)
 ```
 
-# Considering multiple variables
+## Topics
 
-## Data: Credit Cards
+- Use regression to describe the relationship between a **categorical** predictor and a quantitative response variable.
+- Understand indicator (dummy) variables and reference levels.
+- Interpret the intercept and slope when the predictor is categorical.
 
-The data is from the `Credit` data set in the **ISLR2** R package. It is a simulated data set of 400 credit card customers.
+# Last time
 
-```{r}
-#| echo: false
-Credit |>  glimpse()
-```
-
-## Variables
-
-**Features (another name for predictors)**
-
--   `Cards`: Number of credit cards
--   `Rating`: Credit Rating
--   `Has_Balance`: Whether they have a credit card balance
-
-**Outcome**
-
--   `Limit`: Credit limit
-
-## Outcome: `Limit`
-
-```{r}
-#| code-fold: true
-Credit |> 
-  gf_density(~Limit, fill = "steelblue") |> 
-  gf_labs(title = "Distribution of credit limit",
-          x = "Credit Limit")|> 
-  gf_refine(scale_x_continuous(labels = dollar_format()))
-```
-
-```{r}
-#| echo: false
-favstats(~Limit, data = Credit)|>
-  kable("html") |> 
-  kable_styling(font_size = 24)
-```
-
-## Predictors {.small}
-
-```{r}
-#| code-fold: true
-#| out.width: "100%"
-p1 <- Credit |> 
-  gf_density(~Limit, fill = "steelblue") |> 
-  gf_labs(title = "Distribution of credit limit",
-          x = "Credit Limit")|> 
-    gf_refine(scale_x_continuous(labels = dollar_format()))
-
-p2 <- Credit |> 
-  gf_histogram(~Rating, binwidth = 50) |> 
-  gf_labs(title = "",
-       x = "Credit Rating")
-
-p3 <- Credit |> 
-  gf_histogram(~Cards, binwidth = 1) |> 
-  gf_labs(title = "",
-       x = "Number of Credit Cards")
-
-p4 <- Credit |> 
-  gf_bar(~Has_Balance)|> 
-  gf_labs(title = "",
-       x = "Has a Credit Card Balance")
-
-(p1 + p2) / (p3 + p4)
-```
-
-## Outcome vs. predictors {.small}
-
-```{r}
-#| code-fold: true
-library(GGally)
-
-Credit |> 
-  select(Limit, Rating, Cards, Has_Balance) |> 
-  ggpairs()
-```
-
-
-# Categorical Predictors
-    
-## Indicator variables
-
--   Suppose there is a categorical variable with $K$ categories (levels)
-
--   We can make $K$ indicator variables - one indicator for each category
-
--   An **indicator variable** takes values 1 or 0
-
-    -   1 if the observation belongs to that category
-    -   0 if the observation does not belong to that category
-
-## Indicator Variables (behind the scenes)
-
-```{r}
-#| echo: false
-
-Credit_dummy <- Credit |>
-  mutate(
-    No_Balance = if_else(Has_Balance == "No", 1, 0),
-    Yes_Balance = if_else(Has_Balance == "Yes", 1, 0)
-  )
-
-Credit_dummy |>
-  select(Has_Balance, No_Balance, Yes_Balance) |>
-  slice(1, 12)
-```
-
-## Indicators in the model {.smaller}
-
--   We will use $K-1$ of the indicator variables in the model.
--   The **reference level** or **baseline** is the category that doesn't have a term in the model.
--   The coefficients of the indicator variables in the model are interpreted as the expected change in the response compared to the baseline, holding all other variables constant.
--   This approach is also called **dummy coding** and *R will do this for you*
-
-## Interpreting Categorical Predictors {.smaller}
+## Last time {.smaller}
 
 ::::{.columns}
 :::{.column}
-```{r}
-#| echo: false
-cat_mod <- lm(Limit ~ Has_Balance, data = Credit)
-cat_mod |>
-  tidy() |>
-  kable(digits = 3)
-```
-:::
-:::{.column}
-```{r}
-#| echo: false
-Credit |>
-  gf_jitter(Limit ~ Has_Balance, height = 0, width = 0.15) |>
-  gf_model(cat_mod)
-```
-:::
-::::
 
-::: question
--   Where do we see each of the estimates in the plot?
--   Where do we see the values we'd predict in the plot?
--   (Trick Question) Are `Has_Balance` and `Limit` **correlated**?
--   On the board. Write down the **dummy coding** for an observation from each level in your chosen categorical variable.
-:::
-
-. . .
-
-Complete Exercises 2-4.
-
-## Model equation
-
-$$
-\begin{align}\hat{\text{Limit}} =  2152.722 &+ 3332.746 \times \text{Yes_Balance}
-\end{align}
-$$
-
-# Adding in another predictor
-
-## Credit Limit vs. Cards: parallel slopes
-
-```{r}
-#| code-fold: true
-
-cards_model <- lm(Limit ~ Cards, data = Credit)
-
-cards_hasbal_model <- lm(Limit ~ Cards + Has_Balance, data = Credit)
-
-p1 <- plotModel(cards_model) |>
-  gf_labs(title = "SLR")
-p2 <- plotModel(cards_hasbal_model) |>
-  gf_labs(title = "Balance Indicator")
-
-p1 + p2
-```
-
-## Parallel slopes interpretation {.smaller}
-
-```{r}
-#| echo: FALSE
-
-cards_hasbal_model |>
-  tidy() |>
-  kable(digits = 3)
-```
-
--   Slope of `Cards` is -36.964 regardless of `Has_Balance` level
--   Change in `Has_Balance` corresponds to a shift in the intercept
-    +   Intercept for `No` is 2257.044
-    +   For `Yes` shift intercept up 3339.198
-        -   (i.e. intercept $= 2257.044 + 3339.198 = 5596.242$)
--   Complete Exercise 5-6
-        
-# Interaction terms
-
-## Interaction terms {.smaller}
-
--   Sometimes the relationship between a predictor variable and the response depends on the value of another predictor variable.
--   This is an **interaction effect**.
--   To account for this, we can include **interaction terms** in the model.
--   We want a model of the form:
-
-$$
-\begin{aligned}\hat{Y} ~ = 
-\hat{\beta}_0 & + \hat{\beta}_1 X_1 + \hat{\beta}_2 X_2 +
-\hat{\beta}_3X_1\times X_2
-\end{aligned}
-$$
-
-## Interaction terms: Quantitative and Categorical
-
-$$
-\begin{aligned}\hat{\text{Limit}} ~ = 
-\hat{\beta}_0 & + \hat{\beta}_1 \text{Cards} + \hat{\beta}_2 \text{Has_Balance} +
-\hat{\beta}_3\text{Cards}\times\text{Has_Balance}
-\end{aligned}
-$$
-
-
-## Interest rate vs. cards: interaction term
+- Fit `lm(count ~ temp_orig)` for our bikeshare data
+- Interpreted the slope and intercept
+- Used `predict()` to make predictions
+- Every predictor so far has been a **number**
+  :::
+  :::{.column}
 
 ```{r}
 #| echo: false
-
-cards_hasbal_interaction_model <- lm(Limit ~ Cards + Has_Balance + Has_Balance*Cards, data = Credit)
-
-p1 <- plotModel(cards_hasbal_model) |>
-  gf_labs(title = "No Interaction Term")
-p2 <- plotModel(cards_hasbal_interaction_model) |>
-  gf_labs(title = "Interaction Term")
-
-p1 + p2 + plot_layout(guides = "collect")
-```
-
-## Bike Rentals vs. Temperature: interaction term
-
-```{r}
-#| echo: false
-
-bikeshare <- read_csv("../data/dcbikeshare.csv") |> 
+bikeshare <- read_csv("../data/dcbikeshare.csv") |>
   mutate(season = case_when(
     season == 1 ~ "winter",
     season == 2 ~ "spring",
     season == 3 ~ "summer",
     season == 4 ~ "fall"
   ),
-  season = factor(season))
+  season = factor(season, levels = c("winter", "spring", "summer", "fall")))
 
-bike_model <- lm(count ~ temp_orig + season, data = bikeshare)
-bike_model_interaction <- lm(count ~ temp_orig + season + temp_orig*season, data = bikeshare)
+fall <- bikeshare |> filter(season == "fall")
+fall_fit <- lm(count ~ temp_orig, data = fall)
 
-p1 <- plotModel(bike_model) |>
-  gf_labs(title = "No Interaction Term")
-p2 <- plotModel(bike_model_interaction) |>
-  gf_labs(title = "Interaction Term")
-
-p1 + p2+ plot_layout(guides = "collect")
+fall |>
+  gf_point(count ~ temp_orig) |>
+  gf_lm() |>
+  gf_labs(x = "Temperature (°C)", y = "Daily Bike Rentals")
 ```
 
+:::
+::::
 
-## Interpreting interaction terms {.smaller}
+## What if the predictor isn't a number? {.smaller}
+
+- We also have `season`: winter, spring, summer, fall.
+- What would `lm(count ~ season)` even mean?
+
+::: question
+
+- You can't multiply "fall" by a slope. So what does $\hat{\beta}_1$ look like when $X$ is a category?
+- Can we still write $\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X$?
+
+:::
+
+# Meet the Coffee Truck
+
+## The scenario {.smaller}
+
+Jo inherited a coffee truck from an uncle. After repairs, Jo has **\$20,000** left. Coffee costs **\$0.50/cup** to make, and fixed daily expenses are **\$300/day**. Jo wants help figuring out what combination of settings sells the most coffee.
+
+We'll use the [Coffee Truck game](https://www.stat2games.sites.grinnell.edu/games/coffeetruck.html) (Grinnell **stat2games**) to _generate our own data_ by playing simulated shifts.
+
+## Settings you can choose {.smaller}
+
+Before each shift you pick a combination of:
+
+| Setting  | Options in the game                                   |
+| -------- | ----------------------------------------------------- |
+| Location | Business District, City Park, City Hall, Near the Zoo |
+| Music    | No Music, Hip Hop, Alternative                        |
+| Price    | \$2, \$3, \$4, \$5 per cup                            |
+| Time     | Morning, Lunch, Afternoon, Evening                    |
+| Weather  | Relatively Constant, Variable                         |
+
+**Response variable:** `Sales` -- the number of cups sold that shift.
+
+## Our baseline {.smaller}
+
+Everyone in class will start from the same baseline:
+
+> **Business District**, **No Music**, **\$3 per cup**, **Lunch**
+
+Each group then picks **one setting** to change to a second level, holding everything else at the baseline. (If there's time, we'll add a third level of that same setting later.)
+
+::: appex
+📋 [AE 05 - The Coffee Truck](../ae/ae-05-coffee-truck.qmd)
+:::
+
+- I'm doing **Location** (Business District vs. City Park); your group picks one other setting to change
+- Complete Exercises 1-7
+
+# Regression with one categorical predictor
+
+## We're just encoding means
+
+What comes next may seem complicated, but we're just building a model that predicts the groups means:
 
 ```{r}
-#| echo: FALSE
+bikeshare |>
+  group_by(season) |>
+  summarize(mean_count = mean(count)) |>
+  kable(digits = 3)
+```
 
-cards_hasbal_interaction_model |>
+## Indicator variables {.smaller}
+
+- Suppose a categorical variable has $K$ categories (levels).
+- We can make $K$ **indicator variables**, one per category.
+- An indicator variable takes the value 1 or 0:
+  - 1 if the observation belongs to that category
+  - 0 if it does not
+- Finally... we drop one of the indicator variables.
+- This category is called the **reference level** (or **baseline**) and it doesn't get its own term in the model
+
+## Example {.smaller}
+
+::::{.columns}
+:::{.column}
+Create indicator variables for `Season` in our bikeshare data:
+
+```{r}
+#| echo: false
+set.seed(2024)
+bike_slice <- bikeshare |>
+  mutate(
+    winter = if_else(season == "winter", 1, 0),
+    spring = if_else(season == "spring", 1, 0),
+    summer = if_else(season == "summer", 1, 0),
+    fall = if_else(season == "fall", 1, 0)
+  ) |>
+  select(season, winter, spring, summer, fall) |>
+  slice_sample(n=8)
+ bike_slice |>
+  kable()
+```
+
+:::
+:::{.column}
+Set `winter` as the reference level, and drop it from the model:
+
+```{r}
+#| echo: false
+bike_slice |>
+  select(season, spring, summer, fall) |>
+  kable()
+```
+
+:::
+::::
+
+## Indicators in the model {.smaller}
+
+- We only use $K - 1$ of the indicator variables in the model.
+- The **reference level** (or **baseline**) is the category left out — it doesn't get its own term.
+- The coefficient on each indicator is the expected _difference_ in the response compared to the baseline.
+- This is called **dummy coding**, and _R does it for you_.
+- But why... (Board work)
+
+## R's default reference level {.smaller}
+
+By default, R picks the reference level either alphabetically (if variable is not a factor) or the first level (if variable is a factor).
+
+Most of the time, you probably don't care which level is chosen to be the reference level (you need to know which one it is though)... but if you do chage it using the same trick from `season` in Lecture 3:
+
+```{r}
+#| eval: false
+bikeshare <- bikeshare |>
+  mutate(season = factor(season, levels = c("winter", "spring", "summer", "fall")))
+```
+
+## Fitting the model {.smaller}
+
+::::{.columns}
+:::{.column}
+
+```{r}
+season_mod <- lm(count ~ season, data = bikeshare)
+season_mod |>
   tidy() |>
   kable(digits = 3)
 ```
 
--   Slope of `Rating` **depends** on `Has_Balance` level
--   **Equivalent:** fit two separate linear models on the data corresponding to each level of `Has_Balance`
+:::
+:::{.column}
 
-## Understanding the model {.midi}
+```{r}
+#| echo: false
+bikeshare |>
+  gf_jitter(count~ season, height = 0, width = 0.15) |>
+  gf_model(season_mod, color="red") |>
+  gf_labs(y = "Daily Bike Rentals")
+```
+
+:::
+::::
 
 $$
-\begin{aligned}
-\hat{Limit} &= 2324.664 - 60.924 \times Cards \\ 
-&\qquad+ 3257.976 \times Has\_Balance\\
-&\qquad+ 28.499 \times Cards \times Has\_Balance
-\end{aligned}
+\widehat{\text{count}} = \hat\beta_0 + \hat\beta_1 \times \text{seasonspring} + \hat\beta_2 \times \text{seasonsummer} + \hat\beta_3 \times \text{seasonfall}
 $$
 
-## Interpreting the interaction term
+::: question
 
--  For a borrower in no balance, the slope of `Cards` is $-60.924$
--  For a borrower with a balance, the slope of `Cards` is $(-60.924 + 28.499=-32.425)$
+- Where can we figure out what the reference level is from the output?
+- Where do you see the intercept and slope in the plot?
+- What does this model predict for a winter day? A summer day?
 
-::: appex
-Complete Exercise 7-8.
 :::
 
-## Interaction terms: Two Quantitative
+## The intercept is a mean; the slope is a difference {.smaller}
 
-$$
-\begin{aligned}\hat{\text{Limit}} ~ = 
-\hat{\beta}_0 & + \hat{\beta}_1 \text{Cards} + \hat{\beta}_2 \text{Rating} +
-\hat{\beta}_3\text{Cards}\times\text{Rating}
-\end{aligned}
-$$
-
-## Interpreting interaction terms
-
--   What the interaction means: The effect of the number of open credit cards on the credit limit depends on the borrowers credit rating and vice versa
-
-## Visualizing Model: No Interaction
+::::{.columns}
+:::{.column}
 
 ```{r}
-#| echo: FALSE
-library(plotly)
-library(reshape2)
-credit_plot <- plot_ly(Credit, 
-         x = ~Rating, 
-         y = ~Cards, 
-         z = ~Limit,
-         color = I("red"),
-         opacity = 1,
-         type = "scatter3d", 
-         mode = "markers",
-         size = 1)
-
-axis_x <- seq(min(Credit$Rating), max(Credit$Rating), length.out = 100)
-axis_y <- seq(min(Credit$Cards), max(Credit$Cards), length.out = 100)
-
-lim_fit <- lm(Limit ~ Rating   + Cards,
-      data = Credit)
-
-#Sample points
-credit_lm_surface <- expand.grid(Rating = axis_x,Cards = axis_y,KEEP.OUT.ATTRS = F)
-credit_lm_surface$Limit <- predict.lm(lim_fit, newdata = credit_lm_surface)
-credit_lm_surface <- acast(credit_lm_surface, Cards ~ Rating, value.var = "Limit")
-
-credit_plot |> 
-  add_surface(z = credit_lm_surface,
-           x = axis_x,
-           y = axis_y,
-           opacity = 0.8,
-           inherit = FALSE,
-           contours = list(z = list(show = TRUE, width = 2,
-                                       highlightcolor = "#ff0000", 
-                                       project = list(z = TRUE)),
-                              coloring = "heatmap"))
+season_mod |> tidy() |> kable(digits = 3)
 ```
 
-
-## Visualizing Interaction Model: Exaggerated
+:::
+:::{.column}
 
 ```{r}
-#| echo: FALSE
-
-Credit_sim <- tibble(Cards = round(runif(100, 0, 20)), Rating = runif(100, 0, 1000), 
-                     Limit = 100 + 50*Cards + Rating + 1000*Cards*Rating)
-
-credit_plot_sim <- plot_ly(Credit_sim, 
-         x = ~Rating, 
-         y = ~Cards, 
-         z = ~Limit,
-         color = I("red"),
-         opacity = 1,
-         type = "scatter3d", 
-         mode = "markers",
-         size = 1)
-
-axis_x_sim <- seq(min(Credit_sim$Rating), max(Credit_sim$Rating), length.out = 100)
-axis_y_sim <- seq(min(Credit_sim$Cards), max(Credit_sim$Cards), length.out = 100)
-
-lim_fit_int_sim <- lm(Limit ~ Rating  + Cards + Rating * Cards,
-      data = Credit_sim)
-
-#Sample points
-credit_lm_surface <- expand.grid(Rating = axis_x_sim, Cards = axis_y_sim,KEEP.OUT.ATTRS = F)
-credit_lm_surface$Limit <- predict.lm(lim_fit_int_sim, newdata = credit_lm_surface)
-credit_lm_surface <- acast(credit_lm_surface, Cards ~ Rating, value.var = "Limit")
-
-credit_plot_sim |>
-  add_surface(z = credit_lm_surface,
-           x = axis_x_sim,
-           y = axis_y_sim,
-           opacity = 0.8,
-           inherit = FALSE,
-           contours = list(z = list(show = TRUE, width = 2,
-                                       highlightcolor = "#ff0000",
-                                       project = list(z = TRUE)),
-                              coloring = "heatmap"))
+mean(count ~ season, data = bikeshare) |>
+  kable(digits = 3)
 ```
 
-## Visualizing Interaction Model: Real
+:::
+::::
 
-```{r}
-#| echo: FALSE
+- **Intercept**: we predict a winter (baseline) day to have $\hat\beta_0$ rentals, on average — this _is_ the winter mean.
+- **Slope**: switching to summer, we expect $\hat\beta_1$ more rentals, on average, compared to winter — this _is_ the difference between the two means.
 
-lim_fit_int <- lm(Limit ~ Rating  + Cards + Rating * Cards,
-      data = Credit)
+. . .
 
-#Sample points
-credit_lm_surface <- expand.grid(Rating = axis_x,Cards = axis_y,KEEP.OUT.ATTRS = F)
-credit_lm_surface$Limit <- predict.lm(lim_fit_int, newdata = credit_lm_surface)
-credit_lm_surface <- acast(credit_lm_surface, Cards ~ Rating, value.var = "Limit")
+"A one-unit increase in $X$" now means "switching from the baseline category to this one."
 
-credit_plot |>
-  add_surface(z = credit_lm_surface,
-           x = axis_x,
-           y = axis_y,
-           opacity = 0.8,
-           inherit = FALSE,
-           contours = list(z = list(show = TRUE, width = 2,
-                                       highlightcolor = "#ff0000",
-                                       project = list(z = TRUE)),
-                              coloring = "heatmap"))
-```
+## (Trick question) {.smaller}
 
+Are `season` and `count` **correlated**?
 
-## Model Fit {.smaller}
+. . .
 
-```{r}
-#| echo: FALSE
-lm(Limit ~ Cards + Rating + Cards * Rating, data = Credit) |>
-  tidy() |>
-  kable(digits = 5)
-```
+- Correlation only makes sense for two _quantitative_ variables.
+- `season` is categorical — there's no correlation coefficient to compute, even though we can absolutely fit a regression model.
 
-$$
-\begin{aligned}\hat{\text{Limit}} ~ =
-&  -315.005 + 14.834~\text{Rating} -81.116~\text{Cards}\\
-& \qquad+ 0.024~\text{Rating}\times\text{Cards}
-\end{aligned}
-$$
+::: appex
+Complete Exercises 6-13.
+:::
 
-## Interpreting the interaction term
-
--  For a fixed `Rating` the slope of `Cards` is $(-81.116 + 0.024\times\text{Rating})$
--  For a fixed `Cards` the slope of `Rating` is $(14.834 + 0.024\times\text{Cards})$
-
-
-
-## What's actually happening: {.smaller}
-
-```{r}
-#| echo: TRUE
-Credit_int <- Credit |>
-  mutate(Interaction = Cards * Rating)
-
-Credit_int |>
-  select(Limit, Cards, Rating, Interaction) |>
-  head() |>
-  kable()
-```
-
-## What's actually happening:
-
-```{r}
-lm(Limit ~ Cards + Rating + Interaction, data = Credit_int) |>
-  tidy() |>
-  kable(digits = 5)
-```
-
+::: appex
+If time permits, complete Exercises 14-15.
+:::
 
 # Wrap up
 
 ## Recap
 
--   Calculated predictions and associated intervals for multiple linear regression models
+::: {.incremental style="font-size: 0.85em"}
 
--   Introduced categorical variables
-
--   Used interaction terms
-
--   Complete Activity.
-
+- Regression works with a categorical predictor $X$, just like a quantitative one.
+- R recodes a $K$-level categorical variable into $K - 1$ **indicator (dummy) variables**.
+- The left-out category is the **reference level**; by default R picks it alphabetically, but we can set it with `factor(x, levels = ...)`.
+- The **intercept** is the mean of the response at the reference level.
+- Each **slope** is the difference in means between that level and the reference level.
+- Correlation doesn't apply to categorical predictors, but regression still does.
+  :::
