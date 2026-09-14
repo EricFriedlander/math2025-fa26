@@ -23,7 +23,7 @@ matters (see the snippet at the bottom).
 - `241903` — **Roll Call Attendance**: 0 pts, in the Homework group, `omit_from_final_grade=True`.
   Pre-existing course infrastructure, not part of the lecture rollout — leave it alone.
 
-## Snapshot as of 2026-09-08 (will go stale — verify before relying on it)
+## Snapshot as of 2026-09-14 (will go stale — verify before relying on it)
 
 ### Modules
 
@@ -33,9 +33,16 @@ matters (see the snippet at the bottom).
 | `78126` | 2 | Lecture 0 — Welcome to MATH 2025! (Wed, Aug 26) |
 | `78127` | 3 | Lecture 1 — The Big Picture (Mon, Aug 31) |
 | `78682` | 4 | Lecture 2 — Exploratory Data Analysis (Wed, Sep 2) |
-| `78918` | 5 | Lecture 3 — Introduction to Simple Linear Regression (Wed, Sep 9) |
+| `78918` | 5 | Lecture 3 — Data Cleaning (Wed, Sep 9) |
+| `78951` | 6 | Lecture 4 — Introduction to Simple Linear Regression (Mon, Sep 14) |
+| `78952` | 7 | Lecture 5 — Categorical Predictors (Wed, Sep 16) — Prepare item only so far; Slides/AE not yet posted |
 
-The next lecture module should be created at `position=6`.
+The next lecture module should be created at `position=8`.
+
+⚠️ `create_module`/`create_module_item` with `published: True` in the payload does **not**
+actually publish on creation (observed 2026-09-14: modules 78951/78952 and their ExternalUrl
+items came back `published=False` despite the flag) — always re-`.edit(module={'published': True})`
+(and same for each item) after creating, then re-verify.
 
 ### AE / HW assignments
 
@@ -43,15 +50,19 @@ The next lecture module should be created at `position=6`.
 |---|---|---|---|---|
 | `242372` | AE-01: Getting Started | Application Exercises | 10 | 2026-09-02T16:50:00Z |
 | `242686` | AE-02: Exploratory Data Analysis | Application Exercises | 10 | 2026-09-09T16:50:00Z |
-| `243284` | AE-03: Bike rentals in Washington, DC | Application Exercises | 10 | 2026-09-14T16:50:00Z |
+| `243284` | AE-03/04: Bike rentals in Washington, DC | Application Exercises | 20 | 2026-09-16T16:50:00Z |
 | `242687` | HW-01: Dr. F's Coffee | Homework | 22 | 2026-09-09T16:50:00Z |
 | `243285` | HW-02: Park access | Homework | 17 | 2026-09-16T16:50:00Z |
+
+Note: AE-03 was renamed AE-03/04 and its points bumped 10 → 20 when the bikeshare activity was
+split across lectures 3 and 4; the same assignment (`243284`) is linked from both lecture
+modules rather than creating a separate AE-04.
 
 ### Data files uploaded to Canvas course files
 
 | File ID | Filename | Used by |
 |---|---|---|
-| `1778991` | `dcbikeshare.csv` | AE-03 |
+| `1778991` | `dcbikeshare.csv` | AE-03/04 |
 | `1778992` | `parks.csv` | HW-02 |
 
 ## Snippet to re-list live state
