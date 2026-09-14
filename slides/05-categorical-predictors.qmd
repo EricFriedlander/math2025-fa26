@@ -63,8 +63,8 @@ knitr::opts_chunk$set(
 - Interpreted the slope and intercept
 - Used `predict()` to make predictions
 - Every predictor so far has been a **number**
-  :::
-  :::{.column}
+:::
+:::{.column}
 
 ```{r}
 #| echo: false
@@ -92,6 +92,7 @@ fall |>
 ## What if the predictor isn't a number? {.smaller}
 
 - We also have `season`: winter, spring, summer, fall.
+    - Terminology: we call the possible categories **levels**
 - What would `lm(count ~ season)` even mean?
 
 ::: question
@@ -101,9 +102,14 @@ fall |>
 
 :::
 
+
 # Meet the Coffee Truck
 
 ## The scenario {.smaller}
+
+:::{.callout-warning}
+Please don't open the app yet!
+:::
 
 Jo inherited a coffee truck from an uncle. After repairs, Jo has **\$20,000** left. Coffee costs **\$0.50/cup** to make, and fixed daily expenses are **\$300/day**. Jo wants help figuring out what combination of settings sells the most coffee.
 
@@ -119,7 +125,6 @@ Before each shift you pick a combination of:
 | Music    | No Music, Hip Hop, Alternative                        |
 | Price    | \$2, \$3, \$4, \$5 per cup                            |
 | Time     | Morning, Lunch, Afternoon, Evening                    |
-| Weather  | Relatively Constant, Variable                         |
 
 **Response variable:** `Sales` -- the number of cups sold that shift.
 
@@ -135,8 +140,23 @@ Each group then picks **one setting** to change to a second level, holding every
 📋 [AE 05 - The Coffee Truck](../ae/ae-05-coffee-truck.qmd)
 :::
 
-- I'm doing **Location** (Business District vs. City Park); your group picks one other setting to change
-- Complete Exercises 1-7
+- Let's get in groups:
+    - Have your Coder upload the activity to RStudio
+    - Choose a team name (with no identifiable information)
+    - Complete Exercise 1
+
+## Walkthrough
+
+- Let's walk through [the app](https://www.stat2games.sites.grinnell.edu/games/coffeetruck.html) together
+- Have your Communicator (Developer if you're in a two person group) open the app on their computer
+    - Enter your team name in the `Name` field
+    - Enter `MATH2025FA26` (all caps) in the `Group Name` field
+
+## Choosing a level to add
+
+- Our goal is maximize the our profit
+- Choose a level from `Sales` or `Location` to add
+- Complete Exercises 2-8
 
 # Regression with one categorical predictor
 
@@ -304,11 +324,10 @@ If time permits, complete Exercises 14-15.
 ## Recap
 
 ::: {.incremental style="font-size: 0.85em"}
-
 - Regression works with a categorical predictor $X$, just like a quantitative one.
 - R recodes a $K$-level categorical variable into $K - 1$ **indicator (dummy) variables**.
 - The left-out category is the **reference level**; by default R picks it alphabetically, but we can set it with `factor(x, levels = ...)`.
 - The **intercept** is the mean of the response at the reference level.
 - Each **slope** is the difference in means between that level and the reference level.
 - Correlation doesn't apply to categorical predictors, but regression still does.
-  :::
+:::

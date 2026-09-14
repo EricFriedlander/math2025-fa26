@@ -58,6 +58,21 @@ format:
 
 :::
 
+## Team Name
+
+:::{.exercise}
+
+::: callout-important
+This data from the game we'll be using today lands in a table that's **public to anyone** and will be attached to your group name. Do not choose a group name that you don't want public.
+:::
+
+Choose a team name. It should be short and memorable.
+:::
+
+:::{.answer}
+
+:::
+
 ## Data
 
 Today we're generating our own data by playing the [Coffee Truck game](https://www.stat2games.sites.grinnell.edu/games/coffeetruck.html) from Grinnell's **stat2games** project.
@@ -70,9 +85,6 @@ Today we're generating our own data by playing the [Coffee Truck game](https://w
 - `Price`: \$2 / \$3 / \$4 / \$5 per cup
 - `TimeOfDay`: Morning / Lunch / Afternoon / Evening
 
-::: callout-important
-This game's data lands in a table that's **public to anyone**. Do not use your real name as your Player Name.
-:::
 
 ## Exercises
 
@@ -168,7 +180,7 @@ Fit a linear model predicting `Sales` from your variable. Use `tidy()` to format
 
 - What is the reference level in your model?
 - On the whiteboard draw a plot similar to the one found [here](https://ericfriedlander.github.io/math2025-fa26/slides/05-categorical-predictors.html#/fitting-the-model) representing your model (don't worry too much about the jittered points, just get the red lines.)
-  :::
+:::
 
 ::: {.answer}
 
