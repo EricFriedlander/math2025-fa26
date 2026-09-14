@@ -179,13 +179,7 @@ Use `favstats()` to find the mean `Sales` at each of your two levels.
 Fit a linear model predicting `Sales` from your variable. Use `tidy()` to format the output.
 
 - What is the reference level in your model?
-- On the whiteboard draw a plot similar to the one found [here](https://ericfriedlander.github.io/math2025-fa26/slides/05-categorical-predictors.html#/fitting-the-model) representing your model (don't worry too much about the jittered points, just get the red lines.)
-:::
-
-::: {.answer}
-
-```{r fit-model}
-# add code developed during livecoding here
+- On the whiteboard draw a plot similar to the one found [here](https://ericfriedlander.github.io/math2025-fa26/slidese
 ```
 
 :::
