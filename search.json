@@ -672,16 +672,16 @@
   {
     "objectID": "prepare/prep-05.html",
     "href": "prepare/prep-05.html",
-    "title": "Preparation for Simulation Based Inference",
+    "title": "Preparation for Categorical Predictors",
     "section": "",
-    "text": "📖 IMS, Sec 24.2: Randomization test for the slope\n📖 IMS, Sec 24.3: Bootstrap confidence interval for the slope"
+    "text": "Introduction to Modern Statistics (IMS) Ch 8.1: Linear regression with multiple predictors (Indicator and categorical predictors)"
   },
   {
     "objectID": "prepare/prep-05.html#assigned-reading",
     "href": "prepare/prep-05.html#assigned-reading",
-    "title": "Preparation for Simulation Based Inference",
+    "title": "Preparation for Categorical Predictors",
     "section": "",
-    "text": "📖 IMS, Sec 24.2: Randomization test for the slope\n📖 IMS, Sec 24.3: Bootstrap confidence interval for the slope"
+    "text": "Introduction to Modern Statistics (IMS) Ch 8.1: Linear regression with multiple predictors (Indicator and categorical predictors)"
   },
   {
     "objectID": "prepare/prep-03.html",
@@ -990,23 +990,23 @@
     "text": "Click Render one last time to render your document.\nReview the html output to make sure it reflects what you want it to say.\nUpload the qmd and html files to Canvas."
   },
   {
-    "objectID": "ae/ae-03-bikeshare.html",
-    "href": "ae/ae-03-bikeshare.html",
-    "title": "AE 03: Bike rentals in Washington, DC",
+    "objectID": "ae/ae-03-04-bikeshare.html",
+    "href": "ae/ae-03-04-bikeshare.html",
+    "title": "AE 03 & 04: Bike rentals in Washington, DC",
     "section": "",
     "text": "Important\n\n\n\n\nOpen RStudio and create a subfolder in your AE folder called “AE-03”\nGo to the assignment for this activity in Canvas to get started.\nUpload the ae-03.qmd into the folder you just created\nUpload dcbikeshare.csv into your data folder"
   },
   {
-    "objectID": "ae/ae-03-bikeshare.html#data",
-    "href": "ae/ae-03-bikeshare.html#data",
-    "title": "AE 03: Bike rentals in Washington, DC",
+    "objectID": "ae/ae-03-04-bikeshare.html#data",
+    "href": "ae/ae-03-04-bikeshare.html#data",
+    "title": "AE 03 & 04: Bike rentals in Washington, DC",
     "section": "Data",
     "text": "Data\nOur data set contains daily rentals from the Capital Bikeshare in Washington, DC in 2011 and 2012. It was obtained from the dcbikeshare data set in the dsbox R package.\nWe will focus on the following variables in the analysis:\n\ncount: total bike rentals\ntemp_orig: Temperature in degrees Celsius\nseason: 1 - winter, 2 - spring, 3 - summer, 4 - fall\n\nClick here for the full list of variables and definitions."
   },
   {
-    "objectID": "ae/ae-03-bikeshare.html#exercises",
-    "href": "ae/ae-03-bikeshare.html#exercises",
-    "title": "AE 03: Bike rentals in Washington, DC",
+    "objectID": "ae/ae-03-04-bikeshare.html#exercises",
+    "href": "ae/ae-03-04-bikeshare.html#exercises",
+    "title": "AE 03 & 04: Bike rentals in Washington, DC",
     "section": "Exercises",
     "text": "Exercises\n\nModify the file path to load the dcbikeshare data set.\nHints:\n\nUse a relative path\nYou need to go up two levels and then into the data folder\nPressing TAB while your cursor is in the quotations will help you navigate\nMake sure to remove the #|eval: false line from the answer code\n\n\n\n\nbikeshare &lt;- read_csv(\"insert path here\")\n\n\n\nBelow is code to create visualizations of the distributions of daily bike rentals and temperature. Create a plot of the number of rentals vs the temperature and store it in a variable called p3. If you can figure it out based on context, try and add appropriate labels to the plot. Finally, uncomment the last line of code in this chunk. What do you think this last line does? Comment on what you see.\n\n\n\np1 &lt;- gf_histogram(~ count, data = bikeshare, binwidth = 250) |&gt;\n  gf_labs(x = \"Daily bike rentals\")\n\np2 &lt;- gf_histogram(~temp_orig, data = bikeshare) |&gt;\n  gf_labs(x = \"Temperature (Celsius)\")\n\n# (p1 | p2) / p3\n\n\n\nIn the raw data, seasons are coded as 1, 2, 3, 4 as numerical values, corresponding to winter, spring, summer, and fall respectively. Recode the season variable to make it a categorical variable (a factor) with levels corresponding to season names, making sure that the levels appear in a reasonable order in the variable (i.e., not alphabetical).\n\n\n\n# add code developed during livecoding here\n\n\n\nWe want to evaluate whether the relationship between temperature and daily bike rentals is the same for each season. To answer this question:\n\nCreate a scatter plot of daily bike rentals vs. temperature faceted by season\nCreate a scatter plot of daily bike rentals vs. temperature colored by season\n\n\n\n\n\n\n\nWhich season appears to have the strongest relationship between temperature and daily bike rentals? Why do you think the relationship is strongest in this season?\nWhich season appears to have the weakest relationship between temperature and daily bike rentals? Why do you think the relationship is weakest in this season?\n\n\n\n\n\n\nGoing back to the scatter plot of rentals vs. temperature from earlier, there appears to be one day with a very small number of bike rentals. Use filter to figure out what that day was? Why were the number of bike rentals so low on that day? Hint: You can Google the date to figure out what was going on that day.\n\n\n\n\n\nFilter your data for the season you’ve been assigned, give the resulting data set a new name, and plot the relationship between temperature and daily bike rentals for this season.\n\n\n\n# add code developed during livecoding here\n\n\n\nUsing the subset of the data from the previous exercise, fit a linear model for predicting daily bike rentals from temperature for this season.\n\n\n\n\n\nUse the output to write out the estimated regression equation on the whiteboard.\n\n\nInterpret the slope in the context of the data.\n\n\n\n\n\nInterpret the intercept in the context of the data.\n\n\n\n\n\nCreate a visualization of the model we just created.\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTo submit the AE:\n\nRender the document to produce the HTML with all of your work from today’s class.\nThe driver for your group should upload your .qmd and .html files to the Canvas assignment."
   },
