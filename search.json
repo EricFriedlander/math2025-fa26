@@ -110,256 +110,270 @@
     ]
   },
   {
-    "objectID": "slides/03-slr-intro.html#topics",
-    "href": "slides/03-slr-intro.html#topics",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/05-categorical-predictors.html#topics",
+    "href": "slides/05-categorical-predictors.html#topics",
+    "title": "Categorical Predictors",
     "section": "Topics",
-    "text": "Topics\n\nSome basic data cleaning techniques\nUse simple linear regression to describe the relationship between a quantitative predictor and quantitative response variable.\nEstimate the slope and intercept of the regression line using R."
+    "text": "Topics\n\nUse regression to describe the relationship between a categorical predictor and a quantitative response variable.\nUnderstand indicator (dummy) variables and reference levels.\nInterpret the intercept and slope when the predictor is categorical."
   },
   {
-    "objectID": "slides/03-slr-intro.html#dc-bikeshare",
-    "href": "slides/03-slr-intro.html#dc-bikeshare",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/05-categorical-predictors.html#last-time-1",
+    "href": "slides/05-categorical-predictors.html#last-time-1",
+    "title": "Categorical Predictors",
+    "section": "Last time",
+    "text": "Last time\n\n\n\nFit lm(count ~ temp_orig) for our bikeshare data\nInterpreted the slope and intercept\nUsed predict() to make predictions\nEvery predictor so far has been a number\n::: :::{.column}"
+  },
+  {
+    "objectID": "slides/05-categorical-predictors.html#what-if-the-predictor-isnt-a-number",
+    "href": "slides/05-categorical-predictors.html#what-if-the-predictor-isnt-a-number",
+    "title": "Categorical Predictors",
+    "section": "What if the predictor isn’t a number?",
+    "text": "What if the predictor isn’t a number?\n\nWe also have season: winter, spring, summer, fall.\nWhat would lm(count ~ season) even mean?\n\n\n\nYou can’t multiply “fall” by a slope. So what does \\(\\hat{\\beta}_1\\) look like when \\(X\\) is a category?\nCan we still write \\(\\hat{Y} = \\hat{\\beta}_0 + \\hat{\\beta}_1 X\\)?"
+  },
+  {
+    "objectID": "slides/05-categorical-predictors.html#the-scenario",
+    "href": "slides/05-categorical-predictors.html#the-scenario",
+    "title": "Categorical Predictors",
+    "section": "The scenario",
+    "text": "The scenario\nJo inherited a coffee truck from an uncle. After repairs, Jo has $20,000 left. Coffee costs $0.50/cup to make, and fixed daily expenses are $300/day. Jo wants help figuring out what combination of settings sells the most coffee.\nWe’ll use the Coffee Truck game (Grinnell stat2games) to generate our own data by playing simulated shifts."
+  },
+  {
+    "objectID": "slides/05-categorical-predictors.html#settings-you-can-choose",
+    "href": "slides/05-categorical-predictors.html#settings-you-can-choose",
+    "title": "Categorical Predictors",
+    "section": "Settings you can choose",
+    "text": "Settings you can choose\nBefore each shift you pick a combination of:\n\n\n\nSetting\nOptions in the game\n\n\n\n\nLocation\nBusiness District, City Park, City Hall, Near the Zoo\n\n\nMusic\nNo Music, Hip Hop, Alternative\n\n\nPrice\n$2, $3, $4, $5 per cup\n\n\nTime\nMorning, Lunch, Afternoon, Evening\n\n\nWeather\nRelatively Constant, Variable\n\n\n\nResponse variable: Sales – the number of cups sold that shift."
+  },
+  {
+    "objectID": "slides/05-categorical-predictors.html#our-baseline",
+    "href": "slides/05-categorical-predictors.html#our-baseline",
+    "title": "Categorical Predictors",
+    "section": "Our baseline",
+    "text": "Our baseline\nEveryone in class will start from the same baseline:\n\nBusiness District, No Music, $3 per cup, Lunch\n\nEach group then picks one setting to change to a second level, holding everything else at the baseline. (If there’s time, we’ll add a third level of that same setting later.)\n\n📋 AE 05 - The Coffee Truck\n\n\nI’m doing Location (Business District vs. City Park); your group picks one other setting to change\nComplete Exercises 1-7"
+  },
+  {
+    "objectID": "slides/05-categorical-predictors.html#were-just-encoding-means",
+    "href": "slides/05-categorical-predictors.html#were-just-encoding-means",
+    "title": "Categorical Predictors",
+    "section": "We’re just encoding means",
+    "text": "We’re just encoding means\nWhat comes next may seem complicated, but we’re just building a model that predicts the groups means:\n\nbikeshare |&gt;\n  group_by(season) |&gt;\n  summarize(mean_count = mean(count)) |&gt;\n  kable(digits = 3)\n\n\n\n\nseason\nmean_count\n\n\n\n\nwinter\n2604.133\n\n\nspring\n4992.332\n\n\nsummer\n5644.303\n\n\nfall\n4728.163"
+  },
+  {
+    "objectID": "slides/05-categorical-predictors.html#indicator-variables",
+    "href": "slides/05-categorical-predictors.html#indicator-variables",
+    "title": "Categorical Predictors",
+    "section": "Indicator variables",
+    "text": "Indicator variables\n\nSuppose a categorical variable has \\(K\\) categories (levels).\nWe can make \\(K\\) indicator variables, one per category.\nAn indicator variable takes the value 1 or 0:\n\n1 if the observation belongs to that category\n0 if it does not\n\nFinally… we drop one of the indicator variables.\nThis category is called the reference level (or baseline) and it doesn’t get its own term in the model"
+  },
+  {
+    "objectID": "slides/05-categorical-predictors.html#example",
+    "href": "slides/05-categorical-predictors.html#example",
+    "title": "Categorical Predictors",
+    "section": "Example",
+    "text": "Example\n\n\nCreate indicator variables for Season in our bikeshare data:\n\n\n\n\n\nseason\nwinter\nspring\nsummer\nfall\n\n\n\n\nsummer\n0\n0\n1\n0\n\n\nsummer\n0\n0\n1\n0\n\n\nsummer\n0\n0\n1\n0\n\n\nfall\n0\n0\n0\n1\n\n\nsummer\n0\n0\n1\n0\n\n\nsummer\n0\n0\n1\n0\n\n\nwinter\n1\n0\n0\n0\n\n\nspring\n0\n1\n0\n0\n\n\n\n\n\n\nSet winter as the reference level, and drop it from the model:\n\n\n\n\n\nseason\nspring\nsummer\nfall\n\n\n\n\nsummer\n0\n1\n0\n\n\nsummer\n0\n1\n0\n\n\nsummer\n0\n1\n0\n\n\nfall\n0\n0\n1\n\n\nsummer\n0\n1\n0\n\n\nsummer\n0\n1\n0\n\n\nwinter\n0\n0\n0\n\n\nspring\n1\n0\n0"
+  },
+  {
+    "objectID": "slides/05-categorical-predictors.html#indicators-in-the-model",
+    "href": "slides/05-categorical-predictors.html#indicators-in-the-model",
+    "title": "Categorical Predictors",
+    "section": "Indicators in the model",
+    "text": "Indicators in the model\n\nWe only use \\(K - 1\\) of the indicator variables in the model.\nThe reference level (or baseline) is the category left out — it doesn’t get its own term.\nThe coefficient on each indicator is the expected difference in the response compared to the baseline.\nThis is called dummy coding, and R does it for you.\nBut why… (Board work)"
+  },
+  {
+    "objectID": "slides/05-categorical-predictors.html#rs-default-reference-level",
+    "href": "slides/05-categorical-predictors.html#rs-default-reference-level",
+    "title": "Categorical Predictors",
+    "section": "R’s default reference level",
+    "text": "R’s default reference level\nBy default, R picks the reference level either alphabetically (if variable is not a factor) or the first level (if variable is a factor).\nMost of the time, you probably don’t care which level is chosen to be the reference level (you need to know which one it is though)… but if you do chage it using the same trick from season in Lecture 3:\n\nbikeshare &lt;- bikeshare |&gt;\n  mutate(season = factor(season, levels = c(\"winter\", \"spring\", \"summer\", \"fall\")))"
+  },
+  {
+    "objectID": "slides/05-categorical-predictors.html#fitting-the-model",
+    "href": "slides/05-categorical-predictors.html#fitting-the-model",
+    "title": "Categorical Predictors",
+    "section": "Fitting the model",
+    "text": "Fitting the model\n\n\n\nseason_mod &lt;- lm(count ~ season, data = bikeshare)\nseason_mod |&gt;\n  tidy() |&gt;\n  kable(digits = 3)\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n2604.133\n116.598\n22.334\n0\n\n\nseasonspring\n2388.199\n164.221\n14.543\n0\n\n\nseasonsummer\n3040.171\n163.352\n18.611\n0\n\n\nseasonfall\n2124.030\n165.588\n12.827\n0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\[\n\\widehat{\\text{count}} = \\hat\\beta_0 + \\hat\\beta_1 \\times \\text{seasonspring} + \\hat\\beta_2 \\times \\text{seasonsummer} + \\hat\\beta_3 \\times \\text{seasonfall}\n\\]\n\n\nWhere can we figure out what the reference level is from the output?\nWhere do you see the intercept and slope in the plot?\nWhat does this model predict for a winter day? A summer day?"
+  },
+  {
+    "objectID": "slides/05-categorical-predictors.html#the-intercept-is-a-mean-the-slope-is-a-difference",
+    "href": "slides/05-categorical-predictors.html#the-intercept-is-a-mean-the-slope-is-a-difference",
+    "title": "Categorical Predictors",
+    "section": "The intercept is a mean; the slope is a difference",
+    "text": "The intercept is a mean; the slope is a difference\n\n\n\nseason_mod |&gt; tidy() |&gt; kable(digits = 3)\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n2604.133\n116.598\n22.334\n0\n\n\nseasonspring\n2388.199\n164.221\n14.543\n0\n\n\nseasonsummer\n3040.171\n163.352\n18.611\n0\n\n\nseasonfall\n2124.030\n165.588\n12.827\n0\n\n\n\n\n\n\n\nmean(count ~ season, data = bikeshare) |&gt;\n  kable(digits = 3)\n\n\n\n\n\nx\n\n\n\n\nwinter\n2604.133\n\n\nspring\n4992.332\n\n\nsummer\n5644.303\n\n\nfall\n4728.163\n\n\n\n\n\n\n\nIntercept: we predict a winter (baseline) day to have \\(\\hat\\beta_0\\) rentals, on average — this is the winter mean.\nSlope: switching to summer, we expect \\(\\hat\\beta_1\\) more rentals, on average, compared to winter — this is the difference between the two means.\n\n\n“A one-unit increase in \\(X\\)” now means “switching from the baseline category to this one.”"
+  },
+  {
+    "objectID": "slides/05-categorical-predictors.html#trick-question",
+    "href": "slides/05-categorical-predictors.html#trick-question",
+    "title": "Categorical Predictors",
+    "section": "(Trick question)",
+    "text": "(Trick question)\nAre season and count correlated?\n\n\nCorrelation only makes sense for two quantitative variables.\nseason is categorical — there’s no correlation coefficient to compute, even though we can absolutely fit a regression model.\n\n\nComplete Exercises 6-13.\n\n\nIf time permits, complete Exercises 14-15."
+  },
+  {
+    "objectID": "slides/05-categorical-predictors.html#recap",
+    "href": "slides/05-categorical-predictors.html#recap",
+    "title": "Categorical Predictors",
+    "section": "Recap",
+    "text": "Recap\n\n\nRegression works with a categorical predictor \\(X\\), just like a quantitative one.\nR recodes a \\(K\\)-level categorical variable into \\(K - 1\\) indicator (dummy) variables.\nThe left-out category is the reference level; by default R picks it alphabetically, but we can set it with factor(x, levels = ...).\nThe intercept is the mean of the response at the reference level.\nEach slope is the difference in means between that level and the reference level.\nCorrelation doesn’t apply to categorical predictors, but regression still does.\n:::"
+  },
+  {
+    "objectID": "slides/03-data-cleaning.html#topics",
+    "href": "slides/03-data-cleaning.html#topics",
+    "title": "Cleaning Our Data",
+    "section": "Topics",
+    "text": "Topics\n\nIntroduction to basic cleaning teachniques\n\nMutating our data\nFiltering filtering our data"
+  },
+  {
+    "objectID": "slides/03-data-cleaning.html#dc-bikeshare",
+    "href": "slides/03-data-cleaning.html#dc-bikeshare",
+    "title": "Cleaning Our Data",
     "section": "DC Bikeshare",
     "text": "DC Bikeshare\nOur data set contains daily rentals from the Capital Bikeshare in Washington, DC in 2011 and 2012. It was obtained from the dcbikeshare data set in the dsbox R package.\nWe will focus on the following variables in the analysis:\n\ncount: total bike rentals\ntemp_orig: Temperature in degrees Celsius\nseason: 1 - winter, 2 - spring, 3 - summer, 4 - fall\n\nClick here for the full list of variables and definitions."
   },
   {
-    "objectID": "slides/03-slr-intro.html#loading-data-from-a-file",
-    "href": "slides/03-slr-intro.html#loading-data-from-a-file",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#loading-data-from-a-file",
+    "href": "slides/03-data-cleaning.html#loading-data-from-a-file",
+    "title": "Cleaning Our Data",
     "section": "Loading Data From A File",
     "text": "Loading Data From A File\n\nPATH: directions to get to a file\n\nExample: “ae/ae-03/dataset.csv” will take it you to ae then ae-03 then dataset.csv\n\nTwo types of paths: absolute and relative\n\nAbsolute: starts from the root directory (i.e. the top-level directory)\nRelative: starts from the current directory (.. goes up one level)\n\nRStudio & Quarto: use read_csv(\"relative_path/to/file.csv\") to load data from a CSV file\n\nBrief aside: one of the few things we put in quotes in R. Use quotes when:\n\nYou want R to look outside of R for something\nYou are defining a string (i.e. a “word” in R)"
   },
   {
-    "objectID": "slides/03-slr-intro.html#reminder-group-work-roles",
-    "href": "slides/03-slr-intro.html#reminder-group-work-roles",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#reminder-group-work-roles",
+    "href": "slides/03-data-cleaning.html#reminder-group-work-roles",
+    "title": "Cleaning Our Data",
     "section": "Reminder: Group Work Roles",
     "text": "Reminder: Group Work Roles\nAny time we are working on AEs, I will randomly assign you to groups of two or three. Each person will have a role:\n\nCoder:\n\nShares screen and is the only person to type.\nRuns code, saves work, and makes the submission.\nReads comments back when asked and asks for clarification when unsure.\n\nDeveloper:\n\nDirects the next steps: explains intent, outlines logic, and points out likely errors.\nWatches output, reads error messages aloud, and suggests targeted fixes.\n\nCommunicator:\n\nLooks up help when needed.\nReports group answers to the class."
   },
   {
-    "objectID": "slides/03-slr-intro.html#application-exercise",
-    "href": "slides/03-slr-intro.html#application-exercise",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#application-exercise",
+    "href": "slides/03-data-cleaning.html#application-exercise",
+    "title": "Cleaning Our Data",
     "section": "Application exercise",
     "text": "Application exercise\n\n📋 AE 03 - DC Bikeshare\n\nComplete Exercises 1-3."
   },
   {
-    "objectID": "slides/03-slr-intro.html#function-between-response-and-predictors",
-    "href": "slides/03-slr-intro.html#function-between-response-and-predictors",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#function-between-response-and-predictors",
+    "href": "slides/03-data-cleaning.html#function-between-response-and-predictors",
+    "title": "Cleaning Our Data",
     "section": "Function between response and predictors",
     "text": "Function between response and predictors\n\n\\[\\text{count} = f(\\text{temp_orig}) + \\epsilon\\]\n\n\nGoal: Determine \\(f\\)\nHow do we determine \\(f\\)?\n\nMake an assumption about the functional form \\(f\\) (parametric model)\nUse the data to fit a model based on that form"
   },
   {
-    "objectID": "slides/03-slr-intro.html#determine-f",
-    "href": "slides/03-slr-intro.html#determine-f",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#determine-f",
+    "href": "slides/03-data-cleaning.html#determine-f",
+    "title": "Cleaning Our Data",
     "section": "Determine \\(f\\)",
     "text": "Determine \\(f\\)\n\nChoose the functional form of \\(f\\), i.e., choose the appropriate model given the response variable\n\n\nSuppose \\(f\\) takes the form of a linear model\n\\[y = f(\\mathbf{X}) = \\beta_0 + \\beta_1 x_1 + \\epsilon\\]\n\n\n\nUse the data to fit (or train) the model, i.e, estimate the model parameters, \\(\\beta_0, \\beta_1\\)"
   },
   {
-    "objectID": "slides/03-slr-intro.html#computational-set-up",
-    "href": "slides/03-slr-intro.html#computational-set-up",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#computational-set-up",
+    "href": "slides/03-data-cleaning.html#computational-set-up",
+    "title": "Cleaning Our Data",
     "section": "Computational set up",
     "text": "Computational set up\n\n# load packages\nlibrary(tidyverse)       # for data wrangling\nlibrary(ggformula)       # for plotting\nlibrary(broom)           # for formatting model output\nlibrary(knitr)           # for formatting tables"
   },
   {
-    "objectID": "slides/03-slr-intro.html#count-vs.-temperature",
-    "href": "slides/03-slr-intro.html#count-vs.-temperature",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#count-vs.-temperature",
+    "href": "slides/03-data-cleaning.html#count-vs.-temperature",
+    "title": "Cleaning Our Data",
     "section": "Count vs. Temperature",
     "text": "Count vs. Temperature"
   },
   {
-    "objectID": "slides/03-slr-intro.html#skipping-ahead-to-exercise-5",
-    "href": "slides/03-slr-intro.html#skipping-ahead-to-exercise-5",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#skipping-ahead-to-exercise-5",
+    "href": "slides/03-data-cleaning.html#skipping-ahead-to-exercise-5",
+    "title": "Cleaning Our Data",
     "section": "Skipping ahead to Exercise 5",
     "text": "Skipping ahead to Exercise 5\n\nSuppose we want to add a third variable to our plots, such as the season variable. We have a few options:\n\nColor the points based on the third variable (add color = ~season to the gf_point call)\nFacet the plots by on the third variable by changing the formula to count ~ temp_orig | season"
   },
   {
-    "objectID": "slides/03-slr-intro.html#solution",
-    "href": "slides/03-slr-intro.html#solution",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#solution",
+    "href": "slides/03-data-cleaning.html#solution",
+    "title": "Cleaning Our Data",
     "section": "Solution",
     "text": "Solution\n\ngf_point(count ~ temp_orig | season, data = bikeshare) |&gt;\n  gf_labs(x = \"Temperature (Celsius)\",\n          y = \"Daily bike rentals\")\n\n\n\nWhat do we notice about how season is displayed"
   },
   {
-    "objectID": "slides/03-slr-intro.html#dplyr-and-the-tidyverse",
-    "href": "slides/03-slr-intro.html#dplyr-and-the-tidyverse",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#dplyr-and-the-tidyverse",
+    "href": "slides/03-data-cleaning.html#dplyr-and-the-tidyverse",
+    "title": "Cleaning Our Data",
     "section": "dplyr and the tidyverse",
     "text": "dplyr and the tidyverse\n\nAs R is an open-source programming language there are several difference styles and ways of doing things\nIn this class we’re going to use something called the tidyverse\nThe tidyverse is a collection of R packages that share a common design philosophy\ndplyr is a package within the tidyverse that provides a consistent interface for data manipulation"
   },
   {
-    "objectID": "slides/03-slr-intro.html#dplyr-verbs",
-    "href": "slides/03-slr-intro.html#dplyr-verbs",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#dplyr-verbs",
+    "href": "slides/03-data-cleaning.html#dplyr-verbs",
+    "title": "Cleaning Our Data",
     "section": "dplyr verbs",
     "text": "dplyr verbs\n\ndplyr provides a set of “verbs” for data manipulation\nWe’ll going to cover two today:\n\nmutate: creates new columns and changes (mutates) existing columns\nfilter: selects rows based on a condition\n\nYour HW will go over two more:\n\nsummarize: compute summary statistics (e.g. mean, median, standard deviation)\ngroup_by: group data by one or more variables (use this before summarize usually)\n\nWe’ll typically chain together these verbs using the pipe operator |&gt; (you may see %&gt;% in older code)\nLet’s use these verbs to clean up the bikeshare data\nReminder: R Resources Tab in Sidebar"
   },
   {
-    "objectID": "slides/03-slr-intro.html#data-prep",
-    "href": "slides/03-slr-intro.html#data-prep",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#data-prep",
+    "href": "slides/03-data-cleaning.html#data-prep",
+    "title": "Cleaning Our Data",
     "section": "Data prep",
     "text": "Data prep\n\nR calls categorical data “factors”\n\nYou may also see &lt;chr&gt; which stands for character. These are also categorical variables, but it’s almost always better to convert them to factors\n\nFactors remember what all possible levels (categories) and store them in order\n\nYou can put them in an order that makes sense so your plots looks better\n\nExercise 4: Recode season as a factor with names instead of numbers (livecode)"
   },
   {
-    "objectID": "slides/03-slr-intro.html#exercise-4",
-    "href": "slides/03-slr-intro.html#exercise-4",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#exercise-4",
+    "href": "slides/03-data-cleaning.html#exercise-4",
+    "title": "Cleaning Our Data",
     "section": "Exercise 4",
     "text": "Exercise 4\n\nIdea:\n\nTake the bikeshare data… AND THEN\nUse case_when to mutate the season column… AND THEN\nUse factor to convert season to a factor with levels in an order that makes sense"
   },
   {
-    "objectID": "slides/03-slr-intro.html#solution-1",
-    "href": "slides/03-slr-intro.html#solution-1",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#solution-1",
+    "href": "slides/03-data-cleaning.html#solution-1",
+    "title": "Cleaning Our Data",
     "section": "Solution",
     "text": "Solution\n\nbikeshare &lt;- bikeshare |&gt;\n  mutate(season = case_when(\n    season == 1 ~ \"winter\",\n    season == 2 ~ \"spring\",\n    season == 3 ~ \"summer\",\n    season == 4 ~ \"fall\"\n  ),\n  season = factor(season, levels = c(\"winter\", \"spring\", \"summer\", \"fall\")))"
   },
   {
-    "objectID": "slides/03-slr-intro.html#back-to-exercise-5-6",
-    "href": "slides/03-slr-intro.html#back-to-exercise-5-6",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#back-to-exercise-5-6",
+    "href": "slides/03-data-cleaning.html#back-to-exercise-5-6",
+    "title": "Cleaning Our Data",
     "section": "Back to Exercise 5 & 6",
     "text": "Back to Exercise 5 & 6\n\ngf_point(count ~ temp_orig | season, data = bikeshare) |&gt;\n  gf_labs(x = \"Temperature (Celsius)\",\n          y = \"Daily bike rentals\")\n\n\n\nDoes it look like the relationship between temp_orig and count is the same in each season?\nWhich is strongest/weakest?"
   },
   {
-    "objectID": "slides/03-slr-intro.html#season-is-an-important-predictor",
-    "href": "slides/03-slr-intro.html#season-is-an-important-predictor",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#season-is-an-important-predictor",
+    "href": "slides/03-data-cleaning.html#season-is-an-important-predictor",
+    "title": "Cleaning Our Data",
     "section": "season is an important predictor",
     "text": "season is an important predictor\n\nLater in the course we’ll learn how to include both temp_orig and season in our model\nFor now, let’s just focus on fitting a model to data from one season"
   },
   {
-    "objectID": "slides/03-slr-intro.html#filtering",
-    "href": "slides/03-slr-intro.html#filtering",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#filtering",
+    "href": "slides/03-data-cleaning.html#filtering",
+    "title": "Cleaning Our Data",
     "section": "Filtering",
     "text": "Filtering\n\n\n\n\n\nID\nThing1\nThing2\nThing3\n\n\n\n\n1\n100\n200\n“Bleg”\n\n\n2\n20\n20\n“Bleg”\n\n\n3\n30\n40\n“Fleg”\n\n\n4\n120\n120\n“Fleg”\n\n\n\n\n\nTo keep some observations use filter([insert true/false statement here]) and filter will keep all rows where the inside is true. Examples:\n\nThing2 &lt;= 100: keeps all rows where Thing2 is less than or equal to 1000\nThing3 == \"Fleg\": keeps everything where Thing3 equals \"Fleg\"? (Always write strings in quotes)\nThing1 != Thing2: keeps everything where Thing1 isn’t equal to Thing2?"
   },
   {
-    "objectID": "slides/03-slr-intro.html#activity-time",
-    "href": "slides/03-slr-intro.html#activity-time",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#activity-time",
+    "href": "slides/03-data-cleaning.html#activity-time",
+    "title": "Cleaning Our Data",
     "section": "Activity time",
     "text": "Activity time\n\nLet’s divide up the seasons\nI’m doing fall\nDo Exercises 7 & 8"
   },
   {
-    "objectID": "slides/03-slr-intro.html#sample-solution",
-    "href": "slides/03-slr-intro.html#sample-solution",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#sample-solution",
+    "href": "slides/03-data-cleaning.html#sample-solution",
+    "title": "Cleaning Our Data",
     "section": "Sample Solution",
     "text": "Sample Solution\n\nfall &lt;- bikeshare |&gt;\n  filter(season == \"fall\")"
   },
   {
-    "objectID": "slides/03-slr-intro.html#rentals-vs-temperature",
-    "href": "slides/03-slr-intro.html#rentals-vs-temperature",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#rentals-vs-temperature",
+    "href": "slides/03-data-cleaning.html#rentals-vs-temperature",
+    "title": "Cleaning Our Data",
     "section": "Rentals vs Temperature",
     "text": "Rentals vs Temperature\nGoal: Fit a line to describe the relationship between the temperature and the number of rentals in your season."
   },
   {
-    "objectID": "slides/03-slr-intro.html#slr-statistical-model",
-    "href": "slides/03-slr-intro.html#slr-statistical-model",
-    "title": "Simple Linear Regression",
-    "section": "SLR: Statistical model",
-    "text": "SLR: Statistical model\n\nSimple linear regression: model to describe the relationship between \\(Y\\) and \\(X\\) where:\n\n\\(Y\\) is a quantitative/numerical response\n\\(X\\) is a single quantitative predictor\n\\[\\Large{Y = \\mathbf{\\beta_0 + \\beta_1 X} + \\epsilon}\\]\n\n\n\n\n\\(\\beta_1\\): True slope of the relationship between \\(X\\) and \\(Y\\)\n\\(\\beta_0\\): True intercept of the relationship between \\(X\\) and \\(Y\\)\n\\(\\epsilon\\): Error"
-  },
-  {
-    "objectID": "slides/03-slr-intro.html#slr-regression-equation",
-    "href": "slides/03-slr-intro.html#slr-regression-equation",
-    "title": "Simple Linear Regression",
-    "section": "SLR: Regression equation",
-    "text": "SLR: Regression equation\n\\[\\Large{\\hat{Y} = \\hat{\\beta}_0 + \\hat{\\beta}_1 X}\\]\n\n\\(\\hat{\\beta}_1\\): Estimated slope of the relationship between \\(X\\) and \\(Y\\)\n\\(\\hat{\\beta}_0\\): Estimated intercept of the relationship between \\(X\\) and \\(Y\\)\n\\(\\hat{Y}\\): Predicted value of \\(Y\\) for a given \\(X\\)\nNo error term!"
-  },
-  {
-    "objectID": "slides/03-slr-intro.html#statistical-model-vs.-regression-equation",
-    "href": "slides/03-slr-intro.html#statistical-model-vs.-regression-equation",
-    "title": "Simple Linear Regression",
-    "section": "Statistical model vs. regression equation",
-    "text": "Statistical model vs. regression equation\nStatistical model (also known as data-generating model)\n\\[{\\small \\text{count} = \\beta_0 + \\beta_1 ~\\text{temp_orig} + \\epsilon}\\]\nModels the process for generating values of the response in the population (function + error)\n\n\nRegression equation\nEstimate of the function using the sample data\n\\[{\\small \\hat{\\text{count}} = \\hat{\\beta}_0 + \\hat{\\beta}_1 ~\\text{temp_orig}}\\]"
-  },
-  {
-    "objectID": "slides/03-slr-intro.html#why-fit-a-model",
-    "href": "slides/03-slr-intro.html#why-fit-a-model",
-    "title": "Simple Linear Regression",
-    "section": "Why fit a model?",
-    "text": "Why fit a model?\n\nPrediction: Expected value of the response variable for given values of the predictor variables\nInference: Conclusion about the relationship between the response and predictor variables\n\n\n\nWhat is an example of a prediction question that can be answered using the model of count vs. temperature?\nWhat is an example of an inference question that can be answered using the model of count vs. temperature?"
-  },
-  {
-    "objectID": "slides/03-slr-intro.html#choosing-values-for-hatbeta_1-and-hatbeta_0",
-    "href": "slides/03-slr-intro.html#choosing-values-for-hatbeta_1-and-hatbeta_0",
-    "title": "Simple Linear Regression",
-    "section": "Choosing values for \\(\\hat{\\beta}_1\\) and \\(\\hat{\\beta}_0\\)",
-    "text": "Choosing values for \\(\\hat{\\beta}_1\\) and \\(\\hat{\\beta}_0\\)"
-  },
-  {
-    "objectID": "slides/03-slr-intro.html#fit-model-estimate-parameters",
-    "href": "slides/03-slr-intro.html#fit-model-estimate-parameters",
-    "title": "Simple Linear Regression",
-    "section": "Fit model & estimate parameters",
-    "text": "Fit model & estimate parameters\n\nfall_fit &lt;- lm(count ~ temp_orig, data = fall)\nfall_fit\n\n\nCall:\nlm(formula = count ~ temp_orig, data = fall)\n\nCoefficients:\n(Intercept)    temp_orig  \n     2077.5        152.9"
-  },
-  {
-    "objectID": "slides/03-slr-intro.html#look-at-the-regression-output",
-    "href": "slides/03-slr-intro.html#look-at-the-regression-output",
-    "title": "Simple Linear Regression",
-    "section": "Look at the regression output",
-    "text": "Look at the regression output\n\nfall_fit &lt;- lm(count ~ temp_orig, data = fall)\nfall_fit\n\n\nCall:\nlm(formula = count ~ temp_orig, data = fall)\n\nCoefficients:\n(Intercept)    temp_orig  \n     2077.5        152.9  \n\n\n\\[\\widehat{\\text{count}} = 2077.5 + 152.9 \\times \\text{temp_orig}\\]"
-  },
-  {
-    "objectID": "slides/03-slr-intro.html#use-tidy-to-make-it-prettier",
-    "href": "slides/03-slr-intro.html#use-tidy-to-make-it-prettier",
-    "title": "Simple Linear Regression",
-    "section": "Use tidy to make it prettier",
-    "text": "Use tidy to make it prettier\nWe’ll focus on the first column for now…\n\nfall_fit |&gt;\n  tidy()\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic      p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;\n1 (Intercept)    2077.     476.       4.37 0.0000214   \n2 temp_orig       153.      26.6      5.75 0.0000000387"
-  },
-  {
-    "objectID": "slides/03-slr-intro.html#using-kable-to-make-it-extra-pretty",
-    "href": "slides/03-slr-intro.html#using-kable-to-make-it-extra-pretty",
-    "title": "Simple Linear Regression",
-    "section": "Using kable to make it extra pretty",
-    "text": "Using kable to make it extra pretty\n\nfall_fit |&gt;\n  tidy() |&gt;\n  kable()\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n2077.4771\n475.67243\n4.367453\n2.14e-05\n\n\ntemp_orig\n152.8729\n26.58745\n5.749815\n0.00e+00"
-  },
-  {
-    "objectID": "slides/03-slr-intro.html#visualize-model",
-    "href": "slides/03-slr-intro.html#visualize-model",
-    "title": "Simple Linear Regression",
-    "section": "Visualize Model",
-    "text": "Visualize Model\n\n\nCode\nfall |&gt;\n  gf_point(count ~ temp_orig) |&gt;\n  gf_lm() |&gt;\n  gf_labs(x = \"Temperature (°C)\", y = \"Daily Bike Rentals\", title = \"Fall Bike Rentals vs. Temperature\")"
-  },
-  {
-    "objectID": "slides/03-slr-intro.html#interpreting-the-slope-and-intercept",
-    "href": "slides/03-slr-intro.html#interpreting-the-slope-and-intercept",
-    "title": "Simple Linear Regression",
-    "section": "Interpreting the Slope and Intercept",
-    "text": "Interpreting the Slope and Intercept\n\nSlope: For each additional unit of \\(X\\) we expect \\(Y\\) to increase by \\(\\hat{\\beta}_1\\), on average.\nIntercept: If \\(X\\) were 0, we predict \\(Y\\) to be \\(\\hat{\\beta}_0\\)"
-  },
-  {
-    "objectID": "slides/03-slr-intro.html#fall-example",
-    "href": "slides/03-slr-intro.html#fall-example",
-    "title": "Simple Linear Regression",
-    "section": "Fall Example",
-    "text": "Fall Example\n\nSlope: For each addition degree Celcius we expect the number of bike rentals to increase by 152.87 on average, in the Fall.\nIntercept: If the temperature were 0 degrees Celcius, we predict the number of bike rentals to be 2077.48 in the Fall."
-  },
-  {
-    "objectID": "slides/03-slr-intro.html#does-it-make-sense-to-interpret-the-intercept",
-    "href": "slides/03-slr-intro.html#does-it-make-sense-to-interpret-the-intercept",
-    "title": "Simple Linear Regression",
-    "section": "Does it make sense to interpret the intercept?",
-    "text": "Does it make sense to interpret the intercept?\n✅ The intercept is meaningful in the context of the data if\n\nthe predictor can feasibly take values equal to or near zero, or\nthere are values near zero in the observed data.\n\n\n🛑 Otherwise, the intercept may not be meaningful!\n\nNote meaningful doesn’t mean wrong\n\n\n\nComplete the remainder of the exercises."
-  },
-  {
-    "objectID": "slides/03-slr-intro.html#recap",
-    "href": "slides/03-slr-intro.html#recap",
-    "title": "Simple Linear Regression",
+    "objectID": "slides/03-data-cleaning.html#recap",
+    "href": "slides/03-data-cleaning.html#recap",
+    "title": "Cleaning Our Data",
     "section": "Recap",
-    "text": "Recap\n\n\nSimple linear regression (SLR) describes the relationship between a quantitative predictor (\\(X\\)) and response (\\(Y\\)).\nThe statistical model: \\(Y = \\beta_0 + \\beta_1 X\\)\nThe regression equation: \\(\\hat{Y} = \\hat{\\beta}_0 + \\hat{\\beta}_1 X\\)\n\\(\\hat{\\beta}_1\\) (slope): estimated change in \\(Y\\) for each unit increase in \\(X\\)\n\\(\\hat{\\beta}_0\\) (intercept): estimated value of \\(Y\\) when \\(X = 0\\)\nSLR can be used for prediction and inference"
+    "text": "Recap\n\n\nMutate: create and change columns\nFilter: keeps some of your observations\n|&gt;: the dplyr pipe for chaining together data manipulation techniques\nFactors: R’s way of remembering categorical data"
   },
   {
     "objectID": "slides/01-intro-to-r.html#topics",
@@ -702,77 +716,154 @@
     "href": "index.html",
     "title": "Schedule",
     "section": "",
-    "text": "This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses, with all changes documented here.\n\n\n\n\nLecture\nDOW\nDate\nTopic\nPrepare\nSlides\nAE\nHW\nProject\nNotes\n\n\n\n\n0\nW\nAug 26\nWelcome to MATH 2025!\n\n\n\n\n\nWelcome!\n\n\n1\nM\nAug 31\nGetting Started with R & Quarto\n\n\n\n\n\nOur first AE!\n\n\n2\nW\nSep 2\nExploratory Data Analysis\n\n\n\n\n\n\n\n\n\nM\nSep 7\nNo Class - Labor Day\n\n\n\n\n\nLabor Day - No Classes\n\n\n3\nW\nSep 9\nIntroduction to Simple Linear Regression\n\n\n\n\n\nHW 1 Due\n\n\n4\nM\nSep 14\nPrediction\n\n\n\n\n\n\n\n\n5\nW\nSep 16\nTBD\n\n\n\n\n\nHW 2 Due",
+    "text": "This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses, with all changes documented here.\n\n\n\n\nLecture\nDOW\nDate\nTopic\nPrepare\nSlides\nAE\nHW\nProject\nNotes\n\n\n\n\n0\nW\nAug 26\nWelcome to MATH 2025!\n\n\n\n\n\nWelcome!\n\n\n1\nM\nAug 31\nGetting Started with R & Quarto\n\n\n\n\n\nOur first AE!\n\n\n2\nW\nSep 2\nExploratory Data Analysis\n\n\n\n\n\n\n\n\n\nM\nSep 7\nNo Class - Labor Day\n\n\n\n\n\nLabor Day - No Classes\n\n\n3\nW\nSep 9\nData Cleaning\n\n\n\n\n\nHW 1 Due\n\n\n4\nM\nSep 14\nIntroduction to Simple Linear Regression\n\n\n\n\n\n\n\n\n5\nW\nSep 16\nCategorical Predictors\n\n\n\n\n\nHW 2 Due",
     "crumbs": [
       "Schedule"
     ]
   },
   {
-    "objectID": "hw/hw-01.html",
-    "href": "hw/hw-01.html",
-    "title": "HW 01: Dr. F’s Coffee",
+    "objectID": "hw/hw-02.html",
+    "href": "hw/hw-02.html",
+    "title": "HW 02: Park access",
     "section": "",
-    "text": "This HW will go through much of the same workflow we’ve demonstrated in class. The main goal is to reinforce our demo of R and RStudio, which we will be using throughout the course both to learn the statistical concepts and to analyze real data and come to informed conclusions. Many of the things written in here, we’ve learned in class and should feel like review.\n\n\n\n\n\n\nNote\n\n\n\nR is the name of the programming language itself and RStudio is a convenient interface.\n\n\n\n\nBy the end of this homework, you will…\n\nBe familiar with the workflow using RStudio\nGain practice writing a reproducible report using Quarto\nBe able to create data visualizations using ggformula and use those visualizations to describe distributions"
+    "text": "This HW will go through much of the same workflow we’ve demonstrated in class. The main goal is to reinforce our demo of R and RStudio, which we will be using throughout the course both to learn the statistical concepts and to analyze real data and come to informed conclusions.\n\n\n\n\n\n\nNote\n\n\n\nR is the name of the programming language itself and RStudio is a convenient interface.\n\n\n\n\nBy the end of this homework, you will…\n\nBe familiar with the workflow using RStudio\nGain practice writing a reproducible report using Quarto\nBe able to create data visualizations using ggformula and use those visualizations to describe distributions\nBe able to fit, interpret, and evaluate simple linear regression models"
   },
   {
-    "objectID": "hw/hw-01.html#learning-goals",
-    "href": "hw/hw-01.html#learning-goals",
-    "title": "HW 01: Dr. F’s Coffee",
+    "objectID": "hw/hw-02.html#learning-goals",
+    "href": "hw/hw-02.html#learning-goals",
+    "title": "HW 02: Park access",
     "section": "",
-    "text": "By the end of this homework, you will…\n\nBe familiar with the workflow using RStudio\nGain practice writing a reproducible report using Quarto\nBe able to create data visualizations using ggformula and use those visualizations to describe distributions"
+    "text": "By the end of this homework, you will…\n\nBe familiar with the workflow using RStudio\nGain practice writing a reproducible report using Quarto\nBe able to create data visualizations using ggformula and use those visualizations to describe distributions\nBe able to fit, interpret, and evaluate simple linear regression models"
   },
   {
-    "objectID": "hw/hw-01.html#r-and-rstudio",
-    "href": "hw/hw-01.html#r-and-rstudio",
-    "title": "HW 01: Dr. F’s Coffee",
+    "objectID": "hw/hw-02.html#r-and-rstudio",
+    "href": "hw/hw-02.html#r-and-rstudio",
+    "title": "HW 02: Park access",
     "section": "R and RStudio",
-    "text": "R and RStudio\nSee the R resources page for a guide to the RStudio IDE and Quarto file components.\n\nYAML\nThe top portion of your Quarto file (between the three dashed lines) is called YAML. It stands for “Yet Another Markup Language”. It is a human-friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document."
+    "text": "R and RStudio\nSee the R resources page for a guide to the RStudio IDE and Quarto file components.\n\nYAML\nThe top portion of your Quarto file (between the three dashed lines) is called YAML. It stands for ““Yet Another Markup Language”. It is a human friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document.\n\n\n\n\n\n\nImportant\n\n\n\nOpen the Quarto (.qmd) file in your project, change the author name to your name, and render the document. Examine the rendered document. You can now work off of that file."
   },
   {
-    "objectID": "hw/hw-01.html#analysis-goal",
-    "href": "hw/hw-01.html#analysis-goal",
-    "title": "HW 01: Dr. F’s Coffee",
+    "objectID": "hw/hw-02.html#analysis-goal",
+    "href": "hw/hw-02.html#analysis-goal",
+    "title": "HW 02: Park access",
     "section": "Analysis goal",
-    "text": "Analysis goal\nWhat makes a good cup of coffee, at least by Dr. F’s own standards? The goal of this analysis is to explore how the beans, brewing choices, and flavor characteristics of a cup relate to how highly Dr. F rated it."
+    "text": "Analysis goal\nOne way to improve access to public parks is for cities to spend more money creating and maintaining parks for their residents. It’s unclear, however, how much spending impacts residents’ access to parks. The goal of this analysis is to examine the relationship between spending per resident and points in the ParkScore index for the percent of residents within a 10 minute walk to a park."
   },
   {
-    "objectID": "hw/hw-01.html#tips",
-    "href": "hw/hw-01.html#tips",
-    "title": "HW 01: Dr. F’s Coffee",
-    "section": "Tips",
-    "text": "Tips\nWrite all code and narrative in your Quarto file. Write all narrative in complete sentences. Write each of your responses in the answer box below the corresponding exercise; one has already been created for each exercise. Throughout the assignment, you should periodically render your Quarto document to produce the updated HTML file.\nIf you get stuck and can’t remember how to do something, try looking back at Lecture 1 and Lecture 2 and the two Application Exercises that you completed alongside them."
-  },
-  {
-    "objectID": "hw/hw-01.html#taking-a-glimpse-hint-hint-at-the-data",
-    "href": "hw/hw-01.html#taking-a-glimpse-hint-hint-at-the-data",
-    "title": "HW 01: Dr. F’s Coffee",
-    "section": "Taking a glimpse (hint hint) at the data",
-    "text": "Taking a glimpse (hint hint) at the data\n\nCreate a code chunk in the answer block below and write a little bit of code to take a quick look at your data so you can answer these questions. How many observations (rows) and how many variables (columns) does coffee have? In your own words, what does a single row of this data set represent?\n\n\n\n\n\nUsing the variable descriptions above, classify each of the following as quantitative or categorical: vibes_rating, roast, origin, brewer, aroma, sweetness, acidity, body, finish."
-  },
-  {
-    "objectID": "hw/hw-01.html#visualizing-the-data",
-    "href": "hw/hw-01.html#visualizing-the-data",
-    "title": "HW 01: Dr. F’s Coffee",
-    "section": "Visualizing the data",
-    "text": "Visualizing the data\nWe’ll start by taking a look at our response variable vibes_rating.\n\nRemember the two questions you should ask before plotting a variable:\n\nHow many variables am I trying to visualize?\nWhat type of variables are they?\n\nConsider vibes_rating. Answer the two questions above, then specify what type(s) of plots would be most appropriate. (List at least two.)\n\n\n\n\n\nIn the code chunk that is in the answer block below, create at least one of the plots you specified above to visualize vibes_rating. Then use favstats to calculate summary statistics for vibes_rating.\nUse the plot and summary statistics to describe the distribution of vibes_rating: comment on its shape, center, spread, and the presence of any apparent outliers.\n\n\n\n\nNow let’s look at the categorical variables. The code below makes a bar chart of roast:\n\ngf_bar(~roast, data = coffee) |&gt;\n  gf_labs(x = \"Roast\",\n       y = \"Count\",\n       title = \"Distribution of Roast Levels\")\n\n\n\n\n\n\n\n\nNote that we haven’t talked about the symbol |&gt; or the function gf_labs in class. The function gf_labs is used to add informative axis labels and a title to a ggplot object. The symbol |&gt; is called a “pipe” operator and is used to chain together multiple functions in a readable way. When you encounter a pipe in code say “and then” to yourself in your head. For the code above you can say “Make a bar chart of roast and then add informative axis labels and a title.”\n\nUsing code for a bar chart as a template, create your own bar charts for origin and brewer, each with an informative title and axis labels. Note that some of the categories may overlap or be messy, don’t worry about fixing that yet.\nWhich roast, origin, and brewer show up most often in Dr. F’s coffee log? You’ll likely notice that some of the categories are messy and don’t appear in a nice order. We’ll talk about how to fix this later on. For now, call out 1-3 things that you’d like to fix if you knew how.\n\n\n\n\n\nNow examine the distributions of the five flavor sub-scores: aroma, sweetness, acidity, body, and finish. For each one, create a histogram (with an informative title and axis labels) and calculate summary statistics with favstats.\nBased on your plots and summary statistics: Which sub-score varies the most from cup to cup? (Hint: look at the standard deviation, sd, in the favstats output.)\n\n\n\n\n\nRemember, our ultimate goal is to figure out what makes the best cup of coffee. That is, we want to understand what factors contribute to a high vibes_rating. Let’s compare vibes_rating across categories. We want to generate one plot of vibes_rating vs. roast.\nAnswer these two questions about the plot and then state what kinds of plots you could make:\n\nHow many variables are we trying to visualize at once?\nWhat kind of variables are these?\n\n\n\n\n\n\nMake at least one of the plots you described above to visualize vibes_rating vs. roast and another plot of vibes_rating vs. origin. For each pair, also calculate favstats(vibes_rating ~ roast, data = coffee) (and the equivalent for origin). Based on your plots and summary statistics, what kinds of roasts does Dr. F seem to prefer? What about origins? Be sure to reference the group sizes (n in the favstats output): how much should we trust a comparison built on a group with only two or three cups?\n\n\n\n\n\nNow do the same comparison for brewer: a side-by-side boxplot of vibes_rating by brewer, plus the corresponding favstats.\nEven if one brewer has a noticeably higher mean rating, explain why we can’t conclude that brewer causes better-tasting coffee.\n\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nThis is another good place to render your document.\n\n\n\nFinally, let’s look at how vibes_rating relates to the flavor sub-scores. Choose at least three of aroma, sweetness, acidity, body, and finish. For each one, create a plot of vibes_rating against that sub-score. While you don’t need to write the answers here, remember to ask the two questions above.\nFor each relationship, do your best to describe its direction and strength.\nBonus: You’ll notice that since everything is on a scale from 1 to 10, alot of the points are overlapping and it’s hard to see the real relationships if you use gf_point. Instead try using gf_jitter. What do you think this does?\n\n\n\n\n\nBased on the analysis you’ve done so far, write a brief summary addressing the following:\n\nWhat recommendations would you make to Dr. Friedlander about the most important factors in finding his favorite coffee?\nWhy might you not want to fully trust these conclusions? Hint: Think about confounding variables.\nIf you were going to study this question further, what additional information would you want?\n\n\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nYou’re done and ready to submit your work! Render your document and upload the .qmd and .html files to Canvas."
-  },
-  {
-    "objectID": "hw/hw-01.html#footnotes",
-    "href": "hw/hw-01.html#footnotes",
-    "title": "HW 01: Dr. F’s Coffee",
+    "objectID": "hw/hw-02.html#footnotes",
+    "href": "hw/hw-02.html#footnotes",
+    "title": "HW 02: Park access",
     "section": "Footnotes",
-    "text": "Footnotes\n\n\nThe “Grammar & Writing” grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.↩︎\nThe “Workflow & formatting” grade is to assess the reproducible workflow and document format. This includes having a neatly organized document with readable code, your name in the YAML, and all answers in answer blocks.↩︎"
+    "text": "Footnotes\n\n\nThe “Grammar & Writing” grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.↩︎\nThe “Workflow & formatting” grade is to assess the reproducible workflow and document format. This includes having a neatly organized document with readable code and your name and the date in the YAML.↩︎"
   },
   {
-    "objectID": "computing-access.html",
-    "href": "computing-access.html",
-    "title": "Computing access",
+    "objectID": "computing-r-resources.html",
+    "href": "computing-r-resources.html",
+    "title": "Resources for learning R",
     "section": "",
-    "text": "To access RStudio at the College of Idaho, go to the CofI Posit Workbench website and sign in using your CofI email and password.\n\n\n\n\n\n\nNote\n\n\n\nThe Workbench servers are being updated this semester, so this address may change. Check back here or watch for an announcement if the link stops working.",
+    "text": "Histogram: gf_histogram( ~ variable, data = data_name)\nBoxplot: gf_boxplot( ~ variable, data = data_name)\nDotplot: gf_dotplot( ~ variable, data = data_name)\nBarchart: gf_bar( ~ variable, data = data_name)\nSide-by-side “dodged” barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position=\"dodge\")\nStacked barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data)\nStandardized barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position=\"fill\")\nSide-by-side boxplot: gf_boxplot( variable1 ~ variable2, data = data_name)\nScatterplot: gf_point(variable1 ~ variable2, data = data_name)\nScatterplot with a third variable as color: gf_point(variable1 ~ variable2, color = ~ variable3, data = data_name)",
     "crumbs": [
       "Computing",
-      "Computing access"
+      "R Resources"
     ]
+  },
+  {
+    "objectID": "computing-r-resources.html#useful-code-for-creating-basic-figures-requires-ggformula",
+    "href": "computing-r-resources.html#useful-code-for-creating-basic-figures-requires-ggformula",
+    "title": "Resources for learning R",
+    "section": "",
+    "text": "Histogram: gf_histogram( ~ variable, data = data_name)\nBoxplot: gf_boxplot( ~ variable, data = data_name)\nDotplot: gf_dotplot( ~ variable, data = data_name)\nBarchart: gf_bar( ~ variable, data = data_name)\nSide-by-side “dodged” barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position=\"dodge\")\nStacked barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data)\nStandardized barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position=\"fill\")\nSide-by-side boxplot: gf_boxplot( variable1 ~ variable2, data = data_name)\nScatterplot: gf_point(variable1 ~ variable2, data = data_name)\nScatterplot with a third variable as color: gf_point(variable1 ~ variable2, color = ~ variable3, data = data_name)",
+    "crumbs": [
+      "Computing",
+      "R Resources"
+    ]
+  },
+  {
+    "objectID": "computing-r-resources.html#useful-code-for-calculating-summary-statistics-requires-mosaic",
+    "href": "computing-r-resources.html#useful-code-for-calculating-summary-statistics-requires-mosaic",
+    "title": "Resources for learning R",
+    "section": "Useful code for calculating summary statistics: (requires mosaic)",
+    "text": "Useful code for calculating summary statistics: (requires mosaic)\n\nMeans: mean( ~ variable, data = data_name) or mean(variable1 ~ variable2, data = data_name)\nCounts/Tables: tally( ~ variable, data = data_name) or tally(variable1 ~ variable2, data = data_name)\n5-number-summary etc: favstats( ~ variable, data = data_name) or favstats(variable1 ~ variable2, data = data_name)",
+    "crumbs": [
+      "Computing",
+      "R Resources"
+    ]
+  },
+  {
+    "objectID": "computing-r-resources.html#useful-code-for-cleaning-data-requires-dplyr-loaded-via-librarytidyverse",
+    "href": "computing-r-resources.html#useful-code-for-cleaning-data-requires-dplyr-loaded-via-librarytidyverse",
+    "title": "Resources for learning R",
+    "section": "Useful code for cleaning data (requires dplyr, loaded via library(tidyverse))",
+    "text": "Useful code for cleaning data (requires dplyr, loaded via library(tidyverse))\nThese examples use dcbikeshare (columns like season, count, temp_orig, hour) as a running example, so column names below are real rather than generic placeholders.\n\nKeep only rows matching a condition: dcbikeshare |&gt; filter(season == \"fall\")\nAdd or change a column: dcbikeshare |&gt; mutate(temp_f = temp_orig * 9/5 + 32)\nGrouped summary statistics:\ndcbikeshare |&gt;\n  group_by(season) |&gt;\n  summarize(avg_count = mean(count), median_count = median(count))\nif_else: recode a column into two categories\ndcbikeshare |&gt;\n  mutate(rush_hour = if_else(hour %in% c(7, 8, 17, 18), \"rush hour\", \"off-peak\"))\ncase_when: recode a column into more than two categories\ndcbikeshare |&gt;\n  mutate(season = case_when(\n    season == 1 ~ \"winter\",\n    season == 2 ~ \"spring\",\n    season == 3 ~ \"summer\",\n    season == 4 ~ \"fall\"\n  ))\nConvert a variable to a factor and set the order of its levels (useful so plots/tables show categories in a sensible order instead of alphabetical):\ndcbikeshare |&gt;\n  mutate(season = factor(season, levels = c(\"winter\", \"spring\", \"summer\", \"fall\")))",
+    "crumbs": [
+      "Computing",
+      "R Resources"
+    ]
+  },
+  {
+    "objectID": "computing-r-resources.html#helpful-cheatsheets",
+    "href": "computing-r-resources.html#helpful-cheatsheets",
+    "title": "Resources for learning R",
+    "section": "Helpful Cheatsheets",
+    "text": "Helpful Cheatsheets\n\nRStudio Cheatsheets\n\nI recommend “Data transformation with dplyr”\n\n\n\nUseful functions fitting and analyzing models\n\n\n\nModel type\nAction\nFunction\n\n\n\n\nSimple Linear Regression\nFit Model\nlm(Y ~ X, data = data_name)",
+    "crumbs": [
+      "Computing",
+      "R Resources"
+    ]
+  },
+  {
+    "objectID": "computing-r-resources.html#books-free-online",
+    "href": "computing-r-resources.html#books-free-online",
+    "title": "Resources for learning R",
+    "section": "Books (free online)",
+    "text": "Books (free online)\n\nR for Data Science by Hadley Wickham & Garrett Grolemund\nTidy Modeling with R by Max Kuhn & Julia Silge",
+    "crumbs": [
+      "Computing",
+      "R Resources"
+    ]
+  },
+  {
+    "objectID": "computing-r-resources.html#rstudio-primers",
+    "href": "computing-r-resources.html#rstudio-primers",
+    "title": "Resources for learning R",
+    "section": "RStudio Primers",
+    "text": "RStudio Primers\n\nInteractive LearnR Tutorial\nR Primers for full list of tutorials. Note that we will be using a simplified version of ggplot2 in this course.",
+    "crumbs": [
+      "Computing",
+      "R Resources"
+    ]
+  },
+  {
+    "objectID": "computing-r-resources.html#additional-resources",
+    "href": "computing-r-resources.html#additional-resources",
+    "title": "Resources for learning R",
+    "section": "Additional resources",
+    "text": "Additional resources\n\nR Fun workshops and videos by Duke Center for Data and Visualization Sciences.",
+    "crumbs": [
+      "Computing",
+      "R Resources"
+    ]
+  },
+  {
+    "objectID": "ae/ae-05-coffee-truck.html",
+    "href": "ae/ae-05-coffee-truck.html",
+    "title": "AE 05: The Coffee Truck",
+    "section": "",
+    "text": "Important\n\n\n\n\nOpen RStudio and create a subfolder in your AE folder called “AE-05”\nGo to the assignment for this activity in Canvas to get started.\nUpload the ae-05-coffee-truck.qmd file into the folder you just created. We will generate a dataset for this activity shortly"
+  },
+  {
+    "objectID": "ae/ae-05-coffee-truck.html#data",
+    "href": "ae/ae-05-coffee-truck.html#data",
+    "title": "AE 05: The Coffee Truck",
+    "section": "Data",
+    "text": "Data\nToday we’re generating our own data by playing the Coffee Truck game from Grinnell’s stat2games project.\n\nJo inherited a coffee truck, has $20,000 left after repairs, and wants help figuring out what combination of settings sells the most coffee. Every simulated shift you play records:\n\n\nSales: number of cups sold that shift (our response variable)\nLocation: Business District / City Park / City Hall / Near the Zoo\nMusic: No Music / Hip Hop / Alternative\nPrice: $2 / $3 / $4 / $5 per cup\nTimeOfDay: Morning / Lunch / Afternoon / Evening\n\n\n\n\n\n\n\nImportant\n\n\n\nThis game’s data lands in a table that’s public to anyone. Do not use your real name as your Player Name."
+  },
+  {
+    "objectID": "ae/ae-05-coffee-truck.html#exercises",
+    "href": "ae/ae-05-coffee-truck.html#exercises",
+    "title": "AE 05: The Coffee Truck",
+    "section": "Exercises",
+    "text": "Exercises\n\nPlaying the Game\n\nPlay the game at the link above.\n\nOn the ID screen, enter MATH2025FA26 as the Group Name.\nPick a Player Name that does not identify you, and write it in the box below (you’ll need it later).\n\n\n\n\n\n\nSet up your design:\n\nStart with Location = Business District, Music = No Music, Price = $3 per cup, Time = Lunch, Weather = Relatively Constant** for the whole activity.\nSelect one additional category from Music, Location, OR Time\nSet Design Type to Random Sample and Number of Repetitions to 10. Confirm “Number of Days” reads 20.\nClick Start Sim.\n\nWrite down which setting your group changed, and which second level you picked.\n\n\n\n\n\nDownload your data as a CSV file, and upload it in your data folder. I recommend changing the filename to something more memorable.\n\n\nRun the following code to load the packages we’ll use in this activity.\n\n\n\nlibrary(tidyverse)\nlibrary(mosaic)\nlibrary(ggformula)\nlibrary(broom)\nlibrary(coursekata)\n\n\n\nUse read_csv to load the data you just uploaded. Take a look at the data, make sure it has the right number of rows. If our goal is to make the most money, what should your response variable be? What is the predictor variable you varied? What are the two levels of that variable?\n\n\n\n#\n\n\n\nCreate a plot exploring the relationship between your explanatory variables.\n\n\n\n\n\nUse favstats() to find the mean Sales at each of your two levels.\n\n\n\n\n\nFit a linear model predicting Sales from your variable. Use tidy() to format the output.\n\nWhat is the reference level in your model?\nOn the whiteboard draw a plot similar to the one found here representing your model (don’t worry too much about the jittered points, just get the red lines.)\n:::\n\n\n\n# add code developed during livecoding here\n\n\n\nUse the output to write out the estimated regression equation, and the dummy coding for an observation at each level, on the whiteboard.\n\n\nInterpret the intercept in the context of the data.\n\n\n\n\n\nInterpret the “slope” in the context of the data.\n\n\n\n\n\nCompare the means you generated in exercise 7 and the coefficients from exercise 9. Show that the “model is just predicting the means” for each level of the variable. Show your work on the whiteboard.\n\n\nUse predict() to get the model’s predicted Sales for each level of your variable. How many distinct predictions can this model make, and why?\n\n\n\nnew_data &lt;- tibble(\n  your_variable = c(\"level1\", \"level2\", \"level3\")\n)\n\n## More code here\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTo submit the AE:\n\nRender the document to produce the HTML with all of your work from today’s class.\nThe driver for your group should upload your .qmd and .html files to the Canvas assignment.\n:::"
   },
   {
     "objectID": "ae/ae-02-exploratory-data-analysis.html",
@@ -920,125 +1011,104 @@
     "text": "Exercises\n\nModify the file path to load the dcbikeshare data set.\nHints:\n\nUse a relative path\nYou need to go up two levels and then into the data folder\nPressing TAB while your cursor is in the quotations will help you navigate\nMake sure to remove the #|eval: false line from the answer code\n\n\n\n\nbikeshare &lt;- read_csv(\"insert path here\")\n\n\n\nBelow is code to create visualizations of the distributions of daily bike rentals and temperature. Create a plot of the number of rentals vs the temperature and store it in a variable called p3. If you can figure it out based on context, try and add appropriate labels to the plot. Finally, uncomment the last line of code in this chunk. What do you think this last line does? Comment on what you see.\n\n\n\np1 &lt;- gf_histogram(~ count, data = bikeshare, binwidth = 250) |&gt;\n  gf_labs(x = \"Daily bike rentals\")\n\np2 &lt;- gf_histogram(~temp_orig, data = bikeshare) |&gt;\n  gf_labs(x = \"Temperature (Celsius)\")\n\n# (p1 | p2) / p3\n\n\n\nIn the raw data, seasons are coded as 1, 2, 3, 4 as numerical values, corresponding to winter, spring, summer, and fall respectively. Recode the season variable to make it a categorical variable (a factor) with levels corresponding to season names, making sure that the levels appear in a reasonable order in the variable (i.e., not alphabetical).\n\n\n\n# add code developed during livecoding here\n\n\n\nWe want to evaluate whether the relationship between temperature and daily bike rentals is the same for each season. To answer this question:\n\nCreate a scatter plot of daily bike rentals vs. temperature faceted by season\nCreate a scatter plot of daily bike rentals vs. temperature colored by season\n\n\n\n\n\n\n\nWhich season appears to have the strongest relationship between temperature and daily bike rentals? Why do you think the relationship is strongest in this season?\nWhich season appears to have the weakest relationship between temperature and daily bike rentals? Why do you think the relationship is weakest in this season?\n\n\n\n\n\n\nGoing back to the scatter plot of rentals vs. temperature from earlier, there appears to be one day with a very small number of bike rentals. Use filter to figure out what that day was? Why were the number of bike rentals so low on that day? Hint: You can Google the date to figure out what was going on that day.\n\n\n\n\n\nFilter your data for the season you’ve been assigned, give the resulting data set a new name, and plot the relationship between temperature and daily bike rentals for this season.\n\n\n\n# add code developed during livecoding here\n\n\n\nUsing the subset of the data from the previous exercise, fit a linear model for predicting daily bike rentals from temperature for this season.\n\n\n\n\n\nUse the output to write out the estimated regression equation on the whiteboard.\n\n\nInterpret the slope in the context of the data.\n\n\n\n\n\nInterpret the intercept in the context of the data.\n\n\n\n\n\nCreate a visualization of the model we just created.\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTo submit the AE:\n\nRender the document to produce the HTML with all of your work from today’s class.\nThe driver for your group should upload your .qmd and .html files to the Canvas assignment."
   },
   {
-    "objectID": "computing-r-resources.html",
-    "href": "computing-r-resources.html",
-    "title": "Resources for learning R",
+    "objectID": "computing-access.html",
+    "href": "computing-access.html",
+    "title": "Computing access",
     "section": "",
-    "text": "Histogram: gf_histogram( ~ variable, data = data_name)\nBoxplot: gf_boxplot( ~ variable, data = data_name)\nDotplot: gf_dotplot( ~ variable, data = data_name)\nBarchart: gf_bar( ~ variable, data = data_name)\nSide-by-side “dodged” barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position=\"dodge\")\nStacked barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data)\nStandardized barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position=\"fill\")\nSide-by-side boxplot: gf_boxplot( variable1 ~ variable2, data = data_name)\nScatterplot: gf_point(variable1 ~ variable2, data = data_name)\nScatterplot with a third variable as color: gf_point(variable1 ~ variable2, color = ~ variable3, data = data_name)",
+    "text": "To access RStudio at the College of Idaho, go to the CofI Posit Workbench website and sign in using your CofI email and password.\n\n\n\n\n\n\nNote\n\n\n\nThe Workbench servers are being updated this semester, so this address may change. Check back here or watch for an announcement if the link stops working.",
     "crumbs": [
       "Computing",
-      "R Resources"
+      "Computing access"
     ]
   },
   {
-    "objectID": "computing-r-resources.html#useful-code-for-creating-basic-figures-requires-ggformula",
-    "href": "computing-r-resources.html#useful-code-for-creating-basic-figures-requires-ggformula",
-    "title": "Resources for learning R",
+    "objectID": "hw/hw-01.html",
+    "href": "hw/hw-01.html",
+    "title": "HW 01: Dr. F’s Coffee",
     "section": "",
-    "text": "Histogram: gf_histogram( ~ variable, data = data_name)\nBoxplot: gf_boxplot( ~ variable, data = data_name)\nDotplot: gf_dotplot( ~ variable, data = data_name)\nBarchart: gf_bar( ~ variable, data = data_name)\nSide-by-side “dodged” barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position=\"dodge\")\nStacked barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data)\nStandardized barchart: gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position=\"fill\")\nSide-by-side boxplot: gf_boxplot( variable1 ~ variable2, data = data_name)\nScatterplot: gf_point(variable1 ~ variable2, data = data_name)\nScatterplot with a third variable as color: gf_point(variable1 ~ variable2, color = ~ variable3, data = data_name)",
-    "crumbs": [
-      "Computing",
-      "R Resources"
-    ]
+    "text": "This HW will go through much of the same workflow we’ve demonstrated in class. The main goal is to reinforce our demo of R and RStudio, which we will be using throughout the course both to learn the statistical concepts and to analyze real data and come to informed conclusions. Many of the things written in here, we’ve learned in class and should feel like review.\n\n\n\n\n\n\nNote\n\n\n\nR is the name of the programming language itself and RStudio is a convenient interface.\n\n\n\n\nBy the end of this homework, you will…\n\nBe familiar with the workflow using RStudio\nGain practice writing a reproducible report using Quarto\nBe able to create data visualizations using ggformula and use those visualizations to describe distributions"
   },
   {
-    "objectID": "computing-r-resources.html#useful-code-for-calculating-summary-statistics-requires-mosaic",
-    "href": "computing-r-resources.html#useful-code-for-calculating-summary-statistics-requires-mosaic",
-    "title": "Resources for learning R",
-    "section": "Useful code for calculating summary statistics: (requires mosaic)",
-    "text": "Useful code for calculating summary statistics: (requires mosaic)\n\nMeans: mean( ~ variable, data = data_name) or mean(variable1 ~ variable2, data = data_name)\nCounts/Tables: tally( ~ variable, data = data_name) or tally(variable1 ~ variable2, data = data_name)\n5-number-summary etc: favstats( ~ variable, data = data_name) or favstats(variable1 ~ variable2, data = data_name)",
-    "crumbs": [
-      "Computing",
-      "R Resources"
-    ]
-  },
-  {
-    "objectID": "computing-r-resources.html#useful-code-for-cleaning-data-requires-dplyr-loaded-via-librarytidyverse",
-    "href": "computing-r-resources.html#useful-code-for-cleaning-data-requires-dplyr-loaded-via-librarytidyverse",
-    "title": "Resources for learning R",
-    "section": "Useful code for cleaning data (requires dplyr, loaded via library(tidyverse))",
-    "text": "Useful code for cleaning data (requires dplyr, loaded via library(tidyverse))\nThese examples use dcbikeshare (columns like season, count, temp_orig, hour) as a running example, so column names below are real rather than generic placeholders.\n\nKeep only rows matching a condition: dcbikeshare |&gt; filter(season == \"fall\")\nAdd or change a column: dcbikeshare |&gt; mutate(temp_f = temp_orig * 9/5 + 32)\nGrouped summary statistics:\ndcbikeshare |&gt;\n  group_by(season) |&gt;\n  summarize(avg_count = mean(count), median_count = median(count))\nif_else: recode a column into two categories\ndcbikeshare |&gt;\n  mutate(rush_hour = if_else(hour %in% c(7, 8, 17, 18), \"rush hour\", \"off-peak\"))\ncase_when: recode a column into more than two categories\ndcbikeshare |&gt;\n  mutate(season = case_when(\n    season == 1 ~ \"winter\",\n    season == 2 ~ \"spring\",\n    season == 3 ~ \"summer\",\n    season == 4 ~ \"fall\"\n  ))\nConvert a variable to a factor and set the order of its levels (useful so plots/tables show categories in a sensible order instead of alphabetical):\ndcbikeshare |&gt;\n  mutate(season = factor(season, levels = c(\"winter\", \"spring\", \"summer\", \"fall\")))",
-    "crumbs": [
-      "Computing",
-      "R Resources"
-    ]
-  },
-  {
-    "objectID": "computing-r-resources.html#helpful-cheatsheets",
-    "href": "computing-r-resources.html#helpful-cheatsheets",
-    "title": "Resources for learning R",
-    "section": "Helpful Cheatsheets",
-    "text": "Helpful Cheatsheets\n\nRStudio Cheatsheets\n\nI recommend “Data transformation with dplyr”\n\n\n\nUseful functions fitting and analyzing models\n\n\n\nModel type\nAction\nFunction\n\n\n\n\nSimple Linear Regression\nFit Model\nlm(Y ~ X, data = data_name)",
-    "crumbs": [
-      "Computing",
-      "R Resources"
-    ]
-  },
-  {
-    "objectID": "computing-r-resources.html#books-free-online",
-    "href": "computing-r-resources.html#books-free-online",
-    "title": "Resources for learning R",
-    "section": "Books (free online)",
-    "text": "Books (free online)\n\nR for Data Science by Hadley Wickham & Garrett Grolemund\nTidy Modeling with R by Max Kuhn & Julia Silge",
-    "crumbs": [
-      "Computing",
-      "R Resources"
-    ]
-  },
-  {
-    "objectID": "computing-r-resources.html#rstudio-primers",
-    "href": "computing-r-resources.html#rstudio-primers",
-    "title": "Resources for learning R",
-    "section": "RStudio Primers",
-    "text": "RStudio Primers\n\nInteractive LearnR Tutorial\nR Primers for full list of tutorials. Note that we will be using a simplified version of ggplot2 in this course.",
-    "crumbs": [
-      "Computing",
-      "R Resources"
-    ]
-  },
-  {
-    "objectID": "computing-r-resources.html#additional-resources",
-    "href": "computing-r-resources.html#additional-resources",
-    "title": "Resources for learning R",
-    "section": "Additional resources",
-    "text": "Additional resources\n\nR Fun workshops and videos by Duke Center for Data and Visualization Sciences.",
-    "crumbs": [
-      "Computing",
-      "R Resources"
-    ]
-  },
-  {
-    "objectID": "hw/hw-02.html",
-    "href": "hw/hw-02.html",
-    "title": "HW 02: Park access",
+    "objectID": "hw/hw-01.html#learning-goals",
+    "href": "hw/hw-01.html#learning-goals",
+    "title": "HW 01: Dr. F’s Coffee",
     "section": "",
-    "text": "This HW will go through much of the same workflow we’ve demonstrated in class. The main goal is to reinforce our demo of R and RStudio, which we will be using throughout the course both to learn the statistical concepts and to analyze real data and come to informed conclusions.\n\n\n\n\n\n\nNote\n\n\n\nR is the name of the programming language itself and RStudio is a convenient interface.\n\n\n\n\nBy the end of this homework, you will…\n\nBe familiar with the workflow using RStudio\nGain practice writing a reproducible report using Quarto\nBe able to create data visualizations using ggformula and use those visualizations to describe distributions\nBe able to fit, interpret, and evaluate simple linear regression models"
+    "text": "By the end of this homework, you will…\n\nBe familiar with the workflow using RStudio\nGain practice writing a reproducible report using Quarto\nBe able to create data visualizations using ggformula and use those visualizations to describe distributions"
   },
   {
-    "objectID": "hw/hw-02.html#learning-goals",
-    "href": "hw/hw-02.html#learning-goals",
-    "title": "HW 02: Park access",
-    "section": "",
-    "text": "By the end of this homework, you will…\n\nBe familiar with the workflow using RStudio\nGain practice writing a reproducible report using Quarto\nBe able to create data visualizations using ggformula and use those visualizations to describe distributions\nBe able to fit, interpret, and evaluate simple linear regression models"
-  },
-  {
-    "objectID": "hw/hw-02.html#r-and-rstudio",
-    "href": "hw/hw-02.html#r-and-rstudio",
-    "title": "HW 02: Park access",
+    "objectID": "hw/hw-01.html#r-and-rstudio",
+    "href": "hw/hw-01.html#r-and-rstudio",
+    "title": "HW 01: Dr. F’s Coffee",
     "section": "R and RStudio",
-    "text": "R and RStudio\nSee the R resources page for a guide to the RStudio IDE and Quarto file components.\n\nYAML\nThe top portion of your Quarto file (between the three dashed lines) is called YAML. It stands for ““Yet Another Markup Language”. It is a human friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document.\n\n\n\n\n\n\nImportant\n\n\n\nOpen the Quarto (.qmd) file in your project, change the author name to your name, and render the document. Examine the rendered document. You can now work off of that file."
+    "text": "R and RStudio\nSee the R resources page for a guide to the RStudio IDE and Quarto file components.\n\nYAML\nThe top portion of your Quarto file (between the three dashed lines) is called YAML. It stands for “Yet Another Markup Language”. It is a human-friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document."
   },
   {
-    "objectID": "hw/hw-02.html#analysis-goal",
-    "href": "hw/hw-02.html#analysis-goal",
-    "title": "HW 02: Park access",
+    "objectID": "hw/hw-01.html#analysis-goal",
+    "href": "hw/hw-01.html#analysis-goal",
+    "title": "HW 01: Dr. F’s Coffee",
     "section": "Analysis goal",
-    "text": "Analysis goal\nOne way to improve access to public parks is for cities to spend more money creating and maintaining parks for their residents. It’s unclear, however, how much spending impacts residents’ access to parks. The goal of this analysis is to examine the relationship between spending per resident and points in the ParkScore index for the percent of residents within a 10 minute walk to a park."
+    "text": "Analysis goal\nWhat makes a good cup of coffee, at least by Dr. F’s own standards? The goal of this analysis is to explore how the beans, brewing choices, and flavor characteristics of a cup relate to how highly Dr. F rated it."
   },
   {
-    "objectID": "hw/hw-02.html#footnotes",
-    "href": "hw/hw-02.html#footnotes",
-    "title": "HW 02: Park access",
+    "objectID": "hw/hw-01.html#tips",
+    "href": "hw/hw-01.html#tips",
+    "title": "HW 01: Dr. F’s Coffee",
+    "section": "Tips",
+    "text": "Tips\nWrite all code and narrative in your Quarto file. Write all narrative in complete sentences. Write each of your responses in the answer box below the corresponding exercise; one has already been created for each exercise. Throughout the assignment, you should periodically render your Quarto document to produce the updated HTML file.\nIf you get stuck and can’t remember how to do something, try looking back at Lecture 1 and Lecture 2 and the two Application Exercises that you completed alongside them."
+  },
+  {
+    "objectID": "hw/hw-01.html#taking-a-glimpse-hint-hint-at-the-data",
+    "href": "hw/hw-01.html#taking-a-glimpse-hint-hint-at-the-data",
+    "title": "HW 01: Dr. F’s Coffee",
+    "section": "Taking a glimpse (hint hint) at the data",
+    "text": "Taking a glimpse (hint hint) at the data\n\nCreate a code chunk in the answer block below and write a little bit of code to take a quick look at your data so you can answer these questions. How many observations (rows) and how many variables (columns) does coffee have? In your own words, what does a single row of this data set represent?\n\n\n\n\n\nUsing the variable descriptions above, classify each of the following as quantitative or categorical: vibes_rating, roast, origin, brewer, aroma, sweetness, acidity, body, finish."
+  },
+  {
+    "objectID": "hw/hw-01.html#visualizing-the-data",
+    "href": "hw/hw-01.html#visualizing-the-data",
+    "title": "HW 01: Dr. F’s Coffee",
+    "section": "Visualizing the data",
+    "text": "Visualizing the data\nWe’ll start by taking a look at our response variable vibes_rating.\n\nRemember the two questions you should ask before plotting a variable:\n\nHow many variables am I trying to visualize?\nWhat type of variables are they?\n\nConsider vibes_rating. Answer the two questions above, then specify what type(s) of plots would be most appropriate. (List at least two.)\n\n\n\n\n\nIn the code chunk that is in the answer block below, create at least one of the plots you specified above to visualize vibes_rating. Then use favstats to calculate summary statistics for vibes_rating.\nUse the plot and summary statistics to describe the distribution of vibes_rating: comment on its shape, center, spread, and the presence of any apparent outliers.\n\n\n\n\nNow let’s look at the categorical variables. The code below makes a bar chart of roast:\n\ngf_bar(~roast, data = coffee) |&gt;\n  gf_labs(x = \"Roast\",\n       y = \"Count\",\n       title = \"Distribution of Roast Levels\")\n\n\n\n\n\n\n\n\nNote that we haven’t talked about the symbol |&gt; or the function gf_labs in class. The function gf_labs is used to add informative axis labels and a title to a ggplot object. The symbol |&gt; is called a “pipe” operator and is used to chain together multiple functions in a readable way. When you encounter a pipe in code say “and then” to yourself in your head. For the code above you can say “Make a bar chart of roast and then add informative axis labels and a title.”\n\nUsing code for a bar chart as a template, create your own bar charts for origin and brewer, each with an informative title and axis labels. Note that some of the categories may overlap or be messy, don’t worry about fixing that yet.\nWhich roast, origin, and brewer show up most often in Dr. F’s coffee log? You’ll likely notice that some of the categories are messy and don’t appear in a nice order. We’ll talk about how to fix this later on. For now, call out 1-3 things that you’d like to fix if you knew how.\n\n\n\n\n\nNow examine the distributions of the five flavor sub-scores: aroma, sweetness, acidity, body, and finish. For each one, create a histogram (with an informative title and axis labels) and calculate summary statistics with favstats.\nBased on your plots and summary statistics: Which sub-score varies the most from cup to cup? (Hint: look at the standard deviation, sd, in the favstats output.)\n\n\n\n\n\nRemember, our ultimate goal is to figure out what makes the best cup of coffee. That is, we want to understand what factors contribute to a high vibes_rating. Let’s compare vibes_rating across categories. We want to generate one plot of vibes_rating vs. roast.\nAnswer these two questions about the plot and then state what kinds of plots you could make:\n\nHow many variables are we trying to visualize at once?\nWhat kind of variables are these?\n\n\n\n\n\n\nMake at least one of the plots you described above to visualize vibes_rating vs. roast and another plot of vibes_rating vs. origin. For each pair, also calculate favstats(vibes_rating ~ roast, data = coffee) (and the equivalent for origin). Based on your plots and summary statistics, what kinds of roasts does Dr. F seem to prefer? What about origins? Be sure to reference the group sizes (n in the favstats output): how much should we trust a comparison built on a group with only two or three cups?\n\n\n\n\n\nNow do the same comparison for brewer: a side-by-side boxplot of vibes_rating by brewer, plus the corresponding favstats.\nEven if one brewer has a noticeably higher mean rating, explain why we can’t conclude that brewer causes better-tasting coffee.\n\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nThis is another good place to render your document.\n\n\n\nFinally, let’s look at how vibes_rating relates to the flavor sub-scores. Choose at least three of aroma, sweetness, acidity, body, and finish. For each one, create a plot of vibes_rating against that sub-score. While you don’t need to write the answers here, remember to ask the two questions above.\nFor each relationship, do your best to describe its direction and strength.\nBonus: You’ll notice that since everything is on a scale from 1 to 10, alot of the points are overlapping and it’s hard to see the real relationships if you use gf_point. Instead try using gf_jitter. What do you think this does?\n\n\n\n\n\nBased on the analysis you’ve done so far, write a brief summary addressing the following:\n\nWhat recommendations would you make to Dr. Friedlander about the most important factors in finding his favorite coffee?\nWhy might you not want to fully trust these conclusions? Hint: Think about confounding variables.\nIf you were going to study this question further, what additional information would you want?\n\n\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nYou’re done and ready to submit your work! Render your document and upload the .qmd and .html files to Canvas."
+  },
+  {
+    "objectID": "hw/hw-01.html#footnotes",
+    "href": "hw/hw-01.html#footnotes",
+    "title": "HW 01: Dr. F’s Coffee",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nThe “Grammar & Writing” grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.↩︎\nThe “Workflow & formatting” grade is to assess the reproducible workflow and document format. This includes having a neatly organized document with readable code, your name in the YAML, and all answers in answer blocks.↩︎"
+  },
+  {
+    "objectID": "hw/hw-03.html",
+    "href": "hw/hw-03.html",
+    "title": "HW 03: The Coffee Truck",
+    "section": "",
+    "text": "This HW builds on the Coffee Truck activity from lecture: instead of playing with just two levels of one setting, you’ll design and play a bigger game that lets you fit two different regression models, one with a quantitative predictor and one with a categorical predictor.\n\n\n\n\n\n\nNote\n\n\n\nR is the name of the programming language itself and RStudio is a convenient interface.\n\n\n\n\nBy the end of this homework, you will…\n\nDesign and generate your own data set from the Coffee Truck game\nClean a variable that R read in as text when it should be a number\nFit, interpret, and use a simple linear regression model with a quantitative predictor\nFit, interpret, and use a simple linear regression model with a categorical predictor, including choosing and changing the reference level\nCompare what each type of model can and cannot tell you"
+  },
+  {
+    "objectID": "hw/hw-03.html#learning-goals",
+    "href": "hw/hw-03.html#learning-goals",
+    "title": "HW 03: The Coffee Truck",
+    "section": "",
+    "text": "By the end of this homework, you will…\n\nDesign and generate your own data set from the Coffee Truck game\nClean a variable that R read in as text when it should be a number\nFit, interpret, and use a simple linear regression model with a quantitative predictor\nFit, interpret, and use a simple linear regression model with a categorical predictor, including choosing and changing the reference level\nCompare what each type of model can and cannot tell you"
+  },
+  {
+    "objectID": "hw/hw-03.html#r-and-rstudio",
+    "href": "hw/hw-03.html#r-and-rstudio",
+    "title": "HW 03: The Coffee Truck",
+    "section": "R and RStudio",
+    "text": "R and RStudio\nSee the R resources page for a guide to the RStudio IDE and Quarto file components.\n\nYAML\nThe top portion of your Quarto file (between the three dashed lines) is called YAML. It stands for “Yet Another Markup Language”. It is a human friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document.\n\n\n\n\n\n\nImportant\n\n\n\nOpen the Quarto (.qmd) file in your project, change the author name to your name, and render the document. Examine the rendered document. You can now work off of that file."
+  },
+  {
+    "objectID": "hw/hw-03.html#analysis-goal",
+    "href": "hw/hw-03.html#analysis-goal",
+    "title": "HW 03: The Coffee Truck",
+    "section": "Analysis goal",
+    "text": "Analysis goal\nIn lecture, we fit a model using a categorical predictor while holding Price fixed. But Price is itself something Jo can set, and it’s a number, not a category. In this HW you’ll design a game that lets you look at Price as a quantitative predictor, and lets you look at one other setting (Music or Location) as a categorical predictor with all of its levels, then fit one model of each type."
+  },
+  {
+    "objectID": "hw/hw-03.html#footnotes",
+    "href": "hw/hw-03.html#footnotes",
+    "title": "HW 03: The Coffee Truck",
     "section": "Footnotes",
     "text": "Footnotes\n\n\nThe “Grammar & Writing” grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.↩︎\nThe “Workflow & formatting” grade is to assess the reproducible workflow and document format. This includes having a neatly organized document with readable code and your name and the date in the YAML.↩︎"
   },
@@ -1611,6 +1681,188 @@
     "title": "Exploratory Data Analysis",
     "section": "References",
     "text": "References"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#topics",
+    "href": "slides/04-slr-intro.html#topics",
+    "title": "Simple Linear Regression",
+    "section": "Topics",
+    "text": "Topics\n\nUse simple linear regression to describe the relationship between a quantitative predictor and quantitative response variable.\nEstimate the slope and intercept of the regression line using R."
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#dc-bikeshare",
+    "href": "slides/04-slr-intro.html#dc-bikeshare",
+    "title": "Simple Linear Regression",
+    "section": "DC Bikeshare",
+    "text": "DC Bikeshare\nOur data set contains daily rentals from the Capital Bikeshare in Washington, DC in 2011 and 2012. It was obtained from the dcbikeshare data set in the dsbox R package.\nWe will focus on the following variables in the analysis:\n\ncount: total bike rentals\ntemp_orig: Temperature in degrees Celsius\nseason: 1 - winter, 2 - spring, 3 - summer, 4 - fall\n\nClick here for the full list of variables and definitions."
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#last-time",
+    "href": "slides/04-slr-intro.html#last-time",
+    "title": "Simple Linear Regression",
+    "section": "Last time",
+    "text": "Last time\n\n\n\nColoring and faceting our plots\nUsed mutate to recode season as a factor with winter, fall, summer, spring\nTalked about how to use filter to select certain observations\nNoticed that the relationship between count and temp_orig didn’t really look linear:\n\nAbout to use filter for each group to select a season"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#filtering",
+    "href": "slides/04-slr-intro.html#filtering",
+    "title": "Simple Linear Regression",
+    "section": "Filtering",
+    "text": "Filtering\n\n\n\n\n\nID\nThing1\nThing2\nThing3\n\n\n\n\n1\n100\n200\n“Bleg”\n\n\n2\n20\n20\n“Bleg”\n\n\n3\n30\n40\n“Fleg”\n\n\n4\n120\n120\n“Fleg”\n\n\n\n\n\nTo keep some observations use filter([insert true/false statement here]) and filter will keep all rows where the inside is true. Examples:\n\nThing2 &lt;= 100: keeps all rows where Thing2 is less than or equal to 1000\nThing3 == \"Fleg\": keeps everything where Thing3 equals \"Fleg\"? (Always write strings in quotes)\nThing1 != Thing2: keeps everything where Thing1 isn’t equal to Thing2?"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#activity-time-picking-up-where-we-left-off",
+    "href": "slides/04-slr-intro.html#activity-time-picking-up-where-we-left-off",
+    "title": "Simple Linear Regression",
+    "section": "Activity time: Picking up where we left off",
+    "text": "Activity time: Picking up where we left off\n\n📋 AE 03 - DC Bikeshare\n\n\nGet in same groups as last time\nRotate rolls if you feel comfortable with someone else typing on your computer (Coder -&gt; Communicator -&gt; Developer -&gt; Coder)\nLet’s divide up the seasons\nI’m doing fall\nDo Exercises 7 & 8\n\nNote: Exercise 7 is a challenge that is unrelated to choosing a season"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#sample-solution-for-8",
+    "href": "slides/04-slr-intro.html#sample-solution-for-8",
+    "title": "Simple Linear Regression",
+    "section": "Sample Solution For 8",
+    "text": "Sample Solution For 8\n\nfall &lt;- bikeshare |&gt;\n  filter(season == \"fall\")"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#rentals-vs-temperature",
+    "href": "slides/04-slr-intro.html#rentals-vs-temperature",
+    "title": "Simple Linear Regression",
+    "section": "Rentals vs Temperature",
+    "text": "Rentals vs Temperature\nGoal: Fit a line to describe the relationship between the temperature and the number of rentals in your season."
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#slr-statistical-model",
+    "href": "slides/04-slr-intro.html#slr-statistical-model",
+    "title": "Simple Linear Regression",
+    "section": "SLR: Statistical model",
+    "text": "SLR: Statistical model\n\nSimple linear regression: model to describe the relationship between \\(Y\\) and \\(X\\) where:\n\n\\(Y\\) is a quantitative/numerical response\n\\(X\\) is a single quantitative predictor\n\\[\\Large{Y = \\mathbf{\\beta_0 + \\beta_1 X} + \\epsilon}\\]\n\n\n\n\n\\(\\beta_1\\): True slope of the relationship between \\(X\\) and \\(Y\\)\n\\(\\beta_0\\): True intercept of the relationship between \\(X\\) and \\(Y\\)\n\\(\\epsilon\\): Error"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#slr-regression-equation",
+    "href": "slides/04-slr-intro.html#slr-regression-equation",
+    "title": "Simple Linear Regression",
+    "section": "SLR: Regression equation",
+    "text": "SLR: Regression equation\n\\[\\Large{\\hat{Y} = \\hat{\\beta}_0 + \\hat{\\beta}_1 X}\\]\n\n\\(\\hat{\\beta}_1\\): Estimated slope of the relationship between \\(X\\) and \\(Y\\)\n\\(\\hat{\\beta}_0\\): Estimated intercept of the relationship between \\(X\\) and \\(Y\\)\n\\(\\hat{Y}\\): Predicted value of \\(Y\\) for a given \\(X\\)\nNo error term!"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#statistical-model-vs.-regression-equation",
+    "href": "slides/04-slr-intro.html#statistical-model-vs.-regression-equation",
+    "title": "Simple Linear Regression",
+    "section": "Statistical model vs. regression equation",
+    "text": "Statistical model vs. regression equation\nStatistical model (also known as data-generating model)\n\\[{\\small \\text{count} = \\beta_0 + \\beta_1 ~\\text{temp_orig} + \\epsilon}\\]\nModels the process for generating values of the response in the population (function + error)\n\n\nRegression equation\nEstimate of the function using the sample data\n\\[{\\small \\hat{\\text{count}} = \\hat{\\beta}_0 + \\hat{\\beta}_1 ~\\text{temp_orig}}\\]"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#why-fit-a-model",
+    "href": "slides/04-slr-intro.html#why-fit-a-model",
+    "title": "Simple Linear Regression",
+    "section": "Why fit a model?",
+    "text": "Why fit a model?\n\nPrediction: Expected value of the response variable for given values of the predictor variables\nInference: Conclusion about the relationship between the response and predictor variables\n\n\n\nWhat is an example of a prediction question that can be answered using the model of count vs. temperature?\nWhat is an example of an inference question that can be answered using the model of count vs. temperature?"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#choosing-values-for-hatbeta_1-and-hatbeta_0",
+    "href": "slides/04-slr-intro.html#choosing-values-for-hatbeta_1-and-hatbeta_0",
+    "title": "Simple Linear Regression",
+    "section": "Choosing values for \\(\\hat{\\beta}_1\\) and \\(\\hat{\\beta}_0\\)",
+    "text": "Choosing values for \\(\\hat{\\beta}_1\\) and \\(\\hat{\\beta}_0\\)"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#fit-model-estimate-parameters",
+    "href": "slides/04-slr-intro.html#fit-model-estimate-parameters",
+    "title": "Simple Linear Regression",
+    "section": "Fit model & estimate parameters",
+    "text": "Fit model & estimate parameters\n\nfall_fit &lt;- lm(count ~ temp_orig, data = fall)\nfall_fit\n\n\nCall:\nlm(formula = count ~ temp_orig, data = fall)\n\nCoefficients:\n(Intercept)    temp_orig  \n     2077.5        152.9"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#look-at-the-regression-output",
+    "href": "slides/04-slr-intro.html#look-at-the-regression-output",
+    "title": "Simple Linear Regression",
+    "section": "Look at the regression output",
+    "text": "Look at the regression output\n\nfall_fit &lt;- lm(count ~ temp_orig, data = fall)\nfall_fit\n\n\nCall:\nlm(formula = count ~ temp_orig, data = fall)\n\nCoefficients:\n(Intercept)    temp_orig  \n     2077.5        152.9  \n\n\n\\[\\widehat{\\text{count}} = 2077.5 + 152.9 \\times \\text{temp_orig}\\]"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#use-tidy-to-make-it-prettier",
+    "href": "slides/04-slr-intro.html#use-tidy-to-make-it-prettier",
+    "title": "Simple Linear Regression",
+    "section": "Use tidy to make it prettier",
+    "text": "Use tidy to make it prettier\nWe’ll focus on the first column for now…\n\nfall_fit |&gt;\n  tidy()\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic      p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;\n1 (Intercept)    2077.     476.       4.37 0.0000214   \n2 temp_orig       153.      26.6      5.75 0.0000000387"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#using-kable-to-make-it-extra-pretty",
+    "href": "slides/04-slr-intro.html#using-kable-to-make-it-extra-pretty",
+    "title": "Simple Linear Regression",
+    "section": "Using kable to make it extra pretty",
+    "text": "Using kable to make it extra pretty\n\nfall_fit |&gt;\n  tidy() |&gt;\n  kable()\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n2077.4771\n475.67243\n4.367453\n2.14e-05\n\n\ntemp_orig\n152.8729\n26.58745\n5.749815\n0.00e+00"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#visualize-model",
+    "href": "slides/04-slr-intro.html#visualize-model",
+    "title": "Simple Linear Regression",
+    "section": "Visualize Model",
+    "text": "Visualize Model\n\n\nCode\nfall |&gt;\n  gf_point(count ~ temp_orig) |&gt;\n  gf_lm() |&gt;\n  gf_labs(x = \"Temperature (°C)\", y = \"Daily Bike Rentals\", title = \"Fall Bike Rentals vs. Temperature\")"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#interpreting-the-slope-and-intercept",
+    "href": "slides/04-slr-intro.html#interpreting-the-slope-and-intercept",
+    "title": "Simple Linear Regression",
+    "section": "Interpreting the Slope and Intercept",
+    "text": "Interpreting the Slope and Intercept\n\nSlope: For each additional unit of \\(X\\) we expect \\(Y\\) to increase by \\(\\hat{\\beta}_1\\), on average.\nIntercept: If \\(X\\) were 0, we predict \\(Y\\) to be \\(\\hat{\\beta}_0\\)"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#fall-example",
+    "href": "slides/04-slr-intro.html#fall-example",
+    "title": "Simple Linear Regression",
+    "section": "Fall Example",
+    "text": "Fall Example\n\nSlope: For each addition degree Celcius we expect the number of bike rentals to increase by 152.87 on average, in the Fall.\nIntercept: If the temperature were 0 degrees Celcius, we predict the number of bike rentals to be 2077.48 in the Fall."
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#does-it-make-sense-to-interpret-the-intercept",
+    "href": "slides/04-slr-intro.html#does-it-make-sense-to-interpret-the-intercept",
+    "title": "Simple Linear Regression",
+    "section": "Does it make sense to interpret the intercept?",
+    "text": "Does it make sense to interpret the intercept?\n✅ The intercept is meaningful in the context of the data if\n\nthe predictor can feasibly take values equal to or near zero, or\nthere are values near zero in the observed data.\n\n\n🛑 Otherwise, the intercept may not be meaningful!\n\nNote meaningful doesn’t mean wrong\n\n\n\nComplete the remainder of the exercises."
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#fall-model",
+    "href": "slides/04-slr-intro.html#fall-model",
+    "title": "Simple Linear Regression",
+    "section": "Fall Model",
+    "text": "Fall Model\n\\[\\begin{aligned}\n\\widehat{Y} &=  2077.48 + 152.87 \\times X\\\\\n\n\\widehat{\\text{count}} &=  2077.48 + 152.87 \\times \\text{temp_orig}\n\\end{aligned}\\]\n\nOn the white board: Suppose that it’s 15 degrees Celsius outside. According to this model, how many bike rentals should we expect if it’s your season?"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#making-a-prediction",
+    "href": "slides/04-slr-intro.html#making-a-prediction",
+    "title": "Simple Linear Regression",
+    "section": "Making a prediction",
+    "text": "Making a prediction\nOn the white board: Suppose that it’s 15 degrees Celsius outside. According to this model, how many bike rentals should we expect if it’s your season?\n\\[\\begin{aligned}\n\n\\widehat{\\text{count}} &=  2077.48 + 152.87 \\times \\text{temp_orig}\\\\\n&= 2077.48 + 152.87 \\times 15 \\\\\n&= 4370.53\n\\end{aligned}\\]\nAbout 4,371 rentals!"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#prediction-in-r",
+    "href": "slides/04-slr-intro.html#prediction-in-r",
+    "title": "Simple Linear Regression",
+    "section": "Prediction in R",
+    "text": "Prediction in R\n\npredict function takes two arguments\n\nFirst: a model that’s been fit\nSecond: a new dataset with the same column names as the dataset used to train the model"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#examples",
+    "href": "slides/04-slr-intro.html#examples",
+    "title": "Simple Linear Regression",
+    "section": "Examples",
+    "text": "Examples\n\n\n\nfall_predictions &lt;- predict(fall_fit, fall)\nfall_predictions |&gt;\n  head() |&gt; # what does this do?\n  kable()\n\n\n\n\nx\n\n\n\n\n5895.607\n\n\n5879.938\n\n\n6052.302\n\n\n6146.319\n\n\n6067.972\n\n\n6057.523\n\n\n\n\n\n\n\n# create a data frame for a new temperature\nnew_days &lt;- tibble(temp_orig = c(15, 20, 5, 10))\n\n# I don't need to save the predictions\npredict(fall_fit, new_days) |&gt;\n  kable()\n\n\n\n\nx\n\n\n\n\n4370.571\n\n\n5134.935\n\n\n2841.842\n\n\n3606.206"
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#exercise-14",
+    "href": "slides/04-slr-intro.html#exercise-14",
+    "title": "Simple Linear Regression",
+    "section": "Exercise 14",
+    "text": "Exercise 14\n\nAdd a new exercise to your activity (you can start by copy pasting a previous exercise and answer block).\nConfirm you answer to the white board question using the predict in R. I.e. what would you model predict the number of bike rentals to be if it was 15 degrees out."
+  },
+  {
+    "objectID": "slides/04-slr-intro.html#recap",
+    "href": "slides/04-slr-intro.html#recap",
+    "title": "Simple Linear Regression",
+    "section": "Recap",
+    "text": "Recap\n\n\nSimple linear regression (SLR) describes the relationship between a quantitative predictor (\\(X\\)) and response (\\(Y\\)).\nThe statistical model: \\(Y = \\beta_0 + \\beta_1 X\\)\nThe regression equation: \\(\\hat{Y} = \\hat{\\beta}_0 + \\hat{\\beta}_1 X\\)\n\\(\\hat{\\beta}_1\\) (slope): estimated change in \\(Y\\) for each unit increase in \\(X\\)\n\\(\\hat{\\beta}_0\\) (intercept): estimated value of \\(Y\\) when \\(X = 0\\)\nSLR can be used for prediction and inference"
   },
   {
     "objectID": "support.html",
