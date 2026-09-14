@@ -1683,6 +1683,13 @@
     "text": "References"
   },
   {
+    "objectID": "slides/04-slr-intro.html#announcements",
+    "href": "slides/04-slr-intro.html#announcements",
+    "title": "Simple Linear Regression",
+    "section": "Announcements",
+    "text": "Announcements\n\nAlex Emert is the tutor for this class\nWhy are only half of you turning in your homework?"
+  },
+  {
     "objectID": "slides/04-slr-intro.html#topics",
     "href": "slides/04-slr-intro.html#topics",
     "title": "Simple Linear Regression",
@@ -1899,7 +1906,7 @@
     "href": "support.html#tutoring",
     "title": "Course support",
     "section": "Tutoring",
-    "text": "Tutoring\nTBD.",
+    "text": "Tutoring\nAlex Emert will be the tutor for MAT-2025 this semester. You can procure his assistance by:\n\nStopping by his tutoring hours which are Tuesday’s from 1-3pm in the library\nUsing this link to schedule a one-on-one session. MAKE SURE YOU SELECT ALEX EMERT in the “Select Staff” dropdown.",
     "crumbs": [
       "Course support"
     ]
