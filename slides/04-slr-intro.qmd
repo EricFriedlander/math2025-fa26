@@ -55,6 +55,10 @@ bikeshare <- read_csv("../data/dcbikeshare.csv") |>
   season = factor(season))
 ```
 
+## Announcements
+
+1. [Alex Emert is the tutor for this class](support.qmd)
+2. Why are only half of you turning in your homework?
 
 ## Topics
 

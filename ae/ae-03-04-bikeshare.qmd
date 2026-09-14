@@ -1,5 +1,5 @@
 ---
-title: "AE 03: Bike rentals in Washington, DC"
+title: "AE 03 & 04: Bike rentals in Washington, DC"
 subtitle: "Simple linear regression"
 editor: visual
 format:
