@@ -3,28 +3,28 @@ title: "Simple Linear Regression"
 author: "Prof. Eric Friedlander"
 footer: "[🔗 MATH 2025 - Fall 2026 -  Schedule](https://ericfriedlander.github.io/math2025-fa26/schedule)"
 logo: "../images/logo.png"
-format: 
+format:
   revealjs:
     theme: slides.scss
     multiplex: false
     transition: fade
     slide-number: false
-    incremental: false 
+    incremental: false
     chalkboard: true
 execute:
   freeze: auto
   echo: true
 knitr:
-  opts_chunk: 
-    R.options:      
+  opts_chunk:
+    R.options:
     width: 200
-bibliography: references.bib  
+bibliography: references.bib
 ---
 
 ## Application exercise
 
 ::: appex
-📋 [AE 03 - DC Bikeshare](../ae/ae-03-bikeshare.qmd)
+📋 [AE 03 - DC Bikeshare](../ae/ae-03-04-bikeshare.qmd)
 :::
 
 Complete Exercises 0 and 1.
@@ -86,9 +86,9 @@ Let's complete Exercises 2-6 together
     +   Think of `|>` as "and then"
     +   `mutate` creates new columns and changes (mutates) existing columns
     +   R calls categorical data "factors"
-    
+
 ```{r}
-bikeshare <- read_csv("../data/dcbikeshare.csv") |> 
+bikeshare <- read_csv("../data/dcbikeshare.csv") |>
   mutate(season = case_when(
     season == 1 ~ "winter",
     season == 2 ~ "spring",
@@ -103,7 +103,7 @@ bikeshare <- read_csv("../data/dcbikeshare.csv") |>
 ```{r}
 #| echo: TRUE
 
-gf_point(count ~ temp_orig | season, data = bikeshare) |> 
+gf_point(count ~ temp_orig | season, data = bikeshare) |>
   gf_labs(x = "Temperature (Celsius)",
           y = "Daily bike rentals")
 ```
@@ -113,7 +113,7 @@ gf_point(count ~ temp_orig | season, data = bikeshare) |>
 -   (Exercise 5) Filter your data for the season with the strongest relationship and give the resulting data set a new name
 
 ```{r}
-winter <- bikeshare |> 
+winter <- bikeshare |>
   filter(season == "winter")
 ```
 
@@ -341,4 +341,3 @@ ybar <- round(mean(winter$count),4)
 - Least squares method chooses coefficients to minimize the sum of squared residuals
 - SLR can be used for prediction and inference
 :::
-

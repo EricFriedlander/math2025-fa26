@@ -57,7 +57,7 @@ bikeshare <- read_csv("../data/dcbikeshare.csv") |>
 
 ## Announcements
 
-1. [Alex Emert is the tutor for this class](support.qmd)
+1. [Alex Emert is the tutor for this class](../support.qmd)
 2. Why are only half of you turning in your homework?
 
 ## Topics
@@ -126,7 +126,7 @@ Examples:
 ## Activity time: Picking up where we left off
 
 ::: appex
-📋 [AE 03 - DC Bikeshare](../ae/ae-03-bikeshare.qmd)
+📋 [AE 03 - DC Bikeshare](../ae/ae-03-04-bikeshare.qmd)
 :::
 
 - Get in same groups as last time

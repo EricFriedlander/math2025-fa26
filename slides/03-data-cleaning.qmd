@@ -73,7 +73,7 @@ Any time we are working on AEs, I will randomly assign you to groups of two or t
 ## Application exercise
 
 ::: appex
-📋 [AE 03 - DC Bikeshare](../ae/ae-03-bikeshare.qmd)
+📋 [AE 03 - DC Bikeshare](../ae/ae-03-04-bikeshare.qmd)
 :::
 
 Complete Exercises 1-3.
