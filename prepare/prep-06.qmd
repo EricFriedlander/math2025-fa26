@@ -1,7 +1,12 @@
 ---
-title: "Preparation for Simulation Based Inference"
+title: "Preparation for Residuals, Least Squares, and Model Evaluation"
 ---
 
 ## Assigned reading
 
-📖 IMS, Sec 24.3: [Bootstrap confidence interval for the slope](https://openintro-ims.netlify.app/inf-model-slr.html#bootbeta1)
+Finish reading these if you haven't yet:
+
+- If you already feel comfortable with R & this isn't your first statistics class:
+    - Introduction to Regression Analysis: A Data Science Approach: [Ch 4: Simple linear regression](https://introregression.netlify.app/04-slr)
+- If you're new to R & statistics:
+    - Introduction to Modern Statistics (IMS) [Ch 7: Linear regression with a single predictor](https://openintro-ims.netlify.app/model-slr)

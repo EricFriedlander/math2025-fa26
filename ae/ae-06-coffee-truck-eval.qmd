@@ -1,0 +1,276 @@
+---
+title: "AE 06: Comparing Models with the Coffee Truck"
+subtitle: "Residuals, least squares, and R-squared"
+editor: visual
+format:
+  html:
+    embed-resources: true
+    include-in-header:
+      text: |
+        <style>
+        /* Exercise / answer boxes. Canonical source: style/exercise-boxes.css
+           in the course repo — copy from there if this ever drifts. */
+        body { counter-reset: exercise; }
+        .exercise, .answer {
+          border-left: 4px solid #533860;
+          padding: .6em 1em;
+          margin: 1em 0;
+          border-radius: 4px;
+        }
+        .exercise { background: #f2eef5; }
+        .exercise::before {
+          counter-increment: exercise;
+          content: "Exercise " counter(exercise);
+          display: block;
+          font-weight: 700;
+          color: #533860;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .answer {
+          background: transparent;
+          border-left-color: #a49363;
+          border-left-style: dashed;
+          min-height: 3.5em;
+        }
+        .answer::before {
+          content: "Your answer";
+          display: block;
+          font-weight: 700;
+          color: #8a7a4f;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .quarto-dark .exercise {
+          background: rgba(255, 255, 255, .08);
+          border-left-color: #FFCB70;
+        }
+        .quarto-dark .exercise::before {
+          color: #FFCB70;
+        }
+        .quarto-dark .answer::before {
+          color: #ffd283;
+        }
+        </style>
+---
+
+::: callout-important
+- Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-06"
+- Go to the assignment for this activity in [Canvas](<>) to get started.
+- Upload the `ae-06-coffee-truck-eval.qmd` file into the folder you just created. We will generate three data sets for this activity shortly.
+:::
+
+## Recap
+
+We're back at [Jo's coffee truck](https://www.stat2games.sites.grinnell.edu/games/coffeetruck.html). Today we'll fit and compare several models, and use $R^2$ to ask *how much* of the variation in `Sales` each one explains, and why that answer depends on more than just the model.
+
+::: callout-important
+This game's data lands in a table that's **public to anyone**, attached to your group name. Use the same team/Player Name from AE 05, or pick a new one that doesn't identify you.
+:::
+
+## Exercises
+
+### Collecting three data sets
+
+Every game keeps **Location = Business District**, **Time = Lunch**, **Weather = Relatively Constant**, and **Design Type = Random Sample** unless told otherwise below. On the ID screen, enter **`MATH2025FA26`** as the Group Name.
+
+::: {.exercise}
+Play a sim called **`music`**:
+
+- **Music**: select all three levels (No Music, Hip Hop, Alternative).
+- **Price**: fix at **\$3** (only one level selected).
+- **Number of Repetitions**: `5`.
+- Click **Start Sim**, then download the CSV. Upload it to your data folder as `music.csv`.
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Play a sim called **`price`**:
+
+- **Price**: select all four levels (\$2, \$3, \$4, \$5).
+- **Music**: fix at **No Music** (only one level selected).
+- **Number of Repetitions**: `5`.
+- Click **Start Sim**, then download the CSV. Upload it to your data folder as `price.csv`.
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Play a sim called **`both`**:
+
+- **Music**: select all three levels.
+- **Price**: select all four levels.
+- **Number of Repetitions**: `2`.
+- Click **Start Sim**, then download the CSV. Upload it to your data folder as `both.csv`.
+
+Before moving on, check with your group: does your total number of days across all three sims still leave Jo with money in the bank? (`CurrentMoney` in the last row of each file.)
+:::
+
+::: {.answer}
+
+:::
+
+### Loading and cleaning
+
+::: {.exercise}
+Load the packages we'll use today, then read in all three data sets.
+:::
+
+::: {.answer}
+
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(mosaic)
+library(ggformula)
+library(broom)
+library(coursekata)
+library(yardstick)
+```
+
+```{r load-data}
+#| message: false
+
+```
+
+:::
+
+::: {.exercise}
+Look at `price` (or `both`). You should notice `Price` was read in as a `chr` (character) column, not `dbl` (double).
+
+- Why did that happen? Be specific.
+- Fix it in both `price` and `both`, the same way we fixed `spend_per_resident_data` in HW 02: strip the `$` with `str_replace()`, then convert with `as.numeric()`. Call the new column `Price` (overwrite it).
+:::
+
+::: {.answer}
+
+```{r clean-price}
+
+```
+
+:::
+
+### Model 1: Price as a quantitative predictor
+
+::: {.exercise}
+Using `price`, plot `Sales` against `Price` with a fitted line (`gf_lm()`). Then fit `price_fit <- lm(Sales ~ Price, data = price)` and display it with `tidy()`.
+:::
+
+::: {.answer}
+
+```{r plot-price}
+
+```
+
+```{r fit-price}
+
+```
+
+:::
+
+::: {.exercise}
+Use `augment()` to add residuals and fitted values to `price` for `price_fit`. Plot the residuals against the fitted values.
+
+- Does the sum of the residuals look close to zero, like the least squares properties promised?
+:::
+
+::: {.answer}
+
+```{r augment-price}
+
+```
+
+:::
+
+::: {.exercise}
+Compute `sd()` and `cor()` for `Price` and `Sales` by hand, and use $\hat\beta_1 = r\,s_Y/s_X$ and $\hat\beta_0 = \bar{y} - \hat\beta_1\bar{x}$ to reconstruct the slope and intercept. Confirm they match `price_fit`'s coefficients from `tidy()`.
+:::
+
+::: {.answer}
+
+```{r hand-calc}
+
+```
+
+:::
+
+### $R^2$, ANOVA, and RMSE
+
+::: {.exercise}
+Run `anova(price_fit)`. Identify SSModel and SSE from the output, add them to get SST, and use that to compute $R^2 = SSModel / SST$ by hand.
+
+Then confirm your answer using `rsq()` on the augmented data. Also report `rmse()`.
+:::
+
+::: {.answer}
+
+```{r anova-rsq}
+
+```
+
+:::
+
+### Comparing across data sets
+
+::: {.exercise}
+Fit `lm(Sales ~ Music)` on `music`, and both `lm(Sales ~ Music)` and `lm(Sales ~ Price)` on `both`. For each of these three models, compute $R^2$ with `rsq()`.
+
+Fill in the table below on the whiteboard (or here):
+
+| Model | Data set | $R^2$ |
+|:--|:--:|:--:|
+| `Sales ~ Music` | `music` | |
+| `Sales ~ Music` | `both` | |
+| `Sales ~ Price` | `both` | |
+| `Sales ~ Price` | `price` | |
+:::
+
+::: {.answer}
+
+```{r compare-models}
+
+```
+
+:::
+
+::: {.exercise}
+Music's actual effect on `Sales` didn't change between `music` and `both` — you didn't change how the game responds to music, only what else you let vary. So why is $R^2$ for `Sales ~ Music` so different between those two data sets?
+
+Hint: think about what happens to **SST** when price is also bouncing around.
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Based on this table, is it fair to say "the `Sales ~ Music` model is better than the `Sales ~ Price` model" without saying which data set each $R^2$ came from? Why or why not?
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+*(If time permits)* Jo actually wants to maximize **profit**, not `Sales` — every data set the game gives you also has a `Profit` column. Does the model with the highest $R^2$ for `Sales` necessarily tell Jo the most about maximizing `Profit`? Explain.
+:::
+
+::: {.answer}
+
+:::
+
+::: callout-important
+To submit the AE:
+
+- Render the document to produce the HTML with all of your work from today's class.
+- The driver for your group should upload your .qmd and .html files to the Canvas assignment.
+:::

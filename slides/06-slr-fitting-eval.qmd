@@ -1,0 +1,463 @@
+---
+title: "Residuals, Least Squares, and Model Evaluation"
+author: "Prof. Eric Friedlander"
+footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/schedule)"
+logo: "../images/logo.png"
+format:
+  revealjs:
+    theme: slides.scss
+    multiplex: false
+    transition: fade
+    slide-number: false
+    incremental: false
+    chalkboard: true
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+execute:
+  freeze: auto
+  echo: true
+  cache: false
+knitr:
+  opts_chunk:
+    R.options:
+    width: 200
+bibliography: references.bib
+---
+
+```{r setup}
+#| include: false
+
+library(countdown)
+
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.618,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+```
+
+## Topics
+
+- Define residuals, and connect them to the idea of variation in $Y$.
+- Understand how the least squares method chooses a regression line.
+- Partition variation into model and error (ANOVA), and use it to compute $R^2$ and RMSE.
+
+## Last time {.smaller}
+
+::: {.incremental style="font-size: 0.9em"}
+- Regression works with a categorical predictor $X$, just like a quantitative one.
+- R recodes a $K$-level categorical variable into $K - 1$ **indicator (dummy) variables**, dropping the **reference level**.
+- The intercept is the mean of the response at the reference level; each slope is the difference in means from that level.
+- We started playing with the **Coffee Truck** to generate our own data.
+:::
+
+## Computational set up
+
+```{r packages}
+#| echo: true
+#| message: false
+
+# load packages
+library(tidyverse)   # for data wrangling and visualization
+library(ggformula)   # for plotting using formulas
+library(broom)       # for formatting model output
+library(scales)      # for pretty axis labels
+library(knitr)       # for pretty tables
+library(kableExtra)  # also for pretty tables
+library(patchwork)   # arrange plots
+library(yardstick)   # for R^2 and RMSE
+
+# Spotify Dataset
+spotify <- read_csv("../data/spotify-popular.csv")
+
+# set default theme and larger font size for ggplot2
+ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
+```
+
+## Quick Data Cleaning
+
+```{r}
+#| echo: true
+
+spotify <- spotify |>
+  mutate(duration_min = duration_ms / 60000)
+```
+
+::: question
+- What is this code doing?
+- Why might I be doing it?
+:::
+
+## The regression model, revisited {.smaller}
+
+```{r}
+#| echo: true
+spotify_fit <- lm(danceability ~ duration_min, data = spotify)
+
+tidy(spotify_fit, conf.int = TRUE, conf.level = 0.95) |>
+   kable(digits = 3)
+```
+
+- There is strong statistical evidence that there is a linear relationship between the duration of a song and its danceability.
+- We are 95% confident that as the length of a song increases by one minute the danceability will decrease by between 0.009 and 0.039 units.
+
+# Residuals
+
+## From points to a line {.smaller}
+
+```{r}
+#| echo: false
+set.seed(2025)
+spotify_sample <- spotify |>
+  slice_sample(n = 30)
+
+ggplot(data = spotify_sample, mapping = aes(x = duration_min, y = danceability)) +
+  geom_point(size = 2) +
+  geom_smooth(method = "lm", color = "red", se = FALSE, fullrange = TRUE) +
+  labs(x = "Duration (minutes)", y = "Danceability")
+```
+
+::: question
+For any one song, how far off is the line from the actual data point?
+:::
+
+## Residuals {.smaller}
+
+```{r}
+#| echo: false
+spotify_sample_aug <- augment(lm(danceability ~ duration_min, data = spotify_sample), data = spotify_sample)
+
+ggplot(data = spotify_sample_aug, mapping = aes(x = duration_min, y = danceability)) +
+  geom_point(size = 2) +
+  geom_smooth(method = "lm", color = "red", se = FALSE, fullrange = TRUE) +
+  geom_segment(aes(x = duration_min, xend = duration_min, y = danceability, yend = .fitted),
+               color = "blue", linetype = "dotted") +
+  labs(x = "Duration (minutes)", y = "Danceability")
+```
+
+$$\text{residual} = \text{observed} - \text{predicted} = y_i - \hat{y}_i = e_i$$
+
+::: {.fragment}
+- A **positive** residual: the point is *above* the line (model underpredicted).
+- A **negative** residual: the point is *below* the line (model overpredicted).
+:::
+
+# Partitioning Variability
+
+## Let's think about variation
+
+:::{.incremental}
+- DATA = MODEL + ERROR
+- $\substack{\text{Variation} \\ \text{in Y}} = \substack{\text{Variation explained} \\ \text{by model}} + \substack{\text{Variation not explained} \\ \text{by model}}$
+- Every point's residual is a leftover piece of variation the model didn't explain.
+:::
+
+::: question
+If we drew *any* other line through the cloud of points, would the residuals get bigger or smaller? Is there a "best" line?
+:::
+
+# Least squares
+
+## Choosing values for $\hat{\beta}_1$ and $\hat{\beta}_0$
+
+```{r}
+#| echo: false
+#| fig-align: center
+ggplot(data = spotify_sample, mapping = aes(x = duration_min, y = danceability)) +
+  geom_point(size = 2) +
+  geom_abline(intercept = 0.781, slope = -0.024, color = "red") +
+  geom_abline(intercept = 0.9, slope = -0.06, color = "green") +
+  geom_abline(intercept = 0.65, slope = 0.01, color = "blue") +
+  labs(x = "Duration (minutes)", y = "Danceability")
+```
+
+::: question
+Which of these three lines does the "best" job? How would you decide?
+:::
+
+## The least squares method {.smaller}
+
+::: incremental
+- We need a rule for picking *the* line, not just *a* line.
+- **Least squares method**: choose $\hat{\beta}_0$ and $\hat{\beta}_1$ to minimize the sum of squared residuals
+$$
+\sum_{i=1}^n e_i^2 = \sum_{i=1}^n (y_i - \hat{y}_i)^2
+$$
+- Why square the residuals instead of just adding them up?
+    + Positive and negative residuals would cancel out.
+    + Squaring also penalizes large misses more than small ones.
+:::
+
+## Properties of least squares regression {.smaller}
+
+::: incremental
+-   Passes through the center of mass point, the coordinates corresponding to average $X$ and average $Y$: $\hat{\beta}_0 = \bar{Y} - \hat{\beta}_1\bar{X}$
+
+-   Slope has same sign as the correlation coefficient: $\hat{\beta}_1 = r \frac{s_Y}{s_X}$
+
+    + $r$: correlation coefficient
+    + $s_Y, s_X$: sample standard deviations of $X$ and $Y$
+
+-   Sum of the residuals is zero: $\sum_{i = 1}^n e_i \approx 0$
+
+    +   Intuition: Residuals are "balanced"
+
+-   The residuals and $X$ values are uncorrelated
+:::
+
+## Estimating the slope, by hand {.smaller}
+
+$$\large{\hat{\beta}_1 = r \frac{s_Y}{s_X}}$$
+
+```{r}
+#| echo: true
+s_x <- sd(spotify$duration_min)
+s_y <- sd(spotify$danceability)
+r <- cor(spotify$duration_min, spotify$danceability)
+
+s_x
+s_y
+r
+```
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| echo: true
+b1 <- r * s_y / s_x
+b1
+```
+:::
+::: {.column width="50%"}
+Compare to `lm()`:
+```{r}
+#| echo: true
+coef(spotify_fit)["duration_min"]
+```
+:::
+:::
+
+## Estimating the intercept, by hand {.smaller}
+
+$$\large{\hat{\beta}_0 = \bar{Y} - \hat{\beta}_1\bar{X}}$$
+
+```{r}
+#| echo: true
+x_bar <- mean(spotify$duration_min)
+y_bar <- mean(spotify$danceability)
+
+b0 <- y_bar - b1 * x_bar
+b0
+```
+
+Compare to `lm()`:
+
+```{r}
+#| echo: true
+coef(spotify_fit)["(Intercept)"]
+```
+
+<br>
+
+::: small
+[Click here](https://introregression.netlify.app/98-appendix) for details on deriving the equations for slope and intercept, which is easy if you know multivariate calculus.
+:::
+
+# Partitioning Variability (ANOVA)
+
+## Splitting up the residual {.smaller}
+
+:::{.incremental}
+-   $y_i - \bar{y} = (\hat{y}_i - \bar{y}) + (y_i-\hat{y}_i)$
+-   Square and sum: $\sum(y_i-\bar{y})^2 = \sum(\hat{y} - \bar{y})^2 + \sum(y-\hat{y})^2$
+-   $\substack{\text{Sum of squares} \\ \text{Total}} = \substack{\text{Sum of squares} \\ \text{model}} + \substack{\text{Sum of squares} \\ \text{error}}$
+-   $SSTotal = SSModel + SSE$
+-   $SST = SSM + SSE$
+-   ANOVA: Analysis of Variance
+:::
+
+## ANOVA in R
+
+```{r}
+spotify_fit |>
+  anova() |>
+  tidy() |>
+  kable()
+```
+
+## Recall: Correlation Coefficient
+
+-   The **correlation coefficient**, $r$, is a number between -1 and +1 that measures how strong the linear relationship between two variables $x$ and $y$ is.
+
+$$
+r = \frac{\sum(x_i - \bar{x})(y_i-\bar{y})}{\sqrt{\sum(x_i-\bar{x})^2\sum(y_i-\bar{y})^2}}
+= \frac{\sum(x_i - \bar{x})(y_i-\bar{y})}{s_xs_y}
+$$
+
+## Two statistics: $R^2$ {.smaller}
+
+::: incremental
+-   **R-squared**, $R^2$, **Coefficient of Determination**: Percentage of variability in the outcome explained by the regression model (in the context of SLR, the predictor)
+$$
+R^2 = Cor(y, \hat{y})^2
+$$
+    -  Also called **PRE (Percent Reduction in Error)** because:
+$$
+R^2 = \frac{SSModel}{SSTotal}
+$$
+:::
+
+## $R^2$
+
+::: incremental
+-   Ranges between 0 (terrible predictor) and 1 (perfect predictor)
+-   Has no units
+-   Calculate with `rsq()` from `yardstick` package using the augmented data:
+```{r}
+#| echo: true
+
+spotify_aug <- augment(spotify_fit)
+
+rsq(spotify_aug, truth = danceability, estimate = .fitted) |> kable()
+```
+:::
+
+## Interpreting $R^2$ {.smaller}
+
+```{r}
+#| echo: false
+spotify_fit_rsq <- round(rsq(spotify_aug, truth = danceability, estimate = .fitted) |> pull(.estimate) * 100, 1)
+```
+
+::: poll
+🗳️ **Discussion**
+
+::: midi
+The $R^2$ of the model for `danceability` from `duration_min` is `r spotify_fit_rsq`%. Which of the following is the correct interpretation of this value?
+:::
+
+1.  `duration_min` correctly predicts `r spotify_fit_rsq`% of `danceability`.
+2.  `r spotify_fit_rsq`% of the variability in `danceability` can be explained by `duration_min`.
+3.  `r spotify_fit_rsq`% of the variability in `duration_min` can be explained by `danceability`.
+4.  `r spotify_fit_rsq`% of the time `danceability` can be predicted by `duration_min`.
+:::
+
+## Activity
+
+::: appex
+In groups, at the board, design a simulation-based procedure for producing a p-value for the following hypothesis test.
+
+- $H_0: R^2 = 0$
+- $H_A: R^2 \neq 0$
+:::
+
+## RMSE {.smaller}
+
+::: incremental
+-   **Root mean square error, RMSE**: A measure of the average error (average difference between observed and predicted values of the outcome)
+$$
+RMSE = \sqrt{\frac{\sum_{i = 1}^n (y_i - \hat{y}_i)^2}{n}}
+$$
+    + Sometimes people just care about numerator (SSE) or version without the square-root (MSE)
+    + Sometimes the denominator may have $n-1$ instead
+-   Ranges between 0 (perfect predictor) and infinity (terrible predictor)
+-   Same units as the response variable
+-   Interpretation (kind of): how much does my model miss by, on average.
+:::
+
+## RMSE in R
+
+```{r}
+#| echo: true
+
+rmse(spotify_aug, truth = danceability, estimate = .fitted)
+```
+
+# Back to the Coffee Truck
+
+## Comparing models with $R^2$ {.smaller}
+
+Recall Jo's coffee truck: **Business District**, **Lunch**, **Weather = Constant** the whole time.
+
+Today, each group will generate **three** data sets with the [Coffee Truck game](https://www.stat2games.sites.grinnell.edu/games/coffeetruck.html):
+
+| Data set | What varies | What's held fixed |
+|:--:|:--|:--|
+| `music` | Music (No Music / Hip Hop / Alternative) | Price = \$3 |
+| `price` | Price (\$2 / \$3 / \$4 / \$5) | Music = No Music |
+| `both`  | Music **and** Price | — |
+
+::: appex
+📋 [AE 06 - Comparing Models with the Coffee Truck](../ae/ae-06-coffee-truck-eval.qmd)
+:::
+
+Complete Exercises 1-3.
+
+```{r}
+#| echo: false
+countdown(minutes = 15)
+```
+
+## A data cleaning wrinkle {.smaller}
+
+The game exports `Price` as **text**, e.g. `"$3"`, not a number:
+
+```{r}
+#| echo: false
+tibble(Price = c("$2", "$3", "$4", "$5")) |> kable()
+```
+
+::: question
+Why does this matter for fitting `lm(Sales ~ Price)`? What do we need to do first?
+:::
+
+. . .
+
+Same fix as before: strip the `$` and convert.
+
+```{r}
+#| eval: false
+#| echo: true
+price <- price |>
+  mutate(Price = str_replace(Price, "\\$", "")) |>
+  mutate(Price = as.numeric(Price))
+```
+
+Complete Exercises 4-9.
+
+## The comparison {.smaller}
+
+You'll fit `Sales ~ Music` on **`music`**, and both `Sales ~ Music` and `Sales ~ Price` on **`both`**.
+
+::: question
+Music's effect on `Sales` didn't change between `music` and `both`. So why might $R^2$ for `Sales ~ Music` be so different in these two data sets?
+:::
+
+. . .
+
+- In `music`, price is fixed — all the leftover variability in `Sales` is either explained by music or is pure noise.
+- In `both`, price is also bouncing around. That extra variability inflates **SST**, so the *same* music effect now explains a *smaller share* of a *bigger* pie.
+
+Complete Exercises 10-12. If time permits, complete Exercise 13.
+
+## Using the word "Good"
+
+-   There is no such thing as a "Good" $R^2$ or, especially, RMSE without context.
+-   Whether your model is a "Good" model depends on many things:
+    +   What are you using your model for?
+    +   How good are other models?
+    +   **What else was varying in the data you fit it to?**
+
+## Recap {.smaller}
+
+-   A **residual** is the leftover gap between an observed value and the model's prediction: $e_i = y_i - \hat{y}_i$.
+-   The **least squares method** picks $\hat{\beta}_0, \hat{\beta}_1$ to minimize $\sum e_i^2$.
+-   Can decompose total variation (SST) into variation explained by the model (SSM) and leftover variation (SSE).
+-   Two metrics for evaluating and comparing models:
+    +   $R^2$: What proportion of the variation in the response variable is explained by the model?
+    +   $RMSE$: How far does my model miss by, on average?
+-   $R^2$ depends on the data it was fit to, not just the true relationship — so it can't be compared across data sets that vary different things.

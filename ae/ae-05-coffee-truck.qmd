@@ -105,12 +105,12 @@ Play the game at the link above.
 ::: {.exercise}
 Set up your design:
 
-- Start with **Location = Business District**, Music = No Music**, **Price = \$3 per cup**, **Time = Lunch**, **Weather = Relatively Constant** for the whole activity.
+- Start with **Location = Business District**, **Music = No Music**, **Price = \$3 per cup**, **Time = Lunch**, **Weather = Relatively Constant** for the whole activity.
 - Select one additional category from **Music**, **Location**, OR **Time**
 - Set **Design Type** to `Random Sample` and **Number of Repetitions** to `10`. Confirm "Number of Days" reads `20`.
 - Click **Start Sim**.
 
-Write down which setting your group changed, and which second level you picked.
+Write down which setting your group changed, and which second level you picked below and on the whiteboard.
 :::
 
 ::: {.answer}
@@ -118,7 +118,7 @@ Write down which setting your group changed, and which second level you picked.
 :::
 
 ::: {.exercise}
-Download your data as a CSV file, and upload it in your data folder. I recommend changing the filename to something more memorable.
+Download your data as a CSV file from [here](https://www.stat2games.sites.grinnell.edu/data/coffeetruck/coffeetruck.php), and upload it in your data folder. I recommend changing the filename to something more memorable.
 :::
 
 ::: {.exercise}
@@ -139,14 +139,14 @@ library(coursekata)
 :::
 
 ::: {.exercise}
-Use `read_csv` to load the data you just uploaded. Take a look at the data, make sure it has the right number of rows. If our goal is to make the most money, what should your response variable be? What is the predictor variable you varied? What are the two levels of that variable?
+Use `read_csv` to load the data you just uploaded. Take a look at the data, make sure it has the right number of rows.
 :::
 
 :::{.answer}
 
 ```{r load-data}
 #| message: false
-#
+
 ```
 
 :::
@@ -179,9 +179,7 @@ Use `favstats()` to find the mean `Sales` at each of your two levels.
 Fit a linear model predicting `Sales` from your variable. Use `tidy()` to format the output.
 
 - What is the reference level in your model?
-- On the whiteboard draw a plot similar to the one found [here](https://ericfriedlander.github.io/math2025-fa26/slidese
-```
-
+- On the whiteboard draw a plot similar to the one found [here](https://ericfriedlander.github.io/math2025-fa26/slides/05-categorical-predictors.html#/fitting-the-model)
 :::
 
 ::: {.exercise}
@@ -229,4 +227,4 @@ To submit the AE:
 
 - Render the document to produce the HTML with all of your work from today's class.
 - The driver for your group should upload your .qmd and .html files to the Canvas assignment.
-  :::
+:::

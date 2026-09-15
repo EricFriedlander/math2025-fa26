@@ -59,7 +59,7 @@ knitr::opts_chunk$set(
 ::::{.columns}
 :::{.column}
 
-- Fit `lm(count ~ temp_orig)` for our bikeshare data
+- Fit `lm(count ~ temp_orig, data = bikeshare)` for our bikeshare data
 - Interpreted the slope and intercept
 - Used `predict()` to make predictions
 - Every predictor so far has been a **number**
@@ -68,6 +68,7 @@ knitr::opts_chunk$set(
 
 ```{r}
 #| echo: false
+#| message: false
 bikeshare <- read_csv("../data/dcbikeshare.csv") |>
   mutate(season = case_when(
     season == 1 ~ "winter",
@@ -93,7 +94,7 @@ fall |>
 
 - We also have `season`: winter, spring, summer, fall.
     - Terminology: we call the possible categories **levels**
-- What would `lm(count ~ season)` even mean?
+- What would `lm(count ~ season, data = bikeshare)` even mean?
 
 ::: question
 
@@ -154,7 +155,7 @@ Each group then picks **one setting** to change to a second level, holding every
 
 ## Choosing a level to add
 
-- Our goal is maximize the our profit
+- Our goal is maximize the number of sales
 - Choose a level from `Sales` or `Location` to add
 - Complete Exercises 2-8
 
@@ -312,11 +313,7 @@ Are `season` and `count` **correlated**?
 - `season` is categorical — there's no correlation coefficient to compute, even though we can absolutely fit a regression model.
 
 ::: appex
-Complete Exercises 6-13.
-:::
-
-::: appex
-If time permits, complete Exercises 14-15.
+Complete Exercises 9-14. If we run out of time you can skip 13 and 14.
 :::
 
 # Wrap up

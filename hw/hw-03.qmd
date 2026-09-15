@@ -87,14 +87,6 @@ By the end of this homework, you will...
 
 See the [R resources](https://ericfriedlander.github.io/math2025-fa26/computing-r-resources.html) page for a guide to the RStudio IDE and Quarto file components.
 
-### YAML
-
-The top portion of your Quarto file (between the three dashed lines) is called **YAML**. It stands for "Yet Another Markup Language". It is a human friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document.
-
-::: callout-important
-Open the Quarto (.qmd) file in your project, change the author name to your name, and render the document. Examine the rendered document. You can now work off of that file.
-:::
-
 # Packages
 
 We will use the following packages in today's HW.
@@ -144,7 +136,7 @@ In your `hw-03.qmd` document you'll see that each task is wrapped in an `exercis
 Play the game at the link above.
 
 - On the ID screen, enter **`MATH2025FA26`** as the Group Name.
-- Pick a Player Name that does **not** identify you, and write it in the box below (you'll need it later).
+- Pick a Player Name that does **not** identify you, and write it in the box below (you'll need it later). Don't use the same as your Team Name from class.
 
 Now set up your design:
 
@@ -162,7 +154,7 @@ Record your Player Name, which variable you chose (Music or Location), the level
 :::
 
 ::: {.exercise}
-Download your data as a CSV file, and upload it into the `data`. I recommend changing the filename to something more memorable. Then use `read_csv` to load it and take a look.
+Download your data as a CSV file, and upload it into the `data` folder. I recommend changing the filename to something more memorable. Then use `read_csv` to load it and take a look.
 
 - How many rows and columns does it have? Does the row count match the design you recorded in Exercise 1?
 
@@ -281,7 +273,7 @@ Fit a linear model called `cat_mod` predicting `Sales` from your variable. Use `
 
 - What is the reference level in your model? How can you tell from the output alone?
 - Write out the estimated regression equation using R's coefficient names (e.g. `MusicHipHop`), and give the dummy coding (the 0/1 values for each indicator) for an observation at each level of your variable by modifying the table below. You can find documentation on how make tables in Quarto [here](https://quarto.org/docs/authoring/tables.html)
-  :::
+:::
 
 ::: {.answer}
 
@@ -325,9 +317,9 @@ This is a good place to render your document.
 ::: {.exercise}
 Suppose, instead of treating `Price` as quantitative in Model 1, you had treated it as a categorical variable with four levels (\$2, \$3, \$4, \$5).
 
-- How many coefficients would that model have (including the intercept)?
+- How many parameters (i.e. $\beta$'s) would that model have (including the intercept)?
 - What could that model do that `price_mod` cannot?
-- What could `price_mod` do that a categorical-price model cannot?
+- What could `price_mod` do that a categorical-price model cannot? (Hint: think about Exercises 7 and 11.)
 
 No code needed for this question.
 :::
@@ -341,8 +333,7 @@ Using `price_mod` and `cat_mod` separately (you have not been asked to combine t
 
 - What price would you recommend to Jo, based on `price_mod`?
 - What level of your variable would you recommend to Jo, based on `cat_mod`?
-- What can these two _separate_ models **not** tell you about that price/level combination together?
-  :::
+:::
 
 ::: {.answer}
 
