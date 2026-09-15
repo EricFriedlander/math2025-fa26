@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Prof.&nbsp;Eric Friedlander">
-  <title>MATH 2025 - Fall 2026 – Categorical Predictors</title>
+  <title>MATH 2025 - Fall 2026 – Model Evaluation</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -199,7 +199,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Categorical Predictors</h1>
+  <h1 class="title">Model Evaluation</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -210,382 +210,64 @@ Prof.&nbsp;Eric Friedlander
 </div>
 
 </section>
-<section id="topics" class="slide level2">
-<h2>Topics</h2>
-<ul>
-<li>Use regression to describe the relationship between a <strong>categorical</strong> predictor and a quantitative response variable.</li>
-<li>Understand indicator (dummy) variables and reference levels.</li>
-<li>Interpret the intercept and slope when the predictor is categorical.</li>
-</ul>
-</section>
 <section>
-<section id="last-time" class="title-slide slide level1 center">
-<h1>Last time</h1>
-
+<section id="application-exercise" class="title-slide slide level1 center">
+<h1>Application exercise</h1>
+<div class="appex">
+<p>📋 <a href="../ae/ae-10-model-eval.qmd">AE 10 - Model Evaluation</a></p>
+</div>
+<p>Complete Exercise 0.</p>
 </section>
-<section id="last-time-1" class="slide level2 smaller">
-<h2>Last time</h2>
-<div class="columns">
-<div class="column">
-<ul>
-<li>Fit <code>lm(count ~ temp_orig, data = bikeshare)</code> for our bikeshare data</li>
-<li>Interpreted the slope and intercept</li>
-<li>Used <code>predict()</code> to make predictions</li>
-<li>Every predictor so far has been a <strong>number</strong></li>
-</ul>
-</div><div class="column">
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="05-categorical-predictors_files/figure-revealjs/unnamed-chunk-2-1.png" style="width:80.0%"></p>
-</figure>
+<section id="computational-set-up" class="slide level2">
+<h2>Computational set up</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co"># load packages</span></span>
+<span id="cb1-2"><a></a><span class="fu">library</span>(tidyverse)   <span class="co"># for data wrangling and visualization</span></span>
+<span id="cb1-3"><a></a><span class="fu">library</span>(ggformula)   <span class="co"># for plotting using formulas</span></span>
+<span id="cb1-4"><a></a><span class="fu">library</span>(broom)       <span class="co"># for formatting model output</span></span>
+<span id="cb1-5"><a></a><span class="fu">library</span>(scales)      <span class="co"># for pretty axis labels</span></span>
+<span id="cb1-6"><a></a><span class="fu">library</span>(knitr)       <span class="co"># for pretty tables</span></span>
+<span id="cb1-7"><a></a><span class="fu">library</span>(kableExtra)  <span class="co"># also for pretty tables</span></span>
+<span id="cb1-8"><a></a><span class="fu">library</span>(patchwork)   <span class="co"># arrange plots</span></span>
+<span id="cb1-9"><a></a></span>
+<span id="cb1-10"><a></a><span class="co"># Spotify Dataset</span></span>
+<span id="cb1-11"><a></a>spotify <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../data/spotify-popular.csv"</span>)</span>
+<span id="cb1-12"><a></a></span>
+<span id="cb1-13"><a></a><span class="co"># set default theme and larger font size for ggplot2</span></span>
+<span id="cb1-14"><a></a>ggplot2<span class="sc">::</span><span class="fu">theme_set</span>(ggplot2<span class="sc">::</span><span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">20</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</div>
-</div>
-</div></div>
 </section>
-<section id="what-if-the-predictor-isnt-a-number" class="slide level2 smaller">
-<h2>What if the predictor isn’t a number?</h2>
-<ul>
-<li>We also have <code>season</code>: winter, spring, summer, fall.
-<ul>
-<li>Terminology: we call the possible categories <strong>levels</strong></li>
-</ul></li>
-<li>What would <code>lm(count ~ season, data = bikeshare)</code> even mean?</li>
-</ul>
+<section id="quick-data-cleaning" class="slide level2">
+<h2>Quick Data Cleaning</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>spotify <span class="ot">&lt;-</span> spotify <span class="sc">|&gt;</span> </span>
+<span id="cb2-2"><a></a>  <span class="fu">mutate</span>(<span class="at">duration_min =</span> duration_ms <span class="sc">/</span> <span class="dv">60000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <div class="question">
 <ul>
-<li>You can’t multiply “fall” by a slope. So what does <span class="math inline">\(\hat{\beta}_1\)</span> look like when <span class="math inline">\(X\)</span> is a category?</li>
-<li>Can we still write <span class="math inline">\(\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X\)</span>?</li>
+<li>What is this code doing?</li>
+<li>Why might I be doing it?</li>
 </ul>
 </div>
-</section></section>
-<section>
-<section id="meet-the-coffee-truck" class="title-slide slide level1 center">
-<h1>Meet the Coffee Truck</h1>
-
 </section>
-<section id="the-scenario" class="slide level2 smaller">
-<h2>The scenario</h2>
-<div class="callout callout-warning callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Warning</strong></p>
-</div>
-<div class="callout-content">
-<p>Please don’t open the app yet!</p>
-</div>
-</div>
-</div>
-<p>Jo inherited a coffee truck from an uncle. After repairs, Jo has <strong>$20,000</strong> left. Coffee costs <strong>$0.50/cup</strong> to make, and fixed daily expenses are <strong>$300/day</strong>. Jo wants help figuring out what combination of settings sells the most coffee.</p>
-<p>We’ll use the <a href="https://www.stat2games.sites.grinnell.edu/games/coffeetruck.html">Coffee Truck game</a> (Grinnell <strong>stat2games</strong>) to <em>generate our own data</em> by playing simulated shifts.</p>
-</section>
-<section id="settings-you-can-choose" class="slide level2 smaller">
-<h2>Settings you can choose</h2>
-<p>Before each shift you pick a combination of:</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Setting</th>
-<th>Options in the game</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Location</td>
-<td>Business District, City Park, City Hall, Near the Zoo</td>
-</tr>
-<tr class="even">
-<td>Music</td>
-<td>No Music, Hip Hop, Alternative</td>
-</tr>
-<tr class="odd">
-<td>Price</td>
-<td>$2, $3, $4, $5 per cup</td>
-</tr>
-<tr class="even">
-<td>Time</td>
-<td>Morning, Lunch, Afternoon, Evening</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Response variable:</strong> <code>Sales</code> – the number of cups sold that shift.</p>
-</section>
-<section id="our-baseline" class="slide level2 smaller">
-<h2>Our baseline</h2>
-<p>Everyone in class will start from the same baseline:</p>
-<blockquote>
-<p><strong>Business District</strong>, <strong>No Music</strong>, <strong>$3 per cup</strong>, <strong>Lunch</strong></p>
-</blockquote>
-<p>Each group then picks <strong>one setting</strong> to change to a second level, holding everything else at the baseline. (If there’s time, we’ll add a third level of that same setting later.)</p>
-<div class="appex">
-<p>📋 <a href="../ae/ae-05-coffee-truck.html">AE 05 - The Coffee Truck</a></p>
-</div>
-<ul>
-<li>Let’s get in groups:
-<ul>
-<li>Have your Coder upload the activity to RStudio</li>
-<li>Choose a team name (with no identifiable information)</li>
-<li>Complete Exercise 1</li>
-</ul></li>
-</ul>
-</section>
-<section id="walkthrough" class="slide level2">
-<h2>Walkthrough</h2>
-<ul>
-<li>Let’s walk through <a href="https://www.stat2games.sites.grinnell.edu/games/coffeetruck.html">the app</a> together</li>
-<li>Have your Communicator (Developer if you’re in a two person group) open the app on their computer
-<ul>
-<li>Enter your team name in the <code>Name</code> field</li>
-<li>Enter <code>MATH2025FA26</code> (all caps) in the <code>Group Name</code> field</li>
-</ul></li>
-</ul>
-</section>
-<section id="choosing-a-level-to-add" class="slide level2">
-<h2>Choosing a level to add</h2>
-<ul>
-<li>Our goal is maximize the number of sales</li>
-<li>Choose a level from <code>Sales</code> or <code>Location</code> to add</li>
-<li>Complete Exercises 2-8</li>
-</ul>
-</section></section>
-<section>
-<section id="regression-with-one-categorical-predictor" class="title-slide slide level1 center">
-<h1>Regression with one categorical predictor</h1>
-
-</section>
-<section id="were-just-encoding-means" class="slide level2">
-<h2>We’re just encoding means</h2>
-<p>What comes next may seem complicated, but we’re just building a model that predicts the groups means:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>bikeshare <span class="sc">|&gt;</span></span>
-<span id="cb1-2"><a></a>  <span class="fu">group_by</span>(season) <span class="sc">|&gt;</span></span>
-<span id="cb1-3"><a></a>  <span class="fu">summarize</span>(<span class="at">mean_count =</span> <span class="fu">mean</span>(count)) <span class="sc">|&gt;</span></span>
-<span id="cb1-4"><a></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="the-regression-model-revisited" class="slide level2 smaller">
+<h2>The regression model, revisited</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>spotify_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(danceability <span class="sc">~</span> duration_min, <span class="at">data =</span> spotify)</span>
+<span id="cb3-2"><a></a></span>
+<span id="cb3-3"><a></a><span class="fu">tidy</span>(spotify_fit, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a></a>   <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;">season</th>
-<th style="text-align: right;">mean_count</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">winter</td>
-<td style="text-align: right;">2604.133</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">spring</td>
-<td style="text-align: right;">4992.332</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">summer</td>
-<td style="text-align: right;">5644.303</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">fall</td>
-<td style="text-align: right;">4728.163</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</section>
-<section id="indicator-variables" class="slide level2 smaller">
-<h2>Indicator variables</h2>
-<ul>
-<li>Suppose a categorical variable has <span class="math inline">\(K\)</span> categories (levels).</li>
-<li>We can make <span class="math inline">\(K\)</span> <strong>indicator variables</strong>, one per category.</li>
-<li>An indicator variable takes the value 1 or 0:
-<ul>
-<li>1 if the observation belongs to that category</li>
-<li>0 if it does not</li>
-</ul></li>
-<li>Finally… we drop one of the indicator variables.</li>
-<li>This category is called the <strong>reference level</strong> (or <strong>baseline</strong>) and it doesn’t get its own term in the model</li>
-</ul>
-</section>
-<section id="example" class="slide level2 smaller">
-<h2>Example</h2>
-<div class="columns">
-<div class="column">
-<p>Create indicator variables for <code>Season</code> in our bikeshare data:</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;">season</th>
-<th style="text-align: right;">winter</th>
-<th style="text-align: right;">spring</th>
-<th style="text-align: right;">summer</th>
-<th style="text-align: right;">fall</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">summer</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">summer</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">summer</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">fall</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">summer</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">summer</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">winter</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">spring</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div><div class="column">
-<p>Set <code>winter</code> as the reference level, and drop it from the model:</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;">season</th>
-<th style="text-align: right;">spring</th>
-<th style="text-align: right;">summer</th>
-<th style="text-align: right;">fall</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">summer</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">summer</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">summer</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">fall</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">summer</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">summer</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">winter</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">spring</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div></div>
-</section>
-<section id="indicators-in-the-model" class="slide level2 smaller">
-<h2>Indicators in the model</h2>
-<ul>
-<li>We only use <span class="math inline">\(K - 1\)</span> of the indicator variables in the model.</li>
-<li>The <strong>reference level</strong> (or <strong>baseline</strong>) is the category left out — it doesn’t get its own term.</li>
-<li>The coefficient on each indicator is the expected <em>difference</em> in the response compared to the baseline.</li>
-<li>This is called <strong>dummy coding</strong>, and <em>R does it for you</em>.</li>
-<li>But why… (Board work)</li>
-</ul>
-</section>
-<section id="rs-default-reference-level" class="slide level2 smaller">
-<h2>R’s default reference level</h2>
-<p>By default, R picks the reference level either alphabetically (if variable is not a factor) or the first level (if variable is a factor).</p>
-<p>Most of the time, you probably don’t care which level is chosen to be the reference level (you need to know which one it is though)… but if you do chage it using the same trick from <code>season</code> in Lecture 3:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>bikeshare <span class="ot">&lt;-</span> bikeshare <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a></a>  <span class="fu">mutate</span>(<span class="at">season =</span> <span class="fu">factor</span>(season, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"winter"</span>, <span class="st">"spring"</span>, <span class="st">"summer"</span>, <span class="st">"fall"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="fitting-the-model" class="slide level2 smaller">
-<h2>Fitting the model</h2>
-<div class="columns">
-<div class="column">
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>season_mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(count <span class="sc">~</span> season, <span class="at">data =</span> bikeshare)</span>
-<span id="cb3-2"><a></a>season_mod <span class="sc">|&gt;</span></span>
-<span id="cb3-3"><a></a>  <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
-<span id="cb3-4"><a></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
+<table class="caption-top" style="width:100%;">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 13%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 13%">
+<col style="width: 14%">
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">term</th>
@@ -593,185 +275,254 @@ Prof.&nbsp;Eric Friedlander
 <th style="text-align: right;">std.error</th>
 <th style="text-align: right;">statistic</th>
 <th style="text-align: right;">p.value</th>
+<th style="text-align: right;">conf.low</th>
+<th style="text-align: right;">conf.high</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">2604.133</td>
-<td style="text-align: right;">116.598</td>
-<td style="text-align: right;">22.334</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.781</td>
+<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">28.351</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.727</td>
+<td style="text-align: right;">0.835</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">seasonspring</td>
-<td style="text-align: right;">2388.199</td>
-<td style="text-align: right;">164.221</td>
-<td style="text-align: right;">14.543</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">seasonsummer</td>
-<td style="text-align: right;">3040.171</td>
-<td style="text-align: right;">163.352</td>
-<td style="text-align: right;">18.611</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">seasonfall</td>
-<td style="text-align: right;">2124.030</td>
-<td style="text-align: right;">165.588</td>
-<td style="text-align: right;">12.827</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: left;">duration_min</td>
+<td style="text-align: right;">-0.024</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">-3.151</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">-0.039</td>
+<td style="text-align: right;">-0.009</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-</div><div class="column">
-<div class="cell">
+<ul>
+<li><p>There is strong statistical evidence that there is a linear relationship between the duration of a song and it’s danceability.</p></li>
+<li><p>We are 95% confidence that as the length of a song increases by one minute the danceability will decrease by between 0.009 and 0.039 units.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="model-evaluation" class="title-slide slide level1 center">
+<h1>Model evaluation</h1>
+
+</section>
+<section id="partitioning-variability" class="slide level2">
+<h2>Partitioning Variability</h2>
+<p>Let’s think about variation:</p>
+<ul>
+<li class="fragment">DATA = MODEL + ERROR</li>
+<li class="fragment"><span class="math inline">\(\substack{\text{Variation} \\ \text{in Y}} = \substack{\text{Variation explained} \\ \text{by model}} + \substack{\text{Variation not explained} \\ \text{by model}}\)</span></li>
+</ul>
+</section>
+<section id="partitioning-variability-anova" class="slide level2">
+<h2>Partitioning Variability (ANOVA)</h2>
+<ul>
+<li class="fragment"><span class="math inline">\(y_i - \bar{y} = (\hat{y}_i - \bar{y}) + (y_i-\hat{y}_i)\)</span></li>
+<li class="fragment">Square and sum: <span class="math inline">\(\sum(y_i-\bar{y})^2 = \sum(\hat{y} - \bar{y})^2 + \sum(y-\hat{y})^2\)</span></li>
+<li class="fragment"><span class="math inline">\(\substack{\text{Sum of squares} \\ \text{Total}} = \substack{\text{Sum of squares} \\ \text{model}} + \substack{\text{Sum of squares} \\ \text{error}}\)</span></li>
+<li class="fragment"><span class="math inline">\(SSTotal = SSModel + SSE\)</span></li>
+<li class="fragment"><span class="math inline">\(SST = SSM + SSE\)</span></li>
+<li class="fragment">ANOVA: Analysis of Variance</li>
+</ul>
+</section>
+<section id="anova-in-r" class="slide level2">
+<h2>ANOVA in R</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>spotify_fit <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a></a>  <span class="fu">anova</span>() <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a></a>  <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="05-categorical-predictors_files/figure-revealjs/unnamed-chunk-8-1.png" style="width:80.0%"></p>
-</figure>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">df</th>
+<th style="text-align: right;">sumsq</th>
+<th style="text-align: right;">meansq</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">duration_min</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.1685294</td>
+<td style="text-align: right;">0.1685294</td>
+<td style="text-align: right;">9.928516</td>
+<td style="text-align: right;">0.0017237</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Residuals</td>
+<td style="text-align: right;">506</td>
+<td style="text-align: right;">8.5889829</td>
+<td style="text-align: right;">0.0169743</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
+<div class="fragment">
+<ul>
+<li>More on this later in the semester</li>
+<li>Complete Exercise 1.</li>
+</ul>
 </div>
-</div></div>
+</section>
+<section id="recall-correlation-coefficient" class="slide level2">
+<h2>Recall: Correlation Coefficient</h2>
+<ul>
+<li>The <strong>correlation coefficient</strong>, <span class="math inline">\(r\)</span>, is a number between -1 and +1 that measures how strong the linear relationship between two variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is.</li>
+</ul>
 <p><span class="math display">\[
-\widehat{\text{count}} = \hat\beta_0 + \hat\beta_1 \times \text{seasonspring} + \hat\beta_2 \times \text{seasonsummer} + \hat\beta_3 \times \text{seasonfall}
+r = \frac{\sum(x_i - \bar{x})(y_i-\bar{y})}{\sqrt{\sum(x_i-\bar{x})^2\sum(y_i-\bar{y})^2}}
+= \frac{\sum(x_i - \bar{x})(y_i-\bar{y})}{s_xs_y}
 \]</span></p>
+</section>
+<section id="two-statistics-r2" class="slide level2 smaller">
+<h2>Two statistics: <span class="math inline">\(R^2\)</span></h2>
+<ul>
+<li class="fragment"><strong>R-squared</strong>, <span class="math inline">\(R^2\)</span>, <strong>Coefficient of Determination</strong> : Percentage of variability in the outcome explained by the regression model (in the context of SLR, the predictor) <span class="math display">\[
+R^2 = Cor(y, \hat{y})^2
+\]</span>
+<ul>
+<li class="fragment">Also called <strong>PRE (Percent Reduction in Error)</strong> because: <span class="math display">\[
+R^2 = \frac{SSModel}{SSTotal}
+\]</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="two-statistics-rmse" class="slide level2 smaller">
+<h2>Two statistics: RMSE</h2>
+<ul>
+<li><strong>Root mean square error, RMSE</strong>: A measure of the average error (average difference between observed and predicted values of the outcome) <span class="math display">\[
+RMSE = \sqrt{\frac{\sum_{i = 1}^n (y_i - \hat{y}_i)^2}{n}}
+\]</span>
+<ul>
+<li>Sometimes people just care about numerator (SSE) or version without the square-root (MSE)</li>
+<li>Sometimes the denominator may have <span class="math inline">\(n-1\)</span> instead</li>
+</ul></li>
+</ul>
+<div class="fragment">
 <div class="question">
-<ul>
-<li>Where can we figure out what the reference level is from the output?</li>
-<li>Where do you see the intercept and slope in the plot?</li>
-<li>What does this model predict for a winter day? A summer day?</li>
-</ul>
+<p>What indicates a good model fit? Higher or lower <span class="math inline">\(R^2\)</span>? Higher or lower RMSE?</p>
+</div>
 </div>
 </section>
-<section id="the-intercept-is-a-mean-the-slope-is-a-difference" class="slide level2 smaller">
-<h2>The intercept is a mean; the slope is a difference</h2>
-<div class="columns">
-<div class="column">
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>season_mod <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="r2" class="slide level2">
+<h2><span class="math inline">\(R^2\)</span></h2>
+<ul>
+<li class="fragment">Ranges between 0 (terrible predictor) and 1 (perfect predictor)</li>
+<li class="fragment">Has no units</li>
+<li class="fragment">Calculate with <code>rsq()</code> from <code>yardstick</code> package using the augmented data:</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="fu">library</span>(yardstick)</span>
+<span id="cb5-2"><a></a>spotify_aug <span class="ot">&lt;-</span> <span class="fu">augment</span>(spotify_fit)</span>
+<span id="cb5-3"><a></a></span>
+<span id="cb5-4"><a></a><span class="fu">rsq</span>(spotify_aug, <span class="at">truth =</span> danceability, <span class="at">estimate =</span> .fitted) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th style="text-align: left;">term</th>
-<th style="text-align: right;">estimate</th>
-<th style="text-align: right;">std.error</th>
-<th style="text-align: right;">statistic</th>
-<th style="text-align: right;">p.value</th>
+<th style="text-align: left;">.metric</th>
+<th style="text-align: left;">.estimator</th>
+<th style="text-align: right;">.estimate</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">2604.133</td>
-<td style="text-align: right;">116.598</td>
-<td style="text-align: right;">22.334</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">seasonspring</td>
-<td style="text-align: right;">2388.199</td>
-<td style="text-align: right;">164.221</td>
-<td style="text-align: right;">14.543</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">seasonsummer</td>
-<td style="text-align: right;">3040.171</td>
-<td style="text-align: right;">163.352</td>
-<td style="text-align: right;">18.611</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">seasonfall</td>
-<td style="text-align: right;">2124.030</td>
-<td style="text-align: right;">165.588</td>
-<td style="text-align: right;">12.827</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: left;">rsq</td>
+<td style="text-align: left;">standard</td>
+<td style="text-align: right;">0.019244</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-</div><div class="column">
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="fu">mean</span>(count <span class="sc">~</span> season, <span class="at">data =</span> bikeshare) <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: right;">x</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">winter</td>
-<td style="text-align: right;">2604.133</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">spring</td>
-<td style="text-align: right;">4992.332</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">summer</td>
-<td style="text-align: right;">5644.303</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">fall</td>
-<td style="text-align: right;">4728.163</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div></div>
-<ul>
-<li><strong>Intercept</strong>: we predict a winter (baseline) day to have <span class="math inline">\(\hat\beta_0\)</span> rentals, on average — this <em>is</em> the winter mean.</li>
-<li><strong>Slope</strong>: switching to summer, we expect <span class="math inline">\(\hat\beta_1\)</span> more rentals, on average, compared to winter — this <em>is</em> the difference between the two means.</li>
-</ul>
-<div class="fragment">
-<p>“A one-unit increase in <span class="math inline">\(X\)</span>” now means “switching from the baseline category to this one.”</p>
-</div>
 </section>
-<section id="trick-question" class="slide level2 smaller">
-<h2>(Trick question)</h2>
-<p>Are <code>season</code> and <code>count</code> <strong>correlated</strong>?</p>
-<div class="fragment">
-<ul>
-<li>Correlation only makes sense for two <em>quantitative</em> variables.</li>
-<li><code>season</code> is categorical — there’s no correlation coefficient to compute, even though we can absolutely fit a regression model.</li>
-</ul>
+<section id="interpreting-r2" class="slide level2 smaller">
+<h2>Interpreting <span class="math inline">\(R^2\)</span></h2>
+<div class="poll">
+<p>🗳️ <strong>Discussion</strong></p>
+<div class="midi">
+<div class="poll">
+<p>The <span class="math inline">\(R^2\)</span> of the model for <code>danceability</code> from <code>Average_Income_K</code> is 1.9%. Which of the following is the correct interpretation of this value?</p>
+</div>
+<ol type="1">
+<li><code>duration_min</code> correctly predicts 1.9% of <code>danceability</code>.</li>
+<li>1.9% of the variability in <code>danceability</code> can be explained by <code>duration_min</code>.</li>
+<li>1.9% of the variability in <code>duration_min</code> can be explained by <code>danceability</code>.</li>
+<li>1.9% of the time <code>danceability</code> can be predicted by <code>duration_min</code>.</li>
+</ol>
+</div>
+</div>
+<p>Complete Exercise 2.</p>
+</section>
+<section id="activity" class="slide level2">
+<h2>Activity</h2>
 <div class="appex">
-<p>Complete Exercises 9-14. If we run out of time you can skip 13 and 14.</p>
-</div>
-</div>
-</section></section>
-<section>
-<section id="wrap-up" class="title-slide slide level1 center">
-<h1>Wrap up</h1>
-
-</section>
-<section id="recap" class="slide level2">
-<h2>Recap</h2>
-<div style="font-size: 0.85em">
+<p>In groups, at the board, design a simulation-based procedure for producing a p-value for the following hypothesis test.</p>
 <ul>
-<li class="fragment">Regression works with a categorical predictor <span class="math inline">\(X\)</span>, just like a quantitative one.</li>
-<li class="fragment">R recodes a <span class="math inline">\(K\)</span>-level categorical variable into <span class="math inline">\(K - 1\)</span> <strong>indicator (dummy) variables</strong>.</li>
-<li class="fragment">The left-out category is the <strong>reference level</strong>; by default R picks it alphabetically, but we can set it with <code>factor(x, levels = ...)</code>.</li>
-<li class="fragment">The <strong>intercept</strong> is the mean of the response at the reference level.</li>
-<li class="fragment">Each <strong>slope</strong> is the difference in means between that level and the reference level.</li>
-<li class="fragment">Correlation doesn’t apply to categorical predictors, but regression still does.</li>
+<li><span class="math inline">\(H_0: R^2 = 0\)</span></li>
+<li><span class="math inline">\(H_A: R^2 \neq 0\)</span></li>
 </ul>
 </div>
+<div class="fragment">
+<p>Complete Exercise 3.</p>
+</div>
+</section>
+<section id="rmse" class="slide level2 smaller">
+<h2>RMSE</h2>
+<ul>
+<li class="fragment"><p>Ranges between 0 (perfect predictor) and infinity (terrible predictor)</p></li>
+<li class="fragment"><p>Same units as the response variable</p></li>
+<li class="fragment"><p>Interpretation (kind of): how much does my model miss by, on average.</p></li>
+<li class="fragment"><p>Calculate with <code>rmse()</code> from <code>yardstick</code> package using the augmented data:</p></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="fu">rmse</span>(spotify_aug, <span class="at">truth =</span> danceability, <span class="at">estimate =</span> .fitted)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard       0.130</code></pre>
+</div>
+</div>
+<ul>
+<li>Complete Exercise 4.</li>
+</ul>
+</section>
+<section id="using-the-word-good" class="slide level2">
+<h2>Using the word “Good”</h2>
+<ul>
+<li>There is no such thing as a “Good” <span class="math inline">\(R^2\)</span> or, especially, RMSE without context</li>
+<li>Whether your model is a “Good” model depends on many things:
+<ul>
+<li>What are you using your model for?</li>
+<li>How good are other models?</li>
+</ul></li>
+</ul>
+</section>
+<section id="recap" class="slide level2 smaller">
+<h2>Recap</h2>
+<ul>
+<li>Can decompose total variation (SST) into variation explained by the model (SSM) and leftover variation (SSE)</li>
+<li>Two metrics for evaluating and comparing models:
+<ul>
+<li><span class="math inline">\(R^2\)</span>: What proportion of the variation in the response variable is explained by the model?</li>
+<li><span class="math inline">\(RMSE\)</span>: How far is does my model miss by on average?</li>
+</ul></li>
+</ul>
 
 
 </section></section>
@@ -967,7 +718,7 @@ Prof.&nbsp;Eric Friedlander
         margin: 0.1,
 
         math: {
-          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],

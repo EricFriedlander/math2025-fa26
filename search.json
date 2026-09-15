@@ -110,6 +110,195 @@
     ]
   },
   {
+    "objectID": "slides/06-slr-fitting-eval.html#topics",
+    "href": "slides/06-slr-fitting-eval.html#topics",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "Topics",
+    "text": "Topics\n\nDefine residuals, and connect them to the idea of variation in \\(Y\\).\nUnderstand how the least squares method chooses a regression line.\nPartition variation into model and error (ANOVA), and use it to compute \\(R^2\\) and RMSE."
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#last-time",
+    "href": "slides/06-slr-fitting-eval.html#last-time",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "Last time",
+    "text": "Last time\n\n\nRegression works with a categorical predictor \\(X\\), just like a quantitative one.\nR recodes a \\(K\\)-level categorical variable into \\(K - 1\\) indicator (dummy) variables, dropping the reference level.\nThe intercept is the mean of the response at the reference level; each slope is the difference in means from that level.\nWe started playing with the Coffee Truck to generate our own data."
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#computational-set-up",
+    "href": "slides/06-slr-fitting-eval.html#computational-set-up",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "Computational set up",
+    "text": "Computational set up\n\n# load packages\nlibrary(tidyverse)   # for data wrangling and visualization\nlibrary(ggformula)   # for plotting using formulas\nlibrary(broom)       # for formatting model output\nlibrary(scales)      # for pretty axis labels\nlibrary(knitr)       # for pretty tables\nlibrary(kableExtra)  # also for pretty tables\nlibrary(patchwork)   # arrange plots\nlibrary(yardstick)   # for R^2 and RMSE\n\n# Spotify Dataset\nspotify &lt;- read_csv(\"../data/spotify-popular.csv\")\n\n# set default theme and larger font size for ggplot2\nggplot2::theme_set(ggplot2::theme_bw(base_size = 20))"
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#quick-data-cleaning",
+    "href": "slides/06-slr-fitting-eval.html#quick-data-cleaning",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "Quick Data Cleaning",
+    "text": "Quick Data Cleaning\n\nspotify &lt;- spotify |&gt;\n  mutate(duration_min = duration_ms / 60000)\n\n\n\nWhat is this code doing?\nWhy might I be doing it?"
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#the-regression-model-revisited",
+    "href": "slides/06-slr-fitting-eval.html#the-regression-model-revisited",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "The regression model, revisited",
+    "text": "The regression model, revisited\n\nspotify_fit &lt;- lm(danceability ~ duration_min, data = spotify)\n\ntidy(spotify_fit, conf.int = TRUE, conf.level = 0.95) |&gt;\n   kable(digits = 3)\n\n\n\n\n\n\n\n\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\nconf.low\nconf.high\n\n\n\n\n(Intercept)\n0.781\n0.028\n28.351\n0.000\n0.727\n0.835\n\n\nduration_min\n-0.024\n0.008\n-3.151\n0.002\n-0.039\n-0.009\n\n\n\n\n\n\nThere is strong statistical evidence that there is a linear relationship between the duration of a song and its danceability.\nWe are 95% confident that as the length of a song increases by one minute the danceability will decrease by between 0.009 and 0.039 units."
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#from-points-to-a-line",
+    "href": "slides/06-slr-fitting-eval.html#from-points-to-a-line",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "From points to a line",
+    "text": "From points to a line\n\n\nFor any one song, how far off is the line from the actual data point?"
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#residuals-1",
+    "href": "slides/06-slr-fitting-eval.html#residuals-1",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "Residuals",
+    "text": "Residuals\n\n\\[\\text{residual} = \\text{observed} - \\text{predicted} = y_i - \\hat{y}_i = e_i\\]\n\n\nA positive residual: the point is above the line (model underpredicted).\nA negative residual: the point is below the line (model overpredicted)."
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#lets-think-about-variation",
+    "href": "slides/06-slr-fitting-eval.html#lets-think-about-variation",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "Let’s think about variation",
+    "text": "Let’s think about variation\n\nDATA = MODEL + ERROR\n\\(\\substack{\\text{Variation} \\\\ \\text{in Y}} = \\substack{\\text{Variation explained} \\\\ \\text{by model}} + \\substack{\\text{Variation not explained} \\\\ \\text{by model}}\\)\nEvery point’s residual is a leftover piece of variation the model didn’t explain.\n\n\nIf we drew any other line through the cloud of points, would the residuals get bigger or smaller? Is there a “best” line?"
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#choosing-values-for-hatbeta_1-and-hatbeta_0",
+    "href": "slides/06-slr-fitting-eval.html#choosing-values-for-hatbeta_1-and-hatbeta_0",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "Choosing values for \\(\\hat{\\beta}_1\\) and \\(\\hat{\\beta}_0\\)",
+    "text": "Choosing values for \\(\\hat{\\beta}_1\\) and \\(\\hat{\\beta}_0\\)\n\n\nWhich of these three lines does the “best” job? How would you decide?"
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#the-least-squares-method",
+    "href": "slides/06-slr-fitting-eval.html#the-least-squares-method",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "The least squares method",
+    "text": "The least squares method\n\nWe need a rule for picking the line, not just a line.\nLeast squares method: choose \\(\\hat{\\beta}_0\\) and \\(\\hat{\\beta}_1\\) to minimize the sum of squared residuals \\[\n\\sum_{i=1}^n e_i^2 = \\sum_{i=1}^n (y_i - \\hat{y}_i)^2\n\\]\nWhy square the residuals instead of just adding them up?\n\nPositive and negative residuals would cancel out.\nSquaring also penalizes large misses more than small ones."
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#properties-of-least-squares-regression",
+    "href": "slides/06-slr-fitting-eval.html#properties-of-least-squares-regression",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "Properties of least squares regression",
+    "text": "Properties of least squares regression\n\nPasses through the center of mass point, the coordinates corresponding to average \\(X\\) and average \\(Y\\): \\(\\hat{\\beta}_0 = \\bar{Y} - \\hat{\\beta}_1\\bar{X}\\)\nSlope has same sign as the correlation coefficient: \\(\\hat{\\beta}_1 = r \\frac{s_Y}{s_X}\\)\n\n\\(r\\): correlation coefficient\n\\(s_Y, s_X\\): sample standard deviations of \\(X\\) and \\(Y\\)\n\nSum of the residuals is zero: \\(\\sum_{i = 1}^n e_i \\approx 0\\)\n\nIntuition: Residuals are “balanced”\n\nThe residuals and \\(X\\) values are uncorrelated"
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#estimating-the-slope-by-hand",
+    "href": "slides/06-slr-fitting-eval.html#estimating-the-slope-by-hand",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "Estimating the slope, by hand",
+    "text": "Estimating the slope, by hand\n\\[\\large{\\hat{\\beta}_1 = r \\frac{s_Y}{s_X}}\\]\n\ns_x &lt;- sd(spotify$duration_min)\ns_y &lt;- sd(spotify$danceability)\nr &lt;- cor(spotify$duration_min, spotify$danceability)\n\ns_x\n\n[1] 0.7524002\n\ns_y\n\n[1] 0.1314275\n\nr\n\n[1] -0.1387227\n\n\n\n\n\nb1 &lt;- r * s_y / s_x\nb1\n\n[1] -0.02423176\n\n\n\nCompare to lm():\n\ncoef(spotify_fit)[\"duration_min\"]\n\nduration_min \n -0.02423176"
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#estimating-the-intercept-by-hand",
+    "href": "slides/06-slr-fitting-eval.html#estimating-the-intercept-by-hand",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "Estimating the intercept, by hand",
+    "text": "Estimating the intercept, by hand\n\\[\\large{\\hat{\\beta}_0 = \\bar{Y} - \\hat{\\beta}_1\\bar{X}}\\]\n\nx_bar &lt;- mean(spotify$duration_min)\ny_bar &lt;- mean(spotify$danceability)\n\nb0 &lt;- y_bar - b1 * x_bar\nb0\n\n[1] 0.7809197\n\n\nCompare to lm():\n\ncoef(spotify_fit)[\"(Intercept)\"]\n\n(Intercept) \n  0.7809197 \n\n\n\n\nClick here for details on deriving the equations for slope and intercept, which is easy if you know multivariate calculus."
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#splitting-up-the-residual",
+    "href": "slides/06-slr-fitting-eval.html#splitting-up-the-residual",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "Splitting up the residual",
+    "text": "Splitting up the residual\n\n\\(y_i - \\bar{y} = (\\hat{y}_i - \\bar{y}) + (y_i-\\hat{y}_i)\\)\nSquare and sum: \\(\\sum(y_i-\\bar{y})^2 = \\sum(\\hat{y} - \\bar{y})^2 + \\sum(y-\\hat{y})^2\\)\n\\(\\substack{\\text{Sum of squares} \\\\ \\text{Total}} = \\substack{\\text{Sum of squares} \\\\ \\text{model}} + \\substack{\\text{Sum of squares} \\\\ \\text{error}}\\)\n\\(SSTotal = SSModel + SSE\\)\n\\(SST = SSM + SSE\\)\nANOVA: Analysis of Variance"
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#anova-in-r",
+    "href": "slides/06-slr-fitting-eval.html#anova-in-r",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "ANOVA in R",
+    "text": "ANOVA in R\n\nspotify_fit |&gt;\n  anova() |&gt;\n  tidy() |&gt;\n  kable()\n\n\n\n\nterm\ndf\nsumsq\nmeansq\nstatistic\np.value\n\n\n\n\nduration_min\n1\n0.1685294\n0.1685294\n9.928516\n0.0017237\n\n\nResiduals\n506\n8.5889829\n0.0169743\nNA\nNA"
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#recall-correlation-coefficient",
+    "href": "slides/06-slr-fitting-eval.html#recall-correlation-coefficient",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "Recall: Correlation Coefficient",
+    "text": "Recall: Correlation Coefficient\n\nThe correlation coefficient, \\(r\\), is a number between -1 and +1 that measures how strong the linear relationship between two variables \\(x\\) and \\(y\\) is.\n\n\\[\nr = \\frac{\\sum(x_i - \\bar{x})(y_i-\\bar{y})}{\\sqrt{\\sum(x_i-\\bar{x})^2\\sum(y_i-\\bar{y})^2}}\n= \\frac{\\sum(x_i - \\bar{x})(y_i-\\bar{y})}{s_xs_y}\n\\]"
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#two-statistics-r2",
+    "href": "slides/06-slr-fitting-eval.html#two-statistics-r2",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "Two statistics: \\(R^2\\)",
+    "text": "Two statistics: \\(R^2\\)\n\nR-squared, \\(R^2\\), Coefficient of Determination: Percentage of variability in the outcome explained by the regression model (in the context of SLR, the predictor) \\[\nR^2 = Cor(y, \\hat{y})^2\n\\]\n\nAlso called PRE (Percent Reduction in Error) because: \\[\nR^2 = \\frac{SSModel}{SSTotal}\n\\]"
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#r2",
+    "href": "slides/06-slr-fitting-eval.html#r2",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "\\(R^2\\)",
+    "text": "\\(R^2\\)\n\nRanges between 0 (terrible predictor) and 1 (perfect predictor)\nHas no units\nCalculate with rsq() from yardstick package using the augmented data:\n\n\nspotify_aug &lt;- augment(spotify_fit)\n\nrsq(spotify_aug, truth = danceability, estimate = .fitted) |&gt; kable()\n\n\n\n\n.metric\n.estimator\n.estimate\n\n\n\n\nrsq\nstandard\n0.019244"
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#interpreting-r2",
+    "href": "slides/06-slr-fitting-eval.html#interpreting-r2",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "Interpreting \\(R^2\\)",
+    "text": "Interpreting \\(R^2\\)\n\n🗳️ Discussion\n\nThe \\(R^2\\) of the model for danceability from duration_min is 1.9%. Which of the following is the correct interpretation of this value?\n\n\nduration_min correctly predicts 1.9% of danceability.\n1.9% of the variability in danceability can be explained by duration_min.\n1.9% of the variability in duration_min can be explained by danceability.\n1.9% of the time danceability can be predicted by duration_min."
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#activity",
+    "href": "slides/06-slr-fitting-eval.html#activity",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "Activity",
+    "text": "Activity\n\nIn groups, at the board, design a simulation-based procedure for producing a p-value for the following hypothesis test.\n\n\\(H_0: R^2 = 0\\)\n\\(H_A: R^2 \\neq 0\\)"
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#rmse",
+    "href": "slides/06-slr-fitting-eval.html#rmse",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "RMSE",
+    "text": "RMSE\n\nRoot mean square error, RMSE: A measure of the average error (average difference between observed and predicted values of the outcome) \\[\nRMSE = \\sqrt{\\frac{\\sum_{i = 1}^n (y_i - \\hat{y}_i)^2}{n}}\n\\]\n\nSometimes people just care about numerator (SSE) or version without the square-root (MSE)\nSometimes the denominator may have \\(n-1\\) instead\n\nRanges between 0 (perfect predictor) and infinity (terrible predictor)\nSame units as the response variable\nInterpretation (kind of): how much does my model miss by, on average."
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#rmse-in-r",
+    "href": "slides/06-slr-fitting-eval.html#rmse-in-r",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "RMSE in R",
+    "text": "RMSE in R\n\nrmse(spotify_aug, truth = danceability, estimate = .fitted)\n\n# A tibble: 1 × 3\n  .metric .estimator .estimate\n  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;\n1 rmse    standard       0.130"
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#comparing-models-with-r2",
+    "href": "slides/06-slr-fitting-eval.html#comparing-models-with-r2",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "Comparing models with \\(R^2\\)",
+    "text": "Comparing models with \\(R^2\\)\nRecall Jo’s coffee truck: Business District, Lunch, Weather = Constant the whole time.\nToday, each group will generate three data sets with the Coffee Truck game:\n\n\n\nData set\nWhat varies\nWhat’s held fixed\n\n\n\n\nmusic\nMusic (No Music / Hip Hop / Alternative)\nPrice = $3\n\n\nprice\nPrice ($2 / $3 / $4 / $5)\nMusic = No Music\n\n\nboth\nMusic and Price\n—\n\n\n\n\n📋 AE 06 - Comparing Models with the Coffee Truck\n\nComplete Exercises 1-3."
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#a-data-cleaning-wrinkle",
+    "href": "slides/06-slr-fitting-eval.html#a-data-cleaning-wrinkle",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "A data cleaning wrinkle",
+    "text": "A data cleaning wrinkle\nThe game exports Price as text, e.g. \"$3\", not a number:\n\n\n\n\n\nPrice\n\n\n\n\n$2\n\n\n$3\n\n\n$4\n\n\n$5\n\n\n\n\n\n\nWhy does this matter for fitting lm(Sales ~ Price)? What do we need to do first?\n\n\nSame fix as before: strip the $ and convert.\n\nprice &lt;- price |&gt;\n  mutate(Price = str_replace(Price, \"\\\\$\", \"\")) |&gt;\n  mutate(Price = as.numeric(Price))\n\nComplete Exercises 4-9."
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#the-comparison",
+    "href": "slides/06-slr-fitting-eval.html#the-comparison",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "The comparison",
+    "text": "The comparison\nYou’ll fit Sales ~ Music on music, and both Sales ~ Music and Sales ~ Price on both.\n\nMusic’s effect on Sales didn’t change between music and both. So why might \\(R^2\\) for Sales ~ Music be so different in these two data sets?\n\n\n\nIn music, price is fixed — all the leftover variability in Sales is either explained by music or is pure noise.\nIn both, price is also bouncing around. That extra variability inflates SST, so the same music effect now explains a smaller share of a bigger pie.\n\nComplete Exercises 10-12. If time permits, complete Exercise 13."
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#using-the-word-good",
+    "href": "slides/06-slr-fitting-eval.html#using-the-word-good",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "Using the word “Good”",
+    "text": "Using the word “Good”\n\nThere is no such thing as a “Good” \\(R^2\\) or, especially, RMSE without context.\nWhether your model is a “Good” model depends on many things:\n\nWhat are you using your model for?\nHow good are other models?\nWhat else was varying in the data you fit it to?"
+  },
+  {
+    "objectID": "slides/06-slr-fitting-eval.html#recap",
+    "href": "slides/06-slr-fitting-eval.html#recap",
+    "title": "Residuals, Least Squares, and Model Evaluation",
+    "section": "Recap",
+    "text": "Recap\n\nA residual is the leftover gap between an observed value and the model’s prediction: \\(e_i = y_i - \\hat{y}_i\\).\nThe least squares method picks \\(\\hat{\\beta}_0, \\hat{\\beta}_1\\) to minimize \\(\\sum e_i^2\\).\nCan decompose total variation (SST) into variation explained by the model (SSM) and leftover variation (SSE).\nTwo metrics for evaluating and comparing models:\n\n\\(R^2\\): What proportion of the variation in the response variable is explained by the model?\n\\(RMSE\\): How far does my model miss by, on average?\n\n\\(R^2\\) depends on the data it was fit to, not just the true relationship — so it can’t be compared across data sets that vary different things."
+  },
+  {
     "objectID": "slides/05-categorical-predictors.html#topics",
     "href": "slides/05-categorical-predictors.html#topics",
     "title": "Categorical Predictors",
@@ -121,35 +310,49 @@
     "href": "slides/05-categorical-predictors.html#last-time-1",
     "title": "Categorical Predictors",
     "section": "Last time",
-    "text": "Last time\n\n\n\nFit lm(count ~ temp_orig) for our bikeshare data\nInterpreted the slope and intercept\nUsed predict() to make predictions\nEvery predictor so far has been a number\n::: :::{.column}"
+    "text": "Last time\n\n\n\nFit lm(count ~ temp_orig, data = bikeshare) for our bikeshare data\nInterpreted the slope and intercept\nUsed predict() to make predictions\nEvery predictor so far has been a number"
   },
   {
     "objectID": "slides/05-categorical-predictors.html#what-if-the-predictor-isnt-a-number",
     "href": "slides/05-categorical-predictors.html#what-if-the-predictor-isnt-a-number",
     "title": "Categorical Predictors",
     "section": "What if the predictor isn’t a number?",
-    "text": "What if the predictor isn’t a number?\n\nWe also have season: winter, spring, summer, fall.\nWhat would lm(count ~ season) even mean?\n\n\n\nYou can’t multiply “fall” by a slope. So what does \\(\\hat{\\beta}_1\\) look like when \\(X\\) is a category?\nCan we still write \\(\\hat{Y} = \\hat{\\beta}_0 + \\hat{\\beta}_1 X\\)?"
+    "text": "What if the predictor isn’t a number?\n\nWe also have season: winter, spring, summer, fall.\n\nTerminology: we call the possible categories levels\n\nWhat would lm(count ~ season, data = bikeshare) even mean?\n\n\n\nYou can’t multiply “fall” by a slope. So what does \\(\\hat{\\beta}_1\\) look like when \\(X\\) is a category?\nCan we still write \\(\\hat{Y} = \\hat{\\beta}_0 + \\hat{\\beta}_1 X\\)?"
   },
   {
     "objectID": "slides/05-categorical-predictors.html#the-scenario",
     "href": "slides/05-categorical-predictors.html#the-scenario",
     "title": "Categorical Predictors",
     "section": "The scenario",
-    "text": "The scenario\nJo inherited a coffee truck from an uncle. After repairs, Jo has $20,000 left. Coffee costs $0.50/cup to make, and fixed daily expenses are $300/day. Jo wants help figuring out what combination of settings sells the most coffee.\nWe’ll use the Coffee Truck game (Grinnell stat2games) to generate our own data by playing simulated shifts."
+    "text": "The scenario\n\n\n\n\n\n\nWarning\n\n\nPlease don’t open the app yet!\n\n\n\nJo inherited a coffee truck from an uncle. After repairs, Jo has $20,000 left. Coffee costs $0.50/cup to make, and fixed daily expenses are $300/day. Jo wants help figuring out what combination of settings sells the most coffee.\nWe’ll use the Coffee Truck game (Grinnell stat2games) to generate our own data by playing simulated shifts."
   },
   {
     "objectID": "slides/05-categorical-predictors.html#settings-you-can-choose",
     "href": "slides/05-categorical-predictors.html#settings-you-can-choose",
     "title": "Categorical Predictors",
     "section": "Settings you can choose",
-    "text": "Settings you can choose\nBefore each shift you pick a combination of:\n\n\n\nSetting\nOptions in the game\n\n\n\n\nLocation\nBusiness District, City Park, City Hall, Near the Zoo\n\n\nMusic\nNo Music, Hip Hop, Alternative\n\n\nPrice\n$2, $3, $4, $5 per cup\n\n\nTime\nMorning, Lunch, Afternoon, Evening\n\n\nWeather\nRelatively Constant, Variable\n\n\n\nResponse variable: Sales – the number of cups sold that shift."
+    "text": "Settings you can choose\nBefore each shift you pick a combination of:\n\n\n\nSetting\nOptions in the game\n\n\n\n\nLocation\nBusiness District, City Park, City Hall, Near the Zoo\n\n\nMusic\nNo Music, Hip Hop, Alternative\n\n\nPrice\n$2, $3, $4, $5 per cup\n\n\nTime\nMorning, Lunch, Afternoon, Evening\n\n\n\nResponse variable: Sales – the number of cups sold that shift."
   },
   {
     "objectID": "slides/05-categorical-predictors.html#our-baseline",
     "href": "slides/05-categorical-predictors.html#our-baseline",
     "title": "Categorical Predictors",
     "section": "Our baseline",
-    "text": "Our baseline\nEveryone in class will start from the same baseline:\n\nBusiness District, No Music, $3 per cup, Lunch\n\nEach group then picks one setting to change to a second level, holding everything else at the baseline. (If there’s time, we’ll add a third level of that same setting later.)\n\n📋 AE 05 - The Coffee Truck\n\n\nI’m doing Location (Business District vs. City Park); your group picks one other setting to change\nComplete Exercises 1-7"
+    "text": "Our baseline\nEveryone in class will start from the same baseline:\n\nBusiness District, No Music, $3 per cup, Lunch\n\nEach group then picks one setting to change to a second level, holding everything else at the baseline. (If there’s time, we’ll add a third level of that same setting later.)\n\n📋 AE 05 - The Coffee Truck\n\n\nLet’s get in groups:\n\nHave your Coder upload the activity to RStudio\nChoose a team name (with no identifiable information)\nComplete Exercise 1"
+  },
+  {
+    "objectID": "slides/05-categorical-predictors.html#walkthrough",
+    "href": "slides/05-categorical-predictors.html#walkthrough",
+    "title": "Categorical Predictors",
+    "section": "Walkthrough",
+    "text": "Walkthrough\n\nLet’s walk through the app together\nHave your Communicator (Developer if you’re in a two person group) open the app on their computer\n\nEnter your team name in the Name field\nEnter MATH2025FA26 (all caps) in the Group Name field"
+  },
+  {
+    "objectID": "slides/05-categorical-predictors.html#choosing-a-level-to-add",
+    "href": "slides/05-categorical-predictors.html#choosing-a-level-to-add",
+    "title": "Categorical Predictors",
+    "section": "Choosing a level to add",
+    "text": "Choosing a level to add\n\nOur goal is maximize the number of sales\nChoose a level from Sales or Location to add\nComplete Exercises 2-8"
   },
   {
     "objectID": "slides/05-categorical-predictors.html#were-just-encoding-means",
@@ -205,14 +408,14 @@
     "href": "slides/05-categorical-predictors.html#trick-question",
     "title": "Categorical Predictors",
     "section": "(Trick question)",
-    "text": "(Trick question)\nAre season and count correlated?\n\n\nCorrelation only makes sense for two quantitative variables.\nseason is categorical — there’s no correlation coefficient to compute, even though we can absolutely fit a regression model.\n\n\nComplete Exercises 6-13.\n\n\nIf time permits, complete Exercises 14-15."
+    "text": "(Trick question)\nAre season and count correlated?\n\n\nCorrelation only makes sense for two quantitative variables.\nseason is categorical — there’s no correlation coefficient to compute, even though we can absolutely fit a regression model.\n\n\nComplete Exercises 9-14. If we run out of time you can skip 13 and 14."
   },
   {
     "objectID": "slides/05-categorical-predictors.html#recap",
     "href": "slides/05-categorical-predictors.html#recap",
     "title": "Categorical Predictors",
     "section": "Recap",
-    "text": "Recap\n\n\nRegression works with a categorical predictor \\(X\\), just like a quantitative one.\nR recodes a \\(K\\)-level categorical variable into \\(K - 1\\) indicator (dummy) variables.\nThe left-out category is the reference level; by default R picks it alphabetically, but we can set it with factor(x, levels = ...).\nThe intercept is the mean of the response at the reference level.\nEach slope is the difference in means between that level and the reference level.\nCorrelation doesn’t apply to categorical predictors, but regression still does.\n:::"
+    "text": "Recap\n\n\nRegression works with a categorical predictor \\(X\\), just like a quantitative one.\nR recodes a \\(K\\)-level categorical variable into \\(K - 1\\) indicator (dummy) variables.\nThe left-out category is the reference level; by default R picks it alphabetically, but we can set it with factor(x, levels = ...).\nThe intercept is the mean of the response at the reference level.\nEach slope is the difference in means between that level and the reference level.\nCorrelation doesn’t apply to categorical predictors, but regression still does."
   },
   {
     "objectID": "slides/03-data-cleaning.html#topics",
@@ -716,7 +919,7 @@
     "href": "index.html",
     "title": "Schedule",
     "section": "",
-    "text": "This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses, with all changes documented here.\n\n\n\n\nLecture\nDOW\nDate\nTopic\nPrepare\nSlides\nAE\nHW\nProject\nNotes\n\n\n\n\n0\nW\nAug 26\nWelcome to MATH 2025!\n\n\n\n\n\nWelcome!\n\n\n1\nM\nAug 31\nGetting Started with R & Quarto\n\n\n\n\n\nOur first AE!\n\n\n2\nW\nSep 2\nExploratory Data Analysis\n\n\n\n\n\n\n\n\n\nM\nSep 7\nNo Class - Labor Day\n\n\n\n\n\nLabor Day - No Classes\n\n\n3\nW\nSep 9\nData Cleaning\n\n\n\n\n\nHW 1 Due\n\n\n4\nM\nSep 14\nIntroduction to Simple Linear Regression\n\n\n\n\n\n\n\n\n5\nW\nSep 16\nCategorical Predictors\n\n\n\n\n\nHW 2 Due",
+    "text": "This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses, with all changes documented here.\n\n\n\n\nLecture\nDOW\nDate\nTopic\nPrepare\nSlides\nAE\nHW\nProject\nNotes\n\n\n\n\n0\nW\nAug 26\nWelcome to MATH 2025!\n\n\n\n\n\nWelcome!\n\n\n1\nM\nAug 31\nGetting Started with R & Quarto\n\n\n\n\n\nOur first AE!\n\n\n2\nW\nSep 2\nExploratory Data Analysis\n\n\n\n\n\n\n\n\n\nM\nSep 7\nNo Class - Labor Day\n\n\n\n\n\nLabor Day - No Classes\n\n\n3\nW\nSep 9\nData Cleaning\n\n\n\n\n\nHW 1 Due\n\n\n4\nM\nSep 14\nIntroduction to Simple Linear Regression\n\n\n\n\n\n\n\n\n5\nW\nSep 16\nCategorical Predictors\n\n\n\n\n\nHW 2 Due\n\n\n6\nM\nSep 21\nResiduals, Least Squares, and Model Evaluation",
     "crumbs": [
       "Schedule"
     ]
@@ -845,107 +1048,46 @@
     ]
   },
   {
-    "objectID": "ae/ae-05-coffee-truck.html",
-    "href": "ae/ae-05-coffee-truck.html",
-    "title": "AE 05: The Coffee Truck",
+    "objectID": "ae/ae-06-coffee-truck-eval.html",
+    "href": "ae/ae-06-coffee-truck-eval.html",
+    "title": "AE 06: Comparing Models with the Coffee Truck",
     "section": "",
-    "text": "Important\n\n\n\n\nOpen RStudio and create a subfolder in your AE folder called “AE-05”\nGo to the assignment for this activity in Canvas to get started.\nUpload the ae-05-coffee-truck.qmd file into the folder you just created. We will generate a dataset for this activity shortly"
+    "text": "Important\n\n\n\n\nOpen RStudio and create a subfolder in your AE folder called “AE-06”\nGo to the assignment for this activity in Canvas to get started.\nUpload the ae-06-coffee-truck-eval.qmd file into the folder you just created. We will generate three data sets for this activity shortly."
   },
   {
-    "objectID": "ae/ae-05-coffee-truck.html#data",
-    "href": "ae/ae-05-coffee-truck.html#data",
-    "title": "AE 05: The Coffee Truck",
-    "section": "Data",
-    "text": "Data\nToday we’re generating our own data by playing the Coffee Truck game from Grinnell’s stat2games project.\n\nJo inherited a coffee truck, has $20,000 left after repairs, and wants help figuring out what combination of settings sells the most coffee. Every simulated shift you play records:\n\n\nSales: number of cups sold that shift (our response variable)\nLocation: Business District / City Park / City Hall / Near the Zoo\nMusic: No Music / Hip Hop / Alternative\nPrice: $2 / $3 / $4 / $5 per cup\nTimeOfDay: Morning / Lunch / Afternoon / Evening\n\n\n\n\n\n\n\nImportant\n\n\n\nThis game’s data lands in a table that’s public to anyone. Do not use your real name as your Player Name."
+    "objectID": "ae/ae-06-coffee-truck-eval.html#recap",
+    "href": "ae/ae-06-coffee-truck-eval.html#recap",
+    "title": "AE 06: Comparing Models with the Coffee Truck",
+    "section": "Recap",
+    "text": "Recap\nWe’re back at Jo’s coffee truck. Today we’ll fit and compare several models, and use \\(R^2\\) to ask how much of the variation in Sales each one explains, and why that answer depends on more than just the model.\n\n\n\n\n\n\nImportant\n\n\n\nThis game’s data lands in a table that’s public to anyone, attached to your group name. Use the same team/Player Name from AE 05, or pick a new one that doesn’t identify you."
   },
   {
-    "objectID": "ae/ae-05-coffee-truck.html#exercises",
-    "href": "ae/ae-05-coffee-truck.html#exercises",
-    "title": "AE 05: The Coffee Truck",
+    "objectID": "ae/ae-06-coffee-truck-eval.html#exercises",
+    "href": "ae/ae-06-coffee-truck-eval.html#exercises",
+    "title": "AE 06: Comparing Models with the Coffee Truck",
     "section": "Exercises",
-    "text": "Exercises\n\nPlaying the Game\n\nPlay the game at the link above.\n\nOn the ID screen, enter MATH2025FA26 as the Group Name.\nPick a Player Name that does not identify you, and write it in the box below (you’ll need it later).\n\n\n\n\n\n\nSet up your design:\n\nStart with Location = Business District, Music = No Music, Price = $3 per cup, Time = Lunch, Weather = Relatively Constant** for the whole activity.\nSelect one additional category from Music, Location, OR Time\nSet Design Type to Random Sample and Number of Repetitions to 10. Confirm “Number of Days” reads 20.\nClick Start Sim.\n\nWrite down which setting your group changed, and which second level you picked.\n\n\n\n\n\nDownload your data as a CSV file, and upload it in your data folder. I recommend changing the filename to something more memorable.\n\n\nRun the following code to load the packages we’ll use in this activity.\n\n\n\nlibrary(tidyverse)\nlibrary(mosaic)\nlibrary(ggformula)\nlibrary(broom)\nlibrary(coursekata)\n\n\n\nUse read_csv to load the data you just uploaded. Take a look at the data, make sure it has the right number of rows. If our goal is to make the most money, what should your response variable be? What is the predictor variable you varied? What are the two levels of that variable?\n\n\n\n#\n\n\n\nCreate a plot exploring the relationship between your explanatory variables.\n\n\n\n\n\nUse favstats() to find the mean Sales at each of your two levels.\n\n\n\n\n\nFit a linear model predicting Sales from your variable. Use tidy() to format the output.\n\nWhat is the reference level in your model?\nOn the whiteboard draw a plot similar to the one found here representing your model (don’t worry too much about the jittered points, just get the red lines.)\n:::\n\n\n\n# add code developed during livecoding here\n\n\n\nUse the output to write out the estimated regression equation, and the dummy coding for an observation at each level, on the whiteboard.\n\n\nInterpret the intercept in the context of the data.\n\n\n\n\n\nInterpret the “slope” in the context of the data.\n\n\n\n\n\nCompare the means you generated in exercise 7 and the coefficients from exercise 9. Show that the “model is just predicting the means” for each level of the variable. Show your work on the whiteboard.\n\n\nUse predict() to get the model’s predicted Sales for each level of your variable. How many distinct predictions can this model make, and why?\n\n\n\nnew_data &lt;- tibble(\n  your_variable = c(\"level1\", \"level2\", \"level3\")\n)\n\n## More code here\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTo submit the AE:\n\nRender the document to produce the HTML with all of your work from today’s class.\nThe driver for your group should upload your .qmd and .html files to the Canvas assignment.\n:::"
+    "text": "Exercises\n\nCollecting three data sets\nEvery game keeps Location = Business District, Time = Lunch, Weather = Relatively Constant, and Design Type = Random Sample unless told otherwise below. On the ID screen, enter MATH2025FA26 as the Group Name.\n\nPlay a sim called music:\n\nMusic: select all three levels (No Music, Hip Hop, Alternative).\nPrice: fix at $3 (only one level selected).\nNumber of Repetitions: 5.\nClick Start Sim, then download the CSV. Upload it to your data folder as music.csv.\n\n\n\n\n\n\nPlay a sim called price:\n\nPrice: select all four levels ($2, $3, $4, $5).\nMusic: fix at No Music (only one level selected).\nNumber of Repetitions: 5.\nClick Start Sim, then download the CSV. Upload it to your data folder as price.csv.\n\n\n\n\n\n\nPlay a sim called both:\n\nMusic: select all three levels.\nPrice: select all four levels.\nNumber of Repetitions: 2.\nClick Start Sim, then download the CSV. Upload it to your data folder as both.csv.\n\nBefore moving on, check with your group: does your total number of days across all three sims still leave Jo with money in the bank? (CurrentMoney in the last row of each file.)\n\n\n\n\n\n\nLoading and cleaning\n\nLoad the packages we’ll use today, then read in all three data sets.\n\n\n\nlibrary(tidyverse)\nlibrary(mosaic)\nlibrary(ggformula)\nlibrary(broom)\nlibrary(coursekata)\nlibrary(yardstick)\n\n\n\nLook at price (or both). You should notice Price was read in as a chr (character) column, not dbl (double).\n\nWhy did that happen? Be specific.\nFix it in both price and both, the same way we fixed spend_per_resident_data in HW 02: strip the $ with str_replace(), then convert with as.numeric(). Call the new column Price (overwrite it).\n\n\n\n\n\n\n\nModel 1: Price as a quantitative predictor\n\nUsing price, plot Sales against Price with a fitted line (gf_lm()). Then fit price_fit &lt;- lm(Sales ~ Price, data = price) and display it with tidy().\n\n\n\n\n\nUse augment() to add residuals and fitted values to price for price_fit. Plot the residuals against the fitted values.\n\nDoes the sum of the residuals look close to zero, like the least squares properties promised?\n\n\n\n\n\n\nCompute sd() and cor() for Price and Sales by hand, and use \\(\\hat\\beta_1 = r\\,s_Y/s_X\\) and \\(\\hat\\beta_0 = \\bar{y} - \\hat\\beta_1\\bar{x}\\) to reconstruct the slope and intercept. Confirm they match price_fit’s coefficients from tidy().\n\n\n\n\n\n\n\\(R^2\\), ANOVA, and RMSE\n\nRun anova(price_fit). Identify SSModel and SSE from the output, add them to get SST, and use that to compute \\(R^2 = SSModel / SST\\) by hand.\nThen confirm your answer using rsq() on the augmented data. Also report rmse().\n\n\n\n\n\n\nComparing across data sets\n\nFit lm(Sales ~ Music) on music, and both lm(Sales ~ Music) and lm(Sales ~ Price) on both. For each of these three models, compute \\(R^2\\) with rsq().\nFill in the table below on the whiteboard (or here):\n\n\n\nModel\nData set\n\\(R^2\\)\n\n\n\n\nSales ~ Music\nmusic\n\n\n\nSales ~ Music\nboth\n\n\n\nSales ~ Price\nboth\n\n\n\nSales ~ Price\nprice\n\n\n\n\n\n\n\n\n\nMusic’s actual effect on Sales didn’t change between music and both — you didn’t change how the game responds to music, only what else you let vary. So why is \\(R^2\\) for Sales ~ Music so different between those two data sets?\nHint: think about what happens to SST when price is also bouncing around.\n\n\n\n\n\nBased on this table, is it fair to say “the Sales ~ Music model is better than the Sales ~ Price model” without saying which data set each \\(R^2\\) came from? Why or why not?\n\n\n\n\n\n(If time permits) Jo actually wants to maximize profit, not Sales — every data set the game gives you also has a Profit column. Does the model with the highest \\(R^2\\) for Sales necessarily tell Jo the most about maximizing Profit? Explain.\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTo submit the AE:\n\nRender the document to produce the HTML with all of your work from today’s class.\nThe driver for your group should upload your .qmd and .html files to the Canvas assignment."
   },
   {
-    "objectID": "ae/ae-02-exploratory-data-analysis.html",
-    "href": "ae/ae-02-exploratory-data-analysis.html",
-    "title": "AE 02: Exploratory Data Analysis",
+    "objectID": "ae/ae-03-04-bikeshare.html",
+    "href": "ae/ae-03-04-bikeshare.html",
+    "title": "AE 03 & 04: Bike rentals in Washington, DC",
     "section": "",
-    "text": "Important\n\n\n\n\nFor this exercise, you will work in groups, but everyone will work through the document and submit their solution.\nOpen RStudio and create a subfolder in your AE folder called “AE-02”\nGo to the assignment for this activity in Canvas to get started.\nUpload the ae-02.qmd files into the folder you just created. To submit this Activity, upload the .qmd and .html responses in the corresponding Canvas assignment."
+    "text": "Important\n\n\n\n\nOpen RStudio and create a subfolder in your AE folder called “AE-03”\nGo to the assignment for this activity in Canvas to get started.\nUpload the ae-03.qmd into the folder you just created\nUpload dcbikeshare.csv into your data folder"
   },
   {
-    "objectID": "ae/ae-02-exploratory-data-analysis.html#carbohydrates-and-starbucks",
-    "href": "ae/ae-02-exploratory-data-analysis.html#carbohydrates-and-starbucks",
-    "title": "AE 02: Exploratory Data Analysis",
-    "section": "Carbohydrates and Starbucks",
-    "text": "Carbohydrates and Starbucks\nStarbucks often displays the total calories in their food items but not the other nutritional information. Carbohydrates are a body’s main fuel source. The Dietary Guidelines for America recommend that carbohydrates make up 45% to 65% of total daily calories. Our goal is to understand the relationship between the amount of carbohydrates and calories in Starbucks food items. We’d also like to assess if the relationship differs based on the type of food item (bakery, salad, sandwich, etc.)\nYou will now be introduced to the functions we will use most frequently for exploratory data analysis (EDA) in this class. The first part of this document contains explanations for beginning R users, but all students should work through the entire document.\n\n\n\n\n\n\nImportant\n\n\n\nReminder: I suggest “rendering as you go”: rendering every few chunks, to make sure things are rendering correctly, rather than waiting until the end of a document to render the whole thing (and potentially encountering lots of errors that you have to unpack)! I also ALWAYS suggest “saving as you go”: it’s a good idea to save every couple of minutes. (This is good practice for all your files.)"
+    "objectID": "ae/ae-03-04-bikeshare.html#data",
+    "href": "ae/ae-03-04-bikeshare.html#data",
+    "title": "AE 03 & 04: Bike rentals in Washington, DC",
+    "section": "Data",
+    "text": "Data\nOur data set contains daily rentals from the Capital Bikeshare in Washington, DC in 2011 and 2012. It was obtained from the dcbikeshare data set in the dsbox R package.\nWe will focus on the following variables in the analysis:\n\ncount: total bike rentals\ntemp_orig: Temperature in degrees Celsius\nseason: 1 - winter, 2 - spring, 3 - summer, 4 - fall\n\nClick here for the full list of variables and definitions."
   },
   {
-    "objectID": "ae/ae-02-exploratory-data-analysis.html#loading-packages",
-    "href": "ae/ae-02-exploratory-data-analysis.html#loading-packages",
-    "title": "AE 02: Exploratory Data Analysis",
-    "section": "Loading Packages",
-    "text": "Loading Packages\nR is an open source programming language and environment for statistical computing and graphics. This means that anyone can use R for free, and anyone can contribute to the development of R. R has a large ecosystem of packages that extend its functionality. You can think of these like expansion packs for R. If you’re on your own computer, each packages needs to be install once using the function install.packages(). Since we’re working in the cloud, we don’t need to do this step. Regardless of what computer you’re on each package needs to be loaded using the function library() every timne you want to use it We typically load all packages at the beginning of our scripts and Quarto files.\n\nThe code below loads the package called tidyverse which provides many functions that will be useful for manipulating data and the package called mosaic which is useful for teaching statistics. Add another line that loads a package called ggformula which we will use to plot our data and a third that loads the package openintro which will contain our data for this activity. Note that #| warning: FALSE causes the code to run without displaying any associated warnings when you render. You will often see #| eval: FALSE which prevents the code chunk from running when you render the document. Throughout this course, make sure you remove these lines or change them to #| eval: TRUE whenever you reach them. The reason that are included in the first place is so I can write scaffolded and fill-in-the-blank type exercises for you. These will cause errors (since they are incomplete code) until you finish writing them.\n\n\n\n# load packages we typically use for this class.\nlibrary(tidyverse)\nlibrary(mosaic)\nlibrary(_________) # load ggformula\n# load openintro"
-  },
-  {
-    "objectID": "ae/ae-02-exploratory-data-analysis.html#loading-data",
-    "href": "ae/ae-02-exploratory-data-analysis.html#loading-data",
-    "title": "AE 02: Exploratory Data Analysis",
-    "section": "Loading data",
-    "text": "Loading data\nDoing statistics requires data. Sometimes we will have to load data from a file and sometimes we can get our data from an R package. Today’s dataset, called starbucks is from the openintro package. To load a this data from within R you can use the data command.\n\nUse the code below to load the dataset starbucks, which is part of the openintro package. Don’t forget to change eval: FALSE to eval: TRUE… Why do you think we need eval: FALSE if you aren’t actually rewriting any code?\n\n\n\ndata(\"starbucks\")\n\n\nThis is a great chance to remind you that R cares about letter case. This means that data(\"starbucks\") works but data(\"Starbucks\") doesn’t!\n\nInspecting the data\nNow you’re ready to learn a little bit about the starbucks data set.\n\nRun the code below and then edit the bulleted list below to add a short description in your own words describing what each function does. Hint: if it isn’t clear based on the output you can use ? before the function name in the console to bring up the documentation on that function.\n\n\n\n# Inspecting the data\nglimpse(starbucks)\nhead(starbucks)\nnames(starbucks)\n\n\nglimpse() : this function…\nhead() : this function…\nnames() : this function…\n\n\n\nBased on the output above, how many observations and how many variables does this data set have?\n\n\n\n\n\nLet’s do a little bit of a data prep. In the console type ?starbucks and look at the definition of type.\nThe following is a little bit of data wrangling to get the source data in shape for our purposes. What do you think this code is doing? Make sure you change eval: FALSE to eval: TRUE.\n\nstarbucks &lt;- starbucks |&gt;\n  mutate(bakery = factor(if_else(type == \"bakery\", \"bakery\", \"non-bakery\")))\n\nStatisticians should always know something about the data domain in order to be useful. Why do you think we are changing our data like this?"
-  },
-  {
-    "objectID": "ae/ae-02-exploratory-data-analysis.html#exploratory-data-analysis",
-    "href": "ae/ae-02-exploratory-data-analysis.html#exploratory-data-analysis",
-    "title": "AE 02: Exploratory Data Analysis",
-    "section": "Exploratory Data Analysis",
-    "text": "Exploratory Data Analysis\nFor the purposes of our class, it’s useful to learn a model-centric approach to R. The pseudo-code below is going to be our foundation for the rest of the class:\nfunction( Y ~ X, data = DataSetName )\nHere’s a short description of each part in the pseudo-code above:\n\nfunction is an R function that dictates something you want to do with your data; for example,\n\nmean calculates the mean\nlm fits a linear regression model\n\nY is the outcome of interest (response variable)\nX is some explanatory variable; you can use 1 as a placeholder if there is no explanatory variable\nDataSetName is the name of a data set loaded into the R environment\n\nAlways start with clear research questions. Our question for this exercise:\n\nHow do the number of carbs compare for bakery and non-bakery items?\n\nThe purpose of the exploratory data analysis (EDA) is to learn as much as you can about your research question before doing any statistical modeling. We basically want to try and answer the research question with EDA if possible…or at least have a guess as to what the answer “should” be. Then we use statistical models to formally accommodate variability in the data and calculate the uncertainty of our conclusions.\n\nUse the R code chunk below to calculate the mean carbs by for bakery and non-bakery items. Summarize your observations below the code chunk.\n\nmean(carb ~ bakery, data = starbucks)\n\n\n\n\n\n\nOf course, there are lots of other ways to summarize a numerical variable besides the mean. Create an R code chunk below and use the function favstats to calculate the other summary statistics for the number of carbs for bakery and non-bakery items.\nSummarize your observations below the code chunk.\n(Hint: it should look a lot like the code chunk above with mean replaced by favstats.)\n\n\n\n\n\nUnivariate plots\nLet’s generate some univariate (i.e. one-variable) EDA plots for our three variables. In general, can use histograms or boxplots (gf_histogram or gf_boxplot) for quantitative variables and bar charts gf_bar for categorical variables.\n\nFill in the blanks in the code below to generate the corresponding plots. Then create a boxplot of carb. Finally, share your observations below the code:\n\n\n\n# make a histogram of carb\ngf_histogram(~ carb, data = starbucks)\n\n# make a histogram of calories\ngf_histgoram(~ _____, data = ______)\n\n# make a bar chart of bakery\ngf_bar(~ _____, data = _____)\n\n# make a boxplot of carb\n\n\n\n\nBivariate plots\n\nLet’s now generate some bivariate (i.e. two-variable) EDA plots for our three variables. For two-quantitative variables we typically use a scatter plot gf_point. If we are comparing a quantitative and a categorical variable will use side-by-side boxplots gf_boxplot. Generate and plot to visualize carb and calories and one to visualize carb and bakery. Comment on your observations."
-  },
-  {
-    "objectID": "ae/ae-02-exploratory-data-analysis.html#submitting-your-assignment",
-    "href": "ae/ae-02-exploratory-data-analysis.html#submitting-your-assignment",
-    "title": "AE 02: Exploratory Data Analysis",
-    "section": "Submitting Your Assignment",
-    "text": "Submitting Your Assignment\n\n\nClick Render one last time to render your document.\nReview the html output to make sure it reflects what you want it to say.\nUpload the qmd and html files to Canvas."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "MATH 2025: Multiple Regression Analysis",
-    "section": "",
-    "text": "An introduction to statistical modeling and methods. Topics may include model construction and analysis using multiple linear regression, analysis of variance, and logistic regression. The course makes substantial use of statistical software. Students who have taken more than one calculus course should generally take MATH-2025 rather than MATH-1025.\n\n\n\nWe will cover approaches for analyzing multivariate data sets, emphasizing linear and logistic regression. You will learn techniques for checking the appropriateness of proposed models, such as residual analyses, and techniques for selecting models. You will gain experience dealing with the challenges that arise in practice through assignments that utilize real-world data. This class emphasizes data analysis over mathematical theory.",
-    "crumbs": [
-      "About"
-    ]
-  },
-  {
-    "objectID": "about.html#catalog-description",
-    "href": "about.html#catalog-description",
-    "title": "MATH 2025: Multiple Regression Analysis",
-    "section": "",
-    "text": "An introduction to statistical modeling and methods. Topics may include model construction and analysis using multiple linear regression, analysis of variance, and logistic regression. The course makes substantial use of statistical software. Students who have taken more than one calculus course should generally take MATH-2025 rather than MATH-1025.",
-    "crumbs": [
-      "About"
-    ]
-  },
-  {
-    "objectID": "about.html#erics-addition",
-    "href": "about.html#erics-addition",
-    "title": "MATH 2025: Multiple Regression Analysis",
-    "section": "",
-    "text": "We will cover approaches for analyzing multivariate data sets, emphasizing linear and logistic regression. You will learn techniques for checking the appropriateness of proposed models, such as residual analyses, and techniques for selecting models. You will gain experience dealing with the challenges that arise in practice through assignments that utilize real-world data. This class emphasizes data analysis over mathematical theory.",
-    "crumbs": [
-      "About"
-    ]
-  },
-  {
-    "objectID": "about.html#instructor",
-    "href": "about.html#instructor",
-    "title": "MATH 2025: Multiple Regression Analysis",
-    "section": "Instructor",
-    "text": "Instructor\nEric is an Assistant Professor in the Department of Mathematics and Physical Sciences at the College of Idaho. His expertise lies in the areas of probability, statistics, and statistics education. He joined the College of Idaho faculty in 2024 after spending three years as an Assistant Professor at St. Norbert College in De Pere, Wisconsin. He received his bachelor’s degree in mathematics and statistics from Rice University in 2011. After earning his degree, he worked for Capital One for two years in their home loans division before enrolling in graduate school. In 2018, Eric received his Ph.D. in statistics and operations research from the University of North Carolina at Chapel Hill studying under professor Amarjit Budhiraja. His dissertation work focused on modeling and analyzing large systems which arise in industrial engineering (e.g. large server and communication networks). Following his Ph.D., Eric did a postdoc in the Department of Ecology & Evolution at the University of Chicago under the direction of professor Matthias Steinrücken where he used stochastic processes to study natural selection and population genetics.\nOutside of school, Eric is an avid fan of the New York Giants, New York Knicks, and North Carolina Tarheels. In addition, he enjoys comic books, the Fast and the Furious franchise, and spending time with his lovely wife Maria and lovable dogs Allie, Tony, and Miriam.\n\n\n\nOffice hours (Boone 126B)\n\n\n\n\n\nT, W\n2:15pm - 3:45pm\n\n\nTh\n3:00pm - 4:00pm\n\n\nor by appointment.",
-    "crumbs": [
-      "About"
-    ]
+    "objectID": "ae/ae-03-04-bikeshare.html#exercises",
+    "href": "ae/ae-03-04-bikeshare.html#exercises",
+    "title": "AE 03 & 04: Bike rentals in Washington, DC",
+    "section": "Exercises",
+    "text": "Exercises\n\nModify the file path to load the dcbikeshare data set.\nHints:\n\nUse a relative path\nYou need to go up two levels and then into the data folder\nPressing TAB while your cursor is in the quotations will help you navigate\nMake sure to remove the #|eval: false line from the answer code\n\n\n\n\nbikeshare &lt;- read_csv(\"insert path here\")\n\n\n\nBelow is code to create visualizations of the distributions of daily bike rentals and temperature. Create a plot of the number of rentals vs the temperature and store it in a variable called p3. If you can figure it out based on context, try and add appropriate labels to the plot. Finally, uncomment the last line of code in this chunk. What do you think this last line does? Comment on what you see.\n\n\n\np1 &lt;- gf_histogram(~ count, data = bikeshare, binwidth = 250) |&gt;\n  gf_labs(x = \"Daily bike rentals\")\n\np2 &lt;- gf_histogram(~temp_orig, data = bikeshare) |&gt;\n  gf_labs(x = \"Temperature (Celsius)\")\n\n# (p1 | p2) / p3\n\n\n\nIn the raw data, seasons are coded as 1, 2, 3, 4 as numerical values, corresponding to winter, spring, summer, and fall respectively. Recode the season variable to make it a categorical variable (a factor) with levels corresponding to season names, making sure that the levels appear in a reasonable order in the variable (i.e., not alphabetical).\n\n\n\n# add code developed during livecoding here\n\n\n\nWe want to evaluate whether the relationship between temperature and daily bike rentals is the same for each season. To answer this question:\n\nCreate a scatter plot of daily bike rentals vs. temperature faceted by season\nCreate a scatter plot of daily bike rentals vs. temperature colored by season\n\n\n\n\n\n\n\nWhich season appears to have the strongest relationship between temperature and daily bike rentals? Why do you think the relationship is strongest in this season?\nWhich season appears to have the weakest relationship between temperature and daily bike rentals? Why do you think the relationship is weakest in this season?\n\n\n\n\n\n\nGoing back to the scatter plot of rentals vs. temperature from earlier, there appears to be one day with a very small number of bike rentals. Use filter to figure out what that day was? Why were the number of bike rentals so low on that day? Hint: You can Google the date to figure out what was going on that day.\n\n\n\n\n\nFilter your data for the season you’ve been assigned, give the resulting data set a new name, and plot the relationship between temperature and daily bike rentals for this season.\n\n\n\n# add code developed during livecoding here\n\n\n\nUsing the subset of the data from the previous exercise, fit a linear model for predicting daily bike rentals from temperature for this season.\n\n\n\n\n\nUse the output to write out the estimated regression equation on the whiteboard.\n\n\nInterpret the slope in the context of the data.\n\n\n\n\n\nInterpret the intercept in the context of the data.\n\n\n\n\n\nCreate a visualization of the model we just created.\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTo submit the AE:\n\nRender the document to produce the HTML with all of your work from today’s class.\nThe driver for your group should upload your .qmd and .html files to the Canvas assignment."
   },
   {
     "objectID": "ae/ae-01-getting-started.html",
@@ -990,25 +1132,114 @@
     "text": "Click Render one last time to render your document.\nReview the html output to make sure it reflects what you want it to say.\nUpload the qmd and html files to Canvas."
   },
   {
-    "objectID": "ae/ae-03-04-bikeshare.html",
-    "href": "ae/ae-03-04-bikeshare.html",
-    "title": "AE 03 & 04: Bike rentals in Washington, DC",
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "MATH 2025: Multiple Regression Analysis",
     "section": "",
-    "text": "Important\n\n\n\n\nOpen RStudio and create a subfolder in your AE folder called “AE-03”\nGo to the assignment for this activity in Canvas to get started.\nUpload the ae-03.qmd into the folder you just created\nUpload dcbikeshare.csv into your data folder"
+    "text": "An introduction to statistical modeling and methods. Topics may include model construction and analysis using multiple linear regression, analysis of variance, and logistic regression. The course makes substantial use of statistical software. Students who have taken more than one calculus course should generally take MATH-2025 rather than MATH-1025.\n\n\n\nWe will cover approaches for analyzing multivariate data sets, emphasizing linear and logistic regression. You will learn techniques for checking the appropriateness of proposed models, such as residual analyses, and techniques for selecting models. You will gain experience dealing with the challenges that arise in practice through assignments that utilize real-world data. This class emphasizes data analysis over mathematical theory.",
+    "crumbs": [
+      "About"
+    ]
   },
   {
-    "objectID": "ae/ae-03-04-bikeshare.html#data",
-    "href": "ae/ae-03-04-bikeshare.html#data",
-    "title": "AE 03 & 04: Bike rentals in Washington, DC",
+    "objectID": "about.html#catalog-description",
+    "href": "about.html#catalog-description",
+    "title": "MATH 2025: Multiple Regression Analysis",
+    "section": "",
+    "text": "An introduction to statistical modeling and methods. Topics may include model construction and analysis using multiple linear regression, analysis of variance, and logistic regression. The course makes substantial use of statistical software. Students who have taken more than one calculus course should generally take MATH-2025 rather than MATH-1025.",
+    "crumbs": [
+      "About"
+    ]
+  },
+  {
+    "objectID": "about.html#erics-addition",
+    "href": "about.html#erics-addition",
+    "title": "MATH 2025: Multiple Regression Analysis",
+    "section": "",
+    "text": "We will cover approaches for analyzing multivariate data sets, emphasizing linear and logistic regression. You will learn techniques for checking the appropriateness of proposed models, such as residual analyses, and techniques for selecting models. You will gain experience dealing with the challenges that arise in practice through assignments that utilize real-world data. This class emphasizes data analysis over mathematical theory.",
+    "crumbs": [
+      "About"
+    ]
+  },
+  {
+    "objectID": "about.html#instructor",
+    "href": "about.html#instructor",
+    "title": "MATH 2025: Multiple Regression Analysis",
+    "section": "Instructor",
+    "text": "Instructor\nEric is an Assistant Professor in the Department of Mathematics and Physical Sciences at the College of Idaho. His expertise lies in the areas of probability, statistics, and statistics education. He joined the College of Idaho faculty in 2024 after spending three years as an Assistant Professor at St. Norbert College in De Pere, Wisconsin. He received his bachelor’s degree in mathematics and statistics from Rice University in 2011. After earning his degree, he worked for Capital One for two years in their home loans division before enrolling in graduate school. In 2018, Eric received his Ph.D. in statistics and operations research from the University of North Carolina at Chapel Hill studying under professor Amarjit Budhiraja. His dissertation work focused on modeling and analyzing large systems which arise in industrial engineering (e.g. large server and communication networks). Following his Ph.D., Eric did a postdoc in the Department of Ecology & Evolution at the University of Chicago under the direction of professor Matthias Steinrücken where he used stochastic processes to study natural selection and population genetics.\nOutside of school, Eric is an avid fan of the New York Giants, New York Knicks, and North Carolina Tarheels. In addition, he enjoys comic books, the Fast and the Furious franchise, and spending time with his lovely wife Maria and lovable dogs Allie, Tony, and Miriam.\n\n\n\nOffice hours (Boone 126B)\n\n\n\n\n\nT, W\n2:15pm - 3:45pm\n\n\nTh\n3:00pm - 4:00pm\n\n\nor by appointment.",
+    "crumbs": [
+      "About"
+    ]
+  },
+  {
+    "objectID": "ae/ae-02-exploratory-data-analysis.html",
+    "href": "ae/ae-02-exploratory-data-analysis.html",
+    "title": "AE 02: Exploratory Data Analysis",
+    "section": "",
+    "text": "Important\n\n\n\n\nFor this exercise, you will work in groups, but everyone will work through the document and submit their solution.\nOpen RStudio and create a subfolder in your AE folder called “AE-02”\nGo to the assignment for this activity in Canvas to get started.\nUpload the ae-02.qmd files into the folder you just created. To submit this Activity, upload the .qmd and .html responses in the corresponding Canvas assignment."
+  },
+  {
+    "objectID": "ae/ae-02-exploratory-data-analysis.html#carbohydrates-and-starbucks",
+    "href": "ae/ae-02-exploratory-data-analysis.html#carbohydrates-and-starbucks",
+    "title": "AE 02: Exploratory Data Analysis",
+    "section": "Carbohydrates and Starbucks",
+    "text": "Carbohydrates and Starbucks\nStarbucks often displays the total calories in their food items but not the other nutritional information. Carbohydrates are a body’s main fuel source. The Dietary Guidelines for America recommend that carbohydrates make up 45% to 65% of total daily calories. Our goal is to understand the relationship between the amount of carbohydrates and calories in Starbucks food items. We’d also like to assess if the relationship differs based on the type of food item (bakery, salad, sandwich, etc.)\nYou will now be introduced to the functions we will use most frequently for exploratory data analysis (EDA) in this class. The first part of this document contains explanations for beginning R users, but all students should work through the entire document.\n\n\n\n\n\n\nImportant\n\n\n\nReminder: I suggest “rendering as you go”: rendering every few chunks, to make sure things are rendering correctly, rather than waiting until the end of a document to render the whole thing (and potentially encountering lots of errors that you have to unpack)! I also ALWAYS suggest “saving as you go”: it’s a good idea to save every couple of minutes. (This is good practice for all your files.)"
+  },
+  {
+    "objectID": "ae/ae-02-exploratory-data-analysis.html#loading-packages",
+    "href": "ae/ae-02-exploratory-data-analysis.html#loading-packages",
+    "title": "AE 02: Exploratory Data Analysis",
+    "section": "Loading Packages",
+    "text": "Loading Packages\nR is an open source programming language and environment for statistical computing and graphics. This means that anyone can use R for free, and anyone can contribute to the development of R. R has a large ecosystem of packages that extend its functionality. You can think of these like expansion packs for R. If you’re on your own computer, each packages needs to be install once using the function install.packages(). Since we’re working in the cloud, we don’t need to do this step. Regardless of what computer you’re on each package needs to be loaded using the function library() every timne you want to use it We typically load all packages at the beginning of our scripts and Quarto files.\n\nThe code below loads the package called tidyverse which provides many functions that will be useful for manipulating data and the package called mosaic which is useful for teaching statistics. Add another line that loads a package called ggformula which we will use to plot our data and a third that loads the package openintro which will contain our data for this activity. Note that #| warning: FALSE causes the code to run without displaying any associated warnings when you render. You will often see #| eval: FALSE which prevents the code chunk from running when you render the document. Throughout this course, make sure you remove these lines or change them to #| eval: TRUE whenever you reach them. The reason that are included in the first place is so I can write scaffolded and fill-in-the-blank type exercises for you. These will cause errors (since they are incomplete code) until you finish writing them.\n\n\n\n# load packages we typically use for this class.\nlibrary(tidyverse)\nlibrary(mosaic)\nlibrary(_________) # load ggformula\n# load openintro"
+  },
+  {
+    "objectID": "ae/ae-02-exploratory-data-analysis.html#loading-data",
+    "href": "ae/ae-02-exploratory-data-analysis.html#loading-data",
+    "title": "AE 02: Exploratory Data Analysis",
+    "section": "Loading data",
+    "text": "Loading data\nDoing statistics requires data. Sometimes we will have to load data from a file and sometimes we can get our data from an R package. Today’s dataset, called starbucks is from the openintro package. To load a this data from within R you can use the data command.\n\nUse the code below to load the dataset starbucks, which is part of the openintro package. Don’t forget to change eval: FALSE to eval: TRUE… Why do you think we need eval: FALSE if you aren’t actually rewriting any code?\n\n\n\ndata(\"starbucks\")\n\n\nThis is a great chance to remind you that R cares about letter case. This means that data(\"starbucks\") works but data(\"Starbucks\") doesn’t!\n\nInspecting the data\nNow you’re ready to learn a little bit about the starbucks data set.\n\nRun the code below and then edit the bulleted list below to add a short description in your own words describing what each function does. Hint: if it isn’t clear based on the output you can use ? before the function name in the console to bring up the documentation on that function.\n\n\n\n# Inspecting the data\nglimpse(starbucks)\nhead(starbucks)\nnames(starbucks)\n\n\nglimpse() : this function…\nhead() : this function…\nnames() : this function…\n\n\n\nBased on the output above, how many observations and how many variables does this data set have?\n\n\n\n\n\nLet’s do a little bit of a data prep. In the console type ?starbucks and look at the definition of type.\nThe following is a little bit of data wrangling to get the source data in shape for our purposes. What do you think this code is doing? Make sure you change eval: FALSE to eval: TRUE.\n\nstarbucks &lt;- starbucks |&gt;\n  mutate(bakery = factor(if_else(type == \"bakery\", \"bakery\", \"non-bakery\")))\n\nStatisticians should always know something about the data domain in order to be useful. Why do you think we are changing our data like this?"
+  },
+  {
+    "objectID": "ae/ae-02-exploratory-data-analysis.html#exploratory-data-analysis",
+    "href": "ae/ae-02-exploratory-data-analysis.html#exploratory-data-analysis",
+    "title": "AE 02: Exploratory Data Analysis",
+    "section": "Exploratory Data Analysis",
+    "text": "Exploratory Data Analysis\nFor the purposes of our class, it’s useful to learn a model-centric approach to R. The pseudo-code below is going to be our foundation for the rest of the class:\nfunction( Y ~ X, data = DataSetName )\nHere’s a short description of each part in the pseudo-code above:\n\nfunction is an R function that dictates something you want to do with your data; for example,\n\nmean calculates the mean\nlm fits a linear regression model\n\nY is the outcome of interest (response variable)\nX is some explanatory variable; you can use 1 as a placeholder if there is no explanatory variable\nDataSetName is the name of a data set loaded into the R environment\n\nAlways start with clear research questions. Our question for this exercise:\n\nHow do the number of carbs compare for bakery and non-bakery items?\n\nThe purpose of the exploratory data analysis (EDA) is to learn as much as you can about your research question before doing any statistical modeling. We basically want to try and answer the research question with EDA if possible…or at least have a guess as to what the answer “should” be. Then we use statistical models to formally accommodate variability in the data and calculate the uncertainty of our conclusions.\n\nUse the R code chunk below to calculate the mean carbs by for bakery and non-bakery items. Summarize your observations below the code chunk.\n\nmean(carb ~ bakery, data = starbucks)\n\n\n\n\n\n\nOf course, there are lots of other ways to summarize a numerical variable besides the mean. Create an R code chunk below and use the function favstats to calculate the other summary statistics for the number of carbs for bakery and non-bakery items.\nSummarize your observations below the code chunk.\n(Hint: it should look a lot like the code chunk above with mean replaced by favstats.)\n\n\n\n\n\nUnivariate plots\nLet’s generate some univariate (i.e. one-variable) EDA plots for our three variables. In general, can use histograms or boxplots (gf_histogram or gf_boxplot) for quantitative variables and bar charts gf_bar for categorical variables.\n\nFill in the blanks in the code below to generate the corresponding plots. Then create a boxplot of carb. Finally, share your observations below the code:\n\n\n\n# make a histogram of carb\ngf_histogram(~ carb, data = starbucks)\n\n# make a histogram of calories\ngf_histgoram(~ _____, data = ______)\n\n# make a bar chart of bakery\ngf_bar(~ _____, data = _____)\n\n# make a boxplot of carb\n\n\n\n\nBivariate plots\n\nLet’s now generate some bivariate (i.e. two-variable) EDA plots for our three variables. For two-quantitative variables we typically use a scatter plot gf_point. If we are comparing a quantitative and a categorical variable will use side-by-side boxplots gf_boxplot. Generate and plot to visualize carb and calories and one to visualize carb and bakery. Comment on your observations."
+  },
+  {
+    "objectID": "ae/ae-02-exploratory-data-analysis.html#submitting-your-assignment",
+    "href": "ae/ae-02-exploratory-data-analysis.html#submitting-your-assignment",
+    "title": "AE 02: Exploratory Data Analysis",
+    "section": "Submitting Your Assignment",
+    "text": "Submitting Your Assignment\n\n\nClick Render one last time to render your document.\nReview the html output to make sure it reflects what you want it to say.\nUpload the qmd and html files to Canvas."
+  },
+  {
+    "objectID": "ae/ae-05-coffee-truck.html",
+    "href": "ae/ae-05-coffee-truck.html",
+    "title": "AE 05: The Coffee Truck",
+    "section": "",
+    "text": "Important\n\n\n\n\nOpen RStudio and create a subfolder in your AE folder called “AE-05”\nGo to the assignment for this activity in Canvas to get started.\nUpload the ae-05-coffee-truck.qmd file into the folder you just created. We will generate a dataset for this activity shortly"
+  },
+  {
+    "objectID": "ae/ae-05-coffee-truck.html#team-name",
+    "href": "ae/ae-05-coffee-truck.html#team-name",
+    "title": "AE 05: The Coffee Truck",
+    "section": "Team Name",
+    "text": "Team Name\n\n\n\n\n\n\n\nImportant\n\n\n\nThis data from the game we’ll be using today lands in a table that’s public to anyone and will be attached to your group name. Do not choose a group name that you don’t want public.\n\n\nChoose a team name. It should be short and memorable."
+  },
+  {
+    "objectID": "ae/ae-05-coffee-truck.html#data",
+    "href": "ae/ae-05-coffee-truck.html#data",
+    "title": "AE 05: The Coffee Truck",
     "section": "Data",
-    "text": "Data\nOur data set contains daily rentals from the Capital Bikeshare in Washington, DC in 2011 and 2012. It was obtained from the dcbikeshare data set in the dsbox R package.\nWe will focus on the following variables in the analysis:\n\ncount: total bike rentals\ntemp_orig: Temperature in degrees Celsius\nseason: 1 - winter, 2 - spring, 3 - summer, 4 - fall\n\nClick here for the full list of variables and definitions."
+    "text": "Data\nToday we’re generating our own data by playing the Coffee Truck game from Grinnell’s stat2games project.\n\nJo inherited a coffee truck, has $20,000 left after repairs, and wants help figuring out what combination of settings sells the most coffee. Every simulated shift you play records:\n\n\nSales: number of cups sold that shift (our response variable)\nLocation: Business District / City Park / City Hall / Near the Zoo\nMusic: No Music / Hip Hop / Alternative\nPrice: $2 / $3 / $4 / $5 per cup\nTimeOfDay: Morning / Lunch / Afternoon / Evening"
   },
   {
-    "objectID": "ae/ae-03-04-bikeshare.html#exercises",
-    "href": "ae/ae-03-04-bikeshare.html#exercises",
-    "title": "AE 03 & 04: Bike rentals in Washington, DC",
+    "objectID": "ae/ae-05-coffee-truck.html#exercises",
+    "href": "ae/ae-05-coffee-truck.html#exercises",
+    "title": "AE 05: The Coffee Truck",
     "section": "Exercises",
-    "text": "Exercises\n\nModify the file path to load the dcbikeshare data set.\nHints:\n\nUse a relative path\nYou need to go up two levels and then into the data folder\nPressing TAB while your cursor is in the quotations will help you navigate\nMake sure to remove the #|eval: false line from the answer code\n\n\n\n\nbikeshare &lt;- read_csv(\"insert path here\")\n\n\n\nBelow is code to create visualizations of the distributions of daily bike rentals and temperature. Create a plot of the number of rentals vs the temperature and store it in a variable called p3. If you can figure it out based on context, try and add appropriate labels to the plot. Finally, uncomment the last line of code in this chunk. What do you think this last line does? Comment on what you see.\n\n\n\np1 &lt;- gf_histogram(~ count, data = bikeshare, binwidth = 250) |&gt;\n  gf_labs(x = \"Daily bike rentals\")\n\np2 &lt;- gf_histogram(~temp_orig, data = bikeshare) |&gt;\n  gf_labs(x = \"Temperature (Celsius)\")\n\n# (p1 | p2) / p3\n\n\n\nIn the raw data, seasons are coded as 1, 2, 3, 4 as numerical values, corresponding to winter, spring, summer, and fall respectively. Recode the season variable to make it a categorical variable (a factor) with levels corresponding to season names, making sure that the levels appear in a reasonable order in the variable (i.e., not alphabetical).\n\n\n\n# add code developed during livecoding here\n\n\n\nWe want to evaluate whether the relationship between temperature and daily bike rentals is the same for each season. To answer this question:\n\nCreate a scatter plot of daily bike rentals vs. temperature faceted by season\nCreate a scatter plot of daily bike rentals vs. temperature colored by season\n\n\n\n\n\n\n\nWhich season appears to have the strongest relationship between temperature and daily bike rentals? Why do you think the relationship is strongest in this season?\nWhich season appears to have the weakest relationship between temperature and daily bike rentals? Why do you think the relationship is weakest in this season?\n\n\n\n\n\n\nGoing back to the scatter plot of rentals vs. temperature from earlier, there appears to be one day with a very small number of bike rentals. Use filter to figure out what that day was? Why were the number of bike rentals so low on that day? Hint: You can Google the date to figure out what was going on that day.\n\n\n\n\n\nFilter your data for the season you’ve been assigned, give the resulting data set a new name, and plot the relationship between temperature and daily bike rentals for this season.\n\n\n\n# add code developed during livecoding here\n\n\n\nUsing the subset of the data from the previous exercise, fit a linear model for predicting daily bike rentals from temperature for this season.\n\n\n\n\n\nUse the output to write out the estimated regression equation on the whiteboard.\n\n\nInterpret the slope in the context of the data.\n\n\n\n\n\nInterpret the intercept in the context of the data.\n\n\n\n\n\nCreate a visualization of the model we just created.\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTo submit the AE:\n\nRender the document to produce the HTML with all of your work from today’s class.\nThe driver for your group should upload your .qmd and .html files to the Canvas assignment."
+    "text": "Exercises\n\nPlaying the Game\n\nPlay the game at the link above.\n\nOn the ID screen, enter MATH2025FA26 as the Group Name.\nPick a Player Name that does not identify you, and write it in the box below (you’ll need it later).\n\n\n\n\n\n\nSet up your design:\n\nStart with Location = Business District, Music = No Music, Price = $3 per cup, Time = Lunch, Weather = Relatively Constant for the whole activity.\nSelect one additional category from Music, Location, OR Time\nSet Design Type to Random Sample and Number of Repetitions to 10. Confirm “Number of Days” reads 20.\nClick Start Sim.\n\nWrite down which setting your group changed, and which second level you picked below and on the whiteboard.\n\n\n\n\n\nDownload your data as a CSV file from here, and upload it in your data folder. I recommend changing the filename to something more memorable.\n\n\nRun the following code to load the packages we’ll use in this activity.\n\n\n\nlibrary(tidyverse)\nlibrary(mosaic)\nlibrary(ggformula)\nlibrary(broom)\nlibrary(coursekata)\n\n\n\nUse read_csv to load the data you just uploaded. Take a look at the data, make sure it has the right number of rows.\n\n\n\n\n\nCreate a plot exploring the relationship between your explanatory variables.\n\n\n\n\n\nUse favstats() to find the mean Sales at each of your two levels.\n\n\n\n\n\nFit a linear model predicting Sales from your variable. Use tidy() to format the output.\n\nWhat is the reference level in your model?\nOn the whiteboard draw a plot similar to the one found here\n\n\n\nUse the output to write out the estimated regression equation, and the dummy coding for an observation at each level, on the whiteboard.\n\n\nInterpret the intercept in the context of the data.\n\n\n\n\n\nInterpret the “slope” in the context of the data.\n\n\n\n\n\nCompare the means you generated in exercise 7 and the coefficients from exercise 9. Show that the “model is just predicting the means” for each level of the variable. Show your work on the whiteboard.\n\n\nUse predict() to get the model’s predicted Sales for each level of your variable. How many distinct predictions can this model make, and why?\n\n\n\nnew_data &lt;- tibble(\n  your_variable = c(\"level1\", \"level2\", \"level3\")\n)\n\n## More code here\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTo submit the AE:\n\nRender the document to produce the HTML with all of your work from today’s class.\nThe driver for your group should upload your .qmd and .html files to the Canvas assignment."
   },
   {
     "objectID": "computing-access.html",
@@ -1096,7 +1327,7 @@
     "href": "hw/hw-03.html#r-and-rstudio",
     "title": "HW 03: The Coffee Truck",
     "section": "R and RStudio",
-    "text": "R and RStudio\nSee the R resources page for a guide to the RStudio IDE and Quarto file components.\n\nYAML\nThe top portion of your Quarto file (between the three dashed lines) is called YAML. It stands for “Yet Another Markup Language”. It is a human friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document.\n\n\n\n\n\n\nImportant\n\n\n\nOpen the Quarto (.qmd) file in your project, change the author name to your name, and render the document. Examine the rendered document. You can now work off of that file."
+    "text": "R and RStudio\nSee the R resources page for a guide to the RStudio IDE and Quarto file components."
   },
   {
     "objectID": "hw/hw-03.html#analysis-goal",
@@ -1153,16 +1384,16 @@
   {
     "objectID": "prepare/prep-06.html",
     "href": "prepare/prep-06.html",
-    "title": "Preparation for Simulation Based Inference",
+    "title": "Preparation for Residuals, Least Squares, and Model Evaluation",
     "section": "",
-    "text": "📖 IMS, Sec 24.3: Bootstrap confidence interval for the slope"
+    "text": "Finish reading these if you haven’t yet:\n\nIf you already feel comfortable with R & this isn’t your first statistics class:\n\nIntroduction to Regression Analysis: A Data Science Approach: Ch 4: Simple linear regression\n\nIf you’re new to R & statistics:\n\nIntroduction to Modern Statistics (IMS) Ch 7: Linear regression with a single predictor"
   },
   {
     "objectID": "prepare/prep-06.html#assigned-reading",
     "href": "prepare/prep-06.html#assigned-reading",
-    "title": "Preparation for Simulation Based Inference",
+    "title": "Preparation for Residuals, Least Squares, and Model Evaluation",
     "section": "",
-    "text": "📖 IMS, Sec 24.3: Bootstrap confidence interval for the slope"
+    "text": "Finish reading these if you haven’t yet:\n\nIf you already feel comfortable with R & this isn’t your first statistics class:\n\nIntroduction to Regression Analysis: A Data Science Approach: Ch 4: Simple linear regression\n\nIf you’re new to R & statistics:\n\nIntroduction to Modern Statistics (IMS) Ch 7: Linear regression with a single predictor"
   },
   {
     "objectID": "prepare/prep-08.html",
@@ -1870,6 +2101,111 @@
     "title": "Simple Linear Regression",
     "section": "Recap",
     "text": "Recap\n\n\nSimple linear regression (SLR) describes the relationship between a quantitative predictor (\\(X\\)) and response (\\(Y\\)).\nThe statistical model: \\(Y = \\beta_0 + \\beta_1 X\\)\nThe regression equation: \\(\\hat{Y} = \\hat{\\beta}_0 + \\hat{\\beta}_1 X\\)\n\\(\\hat{\\beta}_1\\) (slope): estimated change in \\(Y\\) for each unit increase in \\(X\\)\n\\(\\hat{\\beta}_0\\) (intercept): estimated value of \\(Y\\) when \\(X = 0\\)\nSLR can be used for prediction and inference"
+  },
+  {
+    "objectID": "slides/06-model-eval.html#computational-set-up",
+    "href": "slides/06-model-eval.html#computational-set-up",
+    "title": "Model Evaluation",
+    "section": "Computational set up",
+    "text": "Computational set up\n\n# load packages\nlibrary(tidyverse)   # for data wrangling and visualization\nlibrary(ggformula)   # for plotting using formulas\nlibrary(broom)       # for formatting model output\nlibrary(scales)      # for pretty axis labels\nlibrary(knitr)       # for pretty tables\nlibrary(kableExtra)  # also for pretty tables\nlibrary(patchwork)   # arrange plots\n\n# Spotify Dataset\nspotify &lt;- read_csv(\"../data/spotify-popular.csv\")\n\n# set default theme and larger font size for ggplot2\nggplot2::theme_set(ggplot2::theme_bw(base_size = 20))"
+  },
+  {
+    "objectID": "slides/06-model-eval.html#quick-data-cleaning",
+    "href": "slides/06-model-eval.html#quick-data-cleaning",
+    "title": "Model Evaluation",
+    "section": "Quick Data Cleaning",
+    "text": "Quick Data Cleaning\n\nspotify &lt;- spotify |&gt; \n  mutate(duration_min = duration_ms / 60000)\n\n\n\nWhat is this code doing?\nWhy might I be doing it?"
+  },
+  {
+    "objectID": "slides/06-model-eval.html#the-regression-model-revisited",
+    "href": "slides/06-model-eval.html#the-regression-model-revisited",
+    "title": "Model Evaluation",
+    "section": "The regression model, revisited",
+    "text": "The regression model, revisited\n\nspotify_fit &lt;- lm(danceability ~ duration_min, data = spotify)\n\ntidy(spotify_fit, conf.int = TRUE, conf.level = 0.95) |&gt;\n   kable(digits = 3)\n\n\n\n\n\n\n\n\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\nconf.low\nconf.high\n\n\n\n\n(Intercept)\n0.781\n0.028\n28.351\n0.000\n0.727\n0.835\n\n\nduration_min\n-0.024\n0.008\n-3.151\n0.002\n-0.039\n-0.009\n\n\n\n\n\n\nThere is strong statistical evidence that there is a linear relationship between the duration of a song and it’s danceability.\nWe are 95% confidence that as the length of a song increases by one minute the danceability will decrease by between 0.009 and 0.039 units."
+  },
+  {
+    "objectID": "slides/06-model-eval.html#partitioning-variability",
+    "href": "slides/06-model-eval.html#partitioning-variability",
+    "title": "Model Evaluation",
+    "section": "Partitioning Variability",
+    "text": "Partitioning Variability\nLet’s think about variation:\n\nDATA = MODEL + ERROR\n\\(\\substack{\\text{Variation} \\\\ \\text{in Y}} = \\substack{\\text{Variation explained} \\\\ \\text{by model}} + \\substack{\\text{Variation not explained} \\\\ \\text{by model}}\\)"
+  },
+  {
+    "objectID": "slides/06-model-eval.html#partitioning-variability-anova",
+    "href": "slides/06-model-eval.html#partitioning-variability-anova",
+    "title": "Model Evaluation",
+    "section": "Partitioning Variability (ANOVA)",
+    "text": "Partitioning Variability (ANOVA)\n\n\\(y_i - \\bar{y} = (\\hat{y}_i - \\bar{y}) + (y_i-\\hat{y}_i)\\)\nSquare and sum: \\(\\sum(y_i-\\bar{y})^2 = \\sum(\\hat{y} - \\bar{y})^2 + \\sum(y-\\hat{y})^2\\)\n\\(\\substack{\\text{Sum of squares} \\\\ \\text{Total}} = \\substack{\\text{Sum of squares} \\\\ \\text{model}} + \\substack{\\text{Sum of squares} \\\\ \\text{error}}\\)\n\\(SSTotal = SSModel + SSE\\)\n\\(SST = SSM + SSE\\)\nANOVA: Analysis of Variance"
+  },
+  {
+    "objectID": "slides/06-model-eval.html#anova-in-r",
+    "href": "slides/06-model-eval.html#anova-in-r",
+    "title": "Model Evaluation",
+    "section": "ANOVA in R",
+    "text": "ANOVA in R\n\nspotify_fit |&gt;\n  anova() |&gt;\n  tidy() |&gt;\n  kable()\n\n\n\n\nterm\ndf\nsumsq\nmeansq\nstatistic\np.value\n\n\n\n\nduration_min\n1\n0.1685294\n0.1685294\n9.928516\n0.0017237\n\n\nResiduals\n506\n8.5889829\n0.0169743\nNA\nNA\n\n\n\n\n\n\n\nMore on this later in the semester\nComplete Exercise 1."
+  },
+  {
+    "objectID": "slides/06-model-eval.html#recall-correlation-coefficient",
+    "href": "slides/06-model-eval.html#recall-correlation-coefficient",
+    "title": "Model Evaluation",
+    "section": "Recall: Correlation Coefficient",
+    "text": "Recall: Correlation Coefficient\n\nThe correlation coefficient, \\(r\\), is a number between -1 and +1 that measures how strong the linear relationship between two variables \\(x\\) and \\(y\\) is.\n\n\\[\nr = \\frac{\\sum(x_i - \\bar{x})(y_i-\\bar{y})}{\\sqrt{\\sum(x_i-\\bar{x})^2\\sum(y_i-\\bar{y})^2}}\n= \\frac{\\sum(x_i - \\bar{x})(y_i-\\bar{y})}{s_xs_y}\n\\]"
+  },
+  {
+    "objectID": "slides/06-model-eval.html#two-statistics-r2",
+    "href": "slides/06-model-eval.html#two-statistics-r2",
+    "title": "Model Evaluation",
+    "section": "Two statistics: \\(R^2\\)",
+    "text": "Two statistics: \\(R^2\\)\n\nR-squared, \\(R^2\\), Coefficient of Determination : Percentage of variability in the outcome explained by the regression model (in the context of SLR, the predictor) \\[\nR^2 = Cor(y, \\hat{y})^2\n\\]\n\nAlso called PRE (Percent Reduction in Error) because: \\[\nR^2 = \\frac{SSModel}{SSTotal}\n\\]"
+  },
+  {
+    "objectID": "slides/06-model-eval.html#two-statistics-rmse",
+    "href": "slides/06-model-eval.html#two-statistics-rmse",
+    "title": "Model Evaluation",
+    "section": "Two statistics: RMSE",
+    "text": "Two statistics: RMSE\n\nRoot mean square error, RMSE: A measure of the average error (average difference between observed and predicted values of the outcome) \\[\nRMSE = \\sqrt{\\frac{\\sum_{i = 1}^n (y_i - \\hat{y}_i)^2}{n}}\n\\]\n\nSometimes people just care about numerator (SSE) or version without the square-root (MSE)\nSometimes the denominator may have \\(n-1\\) instead\n\n\n\n\nWhat indicates a good model fit? Higher or lower \\(R^2\\)? Higher or lower RMSE?"
+  },
+  {
+    "objectID": "slides/06-model-eval.html#r2",
+    "href": "slides/06-model-eval.html#r2",
+    "title": "Model Evaluation",
+    "section": "\\(R^2\\)",
+    "text": "\\(R^2\\)\n\nRanges between 0 (terrible predictor) and 1 (perfect predictor)\nHas no units\nCalculate with rsq() from yardstick package using the augmented data:\n\n\nlibrary(yardstick)\nspotify_aug &lt;- augment(spotify_fit)\n\nrsq(spotify_aug, truth = danceability, estimate = .fitted) |&gt; kable()\n\n\n\n\n.metric\n.estimator\n.estimate\n\n\n\n\nrsq\nstandard\n0.019244"
+  },
+  {
+    "objectID": "slides/06-model-eval.html#interpreting-r2",
+    "href": "slides/06-model-eval.html#interpreting-r2",
+    "title": "Model Evaluation",
+    "section": "Interpreting \\(R^2\\)",
+    "text": "Interpreting \\(R^2\\)\n\n🗳️ Discussion\n\n\nThe \\(R^2\\) of the model for danceability from Average_Income_K is 1.9%. Which of the following is the correct interpretation of this value?\n\n\nduration_min correctly predicts 1.9% of danceability.\n1.9% of the variability in danceability can be explained by duration_min.\n1.9% of the variability in duration_min can be explained by danceability.\n1.9% of the time danceability can be predicted by duration_min.\n\n\n\nComplete Exercise 2."
+  },
+  {
+    "objectID": "slides/06-model-eval.html#activity",
+    "href": "slides/06-model-eval.html#activity",
+    "title": "Model Evaluation",
+    "section": "Activity",
+    "text": "Activity\n\nIn groups, at the board, design a simulation-based procedure for producing a p-value for the following hypothesis test.\n\n\\(H_0: R^2 = 0\\)\n\\(H_A: R^2 \\neq 0\\)\n\n\n\nComplete Exercise 3."
+  },
+  {
+    "objectID": "slides/06-model-eval.html#rmse",
+    "href": "slides/06-model-eval.html#rmse",
+    "title": "Model Evaluation",
+    "section": "RMSE",
+    "text": "RMSE\n\nRanges between 0 (perfect predictor) and infinity (terrible predictor)\nSame units as the response variable\nInterpretation (kind of): how much does my model miss by, on average.\nCalculate with rmse() from yardstick package using the augmented data:\n\n\nrmse(spotify_aug, truth = danceability, estimate = .fitted)\n\n# A tibble: 1 × 3\n  .metric .estimator .estimate\n  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;\n1 rmse    standard       0.130\n\n\n\nComplete Exercise 4."
+  },
+  {
+    "objectID": "slides/06-model-eval.html#using-the-word-good",
+    "href": "slides/06-model-eval.html#using-the-word-good",
+    "title": "Model Evaluation",
+    "section": "Using the word “Good”",
+    "text": "Using the word “Good”\n\nThere is no such thing as a “Good” \\(R^2\\) or, especially, RMSE without context\nWhether your model is a “Good” model depends on many things:\n\nWhat are you using your model for?\nHow good are other models?"
+  },
+  {
+    "objectID": "slides/06-model-eval.html#recap",
+    "href": "slides/06-model-eval.html#recap",
+    "title": "Model Evaluation",
+    "section": "Recap",
+    "text": "Recap\n\nCan decompose total variation (SST) into variation explained by the model (SSM) and leftover variation (SSE)\nTwo metrics for evaluating and comparing models:\n\n\\(R^2\\): What proportion of the variation in the response variable is explained by the model?\n\\(RMSE\\): How far is does my model miss by on average?"
   },
   {
     "objectID": "support.html",
