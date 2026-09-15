@@ -23,7 +23,7 @@ matters (see the snippet at the bottom).
 - `241903` — **Roll Call Attendance**: 0 pts, in the Homework group, `omit_from_final_grade=True`.
   Pre-existing course infrastructure, not part of the lecture rollout — leave it alone.
 
-## Snapshot as of 2026-09-14 (will go stale — verify before relying on it)
+## Snapshot as of 2026-09-15 (will go stale — verify before relying on it)
 
 ### Modules
 
@@ -35,9 +35,10 @@ matters (see the snippet at the bottom).
 | `78682` | 4 | Lecture 2 — Exploratory Data Analysis (Wed, Sep 2) |
 | `78918` | 5 | Lecture 3 — Data Cleaning (Wed, Sep 9) |
 | `78951` | 6 | Lecture 4 — Introduction to Simple Linear Regression (Mon, Sep 14) |
-| `78952` | 7 | Lecture 5 — Categorical Predictors (Wed, Sep 16) — Prepare item only so far; Slides/AE not yet posted |
+| `78952` | 7 | Lecture 5 — Categorical Predictors (Wed, Sep 16) — full Prepare/Slides/AE/HW item set |
+| `78987` | 8 | Lecture 6 — Residuals, Least Squares, and Model Evaluation (Mon, Sep 21) — Prepare item only so far; Slides/AE not yet posted |
 
-The next lecture module should be created at `position=8`.
+The next lecture module should be created at `position=9`.
 
 ⚠️ `create_module`/`create_module_item` with `published: True` in the payload does **not**
 actually publish on creation (observed 2026-09-14: modules 78951/78952 and their ExternalUrl
@@ -53,10 +54,15 @@ items came back `published=False` despite the flag) — always re-`.edit(module=
 | `243284` | AE-03/04: Bike rentals in Washington, DC | Application Exercises | 20 | 2026-09-16T16:50:00Z |
 | `242687` | HW-01: Dr. F's Coffee | Homework | 22 | 2026-09-09T16:50:00Z |
 | `243285` | HW-02: Park access | Homework | 17 | 2026-09-16T16:50:00Z |
+| `243518` | AE-05: The Coffee Truck | Application Exercises | 10 | 2026-09-21T16:50:00Z |
+| `243519` | HW-03: The Coffee Truck | Homework | 30 | 2026-09-23T16:50:00Z |
 
 Note: AE-03 was renamed AE-03/04 and its points bumped 10 → 20 when the bikeshare activity was
 split across lectures 3 and 4; the same assignment (`243284`) is linked from both lecture
 modules rather than creating a separate AE-04.
+
+Note: AE-05 and HW-03 (created 2026-09-15) are **unpublished**, as is module `78987` (Lecture
+6) and all of its items — publish by hand in the Canvas UI when ready.
 
 ### Data files uploaded to Canvas course files
 

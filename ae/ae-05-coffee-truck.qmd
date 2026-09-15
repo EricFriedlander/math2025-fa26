@@ -52,7 +52,7 @@ format:
 
 - Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-05"
 
-- Go to the assignment for this activity in [Canvas](<>) to get started.
+- Go to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743/assignments/243518) to get started.
 
 - Upload the `ae-05-coffee-truck.qmd` file into the folder you just created. We will generate a dataset for this activity shortly
 

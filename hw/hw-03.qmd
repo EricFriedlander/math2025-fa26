@@ -81,7 +81,7 @@ By the end of this homework, you will...
 
 - Make a folder called `hw` to store all of your homework for the semester, if you haven't already. Create a subfolder called `hw03` to store this homework, and a `data` subfolder inside of it.
 
-- Log into [Canvas](<>), navigate to HW-03, and download the `hw-03.qmd` file. Upload it into the folder you just made. You will generate your own data set below and upload it into the `data` folder.
+- Log into [Canvas](https://cofi.instructure.com/courses/18743/assignments/243519), navigate to HW-03, and download the `hw-03.qmd` file. Upload it into the folder you just made. You will generate your own data set below and upload it into the `data` folder.
 
 ## R and RStudio
 
