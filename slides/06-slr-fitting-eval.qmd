@@ -187,13 +187,14 @@ fall |>
 :::{.column}
 Potential values of $\hat{\beta}_0$:
 
-- 4276
-- 5010
+- 4276 ($\hat{y}_i = 4276$)
+- 5010 ($\hat{y}_i = 5010$)
 :::
 ::::
 
 . . .
 
+Note: 4276 is actually the mean of 2395, 5423, 5010
 
 ## Interesting properties of the mean {.smaller}
 
@@ -267,11 +268,11 @@ fall_fit |>
 :::
 ::: {.column width="50%"}
 ```{r}
-#|echo: true
+#| echo: true
 fall |>
   select(dteday, season, temp_orig, count) |>
   head(3) |>
-  kable()
+  kable() 
 ```
 :::
 ::::
@@ -312,9 +313,9 @@ Which of these three lines does the "best" job? How would you decide?
 $$
 \sum_{i=1}^n e_i^2 = \sum_{i=1}^n (y_i - \hat{y}_i)^2 = \sum_{i=1}^n (y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i))^2
 $$
-- If we use $\bar{x}$ for our model this shoud look a little familiar
+- If we use $\bar{y}$ for our model this shoud look a little familiar
 $$
-SST = \sum_{i=1}^n (y_i - \bar{x})^2
+SST = \sum_{i=1}^n (y_i - \bar{y})^2
 $$
   - This is the numerator in the calculation of variance/standard deviation
   - We can this of this as the Total Variation in our response variable
@@ -325,7 +326,7 @@ $$
 . . .
 
 ::: small
-[Click here](https://introregression.netlify.app/98-appendix) for details on deriving the equations for slope and intercept, which is easy if you know multivariate calculus.
+[Click here](https://introregression.netlify.app/appendix-linear) for details on deriving the equations for slope and intercept, which is easy if you know multivariate calculus.
 :::
 
 ## Let's think about variation {.smaller}
@@ -389,7 +390,10 @@ Compute the SST, SSM, and SSE for using the linear regression model and compare 
 
 ```{r}
 augment(fall_fit, fall) |> 
-  kable()
+  kable() |> 
+  # ignore below this line
+  kable_styling() |>
+  scroll_box(width = "500px", height = "200px")
 ```
 
 ## ANOVA in R
@@ -441,8 +445,9 @@ season_model |>  supernova()
 ::::
 
 ::: question
-1. Which model has a better $R^2$?
-2. Why do you think I didn't just use `fall_fit` for the first model?
+1. Which model has a better $R^2$? 
+2. What is a less common but more descriptive name of $R^2$?
+3. Why do you think I didn't just use `fall_fit` for the first model?
 :::
 
 ## Recall: Correlation Coefficient
@@ -451,7 +456,7 @@ season_model |>  supernova()
 
 $$
 r = \frac{\sum(x_i - \bar{x})(y_i-\bar{y})}{\sqrt{\sum(x_i-\bar{x})^2\sum(y_i-\bar{y})^2}}
-= \frac{\sum(x_i - \bar{x})(y_i-\bar{y})}{s_xs_y}
+= \frac{\text{Covariance of X and Y}}{(SD of X)(SD of Y)}
 $$
 
 ## Interesting Property of $R^2$ {.smaller}
@@ -542,7 +547,7 @@ Now that you've seen residuals, SSE, $R^2$, and RMSE — which of your three mod
 📋 [AE 06 - Comparing Models with the Coffee Truck](../ae/ae-06-coffee-truck-eval.qmd)
 :::
 
-Complete Exercises 2-4. If time permits, complete Exercise 5.
+Complete the remainder of the exercises.
 
 ```{r}
 #| echo: false

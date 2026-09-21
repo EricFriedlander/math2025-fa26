@@ -19,11 +19,12 @@ matters (see the snippet at the bottom).
   | `48694` | Exam 01 | 25% | 3 |
   | `48695` | Exam 02 | 25% | 4 |
   | `48696` | Final Project | 25% | 5 |
+  | `49170` | Preparation | 0% | 6 |
 
 - `241903` — **Roll Call Attendance**: 0 pts, in the Homework group, `omit_from_final_grade=True`.
   Pre-existing course infrastructure, not part of the lecture rollout — leave it alone.
 
-## Snapshot as of 2026-09-15 (will go stale — verify before relying on it)
+## Snapshot as of 2026-09-21 (will go stale — verify before relying on it)
 
 ### Modules
 
@@ -36,33 +37,41 @@ matters (see the snippet at the bottom).
 | `78918` | 5 | Lecture 3 — Data Cleaning (Wed, Sep 9) |
 | `78951` | 6 | Lecture 4 — Introduction to Simple Linear Regression (Mon, Sep 14) |
 | `78952` | 7 | Lecture 5 — Categorical Predictors (Wed, Sep 16) — full Prepare/Slides/AE/HW item set |
-| `78987` | 8 | Lecture 6 — Residuals, Least Squares, and Model Evaluation (Mon, Sep 21) — Prepare item only so far; Slides/AE not yet posted |
+| `78987` | 8 | Lecture 6 — Residuals, Least Squares, and Model Evaluation (Mon, Sep 21) — full Prepare/Slides/AE item set (no HW). Module itself is published; the new Slides (`404267`) and AE-06 (`404268`) items are **unpublished** — publish by hand. |
+| `79101` | 9 | Lecture 7 — Intro To Islands & Project (Wed, Sep 23) — one item, the 0-pt Prepare assignment (`404269`, `must_mark_done`). Module and item both **unpublished**. |
 
-The next lecture module should be created at `position=9`.
+The next lecture module should be created at `position=10`.
 
 ⚠️ `create_module`/`create_module_item` with `published: True` in the payload does **not**
 actually publish on creation (observed 2026-09-14: modules 78951/78952 and their ExternalUrl
 items came back `published=False` despite the flag) — always re-`.edit(module={'published': True})`
 (and same for each item) after creating, then re-verify.
 
-### AE / HW assignments
+### AE / HW / Prepare assignments
 
-| ID | Name | Group | Points | Due |
-|---|---|---|---|---|
-| `242372` | AE-01: Getting Started | Application Exercises | 10 | 2026-09-02T16:50:00Z |
-| `242686` | AE-02: Exploratory Data Analysis | Application Exercises | 10 | 2026-09-09T16:50:00Z |
-| `243284` | AE-03/04: Bike rentals in Washington, DC | Application Exercises | 20 | 2026-09-16T16:50:00Z |
-| `242687` | HW-01: Dr. F's Coffee | Homework | 22 | 2026-09-09T16:50:00Z |
-| `243285` | HW-02: Park access | Homework | 17 | 2026-09-16T16:50:00Z |
-| `243518` | AE-05: The Coffee Truck | Application Exercises | 10 | 2026-09-21T16:50:00Z |
-| `243519` | HW-03: The Coffee Truck | Homework | 30 | 2026-09-23T16:50:00Z |
+| ID | Name | Group | Points | Grading type | Due |
+|---|---|---|---|---|---|
+| `242372` | AE-01: Getting Started | Application Exercises | 10 | points | 2026-09-02T16:50:00Z |
+| `242686` | AE-02: Exploratory Data Analysis | Application Exercises | 10 | points | 2026-09-09T16:50:00Z |
+| `243284` | AE-03/04: Bike rentals in Washington, DC | Application Exercises | 20 | points | 2026-09-16T16:50:00Z |
+| `242687` | HW-01: Dr. F's Coffee | Homework | 22 | points | 2026-09-09T16:50:00Z |
+| `243285` | HW-02: Park access | Homework | 17 | points | 2026-09-16T16:50:00Z |
+| `243518` | AE-05: The Coffee Truck | Application Exercises | 10 | points | 2026-09-21T16:50:00Z |
+| `243519` | HW-03: The Coffee Truck | Homework | 30 | points | 2026-09-23T16:50:00Z |
+| `243762` | AE-06: Comparing Models with the Coffee Truck | Application Exercises | 10 | points | 2026-09-23T16:50:00Z |
+| `243763` | Prepare: Reading for Lecture 7 | Preparation | 0 | points | 2026-09-23T16:50:00Z |
 
 Note: AE-03 was renamed AE-03/04 and its points bumped 10 → 20 when the bikeshare activity was
 split across lectures 3 and 4; the same assignment (`243284`) is linked from both lecture
 modules rather than creating a separate AE-04.
 
-Note: AE-05 and HW-03 (created 2026-09-15) are **unpublished**, as is module `78987` (Lecture
-6) and all of its items — publish by hand in the Canvas UI when ready.
+Note: on 2026-09-21, all assignments except `241903` (Roll Call Attendance) were switched to
+`grading_type='points'` (four — AE-03/04, AE-05, HW-02, HW-03 — were backfilled from
+`'percent'`; point values unchanged). This is now the course standard.
+
+Note: AE-06 (`243762`) and the Lecture 7 Prepare assignment (`243763`), created 2026-09-21, are
+**unpublished**, as are their module items and module `79101` — publish by hand in the Canvas
+UI when ready.
 
 ### Data files uploaded to Canvas course files
 

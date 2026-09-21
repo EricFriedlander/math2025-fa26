@@ -60,17 +60,16 @@ format:
 
 ::: callout-important
 - Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-06"
-- Go to the assignment for this activity in [Canvas]() to get started.
+- Go to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743/assignments/243762) to get started.
 - Upload the `ae-06-coffee-truck-eval.qmd` file into the folder you just created. We will generate one data set for this activity shortly.
 :::
 
 ## Intro
 
-We're back at [Jo's coffee truck](https://www.stat2games.sites.grinnell.edu/games/coffeetruck.html).
-Today we'll generate one data set, fit **three** models to it, and ask which one model is the "best" at predicting the number of Sales.
+We're back at [Jo's coffee truck](https://www.stat2games.sites.grinnell.edu/games/coffeetruck.html). Today we'll generate one data set, fit **three** models to it, and ask which one model is the "best" at predicting the number of Sales.
 
 ::: callout-important
-This game's data lands in a table that's **public to anyone**, attached to your group name. Use the same team/Player Name from AE 05, or pick a new one that doesn't identify you.
+This game's data lands in a table that's **public to anyone**, attached to your group name. Pick a new user name that doesn't identify you.
 :::
 
 Recall the variables the game can record: `Sales` (our response), `Location`, `Music`, `Price`, and `TimeOfDay`.
@@ -83,37 +82,36 @@ Recall the variables the game can record: `Sales` (our response), `Location`, `M
 Let's put everything we've learned so far together into one big warm-up analysis. I have directions for you below, I recommend having someone in your group who isn't the coder, open a link to the activity on the website so you don't have to switch back and forth from the exercise block to the answer block. I want you to practice writing down a full analysis. Do this be interspursing your code with prose. Some tips:
 
 - Don't write all of your code in one large chunk. This is difficult to follow.
-- Say what you're going to do in prose, talking about the statistics rather than the code. For example say "Let's make a boxplot to explore the relationship between..." rather than "Let's apply `gf_boxplot` to...". Try to explain what and why you're going to do something rather than how you're going to do it. The reader can see your code so they can see how you did it. Then write your code in a code chunk. After the output interpret the results. DO NOT just put output and leave that as your answer. Describe whaat you see. Remember that our goal is to predict `Sales` so describe what you analysis is saying about what is going to give you the most or least `Sales`.
+- Say what you're going to do in prose, talking about the statistics rather than the code. For example say "Let's make a boxplot to explore the relationship between..." rather than "Let's apply `gf_boxplot` to...". Try to explain what and why you're going to do something rather than how you're going to do it. The reader can see your code so they can see how you did it. Then write your code in a code chunk. After the output interpret the results. DO NOT just put output and leave that as your answer. Describe what you see. Remember that our goal is to predict `Sales` so describe what you analysis is saying about what is going to give you the most or least `Sales`.
 
 On the ID screen, enter **`MATH2025FA26`** as the Group Name and come up with a Team Name to enter as well (write it down and remember it).
 
-
 a.  Set up your sim:
 
-  - **Price**: select all four levels (\$2, \$3, \$4, \$5).
-  - **Time Of Day**: select all three shifts (you may choose any three)
-  - Hold everything else fixed: choose one (and only one) level for `Location` and one level for `Music` (it's up to you) 
-  - **Design Type**: `Random Sample` and choose 15 repetitions.
-  - Verify that it says 60 days and click **Start Sim**.
-  - Click `Get All Sales Data` -> `Continue` -> `Game Data`
-  - Enter the **`MATH2025FA26`** for your group name and your Team Name from above in the PlayerID field.
+- **Price**: select all four levels (\$2, \$3, \$4, \$5).
+- **Time Of Day**: select all three shifts (you may choose any three)
+- Hold everything else fixed: choose one (and only one) level for `Location` and one level for `Music` (it's up to you)
+- **Design Type**: `Random Sample` and choose 15 repetitions.
+- Verify that it says 60 days and click **Start Sim**.
+- Click `Get All Sales Data` -\> `Continue` -\> `Game Data`
+- Enter the **`MATH2025FA26`** for your group name and your Team Name from above in the PlayerID field.
 
-c.  Download the CSV and upload it to your `data`  folder.
+c.  Download the CSV and upload it to your `data` folder.
+
 d.  Load the packages we'll use today, then read in your data with `read_csv()`. Confirm the number of rows is 60.
 
 e.  `Price` was read in as a `chr` (character) column, not `dbl` (double), because the game exports it as text like `"$3"`. Create a **new** column called `PriceNum` holding price as a number, using the same fix as before: strip the `$` with `str_replace()`, then convert with `as.numeric()`. **Leave the original `Price` column alone** — we want it to stay categorical. `glimpse()` your data to confirm you now have both `Price` (categorical) and `PriceNum` (quantitative).
 
-f.  Fit three models and display each with `tidy()`. The three models should all have `Sales` as the response variable and use the following as explanatory variables  
+f.  Fit three models and display each with `tidy()`. The three models should all have `Sales` as the response variable and use the following as explanatory variables
 
     - `fit_time`: Explanatory = `TimeOfDay`, Response = `Sales`
     - `fit_price_num`: Explanatory = `PriceNum`, Response = `Sales`
-    - `fit_fitprice_cat`: Explanatory = `Price`, Response = `Sales
+    - `fit_fitprice_cat`: Explanatory = `Price`, Response = `Sales`
 
 g.  **Last step:** write all three estimated regression equations on the whiteboard. Whats the difference between the two `Price` models.
 :::
 
 ::: answer
-
 ```{r load-packages}
 #| message: false
 library(tidyverse)
@@ -146,9 +144,26 @@ library(supernova)
 ### Evaluating your models
 
 ::: exercise
-For each of your three models, use `augment()` to get fitted values, then compute $R^2$ with `rsq()` and RMSE with `rmse()` (both from `yardstick`, with `truth = Sales, estimate = .fitted`).
+For each of your three models, use `augment()` to get fitted values. Make sure to save your augmented data frames to new variables. Print out the first few rows of each one.
+:::
 
-Fill in the table below, and put it on the whiteboard next to your equations from Exercise 1.
+::: answer
+```{r}
+
+```
+:::
+
+::: exercise
+For each of your three models, use the augmented data frames you created in the previous exercise to compute the $R^2$ and Root Mean-Squared Error (RMSE) of each model. Hint.... Use the `rsq` and `rmse` functions from the `yardstick` package. Note that you've already loaded the `yardstick` package above.
+
+Below the code chunk below I've included the skeleton of a table. Quarto allows you to create nice looking tables ([here](https://quarto.org/docs/authoring/tables.html) is some documentation if you'd like). 
+Fill in the table below, and then write it on the whiteboard next to your equations from Exercise 1.
+:::
+
+::: answer
+```{r evaluate-models}
+
+```
 
 | Model     | Predictor                 | $R^2$ | RMSE |
 |:----------|:--------------------------|:-----:|:----:|
@@ -157,16 +172,8 @@ Fill in the table below, and put it on the whiteboard next to your equations fro
 | `fit_cat` | `Price` (categorical)     |       |      |
 :::
 
-::: answer
-```{r evaluate-models}
-
-```
-:::
-
 ::: exercise
-Which model explains the most variation in `Sales`? Which would you recommend to Jo, and why?
-
-All three models were fit to the *same* data set, so they all share the same SST. Why does that make this an apples-to-apples comparison, unlike comparing $R^2$ across different data sets? What units is RMSE in here, and what does that number mean?
+Choose one of the models above. On the white board, write one sentence interpreting the $R^2$ value and one sentence interpreting the RMSE for that model.
 :::
 
 ::: answer
@@ -175,18 +182,14 @@ All three models were fit to the *same* data set, so they all share the same SST
 ::: exercise
 Compare `fit_num` and `fit_cat`, your two price models. Which has the larger $R^2$?
 
-Why can the categorical version (`fit_cat`) never do *worse* than the quantitative one (`fit_num`) at explaining variation in `Sales`? What do you give up by using the categorical version anyway (think about parsimony, predicting at a price like \$3.50, and having a single "per dollar" slope)?
+Something we'll come to see is that it is impossible for `fit_cat` to have a smaller $R^2$ than `fit_num`.
+Why do you think this is? 
+Even if `fit_cat` has a smaller $R^2$, it may not be a "better" (or more useful) model... Why do you think this is?
 :::
 
 ::: answer
 :::
 
-::: exercise
-*(If time permits)* Jo actually wants to maximize **profit**, not `Sales` — your data set also has a `Profit` column. Does the model with the highest $R^2$ for `Sales` necessarily tell Jo the most about maximizing `Profit`? Explain.
-:::
-
-::: answer
-:::
 
 ::: callout-important
 To submit the AE:
