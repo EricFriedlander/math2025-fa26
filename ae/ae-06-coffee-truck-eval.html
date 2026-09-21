@@ -4614,7 +4614,7 @@ Important
 <p>Let’s put everything we’ve learned so far together into one big warm-up analysis. I have directions for you below, I recommend having someone in your group who isn’t the coder, open a link to the activity on the website so you don’t have to switch back and forth from the exercise block to the answer block. I want you to practice writing down a full analysis. Do this be interspursing your code with prose. Some tips:</p>
 <ul>
 <li>Don’t write all of your code in one large chunk. This is difficult to follow.</li>
-<li>Say what you’re going to do in prose, talking about the statistics rather than the code. For example say “Let’s make a boxplot to explore the relationship between…” rather than “Let’s apply <code>gf_boxplot</code> to…”. Try to explain what and why you’re going to do something rather than how you’re going to do it. The reader can see your code so they can see how you did it. Then write your code in a code chunk. After the output interpret the results. DO NOT just put output and leave that as your answer. Describe whaat you see. Remember that our goal is to predict <code>Sales</code> so describe what you analysis is saying about what is going to give you the most or least <code>Sales</code>.</li>
+<li>Say what you’re going to do in prose, talking about the statistics rather than the code. For example say “Let’s make a boxplot to explore the relationship between…” rather than “Let’s apply <code>gf_boxplot</code> to…”. Try to explain what and why you’re going to do something rather than how you’re going to do it. The reader can see your code so they can see how you did it. Then write your code in a code chunk. After the output interpret the results. DO NOT just put output and leave that as your answer. Describe what you see. Remember that our goal is to predict <code>Sales</code> so describe what you analysis is saying about what is going to give you the most or least <code>Sales</code>.</li>
 </ul>
 <p>On the ID screen, enter <strong><code>MATH2025FA26</code></strong> as the Group Name and come up with a Team Name to enter as well (write it down and remember it).</p>
 <ol type="a">
@@ -4670,8 +4670,16 @@ Note
 <section id="evaluating-your-models" class="level3">
 <h3 class="anchored" data-anchor-id="evaluating-your-models">Evaluating your models</h3>
 <div class="exercise">
-<p>For each of your three models, use <code>augment()</code> to get fitted values, then compute <span class="math inline">\(R^2\)</span> with <code>rsq()</code> and RMSE with <code>rmse()</code> (both from <code>yardstick</code>, with <code>truth = Sales, estimate = .fitted</code>).</p>
-<p>Fill in the table below, and put it on the whiteboard next to your equations from Exercise 1.</p>
+<p>For each of your three models, use <code>augment()</code> to get fitted values. Make sure to save your augmented data frames to new variables. Print out the first few rows of each one.</p>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>For each of your three models, use the augmented data frames you created in the previous exercise to compute the <span class="math inline">\(R^2\)</span> and Root Mean-Squared Error (RMSE) of each model. Hint…. Use the <code>rsq</code> and <code>rmse</code> functions from the <code>yardstick</code> package. Note that you’ve already loaded the <code>yardstick</code> package above.</p>
+<p>Below the code chunk below I’ve included the skeleton of a table. Quarto allows you to create nice looking tables (<a href="https://quarto.org/docs/authoring/tables.html">here</a> is some documentation if you’d like). Fill in the table below, and then write it on the whiteboard next to your equations from Exercise 1.</p>
+</div>
+<div class="answer">
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -4703,25 +4711,15 @@ Note
 </tbody>
 </table>
 </div>
-<div class="answer">
-
-</div>
 <div class="exercise">
-<p>Which model explains the most variation in <code>Sales</code>? Which would you recommend to Jo, and why?</p>
-<p>All three models were fit to the <em>same</em> data set, so they all share the same SST. Why does that make this an apples-to-apples comparison, unlike comparing <span class="math inline">\(R^2\)</span> across different data sets? What units is RMSE in here, and what does that number mean?</p>
+<p>Choose one of the models above. On the white board, write one sentence interpreting the <span class="math inline">\(R^2\)</span> value and one sentence interpreting the RMSE for that model.</p>
 </div>
 <div class="answer">
 
 </div>
 <div class="exercise">
 <p>Compare <code>fit_num</code> and <code>fit_cat</code>, your two price models. Which has the larger <span class="math inline">\(R^2\)</span>?</p>
-<p>Why can the categorical version (<code>fit_cat</code>) never do <em>worse</em> than the quantitative one (<code>fit_num</code>) at explaining variation in <code>Sales</code>? What do you give up by using the categorical version anyway (think about parsimony, predicting at a price like $3.50, and having a single “per dollar” slope)?</p>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p><em>(If time permits)</em> Jo actually wants to maximize <strong>profit</strong>, not <code>Sales</code> — your data set also has a <code>Profit</code> column. Does the model with the highest <span class="math inline">\(R^2\)</span> for <code>Sales</code> necessarily tell Jo the most about maximizing <code>Profit</code>? Explain.</p>
+<p>Something we’ll come to see is that it is impossible for <code>fit_cat</code> to have a smaller <span class="math inline">\(R^2\)</span> than <code>fit_num</code>. Why do you think this is? Even if <code>fit_cat</code> has a smaller <span class="math inline">\(R^2\)</span>, it may not be a “better” (or more useful) model… Why do you think this is?</p>
 </div>
 <div class="answer">
 

@@ -195,6 +195,8 @@
   </style>
   <link href="../site_libs/countdown-0.6.0/countdown.css" rel="stylesheet">
   <script src="../site_libs/countdown-0.6.0/countdown.js"></script>
+  <script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -244,7 +246,7 @@ Prof.&nbsp;Eric Friedlander
 <p>Complete Exercise 1.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_db511fc9" minutes="20" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_bf9b5aed" minutes="20" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
 </div>
 </div>
 </section></section>
@@ -407,10 +409,13 @@ Prof.&nbsp;Eric Friedlander
 </div><div class="column">
 <p>Potential values of <span class="math inline">\(\hat{\beta}_0\)</span>:</p>
 <ul>
-<li>4276</li>
-<li>5010</li>
+<li>4276 (<span class="math inline">\(\hat{y}_i = 4276\)</span>)</li>
+<li>5010 (<span class="math inline">\(\hat{y}_i = 5010\)</span>)</li>
 </ul>
 </div></div>
+<div class="fragment">
+<p>Note: 4276 is actually the mean of 2395, 5423, 5010</p>
+</div>
 </section>
 <section id="interesting-properties-of-the-mean" class="slide level2 smaller">
 <h2>Interesting properties of the mean</h2>
@@ -502,11 +507,10 @@ Prof.&nbsp;Eric Friedlander
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="co">#|echo: true</span></span>
-<span id="cb5-2"><a></a>fall <span class="sc">|&gt;</span></span>
-<span id="cb5-3"><a></a>  <span class="fu">select</span>(dteday, season, temp_orig, count) <span class="sc">|&gt;</span></span>
-<span id="cb5-4"><a></a>  <span class="fu">head</span>(<span class="dv">3</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-5"><a></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>fall <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a></a>  <span class="fu">select</span>(dteday, season, temp_orig, count) <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a></a>  <span class="fu">head</span>(<span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a></a>  <span class="fu">kable</span>() </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
@@ -570,8 +574,8 @@ Prof.&nbsp;Eric Friedlander
 <li class="fragment"><strong>Least squares method</strong>: choose <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span> to minimize the sum of squared error <span class="math display">\[
 \sum_{i=1}^n e_i^2 = \sum_{i=1}^n (y_i - \hat{y}_i)^2 = \sum_{i=1}^n (y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i))^2
 \]</span></li>
-<li class="fragment">If we use <span class="math inline">\(\bar{x}\)</span> for our model this shoud look a little familiar <span class="math display">\[
-SST = \sum_{i=1}^n (y_i - \bar{x})^2
+<li class="fragment">If we use <span class="math inline">\(\bar{y}\)</span> for our model this shoud look a little familiar <span class="math display">\[
+SST = \sum_{i=1}^n (y_i - \bar{y})^2
 \]</span>
 <ul>
 <li class="fragment">This is the numerator in the calculation of variance/standard deviation</li>
@@ -582,7 +586,7 @@ SST = \sum_{i=1}^n (y_i - \bar{x})^2
 </ul>
 <div class="fragment">
 <div class="small">
-<p><a href="https://introregression.netlify.app/98-appendix">Click here</a> for details on deriving the equations for slope and intercept, which is easy if you know multivariate calculus.</p>
+<p><a href="https://introregression.netlify.app/appendix-linear">Click here</a> for details on deriving the equations for slope and intercept, which is easy if you know multivariate calculus.</p>
 </div>
 </div>
 </section>
@@ -678,59 +682,38 @@ SST = \sum_{i=1}^n (y_i - \bar{x})^2
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="fu">augment</span>(fall_fit, fall) <span class="sc">|&gt;</span> </span>
-<span id="cb7-2"><a></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-2"><a></a>  <span class="fu">kable</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb7-3"><a></a>  <span class="co"># ignore below this line</span></span>
+<span id="cb7-4"><a></a>  <span class="fu">kable_styling</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-5"><a></a>  <span class="fu">scroll_box</span>(<span class="at">width =</span> <span class="st">"500px"</span>, <span class="at">height =</span> <span class="st">"200px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<table class="caption-top">
-<colgroup>
-<col style="width: 3%">
-<col style="width: 5%">
-<col style="width: 3%">
-<col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 5%">
-<col style="width: 5%">
-<col style="width: 4%">
-<col style="width: 4%">
-<col style="width: 4%">
-<col style="width: 4%">
-<col style="width: 3%">
-<col style="width: 5%">
-<col style="width: 2%">
-<col style="width: 4%">
-<col style="width: 4%">
-<col style="width: 5%">
-<col style="width: 4%">
-<col style="width: 4%">
-<col style="width: 4%">
-<col style="width: 5%">
-</colgroup>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:500px; ">
+<table class="table caption-top" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr class="header">
-<th style="text-align: right;">instant</th>
-<th style="text-align: left;">dteday</th>
-<th style="text-align: left;">season</th>
-<th style="text-align: right;">yr</th>
-<th style="text-align: right;">mnth</th>
-<th style="text-align: right;">holiday</th>
-<th style="text-align: right;">weekday</th>
-<th style="text-align: right;">workingday</th>
-<th style="text-align: right;">weathersit</th>
-<th style="text-align: right;">temp</th>
-<th style="text-align: right;">atemp</th>
-<th style="text-align: right;">hum</th>
-<th style="text-align: right;">windspeed</th>
-<th style="text-align: right;">casual</th>
-<th style="text-align: right;">registered</th>
-<th style="text-align: right;">count</th>
-<th style="text-align: right;">temp_orig</th>
-<th style="text-align: right;">.fitted</th>
-<th style="text-align: right;">.resid</th>
-<th style="text-align: right;">.hat</th>
-<th style="text-align: right;">.sigma</th>
-<th style="text-align: right;">.cooksd</th>
-<th style="text-align: right;">.std.resid</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">instant</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">dteday</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">season</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">yr</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">mnth</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">holiday</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">weekday</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">workingday</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">weathersit</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">temp</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">atemp</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">hum</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">windspeed</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">casual</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">registered</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">count</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">temp_orig</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">.fitted</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">.resid</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">.hat</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">.sigma</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">.cooksd</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">.std.resid</th>
 </tr>
 </thead>
 <tbody>
@@ -5188,6 +5171,7 @@ SST = \sum_{i=1}^n (y_i - \bar{x})^2
 </table>
 </div>
 </div>
+</div>
 </section>
 <section id="anova-in-r" class="slide level2">
 <h2>ANOVA in R</h2>
@@ -5284,6 +5268,7 @@ PRE = R^2 = \frac{SSM}{SST}
 <div class="question">
 <ol type="1">
 <li>Which model has a better <span class="math inline">\(R^2\)</span>?</li>
+<li>What is a less common but more descriptive name of <span class="math inline">\(R^2\)</span>?</li>
 <li>Why do you think I didn’t just use <code>fall_fit</code> for the first model?</li>
 </ol>
 </div>
@@ -5295,7 +5280,7 @@ PRE = R^2 = \frac{SSM}{SST}
 </ul>
 <p><span class="math display">\[
 r = \frac{\sum(x_i - \bar{x})(y_i-\bar{y})}{\sqrt{\sum(x_i-\bar{x})^2\sum(y_i-\bar{y})^2}}
-= \frac{\sum(x_i - \bar{x})(y_i-\bar{y})}{s_xs_y}
+= \frac{\text{Covariance of X and Y}}{(SD of X)(SD of Y)}
 \]</span></p>
 </section>
 <section id="interesting-property-of-r2" class="slide level2 smaller">
@@ -5406,10 +5391,10 @@ RMSE = \sqrt{\frac{\sum_{i = 1}^n (y_i - \hat{y}_i)^2}{n}}
 <div class="appex">
 <p>📋 <a href="../ae/ae-06-coffee-truck-eval.html">AE 06 - Comparing Models with the Coffee Truck</a></p>
 </div>
-<p>Complete Exercises 2-4. If time permits, complete Exercise 5.</p>
+<p>Complete the remainder of the exercises.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_10d7f31b" minutes="15" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_d8c03f0a" minutes="15" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
 </div>
 </div>
 </section>
