@@ -4538,14 +4538,11 @@ color: #ffd283;
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#recap" id="toc-recap" class="nav-link active" data-scroll-target="#recap">Recap</a></li>
+  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro</a></li>
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a>
   <ul class="collapse">
-  <li><a href="#collecting-three-data-sets" id="toc-collecting-three-data-sets" class="nav-link" data-scroll-target="#collecting-three-data-sets">Collecting three data sets</a></li>
-  <li><a href="#loading-and-cleaning" id="toc-loading-and-cleaning" class="nav-link" data-scroll-target="#loading-and-cleaning">Loading and cleaning</a></li>
-  <li><a href="#model-1-price-as-a-quantitative-predictor" id="toc-model-1-price-as-a-quantitative-predictor" class="nav-link" data-scroll-target="#model-1-price-as-a-quantitative-predictor">Model 1: Price as a quantitative predictor</a></li>
-  <li><a href="#r2-anova-and-rmse" id="toc-r2-anova-and-rmse" class="nav-link" data-scroll-target="#r2-anova-and-rmse"><span class="math inline">\(R^2\)</span>, ANOVA, and RMSE</a></li>
-  <li><a href="#comparing-across-data-sets" id="toc-comparing-across-data-sets" class="nav-link" data-scroll-target="#comparing-across-data-sets">Comparing across data sets</a></li>
+  <li><a href="#generating-and-cleaning-your-data" id="toc-generating-and-cleaning-your-data" class="nav-link" data-scroll-target="#generating-and-cleaning-your-data">Generating and cleaning your data</a></li>
+  <li><a href="#evaluating-your-models" id="toc-evaluating-your-models" class="nav-link" data-scroll-target="#evaluating-your-models">Evaluating your models</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/ae/ae-06-coffee-truck-eval.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -4587,13 +4584,13 @@ Important
 <ul>
 <li>Open <a href="https://rstudio.collegeofidaho.edu/">RStudio</a> and create a subfolder in your AE folder called “AE-06”</li>
 <li>Go to the assignment for this activity in <a href>Canvas</a> to get started.</li>
-<li>Upload the <code>ae-06-coffee-truck-eval.qmd</code> file into the folder you just created. We will generate three data sets for this activity shortly.</li>
+<li>Upload the <code>ae-06-coffee-truck-eval.qmd</code> file into the folder you just created. We will generate one data set for this activity shortly.</li>
 </ul>
 </div>
 </div>
-<section id="recap" class="level2">
-<h2 class="anchored" data-anchor-id="recap">Recap</h2>
-<p>We’re back at <a href="https://www.stat2games.sites.grinnell.edu/games/coffeetruck.html">Jo’s coffee truck</a>. Today we’ll fit and compare several models, and use <span class="math inline">\(R^2\)</span> to ask <em>how much</em> of the variation in <code>Sales</code> each one explains, and why that answer depends on more than just the model.</p>
+<section id="intro" class="level2">
+<h2 class="anchored" data-anchor-id="intro">Intro</h2>
+<p>We’re back at <a href="https://www.stat2games.sites.grinnell.edu/games/coffeetruck.html">Jo’s coffee truck</a>. Today we’ll generate one data set, fit <strong>three</strong> models to it, and ask which one model is the “best” at predicting the number of Sales.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -4607,54 +4604,43 @@ Important
 <p>This game’s data lands in a table that’s <strong>public to anyone</strong>, attached to your group name. Use the same team/Player Name from AE 05, or pick a new one that doesn’t identify you.</p>
 </div>
 </div>
+<p>Recall the variables the game can record: <code>Sales</code> (our response), <code>Location</code>, <code>Music</code>, <code>Price</code>, and <code>TimeOfDay</code>.</p>
 </section>
 <section id="exercises" class="level2">
 <h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
-<section id="collecting-three-data-sets" class="level3">
-<h3 class="anchored" data-anchor-id="collecting-three-data-sets">Collecting three data sets</h3>
-<p>Every game keeps <strong>Location = Business District</strong>, <strong>Time = Lunch</strong>, <strong>Weather = Relatively Constant</strong>, and <strong>Design Type = Random Sample</strong> unless told otherwise below. On the ID screen, enter <strong><code>MATH2025FA26</code></strong> as the Group Name.</p>
+<section id="generating-and-cleaning-your-data" class="level3">
+<h3 class="anchored" data-anchor-id="generating-and-cleaning-your-data">Generating and cleaning your data</h3>
 <div class="exercise">
-<p>Play a sim called <strong><code>music</code></strong>:</p>
+<p>Let’s put everything we’ve learned so far together into one big warm-up analysis. I have directions for you below, I recommend having someone in your group who isn’t the coder, open a link to the activity on the website so you don’t have to switch back and forth from the exercise block to the answer block. I want you to practice writing down a full analysis. Do this be interspursing your code with prose. Some tips:</p>
 <ul>
-<li><strong>Music</strong>: select all three levels (No Music, Hip Hop, Alternative).</li>
-<li><strong>Price</strong>: fix at <strong>$3</strong> (only one level selected).</li>
-<li><strong>Number of Repetitions</strong>: <code>5</code>.</li>
-<li>Click <strong>Start Sim</strong>, then download the CSV. Upload it to your data folder as <code>music.csv</code>.</li>
+<li>Don’t write all of your code in one large chunk. This is difficult to follow.</li>
+<li>Say what you’re going to do in prose, talking about the statistics rather than the code. For example say “Let’s make a boxplot to explore the relationship between…” rather than “Let’s apply <code>gf_boxplot</code> to…”. Try to explain what and why you’re going to do something rather than how you’re going to do it. The reader can see your code so they can see how you did it. Then write your code in a code chunk. After the output interpret the results. DO NOT just put output and leave that as your answer. Describe whaat you see. Remember that our goal is to predict <code>Sales</code> so describe what you analysis is saying about what is going to give you the most or least <code>Sales</code>.</li>
 </ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p>Play a sim called <strong><code>price</code></strong>:</p>
+<p>On the ID screen, enter <strong><code>MATH2025FA26</code></strong> as the Group Name and come up with a Team Name to enter as well (write it down and remember it).</p>
+<ol type="a">
+<li>Set up your sim:</li>
+</ol>
 <ul>
 <li><strong>Price</strong>: select all four levels ($2, $3, $4, $5).</li>
-<li><strong>Music</strong>: fix at <strong>No Music</strong> (only one level selected).</li>
-<li><strong>Number of Repetitions</strong>: <code>5</code>.</li>
-<li>Click <strong>Start Sim</strong>, then download the CSV. Upload it to your data folder as <code>price.csv</code>.</li>
+<li><strong>Time Of Day</strong>: select all three shifts (you may choose any three)</li>
+<li>Hold everything else fixed: choose one (and only one) level for <code>Location</code> and one level for <code>Music</code> (it’s up to you)</li>
+<li><strong>Design Type</strong>: <code>Random Sample</code> and choose 15 repetitions.</li>
+<li>Verify that it says 60 days and click <strong>Start Sim</strong>.</li>
+<li>Click <code>Get All Sales Data</code> -&gt; <code>Continue</code> -&gt; <code>Game Data</code></li>
+<li>Enter the <strong><code>MATH2025FA26</code></strong> for your group name and your Team Name from above in the PlayerID field.</li>
 </ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p>Play a sim called <strong><code>both</code></strong>:</p>
+<ol start="3" type="a">
+<li><p>Download the CSV and upload it to your <code>data</code> folder.</p></li>
+<li><p>Load the packages we’ll use today, then read in your data with <code>read_csv()</code>. Confirm the number of rows is 60.</p></li>
+<li><p><code>Price</code> was read in as a <code>chr</code> (character) column, not <code>dbl</code> (double), because the game exports it as text like <code>&quot;$3&quot;</code>. Create a <strong>new</strong> column called <code>PriceNum</code> holding price as a number, using the same fix as before: strip the <code>$</code> with <code>str_replace()</code>, then convert with <code>as.numeric()</code>. <strong>Leave the original <code>Price</code> column alone</strong> — we want it to stay categorical. <code>glimpse()</code> your data to confirm you now have both <code>Price</code> (categorical) and <code>PriceNum</code> (quantitative).</p></li>
+<li><p>Fit three models and display each with <code>tidy()</code>. The three models should all have <code>Sales</code> as the response variable and use the following as explanatory variables</p>
 <ul>
-<li><strong>Music</strong>: select all three levels.</li>
-<li><strong>Price</strong>: select all four levels.</li>
-<li><strong>Number of Repetitions</strong>: <code>2</code>.</li>
-<li>Click <strong>Start Sim</strong>, then download the CSV. Upload it to your data folder as <code>both.csv</code>.</li>
-</ul>
-<p>Before moving on, check with your group: does your total number of days across all three sims still leave Jo with money in the bank? (<code>CurrentMoney</code> in the last row of each file.)</p>
-</div>
-<div class="answer">
-
-</div>
-</section>
-<section id="loading-and-cleaning" class="level3">
-<h3 class="anchored" data-anchor-id="loading-and-cleaning">Loading and cleaning</h3>
-<div class="exercise">
-<p>Load the packages we’ll use today, then read in all three data sets.</p>
+<li><code>fit_time</code>: Explanatory = <code>TimeOfDay</code>, Response = <code>Sales</code></li>
+<li><code>fit_price_num</code>: Explanatory = <code>PriceNum</code>, Response = <code>Sales</code></li>
+<li><code>fit_fitprice_cat</code>: Explanatory = <code>Price</code>, Response = `Sales</li>
+</ul></li>
+<li><p><strong>Last step:</strong> write all three estimated regression equations on the whiteboard. Whats the difference between the two <code>Price</code> models.</p></li>
+</ol>
 </div>
 <div class="answer">
 <div class="cell">
@@ -4663,86 +4649,55 @@ Important
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggformula)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coursekata)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(yardstick)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(yardstick)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(supernova)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
-<div class="exercise">
-<p>Look at <code>price</code> (or <code>both</code>). You should notice <code>Price</code> was read in as a <code>chr</code> (character) column, not <code>dbl</code> (double).</p>
-<ul>
-<li>Why did that happen? Be specific.</li>
-<li>Fix it in both <code>price</code> and <code>both</code>, the same way we fixed <code>spend_per_resident_data</code> in HW 02: strip the <code>$</code> with <code>str_replace()</code>, then convert with <code>as.numeric()</code>. Call the new column <code>Price</code> (overwrite it).</li>
-</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<div class="answer">
-
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Stop here.</strong> We’ll come back to <code>fit_var</code>, <code>fit_num</code>, and <code>fit_cat</code> at the end of class.</p>
+</div>
 </div>
 </section>
-<section id="model-1-price-as-a-quantitative-predictor" class="level3">
-<h3 class="anchored" data-anchor-id="model-1-price-as-a-quantitative-predictor">Model 1: Price as a quantitative predictor</h3>
+<section id="evaluating-your-models" class="level3">
+<h3 class="anchored" data-anchor-id="evaluating-your-models">Evaluating your models</h3>
 <div class="exercise">
-<p>Using <code>price</code>, plot <code>Sales</code> against <code>Price</code> with a fitted line (<code>gf_lm()</code>). Then fit <code>price_fit &lt;- lm(Sales ~ Price, data = price)</code> and display it with <code>tidy()</code>.</p>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p>Use <code>augment()</code> to add residuals and fitted values to <code>price</code> for <code>price_fit</code>. Plot the residuals against the fitted values.</p>
-<ul>
-<li>Does the sum of the residuals look close to zero, like the least squares properties promised?</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p>Compute <code>sd()</code> and <code>cor()</code> for <code>Price</code> and <code>Sales</code> by hand, and use <span class="math inline">\(\hat\beta_1 = r\,s_Y/s_X\)</span> and <span class="math inline">\(\hat\beta_0 = \bar{y} - \hat\beta_1\bar{x}\)</span> to reconstruct the slope and intercept. Confirm they match <code>price_fit</code>’s coefficients from <code>tidy()</code>.</p>
-</div>
-<div class="answer">
-
-</div>
-</section>
-<section id="r2-anova-and-rmse" class="level3">
-<h3 class="anchored" data-anchor-id="r2-anova-and-rmse"><span class="math inline">\(R^2\)</span>, ANOVA, and RMSE</h3>
-<div class="exercise">
-<p>Run <code>anova(price_fit)</code>. Identify SSModel and SSE from the output, add them to get SST, and use that to compute <span class="math inline">\(R^2 = SSModel / SST\)</span> by hand.</p>
-<p>Then confirm your answer using <code>rsq()</code> on the augmented data. Also report <code>rmse()</code>.</p>
-</div>
-<div class="answer">
-
-</div>
-</section>
-<section id="comparing-across-data-sets" class="level3">
-<h3 class="anchored" data-anchor-id="comparing-across-data-sets">Comparing across data sets</h3>
-<div class="exercise">
-<p>Fit <code>lm(Sales ~ Music)</code> on <code>music</code>, and both <code>lm(Sales ~ Music)</code> and <code>lm(Sales ~ Price)</code> on <code>both</code>. For each of these three models, compute <span class="math inline">\(R^2\)</span> with <code>rsq()</code>.</p>
-<p>Fill in the table below on the whiteboard (or here):</p>
+<p>For each of your three models, use <code>augment()</code> to get fitted values, then compute <span class="math inline">\(R^2\)</span> with <code>rsq()</code> and RMSE with <code>rmse()</code> (both from <code>yardstick</code>, with <code>truth = Sales, estimate = .fitted</code>).</p>
+<p>Fill in the table below, and put it on the whiteboard next to your equations from Exercise 1.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Model</th>
-<th style="text-align: center;">Data set</th>
+<th style="text-align: left;">Predictor</th>
 <th style="text-align: center;"><span class="math inline">\(R^2\)</span></th>
+<th style="text-align: center;">RMSE</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><code>Sales ~ Music</code></td>
-<td style="text-align: center;"><code>music</code></td>
+<td style="text-align: left;"><code>fit_var</code></td>
+<td style="text-align: left;">your variable</td>
+<td style="text-align: center;"></td>
 <td style="text-align: center;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><code>Sales ~ Music</code></td>
-<td style="text-align: center;"><code>both</code></td>
+<td style="text-align: left;"><code>fit_num</code></td>
+<td style="text-align: left;"><code>PriceNum</code> (quantitative)</td>
+<td style="text-align: center;"></td>
 <td style="text-align: center;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><code>Sales ~ Price</code></td>
-<td style="text-align: center;"><code>both</code></td>
+<td style="text-align: left;"><code>fit_cat</code></td>
+<td style="text-align: left;"><code>Price</code> (categorical)</td>
 <td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>Sales ~ Price</code></td>
-<td style="text-align: center;"><code>price</code></td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
@@ -4752,20 +4707,21 @@ Important
 
 </div>
 <div class="exercise">
-<p>Music’s actual effect on <code>Sales</code> didn’t change between <code>music</code> and <code>both</code> — you didn’t change how the game responds to music, only what else you let vary. So why is <span class="math inline">\(R^2\)</span> for <code>Sales ~ Music</code> so different between those two data sets?</p>
-<p>Hint: think about what happens to <strong>SST</strong> when price is also bouncing around.</p>
+<p>Which model explains the most variation in <code>Sales</code>? Which would you recommend to Jo, and why?</p>
+<p>All three models were fit to the <em>same</em> data set, so they all share the same SST. Why does that make this an apples-to-apples comparison, unlike comparing <span class="math inline">\(R^2\)</span> across different data sets? What units is RMSE in here, and what does that number mean?</p>
 </div>
 <div class="answer">
 
 </div>
 <div class="exercise">
-<p>Based on this table, is it fair to say “the <code>Sales ~ Music</code> model is better than the <code>Sales ~ Price</code> model” without saying which data set each <span class="math inline">\(R^2\)</span> came from? Why or why not?</p>
+<p>Compare <code>fit_num</code> and <code>fit_cat</code>, your two price models. Which has the larger <span class="math inline">\(R^2\)</span>?</p>
+<p>Why can the categorical version (<code>fit_cat</code>) never do <em>worse</em> than the quantitative one (<code>fit_num</code>) at explaining variation in <code>Sales</code>? What do you give up by using the categorical version anyway (think about parsimony, predicting at a price like $3.50, and having a single “per dollar” slope)?</p>
 </div>
 <div class="answer">
 
 </div>
 <div class="exercise">
-<p><em>(If time permits)</em> Jo actually wants to maximize <strong>profit</strong>, not <code>Sales</code> — every data set the game gives you also has a <code>Profit</code> column. Does the model with the highest <span class="math inline">\(R^2\)</span> for <code>Sales</code> necessarily tell Jo the most about maximizing <code>Profit</code>? Explain.</p>
+<p><em>(If time permits)</em> Jo actually wants to maximize <strong>profit</strong>, not <code>Sales</code> — your data set also has a <code>Profit</code> column. Does the model with the highest <span class="math inline">\(R^2\)</span> for <code>Sales</code> necessarily tell Jo the most about maximizing <code>Profit</code>? Explain.</p>
 </div>
 <div class="answer">
 
