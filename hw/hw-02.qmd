@@ -320,7 +320,7 @@ Would it be possible to reproduce the analysis results that led to this conclusi
 You're done and ready to submit your work! Render your document and upload the .qmd and .html files to Canvas.
 :::
 
-# Grading (17 pts)
+# Grading (18 pts)
 
 <br>
 
