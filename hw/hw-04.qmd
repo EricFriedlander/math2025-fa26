@@ -1,7 +1,7 @@
 ---
-title: "HW 04: Designing a Study on the Islands"
+title: "HW 04: Education & median income in US Counties"
 author: "Insert Name Here"
-subtitle: "Study design, sampling, and your first Islands analysis"
+subtitle: "Residuals, R-squared, and RMSE"
 editor: visual
 format:
   html:
@@ -69,22 +69,17 @@ knitr::opts_chunk$set(warning = FALSE,
 
 # Introduction
 
-In lecture, we learned that how data are collected determines what we can conclude from them. In this HW you'll practice thinking about **study design** and then run a small study of your own on [The Islands](https://islands.smp.uq.edu.au/index.php): you'll pick a research question, sample islanders, and fit a regression model with a categorical predictor. This is a miniature version of what your group will do for the semester project, so the work you do here is a head start on **Project 1: Pilot**.
-
-::: callout-note
-This is an **individual** assignment, but you're welcome to talk through ideas with classmates. Your data, code, and writing should be your own.
-:::
+In this homework, you will use simple linear regression to examine the association between the percent of adults with a bachelor's degree and the median household income for counties in the United States. This builds directly on lessons 6 and 7: you'll fit a model, compute and interpret residuals, and use $R^2$ and RMSE to evaluate and compare models.
 
 ## Learning goals
 
 By the end of this homework, you will...
 
-- Classify studies as observational or experimental, and say what each design can and cannot conclude
-- Identify confounding variables and threats to the validity of a study
-- Describe a sampling plan and defend whether it is representative
-- Collect a data set from a simulated population and fit a simple linear regression model with a categorical predictor
-- Interpret the model, evaluate it with $R^2$ and RMSE, and describe its scope of inference
-- Write a short methods section
+- Fit and interpret a simple linear regression model
+- Compute and interpret residuals for individual observations
+- Decompose total variation into variation explained by the model and leftover variation ($SST = SSM + SSE$)
+- Compute and interpret $R^2$ and RMSE
+- Compare two models using $R^2$ and RMSE
 
 # Getting Started
 
@@ -94,7 +89,7 @@ By the end of this homework, you will...
 
 - Use the `hw` folder you made earlier in the semester. Create a subfolder called `hw04` to store this homework, and a `data` subfolder inside of it.
 
-- Log into [Canvas](), navigate to HW-04, and download the `hw-04.qmd` file. Upload it into the folder you just made. You will collect your own data set below and upload it into the `data` folder.
+- Log into [Canvas](), navigate to HW-04, and download the `hw-04.qmd` and `us-counties-sample.csv` files. Upload the `.qmd` into the folder you just made, and the `.csv` into the `data` subfolder.
 
 ## R and RStudio
 
@@ -112,126 +107,45 @@ library(ggformula)
 library(broom)
 library(coursekata)
 library(yardstick)
+library(supernova)
 ```
 
-# Background reading
+# Data: US Counties
 
-Read the chapter on study design in *Introduction to Modern Statistics*: [Data collection](https://openintrostat.github.io/ims/data-design.html). Pay special attention to the sections on observational studies vs. experiments, confounding, and sampling.
+The data are from the `county_2019` data frame in the [usdata](https://openintrostat.github.io/usdata/index.html) R package. These data were originally collected in the 2019 [American Community Survey](https://www.census.gov/programs-surveys/acs) (ACS), an annual survey conducted by the United States Census Bureau that collects demographics and other information from a sample of households in the United States. The data in `county_2019` are county-level statistics from the ACS.
+
+The primary variables you will use are the following:
+
+-   `bachelors`: Percent of population 25 years old and older that earned a Bachelor's degree or higher
+-   `median_household_income`: Median household income in US dollars
+-   `household_has_computer`: Percent of households that have a desktop or laptop computer
+
+[Click here](https://openintrostat.github.io/usdata/reference/county_2019.html) for the full codebook for the `county_2019` data set.
 
 # Exercises
 
+There has been a lot of conversation recently about the impact of graduating college, i.e., obtaining a bachelor's degree, on one's future career and lifetime earnings. The common sentiment is that individuals who have earned a bachelor's degree (or higher) will earn more income over the course of a lifetime than an individual who does not have such a degree.
+
+The culmination of individual factors can impact the wealth and resources of a county. Therefore we will examine the association between these two factors at a county level, using the percent of adults 25 years old and older with a Bachelor's degree to understand variability in median income.
+
+::: callout-important
+All narrative should be written in complete sentences, and all visualizations should have informative titles and axis labels.
+:::
+
 ::: callout-tip
-Write all code and narrative in your Quarto file. Write all narrative in complete sentences. Throughout the assignment, you should periodically **render** your Quarto document to produce the updated HTML file.
+Write all code and narrative in your Quarto file. Throughout the assignment, you should periodically **render** your Quarto document to produce the updated HTML file.
 
 Make sure we can read all of your code in your HTML file. This means you will need to break up long lines of code. One way to help avoid long lines of code is to start a new line after every pipe (`|>`).
 
 In your `hw-04.qmd` document you'll see that each task is wrapped in an `exercise` box, with an empty `answer` box below it for you to fill in your response. Use this format for the remaining exercises.
 :::
 
-# Part 1: Thinking about study design
+## Part 1: Exploratory data analysis
 
 ::: {.exercise}
-Log into [The Islands](https://islands.smp.uq.edu.au/index.php) and open the **Academy**. Find **one study** that interests you.
+Load `data/us-counties-sample.csv` into a data frame called `county_data`. Use `glimpse()` to take a look.
 
-- What is the study, in one sentence?
-- Is the response variable quantitative or categorical?
-- How many explanatory variables are there, and what types are they (quantitative or categorical)?
-- How many observational units were collected?
-:::
-
-::: {.answer}
-
-:::
-
-::: {.exercise}
-For each scenario below, say whether it is an **observational study** or an **experiment**. Then say what type of conclusion (association or causation) it can support, and for whom (just the people in the study, or a wider population).
-
-a.  The class study of life expectancy from AE 07: groups sampled deceased islanders from assigned villages and compared mean age at death for men and women.
-
-b.  The Coffee Truck game: you chose which settings to simulate (`Price`, `Music`, and so on), the game ran shifts under those settings, and you recorded `Sales`.
-
-c.  On the Islands, you randomly choose 40 islanders and randomly assign half to one treatment and half to another. You then measure the same outcome for all 40.
-:::
-
-::: {.answer}
-
-:::
-
-::: {.exercise}
-In AE 07, we found that (in our sample) men and women differed in mean age at death.
-
-- Propose a plausible **confounding variable** for the relationship between `sex` and `age_at_death` on the Islands. Explain why it is related to *both* sex and age at death.
-- Explain how this confounder could produce a difference in age at death between men and women **even if sex itself had no direct effect** on how long people live.
-:::
-
-::: {.answer}
-
-:::
-
-::: {.exercise}
-Below is the methods section from a previous class's study of life expectancy on the Island. Read it carefully.
-
-> Using a stratified cluster sample survey, we collected data from the Island's records to calculate overall life expectancy on the Island, as well as male versus female life expectancies. We divided the island into geographic quadrants and each of us randomly collected data from birth records and individuals' information pages, sampling 3-4 cities in our respective quadrants. Masha sampled data from Fairhaven, Serrano, Sunrise and Eden. Tyler collected data from Riverside, Valkov and Rosica. Abby sampled the populations living in Edwardton, Asderaki and Mossgiel. Jess collected data in Macondo, Durand Bay and Deep Bay. The information we collected included each individual's birth year, death year and sex. Once we compiled the data for approximately 500 people, we selected the people who died between 1980 and 2010 as well as those who are alive today. We made the assumption that this selection would give us a representative picture of present or contemporary life expectancy, since living conditions throughout the last thirty years could be considered relatively consistent and relevant. We also capped the age at 150, since our oldest person in the sample was 147. Once we applied these exclusions, our data for the actual calculations included approximately 300 people - still a significant number for this type of simulation.
-
-- Name the **sampling scheme** they used and say which part is the *stratification* and which part is the *clustering*.
-- List their **inclusion/exclusion criteria**.
-- State **one assumption** the authors make, and say whether you think it's reasonable.
-- Describe **one threat to validity** (a way their estimate of life expectancy could be off) that they did *not* mention.
-:::
-
-::: {.answer}
-
-:::
-
-::: callout-tip
-This is a good place to render your document.
-:::
-
-# Part 2: Your own mini-study
-
-::: {.exercise}
-Choose a **research question** you can answer on the Islands. It must have:
-
-- A **quantitative** response variable
-- **One categorical** explanatory variable with **2 to 4 levels**
-
-Write your question in one or two sentences. Then state:
-
-- The **population** you are interested in
-- The **explanatory** variable and its levels
-- The **response** variable and its units
-- Whether your study is **observational** or an **experiment**
-
-Look at the Guides in the Visitor Center and the studies in the Academy for ideas. You'll want something you can feasibly measure on at least 20 islanders.
-:::
-
-::: {.answer}
-
-:::
-
-::: {.exercise}
-Describe your **sampling plan**.
-
-- Which sampling scheme will you use (simple random, stratified, cluster, or something else)? Why?
-- How will you decide *which* islanders to include, and how will you avoid picking only the easy ones?
-- Is your plan feasible, given that each islander can only complete **one task at a time**? What will you do about that?
-:::
-
-::: {.answer}
-
-:::
-
-::: {.exercise}
-**Collect your data.** Measure **at least 20 islanders** following your plan. Record your data in a spreadsheet (a Google Sheet works well) with one row per islander and at least these columns:
-
-- an ID for the islander
-- your explanatory variable
-- your response variable
-- **two** demographic variables you think might be confounders
-
-Download your data as a CSV file, and upload it into the `data` folder. Then use `read_csv()` to load it and take a look with `glimpse()`.
-
-- How many rows and columns does it have? Does that match your plan from the previous exercise?
+How many counties are in the data set?
 :::
 
 ::: {.answer}
@@ -244,16 +158,162 @@ Download your data as a CSV file, and upload it into the `data` folder. Then use
 :::
 
 ::: {.exercise}
-Explore your data.
-
-- Use `favstats()` to compute the mean, standard deviation, and sample size of your response variable within each level of your explanatory variable.
-- Make a plot exploring the relationship between your explanatory and response variables. Give it an informative title and axis labels.
-- Describe what you see in a few sentences. Which group has the highest average response?
+Create a histogram of the distribution of `bachelors` and calculate appropriate summary statistics with `favstats()`. Use the visualization and summary statistics to describe the distribution. Include an informative title and axis labels on the plot.
 :::
 
 ::: {.answer}
 
-```{r eda}
+```{r hist-bachelors}
+
+```
+
+:::
+
+::: {.exercise}
+Create a visualization of the relationship between `bachelors` and `median_household_income`, and use the `cor()` function to calculate the correlation. Use the visualization and correlation to describe the relationship between the two variables.
+:::
+
+::: {.answer}
+
+```{r scatter-bachelors}
+
+```
+
+:::
+
+::: callout-tip
+This is a good place to render your document.
+:::
+
+## Part 2: Fitting the model
+
+::: {.exercise}
+Write the form of the statistical model using the template below. Use mathematical notation (i.e., with Greek letters) and variable names (`bachelors` and `median_household_income`) in the equation. I'm not asking you to fit the model yet — replace each word in the equation below with either the name of a variable or a Greek letter.
+
+$$Response = intercept + slope\times predictor + error$$
+
+::: callout-tip
+[Click here](https://oeis.org/wiki/List_of_LaTeX_mathematical_symbols) for a guide on writing mathematical symbols using LaTeX. You will need to use a backslash (\\) before each underscore in the LaTeX code. For example, `avg_air_temp` will be written as *avg\\\_air\\\_temp.*
+:::
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Fit the regression line corresponding to the statistical model in the previous exercise, and call it `income_mod`. Use `tidy()` to neatly display the model output using 3 digits.
+
+Write the equation of the fitted model using mathematical notation. Use variable names (`bachelors` and `median_household_income`) in the equation.
+:::
+
+::: {.answer}
+
+```{r fit-income-mod}
+
+```
+
+:::
+
+::: {.exercise}
+-   Interpret the slope of `income_mod`. The interpretation should be written in a way that is meaningful in the context of the data.
+-   Is it useful to interpret the intercept for this data? If so, write the interpretation in the context of the data. Otherwise, briefly explain why not.
+:::
+
+::: {.answer}
+
+:::
+
+::: callout-tip
+This is a good place to render your document.
+:::
+
+## Part 3: Residuals
+
+::: {.exercise}
+Choose one county from `county_data` (use `filter()` with its `name`) and record its actual `bachelors` and `median_household_income` values.
+
+-   Using the fitted equation from Exercise 5, compute this county's **predicted** median household income by hand (i.e., by plugging into the equation, not with a function).
+-   Compute the **residual**: the difference between the actual and predicted income.
+-   Is this county above or below the regression line? Did the model over- or underpredict this county's income?
+:::
+
+::: {.answer}
+
+```{r one-county}
+
+```
+
+:::
+
+::: {.exercise}
+Use `augment()` on `income_mod` to get fitted values and residuals for every county, and save the result to `income_aug`.
+
+-   Use `arrange()` to find the county with the **largest positive** residual and the county with the **largest negative** residual.
+-   Interpret each of these two residuals in the context of the data (what does it mean for that county's actual vs. predicted income?).
+:::
+
+::: {.answer}
+
+```{r augment-income}
+
+```
+
+:::
+
+::: callout-tip
+This is a good place to render your document.
+:::
+
+## Part 4: Variation, $R^2$, and RMSE
+
+::: {.exercise}
+Fit the **empty model**, `empty_mod <- lm(median_household_income ~ NULL, data = county_data)`.
+
+-   Using `augment()` and the residuals, compute the $SST$ (the SSE of the empty model) and the $SSE$ of `income_mod`.
+-   Use subtraction to find the $SSM$ for `income_mod`, and then compute $R^2 = SSM/SST$ by hand.
+-   Check your work using `supernova(income_mod)`.
+:::
+
+::: {.answer}
+
+```{r ss-decomposition}
+
+```
+
+:::
+
+::: {.exercise}
+Use the `rsq()` and `rmse()` functions from `yardstick` on `income_aug` to compute $R^2$ and RMSE for `income_mod`.
+
+-   Confirm that this $R^2$ matches what you computed by hand in Exercise 9, and that it equals the correlation from Exercise 3, squared.
+-   Write one sentence interpreting $R^2$ and one sentence interpreting RMSE, in the context of the data.
+:::
+
+::: {.answer}
+
+```{r rsq-rmse-income}
+
+```
+
+:::
+
+::: {.exercise}
+Fit a second model, `computer_mod`, predicting `median_household_income` from `household_has_computer`. Use `augment()`, then `rsq()` and `rmse()` to evaluate it.
+
+Fill in the table below comparing the two models.
+
+| Model | Predictor | $R^2$ | RMSE |
+|:---|:---|:---:|:---:|
+| `income_mod` | `bachelors` |  |  |
+| `computer_mod` | `household_has_computer` |  |  |
+
+Which model does a better job predicting median household income? Explain how you decided, using both $R^2$ and RMSE.
+:::
+
+::: {.answer}
+
+```{r fit-computer-mod}
 
 ```
 
@@ -264,109 +324,44 @@ This is a good place to render your document.
 :::
 
 ::: {.exercise}
-Fit a linear model called `study_mod` predicting your response from your explanatory variable. Use `tidy()` to format the output.
+Create a new column in `county_data` called `income_thousands`, equal to `median_household_income` divided by 1000. Refit `income_mod` using `income_thousands` as the response instead, and recompute its $R^2$ and RMSE.
 
-- What is the **reference level** in your model? How can you tell from the output alone?
-- Write out the estimated regression equation using R's coefficient names.
+-   Which of the two numbers changed, and which stayed the same?
+-   Explain why, in terms of what $R^2$ and RMSE each measure and what units they're in.
 :::
 
 ::: {.answer}
 
-```{r fit-model}
-
-```
-
-:::
-
-::: {.exercise}
-Interpret the intercept and **every** coefficient from `study_mod` in the context of your data. Be specific about units.
-
-Then check your interpretation against the group means from Exercise 8. Do they agree?
-:::
-
-::: {.answer}
-
-:::
-
-::: {.exercise}
-Evaluate your model.
-
-- Use `augment()` to get fitted values and save the result to a new data frame.
-- Use the `rsq()` and `rmse()` functions from `yardstick` to compute $R^2$ and RMSE.
-- Write one sentence interpreting $R^2$ and one sentence interpreting RMSE in the context of your data.
-:::
-
-::: {.answer}
-
-```{r evaluate-model}
+```{r income-thousands}
 
 ```
 
 :::
 
 ::: callout-tip
-This is a good place to render your document.
-:::
-
-# Part 3: Writing it up
-
-::: {.exercise}
-Write a **methods section** (about 200 words) describing your study, as if for a reader who has never seen the Islands. Your methods section should cover:
-
-- Study design (observational or experiment, and what kind)
-- Target population
-- Inclusion/exclusion criteria
-- Sampling method
-- Explanatory variable and its levels
-- Response variable (with units)
-- Demographic variables you recorded
-- How and when you implemented the study
-
-Write clearly and concisely, without repeating yourself. You'll be able to reuse much of this for Project 1: Pilot.
-:::
-
-::: {.answer}
-
-:::
-
-::: {.exercise}
-Think about the **scope of inference** for your results.
-
-- To what population do your results generalize? Why?
-- Can you make a **causal** claim about your explanatory variable? Why or why not?
-- What would have to change about your study so that you *could* make a causal claim? Would you want to do that?
-- Suppose a classmate repeated your study with a different sample of islanders. Would you expect them to get exactly the same slope? Briefly explain.
-:::
-
-::: {.answer}
-
-:::
-
-::: callout-tip
-You're done and ready to submit your work! Render your document and upload the .qmd and .html files to Canvas, along with the CSV file of the data you collected.
+You're done and ready to submit your work! Render your document and upload the .qmd and .html files to Canvas.
 :::
 
 # Grading (30 pts)
 
 <br>
 
-| Component             | Points |
-| :-------------------- | :----- |
-| Ex 1                  | 2      |
-| Ex 2                  | 2      |
-| Ex 3                  | 2      |
-| Ex 4                  | 2      |
-| Ex 5                  | 2      |
-| Ex 6                  | 2      |
-| Ex 7                  | 3      |
-| Ex 8                  | 2      |
-| Ex 9                  | 2      |
-| Ex 10                 | 2      |
-| Ex 11                 | 2      |
-| Ex 12                 | 3      |
-| Ex 13                 | 2      |
-| Grammar & Writing     | 1[^1]  |
-| Workflow & formatting | 1[^2]  |
+| Component | Points |
+|:---|:---|
+| Ex 1 | 2 |
+| Ex 2 | 2 |
+| Ex 3 | 2 |
+| Ex 4 | 2 |
+| Ex 5 | 2 |
+| Ex 6 | 2 |
+| Ex 7 | 3 |
+| Ex 8 | 3 |
+| Ex 9 | 3 |
+| Ex 10 | 3 |
+| Ex 11 | 2 |
+| Ex 12 | 2 |
+| Grammar & Writing | 1[^1] |
+| Workflow & formatting | 1[^2] |
 
 [^1]: The "Grammar & Writing" grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.
 

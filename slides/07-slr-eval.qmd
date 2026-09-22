@@ -1,0 +1,381 @@
+---
+title: "Residuals, Least Squares, and Model Evaluation"
+author: "Prof. Eric Friedlander"
+footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/schedule)"
+logo: "../images/logo.png"
+format:
+  revealjs:
+    theme: slides.scss
+    multiplex: false
+    transition: fade
+    slide-number: false
+    incremental: false
+    chalkboard: true
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+execute:
+  freeze: auto
+  echo: true
+  cache: false
+knitr:
+  opts_chunk:
+    R.options:
+    width: 200
+bibliography: references.bib
+---
+
+```{r setup}
+#| include: false
+
+library(countdown)
+
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.618,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+
+# load packages
+library(tidyverse)   # for data wrangling and visualization
+library(ggformula)   # for plotting using formulas
+library(broom)       # for formatting model output
+library(scales)      # for pretty axis labels
+library(knitr)       # for pretty tables
+library(kableExtra)  # also for pretty tables
+library(patchwork)   # arrange plots
+library(yardstick)   # for R^2 and RMSE
+library(supernova)   # for ANOVA
+library(coursekata)
+
+# DC Bikeshare Dataset
+bikeshare <- read_csv(here::here("data/dcbikeshare.csv")) |>
+  mutate(season = case_when(
+    season == 1 ~ "winter",
+    season == 2 ~ "spring",
+    season == 3 ~ "summer",
+    season == 4 ~ "fall"),
+    workingday = if_else(workingday == 1, "Workingday", "Holiday"),
+  season = factor(season, levels = c("winter", "spring", "summer", "fall")),
+  workingday = factor(workingday))
+
+fall <- bikeshare |> 
+  filter(season == "fall")
+# set default theme and larger font size for ggplot2
+ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
+```
+
+## Topics
+
+- Define residuals, and connect them to the idea of variation in $Y$.
+- Understand how the least squares method chooses a regression line.
+- Partition variation into model and error (ANOVA), and use it to compute $R^2$ and RMSE.
+
+## Last time {.smaller}
+
+-   A **residual** is the leftover gap between an observed value and the model's prediction: $e_i = y_i - \hat{y}_i$.
+-   The **least squares method** picks $\hat{\beta}_0, \hat{\beta}_1$ to minimize $\sum e_i^2$.
+-   Can decompose total variation (SST) into variation explained by the model (SSM) and leftover variation (SSE).
+
+## Empty Model (Mean) vs. Temperature Model
+
+Consider the following two models:
+
+::::{.columns}
+:::{.column}
+This model just predicts the mean and is called the **empty model**
+```{r}
+mean_model <- lm(count ~ NULL, data = fall)
+mean_model |> tidy() |> kable()
+```
+:::
+:::{.column}
+This model uses `temp_orig` as a predictor and we'll call it the **temperature model**
+```{r}
+temp_model <- lm(count ~ temp_orig, data = fall)
+temp_model |>  tidy() |> kable()
+```
+:::
+::::
+
+- Which model do you expect to have the smaller SSE?
+- Which model will explain more variation in `count`?
+
+## Let's think about variation {.smaller}
+
+:::{.incremental}
+- DATA = MODEL + ERROR
+- $\substack{\text{Total Variation} \\ \text{in Y}} = \substack{\text{Variation explained} \\ \text{by model}} + \substack{\text{Variation not explained} \\ \text{by model}}$
+- $SST = SSM + SSE$ (Note, you may see other acronym like $SSR$ instead of $SSE$)
+- $SST$ = Sum of Squares Total (same as SSE if we use the empty model)
+- $SSE$ = Sum of Squares Error (the amount of variation not explained by the model)
+- $SSM$ = Sum of Squares Model (the amount of variation explained by the model)
+    - We've calculated both the $SST$ and $SSE$... we can get the SSM using subtraction: $SST = SSM + SSE$
+- Every point's residual is a leftover piece of variation the model didn't explain.
+:::
+
+## Putting it all together
+
+::::{.columns}
+::: {.column width="50%"}
+```{r}
+#| echo: true
+augment(temp_model) |>
+  select(count, .fitted, .resid) |> 
+  head(3) |> 
+  kable()
+```
+:::
+::: {.column width="50%"}
+Compute the SST, SSM, and SSE for using the linear regression model and compare it to the same values if using the mean as our model.
+:::
+::::
+
+
+## Properties of least squares regression {.smaller}
+
+::: incremental
+-   Passes through the center of mass point, the coordinates corresponding to average $X$ and average $Y$: $\hat{\beta}_0 = \bar{Y} - \hat{\beta}_1\bar{X}$
+-   Slope has same sign as the correlation coefficient: $\hat{\beta}_1 = r \frac{s_Y}{s_X}$
+    + $r$: correlation coefficient
+    + $s_Y, s_X$: sample standard deviations of $X$ and $Y$
+-   Sum of the residuals is zero: $\sum_{i = 1}^n e_i \approx 0$ (sound familiar?)
+    +   Intuition: Residuals are "balanced"
+-   The residuals and $X$ values are uncorrelated
+:::
+
+## Partitioning Variability (ANOVA)
+
+:::{.incremental}
+-   $y_i - \bar{y} = (\hat{y}_i - \bar{y}) + (y_i-\hat{y}_i)$
+-   Square and sum: $\sum(y_i-\bar{y})^2 = \sum(\hat{y} - \bar{y})^2 + \sum(y-\hat{y})^2$
+-   $\substack{\text{Sum of squares} \\ \text{Total}} = \substack{\text{Sum of squares} \\ \text{model}} + \substack{\text{Sum of squares} \\ \text{error}}$
+-   $SSTotal = SSModel + SSE$
+-   $SST = SSM + SSE$
+-    This process of partitioning variability is called **Analysis of Variance (ANOVA)**: Analysis of Variance
+  -   Involves a whole different way of thinking about modeling and experiemental design
+:::
+
+## Residuals in R
+
+- `augment` function takes a model and a dataset and computes the residuals (`.resid`), fitted values (`.fitted`), and many other useful quantities
+
+```{r}
+augment(temp_model, fall) |> 
+  kable() |> 
+  # ignore below this line
+  kable_styling() |>
+  scroll_box(width = "1000px", height = "300px")
+```
+
+## ANOVA in R
+
+- `supernova` from the `supernova` package takes a linear model and decomposes the variation into it's $SSM$ and $SSE$ (look at the `sumsq` column)... which do we think is which? 
+- Calculate the SST based on this information...
+
+```{r}
+temp_model |>
+  supernova()
+```
+
+
+# Evaluating and Comparing Models
+
+## A different model
+
+What if we wanted to try a different model...
+
+```{r}
+workingday_model <- lm(count ~ workingday, data = fall)
+workingday_model |> tidy() |> kable()
+```
+
+Is this Working Day model better?
+
+## Which model explains more variation
+
+```{r}
+#| echo: false
+
+p1 <- gf_point(count ~ temp_orig, data = fall) |> 
+  gf_model(temp_model) |> 
+  gf_labs(y = "Bike Rentals", x = "Temperature", title = "Temperature Model")
+p2 <- gf_jitter(count ~ workingday, data = fall) |> 
+  gf_model(workingday_model) |> 
+  gf_labs(y = "Bike Rentals", title = "Working Day Model")
+
+p1 | p2
+```
+
+## $R^2$: Percent Reduction in Error (PRE)
+
+- Our goal is to maximize the variation explained by our model (minimize the leftover error for our model)
+- It makes sense to ask... "How much has our model reduced the Total Error By":
+$$
+PRE = R^2 = \frac{SSM}{SST}
+$$
+- We call this quantity the **Precent Reduction in Error (PRE)**... 
+- More commonly it is simply referred to as $R^2$
+
+## Back to our examples {.smaller}
+
+::::{.columns}
+:::{.column}
+```{r}
+temp_model |> supernova()
+```
+:::
+:::{.column}
+```{r}
+
+workingday_model |> 
+  supernova()
+```
+:::
+::::
+
+::: question
+1. Which model has a better $R^2$? 
+2. What is a less common but more descriptive name of $R^2$?
+3. Notice that I'm using a different model (`temp_fit`) instead of `temp_model`. `temp_fit` is estimated on the full data (i.e. all four seasons). Why do you think I didn't just use `temp_model` for the first model?
+:::
+
+## Recall: Correlation Coefficient
+
+-   The **correlation coefficient**, $r$, is a number between -1 and +1 that measures how strong the linear relationship between two variables $x$ and $y$ is.
+
+$$
+r = \frac{\sum(x_i - \bar{x})(y_i-\bar{y})}{\sqrt{\sum(x_i-\bar{x})^2\sum(y_i-\bar{y})^2}}
+= \frac{\text{Covariance of X and Y}}{(SD of X)(SD of Y)}
+$$
+
+## Interesting Property of $R^2$ {.smaller}
+
+-   **R-squared** AKA $R^2$ AKA **PRE** AKA the **Coefficient of Determination** is not just the proportion of variability in the outcome explained by the regression model it is also the correlation between our *fitted* and *actual values* squared...
+$$
+R^2 = Cor(y, \hat{y})^2
+$$
+
+::: question
+1. What should be the minimum and maximum value of $R^2$ based on this information?
+2. Do we want $R^2$ to be big or small?
+:::
+
+## $R^2$
+
+::: incremental
+-   Ranges between 0 (terrible predictor) and 1 (perfect predictor)
+-   Has no units
+-   Calculate with `rsq()` from `yardstick` package from earlier using the augmented data or `supernova`:
+```{r}
+#| echo: true
+
+temp_aug <- augment(temp_model)
+
+rsq(temp_aug, truth = count, estimate = .fitted) |> kable()
+```
+:::
+
+## Interpreting $R^2$ {.smaller}
+
+```{r}
+#| echo: false
+temp_model_rsq <- round(rsq(temp_aug, truth = count, estimate = .fitted) |> pull(.estimate) * 100, 1)
+```
+
+::: poll
+🗳️ **Discussion**
+
+::: midi
+The $R^2$ of the model for `count` from `temp_orig` is `r temp_model_rsq`%. Which of the following is the correct interpretation of this value?
+:::
+
+1.  `temp_orig` correctly predicts `r temp_model_rsq`% of `count`.
+2.  `r temp_model_rsq`% of the variability in `count` can be explained by `temp_orig`.
+3.  `r temp_model_rsq`% of the variability in `temp_orig` can be explained by `count`.
+4.  `r temp_model_rsq`% of the time `count` can be predicted by `temp_orig`.
+:::
+
+## RMSE {.smaller}
+
+::: incremental
+-   **Root mean square error, RMSE**: A measure of the average error (average difference between observed and predicted values of the outcome)
+$$
+RMSE = \sqrt{\frac{\sum_{i = 1}^n (y_i - \hat{y}_i)^2}{n}}
+$$
+    + Sometimes people just care about numerator (SSE) or version without the square-root (MSE)
+    + Sometimes the denominator may something other than $n$ like $n-1$ or $n-k$ instead
+-   Interpretation (kind of): how much does my model miss by, on average.
+:::
+
+::: question
+1. What should be the minimum and maximum of RMSE? [0 and infinity]{.fragment}
+2. What units are RMSE in? [the same units as the response variable]{.fragment}
+:::
+
+## RMSE in R {.smaller}
+
+```{r}
+#| echo: true
+
+yardstick::rmse(temp_aug, truth = count, estimate = .fitted)
+```
+
+- What's with the `yardstick::` before `rmse`? 
+- Sometimes when you load a lot of packages... multiple packages have functions with the same name...
+- In this case I'm using two packages `yardstick` and a different one called `Metrics` that both have `rmse`.
+- R will try to just guess which one you want, but if it guesses wrong, you'll get an error.
+- Be writing `yardstick::rmse` I'm saying "Use the `rmse` function from `yardstick`"
+- This will likely not be an issue for you, if it is... that is how you solve it!
+
+
+# Back to your coffee truck models
+
+## Your three models {.smaller}
+
+Recall from Monday, you fit three models to your own coffee truck data.
+
+::: question
+Now that you've seen residuals, SSE, $R^2$, and RMSE — which of your three models do you expect to win? Has your prediction from earlier changed?
+:::
+
+## Work time
+
+::: appex
+📋 [AE 06-07 - Comparing Models with the Coffee Truck](../ae/ae-06-07-coffee-truck-eval.qmd)
+:::
+
+Complete the remainder of the exercises.
+
+## Quantitative vs. categorical price {.smaller}
+
+::: incremental
+- `fit_cat`:  (`Price` as the explanatory variable) fits a separate mean for each of the 4 price levels — it has more "freedom" to match the data.
+- `fit_num` (`PriceNum` as the explanatory variable) forces those 4 means onto a single straight line.
+- Because a line is a *special case* of "4 free means," `fit_cat`'s $R^2$ can never be smaller than `fit_num`'s $R^2$.
+- So why not always use the categorical version?
+    - It can't predict at a price it hasn't seen, like \$3.50.
+    - It has no single "per dollar" slope to interpret or report.
+    - It uses more parameters to explain (possibly) only a little more variation
+:::
+
+## Using the word "Good"
+
+-   There is no such thing as a "Good" $R^2$ or, especially, RMSE without **context**.
+-   Whether your model is a "Good" model depends on many things:
+    +   What are you using your model for?
+    +   How good are other models?
+    +   **What else was varying in the data you fit it to?**
+
+## Recap {.smaller}
+
+-   A **residual** is the leftover gap between an observed value and the model's prediction: $e_i = y_i - \hat{y}_i$.
+-   The **least squares method** picks $\hat{\beta}_0, \hat{\beta}_1$ to minimize $\sum e_i^2$.
+-   Can decompose total variation (SST) into variation explained by the model (SSM) and leftover variation (SSE).
+-   Two metrics for evaluating and comparing models:
+    +   $R^2$: What proportion of the variation in the response variable is explained by the model?
+    +   $RMSE$: How far does my model miss by, on average?
+-   $R^2$ depends on the data it was fit to, not just the true relationship — so it can't be compared across data sets that vary different things.

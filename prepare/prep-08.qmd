@@ -1,7 +1,10 @@
 ---
-title: "Preparation for Mathematical Inference"
+title: "Preparation for Islands & Inference"
 ---
 
-## Assigned reading
+## Assigned videos & pre-work
 
-- Introduction to Regression Analysis: A Data Science Approach: [Ch 6: Model Conditions and Diagnostics](https://introregression.netlify.app/05-5-conditions)
+- Make sure that you can sign-in to "The Islands".
+    - Navigate to [this link](https://islands.smp.uq.edu.au/login.php) and click "Need to set or reset your password?" to set your password. Follow the instructions and sign in.
+- Watch [Islands Overview](https://www.youtube.com/watch?v=iJPgXuq6yFg)
+- Watch [Working With Islanders](https://www.youtube.com/watch?v=J00KIC0y-E8)

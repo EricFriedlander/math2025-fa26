@@ -1,0 +1,373 @@
+---
+title: "HW 05: Designing a Study on the Islands"
+author: "Insert Name Here"
+subtitle: "Study design, sampling, and your first Islands analysis"
+editor: visual
+format:
+  html:
+    embed-resources: true
+    include-in-header:
+      text: |
+        <style>
+        /* Exercise / answer boxes. Canonical source: style/exercise-boxes.css
+           in the course repo — copy from there if this ever drifts. */
+        body { counter-reset: exercise; }
+        .exercise, .answer {
+          border-left: 4px solid #533860;
+          padding: .6em 1em;
+          margin: 1em 0;
+          border-radius: 4px;
+        }
+        .exercise { background: #f2eef5; }
+        .exercise::before {
+          counter-increment: exercise;
+          content: "Exercise " counter(exercise);
+          display: block;
+          font-weight: 700;
+          color: #533860;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .answer {
+          background: transparent;
+          border-left-color: #a49363;
+          border-left-style: dashed;
+          min-height: 3.5em;
+        }
+        .answer::before {
+          content: "Your answer";
+          display: block;
+          font-weight: 700;
+          color: #8a7a4f;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .quarto-dark .exercise {
+          background: rgba(255, 255, 255, .08);
+          border-left-color: #FFCB70;
+        }
+        .quarto-dark .exercise::before {
+          color: #FFCB70;
+        }
+        .quarto-dark .answer::before {
+          color: #ffd283;
+        }
+        </style>
+---
+
+```{r}
+#| include: FALSE
+knitr::opts_chunk$set(warning = FALSE,
+                      message = FALSE)
+```
+
+<!-- TODO (instructor): fill in the Canvas link in "Getting Started" before posting. -->
+
+# Introduction
+
+In lecture, we learned that how data are collected determines what we can conclude from them. In this HW you'll practice thinking about **study design** and then run a small study of your own on [The Islands](https://islands.smp.uq.edu.au/index.php): you'll pick a research question, sample islanders, and fit a regression model with a categorical predictor. This is a miniature version of what your group will do for the semester project, so the work you do here is a head start on **Project 1: Pilot**.
+
+::: callout-note
+This is an **individual** assignment, but you're welcome to talk through ideas with classmates. Your data, code, and writing should be your own.
+:::
+
+## Learning goals
+
+By the end of this homework, you will...
+
+- Classify studies as observational or experimental, and say what each design can and cannot conclude
+- Identify confounding variables and threats to the validity of a study
+- Describe a sampling plan and defend whether it is representative
+- Collect a data set from a simulated population and fit a simple linear regression model with a categorical predictor
+- Interpret the model, evaluate it with $R^2$ and RMSE, and describe its scope of inference
+- Write a short methods section
+
+# Getting Started
+
+### Log in to RStudio
+
+- Go to [RStudio](https://rstudio.collegeofidaho.edu/) and login with your College of Idaho Email and Password.
+
+- Use the `hw` folder you made earlier in the semester. Create a subfolder called `hw05` to store this homework, and a `data` subfolder inside of it.
+
+- Log into [Canvas](), navigate to HW-05, and download the `hw-05.qmd` file. Upload it into the folder you just made. You will collect your own data set below and upload it into the `data` folder.
+
+## R and RStudio
+
+See the [R resources](https://ericfriedlander.github.io/math2025-fa26/computing-r-resources.html) page for a guide to the RStudio IDE and Quarto file components.
+
+# Packages
+
+We will use the following packages in today's HW.
+
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(mosaic)
+library(ggformula)
+library(broom)
+library(coursekata)
+library(yardstick)
+```
+
+# Background reading
+
+Read the chapter on study design in *Introduction to Modern Statistics*: [Data collection](https://openintrostat.github.io/ims/data-design.html). Pay special attention to the sections on observational studies vs. experiments, confounding, and sampling.
+
+# Exercises
+
+::: callout-tip
+Write all code and narrative in your Quarto file. Write all narrative in complete sentences. Throughout the assignment, you should periodically **render** your Quarto document to produce the updated HTML file.
+
+Make sure we can read all of your code in your HTML file. This means you will need to break up long lines of code. One way to help avoid long lines of code is to start a new line after every pipe (`|>`).
+
+In your `hw-05.qmd` document you'll see that each task is wrapped in an `exercise` box, with an empty `answer` box below it for you to fill in your response. Use this format for the remaining exercises.
+:::
+
+# Part 1: Thinking about study design
+
+::: {.exercise}
+Log into [The Islands](https://islands.smp.uq.edu.au/index.php) and open the **Academy**. Find **one study** that interests you.
+
+- What is the study, in one sentence?
+- Is the response variable quantitative or categorical?
+- How many explanatory variables are there, and what types are they (quantitative or categorical)?
+- How many observational units were collected?
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+For each scenario below, say whether it is an **observational study** or an **experiment**. Then say what type of conclusion (association or causation) it can support, and for whom (just the people in the study, or a wider population).
+
+a.  The class study of life expectancy from AE 07: groups sampled deceased islanders from assigned villages and compared mean age at death for men and women.
+
+b.  The Coffee Truck game: you chose which settings to simulate (`Price`, `Music`, and so on), the game ran shifts under those settings, and you recorded `Sales`.
+
+c.  On the Islands, you randomly choose 40 islanders and randomly assign half to one treatment and half to another. You then measure the same outcome for all 40.
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+In AE 07, we found that (in our sample) men and women differed in mean age at death.
+
+- Propose a plausible **confounding variable** for the relationship between `sex` and `age_at_death` on the Islands. Explain why it is related to *both* sex and age at death.
+- Explain how this confounder could produce a difference in age at death between men and women **even if sex itself had no direct effect** on how long people live.
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Below is the methods section from a previous class's study of life expectancy on the Island. Read it carefully.
+
+> Using a stratified cluster sample survey, we collected data from the Island's records to calculate overall life expectancy on the Island, as well as male versus female life expectancies. We divided the island into geographic quadrants and each of us randomly collected data from birth records and individuals' information pages, sampling 3-4 cities in our respective quadrants. Masha sampled data from Fairhaven, Serrano, Sunrise and Eden. Tyler collected data from Riverside, Valkov and Rosica. Abby sampled the populations living in Edwardton, Asderaki and Mossgiel. Jess collected data in Macondo, Durand Bay and Deep Bay. The information we collected included each individual's birth year, death year and sex. Once we compiled the data for approximately 500 people, we selected the people who died between 1980 and 2010 as well as those who are alive today. We made the assumption that this selection would give us a representative picture of present or contemporary life expectancy, since living conditions throughout the last thirty years could be considered relatively consistent and relevant. We also capped the age at 150, since our oldest person in the sample was 147. Once we applied these exclusions, our data for the actual calculations included approximately 300 people - still a significant number for this type of simulation.
+
+- Name the **sampling scheme** they used and say which part is the *stratification* and which part is the *clustering*.
+- List their **inclusion/exclusion criteria**.
+- State **one assumption** the authors make, and say whether you think it's reasonable.
+- Describe **one threat to validity** (a way their estimate of life expectancy could be off) that they did *not* mention.
+:::
+
+::: {.answer}
+
+:::
+
+::: callout-tip
+This is a good place to render your document.
+:::
+
+# Part 2: Your own mini-study
+
+::: {.exercise}
+Choose a **research question** you can answer on the Islands. It must have:
+
+- A **quantitative** response variable
+- **One categorical** explanatory variable with **2 to 4 levels**
+
+Write your question in one or two sentences. Then state:
+
+- The **population** you are interested in
+- The **explanatory** variable and its levels
+- The **response** variable and its units
+- Whether your study is **observational** or an **experiment**
+
+Look at the Guides in the Visitor Center and the studies in the Academy for ideas. You'll want something you can feasibly measure on at least 20 islanders.
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Describe your **sampling plan**.
+
+- Which sampling scheme will you use (simple random, stratified, cluster, or something else)? Why?
+- How will you decide *which* islanders to include, and how will you avoid picking only the easy ones?
+- Is your plan feasible, given that each islander can only complete **one task at a time**? What will you do about that?
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+**Collect your data.** Measure **at least 20 islanders** following your plan. Record your data in a spreadsheet (a Google Sheet works well) with one row per islander and at least these columns:
+
+- an ID for the islander
+- your explanatory variable
+- your response variable
+- **two** demographic variables you think might be confounders
+
+Download your data as a CSV file, and upload it into the `data` folder. Then use `read_csv()` to load it and take a look with `glimpse()`.
+
+- How many rows and columns does it have? Does that match your plan from the previous exercise?
+:::
+
+::: {.answer}
+
+```{r read-data}
+#| message: false
+
+```
+
+:::
+
+::: {.exercise}
+Explore your data.
+
+- Use `favstats()` to compute the mean, standard deviation, and sample size of your response variable within each level of your explanatory variable.
+- Make a plot exploring the relationship between your explanatory and response variables. Give it an informative title and axis labels.
+- Describe what you see in a few sentences. Which group has the highest average response?
+:::
+
+::: {.answer}
+
+```{r eda}
+
+```
+
+:::
+
+::: callout-tip
+This is a good place to render your document.
+:::
+
+::: {.exercise}
+Fit a linear model called `study_mod` predicting your response from your explanatory variable. Use `tidy()` to format the output.
+
+- What is the **reference level** in your model? How can you tell from the output alone?
+- Write out the estimated regression equation using R's coefficient names.
+:::
+
+::: {.answer}
+
+```{r fit-model}
+
+```
+
+:::
+
+::: {.exercise}
+Interpret the intercept and **every** coefficient from `study_mod` in the context of your data. Be specific about units.
+
+Then check your interpretation against the group means from Exercise 8. Do they agree?
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Evaluate your model.
+
+- Use `augment()` to get fitted values and save the result to a new data frame.
+- Use the `rsq()` and `rmse()` functions from `yardstick` to compute $R^2$ and RMSE.
+- Write one sentence interpreting $R^2$ and one sentence interpreting RMSE in the context of your data.
+:::
+
+::: {.answer}
+
+```{r evaluate-model}
+
+```
+
+:::
+
+::: callout-tip
+This is a good place to render your document.
+:::
+
+# Part 3: Writing it up
+
+::: {.exercise}
+Write a **methods section** (about 200 words) describing your study, as if for a reader who has never seen the Islands. Your methods section should cover:
+
+- Study design (observational or experiment, and what kind)
+- Target population
+- Inclusion/exclusion criteria
+- Sampling method
+- Explanatory variable and its levels
+- Response variable (with units)
+- Demographic variables you recorded
+- How and when you implemented the study
+
+Write clearly and concisely, without repeating yourself. You'll be able to reuse much of this for Project 1: Pilot.
+:::
+
+::: {.answer}
+
+:::
+
+::: {.exercise}
+Think about the **scope of inference** for your results.
+
+- To what population do your results generalize? Why?
+- Can you make a **causal** claim about your explanatory variable? Why or why not?
+- What would have to change about your study so that you *could* make a causal claim? Would you want to do that?
+- Suppose a classmate repeated your study with a different sample of islanders. Would you expect them to get exactly the same slope? Briefly explain.
+:::
+
+::: {.answer}
+
+:::
+
+::: callout-tip
+You're done and ready to submit your work! Render your document and upload the .qmd and .html files to Canvas, along with the CSV file of the data you collected.
+:::
+
+# Grading (30 pts)
+
+<br>
+
+| Component             | Points |
+| :-------------------- | :----- |
+| Ex 1                  | 2      |
+| Ex 2                  | 2      |
+| Ex 3                  | 2      |
+| Ex 4                  | 2      |
+| Ex 5                  | 2      |
+| Ex 6                  | 2      |
+| Ex 7                  | 3      |
+| Ex 8                  | 2      |
+| Ex 9                  | 2      |
+| Ex 10                 | 2      |
+| Ex 11                 | 2      |
+| Ex 12                 | 3      |
+| Ex 13                 | 2      |
+| Grammar & Writing     | 1[^1]  |
+| Workflow & formatting | 1[^2]  |
+
+[^1]: The "Grammar & Writing" grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.
+
+[^2]: The "Workflow & formatting" grade is to assess the reproducible workflow and document format. This includes having a neatly organized document with readable code and your name and the date in the YAML.
