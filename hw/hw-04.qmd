@@ -65,8 +65,6 @@ knitr::opts_chunk$set(warning = FALSE,
                       message = FALSE)
 ```
 
-<!-- TODO (instructor): fill in the Canvas link in "Getting Started" before posting. -->
-
 # Introduction
 
 In this homework, you will use simple linear regression to examine the association between the percent of adults with a bachelor's degree and the median household income for counties in the United States. This builds directly on lessons 6 and 7: you'll fit a model, compute and interpret residuals, and use $R^2$ and RMSE to evaluate and compare models.
@@ -89,7 +87,7 @@ By the end of this homework, you will...
 
 - Use the `hw` folder you made earlier in the semester. Create a subfolder called `hw04` to store this homework, and a `data` subfolder inside of it.
 
-- Log in to [Canvas](), navigate to HW-04, and download the `hw-04.qmd` and `us-counties-sample.csv` files. Upload the `.qmd` into the folder you just made, and the `.csv` into the `data` subfolder.
+- Log in to [Canvas](https://cofi.instructure.com/courses/18743/assignments/243850), navigate to HW-04, and download the `hw-04.qmd` and `us-counties-sample.csv` files. Upload the `.qmd` into the folder you just made, and the `.csv` into the `data` subfolder.
 
 ## R and RStudio
 
