@@ -120,7 +120,7 @@ This game's data lands in a table that's **public to anyone**. Do not use your r
 
 ## Analysis goal
 
-In lecture, we fit a model using a categorical predictor while holding `Price` fixed. But `Price` is itself something Jo can set, and it's a number, not a category. In this HW you'll design a game that lets you look at `Price` as a quantitative predictor, and lets you look at one other setting (`Music` or `Location`) as a categorical predictor with _all_ of its levels, then fit one model of each type.
+In lecture, we fit a model using a categorical predictor while holding `Price` fixed. But `Price` is itself something Jo can set, and it's a number, not a category. In this HW you'll design a game that lets you look at `Price` as a quantitative predictor, and lets you look at one other setting (`Music` or `Location`) as a categorical predictor with *all* of its levels, then fit one model of each type.
 
 # Exercises
 
@@ -132,7 +132,7 @@ Make sure we can read all of your code in your HTML file. This means you will ne
 In your `hw-03.qmd` document you'll see that each task is wrapped in an `exercise` box, with an empty `answer` box below it for you to fill in your response. Use this format for the remaining exercises.
 :::
 
-::: {.exercise}
+::: exercise
 Play the game at the link above.
 
 - On the ID screen, enter **`MATH2025FA26`** as the Group Name.
@@ -149,26 +149,23 @@ Now set up your design:
 Record your Player Name, which variable you chose (Music or Location), the levels you selected, and the number of days from your design.
 :::
 
-::: {.answer}
-
+::: answer
 :::
 
-::: {.exercise}
+::: exercise
 Download your data as a CSV file, and upload it into the `data` folder. I recommend changing the filename to something more memorable. Then use `read_csv` to load it and take a look.
 
 - How many rows and columns does it have? Does the row count match the design you recorded in Exercise 1?
-
 :::
-::: {.answer}
 
+::: answer
 ```{r read-data}
 #| message: false
 
 ```
-
 :::
 
-::: {.exercise}
+::: exercise
 You should notice that `Price` was read in as a `chr` (character) column instead of `dbl` (double), the data type for numeric data.
 
 - Why did `Price` get read in as a character data type instead of a double? Be specific.
@@ -177,12 +174,10 @@ You should notice that `Price` was read in as a `chr` (character) column instead
 Write some code below that fixes this. Hint: It should be the same way we fixed `spend_per_resident_data` in HW 02.
 :::
 
-::: {.answer}
-
+::: answer
 ```{r clean-price}
 
 ```
-
 :::
 
 ::: callout-tip
@@ -191,44 +186,37 @@ This is a good place to render your document.
 
 # Model 1: Price as a quantitative predictor
 
-::: {.exercise}
+::: exercise
 Create a plot of `Sales` axis against `Price` with a fitted line added via `gf_lm()`. Give the plot an informative title and axis labels.
 
 Describe the relationship you see between `Price` and `Sales`.
 :::
 
-::: {.answer}
-
+::: answer
 ```{r plot-price}
 
 ```
-
 :::
 
-::: {.exercise}
+::: exercise
 Fit a linear model called `price_mod` predicting `Sales` from `Price`. Use `tidy()` to format the output, and write out the estimated regression equation.
 :::
 
-::: {.answer}
-
+::: answer
 ```{r fit-price-mod}
 
 ```
-
 :::
 
-::: {.exercise}
-
+::: exercise
 - Interpret the slope of `price_mod` in the context of the data.
 - Interpret the intercept of `price_mod` in the context of the data. Is this interpretation useful in practice? Briefly explain, using the range of prices Jo can actually charge.
-
 :::
 
-::: {.answer}
-
+::: answer
 :::
 
-::: {.exercise}
+::: exercise
 Use `predict()` to get `price_mod`'s predicted `Sales` at prices of \$2.50, \$3.50, and \$4.50, prices the truck never actually charged.
 
 ```{r predict-price}
@@ -237,11 +225,9 @@ new_prices <- tibble(Price = c(2.5, 3.5, 4.5))
 
 ## more code here
 ```
-
 :::
 
-::: {.answer}
-
+::: answer
 :::
 
 ::: callout-tip
@@ -250,14 +236,13 @@ This is a good place to render your document.
 
 # Model 2: your categorical predictor
 
-::: {.exercise}
+::: exercise
 Find the mean `Sales` at each level of your chosen variable (Music or Location). Then create a plot exploring the relationship between your variable and `Sales`, similar to the one from lecture.
 
 Which level has the highest average `Sales`?
 :::
 
-::: {.answer}
-
+::: answer
 ```{r favstats-cat}
 
 ```
@@ -265,47 +250,42 @@ Which level has the highest average `Sales`?
 ```{r plot-cat}
 
 ```
-
 :::
 
-::: {.exercise}
+::: exercise
 Fit a linear model called `cat_mod` predicting `Sales` from your variable. Use `tidy()` to format the output.
 
 - What is the reference level in your model? How can you tell from the output alone?
 - Write out the estimated regression equation using R's coefficient names (e.g. `MusicHipHop`), and give the dummy coding (the 0/1 values for each indicator) for an observation at each level of your variable by modifying the table below. You can find documentation on how make tables in Quarto [here](https://quarto.org/docs/authoring/tables.html)
 :::
 
-::: {.answer}
-
+::: answer
 ```{r fit-cat-mod}
 
 ```
 
 | Original variable | Col1    | Col2    | Col3     |
-| ----------------- | ------- | ------- | -------- |
+|-------------------|---------|---------|----------|
 | Value1            | Value2  | Value3  | Value 4  |
 | Value5            | Value6  | Value7  | Value 8  |
 | Value9            | Value10 | Value11 | Value 12 |
 | Value13           | Value14 | Value15 | Value 16 |
-
 :::
 
-::: {.exercise}
+::: exercise
 Interpret the intercept and each coefficient from `cat_mod` in the context of the data.
 :::
 
-::: {.answer}
-
+::: answer
 :::
 
-::: {.exercise}
+::: exercise
 Compare the group means from Exercise 8 to the coefficients from `cat_mod` (Exercise 9). Show, using the coefficients, how to recover the predicted `Sales` for each level of your variable, and confirm it matches the corresponding mean.
 
 How many distinct predictions can `cat_mod` make, and why?
 :::
 
-::: {.answer}
-
+::: answer
 :::
 
 ::: callout-tip
@@ -314,7 +294,7 @@ This is a good place to render your document.
 
 # Putting it together
 
-::: {.exercise}
+::: exercise
 Suppose, instead of treating `Price` as quantitative in Model 1, you had treated it as a categorical variable with four levels (\$2, \$3, \$4, \$5).
 
 - How many parameters (i.e. $\beta$'s) would that model have (including the intercept)?
@@ -324,30 +304,25 @@ Suppose, instead of treating `Price` as quantitative in Model 1, you had treated
 No code needed for this question.
 :::
 
-::: {.answer}
-
+::: answer
 :::
 
-::: {.exercise}
+::: exercise
 Using `price_mod` and `cat_mod` separately (you have not been asked to combine them into one model):
 
 - What price would you recommend to Jo, based on `price_mod`?
 - What level of your variable would you recommend to Jo, based on `cat_mod`?
 :::
 
-::: {.answer}
-
+::: answer
 :::
 
-::: {.exercise}
-
+::: exercise
 - `Sales` is the number of cups sold, not profit. Why might the price that maximizes `Sales` not be the price that maximizes Jo's profit?
 - Why might a linear model not be the best model to choose when trying to predict `Profit` from price? Hint: What happens to the number of Sales when the price changes?
-
 :::
 
-:::{.answer}
-
+::: answer
 :::
 
 ::: callout-tip
@@ -359,7 +334,7 @@ You're done and ready to submit your work! Render your document and upload the .
 <br>
 
 | Component             | Points |
-| :-------------------- | :----- |
+|:----------------------|:-------|
 | Ex 1                  | 1      |
 | Ex 2                  | 2      |
 | Ex 3                  | 2      |

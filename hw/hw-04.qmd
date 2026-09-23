@@ -85,11 +85,11 @@ By the end of this homework, you will...
 
 ### Log in to RStudio
 
-- Go to [RStudio](https://rstudio.collegeofidaho.edu/) and login with your College of Idaho Email and Password.
+- Go to [RStudio](https://rstudio.collegeofidaho.edu/) and log in with your College of Idaho Email and Password.
 
 - Use the `hw` folder you made earlier in the semester. Create a subfolder called `hw04` to store this homework, and a `data` subfolder inside of it.
 
-- Log into [Canvas](), navigate to HW-04, and download the `hw-04.qmd` and `us-counties-sample.csv` files. Upload the `.qmd` into the folder you just made, and the `.csv` into the `data` subfolder.
+- Log in to [Canvas](), navigate to HW-04, and download the `hw-04.qmd` and `us-counties-sample.csv` files. Upload the `.qmd` into the folder you just made, and the `.csv` into the `data` subfolder.
 
 ## R and RStudio
 
@@ -97,17 +97,27 @@ See the [R resources](https://ericfriedlander.github.io/math2025-fa26/computing-
 
 # Packages
 
-We will use the following packages in today's HW.
+We will use some of the following packages in this HW. I'd like for you to practice only using the packages you need so I've commented out all of the packages. As you work through the activities, I'd like you to focus on uncommenting packages as you need them. For example, in the first exercise you'll need to use the `read_csv` and `glimpse` functions. These both come from the `tidyverse` package so you'd uncomment and load that package before trying to run those functions. If you can't figure out which package a certain function is from here are some tips:
+
+1. Start googling it! This may not always work because some of our packages are what are called "meta-packages" and contain many other packages. For example, `read_csv` and `glimpse` are actually from packages called `readr` and `dplyr`, respectively, but are part of the `tidyverse` and loaded automatically when you load the `tidyverse` package.
+2. It helps to know what the individual packages are for:
+    - `tidyverse` will be in charge of most of your data manipulation so anything that involves loading or cleaning data will typically rely on `tidyverse`
+    - `ggformula` is what makes our plotting work so anything that starts with `gf_` will need `ggformula`
+    - `broom` is for cleaning models so anything like `tidy` or `augment` will come from `broom`
+    - `yardstick` is for evaluating models so you'll want to use this for anything that computes a model evaluation metric (e.g. RMSE or $R^2$)
+    - `supernova` is for the `supernova` function
+    - `knitr` will provide you with the `kable` function if you choose to use it
+
+If you still can't figure it out, feel free to uncomment ALL of the packages, but I recommend coming to see Dr. F for help. 
 
 ```{r load-packages}
 #| message: false
-library(tidyverse)
-library(mosaic)
-library(ggformula)
-library(broom)
-library(coursekata)
-library(yardstick)
-library(supernova)
+# library(tidyverse)
+# library(ggformula)
+# library(broom)
+# library(yardstick)
+# library(supernova)
+# library(knitr)
 ```
 
 # Data: US Counties
@@ -116,9 +126,9 @@ The data are from the `county_2019` data frame in the [usdata](https://openintro
 
 The primary variables you will use are the following:
 
--   `bachelors`: Percent of population 25 years old and older that earned a Bachelor's degree or higher
--   `median_household_income`: Median household income in US dollars
--   `household_has_computer`: Percent of households that have a desktop or laptop computer
+- `bachelors`: Percent of population 25 years old and older that earned a Bachelor's degree or higher
+- `median_household_income`: Median household income in US dollars
+- `household_has_computer`: Percent of households that have a desktop or laptop computer
 
 [Click here](https://openintrostat.github.io/usdata/reference/county_2019.html) for the full codebook for the `county_2019` data set.
 
@@ -142,43 +152,39 @@ In your `hw-04.qmd` document you'll see that each task is wrapped in an `exercis
 
 ## Part 1: Exploratory data analysis
 
-::: {.exercise}
-Load `data/us-counties-sample.csv` into a data frame called `county_data`. Use `glimpse()` to take a look.
+::: exercise
+Load `us-counties-sample.csv` into a data frame called `county_data`. 
 
 How many counties are in the data set?
 :::
 
-::: {.answer}
-
+::: answer
 ```{r read-data}
 #| message: false
 
 ```
-
 :::
 
-::: {.exercise}
-Create a histogram of the distribution of `bachelors` and calculate appropriate summary statistics with `favstats()`. Use the visualization and summary statistics to describe the distribution. Include an informative title and axis labels on the plot.
+::: exercise
+Create a visualization of the distribution of `bachelors` and calculate appropriate summary statistics. Use the visualization and summary statistics to describe the distribution. Include an informative title and axis labels on the plot.
 :::
 
-::: {.answer}
-
-```{r hist-bachelors}
+::: answer
+```{r bachelors}
 
 ```
-
 :::
 
-::: {.exercise}
-Create a visualization of the relationship between `bachelors` and `median_household_income`, and use the `cor()` function to calculate the correlation. Use the visualization and correlation to describe the relationship between the two variables.
+::: exercise
+Create a visualization of the relationship between `bachelors` and `median_household_income`, and calculate the correlation. Note that there are several ways to do this. I recommend piping your dataset into `summarize` and then using `cor`. You may use AI to help with this problem without citation. 
+
+Use the visualization and correlation to describe the relationship between the two variables.
 :::
 
-::: {.answer}
-
+::: answer
 ```{r scatter-bachelors}
 
 ```
-
 :::
 
 ::: callout-tip
@@ -187,78 +193,98 @@ This is a good place to render your document.
 
 ## Part 2: Fitting the model
 
-::: {.exercise}
-Write the form of the statistical model using the template below. Use mathematical notation (i.e., with Greek letters) and variable names (`bachelors` and `median_household_income`) in the equation. I'm not asking you to fit the model yet — replace each word in the equation below with either the name of a variable or a Greek letter.
+### A Brief Introduction to LaTeX
 
-$$Response = intercept + slope\times predictor + error$$
+When typesetting equations, mathematicians, statisticians, and data scientists often use something called LaTeX (pronounced "Lah-Tech" or "Lay-Tech").
+Quarto makes it easy to incorporate LaTeX equations into your prose.
+To enter an equation you do so in "Math Mode".
+All this means is surrounding your equation by dollar signs.
+Use one dollar sign on each side like this (don't worry, you're not supposed to understand what the stuff inside the dollar signs is doing), $\bar{x} = \frac{\sum_{i=1}^n x_i}{n}$ if you want the equation to remain in line.
+Use two dollar signs on each side like this, $$\bar{x} = \frac{\sum_{i=1}^n x_i}{n}$$ if you want the equation to be displayed on its own line.
+Note that you'll have to render the document to see the difference.
+Within math mode you can easily create a variety of special symbols, each of which starts with a backslash, like Greek letters (e.g. $\beta$, $\epsilon$, $\alpha$).
+You can also add subscripts using an underscore (e.g. $\alpha_{3}$, $x_{i}$) and superscripts using a caret (e.g. $x^{2}$, $\epsilon^\alpha$), just make sure to surround the sub- or superscript with curly braces.
+Sub- and superscripts will still work without the curly braces if there's only one digit, but you need the braces for more than one digit (e.g. render to see the difference between $x^21$ and $x^{21}$).
+One more thing to note.
+If you try to write normal text in Math Mode, LaTeX will think that each letter is a variable and display it in italics and remove spaces $like this$. 
+When it comes to making a nice, presentable document, it's best to have words drafted as if they were text.
+The way to do this in Math Mode is to use the `\text{}` command.
+Simply input the word you want rendered as text in the curly braces and it will appear normally (e.g. $\text{normal text}$ versus $not normal text$). 
+This will come in handy when you want to write the name of variables inside an equation.
+[Click here](https://oeis.org/wiki/List_of_LaTeX_mathematical_symbols) for a guide on writing mathematical symbols using LaTeX. 
 
-::: callout-tip
-[Click here](https://oeis.org/wiki/List_of_LaTeX_mathematical_symbols) for a guide on writing mathematical symbols using LaTeX. You will need to use a backslash (\\) before each underscore in the LaTeX code. For example, `avg_air_temp` will be written as *avg\\\_air\\\_temp.*
+:::{.callout-warning}
+Pro-tip: Be careful when googling "Latex tutorials" as you may get some adult content that you weren't asking for.
 :::
+
+:::: exercise
+Use Math Mode to write the form of the statistical model in mathematical notation (i.e., with Greek letters) and variable names (`bachelors` and `median_household_income`) in the equation. I'm not asking you to fit the model yet: just write the general form of the model, using the names of the variables and Greek letters.
+
+1. Start by going into the answer block below and creating Math Mode by typing either two or four dollar signs (one or two on each side). I recommend using four (two on each side) so that it centers the equation nicely in your final document.
+2. In between the dollar signs, write out the equation. You'll want to use the following symbols:
+    - `\beta`: you'll need this twice and you'll need to add the appropriate subscripts using underscores
+    - `\epsilon`
+    - `\text{variable\_name}`: where you replace `variable\_name` with the actual name of the variable. One more thing to note. Since the underscore typically tells LaTeX to make a subscript, you need to put a backslash in front of any underscores that you want to appear as underscores so instead of using `\text{median_household_income}` you'll want to use `\text{median\_household\_income}`. This is called "escaping".
+    - `\times`: this will create a multiplication symbol
+    - `=` and `+` will appear normally
+::::
+
+::: answer
 :::
 
-::: {.answer}
+::: exercise
+Fit the regression line corresponding to the statistical model in the previous exercise, and call it `bachelors_mod`. Use `tidy()` to neatly display the model.
 
+Underneath the output of the model, use Math Mode to write the equation of the fitted model using mathematical notation. This should be easier because you shouldn't have to write any Greek letters. However, make sure you use the variable names again (`bachelors` and `median_household_income`) in the equation. Recall that for the regression equation you'll need to use a "hat". You can put a hat over something by using the `\hat{thing to put the hat over}` LaTeX command. For example $\hat{\text{I\_Have\_A\_Hat}}$ and $\hat{\beta_0}$.
 :::
 
-::: {.exercise}
-Fit the regression line corresponding to the statistical model in the previous exercise, and call it `income_mod`. Use `tidy()` to neatly display the model output using 3 digits.
-
-Write the equation of the fitted model using mathematical notation. Use variable names (`bachelors` and `median_household_income`) in the equation.
-:::
-
-::: {.answer}
-
-```{r fit-income-mod}
+::: answer
+```{r fit-bachelors-mod}
 
 ```
 
+Put your equation here.
 :::
 
-::: {.exercise}
--   Interpret the slope of `income_mod`. The interpretation should be written in a way that is meaningful in the context of the data.
--   Is it useful to interpret the intercept for this data? If so, write the interpretation in the context of the data. Otherwise, briefly explain why not.
+::: exercise
+- Interpret the slope of `bachelors_mod`. The interpretation should be written in a way that is meaningful in the context of the data.
+- Is it useful to interpret the intercept for this data? If so, write the interpretation in the context of the data. Otherwise, briefly explain why not.
 :::
 
-::: {.answer}
-
+::: answer
 :::
 
 ::: callout-tip
-This is a good place to render your document.
+This is a good place to render your document and to make sure all of your equations appear like you want them to!
 :::
 
 ## Part 3: Residuals
 
-::: {.exercise}
+::: exercise
 Choose one county from `county_data` (use `filter()` with its `name`) and record its actual `bachelors` and `median_household_income` values.
 
--   Using the fitted equation from Exercise 5, compute this county's **predicted** median household income by hand (i.e., by plugging into the equation, not with a function).
--   Compute the **residual**: the difference between the actual and predicted income.
--   Is this county above or below the regression line? Did the model over- or underpredict this county's income?
+- Using the fitted equation from Exercise 5, compute this county's **predicted** median household income using only addition, multiplication, subtraction, and division (i.e., by plugging into the equation, not with the `predict` or `augment` functions).
+- Similarly, compute the **residual** for this county without using any functions.
+- Is this county above or below the regression line? Did the model over- or underpredict this county's income? How can you tell?
 :::
 
-::: {.answer}
-
+::: answer
 ```{r one-county}
 
 ```
-
 :::
 
-::: {.exercise}
-Use `augment()` on `income_mod` to get fitted values and residuals for every county, and save the result to `income_aug`.
+::: exercise
+Use `augment()` on `bachelors_mod` to get fitted values and residuals for every county, and save the result to `bachelors_aug`.
 
--   Use `arrange()` to find the county with the **largest positive** residual and the county with the **largest negative** residual.
--   Interpret each of these two residuals in the context of the data (what does it mean for that county's actual vs. predicted income?).
+- Use the verb `arrange()` from `dplyr` to find the county with the **largest positive** residual and the county with the **largest negative** residual. Hint: pipe your augmented dataset into `arrange` and use the name of the variable you want to sort by as the argument. This will sort it in increasing order and the minimum value will appear at the top. To sort in descending order, use `arrange(desc(var_name))` instead of `arrange(var_name)`.
+- Interpret each of these two residuals in the context of the data (what does it mean for that county's actual vs. predicted income?).
 :::
 
-::: {.answer}
-
-```{r augment-income}
+::: answer
+```{r augment-bachelors}
 
 ```
-
 :::
 
 ::: callout-tip
@@ -267,75 +293,77 @@ This is a good place to render your document.
 
 ## Part 4: Variation, $R^2$, and RMSE
 
-::: {.exercise}
-Fit the **empty model**, `empty_mod <- lm(median_household_income ~ NULL, data = county_data)`.
+::: exercise
+We'll now compute SST and SSE of `bachelors_mod` the "hard way" and then verify our results using `supernova`:
 
--   Using `augment()` and the residuals, compute the $SST$ (the SSE of the empty model) and the $SSE$ of `income_mod`.
--   Use subtraction to find the $SSM$ for `income_mod`, and then compute $R^2 = SSM/SST$ by hand.
--   Check your work using `supernova(income_mod)`.
+1. Fit the **empty model**, `empty_mod <- lm(median_household_income ~ NULL, data = county_data)`. What value does this predict for every observation (looking for the name, not the actual number)?
+2. Use `augment` to get the residuals of the empty model and then use `mutate` to square them, and `summarize` to sum up the squared residuals.
+3. Repeat step 2 with `bachelors_mod`.
+4. Which of these two numbers is SSE and which is SST?
+5. Use `supernova` on `bachelors_mod` to verify the results of your SSE and SST. Why don't we need to use it for the empty model?
+6. Use these numbers to compute the SSM.
 :::
 
-::: {.answer}
-
+::: answer
 ```{r ss-decomposition}
 
 ```
-
 :::
 
-::: {.exercise}
-Use the `rsq()` and `rmse()` functions from `yardstick` on `income_aug` to compute $R^2$ and RMSE for `income_mod`.
+::: exercise
+Use the `rsq()` and `rmse()` functions from `yardstick` on `bachelors_aug` to compute $R^2$ and RMSE for `bachelors_mod`.
 
--   Confirm that this $R^2$ matches what you computed by hand in Exercise 9, and that it equals the correlation from Exercise 3, squared.
--   Write one sentence interpreting $R^2$ and one sentence interpreting RMSE, in the context of the data.
+- In addition, use the results of the previous exercise to compute $R^2$ and verify that the two values are equal.
+- Write one sentence interpreting $R^2$ and one sentence interpreting RMSE, in the context of the data.
 :::
 
-::: {.answer}
-
-```{r rsq-rmse-income}
+::: answer
+```{r rsq-rmse-bachelors}
 
 ```
-
 :::
 
-::: {.exercise}
+::: exercise
 Fit a second model, `computer_mod`, predicting `median_household_income` from `household_has_computer`. Use `augment()`, then `rsq()` and `rmse()` to evaluate it.
 
 Fill in the table below comparing the two models.
 
-| Model | Predictor | $R^2$ | RMSE |
-|:---|:---|:---:|:---:|
-| `income_mod` | `bachelors` |  |  |
-| `computer_mod` | `household_has_computer` |  |  |
+| Model          | Predictor                | $R^2$ | RMSE |
+|:---------------|:-------------------------|:-----:|:----:|
+| `bachelors_mod`   | `bachelors`              |       |      |
+| `computer_mod` | `household_has_computer` |       |      |
 
 Which model does a better job predicting median household income? Explain how you decided, using both $R^2$ and RMSE.
 :::
 
-::: {.answer}
-
+::: answer
 ```{r fit-computer-mod}
 
 ```
-
 :::
 
 ::: callout-tip
 This is a good place to render your document.
 :::
 
-::: {.exercise}
-Create a new column in `county_data` called `income_thousands`, equal to `median_household_income` divided by 1000. Refit `income_mod` using `income_thousands` as the response instead, and recompute its $R^2$ and RMSE.
+## Conceptual Questions
 
--   Which of the two numbers changed, and which stayed the same?
--   Explain why, in terms of what $R^2$ and RMSE each measure and what units they're in.
+Do not write any code to answer these. These are meant to test your conceptual understanding.
+
+::: exercise
+Suppose you created a new column in `county_data` called `income_thousands`, equal to `median_household_income` divided by 1000 and then refit `bachelors_mod` using `income_thousands` as the response instead. 
+
+How would the $R^2$ and RMSE of this model compare to our original `bachelors_mod`? Namely, would these numbers increase, decrease, or remain the same? Explain why. Hint 1: $R^2$ and RMSE both have answers (although different from one another) and the answer isn't any variation of "It depends" or "We need more information". Hint 2: Thinking about the units may be helpful.
 :::
 
-::: {.answer}
+::: answer
+:::
 
-```{r income-thousands}
+::: exercise
+Suppose you were to convert `bachelors` into a `factor` and use it as the explanatory variable (instead of a number) to predict `median_household_income`. Although it is not true for this data, assume that every county has a unique value of `bachelors`. That is, assume that no two counties have the exact same value in the `bachelors` column. What would you expect the $R^2$ and RMSE of this model to be? Explain why. Based on your answer, describe whether you think it would be a good idea to use this model.
+:::
 
-```
-
+::: answer
 :::
 
 ::: callout-tip
@@ -346,22 +374,23 @@ You're done and ready to submit your work! Render your document and upload the .
 
 <br>
 
-| Component | Points |
-|:---|:---|
-| Ex 1 | 2 |
-| Ex 2 | 2 |
-| Ex 3 | 2 |
-| Ex 4 | 2 |
-| Ex 5 | 2 |
-| Ex 6 | 2 |
-| Ex 7 | 3 |
-| Ex 8 | 3 |
-| Ex 9 | 3 |
-| Ex 10 | 3 |
-| Ex 11 | 2 |
-| Ex 12 | 2 |
-| Grammar & Writing | 1[^1] |
-| Workflow & formatting | 1[^2] |
+| Component             | Points |
+|:----------------------|:-------|
+| Ex 1                  | 1      |
+| Ex 2                  | 2      |
+| Ex 3                  | 2      |
+| Ex 4                  | 2      |
+| Ex 5                  | 2      |
+| Ex 6                  | 2      |
+| Ex 7                  | 2      |
+| Ex 8                  | 2      |
+| Ex 9                  | 4      |
+| Ex 10                 | 3      |
+| Ex 11                 | 2      |
+| Ex 12                 | 2      |
+| Ex 13                 | 2      |
+| Grammar & Writing     | 1[^1]  |
+| Workflow & formatting | 1[^2]  |
 
 [^1]: The "Grammar & Writing" grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.
 
