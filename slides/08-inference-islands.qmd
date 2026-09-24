@@ -47,16 +47,7 @@ library(broom)       # for formatting model output
 library(scales)      # for pretty axis labels
 library(knitr)       # for pretty tables
 library(kableExtra)  # also for pretty tables
-
-# DC Bikeshare Dataset
-bikeshare <- read_csv("../data/dcbikeshare.csv") |>
-  mutate(season = case_when(
-    season == 1 ~ "winter",
-    season == 2 ~ "spring",
-    season == 3 ~ "summer",
-    season == 4 ~ "fall"
-  ),
-  season = factor(season, levels = c("winter", "spring", "summer", "fall")))
+library(palmerpenguins) # penguins dataset
 
 # MADE-UP preview data: a pretend Island population, used only so these
 # slides render before the class has collected anything. Real data comes
@@ -75,13 +66,6 @@ islands <- slice_sample(island_pop, n = 250)
 ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
 ```
 
-## Topics
-
-- Distinguish a **population** from a **sample**, and a **parameter** from a **statistic**.
-- Distinguish **observational studies** from **experiments**, and connect study design to what we can conclude.
-- Describe common **sampling schemes** and how a sample can go wrong.
-- Use a regression model to answer a real question: *What is the life expectancy on the Island?*
-
 ## Last time {.smaller}
 
 ::: {.incremental style="font-size: 0.9em"}
@@ -89,12 +73,23 @@ ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
 - **Least squares** picks $\hat{\beta}_0, \hat{\beta}_1$ to minimize the sum of squared residuals.
 - $R^2$ and RMSE tell us how well a model fits *the data we have*.
 :::
+. . .
+
+Debriefing last weeks Activity
 
 . . .
 
 ::: question
 Everything so far describes the data in front of us. What if we want to say something about data we *haven't* seen?
 :::
+
+## Topics
+
+- Distinguish a **population** from a **sample**, and a **parameter** from a **statistic**.
+- Distinguish **observational studies** from **experiments**, and connect study design to what we can conclude.
+- Describe common **sampling schemes** and how a sample can go wrong.
+- Use a regression model to answer a real question: *What is the life expectancy on the Island?*
+
 
 # From sample to population
 
@@ -113,8 +108,8 @@ $$
 
 ## Population and sample {.smaller}
 
--   **Population:** the complete set of observations we care about (size $N$): people, shifts, cities, islanders, etc.
--   **Sample:** the subset we actually observe (size $n$)
+-   **Population:** the complete set of observations we care about
+-   **Sample:** the subset we actually observe (denote sample size $n$)
 -   A **parameter** is a number describing the population: $\mu$, $\beta_1$
 -   A **statistic** is a number computed from the sample: $\bar{x}$, $\hat{\beta}_1$
 
@@ -122,13 +117,15 @@ $$
 
 | | Population | Sample |
 |:--|:-:|:-:|
-| Size | $N$ | $n$ |
+| Size | $N$ (sometimes) | $n$ |
 | Mean | $\mu$ | $\bar{x}$ |
 | Slope | $\beta_1$ | $\hat{\beta}_1$ |
 
 . . .
 
-We (almost) never get to see the parameter. We see a statistic and have to reason about the parameter.
+We (almost) never get to see the parameter. 
+
+We see a statistic and use that to reason about the parameter.
 
 ## Sampling is natural {.midi}
 
@@ -144,7 +141,7 @@ We (almost) never get to see the parameter. We see a statistic and have to reaso
 
 . . .
 
-Two things can go wrong:
+Two things to account for:
 
 ::: incremental
 1. **A bad sample.** If the sample doesn't represent the population, we are biased, and no amount of math can fix that. *This is today.*
@@ -153,9 +150,36 @@ Two things can go wrong:
 
 # Where do data come from?
 
+## A question about penguins {.smaller}
+
+Size measurements for adult Adélie, Chinstrap, and Gentoo penguins observed on islands in the Palmer Archipelago, Antarctica.
+
+![](images/01/culmen_depth.png){fig-alt="Diagram of a penguin bill showing bill length and bill depth" fig-align="center" width="45%"}
+
+::: question
+**Research question:** Do penguins with *longer* bills tend to have *deeper* or *shallower* bills?
+:::
+
+## Bill length vs. bill depth
+
+```{r}
+#| echo: false
+#| out.width: "65%"
+#| warning: false
+
+penguins |>
+  gf_point(bill_depth_mm ~ bill_length_mm, alpha = 0.6) |>
+  gf_lm() |>
+  gf_labs(x = "Bill length (mm)", y = "Bill depth (mm)")
+```
+
+::: question
+What does the relationship between length and depth look like? Keep this plot in mind, we'll return to it.
+:::
+
 ## Two kinds of studies {.smaller}
 
-::: columns
+:::: columns
 ::: {.column width="50%"}
 **Observational study**
 
@@ -169,83 +193,169 @@ Two things can go wrong:
 - Researchers *assign* values of the explanatory variable
 - Ideally using **random assignment**
 :::
-:::
+::::
 
 . . .
 
 ::: question
 - The Coffee Truck: observational or experimental? Who chose `Price`, `Music`, and `Location`?
 - The DC Bikeshare data: observational or experimental?
+- The penguins data we just plotted: observational or experimental?
 :::
 
-## Observational studies come in flavors {.smaller}
+# Confounding and Simpson's Paradox
 
-- **Cross-sectional:** a snapshot, everyone measured at (about) one point in time.
-- **Cohort:** follow a group of people forward in time and see what happens to them.
-- **Case-control:** start from the outcome (cases) and compare them to people without it (controls), looking backward.
-
-. . .
-
-You'll need these words in the methods section of your Islands project.
-
-## Confounding {.smaller}
+## Controlling for species
 
 ```{r}
 #| echo: false
-#| out.width: "60%"
+#| out.width: "65%"
+#| warning: false
 
-bikeshare |>
-  filter(season %in% c("winter", "summer")) |>
-  gf_boxplot(count ~ season, fill = ~ season, show.legend = FALSE) |>
-  gf_labs(x = "Season", y = "Daily bike rentals")
+species_fit <- lm(bill_depth_mm ~ bill_length_mm + species, data = penguins) |>
+  tidy()
+
+penguins |>
+  gf_point(bill_depth_mm ~ bill_length_mm, color = ~ species, alpha = 0.6) |>
+  gf_abline(slope = species_fit$estimate[2], intercept = species_fit$estimate[1],
+            color = "#1B9E77") |>
+  gf_abline(slope = species_fit$estimate[2],
+            intercept = species_fit$estimate[1] + species_fit$estimate[3],
+            color = "#7570B3") |>
+  gf_abline(slope = species_fit$estimate[2],
+            intercept = species_fit$estimate[1] + species_fit$estimate[4],
+            color = "#d53a19") |>
+  gf_labs(x = "Bill length (mm)", y = "Bill depth (mm)", color = "Species") |>
+  gf_refine(scale_color_manual(values = c("#1B9E77", "#7570B3", "#d53a19")))
 ```
 
 ::: question
-Summer has more rentals than winter. Is it the *season* that causes riders to show up, or something that comes with the season?
+What does the relationship look like now?
 :::
 
-## Confounding {.smaller}
+## Simpson's Paradox {.smaller}
 
 ```{r}
 #| echo: false
-#| out.width: "70%"
 
-bikeshare |>
-  gf_point(count ~ temp_orig, color = ~ season, alpha = 0.6) |>
-  gf_labs(x = "Temperature (C)", y = "Daily bike rentals", color = "Season")
+pooled_slope <- coef(lm(bill_depth_mm ~ bill_length_mm, data = penguins))[["bill_length_mm"]]
+adj_slope <- species_fit$estimate[2]
 ```
 
-- A **confounding variable** is related to *both* the explanatory and the response variable, so it can create (or hide) an apparent relationship.
-- Temperature travels with season *and* drives ridership.
+| Model | Slope for bill length |
+|:--|:-:|
+| `bill_depth_mm ~ bill_length_mm` | `r round(pooled_slope, 2)` |
+| `bill_depth_mm ~ bill_length_mm + species` | `r round(adj_slope, 2)` |
+
+. . .
+
+**Simpson's Paradox:** a relationship between two variables *disappears or reverses* once you account for a third variable.
+
+. . .
+
+- **Species** is a **confounding variable**: it is related to *both* bill length (Gentoos have long bills) and bill depth (Gentoos have shallow bills).
+- Pooling the species makes "longer bill" secretly mean "more likely a Gentoo."
+- Within any one species, longer bills go with *deeper* bills.
+
+## What is a confounder? {.smaller}
+
+A **confounding variable** is related to *both* the explanatory and the response variable, so it can create, hide, or even reverse an apparent relationship.
+
+. . .
+
+::: question
+- The pooled model and the species model use the *same data*. Which slope is "right"?
+- Why is this a bigger worry in an **observational study** than in an **experiment**?
+- Could there be a confounder we *didn't* measure?
+:::
+
+. . .
+
+- Random assignment breaks the link between the explanatory variable and every confounder, measured or not.
+- Basic idea: by randomly assigning the explanatory variable, the confounding variables should be kind of balanced
+
+
+## Association vs. Causality
+
+Famously: "Correlation does not imply causation!"
+
+Two types of questions we can ask:
+
+- Are bill depth and bill length associated? (association/correlation)
+- Does an increase in bill depth **cause** bill length to increase? (causation)
 
 ## What can we conclude? {.smaller}
+
+| **Random assignment** | **No random assignment** |
+|:--|:--|
+| Causal conclusions | Association only |
+
+. . .
+
+::: question
+In which of these can we conclude that there is a causal relationship between our explanatory and response variables?
+
+- The Coffee Truck (location vs sales)
+- Palmer penguins (bill depth vs. length)
+- DC Bikeshare (temperature vs. count)
+:::
+
+## Statistical Inference/Generalization
+
+Another question:
+
+- Do the results we get from **these** penguins apply to **all** penguins?
+- More generally: do the patterns we see in our **sample** apply to our **population**?
+
+## Simple Random Sample
+
+- For the answer to these questions to be yes... we must have a **representative sample**
+- Intuitively: our sample should look like a mini-version of our population
+
+. . .
+
+-   **Simple random sample:** every member of the population is equally likely to be chosen
+-   This random sampling allows us to generalize back to the population
+-   Idea: by randomly choosing observations, we're not going to accidentally miss any patterns
+
+## Updating our table {.smaller}
 
 |  | **Random assignment** | **No random assignment** |
 |:--|:--|:--|
 | **Random sample** | Causal conclusions **and** generalizes to the population | Association only, but generalizes to the population |
 | **No random sample** | Causal conclusions, but only for the people/units in the study | Association only, only for the people/units in the study |
 
-. . .
-
 ::: question
-Where do these studies go in the table?
+Where do each of these fall in the table:
 
-- The Coffee Truck
-- DC Bikeshare
-- A survey of 300 randomly chosen islanders
+- The Coffee Truck (location vs sales)
+- Palmer penguins (bill depth vs. length)
+- DC Bikeshare (temperature vs. count)
 :::
 
-## Sampling: how did the data get into our hands? {.smaller}
 
--   **Simple random sample:** every member of the population is equally likely to be chosen.
--   **Stratified sample:** split the population into groups (**strata**) that are similar inside, then randomly sample from *every* stratum.
+## Sampling is hard ! {.smaller}
+
+-   Reality: usually impossible or impractical to do a truly SRS
+-   Additional sampling techniques to improve your sample or simplify your sampling in a principled way
+
+## Stratification
+
+-   Suppose you want to conduct a political poll to find out whether a certain ballot measure will pass in the upcoming election
+-   You know that the affiliation breakdown in Idaho is about 63% Republican, 25% Independent, 12% Democrat and you know that a persons party affiliation will probably explain a lot of the variation in which why they decide to vote on the ballot measure
+-   If you conduct a random sample, you may get something like 60% R, 23% I, 17% D
+-   **Stratification/Stratified sampling:** split the population into groups (**strata**) that are similar inside, then randomly sample from *every* stratum.
+-   To get a more accurate poll you might employ stratified sampling by party affiliation
+
+## Cluster Sampling
+
+-   If you were going to collect a simple random sample of Idaho voters, how would you actually try to do it?
+-   You'll probably find that it's extremely geographically difficult...
 -   **Cluster sample:** split the population into groups (**clusters**) that each look like a mini-population, randomly choose *some* clusters, and sample within those.
--   **Stratified cluster / multistage:** combine the two.
--   **Convenience sample:** whoever is easiest to reach. Watch out.
 
 ## Strata vs. clusters {.smaller}
 
-::: columns
+:::: columns
 ::: {.column width="50%"}
 **Stratified**
 
@@ -261,26 +371,24 @@ Where do these studies go in the table?
 - Sample from **some** groups
 - Goal: save time and money
 :::
-:::
+::::
 
-. . .
+## Real Samples Combine These Techniques
 
-::: question
-Which one would you use to survey College of Idaho students about their housing? By class year, or by residence hall? Which is which?
-:::
+-   Most sampling techniques combine elements of Simple Random Sampling, Stratified Sampling, and Cluster Sampling
+-   Other forms of sampling:
+    -   **Convenience sample:** whoever is easiest to reach. Watch out.
+    -   **Judgement sample:** using your own personal judgement to decide who to same. Easily introduce unconscious bias.
 
 ## How a sample goes wrong {.smaller}
 
 -   **Convenience bias:** you sample the units that are easy to get.
 -   **Undercoverage:** part of the population isn't in your **sampling frame** (the list you sample from) at all.
--   **Non-response:** the people you chose don't respond, and they differ from the ones who do.
--   **Survivorship / selection bias:** the way units *enter* the data is related to the outcome.
-
-. . .
-
-::: question
-Bias is a property of the *sampling process*, not the sample size. Would 1 million biased observations be better than 100 good ones?
-:::
+-   **Selection bias:** the way units *enter* the data is related to the outcome. Many types of selection bias:
+  -   **Non-response bias:** the people you chose don't respond, and they differ from the ones who do.
+  -   **Survivorship bias:** your sample consists solely of observations that have successfully made it through some process
+-   Bias is a property of the *sampling process*, not the sample size
+-   Reality: impossible to design a perfect experiment to study... you must **argue** why these types of bias aren't an issue
 
 # Welcome to the Islands
 
@@ -301,22 +409,7 @@ A simulated world of thousands of **islanders**, organized into villages across 
 
 - **Visitor Center:** information about the islands and islanders. Start with the **Guides** tab.
 - **Academy:** example studies. Good for asking, "what questions can be asked here?"
-- Videos: [Island Overview](https://youtu.be/iJPgXuq6yFg), [Working with the Islanders](https://youtu.be/J00KIC0y-E8), [Finding Groups on the Islands](https://youtu.be/NFSWwxKiFZs), [Time on the Islands](https://youtu.be/R9T0PS8hV6w)
-- Trouble signing in? Use "Need to set or reset your password?" with your College of Idaho email.
-
-## The semester project {.smaller}
-
-You will design, run, and analyze your own study on the Islands with a group.
-
-| Deliverable | Due |
-|:--|:--|
-| 1. Pilot | Wed, Nov 4 |
-| 2. Power | Wed, Nov 11 |
-| 3. Preliminary analysis | Wed, Nov 18 |
-| 4. Full draft | Mon, Nov 30 |
-| 5. Final report + poster | Finals week (Dec 7-10) |
-
-Today's activity is a small preview of the whole workflow: sample a population, tidy the data, fit a model, and ask what it means.
+- Today: we'll look at the "Life Expectancy On The Island"
 
 # What is the life expectancy on the Island?
 
