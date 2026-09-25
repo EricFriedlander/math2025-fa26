@@ -88,7 +88,7 @@ Everything so far describes the data in front of us. What if we want to say some
 - Distinguish a **population** from a **sample**, and a **parameter** from a **statistic**.
 - Distinguish **observational studies** from **experiments**, and connect study design to what we can conclude.
 - Describe common **sampling schemes** and how a sample can go wrong.
-- Design and carry out a stratified cluster sample to answer a real question: *What is the life expectancy on the Island?*
+- Design and carry out a stratified cluster sample to answer a real question: *What is the life expectancy on the Islands?*
 
 
 # From sample to population
@@ -345,9 +345,10 @@ Let's go through some additional sampling techniques that either improve your sa
 
 ## Stratification {.smaller}
 
--   Suppose you want to conduct a political poll to find out whether a certain ballot measure will pass in the upcoming election
--   You know that the affiliation breakdown in Idaho is about 63% Republican, 25% Independent, 12% Democrat and you know that a persons party affiliation will probably explain a lot of the variation in which why they decide to vote on the ballot measure
--   If you conduct a random sample, you may get something like 60% R, 23% I, 17% D
+Suppose you want to conduct a political poll to find out whether a certain ballot measure will pass in the upcoming election:
+
+-   You know that the party affiliation breakdown in Idaho is about 63% Republican, 25% Independent, 12% Democrat and you know that a persons party affiliation will probably explain a lot of the variation in which why they decide to vote on the ballot measure
+-   If you collect a simple random sample, you may get something like 60% R, 23% I, 17% D
 -   **Stratification/Stratified sampling:** split the population into groups (**strata**) of similar individuals, then randomly sample from *every* stratum.
 -   To get a more accurate poll you might employ stratified sampling by party affiliation
 -   Real polls stratify by many different attributes (race, gender, party affiliation, educational attainment, income, etc...)
@@ -356,7 +357,7 @@ Let's go through some additional sampling techniques that either improve your sa
 
 Suppose it is the summer of 1985 and the very first test for HIV has become available. You would like to use it to estimate the prevalence of HIV in the nations blood supply. There are over 1,000 blood banks in the US and it is prohibitively expensive to collect samples from all of them... the internet doesn't exist and you don't have the manpower to sent out letters to thousands of blood banks and keep track of the replies.
 
--   Instead you collect a simple random sample of 30 different blood banks in the US
+-   Instead you randomly select 30 different blood banks in the US
 -   Test all of the donations in each blood bank
 -   **Cluster sample:** split the population into groups (**clusters**) that each look like a mini-population, randomly choose *some* clusters, and sample within those.
 
@@ -383,8 +384,8 @@ Suppose it is the summer of 1985 and the very first test for HIV has become avai
 ## Real Samples Combine These Techniques
 
 -   Most sampling techniques combine elements of Simple Random Sampling, Stratified Sampling, and Cluster Sampling
-    - This is called **Multistage Sampling** if you first do, say, cluster sampling (stage 1) and then stratified sampling inside each cluster (stage 2)
--   Other forms of sampling:
+    - It is called **Multistage Sampling** if you first do, say, cluster sampling (stage 1) and then stratified sampling inside each cluster (stage 2)
+-   Other (not very good) forms of sampling:
     -   **Convenience sample:** whoever is easiest to reach. Watch out.
     -   **Judgement sample:** using your own personal judgement to decide who to same. Easily introduce unconscious bias.
 
@@ -398,22 +399,6 @@ Suppose it is the summer of 1985 and the very first test for HIV has become avai
 -   Bias is a property of the *sampling process*, not the sample size
 -   Reality: impossible to design a perfect experiment to study... you must **argue** why these types of bias aren't an issue
 
-## Identify the type(s) of bias I {.smaller}
-
-Back to 1985: You want to get the most "bang for your buck" in testing the blood supply so instead of randomly selecting 30 bloodbanks, you choose the 5 largest bloodbanks in the US. This will give you far more blood for far less money. These five bloodbanks happen to be located in NYC, Los Angeles, Boston, Chicago, and San Francisco. How will your sample by biased?
-
-. . .
-
-- Selection bias: Larger cities (NYC and SF in particular) have a disproportionately large share of homosexual men, a population with higher infection rates than the general population. As a result, your data is likely biased.
-
-## Identify the type(s) of bias II {.smaller}
-
-Back to 1985: You've noticed that a rare form of cancer called Kaposi sarcoma frequently appears alongside HIV infections and that those infected seem to be disproportionately homosexual men. You'd like to estimate the proportion of gay men who carry the virus. You partner with the GMHC "Gay Men's Health Crisis" now known as the "nation's oldest HIV/AIDS service organization". They get the word out among their network and you get over 300 volunteers for testing.
-. . .
-
-- Undercoverage: only including individuals who are engaged in the activism
-- Non-response bias: only including individuals willing to announce that they are openly gay (dangerous and difficult at that time). In addition, individuals diagnosed with HIV were often overly discriminated against and so there was a fear of getting tested.
-
 # Welcome to the Islands
 
 ## The Islands {.smaller}
@@ -424,6 +409,7 @@ A simulated world of thousands of **islanders**, organized into villages across 
 - You can **assign** islanders to treatments, which means you can run **experiments** as well as observational studies.
 - Each islander can only do **one task at a time**, and the Islands have their own clock.
 - It's a simulation, so, in principle, we could census the whole population and check whether our inference was right.
+- During the second half of the semester, we'll use the Islands for our final class project.
 
 ::: appex
 🏝️ [The Islands](https://islands.smp.uq.edu.au/index.php): sign in with your College of Idaho email
@@ -495,6 +481,11 @@ Note: I think this was done with a previous version of the Islands simulation as
 - ~500 people sampled, ~300 analyzed. Who did we lose, and does it matter?
 :::
 
+## Activity
+
+::: appex
+📋 [AE 08 - Collecting Data on the Islands](../ae/ae-08-islands-data-collection.qmd)
+:::
 
 ## Today's plan {.smaller}
 
@@ -506,7 +497,7 @@ You will adapt the stratified cluster design:
 4. Within your assigned village, navigate to the Town Hall and click on **Records**. Click on the 375-399 link. This will pull up the records of all people who have died between the Island year 375 and 399 in your village. 
 5. Navigate to [this shared Excel sheet](https://yotescollegeofidaho-my.sharepoint.com/:x:/g/personal/efriedlander_collegeofidaho_edu/IQB2Q0ijZYPzQYuumjlk_x09AQaTTMpIIkDa73TeNCMKJiI?e=16bSqH), create a new worksheet (the + button at the bottom), rename it with your Island number, and then copy and past the list of Islanders into that sheet.
 
-## Today's plan continued
+## Today's plan continued {.smaller}
 
 6. Randomly select 10 of them. 
   - In the sheet you just pasted you should be able to see how many individuals that are based on the number of rows.
@@ -524,18 +515,6 @@ sample(1:number_of_villagers, 10)
 7. Use the numbers to identify which islanders to sample sample and record your name, the island, the village, the villagers name, sex, birth year, and death_year in the **MASTER DATASET** worksheet in that same shared Excel sheet. 
 8. Your AE-08 Credit will be determined by whether you've entered all of the data by the next class period.
 
-## Activity {.smaller}
-
-::: appex
-📋 [AE 08 - Collecting Data on the Islands](../ae/ae-08-islands-data-collection.qmd)
-:::
-
-Get oriented, draw your random sample, and enter your data in the shared **MASTER DATASET**.
-
-```{r}
-#| echo: false
-countdown(minutes = 25)
-```
 
 ## Recap {.smaller}
 

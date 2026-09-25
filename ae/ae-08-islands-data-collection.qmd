@@ -61,7 +61,7 @@ format:
 <!-- TODO (instructor): fill in the Canvas link below before class. -->
 
 ::: callout-important
-- Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-08"
+- Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-08".
 - Go to the assignment for this activity in [Canvas]() to get started.
 - Upload the `ae-08-islands-data-collection.qmd` file into the folder you just created.
 - **Your credit for this AE is based on whether all 10 of your islanders are entered in the MASTER DATASET by the start of the next class.**
@@ -102,7 +102,7 @@ Before you start collecting: what **type of sampling** is this (simple random, s
 ### Collecting your sample
 
 ::: exercise
-Open the **Records** for your village and click the **375-399** link. Then open [the shared Excel sheet](https://yotescollegeofidaho-my.sharepoint.com/:x:/g/personal/efriedlander_collegeofidaho_edu/IQB2Q0ijZYPzQYuumjlk_x09AQaTTMpIIkDa73TeNCMKJiI?e=16bSqH), create a new worksheet (the + button at the bottom), rename it with your island number, and copy and paste the list of islanders into it.
+Open the **Records** for your village and click the **375-399** link. Then open [the shared Excel sheet](https://yotescollegeofidaho-my.sharepoint.com/:x:/g/personal/efriedlander_collegeofidaho_edu/IQB2Q0ijZYPzQYuumjlk_x09AQaTTMpIIkDa73TeNCMKJiI?e=16bSqH), create a new worksheet (the + button at the bottom), rename it with your villages name, and copy and paste the list of islanders into it.
 
 How many islanders are in your village's list? (Look at the number of rows.)
 :::
@@ -145,7 +145,9 @@ Use the row numbers to look up your 10 islanders. In the **MASTER DATASET** work
 - birth year
 - death year
 
-Remember: only add rows, and enter `sex` as exactly `Female` or `Male`.
+Remember: only add rows. 
+
+Note: Your rows do not need to be adjacent to one another.
 :::
 
 ::: answer
@@ -162,6 +164,15 @@ We are only sampling islanders who died between Island years 375 and 399.
 :::
 
 ::: answer
+:::
+
+### Discussion Questions To Think About
+
+::: exercise
+Time permitting: Think about the following questions and be prepared to discuss them:
+
+1. We are selecting the same number of villages from each Islands and the same number of villages from each village... could this bias our results?
+2. We aren't stratifying by sex. Perhaps it would've been a good idea to do so... Can you think of a situation in which this isn't a good idea? Hint: it may help if you imagine that the islanders are an alien species different than humans.
 :::
 
 ::: callout-important
