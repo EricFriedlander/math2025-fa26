@@ -146,7 +146,7 @@ Log into [The Islands](https://islands.smp.uq.edu.au/index.php) and open the **A
 ::: {.exercise}
 For each scenario below, say whether it is an **observational study** or an **experiment**. Then say what type of conclusion (association or causation) it can support, and for whom (just the people in the study, or a wider population).
 
-a.  The class study of life expectancy from AE 07: groups sampled deceased islanders from assigned villages and compared mean age at death for men and women.
+a.  The class study of life expectancy from AE 08 and AE 09: each student sampled 10 deceased islanders from an assigned village, and we compared mean age at death for men and women.
 
 b.  The Coffee Truck game: you chose which settings to simulate (`Price`, `Music`, and so on), the game ran shifts under those settings, and you recorded `Sales`.
 
@@ -158,7 +158,7 @@ c.  On the Islands, you randomly choose 40 islanders and randomly assign half to
 :::
 
 ::: {.exercise}
-In AE 07, we found that (in our sample) men and women differed in mean age at death.
+In AE 09, we found that (in our sample) men and women differed in mean age at death.
 
 - Propose a plausible **confounding variable** for the relationship between `sex` and `age_at_death` on the Islands. Explain why it is related to *both* sex and age at death.
 - Explain how this confounder could produce a difference in age at death between men and women **even if sex itself had no direct effect** on how long people live.

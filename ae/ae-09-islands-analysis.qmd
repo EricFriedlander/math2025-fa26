@@ -1,6 +1,6 @@
 ---
-title: "AE 07: Life Expectancy on the Islands"
-subtitle: "Sampling a population and modeling with a categorical predictor"
+title: "AE 09: Analyzing the Islands Data"
+subtitle: "Cleaning pooled data and modeling with a categorical predictor"
 editor: visual
 format:
   html:
@@ -58,85 +58,38 @@ format:
         </style>
 ---
 
-<!-- TODO (instructor): fill in the Canvas link below and the published Google Sheet CSV link in Exercise 3 before class. -->
+<!-- TODO (instructor): fill in the Canvas link below, the link to the pooled data in Exercise 1, and adjust the cleaning steps to match how the class entered the data. -->
 
 ::: callout-important
-- Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-07"
+- Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-09"
 - Go to the assignment for this activity in [Canvas]() to get started.
-- Upload the `ae-07-islands-life-expectancy.qmd` file into the folder you just created. We will collect the data for this activity together.
+- Upload the `ae-09-islands-analysis.qmd` file into the folder you just created.
 :::
 
 ## Intro
 
+In AE 08, everyone in the class sampled 10 islanders who died between Island years 375 and 399 from an assigned village. Today we pick up where we left off: we pool everyone's data, clean it, and answer our question.
+
 What is the life expectancy on the Island? Is it different for men and women?
 
-We can't ask every islander, so we'll do what a previous class did: take a **stratified cluster sample** of the Island's records, then **fit a model predicting life expectancy from sex**. Each group is responsible for a **cluster** of villages, and everyone's data goes into one shared Google Sheet.
-
-Here is the sampling plan for **today**. This is a simplified version of the previous class's approach. They built age-specific mortality rates (a life table) to compute life expectancy, but today we'll use the **mean age at death among islanders who have died** as a stand-in for life expectancy.
-
-::: callout-important
-Your data goes into a sheet that everyone in the class can see and edit. **Only add rows, never delete or overwrite anyone else's.** Enter `sex` as exactly `Female` or `Male` (capitalized, no spaces) so the pooled data stays clean.
-:::
+We'll use the **mean age at death among islanders who have died** as a stand-in for life expectancy, and we'll **fit a model predicting age at death from sex**.
 
 ## Exercises
-
-### Getting set up and collecting data
-
-::: exercise
-Log into [The Islands](https://islands.smp.uq.edu.au/index.php) with your College of Idaho email. Within your group, assign the roles below, and record who has which role.
-
-- **Navigator:** finds islanders on the Islands
-- **Recorder:** enters rows into the shared Google Sheet
-- **Coder:** runs the R code in this document
-
-Find your group's villages in the table below and locate them on the Islands.
-
-| Group | Villages |
-|:--|:--|
-| A | Fairhaven, Serrano, Sunrise, Eden |
-| B | Riverside, Valkov, Rosica |
-| C | Edwardton, Asderaki, Mossgiel |
-| D | Macondo, Durand Bay, Deep Bay |
-
-Before you start collecting: what **type of sampling** is this (simple random, stratified, cluster, or a combination)? Which part of the plan is the **cluster**?
-:::
-
-::: answer
-
-:::
-
-::: exercise
-Now collect your data. Within **each of your group's villages**, sample islanders who **have died**. Record one row per islander in the shared Google Sheet with these columns:
-
-| `village` | `sex` | `birth_year` | `death_year` | `recorder` |
-|:--|:--|:--|:--|:--|
-
-Some rules, so that we all collect data the same way:
-
-- Only include islanders who died in **1980 or later**, and skip anyone whose age at death would be over **150**.
-- Try to spread your samples across all of your group's villages, rather than taking everyone from the first one you find.
-- Choose islanders **randomly** (for example, by picking a random spot in the list rather than the first few).
-- Aim for about **25 islanders** per group. Remember that each islander can only do one task at a time.
-
-Why do you think we restrict to islanders who died recently (1980 or later)? Why might it matter *how* we choose which islanders to record?
-:::
-
-::: answer
-
-:::
 
 ### Loading and cleaning the pooled data
 
 ::: exercise
-Load the packages below, then read the pooled data into R using `read_csv()` and the published link to the shared Google Sheet:
+Load the packages below, then read the pooled data into R.
 
-**[INSTRUCTOR: paste the published Google Sheet CSV link here]**
+**[INSTRUCTOR: paste the link to (or instructions for getting) the pooled data here]**
 
-a.  Use `glimpse()` to look at your data. How many islanders are in the pooled sample?
+a.  Use `glimpse()` to look at your data. How many islanders are in the pooled sample? Is each row one islander?
 
-b.  Create a new column called `age_at_death` equal to `death_year - birth_year`. Then keep only the rows that follow our rules: `death_year` of 1980 or later, and `age_at_death` between 0 and 150. Save the result as `islands`.
+b.  Everyone typed in their own rows, so check for problems. For example, use `count(sex)` to see whether `sex` is spelled consistently, and look for missing values, duplicated rows, and columns stored as the wrong type. Fix what you find.
 
-c.  How many rows did the cleaning step remove? Look at a few of them. Why might they have been removed?
+c.  Create a new column called `age_at_death` equal to `death_year - birth_year`. Then keep only the rows with a plausible `age_at_death` (between 0 and 150). Save the result as `islands`.
+
+d.  How many rows did the cleaning step remove? Look at a few of them. Why might they have been removed?
 :::
 
 ::: answer
@@ -224,17 +177,17 @@ Let's think about what this sample can tell us.
 ### Is the difference real?
 
 ::: exercise
-Each group will now refit the model using **only the rows from your own group's villages**.
+Now refit the model using **only the 10 islanders you sampled yourself**.
 
-a.  Use `filter()` to keep only rows where `village` is one of your group's villages, and save the result as `my_group`. Use the table in Exercise 1 if you need to check the village names.
+a.  Use `filter()` to keep only the rows you entered, and save the result as `my_sample`. (If your 10 islanders are all the same sex, team up with a neighbor and use both of your samples.)
 
-b.  Fit `lm(age_at_death ~ sex, data = my_group)` and use `tidy()` to display it.
+b.  Fit `lm(age_at_death ~ sex, data = my_sample)` and use `tidy()` to display it.
 
-c.  Write your group's slope on the whiteboard next to the slopes from the other groups (and next to the slope from the pooled data).
+c.  Write your slope on the whiteboard next to the slopes from the rest of the class (and next to the slope from the pooled data).
 :::
 
 ::: answer
-```{r group-fit}
+```{r my-fit}
 
 ```
 :::
@@ -255,5 +208,5 @@ Look at the slopes on the whiteboard.
 To submit the AE:
 
 - Render the document to produce the HTML with all of your work from today's class.
-- The driver for your group should upload your .qmd and .html files to the Canvas assignment.
+- Upload your .qmd and .html files to the Canvas assignment.
 :::

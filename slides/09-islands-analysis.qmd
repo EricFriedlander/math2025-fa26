@@ -1,0 +1,277 @@
+---
+title: "Modeling Life Expectancy"
+subtitle: "Analyzing the data we collected on the Islands"
+author: "Prof. Eric Friedlander"
+footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/schedule)"
+logo: "../images/logo.png"
+format:
+  revealjs:
+    theme: slides.scss
+    multiplex: false
+    transition: fade
+    slide-number: false
+    incremental: false
+    chalkboard: true
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+execute:
+  freeze: auto
+  echo: true
+  cache: false
+knitr:
+  opts_chunk:
+    R.options:
+    width: 200
+bibliography: references.bib
+---
+
+```{r setup}
+#| include: false
+
+library(countdown)
+
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.618,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+
+# load packages
+library(tidyverse)   # for data wrangling and visualization
+library(ggformula)   # for plotting using formulas
+library(broom)       # for formatting model output
+library(scales)      # for pretty axis labels
+library(knitr)       # for pretty tables
+library(kableExtra)  # also for pretty tables
+
+# MADE-UP preview data: a pretend Island population, used only so these
+# slides render without the class data. Real data comes
+# from the AE.
+set.seed(2025)
+n_pop <- 5000
+island_pop <- tibble(
+  sex = sample(c("Female", "Male"), n_pop, replace = TRUE),
+  age_at_death = round(pmin(pmax(
+    rnorm(n_pop, mean = if_else(sex == "Female", 72, 69), sd = 16),
+    0), 120))
+)
+islands <- slice_sample(island_pop, n = 250)
+
+# set default theme and larger font size for ggplot2
+ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
+```
+
+## Last time {.smaller}
+
+::: {.incremental style="font-size: 0.9em"}
+- A **population** is who we care about, a **sample** is who we observe, and inference uses a statistic to learn about a parameter.
+- Random sampling lets us generalize, random assignment lets us conclude causation.
+- We took a **stratified cluster sample** of the Islands: each of us drew 10 islanders who died in Island years 375-399 from our assigned village.
+:::
+
+. . .
+
+::: question
+We now have one pooled data set. **What is the life expectancy on the Island? Is it different for men and women?**
+:::
+
+## Topics
+
+- Load and **clean** the pooled data that the class entered by hand.
+- Estimate life expectancy and fit a model predicting age at death from sex.
+- Critique what our sample can, and cannot, tell us.
+- See **sampling variability** first-hand: same population, different samples, different slopes.
+
+# Loading and cleaning the class data
+
+## Real data are messy {.smaller}
+
+Everyone typed in their own rows, so expect some surprises.
+
+::: incremental
+- Is `sex` spelled the same way every time?
+- Are there duplicate rows, missing values, or impossible ages?
+- Does every column have the type we expect (numbers stored as numbers)?
+:::
+
+. . .
+
+We create `age_at_death = death_year - birth_year`, and then check the values before we trust them.
+
+## Activity {.smaller}
+
+::: appex
+📋 [AE 09 - Analyzing the Islands Data](../ae/ae-09-islands-analysis.qmd)
+:::
+
+Complete Exercise 1 (load, inspect, and clean the pooled data).
+
+```{r}
+#| echo: false
+countdown(minutes = 15)
+```
+
+# Modeling life expectancy from sex
+
+## Our pooled data {.smaller}
+
+::: callout-note
+The output on these slides is from a **made-up** island so the slides render without the class data. Yours will look different.
+:::
+
+```{r}
+islands |>
+  head(5) |>
+  kable()
+```
+
+::: question
+What are the observational units? What are the variables, and which is the response?
+:::
+
+## Exploring age at death {.smaller}
+
+```{r}
+#| out.width: "70%"
+
+gf_boxplot(age_at_death ~ sex, data = islands, fill = ~ sex, show.legend = FALSE) |>
+  gf_labs(x = "Sex", y = "Age at death (years)")
+```
+
+## Fitting the model {.smaller}
+
+```{r}
+#| echo: true
+
+le_fit <- lm(age_at_death ~ sex, data = islands)
+
+tidy(le_fit)
+```
+
+```{r}
+#| echo: false
+
+b0 <- coef(le_fit)[["(Intercept)"]]
+b1 <- coef(le_fit)[["sexMale"]]
+```
+
+$$
+\widehat{\text{age at death}} = `r round(b0, 2)` `r if_else(b1 < 0, "-", "+")` `r round(abs(b1), 2)` \times \text{sexMale}
+$$
+
+::: question
+- What is the reference level? How can you tell?
+- What does the intercept mean? What does the slope mean?
+:::
+
+## Interpreting the model {.smaller}
+
+- **Intercept:** the mean age at death for the reference group (`Female`): `r round(b0, 2)` years.
+- **Slope:** the *difference in means*. Men in our sample die `r round(abs(b1), 2)` years `r if_else(b1 < 0, "earlier", "later")`, on average, than women.
+
+. . .
+
+```{r}
+#| echo: true
+
+islands |>
+  group_by(sex) |>
+  summarize(mean_age = mean(age_at_death))
+```
+
+This is the same categorical-predictor model from Lesson 5.
+
+## Work time {.smaller}
+
+::: appex
+📋 [AE 09 - Analyzing the Islands Data](../ae/ae-09-islands-analysis.qmd)
+:::
+
+Complete Exercises 2-5 (explore, fit, interpret, and critique).
+
+```{r}
+#| echo: false
+countdown(minutes = 15)
+```
+
+# Is the difference between men and women real?
+
+## The question {.smaller}
+
+Our model says men and women differ by about `r round(abs(b1), 2)` years in our sample.
+
+::: question
+**Is the difference between men and women real?**
+:::
+
+. . .
+
+*What could "real" mean here?*
+
+## Same population, different samples {.smaller}
+
+In our made-up world we *know* the population, so let's take four more samples of the same size.
+
+```{r}
+#| echo: true
+
+set.seed(101)
+
+map_dfr(1:4, \(i) {
+  island_pop |>
+    slice_sample(n = 250) |>
+    lm(age_at_death ~ sex, data = _) |>
+    tidy() |>
+    filter(term == "sexMale") |>
+    mutate(sample = i)
+}) |>
+  select(sample, estimate) |>
+  kable(digits = 2)
+```
+
+::: question
+Same island, same model, same sample size. Four different slopes. Which one is "right"?
+:::
+
+## Two competing explanations {.smaller}
+
+If a sample slope $\hat{\beta}_1$ is not zero, there are (at least) two reasons why:
+
+::: incremental
+1. There **is** a real difference in the population: $\beta_1 \neq 0$.
+2. There is no real difference, and we just got a **lucky (or unlucky) draw**: $\beta_1 = 0$ but $\hat{\beta}_1 \neq 0$.
+:::
+
+. . .
+
+Sampling variability means a sample statistic won't equal the population parameter, so **the data alone can't tell us which explanation is right.** We need a way to measure how much a slope is *expected* to bounce around.
+
+. . .
+
+::: question
+Look at the four slopes on the previous slide. How big would the slope have to be before *you'd* be convinced?
+:::
+
+## Back to the AE {.smaller}
+
+::: appex
+📋 [AE 09 - Analyzing the Islands Data](../ae/ae-09-islands-analysis.qmd)
+:::
+
+Complete Exercises 6-7: refit the model using only the 10 islanders *you* sampled, compare slopes on the board, and decide how confident you are.
+
+```{r}
+#| echo: false
+countdown(minutes = 10)
+```
+
+## Recap {.smaller}
+
+-   Hand-entered data need **cleaning** before we can trust them: check spelling, duplicates, missing values, and impossible values.
+-   The mean age at death among islanders who have died is a stand-in for life expectancy, and it is biased because of *who can appear* in the data.
+-   A regression with a categorical predictor estimates a **difference in means**, but a different sample gives a different $\hat{\beta}_1$.
+-   **Next time:** how do we measure how much a slope should bounce around by chance?
