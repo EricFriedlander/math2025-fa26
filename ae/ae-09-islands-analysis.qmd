@@ -174,34 +174,54 @@ Let's think about what this sample can tell us.
 **Stop here.** We'll come back together and talk about what our results say (and don't say) before you continue.
 :::
 
-### Is the difference real?
+### Does sex explain more variation than chance?
 
 ::: exercise
-Now refit the model using **only the 10 islanders you sampled yourself**.
+How much variation in age at death does `sex` explain in our data?
 
-a.  Use `filter()` to keep only the rows you entered, and save the result as `my_sample`. (If your 10 islanders are all the same sex, team up with a neighbor and use both of your samples.)
+a.  Compute the PRE (also called $R^2$) for `le_fit` with `pre(age_at_death ~ sex, data = islands)`, and save it as `pre_obs`.
 
-b.  Fit `lm(age_at_death ~ sex, data = my_sample)` and use `tidy()` to display it.
+b.  Write a sentence interpreting `pre_obs` as a percent of the variation in age at death.
 
-c.  Write your slope on the whiteboard next to the slopes from the rest of the class (and next to the slope from the pooled data).
+c.  Adding a predictor can never make PRE negative. Why not? Given that, why isn't "PRE is bigger than 0" convincing evidence that sex matters?
 :::
 
 ::: answer
-```{r my-fit}
+```{r pre-obs}
 
 ```
 :::
 
 ::: exercise
-Look at the slopes on the whiteboard.
+Now let's imagine a world with **no relationship** between sex and age at death, just like the cards in class.
 
-- How do they compare with each other? With the pooled slope?
-- Given how much the numbers differ, how confident are you that men and women on the Island **really** have different life expectancies?
-- What could you do to be *more* confident? What would you need to know about how much these slopes typically vary?
+a.  Run `pre(shuffle(age_at_death) ~ sex, data = islands)` at least four times. Why does the answer change each time? Was it ever negative? Was it ever exactly 0?
+
+b.  In your own words, what does `shuffle()` do to the relationship between `sex` and `age_at_death`? What does it *not* change?
 :::
 
 ::: answer
+```{r shuffle-once}
 
+```
+:::
+
+::: exercise
+Build the **null distribution** by shuffling 1000 times.
+
+a.  Run `null_pre <- do(1000) * pre(shuffle(age_at_death) ~ sex, data = islands)`. Then make a histogram of the `pre` column of `null_pre` and add a vertical line at `pre_obs` (try `gf_histogram()` and `gf_vline()`).
+
+b.  What does a single value in this histogram represent? What is the histogram a picture of?
+
+c.  Compute the proportion of shuffles with a PRE at least as large as `pre_obs`: `mean(null_pre$pre >= pre_obs)`.
+
+d.  Answer the question: does sex explain **more** variation in age at death than we'd expect if there were no relationship? Explain your reasoning, and say what your conclusion does and does *not* tell us (think back to how our sample was collected).
+:::
+
+::: answer
+```{r null-dist}
+
+```
 :::
 
 ::: callout-important
