@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Prof.&nbsp;Eric Friedlander">
-  <title>MATH 2025 - Fall 2026 – Introduction to Statistical Inference</title>
+  <title>MATH 2025 - Fall 2026 – Study Design and Sampling</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -193,16 +193,14 @@
       margin-right: 0; 
     }
   </style>
-  <link href="../site_libs/countdown-0.6.0/countdown.css" rel="stylesheet">
-  <script src="../site_libs/countdown-0.6.0/countdown.js"></script>
 </head>
 <body class="quarto-light">
   <div class="reveal">
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Introduction to Statistical Inference</h1>
-  <p class="subtitle">Study design, sampling, and the Islands</p>
+  <h1 class="title">Study Design and Sampling</h1>
+  <p class="subtitle">Collecting data on the Islands</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -212,15 +210,6 @@ Prof.&nbsp;Eric Friedlander
 </div>
 </div>
 
-</section>
-<section id="topics" class="slide level2">
-<h2>Topics</h2>
-<ul>
-<li>Distinguish a <strong>population</strong> from a <strong>sample</strong>, and a <strong>parameter</strong> from a <strong>statistic</strong>.</li>
-<li>Distinguish <strong>observational studies</strong> from <strong>experiments</strong>, and connect study design to what we can conclude.</li>
-<li>Describe common <strong>sampling schemes</strong> and how a sample can go wrong.</li>
-<li>Use a regression model to answer a real question: <em>What is the life expectancy on the Island?</em></li>
-</ul>
 </section>
 <section id="last-time" class="slide level2 smaller">
 <h2>Last time</h2>
@@ -232,10 +221,22 @@ Prof.&nbsp;Eric Friedlander
 </ul>
 </div>
 <div class="fragment">
+<p>Debriefing last week’s Activity</p>
+</div>
+<div class="fragment">
 <div class="question">
 <p>Everything so far describes the data in front of us. What if we want to say something about data we <em>haven’t</em> seen?</p>
 </div>
 </div>
+</section>
+<section id="topics" class="slide level2">
+<h2>Topics</h2>
+<ul>
+<li>Distinguish a <strong>population</strong> from a <strong>sample</strong>, and a <strong>parameter</strong> from a <strong>statistic</strong>.</li>
+<li>Distinguish <strong>observational studies</strong> from <strong>experiments</strong>, and connect study design to what we can conclude.</li>
+<li>Describe common <strong>sampling schemes</strong> and how a sample can go wrong.</li>
+<li>Design and carry out a stratified cluster sample to answer a real question: <em>What is the life expectancy on the Islands?</em></li>
+</ul>
 </section>
 <section>
 <section id="from-sample-to-population" class="title-slide slide level1 center">
@@ -258,8 +259,8 @@ Prof.&nbsp;Eric Friedlander
 <section id="population-and-sample" class="slide level2 smaller">
 <h2>Population and sample</h2>
 <ul>
-<li><strong>Population:</strong> the complete set of observations we care about (size <span class="math inline">\(N\)</span>): people, shifts, cities, islanders, etc.</li>
-<li><strong>Sample:</strong> the subset we actually observe (size <span class="math inline">\(n\)</span>)</li>
+<li><strong>Population:</strong> the complete set of observations we care about</li>
+<li><strong>Sample:</strong> the subset we actually observe (denote sample size <span class="math inline">\(n\)</span>)</li>
 <li>A <strong>parameter</strong> is a number describing the population: <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\beta_1\)</span></li>
 <li>A <strong>statistic</strong> is a number computed from the sample: <span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(\hat{\beta}_1\)</span></li>
 </ul>
@@ -275,7 +276,7 @@ Prof.&nbsp;Eric Friedlander
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Size</td>
-<td style="text-align: center;"><span class="math inline">\(N\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(N\)</span> (sometimes)</td>
 <td style="text-align: center;"><span class="math inline">\(n\)</span></td>
 </tr>
 <tr class="even">
@@ -292,7 +293,8 @@ Prof.&nbsp;Eric Friedlander
 </table>
 </div>
 <div class="fragment">
-<p>We (almost) never get to see the parameter. We see a statistic and have to reason about the parameter.</p>
+<p>We (almost) never get to see the parameter.</p>
+<p>We see a statistic and use that to reason about the parameter.</p>
 </div>
 </section>
 <section id="sampling-is-natural" class="slide level2 midi">
@@ -308,7 +310,7 @@ Prof.&nbsp;Eric Friedlander
 <h2>Statistical inference</h2>
 <p><strong>Statistical inference</strong> refers to ideas, methods, and tools for generalizing from the single sample we observed to statements about the population it came from.</p>
 <div class="fragment">
-<p>Two things can go wrong:</p>
+<p>Two things to account for:</p>
 <ol type="1">
 <li class="fragment"><strong>A bad sample.</strong> If the sample doesn’t represent the population, we are biased, and no amount of math can fix that. <em>This is today.</em></li>
 <li class="fragment"><strong>Sampling variability.</strong> Even a perfectly good sample gives a slightly different answer each time. We can quantify this. <em>This is the next few weeks.</em></li>
@@ -319,6 +321,21 @@ Prof.&nbsp;Eric Friedlander
 <section id="where-do-data-come-from" class="title-slide slide level1 center">
 <h1>Where do data come from?</h1>
 
+</section>
+<section id="a-question-about-penguins" class="slide level2 smaller">
+<h2>A question about penguins</h2>
+<p>Size measurements for adult Adélie, Chinstrap, and Gentoo penguins observed on islands in the Palmer Archipelago, Antarctica.</p>
+
+<img data-src="images/01/culmen_depth.png" class="quarto-figure quarto-figure-center r-stretch" style="width:45.0%" alt="Diagram of a penguin bill showing bill length and bill depth"><div class="question">
+<p><strong>Research question:</strong> Do penguins with <em>longer</em> bills tend to have <em>deeper</em> or <em>shallower</em> bills?</p>
+</div>
+</section>
+<section id="bill-length-vs.-bill-depth" class="slide level2">
+<h2>Bill length vs.&nbsp;bill depth</h2>
+
+<img data-src="08-inference-islands_files/figure-html/unnamed-chunk-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
+<p>What does the relationship between length and depth look like? Keep this plot in mind, we’ll return to it.</p>
+</div>
 </section>
 <section id="two-kinds-of-studies" class="slide level2 smaller">
 <h2>Two kinds of studies</h2>
@@ -341,38 +358,133 @@ Prof.&nbsp;Eric Friedlander
 <ul>
 <li>The Coffee Truck: observational or experimental? Who chose <code>Price</code>, <code>Music</code>, and <code>Location</code>?</li>
 <li>The DC Bikeshare data: observational or experimental?</li>
+<li>The penguins data we just plotted: observational or experimental?</li>
 </ul>
 </div>
+</div>
+</section></section>
+<section>
+<section id="confounding-and-simpsons-paradox" class="title-slide slide level1 center">
+<h1>Confounding and Simpson’s Paradox</h1>
+
+</section>
+<section id="controlling-for-species" class="slide level2">
+<h2>Controlling for species</h2>
+
+<img data-src="08-inference-islands_files/figure-html/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
+<p>What does the relationship look like now?</p>
 </div>
 </section>
-<section id="observational-studies-come-in-flavors" class="slide level2 smaller">
-<h2>Observational studies come in flavors</h2>
-<ul>
-<li><strong>Cross-sectional:</strong> a snapshot, everyone measured at (about) one point in time.</li>
-<li><strong>Cohort:</strong> follow a group of people forward in time and see what happens to them.</li>
-<li><strong>Case-control:</strong> start from the outcome (cases) and compare them to people without it (controls), looking backward.</li>
-</ul>
+<section id="simpsons-paradox" class="slide level2 smaller">
+<h2>Simpson’s Paradox</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Model</th>
+<th style="text-align: center;">Slope for bill length</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>bill_depth_mm ~ bill_length_mm</code></td>
+<td style="text-align: center;">-0.09</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>bill_depth_mm ~ bill_length_mm + species</code></td>
+<td style="text-align: center;">0.2</td>
+</tr>
+</tbody>
+</table>
 <div class="fragment">
-<p>You’ll need these words in the methods section of your Islands project.</p>
+<p><strong>Simpson’s Paradox:</strong> a relationship between two variables <em>disappears or reverses</em> once you account for a third variable.</p>
+</div>
+<div class="fragment">
+<ul>
+<li><strong>Species</strong> is a <strong>confounding variable</strong>: it is related to <em>both</em> bill length (Gentoos have long bills) and bill depth (Gentoos have shallow bills).</li>
+<li>Pooling the species makes “longer bill” secretly mean “more likely a Gentoo.”</li>
+<li>Within any one species, longer bills go with <em>deeper</em> bills.</li>
+</ul>
 </div>
 </section>
-<section id="confounding" class="slide level2 smaller">
-<h2>Confounding</h2>
-
-<img data-src="08-inference-islands_files/figure-revealjs/unnamed-chunk-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"><div class="question">
-<p>Summer has more rentals than winter. Is it the <em>season</em> that causes riders to show up, or something that comes with the season?</p>
+<section id="what-is-a-confounder" class="slide level2 smaller">
+<h2>What is a confounder?</h2>
+<p>A <strong>confounding variable</strong> is related to <em>both</em> the explanatory and the response variable, so it can create, hide, or even reverse an apparent relationship.</p>
+<div class="fragment">
+<div class="question">
+<ul>
+<li>The pooled model and the species model use the <em>same data</em>. Which slope is “right”?</li>
+<li>Why is this a bigger worry in an <strong>observational study</strong> than in an <strong>experiment</strong>?</li>
+<li>Could there be a confounder we <em>didn’t</em> measure?</li>
+</ul>
+</div>
+</div>
+<div class="fragment">
+<ul>
+<li>Random assignment breaks the link between the explanatory variable and every confounder, measured or not.</li>
+<li>Basic idea: by randomly assigning the explanatory variable, the confounding variables should be kind of balanced</li>
+</ul>
 </div>
 </section>
-<section id="confounding-1" class="slide level2 smaller">
-<h2>Confounding</h2>
-
-<img data-src="08-inference-islands_files/figure-revealjs/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><ul>
-<li>A <strong>confounding variable</strong> is related to <em>both</em> the explanatory and the response variable, so it can create (or hide) an apparent relationship.</li>
-<li>Temperature travels with season <em>and</em> drives ridership.</li>
+<section id="association-vs.-causality" class="slide level2">
+<h2>Association vs.&nbsp;Causality</h2>
+<p>Famously: “Correlation does not imply causation!”</p>
+<p>Two types of questions we can ask:</p>
+<ul>
+<li>Are bill depth and bill length associated? (association/correlation)</li>
+<li>Does an increase in bill depth <strong>cause</strong> bill length to increase? (causation)</li>
 </ul>
 </section>
 <section id="what-can-we-conclude" class="slide level2 smaller">
 <h2>What can we conclude?</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Random assignment</strong></th>
+<th style="text-align: left;"><strong>No random assignment</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Causal conclusions</td>
+<td style="text-align: left;">Association only</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<div class="question">
+<p>In which of these can we conclude that there is a causal relationship between our explanatory and response variables?</p>
+<ul>
+<li>The Coffee Truck (location vs sales)</li>
+<li>Palmer penguins (bill depth vs.&nbsp;length)</li>
+<li>DC Bikeshare (temperature vs.&nbsp;count)</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="statistical-inferencegeneralization" class="slide level2">
+<h2>Statistical Inference/Generalization</h2>
+<p>Another question:</p>
+<ul>
+<li>Do the results we get from <strong>these</strong> penguins apply to <strong>all</strong> penguins?</li>
+<li>More generally: do the patterns we see in our <strong>sample</strong> apply to our <strong>population</strong>?</li>
+</ul>
+</section>
+<section id="simple-random-sample" class="slide level2">
+<h2>Simple Random Sample</h2>
+<ul>
+<li>For the answer to these questions to be yes… we must have a <strong>representative sample</strong></li>
+<li>Intuitively: our sample should look like a mini-version of our population</li>
+</ul>
+<div class="fragment">
+<ul>
+<li><strong>Simple random sample:</strong> every member of the population is equally likely to be chosen</li>
+<li>This random sampling allows us to generalize back to the population</li>
+<li>Idea: by randomly choosing observations, we’re not going to accidentally miss any patterns</li>
+</ul>
+</div>
+</section>
+<section id="updating-our-table" class="slide level2 smaller">
+<h2>Updating our table</h2>
 <table class="caption-top">
 <colgroup>
 <col style="width: 33%">
@@ -399,25 +511,43 @@ Prof.&nbsp;Eric Friedlander
 </tr>
 </tbody>
 </table>
-<div class="fragment">
 <div class="question">
-<p>Where do these studies go in the table?</p>
+<p>Where do each of these fall in the table:</p>
 <ul>
-<li>The Coffee Truck</li>
-<li>DC Bikeshare</li>
-<li>A survey of 300 randomly chosen islanders</li>
+<li>The Coffee Truck (location vs sales)</li>
+<li>Palmer penguins (bill depth vs.&nbsp;length)</li>
+<li>DC Bikeshare (temperature vs.&nbsp;count)</li>
 </ul>
 </div>
+</section>
+<section id="sampling-is-hard" class="slide level2 smaller">
+<h2>Sampling is hard !</h2>
+<ul>
+<li>Reality: usually impossible or impractical to do a truly SRS</li>
+<li>You will usually need to argue why your sample is “close enough” to a SRS or is a <strong>representative</strong> sample using the principles we discuss here</li>
+</ul>
+<div class="fragment">
+<p>Let’s go through some additional sampling techniques that either improve your sample or simplify your sampling in a principled way</p>
 </div>
 </section>
-<section id="sampling-how-did-the-data-get-into-our-hands" class="slide level2 smaller">
-<h2>Sampling: how did the data get into our hands?</h2>
+<section id="stratification" class="slide level2 smaller">
+<h2>Stratification</h2>
+<p>Suppose you want to conduct a political poll to find out whether a certain ballot measure will pass in the upcoming election:</p>
 <ul>
-<li><strong>Simple random sample:</strong> every member of the population is equally likely to be chosen.</li>
-<li><strong>Stratified sample:</strong> split the population into groups (<strong>strata</strong>) that are similar inside, then randomly sample from <em>every</em> stratum.</li>
+<li>You know that the party affiliation breakdown in Idaho is about 63% Republican, 25% Independent, 12% Democrat and you know that a persons party affiliation will probably explain a lot of the variation in which why they decide to vote on the ballot measure</li>
+<li>If you collect a simple random sample, you may get something like 60% R, 23% I, 17% D</li>
+<li><strong>Stratification/Stratified sampling:</strong> split the population into groups (<strong>strata</strong>) of similar individuals, then randomly sample from <em>every</em> stratum.</li>
+<li>To get a more accurate poll you might employ stratified sampling by party affiliation</li>
+<li>Real polls stratify by many different attributes (race, gender, party affiliation, educational attainment, income, etc…)</li>
+</ul>
+</section>
+<section id="cluster-sampling" class="slide level2">
+<h2>Cluster Sampling</h2>
+<p>Suppose it is the summer of 1985 and the very first test for HIV has become available. You would like to use it to estimate the prevalence of HIV in the nations blood supply. There are over 1,000 blood banks in the US and it is prohibitively expensive to collect samples from all of them… the internet doesn’t exist and you don’t have the manpower to sent out letters to thousands of blood banks and keep track of the replies.</p>
+<ul>
+<li>Instead you randomly select 30 different blood banks in the US</li>
+<li>Test all of the donations in each blood bank</li>
 <li><strong>Cluster sample:</strong> split the population into groups (<strong>clusters</strong>) that each look like a mini-population, randomly choose <em>some</em> clusters, and sample within those.</li>
-<li><strong>Stratified cluster / multistage:</strong> combine the two.</li>
-<li><strong>Convenience sample:</strong> whoever is easiest to reach. Watch out.</li>
 </ul>
 </section>
 <section id="strata-vs.-clusters" class="slide level2 smaller">
@@ -438,25 +568,32 @@ Prof.&nbsp;Eric Friedlander
 <li>Goal: save time and money</li>
 </ul>
 </div></div>
-<div class="fragment">
-<div class="question">
-<p>Which one would you use to survey College of Idaho students about their housing? By class year, or by residence hall? Which is which?</p>
-</div>
-</div>
+</section>
+<section id="real-samples-combine-these-techniques" class="slide level2">
+<h2>Real Samples Combine These Techniques</h2>
+<ul>
+<li>Most sampling techniques combine elements of Simple Random Sampling, Stratified Sampling, and Cluster Sampling
+<ul>
+<li>It is called <strong>Multistage Sampling</strong> if you first do, say, cluster sampling (stage 1) and then stratified sampling inside each cluster (stage 2)</li>
+</ul></li>
+<li>Other (not very good) forms of sampling:
+<ul>
+<li><strong>Convenience sample:</strong> whoever is easiest to reach. Watch out.</li>
+<li><strong>Judgement sample:</strong> using your own personal judgement to decide who to same. Easily introduce unconscious bias.</li>
+</ul></li>
+</ul>
 </section>
 <section id="how-a-sample-goes-wrong" class="slide level2 smaller">
 <h2>How a sample goes wrong</h2>
 <ul>
 <li><strong>Convenience bias:</strong> you sample the units that are easy to get.</li>
 <li><strong>Undercoverage:</strong> part of the population isn’t in your <strong>sampling frame</strong> (the list you sample from) at all.</li>
-<li><strong>Non-response:</strong> the people you chose don’t respond, and they differ from the ones who do.</li>
-<li><strong>Survivorship / selection bias:</strong> the way units <em>enter</em> the data is related to the outcome.</li>
+<li><strong>Selection bias:</strong> the way units <em>enter</em> the data is related to the outcome. Many types of selection bias:</li>
+<li><strong>Non-response bias:</strong> the people you chose don’t respond, and they differ from the ones who do.</li>
+<li><strong>Survivorship bias:</strong> your sample consists solely of observations that have successfully made it through some process</li>
+<li>Bias is a property of the <em>sampling process</em>, not the sample size</li>
+<li>Reality: impossible to design a perfect experiment to study… you must <strong>argue</strong> why these types of bias aren’t an issue</li>
 </ul>
-<div class="fragment">
-<div class="question">
-<p>Bias is a property of the <em>sampling process</em>, not the sample size. Would 1 million biased observations be better than 100 good ones?</p>
-</div>
-</div>
 </section></section>
 <section>
 <section id="welcome-to-the-islands" class="title-slide slide level1 center">
@@ -471,6 +608,7 @@ Prof.&nbsp;Eric Friedlander
 <li>You can <strong>assign</strong> islanders to treatments, which means you can run <strong>experiments</strong> as well as observational studies.</li>
 <li>Each islander can only do <strong>one task at a time</strong>, and the Islands have their own clock.</li>
 <li>It’s a simulation, so, in principle, we could census the whole population and check whether our inference was right.</li>
+<li>During the second half of the semester, we’ll use the Islands for our final class project.</li>
 </ul>
 <div class="appex">
 <p>🏝️ <a href="https://islands.smp.uq.edu.au/index.php">The Islands</a>: sign in with your College of Idaho email</p>
@@ -481,44 +619,8 @@ Prof.&nbsp;Eric Friedlander
 <ul>
 <li><strong>Visitor Center:</strong> information about the islands and islanders. Start with the <strong>Guides</strong> tab.</li>
 <li><strong>Academy:</strong> example studies. Good for asking, “what questions can be asked here?”</li>
-<li>Videos: <a href="https://youtu.be/iJPgXuq6yFg">Island Overview</a>, <a href="https://youtu.be/J00KIC0y-E8">Working with the Islanders</a>, <a href="https://youtu.be/NFSWwxKiFZs">Finding Groups on the Islands</a>, <a href="https://youtu.be/R9T0PS8hV6w">Time on the Islands</a></li>
-<li>Trouble signing in? Use “Need to set or reset your password?” with your College of Idaho email.</li>
+<li>Today: we’ll look at the “Life Expectancy On The Island”</li>
 </ul>
-</section>
-<section id="the-semester-project" class="slide level2 smaller">
-<h2>The semester project</h2>
-<p>You will design, run, and analyze your own study on the Islands with a group.</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Deliverable</th>
-<th style="text-align: left;">Due</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">1. Pilot</td>
-<td style="text-align: left;">Wed, Nov 4</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2. Power</td>
-<td style="text-align: left;">Wed, Nov 11</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">3. Preliminary analysis</td>
-<td style="text-align: left;">Wed, Nov 18</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">4. Full draft</td>
-<td style="text-align: left;">Mon, Nov 30</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">5. Final report + poster</td>
-<td style="text-align: left;">Finals week (Dec 7-10)</td>
-</tr>
-</tbody>
-</table>
-<p>Today’s activity is a small preview of the whole workflow: sample a population, tidy the data, fit a model, and ask what it means.</p>
 </section></section>
 <section>
 <section id="what-is-the-life-expectancy-on-the-island" class="title-slide slide level1 center">
@@ -527,6 +629,7 @@ Prof.&nbsp;Eric Friedlander
 </section>
 <section id="a-real-question" class="slide level2 smaller">
 <h2>A real question</h2>
+<p>This comes from the “Life expectancy on the Island” study that can be found in “The Academy”. This is a study conducted by a previous class at Macalester College.</p>
 <div class="question">
 <p><strong>What is the life expectancy on the Island?</strong> Is it different for men and women?</p>
 </div>
@@ -535,31 +638,6 @@ Prof.&nbsp;Eric Friedlander
 <li class="fragment">Can we measure everyone?</li>
 <li class="fragment">What would a good <strong>sample</strong> look like?</li>
 </ul>
-</section>
-<section id="how-a-previous-class-answered-it" class="slide level2 smaller">
-<h2>How a previous class answered it</h2>
-<blockquote>
-<p>Using a stratified cluster sample survey, we collected data from the Island’s records to calculate overall life expectancy on the Island, as well as male versus female life expectancies. We divided the island into geographic quadrants and each of us randomly collected data from birth records and individuals’ information pages, sampling 3-4 cities in our respective quadrants. Masha sampled data from Fairhaven, Serrano, Sunrise and Eden. Tyler collected data from Riverside, Valkov and Rosica. Abby sampled the populations living in Edwardton, Asderaki and Mossgiel. Jess collected data in Macondo, Durand Bay and Deep Bay. The information we collected included each individual’s birth year, death year and sex.</p>
-</blockquote>
-</section>
-<section id="how-a-previous-class-answered-it-continued" class="slide level2 smaller">
-<h2>How a previous class answered it (continued)</h2>
-<blockquote>
-<p>Once we compiled the data for approximately 500 people, we selected the people who died between 1980 and 2010 as well as those who are alive today. We made the assumption that this selection would give us a representative picture of present or contemporary life expectancy, since living conditions throughout the last thirty years could be considered relatively consistent and relevant. We also capped the age at 150, since our oldest person in the sample was 147. Once we applied these exclusions, our data for the actual calculations included approximately 300 people - still a significant number for this type of simulation.</p>
-</blockquote>
-<p><em>(They then built age-specific mortality rates from a life table. We’ll come back to that.)</em></p>
-</section>
-<section id="read-it-like-a-statistician" class="slide level2 smaller">
-<h2>Read it like a statistician</h2>
-<div class="question">
-<ul>
-<li>What is the <strong>population</strong>? What is the <strong>sampling frame</strong>?</li>
-<li>Which part is <strong>stratified</strong>? Which part is <strong>clustered</strong>?</li>
-<li>Why did they keep only people who died between 1980 and 2010 (or are still alive)? What does that <em>assumption</em> buy them?</li>
-<li>Why cap age at 150?</li>
-<li>~500 people sampled, ~300 analyzed. Who did we lose, and does it matter?</li>
-</ul>
-</div>
 </section>
 <section id="life-expectancy-is-trickier-than-it-sounds" class="slide level2 smaller">
 <h2>Life expectancy is trickier than it sounds</h2>
@@ -580,290 +658,77 @@ Prof.&nbsp;Eric Friedlander
 </div>
 </div>
 </section>
-<section id="todays-plan" class="slide level2 smaller">
-<h2>Today’s plan</h2>
-<p>You will mimic the stratified cluster design:</p>
-<ol type="1">
-<li>Each group gets a set of villages (a <strong>cluster</strong>).</li>
-<li>Within those villages, sample islanders who have died, and record <code>sex</code>, <code>birth_year</code>, and <code>death_year</code> in <strong>one shared Google Sheet</strong>.</li>
-<li>Compute <code>age_at_death = death_year - birth_year</code>.</li>
-<li>Pool everyone’s data, estimate life expectancy, and <strong>fit a model predicting age at death from sex</strong>.</li>
-</ol>
+<section id="how-a-previous-class-answered-it" class="slide level2 smaller">
+<h2>How a previous class answered it</h2>
+<p>Note: I think this was done with a previous version of the Islands simulation as the years and Islands don’t match what currently exists.</p>
+<blockquote>
+<p>Using a stratified cluster sample survey, we collected data from the Island’s records to calculate overall life expectancy on the Island, as well as male versus female life expectancies. We divided the island into geographic quadrants and each of us randomly collected data from birth records and individuals’ information pages, sampling 3-4 cities in our respective quadrants. Masha sampled data from Fairhaven, Serrano, Sunrise and Eden. Tyler collected data from Riverside, Valkov and Rosica. Abby sampled the populations living in Edwardton, Asderaki and Mossgiel. Jess collected data in Macondo, Durand Bay and Deep Bay. The information we collected included each individual’s birth year, death year and sex.</p>
+</blockquote>
 </section>
-<section id="village-assignments" class="slide level2 smaller">
-<h2>Village assignments</h2>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Group</th>
-<th style="text-align: left;">Villages</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">A</td>
-<td style="text-align: left;">Fairhaven, Serrano, Sunrise, Eden</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">B</td>
-<td style="text-align: left;">Riverside, Valkov, Rosica</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">C</td>
-<td style="text-align: left;">Edwardton, Asderaki, Mossgiel</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">D</td>
-<td style="text-align: left;">Macondo, Durand Bay, Deep Bay</td>
-</tr>
-</tbody>
-</table>
+<section id="how-a-previous-class-answered-it-continued" class="slide level2 smaller">
+<h2>How a previous class answered it (continued)</h2>
+<blockquote>
+<p>Once we compiled the data for approximately 500 people, we selected the people who died between 1980 and 2010 as well as those who are alive today. We made the assumption that this selection would give us a representative picture of present or contemporary life expectancy, since living conditions throughout the last thirty years could be considered relatively consistent and relevant. We also capped the age at 150, since our oldest person in the sample was 147. Once we applied these exclusions, our data for the actual calculations included approximately 300 people - still a significant number for this type of simulation.</p>
+</blockquote>
+<p><em>(They then built age-specific mortality rates from a life table. We’ll come back to that.)</em></p>
+</section>
+<section id="read-it-like-a-statistician" class="slide level2 smaller">
+<h2>Read it like a statistician</h2>
+<div class="question">
 <ul>
-<li class="fragment">Record <code>sex</code> as exactly <code>Female</code> or <code>Male</code>.</li>
-<li class="fragment">Include only islanders who died in 1980 or later, and drop anything with an age over 150.</li>
-<li class="fragment">Enter one row per islander. <strong>One task at a time per islander!</strong></li>
+<li>What is the <strong>population</strong>? What is the <strong>sampling frame</strong>?</li>
+<li>Which part is <strong>stratified</strong>? Which part is <strong>clustered</strong>?</li>
+<li>Why did they keep only people who died between 1980 and 2010 (or are still alive)? What does that <em>assumption</em> buy them?</li>
+<li>~500 people sampled, ~300 analyzed. Who did we lose, and does it matter?</li>
 </ul>
+</div>
 </section>
-<section id="activity" class="slide level2 smaller">
+<section id="activity" class="slide level2">
 <h2>Activity</h2>
 <div class="appex">
-<p>📋 <a href="../ae/ae-07-islands-life-expectancy.html">AE 07 - Life Expectancy on the Islands</a></p>
-</div>
-<p>Complete Exercises 1-3 (get oriented, collect, and load your pooled data).</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_aadafaec" minutes="25" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
-</div>
-</div>
-</section></section>
-<section>
-<section id="modeling-life-expectancy-from-sex" class="title-slide slide level1 center">
-<h1>Modeling life expectancy from sex</h1>
-
-</section>
-<section id="our-pooled-data" class="slide level2 smaller">
-<h2>Our pooled data</h2>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Note</strong></p>
-</div>
-<div class="callout-content">
-<p>The output on these slides is from a <strong>made-up</strong> island so the slides render before you’ve collected anything. Yours will look different.</p>
-</div>
-</div>
-</div>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>islands <span class="sc">|&gt;</span></span>
-<span id="cb1-2"><a></a>  <span class="fu">head</span>(<span class="dv">5</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-3"><a></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;">sex</th>
-<th style="text-align: right;">age_at_death</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">75</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">67</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">52</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">36</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">99</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="question">
-<p>What are the observational units? What are the variables, and which is the response?</p>
+<p>📋 <a href="../ae/ae-08-islands-data-collection.html">AE 08 - Collecting Data on the Islands</a></p>
 </div>
 </section>
-<section id="exploring-age-at-death" class="slide level2 smaller">
-<h2>Exploring age at death</h2>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">gf_boxplot</span>(age_at_death <span class="sc">~</span> sex, <span class="at">data =</span> islands, <span class="at">fill =</span> <span class="sc">~</span> sex, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a></a>  <span class="fu">gf_labs</span>(<span class="at">x =</span> <span class="st">"Sex"</span>, <span class="at">y =</span> <span class="st">"Age at death (years)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-
-</div>
-<img data-src="08-inference-islands_files/figure-revealjs/unnamed-chunk-5-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"></section>
-<section id="fitting-the-model" class="slide level2 smaller">
-<h2>Fitting the model</h2>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>le_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(age_at_death <span class="sc">~</span> sex, <span class="at">data =</span> islands)</span>
-<span id="cb3-2"><a></a></span>
-<span id="cb3-3"><a></a><span class="fu">tidy</span>(le_fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 5
-  term        estimate std.error statistic   p.value
-  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-1 (Intercept)    70.4       1.44     48.8  3.55e-129
-2 sexMale        -2.65      2.05     -1.29 1.97e-  1</code></pre>
-</div>
-</div>
-<p><span class="math display">\[
-\widehat{\text{age at death}} = 70.4 - 2.65 \times \text{sexMale}
-\]</span></p>
-<div class="question">
-<ul>
-<li>What is the reference level? How can you tell?</li>
-<li>What does the intercept mean? What does the slope mean?</li>
-</ul>
-</div>
-</section>
-<section id="interpreting-the-model" class="slide level2 smaller">
-<h2>Interpreting the model</h2>
-<ul>
-<li><strong>Intercept:</strong> the mean age at death for the reference group (<code>Female</code>): 70.4 years.</li>
-<li><strong>Slope:</strong> the <em>difference in means</em>. Men in our sample die 2.65 years earlier, on average, than women.</li>
-</ul>
-<div class="fragment">
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>islands <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a></a>  <span class="fu">group_by</span>(sex) <span class="sc">|&gt;</span></span>
-<span id="cb5-3"><a></a>  <span class="fu">summarize</span>(<span class="at">mean_age =</span> <span class="fu">mean</span>(age_at_death))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 2
-  sex    mean_age
-  &lt;chr&gt;     &lt;dbl&gt;
-1 Female     70.4
-2 Male       67.8</code></pre>
-</div>
-</div>
-<p>This is the same categorical-predictor model from Lesson 5.</p>
-</div>
-</section>
-<section id="work-time" class="slide level2 smaller">
-<h2>Work time</h2>
-<div class="appex">
-<p>📋 <a href="../ae/ae-07-islands-life-expectancy.html">AE 07 - Life Expectancy on the Islands</a></p>
-</div>
-<p>Complete Exercises 4-7 (explore, fit, interpret, and critique).</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_b61bd5dc" minutes="15" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
-</div>
-</div>
-</section></section>
-<section>
-<section id="is-the-difference-between-men-and-women-real" class="title-slide slide level1 center">
-<h1>Is the difference between men and women real?</h1>
-
-</section>
-<section id="the-question" class="slide level2 smaller">
-<h2>The question</h2>
-<p>Our model says men and women differ by about 2.65 years in our sample.</p>
-<div class="question">
-<p><strong>Is the difference between men and women real?</strong></p>
-</div>
-<div class="fragment">
-<p><em>What could “real” mean here?</em></p>
-</div>
-</section>
-<section id="same-population-different-samples" class="slide level2 smaller">
-<h2>Same population, different samples</h2>
-<p>In our made-up world we <em>know</em> the population, so let’s take four more samples of the same size.</p>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
-<span id="cb7-2"><a></a></span>
-<span id="cb7-3"><a></a><span class="fu">map_dfr</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, \(i) {</span>
-<span id="cb7-4"><a></a>  island_pop <span class="sc">|&gt;</span></span>
-<span id="cb7-5"><a></a>    <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">250</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-6"><a></a>    <span class="fu">lm</span>(age_at_death <span class="sc">~</span> sex, <span class="at">data =</span> _) <span class="sc">|&gt;</span></span>
-<span id="cb7-7"><a></a>    <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
-<span id="cb7-8"><a></a>    <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"sexMale"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-9"><a></a>    <span class="fu">mutate</span>(<span class="at">sample =</span> i)</span>
-<span id="cb7-10"><a></a>}) <span class="sc">|&gt;</span></span>
-<span id="cb7-11"><a></a>  <span class="fu">select</span>(sample, estimate) <span class="sc">|&gt;</span></span>
-<span id="cb7-12"><a></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: right;">sample</th>
-<th style="text-align: right;">estimate</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">-1.68</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">-4.28</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">-4.20</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">-2.14</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="question">
-<p>Same island, same model, same sample size. Four different slopes. Which one is “right”?</p>
-</div>
-</section>
-<section id="two-competing-explanations" class="slide level2 smaller">
-<h2>Two competing explanations</h2>
-<p>If a sample slope <span class="math inline">\(\hat{\beta}_1\)</span> is not zero, there are (at least) two reasons why:</p>
+<section id="todays-plan" class="slide level2 smaller">
+<h2>Today’s plan</h2>
+<p>You will adapt the stratified cluster design:</p>
 <ol type="1">
-<li class="fragment">There <strong>is</strong> a real difference in the population: <span class="math inline">\(\beta_1 \neq 0\)</span>.</li>
-<li class="fragment">There is no real difference, and we just got a <strong>lucky (or unlucky) draw</strong>: <span class="math inline">\(\beta_1 = 0\)</span> but <span class="math inline">\(\hat{\beta}_1 \neq 0\)</span>.</li>
+<li>Different Islands might have drastically different life expectancies so let’s make sure we sample individuals from each island (i.e.&nbsp;stratify by island)</li>
+<li>Individual villages within each Island may also have some variation in life expectancy. However, it will be too difficult to sample EVERY village so we’ll treat these as clusters.</li>
+<li>Each person in this class will be randomly assigned one village.</li>
+<li>Within your assigned village, navigate to the Town Hall and click on <strong>Records</strong>. Click on the 375-399 link. This will pull up the records of all people who have died between the Island year 375 and 399 in your village.</li>
+<li>Navigate to <a href="https://yotescollegeofidaho-my.sharepoint.com/:x:/g/personal/efriedlander_collegeofidaho_edu/IQB2Q0ijZYPzQYuumjlk_x09AQaTTMpIIkDa73TeNCMKJiI?e=16bSqH">this shared Excel sheet</a>, create a new worksheet (the + button at the bottom), rename it with your Island number, and then copy and past the list of Islanders into that sheet.</li>
 </ol>
-<div class="fragment">
-<p>Sampling variability means a sample statistic won’t equal the population parameter, so <strong>the data alone can’t tell us which explanation is right.</strong> We need a way to measure how much a slope is <em>expected</em> to bounce around.</p>
-</div>
-<div class="fragment">
-<div class="question">
-<p>Look at the four slopes on the previous slide. How big would the slope have to be before <em>you’d</em> be convinced?</p>
-</div>
-</div>
 </section>
-<section id="back-to-the-ae" class="slide level2 smaller">
-<h2>Back to the AE</h2>
-<div class="appex">
-<p>📋 <a href="../ae/ae-07-islands-life-expectancy.html">AE 07 - Life Expectancy on the Islands</a></p>
-</div>
-<p>Complete Exercises 8-9: refit the model using only your own group’s villages, compare slopes on the board, and decide how confident you are.</p>
+<section id="todays-plan-continued" class="slide level2 smaller">
+<h2>Today’s plan continued</h2>
+<ol start="6" type="1">
+<li>Randomly select 10 of them.</li>
+</ol>
+<ul>
+<li>In the sheet you just pasted you should be able to see how many individuals that are based on the number of rows.</li>
+<li>Run the following choose 10 random numbers:</li>
+</ul>
 <div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_c53c2667" minutes="10" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>birthday <span class="ot">&lt;-</span> <span class="co"># put your birth here in MMDDYYYY format (e.g. 12181988)</span></span>
+<span id="cb1-2"><a></a><span class="fu">set.seed</span>(birthday)</span>
+<span id="cb1-3"><a></a>number_of_villagers <span class="ot">&lt;-</span> <span class="co"># put your total number of Islanders here</span></span>
+<span id="cb1-4"><a></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>number_of_villagers, <span class="dv">10</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</div>
+<ol start="7" type="1">
+<li>Use the numbers to identify which islanders to sample sample and record your name, the island, the village, the villagers name, sex, birth year, and death_year in the <strong>MASTER DATASET</strong> worksheet in that same shared Excel sheet.</li>
+<li>Your AE-08 Credit will be determined by whether you’ve entered all of the data by the next class period.</li>
+</ol>
 </section>
 <section id="recap" class="slide level2 smaller">
 <h2>Recap</h2>
 <ul>
-<li><strong>Population</strong> vs.&nbsp;<strong>sample</strong>, <strong>parameter</strong> vs.&nbsp;<strong>statistic</strong>: inference means using <span class="math inline">\(\hat{\beta}_1\)</span> to learn about <span class="math inline">\(\beta_1\)</span>.</li>
+<li><strong>Population</strong> vs.&nbsp;<strong>sample</strong>, <strong>parameter</strong> vs.&nbsp;<strong>statistic</strong>: inference means using a statistic like <span class="math inline">\(\hat{\beta}_1\)</span> to learn about a parameter like <span class="math inline">\(\beta_1\)</span>.</li>
 <li><strong>Observational studies</strong> observe; <strong>experiments</strong> assign. Only random assignment supports causal claims, and only random sampling supports generalizing.</li>
 <li><strong>Confounders</strong> are related to both the explanatory and response variables.</li>
 <li><strong>Stratified</strong> samples take units from every group; <strong>cluster</strong> samples take <em>all or some units from some groups</em>. Bias comes from the <em>sampling process</em>, not the sample size.</li>
-<li>A regression with a categorical predictor estimates a <strong>difference in means</strong>, but a different sample gives a different <span class="math inline">\(\hat{\beta}_1\)</span>.</li>
-<li><strong>Next time:</strong> how do we measure how much a slope should bounce around by chance?</li>
+<li>We designed a stratified cluster sample of the Islands to estimate life expectancy.</li>
+<li><strong>Before next class:</strong> finish entering your 10 islanders in the MASTER DATASET. <strong>Next time:</strong> we analyze the data we collected.</li>
 </ul>
 
 
@@ -1086,44 +951,6 @@ Prof.&nbsp;Eric Friedlander
         ]
       });
     </script>
-    
-    <script>
-      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-      // slide changes (different for each slide format).
-      (function () {
-        // dispatch for htmlwidgets
-        function fireSlideEnter() {
-          const event = window.document.createEvent("Event");
-          event.initEvent("slideenter", true, true);
-          window.document.dispatchEvent(event);
-        }
-
-        function fireSlideChanged(previousSlide, currentSlide) {
-          fireSlideEnter();
-
-          // dispatch for shiny
-          if (window.jQuery) {
-            if (previousSlide) {
-              window.jQuery(previousSlide).trigger("hidden");
-            }
-            if (currentSlide) {
-              window.jQuery(currentSlide).trigger("shown");
-            }
-          }
-        }
-
-        // hookup for slidy
-        if (window.w3c_slidy) {
-          window.w3c_slidy.add_observer(function (slide_num) {
-            // slide_num starts at position 1
-            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-          });
-        }
-
-      })();
-    </script>
-
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
