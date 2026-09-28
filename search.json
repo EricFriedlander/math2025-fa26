@@ -2548,7 +2548,7 @@
     "href": "slides/08-inference-islands.html#population-and-sample",
     "title": "Study Design and Sampling",
     "section": "Population and sample",
-    "text": "Population and sample\n\nPopulation: the complete set of observations we care about\nSample: the subset we actually observe (denote sample size \\(n\\))\nA parameter is a number describing the population: \\(\\mu\\), \\(\\beta_1\\)\nA statistic is a number computed from the sample: \\(\\bar{x}\\), \\(\\hat{\\beta}_1\\)\n\n\n\n\n\n\nPopulation\nSample\n\n\n\n\nSize\n\\(N\\) (sometimes)\n\\(n\\)\n\n\nMean\n\\(\\mu\\)\n\\(\\bar{x}\\)\n\n\nSlope\n\\(\\beta_1\\)\n\\(\\hat{\\beta}_1\\)\n\n\n\n\n\nWe (almost) never get to see the parameter.\nWe see a statistic and use that to reason about the parameter."
+    "text": "Population and sample\n\nPopulation: the complete set of observations we care about\nSample: the subset we actually observe (denote sample size \\(n\\))\nA parameter is a number describing the population: \\(\\mu\\), \\(\\beta_1\\)\nA statistic is a number computed from the sample: \\(\\bar{x}\\), \\(\\hat{\\beta}_1\\)\n\n\n\n\n\n\nPopulation\nSample\n\n\n\n\nSize\n\\(N\\) (sometimes)\n\\(n\\)\n\n\nMean\n\\(\\mu\\)\n\\(\\bar{x}\\)\n\n\nSlope\n\\(\\beta_1\\)\n\\(\\hat{\\beta}_1\\)\n\n\n\n\n\n\nJust to make things confusing… if we use the empty model the mean is \\(\\beta_0\\) and \\(\\hat{\\beta}_0\\).\nPotentially helpful: all this notation is make to easier for us to talk about these things\n\n\n\nWe (almost) never get to see the parameter.\nWe see a statistic and use that to reason about the parameter."
   },
   {
     "objectID": "slides/08-inference-islands.html#sampling-is-natural",

@@ -293,6 +293,12 @@ Prof.&nbsp;Eric Friedlander
 </table>
 </div>
 <div class="fragment">
+<ul>
+<li>Just to make things confusing… if we use the <strong>empty model</strong> the mean is <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span>.</li>
+<li>Potentially helpful: all this notation is make to easier for us to talk about these things</li>
+</ul>
+</div>
+<div class="fragment">
 <p>We (almost) never get to see the parameter.</p>
 <p>We see a statistic and use that to reason about the parameter.</p>
 </div>
@@ -333,7 +339,7 @@ Prof.&nbsp;Eric Friedlander
 <section id="bill-length-vs.-bill-depth" class="slide level2">
 <h2>Bill length vs.&nbsp;bill depth</h2>
 
-<img data-src="08-inference-islands_files/figure-html/unnamed-chunk-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
+<img data-src="08-inference-islands_files/figure-revealjs/unnamed-chunk-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
 <p>What does the relationship between length and depth look like? Keep this plot in mind, we’ll return to it.</p>
 </div>
 </section>
@@ -371,7 +377,7 @@ Prof.&nbsp;Eric Friedlander
 <section id="controlling-for-species" class="slide level2">
 <h2>Controlling for species</h2>
 
-<img data-src="08-inference-islands_files/figure-html/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
+<img data-src="08-inference-islands_files/figure-revealjs/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
 <p>What does the relationship look like now?</p>
 </div>
 </section>
@@ -951,6 +957,44 @@ Prof.&nbsp;Eric Friedlander
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
