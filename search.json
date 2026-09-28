@@ -2660,7 +2660,7 @@
     "href": "slides/08-inference-islands.html#cluster-sampling",
     "title": "Study Design and Sampling",
     "section": "Cluster Sampling",
-    "text": "Cluster Sampling\nSuppose it is the summer of 1985 and the very first test for HIV has become available. You would like to use it to estimate the prevalence of HIV in the nations blood supply. There are over 1,000 blood banks in the US and it is prohibitively expensive to collect samples from all of them… the internet doesn’t exist and you don’t have the manpower to sent out letters to thousands of blood banks and keep track of the replies.\n\nInstead you randomly select 30 different blood banks in the US\nTest all of the donations in each blood bank\nCluster sample: split the population into groups (clusters) that each look like a mini-population, randomly choose some clusters, and sample within those."
+    "text": "Cluster Sampling\nPodcast Rec: Fiasco\nSuppose it is the summer of 1985 and the very first test for HIV has become available. You would like to use it to estimate the prevalence of HIV in the nation’s blood supply. There are over 1,000 blood banks in the US and it is prohibitively expensive to collect samples from all of them… the internet doesn’t exist and you don’t have the manpower to sent out letters to thousands of blood banks and keep track of the replies.\n\nInstead you randomly select 30 different blood banks in the US\nTest all of the donations in each blood bank\nCluster sample: split the population into groups (clusters) that each look like a mini-population, randomly choose some clusters, and sample within those."
   },
   {
     "objectID": "slides/08-inference-islands.html#strata-vs.-clusters",
