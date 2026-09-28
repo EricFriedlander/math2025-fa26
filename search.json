@@ -2751,7 +2751,7 @@
     "href": "slides/08-inference-islands.html#todays-plan-continued",
     "title": "Study Design and Sampling",
     "section": "Today’s plan continued",
-    "text": "Today’s plan continued\n\nRandomly select 10 of them.\n\n\nIn the sheet you just pasted you should be able to see how many individuals that are based on the number of rows.\nRun the following choose 10 random numbers:\n\n\nbirthday &lt;- # put your birth here in MMDDYYYY format (e.g. 12181988)\nset.seed(birthday)\nnumber_of_villagers &lt;- # put your total number of Islanders here\nsample(1:number_of_villagers, 10) \n\n\nUse the numbers to identify which islanders to sample sample and record your name, the island, the village, the villagers name, sex, birth year, and death_year in the MASTER DATASET worksheet in that same shared Excel sheet.\nYour AE-08 Credit will be determined by whether you’ve entered all of the data by the next class period."
+    "text": "Today’s plan continued\n\nRandomly select 10 of them.\n\n\nIn the sheet you just pasted you should be able to see how many individuals there are based on the number of rows.\nRun the following choose 10 random numbers:\n\n\nbirthday &lt;- # put your birth here in MMDDYYYY format (e.g. 12181988)\nset.seed(birthday)\nnumber_of_villagers &lt;- # put your total number of Islanders here\nsample(1:number_of_villagers, 10) \n\n\nUse the numbers to identify which islanders to sample sample and record your name, the island, the village, the villagers name, sex, birth year, and death_year in the MASTER DATASET worksheet in that same shared Excel sheet.\nYour AE-08 Credit will be determined by whether you’ve entered all of the data by the next class period."
   },
   {
     "objectID": "slides/08-inference-islands.html#recap",
