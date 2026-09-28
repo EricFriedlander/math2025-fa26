@@ -58,11 +58,9 @@ format:
         </style>
 ---
 
-<!-- TODO (instructor): fill in the Canvas link below before class. -->
-
 ::: callout-important
 - Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-08".
-- Go to the assignment for this activity in [Canvas]() to get started.
+- Go to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743/assignments/244041) to get started.
 - Upload the `ae-08-islands-data-collection.qmd` file into the folder you just created.
 - **Your credit for this AE is based on whether all 10 of your islanders are entered in the MASTER DATASET by the start of the next class.**
 :::

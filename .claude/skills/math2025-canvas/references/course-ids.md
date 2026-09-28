@@ -24,7 +24,7 @@ matters (see the snippet at the bottom).
 - `241903` — **Roll Call Attendance**: 0 pts, in the Homework group, `omit_from_final_grade=True`.
   Pre-existing course infrastructure, not part of the lecture rollout — leave it alone.
 
-## Snapshot as of 2026-09-21 (will go stale — verify before relying on it)
+## Snapshot as of 2026-09-28 (will go stale — verify before relying on it)
 
 ### Modules
 
@@ -37,10 +37,20 @@ matters (see the snippet at the bottom).
 | `78918` | 5 | Lecture 3 — Data Cleaning (Wed, Sep 9) |
 | `78951` | 6 | Lecture 4 — Introduction to Simple Linear Regression (Mon, Sep 14) |
 | `78952` | 7 | Lecture 5 — Categorical Predictors (Wed, Sep 16) — full Prepare/Slides/AE/HW item set |
-| `78987` | 8 | Lecture 6 — Residuals, Least Squares, and Model Evaluation (Mon, Sep 21) — full Prepare/Slides/AE item set (no HW). Module itself is published; the new Slides (`404267`) and AE-06 (`404268`) items are **unpublished** — publish by hand. |
-| `79101` | 9 | Lecture 7 — Intro To Islands & Project (Wed, Sep 23) — one item, the 0-pt Prepare assignment (`404269`, `must_mark_done`). Module and item both **unpublished**. |
+| `78987` | 8 | Lecture 6 — Residuals & Least Squares (Mon, Sep 21) — full Prepare/Slides/AE item set (no HW), fully published |
+| `79101` | 9 | Lecture 7 — Model Evaluation (Wed, Sep 23) — Slides/AE/HW item set (no Prepare — it moved to Lecture 8's module when the Islands content shifted), fully published |
+| `79118` | 10 | Lecture 8 — Study Design, Sampling & the Islands (Mon, Sep 28) — full Prepare/Slides/AE item set (no HW), fully published |
+| `79162` | 11 | Lecture 9 — Modeling Life Expectancy on the Islands (Wed, Sep 30) — Prepare item only so far (`ExternalUrl`, not an assignment — see note below), unpublished |
 
-The next lecture module should be created at `position=10`.
+The next lecture module should be created at `position=12`.
+
+Note: the Islands/inference content and its Prepare assignment originally lived under a
+Lecture 7 module; when the schedule shifted that content to Lecture 8, the Prepare module item
+(`404269`, assignment `243763`) was moved into the new Lecture 8 module rather than duplicated,
+and the module itself was renamed from its stale "Intro to Islands & inference" wording to match
+the current schedule's Topic column. If a lecture's module name and the `index.qmd` Topic column
+ever disagree, that's a sign of exactly this kind of content shift — check before assuming the
+module name is current.
 
 ⚠️ `create_module`/`create_module_item` with `published: True` in the payload does **not**
 actually publish on creation (observed 2026-09-14: modules 78951/78952 and their ExternalUrl
@@ -58,20 +68,34 @@ items came back `published=False` despite the flag) — always re-`.edit(module=
 | `243285` | HW-02: Park access | Homework | 17 | points | 2026-09-16T16:50:00Z |
 | `243518` | AE-05: The Coffee Truck | Application Exercises | 10 | points | 2026-09-21T16:50:00Z |
 | `243519` | HW-03: The Coffee Truck | Homework | 30 | points | 2026-09-23T16:50:00Z |
-| `243762` | AE-06: Comparing Models with the Coffee Truck | Application Exercises | 10 | points | 2026-09-23T16:50:00Z |
-| `243763` | Prepare: Reading for Lecture 7 | Preparation | 0 | points | 2026-09-23T16:50:00Z |
+| `243762` | AE-06/07: Comparing Models with the Coffee Truck | Application Exercises | 20 | points | 2026-09-28T16:50:00Z |
+| `243763` | Prepare: Reading for Lecture 8 | Preparation | 0 | points | 2026-09-28T16:50:00Z |
+| `243850` | HW-04: Education & median income in US Counties | Homework | 30 | points | 2026-09-30T16:50:00Z |
+| `244041` | AE-08: Collecting Data on the Islands | Application Exercises | 10 | points | 2026-09-30T16:50:00Z |
 
 Note: AE-03 was renamed AE-03/04 and its points bumped 10 → 20 when the bikeshare activity was
 split across lectures 3 and 4; the same assignment (`243284`) is linked from both lecture
-modules rather than creating a separate AE-04.
+modules rather than creating a separate AE-04. Same pattern for AE-06, renamed AE-06/07 and
+bumped 10 → 20 pts, linked from both the Lecture 6 and Lecture 7 modules.
 
 Note: on 2026-09-21, all assignments except `241903` (Roll Call Attendance) were switched to
-`grading_type='points'` (four — AE-03/04, AE-05, HW-02, HW-03 — were backfilled from
-`'percent'`; point values unchanged). This is now the course standard.
+`grading_type='points'`. This is now the course standard.
 
-Note: AE-06 (`243762`) and the Lecture 7 Prepare assignment (`243763`), created 2026-09-21, are
-**unpublished**, as are their module items and module `79101` — publish by hand in the Canvas
-UI when ready.
+Note: `243763` was originally created as the Lecture 7 Prepare assignment, then renamed and
+its due date moved to 2026-09-28 when the Islands content shifted to Lecture 8 — see the
+Modules section note above.
+
+⚠️ **Correction (2026-09-28): the assignment-based Prepare item (`243763`/`404269` on Lecture 8)
+was a one-off, not a new course standard.** It was initially misread as "the current convention
+as of 2026-09-21" and a second one was created the same way for Lecture 9 (assignment `244042`,
+module item `404785`) before the user caught it and had both deleted. Every other lecture's
+Prepare item (Lectures 4-9 confirmed live) is a plain `ExternalUrl` module item titled
+`Prepare: Reading for Lecture N`, pointing straight at the published prepare page — **no
+separate Canvas assignment, no gradebook entry, no completion requirement.** Follow that format
+for all future lectures unless the user explicitly asks for another one-off like Lecture 8's.
+
+All assignments and modules listed above are **published** as of this snapshot, except module
+`79162` (Lecture 9), which is unpublished and still needs a manual publish in the Canvas UI.
 
 ### Data files uploaded to Canvas course files
 

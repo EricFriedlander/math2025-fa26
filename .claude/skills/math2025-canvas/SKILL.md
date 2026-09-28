@@ -100,34 +100,23 @@ semester progresses.
   reporting back to the user — publishing is the instructor's call, not something to do
   automatically. Only skip this if the user has explicitly asked for it to go live.
 
-## Prepare assignments (To Do list)
+## Prepare items — plain `ExternalUrl`, not an assignment
 
-As of 2026-09-21, a lecture's Prepare item is a real Canvas assignment (not just an
-`ExternalUrl` module item), so it surfaces on students' To Do list/planner without asking for
-a file:
+The Prepare item is an `ExternalUrl` module item (see Module conventions above), not a Canvas
+assignment — no gradebook entry, no submission, no completion requirement. This is the format
+used for every lecture confirmed live (4 through 9):
 
-- **Name**: `Prepare: Reading for Lecture N`.
-- **Assignment group**: **Preparation** (`49170`, 0% weight) — a dedicated group so prep work
-  never touches the gradebook. Weighted grading is on for the course
-  (`apply_assignment_group_weights=True`); confirm existing group weights still sum to 100
-  before adding a 0%-weight group (they do as of this writing).
-- **Points**: always **0**, `grading_type='points'`.
-- **Submission**: `submission_types=['none']`, `omit_from_final_grade=True` — no file to hand
-  in, and it's explicitly excluded from the final grade calculation.
-- **Due date**: end of that lecture's class period, `16:50Z`, i.e. the same date the lecture
-  meets (not the next class, unlike AE due dates).
-- **Module item**: `type: 'Assignment'`, with `completion_requirement={'type':
-  'must_mark_done'}` so it gives students a "Mark as done" button. This **replaces** the
-  `ExternalUrl` Prepare item in that lecture's module rather than sitting alongside it — one
-  item per lecture's Prepare, not two. Canvas's List View Dashboard (Student Planner) lists
-  non-submittable assignments with a due date, and Mark-as-Done requirements sync with the
-  To Do list; verify in Student View after publishing since Card View has historically favored
-  submittable items.
-- **Description template**:
-  ```html
-  <p>Before class on <Dow>, <Mon D>, complete the prep for Lecture N: <a href="<published prepare page URL>" target="_blank"><published prepare page URL></a></p>
-  <p>This assignment is worth 0 points and does not count toward your grade. It is here so the prep shows up on your To Do list. When you have finished, click <strong>Mark as done</strong> at the bottom of this page.</p>
-  ```
+- **Title**: `Prepare: Reading for Lecture N`.
+- **URL**: the published prepare page, `https://ericfriedlander.github.io/math2025-fa26/prepare/prep-NN.html`.
+
+⚠️ **One confirmed one-off exception, do not generalize from it:** Lecture 8's Prepare
+(`243763`/module item `404269`) is a real Canvas assignment (Preparation group, 0 points,
+`submission_types=['none']`, `omit_from_final_grade=True`, `completion_requirement={'type':
+'must_mark_done'}`) so it would surface on the student To Do list. This was a one-off, not a
+new standard — it was misread as "the current convention as of 2026-09-21" once already
+(2026-09-28) and a duplicate was mistakenly built for Lecture 9 before being caught and deleted.
+Unless the user explicitly asks to repeat the To Do-list treatment for a specific lecture,
+default every new Prepare item to the plain `ExternalUrl` format above.
 
 ## Assignment description HTML
 
