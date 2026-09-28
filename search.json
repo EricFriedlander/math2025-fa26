@@ -2645,8 +2645,8 @@
     "objectID": "slides/08-inference-islands.html#sampling-is-hard",
     "href": "slides/08-inference-islands.html#sampling-is-hard",
     "title": "Study Design and Sampling",
-    "section": "Sampling is hard !",
-    "text": "Sampling is hard !\n\nReality: usually impossible or impractical to do a truly SRS\nYou will usually need to argue why your sample is “close enough” to a SRS or is a representative sample using the principles we discuss here\n\n\nLet’s go through some additional sampling techniques that either improve your sample or simplify your sampling in a principled way"
+    "section": "Sampling is hard!",
+    "text": "Sampling is hard!\n\nReality: usually impossible or impractical to do a truly SRS\nYou will usually need to argue why your sample is “close enough” to a SRS or is a representative sample using the principles we discuss here\nMost samples are not perfect and you need to understand the reasoning behind random assignment and random sampling to make judgement’s on how reasonable your conclusions are\n\n\nEngage small soapbox…\n\n\nLet’s go through some additional sampling techniques that either improve your sample or simplify your sampling in a principled way"
   },
   {
     "objectID": "slides/08-inference-islands.html#stratification",
