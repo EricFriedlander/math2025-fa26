@@ -2632,7 +2632,7 @@
     "href": "slides/08-inference-islands.html#simple-random-sample",
     "title": "Study Design and Sampling",
     "section": "Simple Random Sample",
-    "text": "Simple Random Sample\n\nFor the answer to these questions to be yes… we must have a representative sample\nIntuitively: our sample should look like a mini-version of our population\n\n\n\nSimple random sample: every member of the population is equally likely to be chosen\nThis random sampling allows us to generalize back to the population\nIdea: by randomly choosing observations, we’re not going to accidentally miss any patterns"
+    "text": "Simple Random Sample\n\nFor the answer to these questions to be yes… we must have a representative sample\nIntuitively: our sample should look like a mini-version of our population\n\n\n\nSimple random sample: every member of the population is equally likely to be chosen\nThis random sampling allows us to generalize back to the population\nIdea: by randomly choosing observations, we minimize our chances of missing any patterns"
   },
   {
     "objectID": "slides/08-inference-islands.html#updating-our-table",
