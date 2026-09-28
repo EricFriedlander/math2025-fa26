@@ -2639,7 +2639,7 @@
     "href": "slides/08-inference-islands.html#updating-our-table",
     "title": "Study Design and Sampling",
     "section": "Updating our table",
-    "text": "Updating our table\n\n\n\n\n\n\n\n\n\nRandom assignment\nNo random assignment\n\n\n\n\nRandom sample\nCausal conclusions and generalizes to the population\nAssociation only, but generalizes to the population\n\n\nNo random sample\nCausal conclusions, but only for the people/units in the study\nAssociation only, only for the people/units in the study\n\n\n\n\nWhere do each of these fall in the table:\n\nThe Coffee Truck (location vs sales)\nPalmer penguins (bill depth vs. length)\nDC Bikeshare (temperature vs. count)"
+    "text": "Updating our table\n\n\n\n\n\n\n\n\n\nRandom assignment\nNo random assignment\n\n\n\n\nRandom sample\nCausal conclusions and generalizes to the population\nAssociation only, but generalizes to the population\n\n\nNo random sample\nCausal conclusions, but only for the people/units in the study\nAssociation only, only for the people/units in the study\n\n\n\n\nWhere do each of these fall in the table:\n\nThe Coffee Truck (location vs sales)\nPalmer penguins (bill depth vs. length)\nDC Bikeshare (temperature vs. count)\nIs it possible to do random assignment with a bill length?\nAside from species, what are some other confounding variable that we think may cause both bill depth and bill length to increase or decrease?"
   },
   {
     "objectID": "slides/08-inference-islands.html#sampling-is-hard",
