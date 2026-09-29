@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Insert Name Here">
 
-<title>HW 05: Modeling the Islands Data and Reading Two Studies – MATH 2025 - Fall 2026</title>
+<title>AE 10: Does Sex Explain More Variation Than Chance? – MATH 2025 - Fall 2026</title>
 <style>
 
 code{white-space: pre-wrap;}
@@ -4445,7 +4444,7 @@ color: #ffd283;
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">HW 05: Modeling the Islands Data and Reading Two Studies</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">AE 10: Does Sex Explain More Variation Than Chance?</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -4539,23 +4538,16 @@ color: #ffd283;
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro</a></li>
+  <li><a href="#part-1-exploring-the-pooled-data" id="toc-part-1-exploring-the-pooled-data" class="nav-link" data-scroll-target="#part-1-exploring-the-pooled-data">Part 1: Exploring the pooled data</a>
   <ul class="collapse">
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link" data-scroll-target="#learning-goals">Learning goals</a></li>
+  <li><a href="#loading-the-data" id="toc-loading-the-data" class="nav-link" data-scroll-target="#loading-the-data">Loading the data</a></li>
+  <li><a href="#estimating-life-expectancy" id="toc-estimating-life-expectancy" class="nav-link" data-scroll-target="#estimating-life-expectancy">Estimating life expectancy</a></li>
+  <li><a href="#thinking-critically" id="toc-thinking-critically" class="nav-link" data-scroll-target="#thinking-critically">Thinking critically</a></li>
   </ul></li>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting Started</a>
-  <ul class="collapse">
-  <li><a href="#log-in-to-rstudio" id="toc-log-in-to-rstudio" class="nav-link" data-scroll-target="#log-in-to-rstudio">Log in to RStudio</a></li>
-  <li><a href="#r-and-rstudio" id="toc-r-and-rstudio" class="nav-link" data-scroll-target="#r-and-rstudio">R and RStudio</a></li>
-  </ul></li>
-  <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages">Packages</a></li>
-  <li><a href="#background-reading" id="toc-background-reading" class="nav-link" data-scroll-target="#background-reading">Background reading</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
-  <li><a href="#part-1-reading-two-studies" id="toc-part-1-reading-two-studies" class="nav-link" data-scroll-target="#part-1-reading-two-studies">Part 1: Reading two studies</a></li>
-  <li><a href="#part-2-extra-credit-modeling-the-class-data" id="toc-part-2-extra-credit-modeling-the-class-data" class="nav-link" data-scroll-target="#part-2-extra-credit-modeling-the-class-data">Part 2: Extra credit, modeling the class data</a></li>
-  <li><a href="#grading-30-pts-3.5-extra-credit" id="toc-grading-30-pts-3.5-extra-credit" class="nav-link" data-scroll-target="#grading-30-pts-3.5-extra-credit">Grading (30 pts + 3.5 Extra Credit)</a></li>
+  <li><a href="#part-2-does-sex-explain-more-variation-than-chance" id="toc-part-2-does-sex-explain-more-variation-than-chance" class="nav-link" data-scroll-target="#part-2-does-sex-explain-more-variation-than-chance">Part 2: Does sex explain more variation than chance?</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/hw/hw-05.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/ae/ae-10-islands-inference.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -4563,20 +4555,14 @@ color: #ffd283;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">HW 05: Modeling the Islands Data and Reading Two Studies</h1>
-<p class="subtitle lead">Your first Islands models, plus generalizability and causation in two published studies</p>
+<h1 class="title">AE 10: Does Sex Explain More Variation Than Chance?</h1>
+<p class="subtitle lead">Exploring the pooled Islands data and shuffling to build a null distribution</p>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Insert Name Here </p>
-          </div>
-  </div>
     
   
     
@@ -4587,232 +4573,7 @@ color: #ffd283;
 </header>
 
 
-<!-- TODO (instructor): fill in the Canvas link in "Getting Started" before posting. -->
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
-<p>In lecture, we learned that how data are collected determines what we can conclude from them. In this HW you’ll apply what you’ve learned about <strong>study design</strong> to two recent published studies. An optional extra-credit part lets you build and interpret regression models using the class’s pooled Islands data from AE 09.</p>
-<p><strong>Part 1</strong> is about reading two studies and needs no data, you can start it as soon as we finish collecting our sample in Lesson 9. <strong>Part 2</strong> is extra credit and uses the pooled class data.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This is an <strong>individual</strong> assignment, but you’re welcome to talk through ideas with classmates. Your code and writing should be your own.</p>
-</div>
-</div>
-<section id="learning-goals" class="level2">
-<h2 class="anchored" data-anchor-id="learning-goals">Learning goals</h2>
-<p>By the end of this homework, you will…</p>
-<ul>
-<li>Classify studies as observational or experimental, and say what each design can and cannot conclude</li>
-<li>Read key parts of a research paper to identify its design, its population, and its limitations</li>
-<li>Design an experiment to address a question that a published observational study can’t fully answer</li>
-<li>Explain how random sampling and random assignment separately determine generalizability and the ability to establish causation</li>
-<li>Identify confounding variables and threats to the validity of a study</li>
-<li>(Extra credit) Fit, interpret, and evaluate simple linear regression models with categorical and quantitative predictors</li>
-<li>(Extra credit) Describe the scope of inference for a set of models</li>
-</ul>
-</section>
-</section>
-<section id="getting-started" class="level1">
-<h1>Getting Started</h1>
-<section id="log-in-to-rstudio" class="level3">
-<h3 class="anchored" data-anchor-id="log-in-to-rstudio">Log in to RStudio</h3>
-<ul>
-<li><p>Go to <a href="https://rstudio.collegeofidaho.edu/">RStudio</a> and login with your College of Idaho Email and Password.</p></li>
-<li><p>Use the <code>hw</code> folder you made earlier in the semester. Create a subfolder called <code>hw05</code> to store this homework.</p></li>
-<li><p>Log into <a href>Canvas</a>, navigate to HW-05, and download the <code>hw-05.qmd</code> file. Upload it into the folder you just made.</p></li>
-</ul>
-</section>
-<section id="r-and-rstudio" class="level2">
-<h2 class="anchored" data-anchor-id="r-and-rstudio">R and RStudio</h2>
-<p>See the <a href="https://ericfriedlander.github.io/math2025-fa26/computing-r-resources.html">R resources</a> page for a guide to the RStudio IDE and Quarto file components.</p>
-</section>
-</section>
-<section id="packages" class="level1">
-<h1>Packages</h1>
-<p>We will use the following packages in today’s HW.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mosaic)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggformula)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coursekata)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(yardstick)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="background-reading" class="level1">
-<h1>Background reading</h1>
-<p>(Optional reference for Part 1.) Read the chapter on study design in <em>Introduction to Modern Statistics</em>: <a href="https://openintrostat.github.io/ims/data-design.html">Data collection</a>. Pay special attention to the sections on observational studies vs. experiments, confounding, and sampling.</p>
-</section>
-<section id="exercises" class="level1">
-<h1>Exercises</h1>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Write all code and narrative in your Quarto file. Write all narrative in complete sentences. Throughout the assignment, you should periodically <strong>render</strong> your Quarto document to produce the updated HTML file.</p>
-<p>Make sure we can read all of your code in your HTML file. This means you will need to break up long lines of code. One way to help avoid long lines of code is to start a new line after every pipe (<code>|&gt;</code>).</p>
-<p>In your <code>hw-05.qmd</code> document you’ll see that each task is wrapped in an <code>exercise</code> box, with an empty <code>answer</code> box below it for you to fill in your response. Use this format for the remaining exercises.</p>
-</div>
-</div>
-</section>
-<section id="part-1-reading-two-studies" class="level1">
-<h1>Part 1: Reading two studies</h1>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Part 1 doesn’t require any data. You can work on it as soon as we finish collecting our sample in Lesson 9, even before we’ve pooled and cleaned it.</p>
-</div>
-</div>
-<p>You do <strong>not</strong> need to read these papers in full. Read only the parts listed below (about five pages in total), and answer the questions. Note that there are many parts of these papers that you will not understand and that’s ok. Try to focus on understanding the experimental design of each study and what the impact is on the potential conclusions of each.</p>
-<ul>
-<li><strong>Paper A:</strong> Grimon and Mills, <a href="https://arxiv.org/pdf/2502.08501">“Better Together? A Field Experiment on Human-Algorithm Interaction in Child Protection”</a>. Child protective services workers in one county, referred to as the “trial county” in the paper, decide which reported families to investigate. Some were given access to a computer risk score, and researchers tracked what happened to the children afterward. <em>Read:</em> the abstract, the Introduction on pages 1-3, and Section 3.2 (“Sample Characteristics”) and Section 3.3 (“Experimental Design”) on pages 10-11.</li>
-<li><strong>Paper B:</strong> Goodman and Nitkin, <a href="https://www.nber.org/system/files/working_papers/w35671/w35671.pdf">“Kumon Up: Private Tutoring Centers and Student Achievement”</a>. Chains like Kumon and Sylvan have opened thousands of tutoring centers. The authors ask who uses them and whether they raise test scores. <em>Read:</em> the abstract and the Introduction, pages 1-4.</li>
-</ul>
-<div class="exercise">
-<p><strong>Paper A.</strong> In the Introduction, the authors describe their study as a “large-scale field experiment (<span class="math inline">\(N = 4{,}681\)</span>)”.</p>
-<ul>
-<li>What was <strong>randomized</strong>? At what level (child, household, or social worker), and why do you think the researchers randomized at that level?</li>
-<li>What are the <strong>treatment</strong> and <strong>control</strong> conditions?</li>
-<li>What is the main <strong>outcome</strong> they use to judge whether the algorithm helped?</li>
-<li>In the Introduction (page 3), the authors say an algorithm-only condition (with no human decision-maker) was “legally and practically infeasible.” Why might a researcher be unable to run the experiment they would ideally want?</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p><strong>Paper A.</strong> Workers were not required to use the algorithm. The Introduction says workers “consulted the algorithm in at least 73 percent of decisions.”</p>
-<p>Suppose a researcher ignored the randomization and simply compared outcomes for families where workers <em>did</em> look at the score to families where they <em>didn’t</em>.</p>
-<ul>
-<li>Explain why this would be an <strong>observational</strong> comparison, even though it happens inside an experiment.</li>
-<li>Name one plausible <strong>confounding variable</strong>, and explain how it could make the algorithm look better (or worse) than it really is.</li>
-<li>How does the randomization protect the researchers from this problem?</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p><strong>Paper A.</strong> Read the county description in Section 3.3 (page 11): the trial county “ranks above the national average in socioeconomic status,” is “predominantly white (92%),” and “uses group decision-making.”</p>
-<ul>
-<li>Did the researchers take a <strong>random sample</strong> of child protection cases from across the country? How can you tell?</li>
-<li>To what population can the results <strong>safely generalize</strong>?</li>
-<li>Name one type of place where you would hesitate to expect the same result, and explain why.</li>
-<li>Does the lack of random sampling weaken the claim that the algorithm <em>caused</em> the improvement? Why or why not?</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p><strong>Paper B.</strong> Read the second and third paragraphs of the Introduction, and the abstract.</p>
-<ul>
-<li>Is this an <strong>observational study</strong> or an <strong>experiment</strong>? What tells you?</li>
-<li>In your own words, what is being compared? (Hint: the authors compare districts that gain a first chain center between 2010 and 2019 to districts that never do.)</li>
-<li>The abstract says “Asian and White households [are] five and two times as likely to purchase tutoring as Black and Hispanic households.” Is this an <em>association</em> or a <em>causal</em> claim? Explain.</li>
-<li>Who decides where a chain tutoring center opens? Explain why this makes it hard to tell whether the centers <em>cause</em> higher test scores.</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p><strong>Paper B.</strong> Districts that got their first chain center could have been on a path of rising scores even <em>without</em> the center. On page 2-3 of the Introduction, the authors report “flat pre-trends”: before a center opened, scores in treated districts were not already rising faster than in other districts.</p>
-<ul>
-<li>Explain why flat pre-trends make the causal claim more believable, but do not fully settle it. Name one thing that could still go wrong.</li>
-<li>Give one <strong>confounding variable</strong> (something that changes at the same time as a center opening) that the design might not catch.</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p><strong>Paper B.</strong> Read the paragraph on page 4 beginning “How large are these effects on the students who actually attend these centers?”</p>
-<ul>
-<li>The district-wide effect is about 0.03 standard deviations, but the implied effect on students who attend is about 0.25 standard deviations or more. Why are these two numbers different? What <strong>population</strong> does each one describe?</li>
-<li>The results are much larger for White and Asian students than for Black and Hispanic students. Does this tell us that tutoring <em>works differently</em> for different groups? What else might explain the difference?</li>
-<li>The cover page says NBER working papers “have not been peer-reviewed.” How should that change how you treat the paper’s claims?</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p><strong>Comparing the papers.</strong> Two design choices control what a study can conclude: <strong>random sampling</strong> (can we generalize?) and <strong>random assignment</strong> (can we claim causation?).</p>
-<p>Fill in the table for each paper, and briefly justify each answer with something specific from the reading.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: left;">Random sampling of the population?</th>
-<th style="text-align: left;">Random assignment?</th>
-<th style="text-align: left;">Can generalize?</th>
-<th style="text-align: left;">Can claim causation?</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Paper A (algorithm)</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Paper B (tutoring)</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-<p>Then, in two or three sentences, say which paper you trust more for the claim “this intervention <em>causes</em> better outcomes,” and which for “this result holds broadly across the country.” Do they give the same answer?</p>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p>Suppose you had unlimited resources and wanted a more convincing answer to Paper B’s question: <em>does opening a tutoring center raise test scores?</em></p>
-<ul>
-<li>Design an <strong>experiment</strong> to answer it. Say what you would randomize, who the participants are, how you would assign them, and what you would measure. (For inspiration, the authors mention a randomized trial of Kumon in Bangladeshi schools.)</li>
-<li>What could your experiment tell you that Paper B cannot?</li>
-<li>What could Paper B tell you that your experiment could not? (Think about who, where, and for how long.)</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-</section>
-<section id="part-2-extra-credit-modeling-the-class-data" class="level1">
-<h1>Part 2: Extra credit, modeling the class data</h1>
+<!-- TODO (instructor): fill in the Canvas link and the URL of the cleaned CSV in the first exercise. -->
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -4823,174 +4584,138 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This part is <strong>optional extra credit</strong>, worth up to 3.5 points. It needs the pooled Islands data from AE 09.</p>
+<ul>
+<li>Open <a href="https://rstudio.collegeofidaho.edu/">RStudio</a> and create a subfolder in your AE folder called “AE-10”.</li>
+<li>Go to the assignment for this activity in <a href>Canvas</a> to get started.</li>
+<li>Upload the <code>ae-10-islands-inference.qmd</code> file into the folder you just created.</li>
+</ul>
 </div>
 </div>
+<section id="intro" class="level2">
+<h2 class="anchored" data-anchor-id="intro">Intro</h2>
+<p>In AE 09 we collected a stratified cluster sample of the Islands. Today we work with the <strong>pooled, already-cleaned</strong> class data. (You’ll do the cleaning yourself in <strong>HW 05</strong>.)</p>
+<p>What is the life expectancy on the Island? Is it different for men and women? We’ll use the <strong>mean age at death among islanders who have died</strong> as a stand-in for life expectancy, and then ask whether sex explains <strong>more</strong> variation in age at death than we’d expect by chance.</p>
+</section>
+<section id="part-1-exploring-the-pooled-data" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-exploring-the-pooled-data">Part 1: Exploring the pooled data</h2>
+<section id="loading-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="loading-the-data">Loading the data</h3>
 <div class="exercise">
-<p>Read the pooled data into R using the code below. <strong>Clean the data yourself.</strong> Everyone typed in their own rows, so check for problems: is <code>sex</code> spelled consistently? Are there missing values, duplicated rows, columns stored as the wrong type, or impossible ages? Then compute <code>age_at_death</code> as <code>death_year - birth_year</code>. Note that we did this together in class and you can copy and paste from the activity. However, I encourage you to do as much as you can by yourself.</p>
-<p>Save the cleaned result as <code>islands</code>.</p>
+<p>Load the packages and the cleaned class data below. Use <code>glimpse()</code> to look at it. How many islanders are in the pooled sample? What does each row represent, and what variables do we have?</p>
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>islands_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://docs.google.com/spreadsheets/d/e/2PACX-1vTonqSnj8t3ZgjDzqCuq-P8bE-1OuHmwgBI0kF7eip7gkSmrJQGYRVwFtehtVS4FM6zwNAHUl1He29A/pub?output=csv&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-<div class="exercise">
-<p>Fit a linear model called <code>le_fit</code> predicting <code>age_at_death</code> from <code>sex</code>. Use <code>tidy()</code> to format the output.</p>
-<ul>
-<li>What is the <strong>reference level</strong> in your model? How can you tell from the output alone?</li>
-<li>Write out the estimated regression equation using R’s coefficient names.</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p>Interpret the intercept and the slope of <code>le_fit</code> in the context of the data.</p>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p>Evaluate <code>le_fit</code>.</p>
-<ul>
-<li>Use <code>augment()</code> to get fitted values and save the result to a new data frame.</li>
-<li>Use the <code>rsq()</code> and <code>rmse()</code> functions from <code>yardstick</code> to compute <span class="math inline">\(R^2\)</span> and RMSE.</li>
-<li>Write one sentence interpreting <span class="math inline">\(R^2\)</span> and one sentence interpreting RMSE in the context of your data.</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This is a good place to render your document.</p>
-</div>
-</div>
-<div class="exercise">
-<p>Now fit a second model, <code>island_fit</code>, predicting <code>age_at_death</code> from <code>island</code> (a categorical predictor with more than two levels). Use <code>tidy()</code> to display the output.</p>
-<ul>
-<li>What is the reference level?</li>
-<li>Interpret <strong>every</strong> coefficient in the model.</li>
-<li>Compare the <span class="math inline">\(R^2\)</span> of <code>island_fit</code> to the <span class="math inline">\(R^2\)</span> of <code>le_fit</code>. Which predictor, sex or island, explains more variation in age at death in our sample?</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p>Finally, fit a third model, <code>birth_fit</code>, predicting <code>age_at_death</code> from <code>birth_year</code> (a quantitative predictor).</p>
-<ul>
-<li>Make a scatterplot of <code>age_at_death</code> vs. <code>birth_year</code> with the fitted line overlaid.</li>
-<li>Interpret the slope. On its face, is this a strong relationship?</li>
-<li>Now think about <em>how</em> we collected the data: we only sampled islanders who <strong>died between Island years 375 and 399</strong>. Explain why this makes the relationship between <code>birth_year</code> and <code>age_at_death</code> largely an <strong>artifact of our sampling window</strong>. Hint: think about the sampling window.</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p>Think about the <strong>scope of inference</strong> for <code>le_fit</code>, <code>island_fit</code>, and <code>birth_fit</code>.</p>
-<ul>
-<li>To what population do these models’ results generalize? Is it the whole Island, all islanders who have ever lived, or something narrower?</li>
-<li>Can any of these models support a <strong>causal</strong> claim about its predictor? Why or why not?</li>
-<li>What would have to be true about how the data were collected for a causal claim to be justified? Would that even be possible for <code>island_fit</code>?</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>You’re done and ready to submit your work! Render your document and upload the .qmd and .html files to Canvas.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mosaic)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggformula)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coursekata)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># INSTRUCTOR: replace with the URL of the cleaned CSV</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>islands <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;CLEANED_ISLANDS_CSV_URL&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
-<section id="grading-30-pts-3.5-extra-credit" class="level1">
-<h1>Grading (30 pts + 3.5 Extra Credit)</h1>
-<p><br></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Component</th>
-<th style="text-align: left;">Points</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Ex 1</td>
-<td style="text-align: left;">3</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Ex 2</td>
-<td style="text-align: left;">3</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Ex 3</td>
-<td style="text-align: left;">3</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Ex 4</td>
-<td style="text-align: left;">3</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Ex 5</td>
-<td style="text-align: left;">3</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Ex 6</td>
-<td style="text-align: left;">3</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Ex 7</td>
-<td style="text-align: left;">5</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Ex 8</td>
-<td style="text-align: left;">5</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Extra credit (Ex 9-15, 0.5 each)</td>
-<td style="text-align: left;">+3.5</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Grammar &amp; Writing</td>
-<td style="text-align: left;">1<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Workflow &amp; formatting</td>
-<td style="text-align: left;">1<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></td>
-</tr>
-</tbody>
-</table>
-
-
-</section>
-
-
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>The “Grammar &amp; Writing” grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>The “Workflow &amp; formatting” grade is to assess the reproducible workflow and document format. This includes having a neatly organized document with readable code and your name and the date in the YAML.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<section id="estimating-life-expectancy" class="level3">
+<h3 class="anchored" data-anchor-id="estimating-life-expectancy">Estimating life expectancy</h3>
+<div class="exercise">
+<p>Explore <code>age_at_death</code>.</p>
+<ol type="a">
+<li><p>Use <code>favstats()</code> to compute summary statistics for <code>age_at_death</code> overall, and then separately for each level of <code>sex</code>.</p></li>
+<li><p>Make a plot exploring the relationship between <code>sex</code> and <code>age_at_death</code>.</p></li>
+<li><p>In a sentence or two, report the <strong>overall mean age at death</strong>. This is our estimate of life expectancy on the Island. Then describe what the plot and the group summaries say about differences between men and women.</p></li>
 </ol>
-</section></div></main> <!-- /main -->
+</div>
+<div class="answer">
+
+</div>
+</section>
+<section id="thinking-critically" class="level3">
+<h3 class="anchored" data-anchor-id="thinking-critically">Thinking critically</h3>
+<div class="exercise">
+<p>Let’s think about what this sample can tell us.</p>
+<ul>
+<li>What <strong>population</strong> does our sample actually represent? Is it the whole Island? All islanders who have ever lived? Something else?</li>
+<li>Name <strong>two ways</strong> our estimate of life expectancy could be biased. (Think about who is <em>in</em> our sample, and who is missing.) One hint: think about who cannot possibly appear among “islanders who have died.”</li>
+<li>Was this an <strong>observational study</strong> or an <strong>experiment</strong>? What could we conclude from comparing men and women in our sample, and what <em>couldn’t</em> we conclude?</li>
+<li>Could you design an <em>experiment</em> on the Islands to find out whether sex affects life expectancy? Would you want to?</li>
+</ul>
+</div>
+<div class="answer">
+
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Stop here.</strong> We’ll come back together and talk about what our results say (and don’t say) before you continue with Part 2.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="part-2-does-sex-explain-more-variation-than-chance" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-does-sex-explain-more-variation-than-chance">Part 2: Does sex explain more variation than chance?</h2>
+<div class="exercise">
+<p>How much variation in age at death does <code>sex</code> explain in our data?</p>
+<ol type="a">
+<li><p>Compute the PRE (also called <span class="math inline">\(R^2\)</span>) for the model predicting <code>age_at_death</code> from <code>sex</code> with <code>pre(age_at_death ~ sex, data = islands)</code>, and save it as <code>pre_obs</code>.</p></li>
+<li><p>Write a sentence interpreting <code>pre_obs</code> as a percent of the variation in age at death.</p></li>
+<li><p>Adding a predictor can never make PRE negative. Why not? Given that, why isn’t “PRE is bigger than 0” convincing evidence that sex matters?</p></li>
+</ol>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>Now let’s imagine a world with <strong>no relationship</strong> between sex and age at death, just like the cards in class.</p>
+<ol type="a">
+<li><p>Run <code>pre(shuffle(age_at_death) ~ sex, data = islands)</code> at least four times. Why does the answer change each time? Was it ever negative? Was it ever exactly 0?</p></li>
+<li><p>In your own words, what does <code>shuffle()</code> do to the relationship between <code>sex</code> and <code>age_at_death</code>? What does it <em>not</em> change?</p></li>
+</ol>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>Build the <strong>null distribution</strong> by shuffling 1000 times.</p>
+<ol type="a">
+<li><p>Run <code>null_pre &lt;- do(1000) * pre(shuffle(age_at_death) ~ sex, data = islands)</code>. Then make a histogram of the <code>pre</code> column of <code>null_pre</code> and add a vertical line at <code>pre_obs</code> (try <code>gf_histogram()</code> and <code>gf_vline()</code>).</p></li>
+<li><p>What does a single value in this histogram represent? What is the histogram a picture of?</p></li>
+<li><p>Compute the proportion of shuffles with a PRE at least as large as <code>pre_obs</code>: <code>mean(null_pre$pre &gt;= pre_obs)</code>.</p></li>
+<li><p>Answer the question: does sex explain <strong>more</strong> variation in age at death than we’d expect if there were no relationship? Explain your reasoning, and say what your conclusion does and does <em>not</em> tell us (think back to how our sample was collected).</p></li>
+</ol>
+</div>
+<div class="answer">
+
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To submit the AE:</p>
+<ul>
+<li>Render the document to produce the HTML with all of your work from today’s class.</li>
+<li>Upload your .qmd and .html files to the Canvas assignment.</li>
+</ul>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -5412,7 +5137,7 @@ Tip
 </div>   
     <div class="nav-footer-center">
        
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/hw/hw-05.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/ae/ae-10-islands-inference.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This site is built with <a href="https://quarto.org/">Quarto</a></p>
 </div>

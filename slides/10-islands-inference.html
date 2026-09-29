@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Prof.&nbsp;Eric Friedlander">
-  <title>MATH 2025 - Fall 2026 – Collecting the Islands Data</title>
+  <title>MATH 2025 - Fall 2026 – Introduction to Inference</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -201,8 +201,8 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Collecting the Islands Data</h1>
-  <p class="subtitle">Carrying out our stratified cluster sample</p>
+  <h1 class="title">Introduction to Inference</h1>
+  <p class="subtitle">Does sex explain more variation than chance?</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -217,191 +217,400 @@ Prof.&nbsp;Eric Friedlander
 <h2>Last time</h2>
 <div style="font-size: 0.9em">
 <ul>
-<li class="fragment">A <strong>population</strong> is who we care about, a <strong>sample</strong> is who we observe, and inference uses a statistic to learn about a parameter.</li>
-<li class="fragment">Random sampling lets us generalize, random assignment lets us conclude causation.</li>
-<li class="fragment">We <strong>designed</strong> a stratified cluster sample of the Islands to estimate life expectancy, but didn’t get to collect it.</li>
+<li class="fragment">We <strong>collected</strong> our stratified cluster sample of the Islands: each of us drew 10 islanders from an assigned village.</li>
+<li class="fragment">We thought about <strong>who is (and isn’t) in our sample</strong>, and why that biases our estimate of life expectancy.</li>
 </ul>
 </div>
 <div class="fragment">
 <div class="question">
-<p>Today: carry out that sample, then think about who ends up <strong>in</strong> it. <strong>What is the life expectancy on the Island? Is it different for men and women?</strong></p>
+<p>Today: <strong>explore</strong> the pooled class data, then ask: is the difference we see between men and women real, or could it just be chance?</p>
 </div>
 </div>
 </section>
 <section id="topics" class="slide level2">
 <h2>Topics</h2>
 <ul>
-<li>Carry out our <strong>stratified cluster sample</strong> on the Islands.</li>
-<li>Think about <strong>who is (and isn’t)</strong> in our sample.</li>
-<li><strong>Clean</strong> the pooled class data together.</li>
-<li>Get a head start on <strong>HW 05</strong>.</li>
+<li>Load the pooled class data (already cleaned, you’ll clean it yourself in HW 05).</li>
+<li><strong>Explore</strong> life expectancy overall and by sex.</li>
+<li>Ask whether sex explains <strong>more</strong> variation than we’d expect by chance, and answer it by <strong>shuffling</strong>.</li>
+<li>Build a <strong>null distribution</strong> and compute a <strong>p-value</strong>.</li>
+<li>Name what shuffling can, and cannot, tell us.</li>
 </ul>
-</section>
-<section id="activity" class="slide level2">
-<h2>Activity</h2>
-<div class="appex">
-<p>📋 <a href="../ae/ae-09-islands-collection.html">AE 09 - Collecting the Islands Data</a></p>
-</div>
-<p>Open and upload your QMD file to RStudio.</p>
 </section>
 <section>
-<section id="collecting-the-data" class="title-slide slide level1 center">
-<h1>Collecting the data</h1>
+<section id="exploring-life-expectancy" class="title-slide slide level1 center">
+<h1>Exploring life expectancy</h1>
 
 </section>
-<section id="our-sampling-plan" class="slide level2 smaller">
-<h2>Our sampling plan</h2>
-<p>You will adapt the stratified cluster design:</p>
-<ol type="1">
-<li>Different Islands might have drastically different life expectancies so let’s make sure we sample individuals from each island (i.e.&nbsp;stratify by island)</li>
-<li>Individual villages within each Island may also have some variation in life expectancy. However, it will be too difficult to sample EVERY village so we’ll treat these as clusters.</li>
-<li>Each person in this class will be randomly assigned one village.</li>
-<li>Within each village, you will record data on 10 randomly collected islander.</li>
-</ol>
-</section>
-<section id="overall-sampling-plan" class="slide level2">
-<h2>Overall Sampling Plan</h2>
-<p>Multistage sample:</p>
-<ul>
-<li>Stage 1: Stratify by island</li>
-<li>Stage 2: Cluster by village</li>
-<li>Stage 3: Simple random sample from those who died between 375 and 399</li>
-</ul>
-</section>
-<section id="assigning-islands" class="slide level2">
-<h2>Assigning Islands</h2>
-<p>Navigate to <a href="https://yotescollegeofidaho-my.sharepoint.com/:x:/g/personal/efriedlander_collegeofidaho_edu/IQB2Q0ijZYPzQYuumjlk_x09AQaTTMpIIkDa73TeNCMKJiI?e=16bSqH">this shared Excel sheet</a> and click on the “Village Assignment” worksheet.</p>
-<ul>
-<li>To randomly assign you to Islands
-<ul>
-<li>Write down everyone’s name</li>
-<li>Randomize order of Islands</li>
-<li>Assign name to Island in order</li>
-</ul></li>
-</ul>
-<div class="question">
-<p>Discussion: Should we use the same number of villages from each island?</p>
-</div>
-</section>
-<section id="count-the-number-of-dead" class="slide level2">
-<h2>Count the number of dead</h2>
-<ul>
-<li>Create a new worksheet (the + button at the bottom), rename it with your village’s name, and then copy and paste the list of islanders into that sheet</li>
-</ul>
-<div class="question">
-<ul>
-<li>How many islanders are in your village’s list?</li>
-<li>Should we sample the same number of islanders from each village?</li>
-</ul>
-</div>
-</section>
-<section id="choosing-your-10-islanders" class="slide level2 smaller">
-<h2>Choosing your 10 islanders</h2>
-<p>Randomly select 10 of them:</p>
-<ul>
-<li>In your Quarto document, input your birthday and the total number of villages and run the following code to choose 10 random row numbers:</li>
-</ul>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>birthday <span class="ot">&lt;-</span> <span class="co"># put your birthday here in MMDDYYYY format (e.g. 12181988)</span></span>
-<span id="cb1-2"><a></a><span class="fu">set.seed</span>(birthday)</span>
-<span id="cb1-3"><a></a>number_of_villagers <span class="ot">&lt;-</span> <span class="co"># put your total number of islanders here</span></span>
-<span id="cb1-4"><a></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>number_of_villagers, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="entering-your-data" class="slide level2 smaller">
-<h2>Entering your data</h2>
-<p>Use the numbers to identify which islanders to sample, and record your name, the island, the village, the villager’s name, sex, birth year, and death year in the <strong>MASTER DATASET</strong> worksheet in that same shared Excel sheet.</p>
-<div class="callout callout-important callout-titled callout-style-default">
+<section id="our-pooled-data" class="slide level2 smaller">
+<h2>Our pooled data</h2>
+<div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Important</strong></p>
+<p><strong>Note</strong></p>
 </div>
 <div class="callout-content">
-<p>Only add rows, never delete or overwrite anyone else’s. Enter <code>sex</code> as exactly <code>Female</code> or <code>Male</code>, and enter every value the same way each time.</p>
+<p>The output on these slides is from a <strong>made-up</strong> island so the slides render without the class data. Yours will look different.</p>
 </div>
 </div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>islands <span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a></a>  <span class="fu">head</span>(<span class="dv">5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-3"><a></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">sex</th>
+<th style="text-align: right;">age_at_death</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Male</td>
+<td style="text-align: right;">75</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Female</td>
+<td style="text-align: right;">67</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Female</td>
+<td style="text-align: right;">52</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Male</td>
+<td style="text-align: right;">36</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Female</td>
+<td style="text-align: right;">99</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="question">
+<p>What are the observational units? What are the variables, and which is the response?</p>
 </div>
 </section>
-<section id="activity-1" class="slide level2">
+<section id="exploring-age-at-death" class="slide level2 smaller">
+<h2>Exploring age at death</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">gf_boxplot</span>(age_at_death <span class="sc">~</span> sex, <span class="at">data =</span> islands, <span class="at">fill =</span> <span class="sc">~</span> sex, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a></a>  <span class="fu">gf_labs</span>(<span class="at">x =</span> <span class="st">"Sex"</span>, <span class="at">y =</span> <span class="st">"Age at death (years)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="10-islands-inference_files/figure-html/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"></section>
+<section id="activity" class="slide level2 smaller">
 <h2>Activity</h2>
-<p>Complete the AE (getting oriented, collecting your sample, entering your data, and thinking about who is in the sample).</p>
+<div class="appex">
+<p>📋 <a href="../ae/ae-10-islands-inference.html">AE 10 - Does Sex Explain More Variation Than Chance?</a></p>
+</div>
+<p>Complete Exercises 1-3 (load the data, explore <code>age_at_death</code>, and think critically about the sample).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_d97aade7" minutes="20" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_1e52a3d5" minutes="10" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+</div>
+</div>
+</section>
+<section id="our-model" class="slide level2 smaller">
+<h2>Our model</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>le_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(age_at_death <span class="sc">~</span> sex, <span class="at">data =</span> islands)</span>
+<span id="cb3-2"><a></a></span>
+<span id="cb3-3"><a></a><span class="fu">tidy</span>(le_fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term        estimate std.error statistic   p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)    70.4       1.44     48.8  3.55e-129
+2 sexMale        -2.65      2.05     -1.29 1.97e-  1</code></pre>
+</div>
+</div>
+<p><span class="math display">\[
+\widehat{\text{age at death}} = 70.4 - 2.65 \times \text{sexMale}
+\]</span></p>
+<div class="question">
+<p>What is the reference level? What does the slope mean here?</p>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>You’ll fit and interpret this model (and a couple more) in detail in <strong>HW 05</strong>.</p>
+</div>
 </div>
 </div>
 </section></section>
 <section>
-<section id="thinking-about-who-is-in-the-sample" class="title-slide slide level1 center">
-<h1>Thinking about who is in the sample</h1>
+<section id="does-sex-explain-more-variation-than-chance" class="title-slide slide level1 center">
+<h1>Does sex explain <em>more</em> variation than chance?</h1>
 
 </section>
-<section id="who-is-in-our-sample" class="slide level2 smaller">
-<h2>Who is in our sample?</h2>
-<p>We are only sampling islanders who died between Island years 375 and 399.</p>
+<section id="how-much-does-sex-explain" class="slide level2 smaller">
+<h2>How much does sex explain?</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>pre_obs <span class="ot">&lt;-</span> <span class="fu">pre</span>(age_at_death <span class="sc">~</span> sex, <span class="at">data =</span> islands)</span>
+<span id="cb5-2"><a></a>pre_obs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.006689164</code></pre>
+</div>
+</div>
+<p>In Lesson 7 we called this <strong>PRE</strong> (or <span class="math inline">\(R^2\)</span>): the proportion of variation in age at death that the model explains.</p>
 <div class="question">
-<ul>
-<li>Who <strong>cannot</strong> possibly appear in this sample?</li>
-<li>Why might this make our data a poor stand-in for the life expectancy of a <em>newborn</em> today?</li>
-<li>Name one way our sampling plan is better than just picking the first 10 islanders we come across.</li>
-</ul>
+<p>In our sample, sex explains 0.7% of the variation in age at death. <strong>Is that a lot?</strong> What would you compare it to?</p>
 </div>
 </section>
-<section id="time-permitting" class="slide level2 smaller">
-<h2>Time permitting</h2>
+<section id="a-useful-model-or-a-useless-one" class="slide level2 smaller">
+<h2>A useful model or a useless one?</h2>
+<p>Remember, <span class="math inline">\(SST = SSM + SSE\)</span>, and <span class="math inline">\(PRE = SSM / SST\)</span>.</p>
 <div class="question">
-<ol type="1">
-<li>We are selecting the same number of villages from each island and the same number of individuals from each village… could this bias our results?</li>
-<li>We aren’t stratifying by sex. Perhaps it would’ve been a good idea to do so… Can you think of a situation in which this isn’t a good idea? Hint: it may help if you imagine that the islanders are an alien species different than humans.</li>
-</ol>
+<p>Suppose we add a predictor to the model, and the predictor is <em>pure noise</em>. Could <span class="math inline">\(SSE\)</span> get <strong>bigger</strong> than it was for the empty model? What is the smallest <span class="math inline">\(PRE\)</span> can ever be?</p>
 </div>
-</section></section>
-<section>
-<section id="cleaning-the-class-data" class="title-slide slide level1 center">
-<h1>Cleaning the class data</h1>
-
-</section>
-<section id="real-data-are-messy" class="slide level2 smaller">
-<h2>Real data are messy</h2>
-<p>Everyone typed in their own rows, so expect some surprises.</p>
-<ul>
-<li class="fragment">Is <code>sex</code> spelled the same way every time?</li>
-<li class="fragment">Are there duplicate rows, missing values, or impossible ages?</li>
-<li class="fragment">Does every column have the type we expect (numbers stored as numbers)?</li>
-</ul>
 <div class="fragment">
-<p>We create <code>age_at_death = death_year - birth_year</code>, and then check the values before we trust them.</p>
+<ul>
+<li>Least squares can always fall back on “ignore the predictor,” so <span class="math inline">\(SSE\)</span> can’t go up and <strong><span class="math inline">\(PRE \geq 0\)</span></strong>.</li>
+<li>In practice, even a useless predictor picks up a little bit of the noise, so <span class="math inline">\(PRE\)</span> is (almost) always <strong>a little bigger than 0</strong>.</li>
+</ul>
+</div>
+<div class="fragment">
+<div class="question">
+<p>So “PRE is bigger than 0” can’t be our evidence. <strong>How big is big enough?</strong></p>
+</div>
 </div>
 </section>
-<section id="activity-2" class="slide level2 smaller">
-<h2>Activity</h2>
-<div class="appex">
-<p>📋 <a href="../ae/ae-09-islands-collection.html">AE 09 - Collecting the Islands Data</a></p>
+<section id="reframing-the-question" class="slide level2 smaller">
+<h2>Reframing the question</h2>
+<div class="question">
+<p>Does sex explain <strong>MORE</strong> variation in age at death than we’d expect <em>if there were no relationship at all</em>?</p>
 </div>
-<p>Complete Exercise 6 (load, inspect, and clean the pooled data together). If you finish early, model the difference between men and women in the time-permitting section.</p>
+<div class="fragment">
+<p>To answer this, we need to know what PRE looks like in a world where there is <strong>no relationship</strong> between sex and age at death.</p>
+</div>
+<div class="fragment">
+<div class="question">
+<ul>
+<li>In that world, what would the boxplots for men and women look like?</li>
+<li>If I told you an islander’s sex, would it help you guess their age at death?</li>
+<li>Then what does it matter <em>which</em> age at death goes with <em>which</em> sex label?</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="activity-shuffling-villagers" class="slide level2 smaller">
+<h2>Activity: Shuffling villagers</h2>
+<div class="appex">
+<p>🃏 <strong>Cards!</strong> Each of you gets one villager</p>
+</div>
+<p>Your card has two halves: <strong>sex</strong> | <strong>age at death</strong>.</p>
+<ol type="1">
+<li class="fragment">Sit on the <strong>Female</strong> or <strong>Male</strong> side of the room, based on the <em>sex</em> half of your card.</li>
+<li class="fragment"><strong>Round 0:</strong> Enter your card (sex, age at death) into the shared spreadsheet.</li>
+<li class="fragment">I collect every <em>age at death</em> half, <strong>shuffle</strong> them, and deal them back out.</li>
+<li class="fragment"><strong>Round 1:</strong> Everyone stays put and enters what they are now holding.</li>
+<li class="fragment">Repeat for a few more rounds.</li>
+</ol>
+<aside class="notes">
+<p>Logistics: print one card per student, drawn from the cleaned pooled data, with sex on the left half and age at death on the right half. Students keep the sex half and hand in the age half after each round. Shared spreadsheet columns: <code>round</code> (0 = original pairing), <code>sex</code>, <code>age_at_death</code>. Analyze in <code>scripts/10-shuffle-demo.R</code>.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="before-we-shuffle" class="slide level2 smaller">
+<h2>Before we shuffle</h2>
+<div class="question">
+<p>Make a prediction, and talk to your neighbor:</p>
+<ul>
+<li>After I shuffle, will the <strong>average age at death</strong> of the women in the room change? What about the men?</li>
+<li>Will the <em>difference</em> between the two group averages get bigger, get smaller, or stay the same?</li>
+<li>Will PRE be <strong>exactly 0</strong>?</li>
+</ul>
+</div>
+</section>
+<section id="what-did-the-shuffle-do" class="slide level2 smaller">
+<h2>What did the shuffle do?</h2>
+<p><em>(We look at the class’s data in R.)</em></p>
+<div class="question">
+<ul>
+<li>What did shuffling <strong>keep the same</strong>? (Think: the set of ages, the group sizes, SST.)</li>
+<li>What did shuffling <strong>break</strong>?</li>
+<li>Which round(s) came from a world where sex has <em>nothing</em> to do with age at death?</li>
+<li>Even though we <em>made</em> sex irrelevant, PRE is not exactly 0. Why not?</li>
+</ul>
+</div>
+<div class="fragment">
+<div class="question">
+<p>If I shuffled again, would I get the same PRE? How would you describe the <em>pattern</em> across many shuffles?</p>
+</div>
+</div>
+</section>
+<section id="shuffling-in-r" class="slide level2 smaller">
+<h2>Shuffling in R</h2>
+<p><code>shuffle()</code> does what I did with the cards: it randomly reorders <code>age_at_death</code>, leaving <code>sex</code> alone.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="fu">set.seed</span>(<span class="dv">9</span>)</span>
+<span id="cb7-2"><a></a><span class="fu">pre</span>(<span class="fu">shuffle</span>(age_at_death) <span class="sc">~</span> sex, <span class="at">data =</span> islands)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.001667765</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="fu">pre</span>(<span class="fu">shuffle</span>(age_at_death) <span class="sc">~</span> sex, <span class="at">data =</span> islands)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01134442</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a><span class="fu">pre</span>(<span class="fu">shuffle</span>(age_at_death) <span class="sc">~</span> sex, <span class="at">data =</span> islands)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.181836e-05</code></pre>
+</div>
+</div>
+<div class="question">
+<p>Same data, same code, three different answers. Where did the randomness come from?</p>
+</div>
+</section>
+<section id="real-vs.-shuffled" class="slide level2 smaller">
+<h2>Real vs.&nbsp;shuffled</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a><span class="fu">set.seed</span>(<span class="dv">9</span>)</span>
+<span id="cb13-2"><a></a>islands <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a></a>  <span class="fu">mutate</span>(<span class="at">Real =</span> age_at_death, <span class="at">Shuffled =</span> <span class="fu">shuffle</span>(age_at_death)) <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(Real, Shuffled), <span class="at">names_to =</span> <span class="st">"version"</span>, <span class="at">values_to =</span> <span class="st">"age"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-5"><a></a>  <span class="fu">gf_boxplot</span>(age <span class="sc">~</span> sex, <span class="at">fill =</span> <span class="sc">~</span> sex, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-6"><a></a>  <span class="fu">gf_facet_wrap</span>(<span class="sc">~</span> version) <span class="sc">|&gt;</span></span>
+<span id="cb13-7"><a></a>  <span class="fu">gf_labs</span>(<span class="at">x =</span> <span class="st">"Sex"</span>, <span class="at">y =</span> <span class="st">"Age at death (years)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="10-islands-inference_files/figure-html/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="question">
+<p>Which panel looks like a world with no relationship? Which one do we actually live in?</p>
+</div>
+</section>
+<section id="shuffling-1000-times" class="slide level2 smaller">
+<h2>Shuffling 1000 times</h2>
+<div class="question">
+<p><strong>Before I run this:</strong> if I shuffle and compute PRE 1000 times, and make a histogram, what shape will it have? Where will most of the values be? Can any be negative?</p>
+</div>
+<div class="fragment">
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a><span class="fu">set.seed</span>(<span class="dv">2025</span>)</span>
+<span id="cb14-2"><a></a>null_pre <span class="ot">&lt;-</span> <span class="fu">do</span>(<span class="dv">1000</span>) <span class="sc">*</span> <span class="fu">pre</span>(<span class="fu">shuffle</span>(age_at_death) <span class="sc">~</span> sex, <span class="at">data =</span> islands)</span>
+<span id="cb14-3"><a></a></span>
+<span id="cb14-4"><a></a><span class="fu">head</span>(null_pre, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           pre
+1 2.179792e-02
+2 4.395283e-05
+3 3.044563e-03</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="the-null-distribution" class="slide level2 smaller">
+<h2>The null distribution</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a><span class="fu">gf_histogram</span>(<span class="sc">~</span> pre, <span class="at">data =</span> null_pre, <span class="at">bins =</span> <span class="dv">30</span>, <span class="at">boundary =</span> <span class="dv">0</span>, <span class="at">fill =</span> <span class="st">"grey70"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a></a>  <span class="fu">gf_labs</span>(<span class="at">x =</span> <span class="st">"PRE from a shuffled data set"</span>, <span class="at">y =</span> <span class="st">"Number of shuffles"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="10-islands-inference_files/figure-html/unnamed-chunk-10-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="question">
+<p>Each bar is built from shuffles where sex and age at death are <strong>unrelated</strong>. What does one value in this histogram represent?</p>
+</div>
+</section>
+<section id="naming-what-we-built" class="slide level2 smaller">
+<h2>Naming what we built</h2>
+<p>This histogram is the <strong>sampling distribution of PRE under the null hypothesis</strong>, or the <strong>null distribution</strong>.</p>
+<div class="fragment">
+<ul>
+<li><strong>Null hypothesis</strong> <span class="math inline">\(H_0\)</span>: there is <strong>no relationship</strong> between sex and age at death (<span class="math inline">\(\beta_1 = 0\)</span>). Any PRE we see is just chance.</li>
+<li><strong>Alternative hypothesis</strong> <span class="math inline">\(H_A\)</span>: there <strong>is</strong> a relationship (<span class="math inline">\(\beta_1 \neq 0\)</span>).</li>
+</ul>
+</div>
+<div class="fragment">
+<p>The shuffles show us how much variation sex would “explain” <em>by chance alone</em>. That is what we needed to judge whether 0.7% is a lot.</p>
+</div>
+</section>
+<section id="where-does-our-data-land" class="slide level2 smaller">
+<h2>Where does our data land?</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a><span class="fu">gf_histogram</span>(<span class="sc">~</span> pre, <span class="at">data =</span> null_pre, <span class="at">bins =</span> <span class="dv">30</span>, <span class="at">boundary =</span> <span class="dv">0</span>, <span class="at">fill =</span> <span class="st">"grey70"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a></a>  <span class="fu">gf_vline</span>(<span class="at">xintercept =</span> pre_obs, <span class="at">color =</span> <span class="st">"#d53a19"</span>, <span class="at">linewidth =</span> <span class="fl">1.5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-3"><a></a>  <span class="fu">gf_labs</span>(<span class="at">x =</span> <span class="st">"PRE from a shuffled data set"</span>, <span class="at">y =</span> <span class="st">"Number of shuffles"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="10-islands-inference_files/figure-html/unnamed-chunk-11-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="question">
+<p>The red line is the PRE from our <em>real</em> data. Is it an unusual value in a world with no relationship? How would you put a number on “unusual”?</p>
+</div>
+</section>
+<section id="the-p-value" class="slide level2 smaller">
+<h2>The p-value</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a>p_val <span class="ot">&lt;-</span> <span class="fu">mean</span>(null_pre<span class="sc">$</span>pre <span class="sc">&gt;=</span> pre_obs)</span>
+<span id="cb18-2"><a></a>p_val</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2</code></pre>
+</div>
+</div>
+<p>About 20% of the shuffled data sets explained <strong>at least as much</strong> variation as our real data did.</p>
+<div class="fragment">
+<p>This is the <strong>p-value</strong>: the probability of getting a PRE at least as large as ours <em>if there were no relationship</em>.</p>
+<div class="question">
+<ul>
+<li>Why do we count only the shuffles that are <em>bigger</em> than ours, and not the ones that are smaller?</li>
+<li>If the p-value were tiny, what would we conclude? If it were large?</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="what-would-change-the-answer" class="slide level2 smaller">
+<h2>What would change the answer?</h2>
+<div class="question">
+<ul>
+<li>Our card deck had about 20 villagers. Our pooled data have 250. Would the null distribution be wider or narrower with only 20? What would that do to how convincing a given PRE is?</li>
+<li>If sex mattered <em>a lot</em> on the Island, where would the red line sit?</li>
+<li>Suppose the p-value is tiny. Does that fix the survivorship bias we discussed earlier?</li>
+</ul>
+</div>
+<div class="fragment">
+<p>Shuffling accounts for <strong>chance</strong>. It does <em>not</em> account for <strong>bias</strong> in how we collected the data, and it doesn’t tell us about <strong>cause</strong>.</p>
+</div>
+</section>
+<section id="back-to-the-ae" class="slide level2 smaller">
+<h2>Back to the AE</h2>
+<div class="appex">
+<p>📋 <a href="../ae/ae-10-islands-inference.html">AE 10 - Does Sex Explain More Variation Than Chance?</a></p>
+</div>
+<p>Complete Exercises 4-6 (Part 2): shuffle the data yourself and decide whether sex explains <em>more</em> variation than chance would.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_05217cf9" minutes="15" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_7dd5c970" minutes="10" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
 </div>
 </div>
-</section>
-<section id="finished-early" class="slide level2 smaller">
-<h2>Finished early?</h2>
-<div class="appex">
-<p>📝 <a href="../hw/hw-05.html">HW 05 - Designing Studies and Modeling the Islands Data</a></p>
-</div>
-<p>Part 2 of HW 05 is about study design and doesn’t use any data, so you can start it now if you’re done entering your islanders. Part 1 has you model the pooled data, which we’ll have after this class.</p>
 </section>
 <section id="recap" class="slide level2 smaller">
 <h2>Recap</h2>
 <ul>
-<li>We carried out a <strong>stratified cluster sample</strong> of the Islands: each of us drew 10 islanders who died in Island years 375-399 from our assigned village.</li>
-<li>The mean age at death among islanders who have died is a stand-in for life expectancy, and it is biased because of <em>who can appear</em> in the data.</li>
 <li>Hand-entered data need <strong>cleaning</strong> before we can trust them: check spelling, duplicates, missing values, and impossible values.</li>
-<li><strong>Next time:</strong> we explore the pooled class data and ask whether sex explains <strong>more</strong> variation in age at death than we’d expect by chance.</li>
+<li>PRE is never negative, so “PRE &gt; 0” is not evidence. The real question is whether sex explains <strong>more</strong> variation than we’d expect if there were <strong>no relationship</strong>.</li>
+<li><strong>Shuffling</strong> the response breaks any relationship, so repeated shuffles build the <strong>null distribution</strong>: what PRE looks like by chance alone.</li>
+<li>The <strong>p-value</strong> is the proportion of shuffles that did at least as well as our real data.</li>
+<li>Shuffling accounts for chance, not for bias in how we collected our sample, and it doesn’t tell us about cause.</li>
+<li><strong>HW 05 Part 2 is now unlocked:</strong> clean the class data and fit models to it.</li>
+<li><strong>Next time:</strong> turning this idea into a formal hypothesis test.</li>
 </ul>
 
 
@@ -624,44 +833,6 @@ Prof.&nbsp;Eric Friedlander
         ]
       });
     </script>
-    
-    <script>
-      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-      // slide changes (different for each slide format).
-      (function () {
-        // dispatch for htmlwidgets
-        function fireSlideEnter() {
-          const event = window.document.createEvent("Event");
-          event.initEvent("slideenter", true, true);
-          window.document.dispatchEvent(event);
-        }
-
-        function fireSlideChanged(previousSlide, currentSlide) {
-          fireSlideEnter();
-
-          // dispatch for shiny
-          if (window.jQuery) {
-            if (previousSlide) {
-              window.jQuery(previousSlide).trigger("hidden");
-            }
-            if (currentSlide) {
-              window.jQuery(currentSlide).trigger("shown");
-            }
-          }
-        }
-
-        // hookup for slidy
-        if (window.w3c_slidy) {
-          window.w3c_slidy.add_observer(function (slide_num) {
-            // slide_num starts at position 1
-            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-          });
-        }
-
-      })();
-    </script>
-
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")

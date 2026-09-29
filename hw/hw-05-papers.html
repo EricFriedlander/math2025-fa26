@@ -4551,11 +4551,11 @@ color: #ffd283;
   <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages">Packages</a></li>
   <li><a href="#background-reading" id="toc-background-reading" class="nav-link" data-scroll-target="#background-reading">Background reading</a></li>
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
-  <li><a href="#part-1-reading-two-studies" id="toc-part-1-reading-two-studies" class="nav-link" data-scroll-target="#part-1-reading-two-studies">Part 1: Reading two studies</a></li>
-  <li><a href="#part-2-extra-credit-modeling-the-class-data" id="toc-part-2-extra-credit-modeling-the-class-data" class="nav-link" data-scroll-target="#part-2-extra-credit-modeling-the-class-data">Part 2: Extra credit, modeling the class data</a></li>
-  <li><a href="#grading-30-pts-3.5-extra-credit" id="toc-grading-30-pts-3.5-extra-credit" class="nav-link" data-scroll-target="#grading-30-pts-3.5-extra-credit">Grading (30 pts + 3.5 Extra Credit)</a></li>
+  <li><a href="#part-1-modeling-the-class-data" id="toc-part-1-modeling-the-class-data" class="nav-link" data-scroll-target="#part-1-modeling-the-class-data">Part 1: Modeling the class data</a></li>
+  <li><a href="#part-2-reading-two-studies" id="toc-part-2-reading-two-studies" class="nav-link" data-scroll-target="#part-2-reading-two-studies">Part 2: Reading two studies</a></li>
+  <li><a href="#grading-30-pts" id="toc-grading-30-pts" class="nav-link" data-scroll-target="#grading-30-pts">Grading (30 pts)</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/hw/hw-05.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/hw/hw-05-papers.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -4590,8 +4590,8 @@ color: #ffd283;
 <!-- TODO (instructor): fill in the Canvas link in "Getting Started" before posting. -->
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>In lecture, we learned that how data are collected determines what we can conclude from them. In this HW you’ll apply what you’ve learned about <strong>study design</strong> to two recent published studies. An optional extra-credit part lets you build and interpret regression models using the class’s pooled Islands data from AE 09.</p>
-<p><strong>Part 1</strong> is about reading two studies and needs no data, you can start it as soon as we finish collecting our sample in Lesson 9. <strong>Part 2</strong> is extra credit and uses the pooled class data.</p>
+<p>In lecture, we learned that how data are collected determines what we can conclude from them. In this HW you’ll build and interpret regression models using the class’s pooled Islands data from AE 09, and then apply what you’ve learned about <strong>study design</strong> to two recent published studies.</p>
+<p><strong>Part 1</strong> uses the pooled class data, so it has to wait until after Lesson 10. <strong>Part 2</strong> is about reading two studies and needs no data, you can start it as soon as we finish collecting our sample in Lesson 9.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -4614,8 +4614,8 @@ Note
 <li>Design an experiment to address a question that a published observational study can’t fully answer</li>
 <li>Explain how random sampling and random assignment separately determine generalizability and the ability to establish causation</li>
 <li>Identify confounding variables and threats to the validity of a study</li>
-<li>(Extra credit) Fit, interpret, and evaluate simple linear regression models with categorical and quantitative predictors</li>
-<li>(Extra credit) Describe the scope of inference for a set of models</li>
+<li>Fit, interpret, and evaluate simple linear regression models with categorical and quantitative predictors</li>
+<li>Describe the scope of inference for a set of models</li>
 </ul>
 </section>
 </section>
@@ -4648,7 +4648,7 @@ Note
 </section>
 <section id="background-reading" class="level1">
 <h1>Background reading</h1>
-<p>(Optional reference for Part 1.) Read the chapter on study design in <em>Introduction to Modern Statistics</em>: <a href="https://openintrostat.github.io/ims/data-design.html">Data collection</a>. Pay special attention to the sections on observational studies vs. experiments, confounding, and sampling.</p>
+<p>(Optional reference for Part 2.) Read the chapter on study design in <em>Introduction to Modern Statistics</em>: <a href="https://openintrostat.github.io/ims/data-design.html">Data collection</a>. Pay special attention to the sections on observational studies vs. experiments, confounding, and sampling.</p>
 </section>
 <section id="exercises" class="level1">
 <h1>Exercises</h1>
@@ -4668,8 +4668,44 @@ Tip
 </div>
 </div>
 </section>
-<section id="part-1-reading-two-studies" class="level1">
-<h1>Part 1: Reading two studies</h1>
+<section id="part-1-modeling-the-class-data" class="level1">
+<h1>Part 1: Modeling the class data</h1>
+<div class="exercise">
+<p>Read the pooled data into R using the code below. <strong>Clean the data yourself.</strong> Everyone typed in their own rows, so check for problems: is <code>sex</code> spelled consistently? Are there missing values, duplicated rows, columns stored as the wrong type, or impossible ages? Then compute <code>age_at_death</code> as <code>death_year - birth_year</code>. Note that we did this together in class and you can copy and paste from the activity. However, I encourage you to do as much as you can by yourself.</p>
+<p>Save the cleaned result as <code>islands</code>.</p>
+</div>
+<div class="answer">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>islands_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://docs.google.com/spreadsheets/d/e/2PACX-1vTonqSnj8t3ZgjDzqCuq-P8bE-1OuHmwgBI0kF7eip7gkSmrJQGYRVwFtehtVS4FM6zwNAHUl1He29A/pub?output=csv&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="exercise">
+<p>Fit a linear model called <code>le_fit</code> predicting <code>age_at_death</code> from <code>sex</code>. Use <code>tidy()</code> to format the output.</p>
+<ul>
+<li>What is the <strong>reference level</strong> in your model? How can you tell from the output alone?</li>
+<li>Write out the estimated regression equation using R’s coefficient names.</li>
+</ul>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>Interpret the intercept and the slope of <code>le_fit</code> in the context of the data.</p>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>Evaluate <code>le_fit</code>.</p>
+<ul>
+<li>Use <code>augment()</code> to get fitted values and save the result to a new data frame.</li>
+<li>Use the <code>rsq()</code> and <code>rmse()</code> functions from <code>yardstick</code> to compute <span class="math inline">\(R^2\)</span> and RMSE.</li>
+<li>Write one sentence interpreting <span class="math inline">\(R^2\)</span> and one sentence interpreting RMSE in the context of your data.</li>
+</ul>
+</div>
+<div class="answer">
+
+</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -4680,7 +4716,56 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Part 1 doesn’t require any data. You can work on it as soon as we finish collecting our sample in Lesson 9, even before we’ve pooled and cleaned it.</p>
+<p>This is a good place to render your document.</p>
+</div>
+</div>
+<div class="exercise">
+<p>Now fit a second model, <code>island_fit</code>, predicting <code>age_at_death</code> from <code>island</code> (a categorical predictor with more than two levels). Use <code>tidy()</code> to display the output.</p>
+<ul>
+<li>What is the reference level?</li>
+<li>Interpret <strong>every</strong> coefficient in the model.</li>
+<li>Compare the <span class="math inline">\(R^2\)</span> of <code>island_fit</code> to the <span class="math inline">\(R^2\)</span> of <code>le_fit</code>. Which predictor, sex or island, explains more variation in age at death in our sample?</li>
+</ul>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>Finally, fit a third model, <code>birth_fit</code>, predicting <code>age_at_death</code> from <code>birth_year</code> (a quantitative predictor).</p>
+<ul>
+<li>Make a scatterplot of <code>age_at_death</code> vs. <code>birth_year</code> with the fitted line overlaid.</li>
+<li>Interpret the slope. On its face, is this a strong relationship?</li>
+<li>Now think about <em>how</em> we collected the data: we only sampled islanders who <strong>died between Island years 375 and 399</strong>. Explain why this makes the relationship between <code>birth_year</code> and <code>age_at_death</code> largely an <strong>artifact of our sampling window</strong>. Hint: think about the sampling window.</li>
+</ul>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>Think about the <strong>scope of inference</strong> for <code>le_fit</code>, <code>island_fit</code>, and <code>birth_fit</code>.</p>
+<ul>
+<li>To what population do these models’ results generalize? Is it the whole Island, all islanders who have ever lived, or something narrower?</li>
+<li>Can any of these models support a <strong>causal</strong> claim about its predictor? Why or why not?</li>
+<li>What would have to be true about how the data were collected for a causal claim to be justified? Would that even be possible for <code>island_fit</code>?</li>
+</ul>
+</div>
+<div class="answer">
+
+</div>
+</section>
+<section id="part-2-reading-two-studies" class="level1">
+<h1>Part 2: Reading two studies</h1>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Part 2 doesn’t require any data. You can work on it as soon as we finish collecting our sample in Lesson 9, even before we’ve pooled and cleaned it.</p>
 </div>
 </div>
 <p>You do <strong>not</strong> need to read these papers in full. Read only the parts listed below (about five pages in total), and answer the questions. Note that there are many parts of these papers that you will not understand and that’s ok. Try to focus on understanding the experimental design of each study and what the impact is on the potential conclusions of each.</p>
@@ -4810,104 +4895,6 @@ Tip
 <div class="answer">
 
 </div>
-</section>
-<section id="part-2-extra-credit-modeling-the-class-data" class="level1">
-<h1>Part 2: Extra credit, modeling the class data</h1>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This part is <strong>optional extra credit</strong>, worth up to 3.5 points. It needs the pooled Islands data from AE 09.</p>
-</div>
-</div>
-<div class="exercise">
-<p>Read the pooled data into R using the code below. <strong>Clean the data yourself.</strong> Everyone typed in their own rows, so check for problems: is <code>sex</code> spelled consistently? Are there missing values, duplicated rows, columns stored as the wrong type, or impossible ages? Then compute <code>age_at_death</code> as <code>death_year - birth_year</code>. Note that we did this together in class and you can copy and paste from the activity. However, I encourage you to do as much as you can by yourself.</p>
-<p>Save the cleaned result as <code>islands</code>.</p>
-</div>
-<div class="answer">
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>islands_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://docs.google.com/spreadsheets/d/e/2PACX-1vTonqSnj8t3ZgjDzqCuq-P8bE-1OuHmwgBI0kF7eip7gkSmrJQGYRVwFtehtVS4FM6zwNAHUl1He29A/pub?output=csv&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-<div class="exercise">
-<p>Fit a linear model called <code>le_fit</code> predicting <code>age_at_death</code> from <code>sex</code>. Use <code>tidy()</code> to format the output.</p>
-<ul>
-<li>What is the <strong>reference level</strong> in your model? How can you tell from the output alone?</li>
-<li>Write out the estimated regression equation using R’s coefficient names.</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p>Interpret the intercept and the slope of <code>le_fit</code> in the context of the data.</p>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p>Evaluate <code>le_fit</code>.</p>
-<ul>
-<li>Use <code>augment()</code> to get fitted values and save the result to a new data frame.</li>
-<li>Use the <code>rsq()</code> and <code>rmse()</code> functions from <code>yardstick</code> to compute <span class="math inline">\(R^2\)</span> and RMSE.</li>
-<li>Write one sentence interpreting <span class="math inline">\(R^2\)</span> and one sentence interpreting RMSE in the context of your data.</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This is a good place to render your document.</p>
-</div>
-</div>
-<div class="exercise">
-<p>Now fit a second model, <code>island_fit</code>, predicting <code>age_at_death</code> from <code>island</code> (a categorical predictor with more than two levels). Use <code>tidy()</code> to display the output.</p>
-<ul>
-<li>What is the reference level?</li>
-<li>Interpret <strong>every</strong> coefficient in the model.</li>
-<li>Compare the <span class="math inline">\(R^2\)</span> of <code>island_fit</code> to the <span class="math inline">\(R^2\)</span> of <code>le_fit</code>. Which predictor, sex or island, explains more variation in age at death in our sample?</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p>Finally, fit a third model, <code>birth_fit</code>, predicting <code>age_at_death</code> from <code>birth_year</code> (a quantitative predictor).</p>
-<ul>
-<li>Make a scatterplot of <code>age_at_death</code> vs. <code>birth_year</code> with the fitted line overlaid.</li>
-<li>Interpret the slope. On its face, is this a strong relationship?</li>
-<li>Now think about <em>how</em> we collected the data: we only sampled islanders who <strong>died between Island years 375 and 399</strong>. Explain why this makes the relationship between <code>birth_year</code> and <code>age_at_death</code> largely an <strong>artifact of our sampling window</strong>. Hint: think about the sampling window.</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p>Think about the <strong>scope of inference</strong> for <code>le_fit</code>, <code>island_fit</code>, and <code>birth_fit</code>.</p>
-<ul>
-<li>To what population do these models’ results generalize? Is it the whole Island, all islanders who have ever lived, or something narrower?</li>
-<li>Can any of these models support a <strong>causal</strong> claim about its predictor? Why or why not?</li>
-<li>What would have to be true about how the data were collected for a causal claim to be justified? Would that even be possible for <code>island_fit</code>?</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -4922,8 +4909,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="grading-30-pts-3.5-extra-credit" class="level1">
-<h1>Grading (30 pts + 3.5 Extra Credit)</h1>
+<section id="grading-30-pts" class="level1">
+<h1>Grading (30 pts)</h1>
 <p><br></p>
 <table class="caption-top table">
 <thead>
@@ -4935,39 +4922,63 @@ Tip
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Ex 1</td>
-<td style="text-align: left;">3</td>
+<td style="text-align: left;">1</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Ex 2</td>
-<td style="text-align: left;">3</td>
+<td style="text-align: left;">2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Ex 3</td>
-<td style="text-align: left;">3</td>
+<td style="text-align: left;">2</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Ex 4</td>
-<td style="text-align: left;">3</td>
+<td style="text-align: left;">2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Ex 5</td>
-<td style="text-align: left;">3</td>
+<td style="text-align: left;">2</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Ex 6</td>
-<td style="text-align: left;">3</td>
+<td style="text-align: left;">2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Ex 7</td>
-<td style="text-align: left;">5</td>
+<td style="text-align: left;">2</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Ex 8</td>
-<td style="text-align: left;">5</td>
+<td style="text-align: left;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Extra credit (Ex 9-15, 0.5 each)</td>
-<td style="text-align: left;">+3.5</td>
+<td style="text-align: left;">Ex 9</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ex 10</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ex 11</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ex 12</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ex 13</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ex 14</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ex 15</td>
+<td style="text-align: left;">2</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Grammar &amp; Writing</td>
@@ -5412,7 +5423,7 @@ Tip
 </div>   
     <div class="nav-footer-center">
        
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/hw/hw-05.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/hw/hw-05-papers.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This site is built with <a href="https://quarto.org/">Quarto</a></p>
 </div>

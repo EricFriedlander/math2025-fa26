@@ -8,7 +8,7 @@
 
 <meta name="author" content="Insert Name Here">
 
-<title>HW 05: Modeling the Islands Data and Reading Two Studies – MATH 2025 - Fall 2026</title>
+<title>HW 05: Designing Studies and Modeling the Islands Data – MATH 2025 - Fall 2026</title>
 <style>
 
 code{white-space: pre-wrap;}
@@ -4445,7 +4445,7 @@ color: #ffd283;
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">HW 05: Modeling the Islands Data and Reading Two Studies</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">HW 05: Designing Studies and Modeling the Islands Data</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -4551,11 +4551,11 @@ color: #ffd283;
   <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages">Packages</a></li>
   <li><a href="#background-reading" id="toc-background-reading" class="nav-link" data-scroll-target="#background-reading">Background reading</a></li>
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
-  <li><a href="#part-1-reading-two-studies" id="toc-part-1-reading-two-studies" class="nav-link" data-scroll-target="#part-1-reading-two-studies">Part 1: Reading two studies</a></li>
-  <li><a href="#part-2-extra-credit-modeling-the-class-data" id="toc-part-2-extra-credit-modeling-the-class-data" class="nav-link" data-scroll-target="#part-2-extra-credit-modeling-the-class-data">Part 2: Extra credit, modeling the class data</a></li>
-  <li><a href="#grading-30-pts-3.5-extra-credit" id="toc-grading-30-pts-3.5-extra-credit" class="nav-link" data-scroll-target="#grading-30-pts-3.5-extra-credit">Grading (30 pts + 3.5 Extra Credit)</a></li>
+  <li><a href="#part-1-modeling-the-class-data" id="toc-part-1-modeling-the-class-data" class="nav-link" data-scroll-target="#part-1-modeling-the-class-data">Part 1: Modeling the class data</a></li>
+  <li><a href="#part-2-designing-studies" id="toc-part-2-designing-studies" class="nav-link" data-scroll-target="#part-2-designing-studies">Part 2: Designing studies</a></li>
+  <li><a href="#grading-30-pts" id="toc-grading-30-pts" class="nav-link" data-scroll-target="#grading-30-pts">Grading (30 pts)</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/hw/hw-05.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/hw/hw-05-islands.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -4563,8 +4563,8 @@ color: #ffd283;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">HW 05: Modeling the Islands Data and Reading Two Studies</h1>
-<p class="subtitle lead">Your first Islands models, plus generalizability and causation in two published studies</p>
+<h1 class="title">HW 05: Designing Studies and Modeling the Islands Data</h1>
+<p class="subtitle lead">Study design, generalizability, causation, and your first Islands models</p>
 </div>
 
 
@@ -4590,8 +4590,8 @@ color: #ffd283;
 <!-- TODO (instructor): fill in the Canvas link in "Getting Started" before posting. -->
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>In lecture, we learned that how data are collected determines what we can conclude from them. In this HW you’ll apply what you’ve learned about <strong>study design</strong> to two recent published studies. An optional extra-credit part lets you build and interpret regression models using the class’s pooled Islands data from AE 09.</p>
-<p><strong>Part 1</strong> is about reading two studies and needs no data, you can start it as soon as we finish collecting our sample in Lesson 9. <strong>Part 2</strong> is extra credit and uses the pooled class data.</p>
+<p>In lecture, we learned that how data are collected determines what we can conclude from them. In this HW you’ll practice thinking about <strong>study design</strong>, and then build and interpret regression models using the class’s pooled Islands data from AE 09.</p>
+<p><strong>Part 1</strong> uses the pooled class data, so it has to wait until after Lesson 10. <strong>Part 2</strong> is about study design and needs no data, you can start it as soon as we finish collecting our sample in Lesson 9.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -4610,12 +4610,11 @@ Note
 <p>By the end of this homework, you will…</p>
 <ul>
 <li>Classify studies as observational or experimental, and say what each design can and cannot conclude</li>
-<li>Read key parts of a research paper to identify its design, its population, and its limitations</li>
-<li>Design an experiment to address a question that a published observational study can’t fully answer</li>
+<li>Design an experiment and an observational study for the same research question, and compare what each can show</li>
 <li>Explain how random sampling and random assignment separately determine generalizability and the ability to establish causation</li>
 <li>Identify confounding variables and threats to the validity of a study</li>
-<li>(Extra credit) Fit, interpret, and evaluate simple linear regression models with categorical and quantitative predictors</li>
-<li>(Extra credit) Describe the scope of inference for a set of models</li>
+<li>Fit, interpret, and evaluate simple linear regression models with categorical and quantitative predictors</li>
+<li>Describe the scope of inference for a set of models</li>
 </ul>
 </section>
 </section>
@@ -4648,7 +4647,7 @@ Note
 </section>
 <section id="background-reading" class="level1">
 <h1>Background reading</h1>
-<p>(Optional reference for Part 1.) Read the chapter on study design in <em>Introduction to Modern Statistics</em>: <a href="https://openintrostat.github.io/ims/data-design.html">Data collection</a>. Pay special attention to the sections on observational studies vs. experiments, confounding, and sampling.</p>
+<p>Read the chapter on study design in <em>Introduction to Modern Statistics</em>: <a href="https://openintrostat.github.io/ims/data-design.html">Data collection</a>. Pay special attention to the sections on observational studies vs. experiments, confounding, and sampling.</p>
 </section>
 <section id="exercises" class="level1">
 <h1>Exercises</h1>
@@ -4668,151 +4667,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="part-1-reading-two-studies" class="level1">
-<h1>Part 1: Reading two studies</h1>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Part 1 doesn’t require any data. You can work on it as soon as we finish collecting our sample in Lesson 9, even before we’ve pooled and cleaned it.</p>
-</div>
-</div>
-<p>You do <strong>not</strong> need to read these papers in full. Read only the parts listed below (about five pages in total), and answer the questions. Note that there are many parts of these papers that you will not understand and that’s ok. Try to focus on understanding the experimental design of each study and what the impact is on the potential conclusions of each.</p>
-<ul>
-<li><strong>Paper A:</strong> Grimon and Mills, <a href="https://arxiv.org/pdf/2502.08501">“Better Together? A Field Experiment on Human-Algorithm Interaction in Child Protection”</a>. Child protective services workers in one county, referred to as the “trial county” in the paper, decide which reported families to investigate. Some were given access to a computer risk score, and researchers tracked what happened to the children afterward. <em>Read:</em> the abstract, the Introduction on pages 1-3, and Section 3.2 (“Sample Characteristics”) and Section 3.3 (“Experimental Design”) on pages 10-11.</li>
-<li><strong>Paper B:</strong> Goodman and Nitkin, <a href="https://www.nber.org/system/files/working_papers/w35671/w35671.pdf">“Kumon Up: Private Tutoring Centers and Student Achievement”</a>. Chains like Kumon and Sylvan have opened thousands of tutoring centers. The authors ask who uses them and whether they raise test scores. <em>Read:</em> the abstract and the Introduction, pages 1-4.</li>
-</ul>
-<div class="exercise">
-<p><strong>Paper A.</strong> In the Introduction, the authors describe their study as a “large-scale field experiment (<span class="math inline">\(N = 4{,}681\)</span>)”.</p>
-<ul>
-<li>What was <strong>randomized</strong>? At what level (child, household, or social worker), and why do you think the researchers randomized at that level?</li>
-<li>What are the <strong>treatment</strong> and <strong>control</strong> conditions?</li>
-<li>What is the main <strong>outcome</strong> they use to judge whether the algorithm helped?</li>
-<li>In the Introduction (page 3), the authors say an algorithm-only condition (with no human decision-maker) was “legally and practically infeasible.” Why might a researcher be unable to run the experiment they would ideally want?</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p><strong>Paper A.</strong> Workers were not required to use the algorithm. The Introduction says workers “consulted the algorithm in at least 73 percent of decisions.”</p>
-<p>Suppose a researcher ignored the randomization and simply compared outcomes for families where workers <em>did</em> look at the score to families where they <em>didn’t</em>.</p>
-<ul>
-<li>Explain why this would be an <strong>observational</strong> comparison, even though it happens inside an experiment.</li>
-<li>Name one plausible <strong>confounding variable</strong>, and explain how it could make the algorithm look better (or worse) than it really is.</li>
-<li>How does the randomization protect the researchers from this problem?</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p><strong>Paper A.</strong> Read the county description in Section 3.3 (page 11): the trial county “ranks above the national average in socioeconomic status,” is “predominantly white (92%),” and “uses group decision-making.”</p>
-<ul>
-<li>Did the researchers take a <strong>random sample</strong> of child protection cases from across the country? How can you tell?</li>
-<li>To what population can the results <strong>safely generalize</strong>?</li>
-<li>Name one type of place where you would hesitate to expect the same result, and explain why.</li>
-<li>Does the lack of random sampling weaken the claim that the algorithm <em>caused</em> the improvement? Why or why not?</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p><strong>Paper B.</strong> Read the second and third paragraphs of the Introduction, and the abstract.</p>
-<ul>
-<li>Is this an <strong>observational study</strong> or an <strong>experiment</strong>? What tells you?</li>
-<li>In your own words, what is being compared? (Hint: the authors compare districts that gain a first chain center between 2010 and 2019 to districts that never do.)</li>
-<li>The abstract says “Asian and White households [are] five and two times as likely to purchase tutoring as Black and Hispanic households.” Is this an <em>association</em> or a <em>causal</em> claim? Explain.</li>
-<li>Who decides where a chain tutoring center opens? Explain why this makes it hard to tell whether the centers <em>cause</em> higher test scores.</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p><strong>Paper B.</strong> Districts that got their first chain center could have been on a path of rising scores even <em>without</em> the center. On page 2-3 of the Introduction, the authors report “flat pre-trends”: before a center opened, scores in treated districts were not already rising faster than in other districts.</p>
-<ul>
-<li>Explain why flat pre-trends make the causal claim more believable, but do not fully settle it. Name one thing that could still go wrong.</li>
-<li>Give one <strong>confounding variable</strong> (something that changes at the same time as a center opening) that the design might not catch.</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p><strong>Paper B.</strong> Read the paragraph on page 4 beginning “How large are these effects on the students who actually attend these centers?”</p>
-<ul>
-<li>The district-wide effect is about 0.03 standard deviations, but the implied effect on students who attend is about 0.25 standard deviations or more. Why are these two numbers different? What <strong>population</strong> does each one describe?</li>
-<li>The results are much larger for White and Asian students than for Black and Hispanic students. Does this tell us that tutoring <em>works differently</em> for different groups? What else might explain the difference?</li>
-<li>The cover page says NBER working papers “have not been peer-reviewed.” How should that change how you treat the paper’s claims?</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p><strong>Comparing the papers.</strong> Two design choices control what a study can conclude: <strong>random sampling</strong> (can we generalize?) and <strong>random assignment</strong> (can we claim causation?).</p>
-<p>Fill in the table for each paper, and briefly justify each answer with something specific from the reading.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: left;">Random sampling of the population?</th>
-<th style="text-align: left;">Random assignment?</th>
-<th style="text-align: left;">Can generalize?</th>
-<th style="text-align: left;">Can claim causation?</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Paper A (algorithm)</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Paper B (tutoring)</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-<p>Then, in two or three sentences, say which paper you trust more for the claim “this intervention <em>causes</em> better outcomes,” and which for “this result holds broadly across the country.” Do they give the same answer?</p>
-</div>
-<div class="answer">
-
-</div>
-<div class="exercise">
-<p>Suppose you had unlimited resources and wanted a more convincing answer to Paper B’s question: <em>does opening a tutoring center raise test scores?</em></p>
-<ul>
-<li>Design an <strong>experiment</strong> to answer it. Say what you would randomize, who the participants are, how you would assign them, and what you would measure. (For inspiration, the authors mention a randomized trial of Kumon in Bangladeshi schools.)</li>
-<li>What could your experiment tell you that Paper B cannot?</li>
-<li>What could Paper B tell you that your experiment could not? (Think about who, where, and for how long.)</li>
-</ul>
-</div>
-<div class="answer">
-
-</div>
-</section>
-<section id="part-2-extra-credit-modeling-the-class-data" class="level1">
-<h1>Part 2: Extra credit, modeling the class data</h1>
+<section id="part-1-modeling-the-class-data" class="level1">
+<h1>Part 1: Modeling the class data</h1>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -4823,7 +4679,7 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This part is <strong>optional extra credit</strong>, worth up to 3.5 points. It needs the pooled Islands data from AE 09.</p>
+<p>Part 1 needs the pooled Islands data from AE 09. If you have time in Lesson 9, start on Part 2 instead.</p>
 </div>
 </div>
 <div class="exercise">
@@ -4908,6 +4764,135 @@ Tip
 <div class="answer">
 
 </div>
+</section>
+<section id="part-2-designing-studies" class="level1">
+<h1>Part 2: Designing studies</h1>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Part 2 doesn’t require any data. You can work on it as soon as we finish collecting our sample in Lesson 9, even before we’ve pooled and cleaned it.</p>
+</div>
+</div>
+<div class="exercise">
+<p>Log into <a href="https://islands.smp.uq.edu.au/index.php">The Islands</a> and open the <strong>Academy</strong>. Find <strong>one study</strong> that interests you.</p>
+<ul>
+<li>What is the study, in one sentence?</li>
+<li>Is the response variable quantitative or categorical?</li>
+<li>How many explanatory variables are there, and what types are they (quantitative or categorical)?</li>
+<li>How many observational units were collected?</li>
+<li>Is it an <strong>observational study</strong> or an <strong>experiment</strong>? What can it conclude, and about whom?</li>
+</ul>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>For each scenario below, say whether it is an <strong>observational study</strong> or an <strong>experiment</strong>. Then say what type of conclusion (association or causation) it can support, and for whom (just the people in the study, or a wider population).</p>
+<ol type="a">
+<li><p>The class study of life expectancy from AE 09: each student sampled 10 deceased islanders from an assigned village, and we compared mean age at death for men and women.</p></li>
+<li><p>The Coffee Truck game: you chose which settings to simulate (<code>Price</code>, <code>Music</code>, and so on), the game ran shifts under those settings, and you recorded <code>Sales</code>.</p></li>
+<li><p>On the Islands, you randomly choose 40 islanders and randomly assign half to one treatment and half to another. You then measure the same outcome for all 40.</p></li>
+</ol>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>Design an <strong>experiment</strong> on the Islands to answer the question: <em>does drinking coffee improve islanders’ scores on a memory test?</em></p>
+<p>Describe:</p>
+<ul>
+<li>The <strong>population</strong> and how you would choose islanders for the study</li>
+<li>The <strong>treatment and control</strong> conditions</li>
+<li>How you would use <strong>random assignment</strong>, specifically</li>
+<li>The <strong>response variable</strong> and how you’d measure it</li>
+<li>One thing you would try to hold constant across both groups</li>
+</ul>
+<p>Then: if you ran this experiment, what could you conclude, and about whom?</p>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>Now design an <strong>observational study</strong> for the <em>same</em> question, one where you record islanders’ existing coffee habits rather than assigning them.</p>
+<ul>
+<li>Describe your design in a few sentences.</li>
+<li>Name <strong>one plausible confounding variable</strong>, and explain why it’s related to both coffee drinking and memory-test performance.</li>
+<li>How does what you could conclude from this study differ from what you could conclude from your experiment in the previous exercise?</li>
+</ul>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>Some questions can’t be answered with an experiment. We can’t randomly assign islanders to be male or female, or to live on a particular island, so we can never run a true experiment on <strong>sex</strong> or <strong>island of residence</strong>.</p>
+<ul>
+<li>Why, specifically, can’t you randomly assign these variables?</li>
+<li>Design the <strong>best observational study you can</strong> to investigate whether island of residence is associated with life expectancy.</li>
+<li>What could this study show, and what could it <em>not</em> show, no matter how well you design it?</li>
+</ul>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>Whether you can <strong>generalize</strong> and whether you can claim <strong>causation</strong> are two separate questions, controlled by two separate design choices: random <em>sampling</em> and random <em>assignment</em>. Consider four versions of the same study of caffeine and memory-test scores:</p>
+<ol type="a">
+<li>Random sample of islanders from the population, randomly assigned to caffeine or no caffeine.</li>
+<li>Random sample of islanders from the population, but each islander chooses whether to drink coffee.</li>
+<li>Volunteers who sign up for the study, randomly assigned to caffeine or no caffeine.</li>
+<li>Volunteers who sign up for the study, and each chooses whether to drink coffee.</li>
+</ol>
+<p>For each version, say whether you could <strong>generalize</strong> the results to the population of islanders, and whether you could claim <strong>causation</strong>. Then, in a sentence, explain the general pattern: which design choice buys you generalizability, and which buys you causation?</p>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>In AE 09, we found that (in our sample) men and women differed in mean age at death.</p>
+<ul>
+<li>Propose a plausible <strong>confounding variable</strong> for the relationship between <code>sex</code> and <code>age_at_death</code> on the Islands. Explain why it is related to <em>both</em> sex and age at death.</li>
+<li>Explain how this confounder could produce a difference in age at death between men and women <strong>even if sex itself had no direct effect</strong> on how long people live.</li>
+</ul>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>Below is the methods section from a previous class’s study of life expectancy on the Island. Read it carefully.</p>
+<blockquote class="blockquote">
+<p>Using a stratified cluster sample survey, we collected data from the Island’s records to calculate overall life expectancy on the Island, as well as male versus female life expectancies. We divided the island into geographic quadrants and each of us randomly collected data from birth records and individuals’ information pages, sampling 3-4 cities in our respective quadrants. Masha sampled data from Fairhaven, Serrano, Sunrise and Eden. Tyler collected data from Riverside, Valkov and Rosica. Abby sampled the populations living in Edwardton, Asderaki and Mossgiel. Jess collected data in Macondo, Durand Bay and Deep Bay. The information we collected included each individual’s birth year, death year and sex. Once we compiled the data for approximately 500 people, we selected the people who died between 1980 and 2010 as well as those who are alive today. We made the assumption that this selection would give us a representative picture of present or contemporary life expectancy, since living conditions throughout the last thirty years could be considered relatively consistent and relevant. We also capped the age at 150, since our oldest person in the sample was 147. Once we applied these exclusions, our data for the actual calculations included approximately 300 people - still a significant number for this type of simulation.</p>
+</blockquote>
+<ul>
+<li>Name the <strong>sampling scheme</strong> they used and say which part is the <em>stratification</em> and which part is the <em>clustering</em>.</li>
+<li>List their <strong>inclusion/exclusion criteria</strong>.</li>
+<li>State <strong>one assumption</strong> the authors make, and say whether you think it’s reasonable.</li>
+<li>Describe <strong>one threat to validity</strong> (a way their estimate of life expectancy could be off) that they did <em>not</em> mention.</li>
+<li>To what population do you think their results actually generalize?</li>
+</ul>
+</div>
+<div class="answer">
+
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is a good place to render your document.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -4922,8 +4907,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="grading-30-pts-3.5-extra-credit" class="level1">
-<h1>Grading (30 pts + 3.5 Extra Credit)</h1>
+<section id="grading-30-pts" class="level1">
+<h1>Grading (30 pts)</h1>
 <p><br></p>
 <table class="caption-top table">
 <thead>
@@ -4935,39 +4920,63 @@ Tip
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Ex 1</td>
-<td style="text-align: left;">3</td>
+<td style="text-align: left;">1</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Ex 2</td>
-<td style="text-align: left;">3</td>
+<td style="text-align: left;">2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Ex 3</td>
-<td style="text-align: left;">3</td>
+<td style="text-align: left;">2</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Ex 4</td>
-<td style="text-align: left;">3</td>
+<td style="text-align: left;">2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Ex 5</td>
-<td style="text-align: left;">3</td>
+<td style="text-align: left;">2</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Ex 6</td>
-<td style="text-align: left;">3</td>
+<td style="text-align: left;">2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Ex 7</td>
-<td style="text-align: left;">5</td>
+<td style="text-align: left;">2</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Ex 8</td>
-<td style="text-align: left;">5</td>
+<td style="text-align: left;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Extra credit (Ex 9-15, 0.5 each)</td>
-<td style="text-align: left;">+3.5</td>
+<td style="text-align: left;">Ex 9</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ex 10</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ex 11</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ex 12</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ex 13</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ex 14</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ex 15</td>
+<td style="text-align: left;">2</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Grammar &amp; Writing</td>
@@ -5412,7 +5421,7 @@ Tip
 </div>   
     <div class="nav-footer-center">
        
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/hw/hw-05.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/hw/hw-05-islands.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This site is built with <a href="https://quarto.org/">Quarto</a></p>
 </div>
