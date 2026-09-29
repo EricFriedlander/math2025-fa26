@@ -1848,7 +1848,7 @@
     "href": "ae/ae-09-islands-collection.html#time-permitting-modeling-differences-by-sex",
     "title": "AE 09: Collecting the Islands Data",
     "section": "Time permitting: Modeling differences by sex",
-    "text": "Time permitting: Modeling differences by sex\nResults will change as more rows come in. That’s fine: we’re previewing what we’ll do next class.\n\nModel the difference in age at death between men and women.\n\nFit a linear model called sex_fit predicting age_at_death from sex, and display the results with tidy().\nWhat is the reference level? Write out the estimated regression equation.\nInterpret the intercept and the slope in context.\n\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTo submit the AE:\n\nRender the document to produce the HTML with all of your work from today’s class.\nUpload your .qmd and .html files to the Canvas assignment."
+    "text": "Time permitting: Modeling differences by sex\nResults will change as more rows come in. That’s fine: we’re previewing what we’ll do next class.\n\nModel the difference in age at death between men and women.\n\nFit a linear model called sex_fit predicting age_at_death from sex, and display the results with tidy().\nWhat is the reference level? Write out the estimated regression equation.\nInterpret the intercept and the slope in context.\nCompute the \\(R^2\\) for the model and interpret it.\n\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTo submit the AE:\n\nRender the document to produce the HTML with all of your work from today’s class.\nUpload your .qmd and .html files to the Canvas assignment."
   },
   {
     "objectID": "computing-access.html",
