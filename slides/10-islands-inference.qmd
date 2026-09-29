@@ -1,0 +1,405 @@
+---
+title: "Introduction to Inference"
+subtitle: "Does sex explain more variation than chance?"
+author: "Prof. Eric Friedlander"
+footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/schedule)"
+logo: "../images/logo.png"
+format:
+  revealjs:
+    theme: slides.scss
+    multiplex: false
+    transition: fade
+    slide-number: false
+    incremental: false
+    chalkboard: true
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+execute:
+  freeze: auto
+  echo: true
+  cache: false
+knitr:
+  opts_chunk:
+    R.options:
+    width: 200
+bibliography: references.bib
+---
+
+```{r setup}
+#| include: false
+
+library(countdown)
+
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.618,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+
+# load packages
+library(tidyverse)   # for data wrangling and visualization
+library(ggformula)   # for plotting using formulas
+library(broom)       # for formatting model output
+library(scales)      # for pretty axis labels
+library(knitr)       # for pretty tables
+library(kableExtra)  # also for pretty tables
+library(coursekata)  # for pre() (PRE / R^2) and shuffle()/do()
+
+# MADE-UP preview data: a pretend Island population, used only so these
+# slides render without the class data. Real data comes
+# from the AE.
+set.seed(2025)
+n_pop <- 5000
+island_pop <- tibble(
+  sex = sample(c("Female", "Male"), n_pop, replace = TRUE),
+  age_at_death = round(pmin(pmax(
+    rnorm(n_pop, mean = if_else(sex == "Female", 72, 69), sd = 16),
+    0), 120))
+)
+islands <- slice_sample(island_pop, n = 250)
+
+# set default theme and larger font size for ggplot2
+ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
+```
+
+## Last time {.smaller}
+
+::: {.incremental style="font-size: 0.9em"}
+- We **collected** our stratified cluster sample of the Islands: each of us drew 10 islanders from an assigned village.
+- We thought about **who is (and isn't) in our sample**, and why that biases our estimate of life expectancy.
+:::
+
+. . .
+
+::: question
+Today: **explore** the pooled class data, then ask: is the difference we see between men and women real, or could it just be chance?
+:::
+
+## Topics
+
+- Load the pooled class data (already cleaned, you'll clean it yourself in HW 05).
+- **Explore** life expectancy overall and by sex.
+- Ask whether sex explains **more** variation than we'd expect by chance, and answer it by **shuffling**.
+- Build a **null distribution** and compute a **p-value**.
+- Name what shuffling can, and cannot, tell us.
+
+# Exploring life expectancy
+
+## Our pooled data {.smaller}
+
+::: callout-note
+The output on these slides is from a **made-up** island so the slides render without the class data. Yours will look different.
+:::
+
+```{r}
+islands |>
+  head(5) |>
+  kable()
+```
+
+::: question
+What are the observational units? What are the variables, and which is the response?
+:::
+
+## Exploring age at death {.smaller}
+
+```{r}
+#| out.width: "70%"
+
+gf_boxplot(age_at_death ~ sex, data = islands, fill = ~ sex, show.legend = FALSE) |>
+  gf_labs(x = "Sex", y = "Age at death (years)")
+```
+
+## Activity {.smaller}
+
+::: appex
+📋 [AE 10 - Does Sex Explain More Variation Than Chance?](../ae/ae-10-islands-inference.qmd)
+:::
+
+Complete Exercises 1-3 (load the data, explore `age_at_death`, and think critically about the sample).
+
+```{r}
+#| echo: false
+countdown(minutes = 10)
+```
+
+## Our model {.smaller}
+
+```{r}
+#| echo: true
+
+le_fit <- lm(age_at_death ~ sex, data = islands)
+
+tidy(le_fit)
+```
+
+```{r}
+#| echo: false
+
+b0 <- coef(le_fit)[["(Intercept)"]]
+b1 <- coef(le_fit)[["sexMale"]]
+```
+
+$$
+\widehat{\text{age at death}} = `r round(b0, 2)` `r if_else(b1 < 0, "-", "+")` `r round(abs(b1), 2)` \times \text{sexMale}
+$$
+
+::: question
+What is the reference level? What does the slope mean here?
+:::
+
+::: callout-note
+You'll fit and interpret this model (and a couple more) in detail in **HW 05**.
+:::
+
+# Does sex explain *more* variation than chance?
+
+## How much does sex explain? {.smaller}
+
+```{r}
+#| echo: true
+
+pre_obs <- pre(age_at_death ~ sex, data = islands)
+pre_obs
+```
+
+In Lesson 7 we called this **PRE** (or $R^2$): the proportion of variation in age at death that the model explains.
+
+::: question
+In our sample, sex explains `r round(100 * pre_obs, 1)`% of the variation in age at death. **Is that a lot?** What would you compare it to?
+:::
+
+## A useful model or a useless one? {.smaller}
+
+Remember, $SST = SSM + SSE$, and $PRE = SSM / SST$.
+
+::: question
+Suppose we add a predictor to the model, and the predictor is *pure noise*. Could $SSE$ get **bigger** than it was for the empty model? What is the smallest $PRE$ can ever be?
+:::
+
+. . .
+
+- Least squares can always fall back on "ignore the predictor," so $SSE$ can't go up and **$PRE \geq 0$**.
+- In practice, even a useless predictor picks up a little bit of the noise, so $PRE$ is (almost) always **a little bigger than 0**.
+
+. . .
+
+::: question
+So "PRE is bigger than 0" can't be our evidence. **How big is big enough?**
+:::
+
+## Reframing the question {.smaller}
+
+::: question
+Does sex explain **MORE** variation in age at death than we'd expect *if there were no relationship at all*?
+:::
+
+. . .
+
+To answer this, we need to know what PRE looks like in a world where there is **no relationship** between sex and age at death.
+
+. . .
+
+::: question
+- In that world, what would the boxplots for men and women look like?
+- If I told you an islander's sex, would it help you guess their age at death?
+- Then what does it matter *which* age at death goes with *which* sex label?
+:::
+
+## Activity: Shuffling villagers {.smaller}
+
+::: appex
+🃏 **Cards!** Each of you gets one villager
+:::
+
+Your card has two halves: **sex** | **age at death**.
+
+::: incremental
+1. Sit on the **Female** or **Male** side of the room, based on the *sex* half of your card.
+2. **Round 0:** Enter your card (sex, age at death) into the shared spreadsheet.
+3. I collect every *age at death* half, **shuffle** them, and deal them back out.
+4. **Round 1:** Everyone stays put and enters what they are now holding.
+5. Repeat for a few more rounds.
+:::
+
+::: notes
+Logistics: print one card per student, drawn from the cleaned pooled data, with sex on the left half and age at death on the right half. Students keep the sex half and hand in the age half after each round. Shared spreadsheet columns: `round` (0 = original pairing), `sex`, `age_at_death`. Analyze in `scripts/10-shuffle-demo.R`.
+:::
+
+## Before we shuffle {.smaller}
+
+::: question
+Make a prediction, and talk to your neighbor:
+
+- After I shuffle, will the **average age at death** of the women in the room change? What about the men?
+- Will the *difference* between the two group averages get bigger, get smaller, or stay the same?
+- Will PRE be **exactly 0**?
+:::
+
+## What did the shuffle do? {.smaller}
+
+*(We look at the class's data in R.)*
+
+::: question
+- What did shuffling **keep the same**? (Think: the set of ages, the group sizes, SST.)
+- What did shuffling **break**?
+- Which round(s) came from a world where sex has *nothing* to do with age at death?
+- Even though we *made* sex irrelevant, PRE is not exactly 0. Why not?
+:::
+
+. . .
+
+::: question
+If I shuffled again, would I get the same PRE? How would you describe the *pattern* across many shuffles?
+:::
+
+## Shuffling in R {.smaller}
+
+`shuffle()` does what I did with the cards: it randomly reorders `age_at_death`, leaving `sex` alone.
+
+```{r}
+#| echo: true
+
+set.seed(9)
+pre(shuffle(age_at_death) ~ sex, data = islands)
+pre(shuffle(age_at_death) ~ sex, data = islands)
+pre(shuffle(age_at_death) ~ sex, data = islands)
+```
+
+::: question
+Same data, same code, three different answers. Where did the randomness come from?
+:::
+
+## Real vs. shuffled {.smaller}
+
+```{r}
+#| out.width: "70%"
+
+set.seed(9)
+islands |>
+  mutate(Real = age_at_death, Shuffled = shuffle(age_at_death)) |>
+  pivot_longer(c(Real, Shuffled), names_to = "version", values_to = "age") |>
+  gf_boxplot(age ~ sex, fill = ~ sex, show.legend = FALSE) |>
+  gf_facet_wrap(~ version) |>
+  gf_labs(x = "Sex", y = "Age at death (years)")
+```
+
+::: question
+Which panel looks like a world with no relationship? Which one do we actually live in?
+:::
+
+## Shuffling 1000 times {.smaller}
+
+::: question
+**Before I run this:** if I shuffle and compute PRE 1000 times, and make a histogram, what shape will it have? Where will most of the values be? Can any be negative?
+:::
+
+. . .
+
+```{r}
+#| echo: true
+
+set.seed(2025)
+null_pre <- do(1000) * pre(shuffle(age_at_death) ~ sex, data = islands)
+
+head(null_pre, 3)
+```
+
+## The null distribution {.smaller}
+
+```{r}
+#| out.width: "70%"
+
+gf_histogram(~ pre, data = null_pre, bins = 30, boundary = 0, fill = "grey70", color = "white") |>
+  gf_labs(x = "PRE from a shuffled data set", y = "Number of shuffles")
+```
+
+::: question
+Each bar is built from shuffles where sex and age at death are **unrelated**. What does one value in this histogram represent?
+:::
+
+## Naming what we built {.smaller}
+
+This histogram is the **sampling distribution of PRE under the null hypothesis**, or the **null distribution**.
+
+. . .
+
+-   **Null hypothesis** $H_0$: there is **no relationship** between sex and age at death ($\beta_1 = 0$). Any PRE we see is just chance.
+-   **Alternative hypothesis** $H_A$: there **is** a relationship ($\beta_1 \neq 0$).
+
+. . .
+
+The shuffles show us how much variation sex would "explain" *by chance alone*. That is what we needed to judge whether `r round(100 * pre_obs, 1)`% is a lot.
+
+## Where does our data land? {.smaller}
+
+```{r}
+#| out.width: "70%"
+
+gf_histogram(~ pre, data = null_pre, bins = 30, boundary = 0, fill = "grey70", color = "white") |>
+  gf_vline(xintercept = pre_obs, color = "#d53a19", linewidth = 1.5) |>
+  gf_labs(x = "PRE from a shuffled data set", y = "Number of shuffles")
+```
+
+::: question
+The red line is the PRE from our *real* data. Is it an unusual value in a world with no relationship? How would you put a number on "unusual"?
+:::
+
+## The p-value {.smaller}
+
+```{r}
+#| echo: true
+
+p_val <- mean(null_pre$pre >= pre_obs)
+p_val
+```
+
+About `r round(100 * p_val, 1)`% of the shuffled data sets explained **at least as much** variation as our real data did.
+
+. . .
+
+This is the **p-value**: the probability of getting a PRE at least as large as ours *if there were no relationship*.
+
+::: question
+- Why do we count only the shuffles that are *bigger* than ours, and not the ones that are smaller?
+- If the p-value were tiny, what would we conclude? If it were large?
+:::
+
+## What would change the answer? {.smaller}
+
+::: question
+- Our card deck had about 20 villagers. Our pooled data have `r nrow(islands)`. Would the null distribution be wider or narrower with only 20? What would that do to how convincing a given PRE is?
+- If sex mattered *a lot* on the Island, where would the red line sit?
+- Suppose the p-value is tiny. Does that fix the survivorship bias we discussed earlier?
+:::
+
+. . .
+
+Shuffling accounts for **chance**. It does *not* account for **bias** in how we collected the data, and it doesn't tell us about **cause**.
+
+## Back to the AE {.smaller}
+
+::: appex
+📋 [AE 10 - Does Sex Explain More Variation Than Chance?](../ae/ae-10-islands-inference.qmd)
+:::
+
+Complete Exercises 4-6 (Part 2): shuffle the data yourself and decide whether sex explains *more* variation than chance would.
+
+```{r}
+#| echo: false
+countdown(minutes = 10)
+```
+
+## Recap {.smaller}
+
+-   Hand-entered data need **cleaning** before we can trust them: check spelling, duplicates, missing values, and impossible values.
+-   PRE is never negative, so "PRE > 0" is not evidence. The real question is whether sex explains **more** variation than we'd expect if there were **no relationship**.
+-   **Shuffling** the response breaks any relationship, so repeated shuffles build the **null distribution**: what PRE looks like by chance alone.
+-   The **p-value** is the proportion of shuffles that did at least as well as our real data.
+-   Shuffling accounts for chance, not for bias in how we collected our sample, and it doesn't tell us about cause.
+-   **HW 05 Part 1 is now unlocked:** clean the class data and fit models to it.
+-   **Next time:** turning this idea into a formal hypothesis test.

@@ -88,7 +88,7 @@ Everything so far describes the data in front of us. What if we want to say some
 - Distinguish a **population** from a **sample**, and a **parameter** from a **statistic**.
 - Distinguish **observational studies** from **experiments**, and connect study design to what we can conclude.
 - Describe common **sampling schemes** and how a sample can go wrong.
-- Design and carry out a stratified cluster sample to answer a real question: *What is the life expectancy on the Islands?*
+- Design a stratified cluster sample to answer a real question: *What is the life expectancy on the Islands?*
 
 
 # From sample to population
@@ -502,39 +502,18 @@ Note: I think this was done with a previous version of the Islands simulation as
 - ~500 people sampled, ~300 analyzed. Who did we lose, and does it matter?
 :::
 
-## Activity
-
-::: appex
-📋 [AE 08 - Collecting Data on the Islands](../ae/ae-08-islands-data-collection.qmd)
-:::
-
-## Today's plan {.smaller}
+## Our sampling plan {.smaller}
 
 You will adapt the stratified cluster design:
 
 1. Different Islands might have drastically different life expectancies so let's make sure we sample individuals from each island (i.e. stratify by island)
 2. Individual villages within each Island may also have some variation in life expectancy. However, it will be too difficult to sample EVERY village so we'll treat these as clusters.
-3. Each person in this class will be randomly assigned one village. 
-4. Within your assigned village, navigate to the Town Hall and click on **Records**. Click on the 375-399 link. This will pull up the records of all people who have died between the Island year 375 and 399 in your village. 
-5. Navigate to [this shared Excel sheet](https://yotescollegeofidaho-my.sharepoint.com/:x:/g/personal/efriedlander_collegeofidaho_edu/IQB2Q0ijZYPzQYuumjlk_x09AQaTTMpIIkDa73TeNCMKJiI?e=16bSqH), create a new worksheet (the + button at the bottom), rename it with your Island number, and then copy and past the list of Islanders into that sheet.
+3. Each person in this class will be randomly assigned one village.
+4. Within your assigned village, you'll look up the records of everyone who died between Island years 375 and 399, and randomly select 10 of them.
 
-## Today's plan continued {.smaller}
-
-6. Randomly select 10 of them. 
-  - In the sheet you just pasted you should be able to see how many individuals there are based on the number of rows.
-  - Run the following choose 10 random numbers:
-
-```{r}
-#| eval: false
-
-birthday <- # put your birth here in MMDDYYYY format (e.g. 12181988)
-set.seed(birthday)
-number_of_villagers <- # put your total number of Islanders here
-sample(1:number_of_villagers, 10) 
-```
-
-7. Use the numbers to identify which islanders to sample sample and record your name, the island, the village, the villagers name, sex, birth year, and death_year in the **MASTER DATASET** worksheet in that same shared Excel sheet. 
-8. Your AE-08 Credit will be determined by whether you've entered all of the data by the next class period.
+::: question
+We'll carry this out and enter our data next class.
+:::
 
 
 ## Recap {.smaller}
@@ -544,4 +523,4 @@ sample(1:number_of_villagers, 10)
 -   **Confounders** are related to both the explanatory and response variables.
 -   **Stratified** samples take units from every group; **cluster** samples take *all or some units from some groups*. Bias comes from the *sampling process*, not the sample size.
 -   We designed a stratified cluster sample of the Islands to estimate life expectancy.
--   **Before next class:** finish entering your 10 islanders in the MASTER DATASET. **Next time:** we analyze the data we collected.
+-   **Next time:** we carry out this sample on the Islands and start analyzing it.

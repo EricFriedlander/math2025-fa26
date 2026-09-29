@@ -1,6 +1,6 @@
 ---
-title: "AE 09: Analyzing the Islands Data"
-subtitle: "Cleaning pooled data and modeling with a categorical predictor"
+title: "AE 10: Does Sex Explain More Variation Than Chance?"
+subtitle: "Exploring the pooled Islands data and shuffling to build a null distribution"
 editor: visual
 format:
   html:
@@ -58,57 +58,40 @@ format:
         </style>
 ---
 
-<!-- TODO (instructor): fill in the Canvas link below, the link to the pooled data in Exercise 1, and adjust the cleaning steps to match how the class entered the data. -->
+<!-- TODO (instructor): fill in the Canvas link and the URL of the cleaned CSV in the first exercise. -->
 
 ::: callout-important
-- Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-09"
+- Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-10".
 - Go to the assignment for this activity in [Canvas]() to get started.
-- Upload the `ae-09-islands-analysis.qmd` file into the folder you just created.
+- Upload the `ae-10-islands-inference.qmd` file into the folder you just created.
 :::
 
 ## Intro
 
-In AE 08, everyone in the class sampled 10 islanders who died between Island years 375 and 399 from an assigned village. Today we pick up where we left off: we pool everyone's data, clean it, and answer our question.
+In AE 09 we collected a stratified cluster sample of the Islands. Today we work with the **pooled, already-cleaned** class data. (You'll do the cleaning yourself in **HW 05**.)
 
-What is the life expectancy on the Island? Is it different for men and women?
+What is the life expectancy on the Island? Is it different for men and women? We'll use the **mean age at death among islanders who have died** as a stand-in for life expectancy, and then ask whether sex explains **more** variation in age at death than we'd expect by chance.
 
-We'll use the **mean age at death among islanders who have died** as a stand-in for life expectancy, and we'll **fit a model predicting age at death from sex**.
+## Part 1: Exploring the pooled data
 
-## Exercises
-
-### Loading and cleaning the pooled data
+### Loading the data
 
 ::: exercise
-Load the packages below, then read the pooled data into R.
-
-**[INSTRUCTOR: paste the link to (or instructions for getting) the pooled data here]**
-
-a.  Use `glimpse()` to look at your data. How many islanders are in the pooled sample? Is each row one islander?
-
-b.  Everyone typed in their own rows, so check for problems. For example, use `count(sex)` to see whether `sex` is spelled consistently, and look for missing values, duplicated rows, and columns stored as the wrong type. Fix what you find.
-
-c.  Create a new column called `age_at_death` equal to `death_year - birth_year`. Then keep only the rows with a plausible `age_at_death` (between 0 and 150). Save the result as `islands`.
-
-d.  How many rows did the cleaning step remove? Look at a few of them. Why might they have been removed?
+Load the packages and the cleaned class data below. Use `glimpse()` to look at it. How many islanders are in the pooled sample? What does each row represent, and what variables do we have?
 :::
 
 ::: answer
-```{r load-packages}
+```{r load-data}
 #| message: false
+#| eval: false 
 library(tidyverse)
 library(mosaic)
 library(ggformula)
 library(broom)
 library(coursekata)
-```
 
-```{r load-data}
-#| message: false
-
-```
-
-```{r clean-data}
-
+# INSTRUCTOR: replace with the URL of the cleaned CSV
+islands <- read_csv("CLEANED_ISLANDS_CSV_URL")
 ```
 :::
 
@@ -119,38 +102,13 @@ Explore `age_at_death`.
 
 a.  Use `favstats()` to compute summary statistics for `age_at_death` overall, and then separately for each level of `sex`.
 
-b.  Make a plot exploring the relationship between `sex` and `age_at_death` (a boxplot works well).
+b.  Make a plot exploring the relationship between `sex` and `age_at_death`.
 
 c.  In a sentence or two, report the **overall mean age at death**. This is our estimate of life expectancy on the Island. Then describe what the plot and the group summaries say about differences between men and women.
 :::
 
 ::: answer
 ```{r eda}
-
-```
-:::
-
-::: exercise
-Fit a linear model called `le_fit` that predicts `age_at_death` from `sex`. Use `tidy()` to display the output.
-
-- What is the reference level? How can you tell from the output alone?
-- Write out the estimated regression equation.
-:::
-
-::: answer
-```{r fit-model}
-
-```
-:::
-
-::: exercise
-Interpret the intercept and the slope of `le_fit` in the context of the data.
-
-Then confirm, using your group summaries from the earlier exercise, that the slope equals the **difference in the group means**.
-:::
-
-::: answer
-```{r check-slope}
 
 ```
 :::
@@ -162,24 +120,23 @@ Let's think about what this sample can tell us.
 
 - What **population** does our sample actually represent? Is it the whole Island? All islanders who have ever lived? Something else?
 - Name **two ways** our estimate of life expectancy could be biased. (Think about who is *in* our sample, and who is missing.) One hint: think about who cannot possibly appear among "islanders who have died."
-- Was this an **observational study** or an **experiment**? What would we be able to conclude from `le_fit`, and what *couldn't* we conclude?
+- Was this an **observational study** or an **experiment**? What could we conclude from comparing men and women in our sample, and what *couldn't* we conclude?
 - Could you design an *experiment* on the Islands to find out whether sex affects life expectancy? Would you want to?
 :::
 
 ::: answer
-
 :::
 
 ::: callout-note
-**Stop here.** We'll come back together and talk about what our results say (and don't say) before you continue.
+**Stop here.** We'll come back together and talk about what our results say (and don't say) before you continue with Part 2.
 :::
 
-### Does sex explain more variation than chance?
+## Part 2: Does sex explain more variation than chance?
 
 ::: exercise
 How much variation in age at death does `sex` explain in our data?
 
-a.  Compute the PRE (also called $R^2$) for `le_fit` with `pre(age_at_death ~ sex, data = islands)`, and save it as `pre_obs`.
+a.  Compute the PRE (also called $R^2$) for the model predicting `age_at_death` from `sex` with `pre(age_at_death ~ sex, data = islands)`, and save it as `pre_obs`.
 
 b.  Write a sentence interpreting `pre_obs` as a percent of the variation in age at death.
 

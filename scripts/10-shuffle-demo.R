@@ -1,4 +1,4 @@
-# Live demo for Lecture 09: analyzing the villager-card shuffle.
+# Live demo for Lecture 10: analyzing the villager-card shuffle.
 #
 # Expected spreadsheet (one worksheet in the shared workbook), one row per
 # student per round:

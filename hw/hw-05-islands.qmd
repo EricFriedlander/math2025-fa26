@@ -1,0 +1,381 @@
+---
+title: "HW 05: Designing Studies and Modeling the Islands Data"
+author: "Insert Name Here"
+subtitle: "Study design, generalizability, causation, and your first Islands models"
+editor: visual
+format:
+  html:
+    embed-resources: true
+    include-in-header:
+      text: |
+        <style>
+        /* Exercise / answer boxes. Canonical source: style/exercise-boxes.css
+           in the course repo — copy from there if this ever drifts. */
+        body { counter-reset: exercise; }
+        .exercise, .answer {
+          border-left: 4px solid #533860;
+          padding: .6em 1em;
+          margin: 1em 0;
+          border-radius: 4px;
+        }
+        .exercise { background: #f2eef5; }
+        .exercise::before {
+          counter-increment: exercise;
+          content: "Exercise " counter(exercise);
+          display: block;
+          font-weight: 700;
+          color: #533860;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .answer {
+          background: transparent;
+          border-left-color: #a49363;
+          border-left-style: dashed;
+          min-height: 3.5em;
+        }
+        .answer::before {
+          content: "Your answer";
+          display: block;
+          font-weight: 700;
+          color: #8a7a4f;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .quarto-dark .exercise {
+          background: rgba(255, 255, 255, .08);
+          border-left-color: #FFCB70;
+        }
+        .quarto-dark .exercise::before {
+          color: #FFCB70;
+        }
+        .quarto-dark .answer::before {
+          color: #ffd283;
+        }
+        </style>
+---
+
+```{r}
+#| include: FALSE
+knitr::opts_chunk$set(warning = FALSE,
+                      message = FALSE)
+```
+
+<!-- TODO (instructor): fill in the Canvas link in "Getting Started" before posting. -->
+
+# Introduction
+
+In lecture, we learned that how data are collected determines what we can conclude from them. In this HW you'll practice thinking about **study design**, and then build and interpret regression models using the class's pooled Islands data from AE 09.
+
+**Part 1** uses the pooled class data, so it has to wait until after Lesson 10. **Part 2** is about study design and needs no data, you can start it as soon as we finish collecting our sample in Lesson 9.
+
+::: callout-note
+This is an **individual** assignment, but you're welcome to talk through ideas with classmates. Your code and writing should be your own.
+:::
+
+## Learning goals
+
+By the end of this homework, you will...
+
+- Classify studies as observational or experimental, and say what each design can and cannot conclude
+- Design an experiment and an observational study for the same research question, and compare what each can show
+- Explain how random sampling and random assignment separately determine generalizability and the ability to establish causation
+- Identify confounding variables and threats to the validity of a study
+- Fit, interpret, and evaluate simple linear regression models with categorical and quantitative predictors
+- Describe the scope of inference for a set of models
+
+# Getting Started
+
+### Log in to RStudio
+
+- Go to [RStudio](https://rstudio.collegeofidaho.edu/) and login with your College of Idaho Email and Password.
+
+- Use the `hw` folder you made earlier in the semester. Create a subfolder called `hw05` to store this homework.
+
+- Log into [Canvas](), navigate to HW-05, and download the `hw-05.qmd` file. Upload it into the folder you just made.
+
+## R and RStudio
+
+See the [R resources](https://ericfriedlander.github.io/math2025-fa26/computing-r-resources.html) page for a guide to the RStudio IDE and Quarto file components.
+
+# Packages
+
+We will use the following packages in today's HW.
+
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(mosaic)
+library(ggformula)
+library(broom)
+library(coursekata)
+library(yardstick)
+```
+
+# Background reading
+
+Read the chapter on study design in *Introduction to Modern Statistics*: [Data collection](https://openintrostat.github.io/ims/data-design.html). Pay special attention to the sections on observational studies vs. experiments, confounding, and sampling.
+
+# Exercises
+
+::: callout-tip
+Write all code and narrative in your Quarto file. Write all narrative in complete sentences. Throughout the assignment, you should periodically **render** your Quarto document to produce the updated HTML file.
+
+Make sure we can read all of your code in your HTML file. This means you will need to break up long lines of code. One way to help avoid long lines of code is to start a new line after every pipe (`|>`).
+
+In your `hw-05.qmd` document you'll see that each task is wrapped in an `exercise` box, with an empty `answer` box below it for you to fill in your response. Use this format for the remaining exercises.
+:::
+
+# Part 1: Modeling the class data
+
+::: callout-important
+Part 1 needs the pooled Islands data from AE 09. If you have time in Lesson 9, start on Part 2 instead.
+:::
+
+::: exercise
+Read the pooled data into R using the code below. **Clean the data yourself.** Everyone typed in their own rows, so check for problems: is `sex` spelled consistently? Are there missing values, duplicated rows, columns stored as the wrong type, or impossible ages? Then compute `age_at_death` as `death_year - birth_year`. Note that we did this together in class and you can copy and paste from the activity. However, I encourage you to do as much as you can by yourself.
+
+Save the cleaned result as `islands`.
+:::
+
+::: answer
+```{r read-data}
+#| message: false
+
+islands_data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTonqSnj8t3ZgjDzqCuq-P8bE-1OuHmwgBI0kF7eip7gkSmrJQGYRVwFtehtVS4FM6zwNAHUl1He29A/pub?output=csv")
+```
+
+```{r clean-data}
+
+```
+:::
+
+::: exercise
+Fit a linear model called `le_fit` predicting `age_at_death` from `sex`. Use `tidy()` to format the output.
+
+- What is the **reference level** in your model? How can you tell from the output alone?
+- Write out the estimated regression equation using R's coefficient names.
+:::
+
+::: answer
+```{r fit-le}
+
+```
+:::
+
+::: exercise
+Interpret the intercept and the slope of `le_fit` in the context of the data.
+:::
+
+::: answer
+```{r check-le}
+
+```
+:::
+
+::: exercise
+Evaluate `le_fit`.
+
+- Use `augment()` to get fitted values and save the result to a new data frame.
+- Use the `rsq()` and `rmse()` functions from `yardstick` to compute $R^2$ and RMSE.
+- Write one sentence interpreting $R^2$ and one sentence interpreting RMSE in the context of your data.
+:::
+
+::: answer
+```{r evaluate-le}
+
+```
+:::
+
+::: callout-tip
+This is a good place to render your document.
+:::
+
+::: exercise
+Now fit a second model, `island_fit`, predicting `age_at_death` from `island` (a categorical predictor with more than two levels). Use `tidy()` to display the output.
+
+- What is the reference level?
+- Interpret **every** coefficient in the model.
+- Compare the $R^2$ of `island_fit` to the $R^2$ of `le_fit`. Which predictor, sex or island, explains more variation in age at death in our sample?
+:::
+
+::: answer
+```{r fit-island}
+
+```
+:::
+
+::: exercise
+Finally, fit a third model, `birth_fit`, predicting `age_at_death` from `birth_year` (a quantitative predictor).
+
+- Make a scatterplot of `age_at_death` vs. `birth_year` with the fitted line overlaid.
+- Interpret the slope. On its face, is this a strong relationship?
+- Now think about *how* we collected the data: we only sampled islanders who **died between Island years 375 and 399**. Explain why this makes the relationship between `birth_year` and `age_at_death` largely an **artifact of our sampling window**. Hint: think about the sampling window.
+:::
+
+::: answer
+```{r fit-birth}
+
+```
+:::
+
+::: exercise
+Think about the **scope of inference** for `le_fit`, `island_fit`, and `birth_fit`.
+
+- To what population do these models' results generalize? Is it the whole Island, all islanders who have ever lived, or something narrower?
+- Can any of these models support a **causal** claim about its predictor? Why or why not?
+- What would have to be true about how the data were collected for a causal claim to be justified? Would that even be possible for `island_fit`?
+:::
+
+::: answer
+:::
+
+# Part 2: Designing studies
+
+::: callout-tip
+Part 2 doesn't require any data. You can work on it as soon as we finish collecting our sample in Lesson 9, even before we've pooled and cleaned it.
+:::
+
+::: exercise
+Log into [The Islands](https://islands.smp.uq.edu.au/index.php) and open the **Academy**. Find **one study** that interests you.
+
+- What is the study, in one sentence?
+- Is the response variable quantitative or categorical?
+- How many explanatory variables are there, and what types are they (quantitative or categorical)?
+- How many observational units were collected?
+- Is it an **observational study** or an **experiment**? What can it conclude, and about whom?
+:::
+
+::: answer
+:::
+
+::: exercise
+For each scenario below, say whether it is an **observational study** or an **experiment**. Then say what type of conclusion (association or causation) it can support, and for whom (just the people in the study, or a wider population).
+
+a.  The class study of life expectancy from AE 09: each student sampled 10 deceased islanders from an assigned village, and we compared mean age at death for men and women.
+
+b.  The Coffee Truck game: you chose which settings to simulate (`Price`, `Music`, and so on), the game ran shifts under those settings, and you recorded `Sales`.
+
+c.  On the Islands, you randomly choose 40 islanders and randomly assign half to one treatment and half to another. You then measure the same outcome for all 40.
+:::
+
+::: answer
+:::
+
+::: exercise
+Design an **experiment** on the Islands to answer the question: *does drinking coffee improve islanders' scores on a memory test?*
+
+Describe:
+
+- The **population** and how you would choose islanders for the study
+- The **treatment and control** conditions
+- How you would use **random assignment**, specifically
+- The **response variable** and how you'd measure it
+- One thing you would try to hold constant across both groups
+
+Then: if you ran this experiment, what could you conclude, and about whom?
+:::
+
+::: answer
+:::
+
+::: exercise
+Now design an **observational study** for the *same* question, one where you record islanders' existing coffee habits rather than assigning them.
+
+- Describe your design in a few sentences.
+- Name **one plausible confounding variable**, and explain why it's related to both coffee drinking and memory-test performance.
+- How does what you could conclude from this study differ from what you could conclude from your experiment in the previous exercise?
+:::
+
+::: answer
+:::
+
+::: exercise
+Some questions can't be answered with an experiment. We can't randomly assign islanders to be male or female, or to live on a particular island, so we can never run a true experiment on **sex** or **island of residence**.
+
+- Why, specifically, can't you randomly assign these variables?
+- Design the **best observational study you can** to investigate whether island of residence is associated with life expectancy.
+- What could this study show, and what could it *not* show, no matter how well you design it?
+:::
+
+::: answer
+:::
+
+::: exercise
+Whether you can **generalize** and whether you can claim **causation** are two separate questions, controlled by two separate design choices: random *sampling* and random *assignment*. Consider four versions of the same study of caffeine and memory-test scores:
+
+a.  Random sample of islanders from the population, randomly assigned to caffeine or no caffeine.
+b.  Random sample of islanders from the population, but each islander chooses whether to drink coffee.
+c.  Volunteers who sign up for the study, randomly assigned to caffeine or no caffeine.
+d.  Volunteers who sign up for the study, and each chooses whether to drink coffee.
+
+For each version, say whether you could **generalize** the results to the population of islanders, and whether you could claim **causation**. Then, in a sentence, explain the general pattern: which design choice buys you generalizability, and which buys you causation?
+:::
+
+::: answer
+:::
+
+::: exercise
+In AE 09, we found that (in our sample) men and women differed in mean age at death.
+
+- Propose a plausible **confounding variable** for the relationship between `sex` and `age_at_death` on the Islands. Explain why it is related to *both* sex and age at death.
+- Explain how this confounder could produce a difference in age at death between men and women **even if sex itself had no direct effect** on how long people live.
+:::
+
+::: answer
+:::
+
+::: exercise
+Below is the methods section from a previous class's study of life expectancy on the Island. Read it carefully.
+
+> Using a stratified cluster sample survey, we collected data from the Island's records to calculate overall life expectancy on the Island, as well as male versus female life expectancies. We divided the island into geographic quadrants and each of us randomly collected data from birth records and individuals' information pages, sampling 3-4 cities in our respective quadrants. Masha sampled data from Fairhaven, Serrano, Sunrise and Eden. Tyler collected data from Riverside, Valkov and Rosica. Abby sampled the populations living in Edwardton, Asderaki and Mossgiel. Jess collected data in Macondo, Durand Bay and Deep Bay. The information we collected included each individual's birth year, death year and sex. Once we compiled the data for approximately 500 people, we selected the people who died between 1980 and 2010 as well as those who are alive today. We made the assumption that this selection would give us a representative picture of present or contemporary life expectancy, since living conditions throughout the last thirty years could be considered relatively consistent and relevant. We also capped the age at 150, since our oldest person in the sample was 147. Once we applied these exclusions, our data for the actual calculations included approximately 300 people - still a significant number for this type of simulation.
+
+- Name the **sampling scheme** they used and say which part is the *stratification* and which part is the *clustering*.
+- List their **inclusion/exclusion criteria**.
+- State **one assumption** the authors make, and say whether you think it's reasonable.
+- Describe **one threat to validity** (a way their estimate of life expectancy could be off) that they did *not* mention.
+- To what population do you think their results actually generalize?
+:::
+
+::: answer
+:::
+
+::: callout-tip
+This is a good place to render your document.
+:::
+
+::: callout-tip
+You're done and ready to submit your work! Render your document and upload the .qmd and .html files to Canvas.
+:::
+
+# Grading (30 pts)
+
+<br>
+
+| Component             | Points |
+|:----------------------|:-------|
+| Ex 1                  | 1      |
+| Ex 2                  | 2      |
+| Ex 3                  | 2      |
+| Ex 4                  | 2      |
+| Ex 5                  | 2      |
+| Ex 6                  | 2      |
+| Ex 7                  | 2      |
+| Ex 8                  | 1      |
+| Ex 9                  | 2      |
+| Ex 10                 | 2      |
+| Ex 11                 | 2      |
+| Ex 12                 | 2      |
+| Ex 13                 | 2      |
+| Ex 14                 | 2      |
+| Ex 15                 | 2      |
+| Grammar & Writing     | 1[^1]  |
+| Workflow & formatting | 1[^2]  |
+
+[^1]: The "Grammar & Writing" grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.
+
+[^2]: The "Workflow & formatting" grade is to assess the reproducible workflow and document format. This includes having a neatly organized document with readable code and your name and the date in the YAML.
