@@ -68,7 +68,7 @@ format:
 
 ## Intro
 
-In AE 09 we collected a stratified cluster sample of the Islands. Today we work with the **pooled, already-cleaned** class data. (You'll do the cleaning yourself in **HW 05**.)
+In AE 09 we collected a stratified cluster sample of the Islands. Today we work with the **pooled, already-cleaned** class data.
 
 What is the life expectancy on the Island? Is it different for men and women? We'll use the **mean age at death among islanders who have died** as a stand-in for life expectancy, and then ask whether sex explains **more** variation in age at death than we'd expect by chance.
 
@@ -88,8 +88,7 @@ library(tidyverse)
 library(mosaic)
 library(ggformula)
 library(broom)
-library(coursekata)
-
+library(supernova)
 # INSTRUCTOR: replace with the URL of the cleaned CSV
 islands <- read_csv("CLEANED_ISLANDS_CSV_URL")
 ```
@@ -98,37 +97,19 @@ islands <- read_csv("CLEANED_ISLANDS_CSV_URL")
 ### Estimating life expectancy
 
 ::: exercise
-Explore `age_at_death`.
+Investigate the research question: "Is life expectancy different for men and women on the islands?" Make sure your analysis includes the following:
 
-a.  Use `favstats()` to compute summary statistics for `age_at_death` overall, and then separately for each level of `sex`.
-
-b.  Make a plot exploring the relationship between `sex` and `age_at_death`.
-
-c.  In a sentence or two, report the **overall mean age at death**. This is our estimate of life expectancy on the Island. Then describe what the plot and the group summaries say about differences between men and women.
+1. A visualization and summary of the response variable?
+2. A visualization and summary of the explanatory variable?
+3. A visualization and summary of the relationship between the two.
+4. A model including interpretations of all of the parameter estimates in the model.
+5. Some quantification of the amount of variation explained by your model.
 :::
 
 ::: answer
 ```{r eda}
 
 ```
-:::
-
-### Thinking critically
-
-::: exercise
-Let's think about what this sample can tell us.
-
-- What **population** does our sample actually represent? Is it the whole Island? All islanders who have ever lived? Something else?
-- Name **two ways** our estimate of life expectancy could be biased. (Think about who is *in* our sample, and who is missing.) One hint: think about who cannot possibly appear among "islanders who have died."
-- Was this an **observational study** or an **experiment**? What could we conclude from comparing men and women in our sample, and what *couldn't* we conclude?
-- Could you design an *experiment* on the Islands to find out whether sex affects life expectancy? Would you want to?
-:::
-
-::: answer
-:::
-
-::: callout-note
-**Stop here.** We'll come back together and talk about what our results say (and don't say) before you continue with Part 2.
 :::
 
 ## Part 2: Does sex explain more variation than chance?
