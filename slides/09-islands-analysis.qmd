@@ -45,6 +45,26 @@ knitr::opts_chunk$set(
 ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
 ```
 
+## A quick note on HW 05 {.smaller}
+
+- Majority of the homework: read portions of two recent scientific papers and think about them in the context of the things we've been talking about this week
+- These papers are **long**... you're not expected to read all of them, just the assigned part. However, you may need to hunt around a little for context clues
+- These papers will use statistics and words that you aren't familiar with... I don't expect you to understand what, for example, "fixed effects" or "difference in differences" is.
+- Your Goal - Figure out and understand the following:
+  - What is the primary research question being address in each of these papers?
+  - What is the response variable they're using to answer this question and what is the primary explanatory variable they're using
+  - How are they designing their study? Is there any random assignment? Is the sample representative of the population?
+  - What does this mean for the conclusions that can be drawn from the results?
+
+## Tips on HW-05 {.smaller}
+
+- Start early!
+- Ask me for help if you get stuck!
+
+. . .
+
+- The second half of the homework is all extra credit but I recommend doing it if you don't feel super comfortable with R
+
 ## Last time {.smaller}
 
 ::: {.incremental style="font-size: 0.9em"}

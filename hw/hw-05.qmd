@@ -65,7 +65,6 @@ knitr::opts_chunk$set(warning = FALSE,
                       message = FALSE)
 ```
 
-<!-- TODO (instructor): fill in the Canvas link in "Getting Started" before posting. -->
 
 # Introduction
 
@@ -97,7 +96,7 @@ By the end of this homework, you will...
 
 - Use the `hw` folder you made earlier in the semester. Create a subfolder called `hw05` to store this homework.
 
-- Log into [Canvas](), navigate to HW-05, and download the `hw-05.qmd` file. Upload it into the folder you just made.
+- Log into [Canvas](https://cofi.instructure.com/courses/18743/assignments/244108), navigate to HW-05, and download the `hw-05.qmd` file. Upload it into the folder you just made.
 
 ## R and RStudio
 

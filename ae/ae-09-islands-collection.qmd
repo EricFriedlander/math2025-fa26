@@ -58,11 +58,10 @@ format:
         </style>
 ---
 
-<!-- TODO (instructor): fill in the Canvas link below. -->
 
 ::: callout-important
 - Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-09".
-- Go to the assignment for this activity in [Canvas]() to get started.
+- Go to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743/assignments/244041) to get started.
 - Upload the `ae-09-islands-collection.qmd` file into the folder you just created.
 :::
 
@@ -217,6 +216,8 @@ a.  Fit a linear model called `sex_fit` predicting `age_at_death` from `sex`, an
 b.  What is the reference level? Write out the estimated regression equation.
 
 c.  Interpret the intercept and the slope in context.
+
+d.  Compute the $R^2$ for the model and interpret it.
 :::
 
 ::: answer
