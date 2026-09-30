@@ -92,7 +92,9 @@ Today: carry out that sample, then think about who ends up **in** it. **What is 
 📋 [AE 09 - Collecting the Islands Data](../ae/ae-09-islands-collection.qmd)
 :::
 
-Open and upload your QMD file to RStudio.
+- Team today are a bit different. I will assign you, but everyone should work on their own data.
+- You should collaborate and discuss when answering questions, but each person should fill in their own answers.
+- Open and upload your QMD file to RStudio.
 
 # Collecting the data
 
@@ -149,6 +151,10 @@ set.seed(birthday)
 number_of_villagers <- # put your total number of islanders here
 sample(1:number_of_villagers, 10)
 ```
+
+::: question
+Why do you think we go through all this trouble to randomly generate numbers?
+:::
 
 ## Entering your data {.smaller}
 
@@ -220,8 +226,6 @@ countdown(minutes = 15)
 ::: appex
 📝 [HW 05 - Designing Studies and Modeling the Islands Data](../hw/hw-05.qmd)
 :::
-
-Part 2 of HW 05 is about study design and doesn't use any data, so you can start it now if you're done entering your islanders. Part 1 has you model the pooled data, which we'll have after this class.
 
 ## Recap {.smaller}
 
