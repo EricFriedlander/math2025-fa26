@@ -2,7 +2,7 @@
 title: "Study Design and Sampling"
 subtitle: "Collecting data on the Islands"
 author: "Prof. Eric Friedlander"
-footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/schedule)"
+footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/)"
 logo: "../images/logo.png"
 format:
   revealjs:
