@@ -2842,7 +2842,7 @@
     "href": "slides/09-islands-analysis.html#choosing-your-10-islanders",
     "title": "Collecting the Islands Data",
     "section": "Choosing your 10 islanders",
-    "text": "Choosing your 10 islanders\nRandomly select 10 of them:\n\nIn your Quarto document, input your birthday and the total number of villages and run the following code to choose 10 random row numbers:\n\n\nbirthday &lt;- # put your birthday here in MMDDYYYY format (e.g. 12181988)\nset.seed(birthday)\nnumber_of_villagers &lt;- # put your total number of islanders here\nsample(1:number_of_villagers, 10)"
+    "text": "Choosing your 10 islanders\nRandomly select 10 of them:\n\nIn your Quarto document, input your birthday and the total number of villages and run the following code to choose 10 random row numbers:\n\n\nbirthday &lt;- # put your birthday here in MMDDYYYY format (e.g. 12181988)\nset.seed(birthday)\nnumber_of_villagers &lt;- # put your total number of islanders here\nsample(1:number_of_villagers, 10)\n\n\nWhy do you think we go through all this trouble to randomly generate numbers?"
   },
   {
     "objectID": "slides/09-islands-analysis.html#entering-your-data",
