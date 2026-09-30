@@ -261,7 +261,7 @@
     "href": "slides/10-islands-inference.html#recap",
     "title": "Introduction to Inference",
     "section": "Recap",
-    "text": "Recap\n\nHand-entered data need cleaning before we can trust them: check spelling, duplicates, missing values, and impossible values.\nPRE is never negative, so “PRE &gt; 0” is not evidence. The real question is whether sex explains more variation than we’d expect if there were no relationship.\nShuffling the response breaks any relationship, so repeated shuffles build the null distribution: what PRE looks like by chance alone.\nThe p-value is the proportion of shuffles that did at least as well as our real data.\nShuffling accounts for chance, not for bias in how we collected our sample, and it doesn’t tell us about cause.\nHW 05 Part 2 is now unlocked: clean the class data and fit models to it.\nNext time: turning this idea into a formal hypothesis test."
+    "text": "Recap\n\nHand-entered data need cleaning before we can trust them: check spelling, duplicates, missing values, and impossible values.\nPRE is never negative, so “PRE &gt; 0” is not evidence. The real question is whether sex explains more variation than we’d expect if there were no relationship.\nShuffling the response breaks any relationship, so repeated shuffles build the null distribution: what PRE looks like by chance alone.\nThe p-value is the proportion of shuffles that did at least as well as our real data.\nShuffling accounts for chance, not for bias in how we collected our sample, and it doesn’t tell us about cause.\nHW 05 Part 1 is now unlocked: clean the class data and fit models to it.\nNext time: turning this idea into a formal hypothesis test."
   },
   {
     "objectID": "slides/08-inference-islands.html#last-time",
