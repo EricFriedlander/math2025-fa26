@@ -77,7 +77,7 @@ What is the life expectancy on the Island? Is it different for men and women? We
 ### Loading the data
 
 ::: exercise
-Load the packages and the cleaned class data below. Use `glimpse()` to look at it. How many islanders are in the pooled sample? What does each row represent, and what variables do we have?
+Load the packages and the cleaned class data below. Use `mutate` to create a new variable called `age_at_death` that represents the age of an islander when they died. How many islanders are in the pooled sample? What does each row represent, and what variables do we have?
 :::
 
 ::: answer
@@ -89,8 +89,12 @@ library(mosaic)
 library(ggformula)
 library(broom)
 library(supernova)
-# INSTRUCTOR: replace with the URL of the cleaned CSV
-islands <- read_csv("CLEANED_ISLANDS_CSV_URL")
+library(janitor)
+
+
+islands <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTonqSnj8t3ZgjDzqCuq-P8bE-1OuHmwgBI0kF7eip7gkSmrJQGYRVwFtehtVS4FM6zwNAHUl1He29A/pub?output=csv") |> 
+  clean_names() |> 
+  mutate(island = if_else(island == "Ironboard", "Ironbard", island))
 ```
 :::
 
@@ -99,9 +103,9 @@ islands <- read_csv("CLEANED_ISLANDS_CSV_URL")
 ::: exercise
 Investigate the research question: "Is life expectancy different for men and women on the islands?" Make sure your analysis includes the following:
 
-1. A visualization and summary of the response variable?
-2. A visualization and summary of the explanatory variable?
-3. A visualization and summary of the relationship between the two.
+1. A visualization of the response variable?
+2. A visualization of the explanatory variable?
+3. A visualization of the relationship between the two.
 4. A model including interpretations of all of the parameter estimates in the model.
 5. Some quantification of the amount of variation explained by your model.
 :::
@@ -111,6 +115,8 @@ Investigate the research question: "Is life expectancy different for men and wom
 
 ```
 :::
+
+
 
 ## Part 2: Does sex explain more variation than chance?
 
@@ -129,6 +135,38 @@ c.  Adding a predictor can never make PRE negative. Why not? Given that, why isn
 
 ```
 :::
+
+::: exercise
+This exercise is optional. If you finish early. Plot the age at death vs. birth year. What kind of pattern do you see? Why do you think this is?
+:::
+
+::: answer
+
+:::
+
+::: exercise
+Input your birthday, the sex you've been assigned, and run the code below to randomly select a villager.
+
+You should have two index cards in front of you:
+
+- Card 1: Write the age of death of your randomly chosen villager
+- Card 2: Write down the sex of your randomly chosen villager
+
+```{r}
+#| eval: false
+birthday <- #input birthday here
+selected_sex <- "input Male or Female here"
+members_in group <- # input the number of people in your group
+set.seed(birthday)
+islands |> 
+  filter(sex == selected_sex) |> 
+  slice_sample(n=1) |> 
+  select(sex, age_at_death)
+```
+:::
+
+
+
 
 ::: exercise
 Now let's imagine a world with **no relationship** between sex and age at death, just like the cards in class.
