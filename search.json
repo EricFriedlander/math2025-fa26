@@ -121,63 +121,63 @@
     "href": "slides/10-islands-inference.html#topics",
     "title": "Introduction to Inference",
     "section": "Topics",
-    "text": "Topics\n\nLoad the pooled class data (already cleaned, you’ll clean it yourself in HW 05).\nExplore life expectancy overall and by sex.\nAsk whether sex explains more variation than we’d expect by chance, and answer it by shuffling.\nBuild a null distribution and compute a p-value.\nName what shuffling can, and cannot, tell us."
-  },
-  {
-    "objectID": "slides/10-islands-inference.html#our-pooled-data",
-    "href": "slides/10-islands-inference.html#our-pooled-data",
-    "title": "Introduction to Inference",
-    "section": "Our pooled data",
-    "text": "Our pooled data\n\n\n\n\n\n\nNote\n\n\nThe output on these slides is from a made-up island so the slides render without the class data. Yours will look different.\n\n\n\n\nislands |&gt;\n  head(5) |&gt;\n  kable()\n\n\n\n\nsex\nage_at_death\n\n\n\n\nMale\n75\n\n\nFemale\n67\n\n\nFemale\n52\n\n\nMale\n36\n\n\nFemale\n99\n\n\n\n\n\n\nWhat are the observational units? What are the variables, and which is the response?"
-  },
-  {
-    "objectID": "slides/10-islands-inference.html#exploring-age-at-death",
-    "href": "slides/10-islands-inference.html#exploring-age-at-death",
-    "title": "Introduction to Inference",
-    "section": "Exploring age at death",
-    "text": "Exploring age at death\n\ngf_boxplot(age_at_death ~ sex, data = islands, fill = ~ sex, show.legend = FALSE) |&gt;\n  gf_labs(x = \"Sex\", y = \"Age at death (years)\")"
+    "text": "Topics\n\nLoad the pooled class data\nExplore life expectancy overall and by sex or island.\nAsk whether sex or island explains more variation than we’d expect by chance, and answer it by shuffling.\nBuild a null distribution and compute a p-value.\nName what shuffling can, and cannot, tell us."
   },
   {
     "objectID": "slides/10-islands-inference.html#activity",
     "href": "slides/10-islands-inference.html#activity",
     "title": "Introduction to Inference",
     "section": "Activity",
-    "text": "Activity\n\n📋 AE 10 - Does Sex Explain More Variation Than Chance?\n\nComplete Exercises 1-3 (load the data, explore age_at_death, and think critically about the sample)."
+    "text": "Activity\n\n📋 AE 10 - Does Sex Explain More Variation Than Chance?\n\nComplete Exercises 1-3.\nIf you finish early complete Exercise 4."
+  },
+  {
+    "objectID": "slides/10-islands-inference.html#our-pooled-data",
+    "href": "slides/10-islands-inference.html#our-pooled-data",
+    "title": "Introduction to Inference",
+    "section": "Our pooled data",
+    "text": "Our pooled data\n\nislands |&gt;\n  head(5) |&gt;\n  kable()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nstudent_name\nisland\nvillage\nvillager_name\nsex\nbirth_year\ndeath_year\nage_at_death\n\n\n\n\nSawyer\nProvidence\nTakazaki\nHelsa Lund\nFemale\n326\n375\n49\n\n\nSawyer\nProvidence\nTakazaki\nNerina Burke\nMale\n299\n375\n76\n\n\nSawyer\nProvidence\nTakazaki\nAyann Bahadur\nMale\n291\n375\n84\n\n\nSawyer\nProvidence\nTakazaki\nUlrich Wolff\nMale\n286\n375\n89\n\n\nSawyer\nProvidence\nTakazaki\nEmile Pallesen\nMale\n308\n375\n67\n\n\n\n\n\n\nWhat are the observational units? What are the variables, and which is the response?"
+  },
+  {
+    "objectID": "slides/10-islands-inference.html#exploring-age-at-death",
+    "href": "slides/10-islands-inference.html#exploring-age-at-death",
+    "title": "Introduction to Inference",
+    "section": "Exploring age at death",
+    "text": "Exploring age at death\nYou’ll be using sex as your response and I’m going to use island.\n\ngf_jitter(age_at_death ~ island, data = islands, width=0.1, height = 0) |&gt;\n  gf_labs(x = \"Island\", y = \"Age at death (years)\")\n\n\n\n\nDoes it look like there is a relationship between island and age_at_death?\nWhat about sex and age_at_death?"
   },
   {
     "objectID": "slides/10-islands-inference.html#our-model",
     "href": "slides/10-islands-inference.html#our-model",
     "title": "Introduction to Inference",
     "section": "Our model",
-    "text": "Our model\n\nle_fit &lt;- lm(age_at_death ~ sex, data = islands)\n\ntidy(le_fit)\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic   p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 (Intercept)    70.4       1.44     48.8  3.55e-129\n2 sexMale        -2.65      2.05     -1.29 1.97e-  1\n\n\n\\[\n\\widehat{\\text{age at death}} = 70.4 - 2.65 \\times \\text{sexMale}\n\\]\n\nWhat is the reference level? What does the slope mean here?\n\n\n\n\n\n\n\nNote\n\n\nYou’ll fit and interpret this model (and a couple more) in detail in HW 05."
+    "text": "Our model\n\nle_fit &lt;- lm(age_at_death ~ island, data = islands)\n\nle_fit |&gt; \n  tidy() |&gt; \n  kable()\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n51.86667\n4.399044\n11.790442\n0.0000000\n\n\nislandIronbard\n11.93333\n6.221187\n1.918176\n0.0583686\n\n\nislandProvidence\n6.70000\n6.221187\n1.076965\n0.2844732\n\n\n\n\n\n\\[\n\\widehat{\\text{age at death}} = 51.87 + 11.93 \\times \\text{islandIronbard} + 6.7\\times \\text{islandProvidence}\n\\]\n\nWhat is the reference level? What do the slopes mean here?"
   },
   {
-    "objectID": "slides/10-islands-inference.html#how-much-does-sex-explain",
-    "href": "slides/10-islands-inference.html#how-much-does-sex-explain",
+    "objectID": "slides/10-islands-inference.html#how-much-does-island-explain",
+    "href": "slides/10-islands-inference.html#how-much-does-island-explain",
     "title": "Introduction to Inference",
-    "section": "How much does sex explain?",
-    "text": "How much does sex explain?\n\npre_obs &lt;- pre(age_at_death ~ sex, data = islands)\npre_obs\n\n[1] 0.006689164\n\n\nIn Lesson 7 we called this PRE (or \\(R^2\\)): the proportion of variation in age at death that the model explains.\n\nIn our sample, sex explains 0.7% of the variation in age at death. Is that a lot? What would you compare it to?"
+    "section": "How much does island explain?",
+    "text": "How much does island explain?\n\npre_obs &lt;- pre(age_at_death ~ island, data = islands)\npre_obs\n\n[1] 0.0407719\n\n\nIn Lesson 7 we called this PRE (or \\(R^2\\)): the proportion of variation in age at death that the model explains.\n\nIn our sample, island explains 4.1% of the variation in age at death. Is that a lot? What would you compare it to?"
   },
   {
     "objectID": "slides/10-islands-inference.html#a-useful-model-or-a-useless-one",
     "href": "slides/10-islands-inference.html#a-useful-model-or-a-useless-one",
     "title": "Introduction to Inference",
     "section": "A useful model or a useless one?",
-    "text": "A useful model or a useless one?\nRemember, \\(SST = SSM + SSE\\), and \\(PRE = SSM / SST\\).\n\nSuppose we add a predictor to the model, and the predictor is pure noise. Could \\(SSE\\) get bigger than it was for the empty model? What is the smallest \\(PRE\\) can ever be?\n\n\n\nLeast squares can always fall back on “ignore the predictor,” so \\(SSE\\) can’t go up and \\(PRE \\geq 0\\).\nIn practice, even a useless predictor picks up a little bit of the noise, so \\(PRE\\) is (almost) always a little bigger than 0.\n\n\n\n\nSo “PRE is bigger than 0” can’t be our evidence. How big is big enough?"
+    "text": "A useful model or a useless one?\nRemember, \\(SST = SSM + SSE\\), and \\(PRE = SSM / SST\\).\n\nSuppose we add a predictor to the empty model, and the predictor is pure noise. Could \\(SSE\\) get bigger than it was for the empty model? What is the smallest \\(PRE\\) can ever be?\n\n\n\nLeast squares can always fall back on “ignore the predictor,” so \\(SSE\\) can’t go up and \\(PRE \\geq 0\\).\nIn practice, even a useless predictor picks up a little bit of the noise, so \\(PRE\\) is (almost) always a little bigger than 0.\n\n\n\n\nSo “PRE is bigger than 0” can’t be our evidence because we’ll always get a PRE bigger than 0. So how big is big enough?"
   },
   {
     "objectID": "slides/10-islands-inference.html#reframing-the-question",
     "href": "slides/10-islands-inference.html#reframing-the-question",
     "title": "Introduction to Inference",
     "section": "Reframing the question",
-    "text": "Reframing the question\n\nDoes sex explain MORE variation in age at death than we’d expect if there were no relationship at all?\n\n\nTo answer this, we need to know what PRE looks like in a world where there is no relationship between sex and age at death.\n\n\n\n\nIn that world, what would the boxplots for men and women look like?\nIf I told you an islander’s sex, would it help you guess their age at death?\nThen what does it matter which age at death goes with which sex label?"
+    "text": "Reframing the question\n\nDoes island explain MORE variation in age at death than we’d expect if there were no relationship at all?\n\n\nTo answer this, we need to know what PRE looks like in a world where there is no relationship between island and age at death.\n\n\n\nIn a world where there was no relationship between sex and age at death:\n\nIn that world, what would the boxplots for men and women look like?\nIf I told you an islander’s sex, would it help you guess their age at death?\nThen what does it matter which age at death goes with which sex label?"
   },
   {
     "objectID": "slides/10-islands-inference.html#activity-shuffling-villagers",
     "href": "slides/10-islands-inference.html#activity-shuffling-villagers",
     "title": "Introduction to Inference",
     "section": "Activity: Shuffling villagers",
-    "text": "Activity: Shuffling villagers\n\n🃏 Cards! Each of you gets one villager\n\nYour card has two halves: sex | age at death.\n\nSit on the Female or Male side of the room, based on the sex half of your card.\nRound 0: Enter your card (sex, age at death) into the shared spreadsheet.\nI collect every age at death half, shuffle them, and deal them back out.\nRound 1: Everyone stays put and enters what they are now holding.\nRepeat for a few more rounds.\n\n\nLogistics: print one card per student, drawn from the cleaned pooled data, with sex on the left half and age at death on the right half. Students keep the sex half and hand in the age half after each round. Shared spreadsheet columns: round (0 = original pairing), sex, age_at_death. Analyze in scripts/10-shuffle-demo.R."
+    "text": "Activity: Shuffling villagers\n\n🃏 Cards! Each of you gets one villager\n\nYour card has two halves: sex | age at death.\n\nSit on the Female or Male side of the room, based on the sex half of your card.\nRound 0: Let’s go around and report our results, and I’ll add them to a spreadsheet.\nI collect every age at death half, shuffle them, and deal them back out.\nRound 1: Everyone stays put and I’ll enter what you’re currently holding.\nRepeat for a few more rounds.\n\n\nLogistics: print one card per student, drawn from the cleaned pooled data, with sex on the left half and age at death on the right half. Students keep the sex half and hand in the age half after each round. Shared spreadsheet columns: round (0 = original pairing), sex, age_at_death. Analyze in scripts/10-shuffle-demo.R."
   },
   {
     "objectID": "slides/10-islands-inference.html#before-we-shuffle",
@@ -198,35 +198,35 @@
     "href": "slides/10-islands-inference.html#shuffling-in-r",
     "title": "Introduction to Inference",
     "section": "Shuffling in R",
-    "text": "Shuffling in R\nshuffle() does what I did with the cards: it randomly reorders age_at_death, leaving sex alone.\n\nset.seed(9)\npre(shuffle(age_at_death) ~ sex, data = islands)\n\n[1] 0.001667765\n\npre(shuffle(age_at_death) ~ sex, data = islands)\n\n[1] 0.01134442\n\npre(shuffle(age_at_death) ~ sex, data = islands)\n\n[1] 3.181836e-05\n\n\n\nSame data, same code, three different answers. Where did the randomness come from?"
+    "text": "Shuffling in R\nshuffle() does what I did with the cards: it randomly reorders age_at_death, leaving island alone.\n\nset.seed(9)\npre(shuffle(age_at_death) ~ island, data = islands)\n\n[1] 0.01332503\n\npre(shuffle(age_at_death) ~ island, data = islands)\n\n[1] 0.003968431\n\npre(shuffle(age_at_death) ~ island, data = islands)\n\n[1] 0.01541159\n\n\n\nSame data, same code, three different answers. Where did the randomness come from?"
   },
   {
     "objectID": "slides/10-islands-inference.html#real-vs.-shuffled",
     "href": "slides/10-islands-inference.html#real-vs.-shuffled",
     "title": "Introduction to Inference",
     "section": "Real vs. shuffled",
-    "text": "Real vs. shuffled\n\nset.seed(9)\nislands |&gt;\n  mutate(Real = age_at_death, Shuffled = shuffle(age_at_death)) |&gt;\n  pivot_longer(c(Real, Shuffled), names_to = \"version\", values_to = \"age\") |&gt;\n  gf_boxplot(age ~ sex, fill = ~ sex, show.legend = FALSE) |&gt;\n  gf_facet_wrap(~ version) |&gt;\n  gf_labs(x = \"Sex\", y = \"Age at death (years)\")\n\n\n\nWhich panel looks like a world with no relationship? Which one do we actually live in?"
+    "text": "Real vs. shuffled\n\n\nWhich panel represents a world with no relationship? Which one do we actually live in?"
   },
   {
     "objectID": "slides/10-islands-inference.html#shuffling-1000-times",
     "href": "slides/10-islands-inference.html#shuffling-1000-times",
     "title": "Introduction to Inference",
     "section": "Shuffling 1000 times",
-    "text": "Shuffling 1000 times\n\nBefore I run this: if I shuffle and compute PRE 1000 times, and make a histogram, what shape will it have? Where will most of the values be? Can any be negative?\n\n\n\nset.seed(2025)\nnull_pre &lt;- do(1000) * pre(shuffle(age_at_death) ~ sex, data = islands)\n\nhead(null_pre, 3)\n\n           pre\n1 2.179792e-02\n2 4.395283e-05\n3 3.044563e-03"
+    "text": "Shuffling 1000 times\n\nBefore I run this: if I shuffle and compute PRE 1000 times, and make a histogram, what shape will it have? Where will most of the values be? Can any be negative?\n\n\n\nset.seed(2025)\nnull_pre &lt;- do(1000) * pre(shuffle(age_at_death) ~ island, data = islands)\n\nhead(null_pre, 3)\n\n          pre\n1 0.010737089\n2 0.015806618\n3 0.005045896"
   },
   {
     "objectID": "slides/10-islands-inference.html#the-null-distribution",
     "href": "slides/10-islands-inference.html#the-null-distribution",
     "title": "Introduction to Inference",
     "section": "The null distribution",
-    "text": "The null distribution\n\ngf_histogram(~ pre, data = null_pre, bins = 30, boundary = 0, fill = \"grey70\", color = \"white\") |&gt;\n  gf_labs(x = \"PRE from a shuffled data set\", y = \"Number of shuffles\")\n\n\n\nEach bar is built from shuffles where sex and age at death are unrelated. What does one value in this histogram represent?"
+    "text": "The null distribution\n\ngf_histogram(~ pre, data = null_pre, bins = 30, boundary = 0, fill = \"grey70\", color = \"white\") |&gt;\n  gf_labs(x = \"PRE from a shuffled data set\", y = \"Number of shuffles\")\n\n\n\nEach bar is built from shuffles where island and age at death are unrelated. What does one value in this histogram represent?"
   },
   {
     "objectID": "slides/10-islands-inference.html#naming-what-we-built",
     "href": "slides/10-islands-inference.html#naming-what-we-built",
     "title": "Introduction to Inference",
     "section": "Naming what we built",
-    "text": "Naming what we built\nThis histogram is the sampling distribution of PRE under the null hypothesis, or the null distribution.\n\n\nNull hypothesis \\(H_0\\): there is no relationship between sex and age at death (\\(\\beta_1 = 0\\)). Any PRE we see is just chance.\nAlternative hypothesis \\(H_A\\): there is a relationship (\\(\\beta_1 \\neq 0\\)).\n\n\n\nThe shuffles show us how much variation sex would “explain” by chance alone. That is what we needed to judge whether 0.7% is a lot."
+    "text": "Naming what we built\nThis histogram is the sampling distribution of PRE under the null hypothesis, or the null distribution.\n\n\nNull hypothesis \\(H_0\\): there is no relationship between island and age at death (\\(\\beta_1 = 0\\) and \\(\\beta_2 = 0\\)). Any PRE we see is just chance.\nAlternative hypothesis \\(H_A\\): there is a relationship (\\(\\beta_1 \\neq 0\\) OR \\(\\beta_2 \\neq 0\\)).\n\n\n\nThe shuffles show us how much variation islands would “explain” by chance alone. That is what we needed to judge whether 4.1% is a lot."
   },
   {
     "objectID": "slides/10-islands-inference.html#where-does-our-data-land",
@@ -240,28 +240,28 @@
     "href": "slides/10-islands-inference.html#the-p-value",
     "title": "Introduction to Inference",
     "section": "The p-value",
-    "text": "The p-value\n\np_val &lt;- mean(null_pre$pre &gt;= pre_obs)\np_val\n\n[1] 0.2\n\n\nAbout 20% of the shuffled data sets explained at least as much variation as our real data did.\n\nThis is the p-value: the probability of getting a PRE at least as large as ours if there were no relationship.\n\n\nWhy do we count only the shuffles that are bigger than ours, and not the ones that are smaller?\nIf the p-value were tiny, what would we conclude? If it were large?"
+    "text": "The p-value\n\np_val &lt;- mean(null_pre$pre &gt;= pre_obs)\np_val\n\n[1] 0.173\n\n\nAbout 17.3% of the shuffled data sets explained at least as much variation as our real data did.\n\nThis is the p-value: the probability of getting a PRE at least as large as ours if there were no relationship.\n\n\nWhy do we count only the shuffles that are bigger than ours, and not the ones that are smaller?\nIf the p-value were tiny, what would we conclude? If it were large?"
   },
   {
     "objectID": "slides/10-islands-inference.html#what-would-change-the-answer",
     "href": "slides/10-islands-inference.html#what-would-change-the-answer",
     "title": "Introduction to Inference",
     "section": "What would change the answer?",
-    "text": "What would change the answer?\n\n\nOur card deck had about 20 villagers. Our pooled data have 250. Would the null distribution be wider or narrower with only 20? What would that do to how convincing a given PRE is?\nIf sex mattered a lot on the Island, where would the red line sit?\nSuppose the p-value is tiny. Does that fix the survivorship bias we discussed earlier?\n\n\n\nShuffling accounts for chance. It does not account for bias in how we collected the data, and it doesn’t tell us about cause."
+    "text": "What would change the answer?\n\n\nOur card deck had about 20 villagers. Our pooled data have 90. Would the null distribution be wider or narrower with only 20? What would that do to how convincing a given PRE is?\nIf sex or island mattered a lot on the Island, where would the red line sit?\nSuppose the p-value is tiny. Does that fix the survivorship bias we discussed earlier?\n\n\n\nShuffling accounts for chance. It does not account for bias in how we collected the data, and it doesn’t tell us about cause."
   },
   {
     "objectID": "slides/10-islands-inference.html#back-to-the-ae",
     "href": "slides/10-islands-inference.html#back-to-the-ae",
     "title": "Introduction to Inference",
     "section": "Back to the AE",
-    "text": "Back to the AE\n\n📋 AE 10 - Does Sex Explain More Variation Than Chance?\n\nComplete Exercises 4-6 (Part 2): shuffle the data yourself and decide whether sex explains more variation than chance would."
+    "text": "Back to the AE\n\n📋 AE 10 - Does Sex Explain More Variation Than Chance?\n\nComplete Exercises 5-7: shuffle the data yourself and decide whether sex explains more variation than chance would."
   },
   {
     "objectID": "slides/10-islands-inference.html#recap",
     "href": "slides/10-islands-inference.html#recap",
     "title": "Introduction to Inference",
     "section": "Recap",
-    "text": "Recap\n\nHand-entered data need cleaning before we can trust them: check spelling, duplicates, missing values, and impossible values.\nPRE is never negative, so “PRE &gt; 0” is not evidence. The real question is whether sex explains more variation than we’d expect if there were no relationship.\nShuffling the response breaks any relationship, so repeated shuffles build the null distribution: what PRE looks like by chance alone.\nThe p-value is the proportion of shuffles that did at least as well as our real data.\nShuffling accounts for chance, not for bias in how we collected our sample, and it doesn’t tell us about cause.\nHW 05 Part 1 is now unlocked: clean the class data and fit models to it.\nNext time: turning this idea into a formal hypothesis test."
+    "text": "Recap\n\nHand-entered data need cleaning before we can trust them: check spelling, duplicates, missing values, and impossible values.\nPRE is never negative, so “PRE &gt; 0” is not evidence. The real question is whether island or sex explains more variation than we’d expect if there were no relationship.\nShuffling the response breaks any relationship, so repeated shuffles build the null distribution: what PRE looks like by chance alone.\nThe p-value is the proportion of shuffles that did at least as well as our real data.\nShuffling accounts for chance, not for bias in how we collected our sample, and it doesn’t tell us about cause.\nNext time: turning this idea into a formal hypothesis test."
   },
   {
     "objectID": "slides/08-inference-islands.html#last-time",
@@ -1605,21 +1605,21 @@
     "href": "ae/ae-10-islands-inference.html#intro",
     "title": "AE 10: Does Sex Explain More Variation Than Chance?",
     "section": "Intro",
-    "text": "Intro\nIn AE 09 we collected a stratified cluster sample of the Islands. Today we work with the pooled, already-cleaned class data. (You’ll do the cleaning yourself in HW 05.)\nWhat is the life expectancy on the Island? Is it different for men and women? We’ll use the mean age at death among islanders who have died as a stand-in for life expectancy, and then ask whether sex explains more variation in age at death than we’d expect by chance."
+    "text": "Intro\nIn AE 09 we collected a stratified cluster sample of the Islands. Today we work with the pooled, already-cleaned class data.\nWhat is the life expectancy on the Island? Is it different for men and women? We’ll use the mean age at death among islanders who have died as a stand-in for life expectancy, and then ask whether sex explains more variation in age at death than we’d expect by chance."
   },
   {
     "objectID": "ae/ae-10-islands-inference.html#part-1-exploring-the-pooled-data",
     "href": "ae/ae-10-islands-inference.html#part-1-exploring-the-pooled-data",
     "title": "AE 10: Does Sex Explain More Variation Than Chance?",
     "section": "Part 1: Exploring the pooled data",
-    "text": "Part 1: Exploring the pooled data\n\nLoading the data\n\nLoad the packages and the cleaned class data below. Use glimpse() to look at it. How many islanders are in the pooled sample? What does each row represent, and what variables do we have?\n\n\n\nlibrary(tidyverse)\nlibrary(mosaic)\nlibrary(ggformula)\nlibrary(broom)\nlibrary(coursekata)\n\n# INSTRUCTOR: replace with the URL of the cleaned CSV\nislands &lt;- read_csv(\"CLEANED_ISLANDS_CSV_URL\")\n\n\n\n\nEstimating life expectancy\n\nExplore age_at_death.\n\nUse favstats() to compute summary statistics for age_at_death overall, and then separately for each level of sex.\nMake a plot exploring the relationship between sex and age_at_death.\nIn a sentence or two, report the overall mean age at death. This is our estimate of life expectancy on the Island. Then describe what the plot and the group summaries say about differences between men and women.\n\n\n\n\n\n\n\nThinking critically\n\nLet’s think about what this sample can tell us.\n\nWhat population does our sample actually represent? Is it the whole Island? All islanders who have ever lived? Something else?\nName two ways our estimate of life expectancy could be biased. (Think about who is in our sample, and who is missing.) One hint: think about who cannot possibly appear among “islanders who have died.”\nWas this an observational study or an experiment? What could we conclude from comparing men and women in our sample, and what couldn’t we conclude?\nCould you design an experiment on the Islands to find out whether sex affects life expectancy? Would you want to?\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nStop here. We’ll come back together and talk about what our results say (and don’t say) before you continue with Part 2."
+    "text": "Part 1: Exploring the pooled data\n\nLoading the data\n\nLoad the packages and the cleaned class data below. Use mutate to create a new variable called age_at_death that represents the age of an islander when they died. How many islanders are in the pooled sample? What does each row represent, and what variables do we have?\n\n\n\nlibrary(tidyverse)\nlibrary(mosaic)\nlibrary(ggformula)\nlibrary(broom)\nlibrary(supernova)\nlibrary(janitor)\n\n\nislands &lt;- read_csv(\"https://docs.google.com/spreadsheets/d/e/2PACX-1vTonqSnj8t3ZgjDzqCuq-P8bE-1OuHmwgBI0kF7eip7gkSmrJQGYRVwFtehtVS4FM6zwNAHUl1He29A/pub?output=csv\") |&gt; \n  clean_names() |&gt; \n  mutate(island = if_else(island == \"Ironboard\", \"Ironbard\", island))\n\n\n\n\nEstimating life expectancy\n\nInvestigate the research question: “Is life expectancy different for men and women on the islands?” Make sure your analysis includes the following:\n\nA visualization of the response variable?\nA visualization of the explanatory variable?\nA visualization of the relationship between the two.\nA model including interpretations of all of the parameter estimates in the model.\nSome quantification of the amount of variation explained by your model."
   },
   {
     "objectID": "ae/ae-10-islands-inference.html#part-2-does-sex-explain-more-variation-than-chance",
     "href": "ae/ae-10-islands-inference.html#part-2-does-sex-explain-more-variation-than-chance",
     "title": "AE 10: Does Sex Explain More Variation Than Chance?",
     "section": "Part 2: Does sex explain more variation than chance?",
-    "text": "Part 2: Does sex explain more variation than chance?\n\nHow much variation in age at death does sex explain in our data?\n\nCompute the PRE (also called \\(R^2\\)) for the model predicting age_at_death from sex with pre(age_at_death ~ sex, data = islands), and save it as pre_obs.\nWrite a sentence interpreting pre_obs as a percent of the variation in age at death.\nAdding a predictor can never make PRE negative. Why not? Given that, why isn’t “PRE is bigger than 0” convincing evidence that sex matters?\n\n\n\n\n\n\nNow let’s imagine a world with no relationship between sex and age at death, just like the cards in class.\n\nRun pre(shuffle(age_at_death) ~ sex, data = islands) at least four times. Why does the answer change each time? Was it ever negative? Was it ever exactly 0?\nIn your own words, what does shuffle() do to the relationship between sex and age_at_death? What does it not change?\n\n\n\n\n\n\nBuild the null distribution by shuffling 1000 times.\n\nRun null_pre &lt;- do(1000) * pre(shuffle(age_at_death) ~ sex, data = islands). Then make a histogram of the pre column of null_pre and add a vertical line at pre_obs (try gf_histogram() and gf_vline()).\nWhat does a single value in this histogram represent? What is the histogram a picture of?\nCompute the proportion of shuffles with a PRE at least as large as pre_obs: mean(null_pre$pre &gt;= pre_obs).\nAnswer the question: does sex explain more variation in age at death than we’d expect if there were no relationship? Explain your reasoning, and say what your conclusion does and does not tell us (think back to how our sample was collected).\n\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTo submit the AE:\n\nRender the document to produce the HTML with all of your work from today’s class.\nUpload your .qmd and .html files to the Canvas assignment."
+    "text": "Part 2: Does sex explain more variation than chance?\n\nHow much variation in age at death does sex explain in our data?\n\nCompute the PRE (also called \\(R^2\\)) for the model predicting age_at_death from sex with pre(age_at_death ~ sex, data = islands), and save it as pre_obs.\nWrite a sentence interpreting pre_obs as a percent of the variation in age at death.\nAdding a predictor can never make PRE negative. Why not? Given that, why isn’t “PRE is bigger than 0” convincing evidence that sex matters?\n\n\n\n\n\n\nThis exercise is optional. If you finish early. Plot the age at death vs. birth year. What kind of pattern do you see? Why do you think this is?\n\n\n\n\n\nInput your birthday, the sex you’ve been assigned, and run the code below to randomly select a villager.\nYou should have two index cards in front of you:\n\nCard 1: Write the age of death of your randomly chosen villager\nCard 2: Write down the sex of your randomly chosen villager\n\n\nbirthday &lt;- #input birthday here\nselected_sex &lt;- \"input Male or Female here\"\nmembers_in group &lt;- # input the number of people in your group\nset.seed(birthday)\nislands |&gt; \n  filter(sex == selected_sex) |&gt; \n  slice_sample(n=1) |&gt; \n  select(sex, age_at_death)\n\n\n\nNow let’s imagine a world with no relationship between sex and age at death, just like the cards in class.\n\nRun pre(shuffle(age_at_death) ~ sex, data = islands) at least four times. Why does the answer change each time? Was it ever negative? Was it ever exactly 0?\nIn your own words, what does shuffle() do to the relationship between sex and age_at_death? What does it not change?\n\n\n\n\n\n\nBuild the null distribution by shuffling 1000 times.\n\nRun null_pre &lt;- do(1000) * pre(shuffle(age_at_death) ~ sex, data = islands). Then make a histogram of the pre column of null_pre and add a vertical line at pre_obs (try gf_histogram() and gf_vline()).\nWhat does a single value in this histogram represent? What is the histogram a picture of?\nCompute the proportion of shuffles with a PRE at least as large as pre_obs: mean(null_pre$pre &gt;= pre_obs).\nAnswer the question: does sex explain more variation in age at death than we’d expect if there were no relationship? Explain your reasoning, and say what your conclusion does and does not tell us (think back to how our sample was collected).\n\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTo submit the AE:\n\nRender the document to produce the HTML with all of your work from today’s class.\nUpload your .qmd and .html files to the Canvas assignment."
   },
   {
     "objectID": "ae/ae-06-07-coffee-truck-eval.html",
