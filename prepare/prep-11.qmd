@@ -1,0 +1,7 @@
+---
+title: "Preparation for Hypothesis Testing"
+---
+
+## Assigned reading
+
+- Introduction to Regression Analysis: A Data Science Approach: [Ch 5: Inference for simple linear regression 5.1-5.3, 5.5](https://introregression.netlify.app/05-slr-inference)
