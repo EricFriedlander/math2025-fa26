@@ -65,7 +65,6 @@ knitr::opts_chunk$set(warning = FALSE,
                       message = FALSE)
 ```
 
-
 # Introduction
 
 In lecture, we learned that how data are collected determines what we can conclude from them. In this HW you'll apply what you've learned about **study design** to two recent published studies. An optional extra-credit part lets you build and interpret regression models using the class's pooled Islands data from AE 09.

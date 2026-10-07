@@ -1,0 +1,444 @@
+---
+title: "Exam 1 Study Guide"
+subtitle: "Lectures 0-11"
+author: "Prof. Eric Friedlander"
+footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/)"
+logo: "../images/logo.png"
+format:
+  revealjs:
+    theme: slides.scss
+    multiplex: false
+    transition: fade
+    slide-number: false
+    incremental: false
+    chalkboard: true
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+execute:
+  freeze: auto
+  echo: true
+  cache: false
+knitr:
+  opts_chunk:
+    R.options:
+    width: 200
+bibliography: references.bib
+---
+
+```{r setup}
+#| include: false
+
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.618,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+```
+
+## Exam 1 {.midi}
+
+-   **When:** Wednesday, Oct 14, in class
+-   **Length:** 75 minutes
+-   **Allowed:** a calculator and **one sheet of handwritten notes** (front and back)
+-   **Not allowed:** computers, phones, textbooks, other notes
+-   **Content:** Lectures 0-11, the readings, AEs 01-11, and HW 01-06
+-   **You will not write any code.** You may be asked to *read* a short piece of code or *interpret* R output.
+
+## Format {.midi}
+
+Four sections. Show your work: partial credit is real.
+
+| Section | Style | What it tests |
+|:--|:--|:--|
+| A | Multiple choice | Quick concept checks |
+| B | Short answer | Interpreting models and R output, computing by hand |
+| C | True/False with justification | Spotting common misconceptions |
+| D | Evaluate a response | Diagnosing someone else's statistical reasoning |
+
+. . .
+
+-   Every calculation can be done with a basic calculator. You will not need to look anything up in a table: if a critical value or probability is needed, the exam will give it to you.
+-   The focus is **understanding**, not memorization or coding.
+
+## How to use this guide {.smaller}
+
+1.  For each topic, try to do the "You should be able to..." list **without looking** at the slides.
+2.  Redo the AE and HW questions you struggled with.
+3.  Take the [practice exam](../ae/ae-12-exam01-practice.qmd) under timed conditions, **before** you look at the solutions.
+4.  Write your notes sheet **last**. Making it is studying, so don't copy someone else's.
+
+::: callout-tip
+The best notes sheets are not a dump of formulas. Include things you *forget*, such as how to interpret a p-value, what "reference level" means, and which direction each formula goes.
+:::
+
+# Topic map
+
+## What we covered {.smaller}
+
+| Lectures | Topic |
+|:--|:--|
+| 0-3 | Models, variables, EDA, Simpson's paradox, reading `dplyr` code |
+| 4-5 | Simple linear regression, categorical predictors |
+| 6-7 | Residuals, least squares, SST = SSM + SSE, $R^2$, RMSE |
+| 8-9 | Population vs. sample, study design, sampling, bias |
+| 10 | Shuffling, null distributions, p-values |
+| 11 | $SE$, $t$, hypothesis tests for the slope |
+
+The rest of this guide goes through each of these in turn.
+
+# Models and EDA (Lectures 0-3)
+
+## You should be able to... {.smaller}
+
+-   Identify the **response** (outcome, target) and **explanatory** (predictor, input) variables in a research question.
+-   Say whether a variable is **quantitative** or **categorical**, and pick a sensible plot:
+
+| Setting | Plot |
+|:--|:--|
+| One quantitative | Histogram, boxplot, jitter plot |
+| One categorical | Bar chart |
+| Quant vs. quant | Scatterplot |
+| Quant vs. categorical | Side-by-side boxplots or jitter plots |
+
+-   Tell **univariate**, **bivariate**, and **multivariate** analysis apart.
+-   Describe a scatterplot: direction, form, strength, unusual points.
+-   Explain why we fit a model: **prediction** vs. **inference**, and give an example of each.
+
+## Statistical model vs. regression equation {.smaller}
+
+::: columns
+::: {.column width="50%"}
+**Statistical model** (population, has error)
+
+$$Y = \beta_0 + \beta_1 X + \epsilon$$
+
+-   Describes how the response is *generated*
+-   Greek letters: unknown **parameters**
+:::
+
+::: {.column width="50%"}
+**Regression equation** (sample, no error)
+
+$$\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X$$
+
+-   Our *estimate* of the function
+-   Hats: **statistics** computed from data
+:::
+:::
+
+. . .
+
+-   Be able to say which one a given formula is, and why the second has no $\epsilon$.
+-   "All models are wrong, but some are useful" (Box). A model is a simplification.
+
+## Simpson's paradox and confounding {.smaller}
+
+-   **Simpson's paradox:** a relationship between two variables disappears or reverses once you account for a third variable.
+-   A **confounder** is related to *both* the explanatory and the response variable.
+-   Be able to explain, in words, why the pooled trend and the within-group trends can disagree.
+-   Be able to name a plausible confounder in a new context.
+
+## Reading `dplyr` code {.smaller}
+
+You will not write code, but you should be able to say **what a short pipeline does** or **what the result looks like**.
+
+| Verb | What it does |
+|:--|:--|
+| `filter(x == "a")` | Keeps **rows** where the condition is true |
+| `mutate(new = ...)` | Creates or changes **columns** |
+| `group_by(g)` then `summarize(m = mean(y))` | One summary row per group |
+
+-   `|>` passes the result on the left into the next function.
+-   `==` tests equality, `!=` means "not equal," and strings go in quotes.
+-   A `factor` stores categories as ordered **levels**. The first level is R's default reference level.
+
+# Simple linear regression and categorical predictors (Lectures 4-5)
+
+## Interpreting a slope and an intercept {.smaller}
+
+For $\widehat{\text{count}} = 2077.5 + 152.9 \times \text{temp}$ (this is the lecture example):
+
+-   **Slope:** for each 1-unit increase in the predictor, the response is predicted to change by $\hat{\beta}_1$ units, **on average**. Include the units and the context.
+-   **Intercept:** the predicted response when the predictor is 0.
+    -   Is 0 inside the range of the data? If not, the intercept is **extrapolation** and may be meaningless.
+-   **Prediction:** plug in $x$ and compute $\hat{y}$.
+-   **Extrapolation:** predicting far outside the range of the data is risky.
+
+. . .
+
+::: callout-warning
+Use words like "predicted" and "on average." A slope describes an *association*, not a cause, unless the data came from a randomized experiment.
+:::
+
+## Categorical predictors {.smaller}
+
+-   A $K$-level categorical variable becomes $K - 1$ **indicator (dummy) variables**.
+-   The left-out level is the **reference level** (baseline). R picks it alphabetically unless the variable is a factor with set levels.
+-   The **intercept** is the **mean of the response at the reference level**.
+-   Each **coefficient** is the **difference in means** between that level and the reference level.
+
+. . .
+
+Given a table of coefficients you should be able to:
+
+-   Identify the reference level (it is the level with **no** row in the table).
+-   Compute the predicted mean for **every** level.
+-   Explain why correlation does not apply to a categorical predictor even though regression does.
+
+# Residuals, least squares, and model evaluation (Lectures 6-7)
+
+## Residuals and least squares {.smaller}
+
+$$e_i = y_i - \hat{y}_i \qquad \text{(observed } - \text{ predicted)}$$
+
+-   Positive residual: the point is **above** the line (the model **under**predicted).
+-   Negative residual: the point is **below** the line (the model **over**predicted).
+-   **Sum of squared errors:** $SSE = \sum e_i^2$.
+-   **Least squares** picks $\hat{\beta}_0, \hat{\beta}_1$ to make $SSE$ as small as possible.
+-   Why square? So positive and negative residuals don't cancel.
+-   The **mean** is the single number that minimizes $SSE$. The empty model predicts $\bar{y}$ for everyone.
+
+## Properties of least squares {.smaller}
+
+-   The line passes through $(\bar{x}, \bar{y})$, so $\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}$.
+-   $\hat{\beta}_1 = r \dfrac{s_y}{s_x}$, so the slope has the **same sign** as the correlation $r$.
+-   The residuals sum to 0.
+-   The residuals are uncorrelated with $x$.
+
+::: callout-tip
+You can go from a slope and $\bar{x}, \bar{y}$ to an intercept, or from $r, s_x, s_y$ to a slope, with a calculator. Practice both directions.
+:::
+
+## Partitioning variation (ANOVA) {.smaller}
+
+$$\underbrace{SST}_{\text{total}} = \underbrace{SSM}_{\text{explained by model}} + \underbrace{SSE}_{\text{left over}}$$
+
+-   $SST = \sum (y_i - \bar{y})^2$ is the $SSE$ of the **empty model**.
+-   $SSM = SST - SSE$.
+-   $SSE$ **cannot** be bigger than $SST$, so $SSM \geq 0$.
+
+$$R^2 = PRE = \frac{SSM}{SST} = 1 - \frac{SSE}{SST}$$
+
+-   Between 0 and 1, no units.
+-   Interpretation: "$R^2 \times 100$% of the variability in **[response]** is explained by **[predictor]**."
+-   In simple linear regression, $R^2 = r^2$ (so you can recover $|r|$, but get the **sign** from the slope).
+
+## RMSE {.smaller}
+
+$$RMSE = \sqrt{\frac{SSE}{n}}$$
+
+-   Roughly: how far the model misses by, on average.
+-   Between 0 and $\infty$, in the **same units as the response**.
+-   Smaller is better, but "good" depends on **context**.
+-   $R^2$ and RMSE answer different questions: proportion explained vs. typical miss.
+
+. . .
+
+You should be able to:
+
+-   Fill in a missing entry of an ANOVA table given the other two.
+-   Compare two models using $R^2$ and RMSE, and explain why the one with more flexibility (e.g., a categorical price vs. a numeric price) can never have a **lower** $R^2$.
+-   Explain why you can't say a model is "good" from $R^2$ alone.
+
+# Study design and sampling (Lectures 8-9)
+
+## Population, sample, parameter, statistic {.smaller}
+
+| | Population | Sample |
+|:--|:-:|:-:|
+| Mean | $\mu$ | $\bar{x}$ |
+| Slope | $\beta_1$ | $\hat{\beta}_1$ (or $\hat{\beta}_1$) |
+
+-   A **parameter** describes the population. A **statistic** describes the sample.
+-   **Statistical inference:** using a statistic to say something about a parameter.
+-   Two threats: a **bad sample** (bias) and **sampling variability** (chance).
+
+## Studies and conclusions {.smaller}
+
+|  | **Random assignment** | **No random assignment** |
+|:--|:--|:--|
+| **Random sample** | Causal, and generalizes to the population | Association only, but generalizes |
+| **No random sample** | Causal, but only for the units in the study | Association only, only for the units in the study |
+
+-   **Observational study:** researchers observe. **Experiment:** researchers assign.
+-   **Random assignment** supports causal claims. **Random sampling** supports generalizing.
+-   Given a study description, be able to place it in this table and justify it.
+
+## Sampling methods and bias {.smaller}
+
+| Method | How it works | Goal |
+|:--|:--|:--|
+| Simple random sample | Every unit equally likely | Representative |
+| **Stratified** | Groups differ from each other, sample from **every** group | Make sure every kind of unit is represented |
+| **Cluster** | Groups look alike, sample **some** groups | Save time and money |
+| Convenience | Whoever is easy to reach | (Not good) |
+
+-   **Undercoverage:** part of the population isn't in the sampling frame.
+-   **Non-response bias**, **survivorship bias**, and **convenience bias**: be able to recognize each.
+-   Bias comes from the **process**, not the sample size. A bigger biased sample is still biased.
+
+# Shuffling and p-values (Lecture 10)
+
+## The logic of a shuffling test {.smaller}
+
+1.  **Hypotheses:** $H_0$ says there is no relationship. $H_A$ says there is one.
+2.  Pick a **test statistic** (PRE, $\hat{\beta}_1$, ...).
+3.  **Shuffle** the response to break any relationship, and recompute the statistic. Repeat many times.
+4.  The histogram of shuffled statistics is the **null distribution**: what we'd see by chance if $H_0$ were true.
+5.  The **p-value** is the proportion of shuffles at least as extreme as our real statistic.
+
+. . .
+
+-   Shuffling **keeps** the set of values and the group sizes. It **breaks** the pairing between $x$ and $y$.
+-   PRE is never negative, so even a useless predictor has $PRE > 0$. That is why we need a null distribution.
+-   Shuffling accounts for **chance**. It does **not** fix bias or tell us about **cause**.
+
+## Interpreting a p-value {.smaller}
+
+The p-value is the probability of getting a statistic **at least as extreme as ours, if the null hypothesis is true**.
+
+| p-value | Evidence against $H_0$ |
+|:--|:--|
+| $< 0.01$ | strong |
+| $0.01$ to $0.05$ | moderate |
+| $0.05$ to $0.1$ | weak |
+| $> 0.1$ | effectively none |
+
+. . .
+
+::: callout-important
+**Common wrong answers.** The p-value is **not**:
+
+-   the probability that $H_0$ is true,
+-   the probability that the results happened "by chance,"
+-   a measure of how big or important the effect is.
+
+A large p-value means "no convincing evidence," **not** "evidence of no relationship."
+:::
+
+# Inference for the slope (Lecture 11)
+
+## Hypothesis test for the slope {.smaller}
+
+$$H_0: \beta_1 = 0 \qquad H_A: \beta_1 \neq 0$$
+
+-   The null distribution of $\hat{\beta}_1$ is **normal**, centered at **0**, with spread $SE_{\hat{\beta}_1}$.
+-   $SE_{\hat{\beta}_1}$ is the **standard error**: the SD of $\hat{\beta}_1$ across samples.
+
+$$t = \frac{\hat{\beta}_1 - 0}{SE_{\hat{\beta}_1}} = \frac{\text{estimate} - \text{null value}}{\text{standard error}}$$
+
+-   $t$ counts "how many standard errors is our slope from the null value?"
+-   The p-value comes from a $t$ distribution with $n - 2$ degrees of freedom. It is **two-sided** when $H_A$ has $\neq$.
+-   Why $n-2$? We estimated two parameters, $\beta_0$ and $\beta_1$.
+-   The $t$ has heavier tails than the normal, which matters for small $n$.
+
+## What makes $SE_{\hat{\beta}_1}$ small? {.smaller}
+
+$$SE_{\hat{\beta}_1} = \frac{\hat{\sigma}_\epsilon}{\sqrt{(n-1)s_X^2}}, \qquad \hat{\sigma}_\epsilon = \sqrt{\frac{SSE}{n-2}}$$
+
+-   **Larger $n$:** smaller $SE$.
+-   **More spread in $x$:** smaller $SE$.
+-   **Less scatter around the line:** smaller $SE$.
+
+. . .
+
+You should be able to say what happens to the $SE$, the $t$ statistic, and the p-value when one of these changes, **holding the others fixed**.
+
+## The normal curve {.smaller}
+
+-   A normal distribution has a **center** $\mu$ and **spread** $\sigma$.
+-   About **68%** of values are within 1 SD, **95%** within 2 SD, and **99.7%** within 3 SD.
+
+You should be able to use these without a computer:
+
+-   "A statistic is 2 SD from the center. Roughly what share of values are *more* extreme?" About 5% in two tails.
+-   "Is a $t$ of 0.4 or a $t$ of 4 more surprising under the null?"
+
+# Reading R output
+
+## A fake example, start to finish {.smaller}
+
+A study of $n = 25$ days relates ice cream sales (in hundreds of dollars) to temperature (in degrees C). Here is the output:
+
+| term | estimate | std.error | statistic | p.value |
+|:--|--:|--:|--:|--:|
+| (Intercept) | 12.0 | 6.1 | 1.97 | 0.061 |
+| temp | 3.5 | 1.4 | 2.50 | 0.020 |
+
+| term | df | sumsq |
+|:--|--:|--:|
+| Model | 1 | 400 |
+| Error | 23 | 600 |
+| Total | 24 | 1000 |
+
+## Reading it {.smaller}
+
+::: columns
+::: {.column width="50%"}
+-   **Equation:** $\widehat{\text{sales}} = 12.0 + 3.5 \times \text{temp}$
+-   **Prediction** at 20 degrees: $12.0 + 3.5(20) = 82$, or \$8,200.
+-   **Slope:** each extra degree is associated with 3.5 more hundred dollars in sales, on average.
+-   **$t$:** $3.5 / 1.4 = 2.5$ (each row's `statistic` is `estimate / std.error`).
+:::
+
+::: {.column width="50%"}
+-   **p = 0.020:** moderate evidence of a linear relationship.
+-   **$R^2$** $= 400/1000 = 0.40$: 40% of the variability in sales is explained by temperature.
+-   **RMSE** $= \sqrt{600/25} = \sqrt{24} \approx 4.9$ hundred dollars.
+-   $\hat{\sigma}_\epsilon = \sqrt{600/23} \approx 5.1$.
+:::
+:::
+
+. . .
+
+Also notice: degrees of freedom for the error row are $n - 2 = 23$, and the total is $n - 1 = 24$.
+
+## Other output you might see {.smaller}
+
+-   **A residual plot or a scatterplot with a fitted line:** be able to say whether points above/below the line have positive/negative residuals.
+-   **A histogram of shuffled statistics with a red line for the observed value:** be able to say roughly what the p-value is (the share of the histogram at least as extreme as the line).
+-   **`dplyr` code with a small data table:** be able to say what rows and columns remain.
+-   **A table of group means:** be able to turn it into a regression equation with a reference level.
+
+# Checklist
+
+## Concepts {.smaller}
+
+::: columns
+::: {.column width="50%"}
+-   [ ] Response vs. explanatory variable
+-   [ ] Statistical model vs. regression equation
+-   [ ] Slope and intercept interpretation
+-   [ ] Extrapolation
+-   [ ] Indicator variables and reference level
+-   [ ] Residuals and least squares
+-   [ ] SST, SSM, SSE
+-   [ ] $R^2$ and RMSE
+:::
+
+::: {.column width="50%"}
+-   [ ] Parameter vs. statistic
+-   [ ] Observational study vs. experiment
+-   [ ] Random sampling vs. random assignment
+-   [ ] Stratified vs. cluster samples, bias
+-   [ ] Null distribution and p-value
+-   [ ] $SE$, $t$, degrees of freedom
+:::
+:::
+
+## Practice {.smaller}
+
+::: appex
+📋 [AE 12 - Exam 1 Practice](../ae/ae-12-exam01-practice.qmd)
+:::
+
+-   Take it in one 75-minute sitting, with only a calculator and a notes sheet.
+-   Then check yourself against the [solutions](../ae/ae-12-exam01-practice-solutions.qmd).
+-   Revisit the **AEs and homeworks** for any topic where you missed points.
+-   Come to **office hours** or see the tutor with questions: see the [support page](../support.qmd).
+
+Good luck!

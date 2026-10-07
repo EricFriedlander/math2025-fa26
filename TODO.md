@@ -40,7 +40,7 @@ Checklist of everything that needs attention before the first day of class. Scaf
 | HW 03 | Fri Oct 2 |
 | HW 04 | Fri Oct 9 |
 | HW 05 | Fri Oct 23 |
-| HW 06 | Fri Oct 30 |
+| HW 06 | Mon Oct 12 |
 | HW 07 | Fri Nov 13 |
 | Project 1: Pilot | Wed Nov 4 |
 | Project 2: Power | Wed Nov 11 |

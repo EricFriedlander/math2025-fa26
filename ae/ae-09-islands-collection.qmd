@@ -58,7 +58,6 @@ format:
         </style>
 ---
 
-
 ::: callout-important
 - Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-09".
 - Go to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743/assignments/244041) to get started.
