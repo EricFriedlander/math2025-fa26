@@ -2,75 +2,83 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ericfriedlander.github.io/math2025-fa26/syllabus.html</loc>
-    <lastmod>2026-10-05T14:37:05.492Z</lastmod>
+    <lastmod>2026-10-05T15:31:46.554Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/10-islands-inference.html</loc>
-    <lastmod>2026-10-05T13:50:54.505Z</lastmod>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/13-slr-inference-math copy.html</loc>
+    <lastmod>2026-10-07T14:37:29.159Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/08-inference-islands.html</loc>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/11-slr-inference-math.html</loc>
+    <lastmod>2026-10-07T14:37:29.159Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/09-islands-analysis.html</loc>
     <lastmod>2026-09-30T14:46:41.275Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/06-slr-fitting.html</loc>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/07-slr-eval.html</loc>
     <lastmod>2026-09-30T14:46:41.275Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/04-slr-intro.html</loc>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/05-categorical-predictors.html</loc>
     <lastmod>2026-09-30T14:46:41.274Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/02-exploratory-data-analysis.html</loc>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/03-data-cleaning.html</loc>
     <lastmod>2026-09-30T14:46:41.274Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/00-welcome.html</loc>
-    <lastmod>2026-10-05T14:36:54.930Z</lastmod>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/01-intro-to-r.html</loc>
+    <lastmod>2026-09-30T14:43:31.938Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-preliminary.html</loc>
-    <lastmod>2026-08-24T20:06:26.718Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-poster.html</loc>
-    <lastmod>2026-08-24T19:09:33.434Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-overview.html</loc>
-    <lastmod>2026-08-24T19:09:33.434Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-group-dynamics.html</loc>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-rubric.html</loc>
     <lastmod>2026-08-24T19:09:33.343Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-draft.html</loc>
-    <lastmod>2026-08-24T20:06:28.916Z</lastmod>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-power.html</loc>
+    <lastmod>2026-08-24T20:06:25.621Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-11.html</loc>
-    <lastmod>2026-10-05T14:13:02.296Z</lastmod>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-pilot.html</loc>
+    <lastmod>2026-08-24T20:06:20.287Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-08.html</loc>
-    <lastmod>2026-09-23T14:39:32.025Z</lastmod>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-islands-tips.html</loc>
+    <lastmod>2026-08-24T19:09:33.343Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-05.html</loc>
-    <lastmod>2026-09-14T16:03:20.027Z</lastmod>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-final.html</loc>
+    <lastmod>2026-08-24T20:06:30.004Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-03.html</loc>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/project/poster-rubric.html</loc>
+    <lastmod>2026-08-24T19:09:33.343Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-10.html</loc>
+    <lastmod>2026-09-29T22:03:30.770Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-06.html</loc>
+    <lastmod>2026-09-15T19:54:54.148Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-04.html</loc>
+    <lastmod>2026-09-08T17:32:20.222Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-02.html</loc>
     <lastmod>2026-09-02T15:44:20.391Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-01.html</loc>
-    <lastmod>2026-09-02T15:44:20.391Z</lastmod>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/links.html</loc>
+    <lastmod>2026-08-24T21:27:12.411Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/index.html</loc>
-    <lastmod>2026-10-05T13:55:07.723Z</lastmod>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-06.html</loc>
+    <lastmod>2026-10-07T14:37:29.158Z</lastmod>
   </url>
   <url>
     <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-05-islands.html</loc>
@@ -89,8 +97,16 @@
     <lastmod>2026-08-24T20:05:35.229Z</lastmod>
   </url>
   <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-12-exam01-practice.html</loc>
+    <lastmod>2026-10-07T14:37:29.158Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-11-spotify-inference.html</loc>
+    <lastmod>2026-10-07T14:37:29.158Z</lastmod>
+  </url>
+  <url>
     <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-09-islands-collection.html</loc>
-    <lastmod>2026-09-30T14:39:47.191Z</lastmod>
+    <lastmod>2026-10-07T14:37:29.158Z</lastmod>
   </url>
   <url>
     <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-05-coffee-truck.html</loc>
@@ -102,7 +118,7 @@
   </url>
   <url>
     <loc>https://ericfriedlander.github.io/math2025-fa26/about.html</loc>
-    <lastmod>2026-10-05T14:37:05.477Z</lastmod>
+    <lastmod>2026-10-05T15:31:46.552Z</lastmod>
   </url>
   <url>
     <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-01-getting-started.html</loc>
@@ -118,7 +134,15 @@
   </url>
   <url>
     <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-10-islands-inference.html</loc>
-    <lastmod>2026-10-05T13:59:09.177Z</lastmod>
+    <lastmod>2026-10-05T15:31:46.552Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-12-exam01-practice-solutions.html</loc>
+    <lastmod>2026-10-07T14:37:29.158Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-12-exam01.html</loc>
+    <lastmod>2026-10-07T14:37:29.158Z</lastmod>
   </url>
   <url>
     <loc>https://ericfriedlander.github.io/math2025-fa26/computing-r-resources.html</loc>
@@ -134,71 +158,79 @@
   </url>
   <url>
     <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-05.html</loc>
-    <lastmod>2026-09-30T14:39:47.191Z</lastmod>
+    <lastmod>2026-10-07T14:37:29.158Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/links.html</loc>
-    <lastmod>2026-08-24T21:27:12.411Z</lastmod>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/index.html</loc>
+    <lastmod>2026-10-07T14:37:29.158Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-02.html</loc>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-01.html</loc>
     <lastmod>2026-09-02T15:44:20.391Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-04.html</loc>
-    <lastmod>2026-09-08T17:32:20.222Z</lastmod>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-03.html</loc>
+    <lastmod>2026-09-02T15:44:20.391Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-06.html</loc>
-    <lastmod>2026-09-15T19:54:54.148Z</lastmod>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-05.html</loc>
+    <lastmod>2026-09-14T16:03:20.027Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-10.html</loc>
-    <lastmod>2026-09-29T22:03:30.770Z</lastmod>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-08.html</loc>
+    <lastmod>2026-09-23T14:39:32.025Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/project/poster-rubric.html</loc>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-11.html</loc>
+    <lastmod>2026-10-05T15:31:46.552Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-draft.html</loc>
+    <lastmod>2026-08-24T20:06:28.916Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-group-dynamics.html</loc>
     <lastmod>2026-08-24T19:09:33.343Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-final.html</loc>
-    <lastmod>2026-08-24T20:06:30.004Z</lastmod>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-overview.html</loc>
+    <lastmod>2026-08-24T19:09:33.434Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-islands-tips.html</loc>
-    <lastmod>2026-08-24T19:09:33.343Z</lastmod>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-poster.html</loc>
+    <lastmod>2026-08-24T19:09:33.434Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-pilot.html</loc>
-    <lastmod>2026-08-24T20:06:20.287Z</lastmod>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-preliminary.html</loc>
+    <lastmod>2026-08-24T20:06:26.718Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-power.html</loc>
-    <lastmod>2026-08-24T20:06:25.621Z</lastmod>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/00-welcome.html</loc>
+    <lastmod>2026-10-05T15:31:46.552Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/project/project-rubric.html</loc>
-    <lastmod>2026-08-24T19:09:33.343Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/01-intro-to-r.html</loc>
-    <lastmod>2026-09-30T14:43:31.938Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/03-data-cleaning.html</loc>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/02-exploratory-data-analysis.html</loc>
     <lastmod>2026-09-30T14:46:41.274Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/05-categorical-predictors.html</loc>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/04-slr-intro.html</loc>
     <lastmod>2026-09-30T14:46:41.274Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/07-slr-eval.html</loc>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/06-slr-fitting.html</loc>
     <lastmod>2026-09-30T14:46:41.275Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/09-islands-analysis.html</loc>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/08-inference-islands.html</loc>
     <lastmod>2026-09-30T14:46:41.275Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/10-islands-inference.html</loc>
+    <lastmod>2026-10-05T13:50:54.505Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/12-exam-01-review.html</loc>
+    <lastmod>2026-10-07T14:37:29.159Z</lastmod>
   </url>
   <url>
     <loc>https://ericfriedlander.github.io/math2025-fa26/support.html</loc>
