@@ -1,5 +1,5 @@
 ---
-title: "AE 12: Exam 1 Practice"
+title: "AE 12: Exam 1 Practice Exam"
 subtitle: "Lectures 0 to 11"
 editor: visual
 execute:

@@ -1,0 +1,23 @@
+---
+title: "AE 12: Exam 1 Practice"
+subtitle: "Practice exam and solutions for Exam 1 (Lectures 0 to 11)"
+---
+
+Exam 1 is in class on **Wednesday, Oct 14**. It lasts **75 minutes** and you may use a **calculator** and **one handwritten notes sheet** (front and back). You will not write any code.
+
+## Practice exam
+
+The practice exam has the same format as the real exam and is worth 100 points. Print it and take it in one sitting, under timed conditions.
+
+-   [{{< fa file-lines >}} Practice exam (web page)](https://ericfriedlander.github.io/math2025-fa26/ae/ae-12-exam01-practice.html)
+-   [{{< fa file-pdf >}} Practice exam (PDF, for printing)](https://ericfriedlander.github.io/math2025-fa26/ae/ae-12-exam01-practice.pdf)
+
+## Solutions
+
+Try the whole practice exam **before** you open the solutions.
+
+-   [{{< fa key >}} Solutions (web page)](https://ericfriedlander.github.io/math2025-fa26/ae/ae-12-exam01-practice-solutions.html)
+
+## Study guide
+
+-   [{{< fa laptop >}} Exam 1 study guide (slides)](https://ericfriedlander.github.io/math2025-fa26/slides/12-exam-01-review.html)

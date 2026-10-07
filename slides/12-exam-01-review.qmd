@@ -433,7 +433,7 @@ Also notice: degrees of freedom for the error row are $n - 2 = 23$, and the tota
 ## Practice {.smaller}
 
 ::: appex
-📋 [AE 12 - Exam 1 Practice](../ae/ae-12-exam01-practice.qmd)
+📋 [AE 12 - Exam 1 Practice](../ae/ae-12-exam01.qmd)
 :::
 
 -   Take it in one 75-minute sitting, with only a calculator and a notes sheet.
