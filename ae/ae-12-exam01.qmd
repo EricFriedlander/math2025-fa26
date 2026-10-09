@@ -1,6 +1,6 @@
 ---
 title: "AE 12: Exam 1 Practice"
-subtitle: "Practice exam and solutions for Exam 1 (Lectures 0 to 11)"
+subtitle: "Practice exam and solutions for Exam 1 (Lectures 0 to 10)"
 ---
 
 Exam 1 is in class on **Wednesday, Oct 14**. It lasts **75 minutes** and you may use a **calculator** and **one handwritten notes sheet** (front and back). You will not write any code.

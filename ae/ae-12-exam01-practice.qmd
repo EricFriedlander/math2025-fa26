@@ -1,6 +1,6 @@
 ---
 title: "AE 12: Exam 1 Practice Exam"
-subtitle: "Lectures 0 to 11"
+subtitle: "Lectures 0 to 10"
 editor: visual
 execute:
   message: false
@@ -127,7 +127,7 @@ tip <- read_csv(here::here("data/tip-data.csv"), show_col_types = FALSE)
 ```
 
 ::: callout-important
-- This is a **practice** exam for Exam 1 (Lectures 0 to 11). It matches the format of the real exam: four sections, a mix of multiple choice, short answer, true/false, and evaluating a response.
+- This is a **practice** exam for Exam 1 (Lectures 0 to 10). It matches the format of the real exam: four sections, a mix of multiple choice, short answer, true/false, and evaluating a response.
 - Print it and take it in **one 75-minute sitting** with only a **calculator** and **one handwritten notes sheet** (front and back). No computers, phones, or textbooks.
 - **Do not look at the [solutions](https://ericfriedlander.github.io/math2025-fa26/ae/ae-12-exam01-practice-solutions.html) until you are done.** Then grade yourself using the point values.
 :::
@@ -279,15 +279,15 @@ Which statement about the residuals for P and Q is correct?
 :::
 
 ::: exercise
-**(2 pts)** Holding everything else fixed, which change would make the standard error of a regression slope **smaller**?
+**(2 pts)** A student fits a regression predicting exam score from birth month (a categorical variable with 12 levels) for 60 students and finds $PRE = 0.02$. Her friend says, "PRE is greater than 0, so birth month must help explain exam scores." What is the best response?
 
-(A) Using a smaller sample
+(A) The friend is right, because any PRE above 0 means the predictor is useful
 
-(B) Collecting data with a wider spread of $x$ values
+(B) PRE can never be negative, so even a useless predictor will usually give PRE above 0 by chance. We need to compare to a null distribution of PREs
 
-(C) Having more scatter of the points around the line
+(C) The friend is wrong, because PRE must be at least 0.5 to be meaningful
 
-(D) Using a larger value of the slope
+(D) The friend is wrong, because a PRE this small proves birth month has no relationship with exam score
 :::
 
 ::: exercise
@@ -327,9 +327,9 @@ tidy(rt_fit) |>
 
 (d) **(2 pts)** Predict the volume on a day with a high of 80 degrees. Then explain why you would not trust the model's prediction for a day with a high of 20 degrees.
 
-(e) **(2 pts)** Write the null and alternative hypotheses for a test of whether there is a linear relationship between `hightemp` and `volume`. Show how the `statistic` for `hightemp` is computed from the other columns and state the degrees of freedom
+(e) **(2 pts)** Write the null and alternative hypotheses for a test of whether there is a linear relationship between `hightemp` and `volume`. Give them in both symbols and words.
 
-(f) **(4 pts)** Imagine building the null distribution for this slope by shuffling `volume`. (i) Where is that distribution centered, and what is its standard deviation? (ii) Using the t-statistic, is our observed slope surprising under the null? Explain. (iii) State the p-value we'd use for this test. (iv) State your conclusion of the test in context. (You may use the p-value in the table.)
+(f) **(4 pts)** For this model, $PRE = R^2 =$ `r round(summary(rt_fit)$r.squared, 2)`. To build a null distribution, we shuffle `volume` 1,000 times, refit the model each time, and record the PRE. **None** of the 1,000 shuffled PREs was as large as the real one. (i) What does shuffling `volume` do to the relationship between `volume` and `hightemp`, and roughly where will the 1,000 shuffled PREs fall? (ii) Is our observed PRE surprising under the null? Explain. (iii) Give the approximate p-value from the shuffles. (iv) State your conclusion in context.
 :::
 
 ::: {.answer style="min-height: 22em;"}
@@ -338,13 +338,15 @@ tidy(rt_fit) |>
 ::: exercise
 **(7 pts)** Consider a different model for the same 90 days, predicting `volume` from `cloudcover`. The fitted slope is **negative**. Part of the ANOVA table is below. Entries marked with a "?" are missing.
 
-| Source |  df |        SS |
-|:-------|----:|----------:|
-| Model  |   1 |   202,863 |
-| Error  |   ? |         ? |
-| Total  |  89 | 1,445,958 |
+| Source |        SS |
+|:-------|----------:|
+| Model  |   202,863 |
+| Error  |         ? |
+| Total  | 1,445,958 |
 
-(a) **(2 pts)** Fill in the missing degrees of freedom and the missing sum of squares. How many days are in the data?
+There are $n = 90$ days in the data.
+
+(a) **(2 pts)** Fill in the missing sum of squares and say in words what it measures.
 
 (b) **(2 pts)** Compute $R^2$ and interpret it in context.
 
@@ -494,7 +496,7 @@ True / False. Justify:
 :::
 
 ::: exercise
-**(4 pts)** A researcher fits a simple linear regression and then collects a new data set that is twice as large (twice as many observations), with the same spread in $x$ and the same scatter around the line. **Statement:** The standard error of the slope in the larger data set will be smaller than before.
+**(4 pts)** A researcher runs a shuffling test with PRE as the test statistic and gets an observed PRE of 0.10 from a data set of 200 observations. She then repeats the study with only 20 observations and again gets an observed PRE of 0.10. **Statement:** The shuffled null distribution of PRE will be more spread out for the 20 observations than for the 200, so the observed PRE of 0.10 is less convincing evidence of a relationship in the smaller study.
 
 True / False. Justify:
 :::
@@ -557,7 +559,7 @@ Here is Riley's response.
 
 > (1) The p-value is 0.028, which is less than 0.05. This means there is only a 2.8% chance that the null hypothesis is true.
 >
-> (2) To build a null distribution, I shuffle the `volume` values many times and recompute the slope each time. These shuffled slopes will be centered at my observed slope of $-112.59$, because shuffling keeps the relationship in the data.
+> (2) To build a null distribution, I shuffle the `volume` values many times and recompute the PRE each time. These shuffled PREs will be centered at my observed PRE of 0.054, because shuffling keeps the relationship in the data.
 >
 > (3) Because the slope is statistically significant, we can conclude that rainfall causes volume to decrease.
 >

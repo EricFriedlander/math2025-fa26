@@ -1,6 +1,6 @@
 ---
 title: "Exam 1 Study Guide"
-subtitle: "Lectures 0-11"
+subtitle: "Lectures 0-10"
 author: "Prof. Eric Friedlander"
 footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/)"
 logo: "../images/logo.png"
@@ -45,7 +45,7 @@ knitr::opts_chunk$set(
 -   **Length:** 75 minutes
 -   **Allowed:** a calculator and **one sheet of handwritten notes** (front and back)
 -   **Not allowed:** computers, phones, textbooks, other notes
--   **Content:** Lectures 0-11, the readings, AEs 01-11, and HW 01-06
+-   **Content:** Lectures 0-10, the readings, AEs 01-10, and HW 01-05
 -   **You will not write any code.** You may be asked to *read* a short piece of code or *interpret* R output.
 
 ## Format {.midi}
@@ -86,7 +86,6 @@ The best notes sheets are not a dump of formulas. Include things you *forget*, s
 | 6-7 | Residuals, least squares, SST = SSM + SSE, $R^2$, RMSE |
 | 8-9 | Population vs. sample, study design, sampling, bias |
 | 10 | Shuffling, null distributions, p-values |
-| 11 | $SE$, $t$, hypothesis tests for the slope |
 
 The rest of this guide goes through each of these in turn.
 
@@ -286,7 +285,7 @@ You should be able to:
 ## The logic of a shuffling test {.smaller}
 
 1.  **Hypotheses:** $H_0$ says there is no relationship. $H_A$ says there is one.
-2.  Pick a **test statistic** (PRE, $\hat{\beta}_1$, ...).
+2.  Pick a **test statistic** (we used PRE).
 3.  **Shuffle** the response to break any relationship, and recompute the statistic. Repeat many times.
 4.  The histogram of shuffled statistics is the **null distribution**: what we'd see by chance if $H_0$ were true.
 5.  The **p-value** is the proportion of shuffles at least as extreme as our real statistic.
@@ -295,6 +294,7 @@ You should be able to:
 
 -   Shuffling **keeps** the set of values and the group sizes. It **breaks** the pairing between $x$ and $y$.
 -   PRE is never negative, so even a useless predictor has $PRE > 0$. That is why we need a null distribution.
+-   A **smaller sample** gives a **wider** null distribution, so the same PRE is less convincing.
 -   Shuffling accounts for **chance**. It does **not** fix bias or tell us about **cause**.
 
 ## Interpreting a p-value {.smaller}
@@ -320,60 +320,22 @@ The p-value is the probability of getting a statistic **at least as extreme as o
 A large p-value means "no convincing evidence," **not** "evidence of no relationship."
 :::
 
-# Inference for the slope (Lecture 11)
-
-## Hypothesis test for the slope {.smaller}
-
-$$H_0: \beta_1 = 0 \qquad H_A: \beta_1 \neq 0$$
-
--   The null distribution of $\hat{\beta}_1$ is **normal**, centered at **0**, with spread $SE_{\hat{\beta}_1}$.
--   $SE_{\hat{\beta}_1}$ is the **standard error**: the SD of $\hat{\beta}_1$ across samples.
-
-$$t = \frac{\hat{\beta}_1 - 0}{SE_{\hat{\beta}_1}} = \frac{\text{estimate} - \text{null value}}{\text{standard error}}$$
-
--   $t$ counts "how many standard errors is our slope from the null value?"
--   The p-value comes from a $t$ distribution with $n - 2$ degrees of freedom. It is **two-sided** when $H_A$ has $\neq$.
--   Why $n-2$? We estimated two parameters, $\beta_0$ and $\beta_1$.
--   The $t$ has heavier tails than the normal, which matters for small $n$.
-
-## What makes $SE_{\hat{\beta}_1}$ small? {.smaller}
-
-$$SE_{\hat{\beta}_1} = \frac{\hat{\sigma}_\epsilon}{\sqrt{(n-1)s_X^2}}, \qquad \hat{\sigma}_\epsilon = \sqrt{\frac{SSE}{n-2}}$$
-
--   **Larger $n$:** smaller $SE$.
--   **More spread in $x$:** smaller $SE$.
--   **Less scatter around the line:** smaller $SE$.
-
-. . .
-
-You should be able to say what happens to the $SE$, the $t$ statistic, and the p-value when one of these changes, **holding the others fixed**.
-
-## The normal curve {.smaller}
-
--   A normal distribution has a **center** $\mu$ and **spread** $\sigma$.
--   About **68%** of values are within 1 SD, **95%** within 2 SD, and **99.7%** within 3 SD.
-
-You should be able to use these without a computer:
-
--   "A statistic is 2 SD from the center. Roughly what share of values are *more* extreme?" About 5% in two tails.
--   "Is a $t$ of 0.4 or a $t$ of 4 more surprising under the null?"
-
 # Reading R output
 
 ## A fake example, start to finish {.smaller}
 
 A study of $n = 25$ days relates ice cream sales (in hundreds of dollars) to temperature (in degrees C). Here is the output:
 
-| term | estimate | std.error | statistic | p.value |
-|:--|--:|--:|--:|--:|
-| (Intercept) | 12.0 | 6.1 | 1.97 | 0.061 |
-| temp | 3.5 | 1.4 | 2.50 | 0.020 |
-
-| term | df | sumsq |
+| term | estimate | p.value |
 |:--|--:|--:|
-| Model | 1 | 400 |
-| Error | 23 | 600 |
-| Total | 24 | 1000 |
+| (Intercept) | 12.0 | 0.061 |
+| temp | 3.5 | 0.020 |
+
+| term | sumsq |
+|:--|--:|
+| Model | 400 |
+| Error | 600 |
+| Total | 1000 |
 
 ## Reading it {.smaller}
 
@@ -382,20 +344,18 @@ A study of $n = 25$ days relates ice cream sales (in hundreds of dollars) to tem
 -   **Equation:** $\widehat{\text{sales}} = 12.0 + 3.5 \times \text{temp}$
 -   **Prediction** at 20 degrees: $12.0 + 3.5(20) = 82$, or \$8,200.
 -   **Slope:** each extra degree is associated with 3.5 more hundred dollars in sales, on average.
--   **$t$:** $3.5 / 1.4 = 2.5$ (each row's `statistic` is `estimate / std.error`).
 :::
 
 ::: {.column width="50%"}
 -   **p = 0.020:** moderate evidence of a linear relationship.
 -   **$R^2$** $= 400/1000 = 0.40$: 40% of the variability in sales is explained by temperature.
 -   **RMSE** $= \sqrt{600/25} = \sqrt{24} \approx 4.9$ hundred dollars.
--   $\hat{\sigma}_\epsilon = \sqrt{600/23} \approx 5.1$.
 :::
 :::
 
 . . .
 
-Also notice: degrees of freedom for the error row are $n - 2 = 23$, and the total is $n - 1 = 24$.
+Also notice: $SST = SSM + SSE$, so $1000 = 400 + 600$.
 
 ## Other output you might see {.smaller}
 
@@ -426,7 +386,7 @@ Also notice: degrees of freedom for the error row are $n - 2 = 23$, and the tota
 -   [ ] Random sampling vs. random assignment
 -   [ ] Stratified vs. cluster samples, bias
 -   [ ] Null distribution and p-value
--   [ ] $SE$, $t$, degrees of freedom
+-   [ ] Shuffling and the effect of sample size
 :::
 :::
 

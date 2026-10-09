@@ -150,7 +150,7 @@ This is the answer key for the [AE 12 practice exam](https://ericfriedlander.git
 :::
 
 ::: keysol
-**B.** $SE_{b_1} = \hat{\sigma}_\epsilon / \sqrt{(n-1)s_X^2}$. A wider spread of $x$ (larger $s_X$) makes the SE smaller. A smaller $n$ or more scatter makes it larger, and a larger or smaller slope does not change the SE formula.
+**B.** PRE can never be negative, because adding a predictor can only reduce (or keep) the SSE. So even a predictor with no real relationship to the response will usually give PRE above 0 just by chance. To judge whether $PRE = 0.02$ is more than chance, we shuffle the response many times, build a null distribution of PREs, and see where 0.02 lands. Option D makes the opposite mistake: a small PRE is not proof of "no relationship" either.
 :::
 
 ::: keysol
@@ -180,20 +180,18 @@ tidy(rt_fit) |>
 
 (d) $\widehat{\text{volume}} = -17.08 + 5.70(80) = 438.9$, so about **439 users**. A high of 20 degrees is outside the range of the data (41 to 97), so predicting there is **extrapolation**: we have no evidence the linear pattern continues, and the line would predict $-17.08 + 5.70(20) \approx 97$, which may be wrong.
 
-(e) $H_0: \beta_1 = 0$ (no linear relationship between high temperature and volume). $H_A: \beta_1 \neq 0$. The statistic is $t = \dfrac{\text{estimate}}{\text{std.error}} = \dfrac{5.702}{0.848} = 6.72$, which matches the table. The degrees of freedom are $n - 2 = 90 - 2 = 88$.
+(e) $H_0: \beta_1 = 0$ (there is no linear relationship between high temperature and trail volume). $H_A: \beta_1 \neq 0$ (there is a linear relationship).
 
-(f) 
-
-    (i) The shuffled null distribution is centered at **0** (shuffling breaks any relationship) with a standard deviation equal to the standard error, **0.848**. (ii) Yes, it is very surprising. The observed slope is $5.702/0.848 = 6.72$ standard errors above the center, and 99.7% of a bell-shaped distribution lies within 3 SDs, so a value more than 6 SDs out would essentially never happen by chance if there were no relationship. (iii) The p-value is less than 0.001 (from the table). (iv) There is very strong evidence of a linear relationship between a day's high temperature and the trail volume. (Since the slope is positive, warmer days are associated with more trail users.)
+(f) (i) Shuffling `volume` randomly re-pairs each day's volume with a high temperature, which **breaks** any real relationship. The shuffled PREs show what PRE looks like by chance alone: they are never negative and pile up near 0 (small values). (ii) Yes, it is very surprising. Our observed PRE is about `r round(summary(rt_fit)$r.squared, 2)`, and none of the 1,000 shuffles reached it, so chance alone almost never explains this much variation. (iii) The p-value is about 0 (fewer than 1 in 1,000, so we would report it as less than 0.001). (iv) There is very strong evidence of a relationship between a day's high temperature and the trail volume: temperature explains much more of the variation in volume than we would expect by chance. (Since the slope is positive, warmer days are associated with more trail users.)
 
 ::::
 
 :::: keysol
-(a) The model has 1 degree of freedom, and the total has 89, so the error degrees of freedom are $89 - 1 = 88$. $SSE = SST - SSM = 1{,}445{,}958 - 202{,}863 = 1{,}243{,}095$. The total df is $n - 1 = 89$, so there are $n = 90$ days.
+(a) $SSE = SST - SSM = 1{,}445{,}958 - 202{,}863 = 1{,}243{,}095$. The SSE measures the variation in daily trail volume that is **left over** (not explained by cloud cover): the sum of the squared residuals.
 
 (b) $R^2 = \dfrac{SSM}{SST} = \dfrac{202{,}863}{1{,}445{,}958} = 0.140$. About 14.0% of the variability in daily trail volume is explained by the cloud cover.
 
-(c) $RMSE = \sqrt{SSE/n} = \sqrt{1{,}243{,}095/90} = \sqrt{13{,}812} \approx 117.5$ users. The model's predictions of daily trail volume typically miss by roughly 117 users. (Using $n - 2$ instead of $n$ gives $\approx 118.9$, which is the residual standard error $\hat{\sigma}_\epsilon$, and is also acceptable with a note.)
+(c) $RMSE = \sqrt{SSE/n} = \sqrt{1{,}243{,}095/90} = \sqrt{13{,}812} \approx 117.5$ users. The model's predictions of daily trail volume typically miss by roughly 117 users.
 
 (d) $|r| = \sqrt{R^2} = \sqrt{0.140} \approx 0.375$. The slope is negative, so $r \approx -0.37$ (or $-0.38$).
 
@@ -301,7 +299,7 @@ ggplot(tibble(shuffled), aes(x = shuffled)) +
 ::::
 
 :::: keysol
-**True.** The standard error is $SE_{b_1} = \hat{\sigma}_\epsilon / \sqrt{(n-1)s_X^2}$. If the scatter around the line ($\hat{\sigma}_\epsilon$) and the spread of $x$ ($s_X$) stay about the same, then a larger $n$ makes the denominator larger, so the SE gets smaller. Doubling $n$ divides the SE by about $\sqrt{2} \approx 1.41$, so it gets smaller but is *not* cut in half. (To halve the SE, we would need about four times as much data.)
+**True.** With only 20 observations, a lucky shuffle can easily produce a large PRE, so the shuffled PREs are spread out and reach much larger values. With 200 observations, shuffled PREs stay clustered close to 0. So the same observed PRE of 0.10 sits well inside the null distribution for the small study (large p-value, not convincing) but far out in the tail for the large study (small p-value, convincing). Sample size changes how much evidence a given PRE provides.
 
 ::::
 
@@ -342,7 +340,7 @@ n_levels <- length(unique(rail_trail$hightemp))
 :::: keysol
 **Claim 1 (3 points): Incorrect.** The p-value is the probability of seeing a slope at least this extreme **if the null hypothesis were true**. It is not the probability that the null hypothesis is true. A correct statement: "If there were no relationship between rainfall and volume, we would see a slope this far from 0 only about 2.8% of the time. This is moderate evidence of a relationship."
 
-**Claim 2 (3 points): Incorrect.** Shuffling **breaks** the relationship, so the null distribution is centered at **0**, the value of the slope under $H_0$, not at the observed slope. The observed slope is then compared with that distribution: it is $-112.59/50.23 \approx -2.24$ standard errors from the center. A correct statement: "The shuffled slopes will be centered at 0, with a spread equal to the standard error."
+**Claim 2 (3 points): Incorrect.** Shuffling **breaks** the relationship, so the shuffled PREs show what happens when there is **no** relationship. They pile up near 0 (PRE is never negative), not at the observed PRE of 0.054. The observed PRE is then compared with that distribution: the p-value is the proportion of shuffles with a PRE at least as large as 0.054. A correct statement: "The shuffled PREs will be small and clustered near 0, because shuffling removes any relationship. I will see what share of them are at least as large as my observed PRE."
 
 **Claim 3 (2 points): Incorrect.** A small p-value says the slope is unlikely to be 0 if there were no relationship, so it is evidence of an **association**. It does not show **cause**. The trail days were not randomly assigned a rainfall amount (this is an observational study), so other variables could be involved. For example, rainy days also tend to be cloudier (in these data, `precip` and `cloudcover` are positively correlated), and cloud cover alone could be what keeps people off the trail. A correct statement: "Rainfall is associated with lower trail volume, but this observational study cannot show that rain causes the decrease."
 

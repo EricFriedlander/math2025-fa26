@@ -60,7 +60,7 @@ format:
 
 ::: callout-important
 - Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-11".
-- Go to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743) to get started.
+- Go to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743/assignments/244331) to get started.
 - Upload the `ae-11-spotify-inference.qmd` and `spotify-popular.csv` files into the folder you just created.
 :::
 

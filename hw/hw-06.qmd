@@ -91,7 +91,7 @@ By the end of this homework, you will...
 
 - Use the `hw` folder you made earlier in the semester. Create a subfolder called `hw06` to store this homework.
 
-- Log into [Canvas](https://cofi.instructure.com/courses/18743), navigate to HW-06, and download the `hw-06.qmd` and `spotify-popular.csv` files. Upload them into the folder you just made.
+- Log into [Canvas](https://cofi.instructure.com/courses/18743/assignments/244332), navigate to HW-06, and download the `hw-06.qmd` and `spotify-popular.csv` files. Upload them into the folder you just made.
 
 ## R and RStudio
 
