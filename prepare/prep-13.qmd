@@ -1,0 +1,82 @@
+---
+title: "Preparation for Exam 1"
+---
+
+Exam 1 is in class on **Wednesday, Oct 14**. This page tells you what to expect, how to turn in your work, and what data sets appear on the exam.
+
+## Logistics
+
+-   **Length:** 75 minutes. The exam is worth 100 points.
+-   **Content:** Lectures 0 to 10, the readings, AEs 01 to 10, and HW 01 to 05.
+-   **Allowed:** a calculator and **one handwritten sheet of notes** (front and back). No computers, phones, textbooks, or other notes.
+-   **You will not write any code.** Some questions show R code or R output for you to *read* and *interpret*.
+-   Every calculation can be done with a basic calculator. No tables or software are needed. If a number is needed, the exam gives it to you.
+
+## Format
+
+| Section | Style                                       | Points  |
+|:--------|:--------------------------------------------|:-------:|
+| A       | Multiple choice                             |   26    |
+| B       | Fill in the blank (choose from a word bank) |   12    |
+| C       | Short answer                                |   42    |
+| D       | Evaluate a response                         |   20    |
+| **Total** |                                           | **100** |
+
+In Section D, a (fictional) student has written an analysis. You decide whether each numbered claim is correct or incorrect, and fix the ones that are wrong. Some of these questions are about the two studies you read in Homework 5.
+
+## How the exam will be handed out
+
+You will receive the exam and **blank paper**. This is how to turn it in:
+
+1.  **Write all of your answers on the blank paper, not on the exam.** Label each answer with its question number, for example "C3(b)". The one exception is part C3(d), which you answer directly on a plot printed in the exam.
+2.  Write your **name on every sheet** of paper, including the exam.
+3.  **Number your sheets** (1, 2, 3, ...) in the **bottom right corner**, so I can read them in the right order.
+4.  **Turn in the exam together with your answer sheets.**
+
+## What I am looking for
+
+-   **Show your work.** Partial credit is real, and a correct answer with no work may not receive full credit.
+-   Interpret and explain in complete sentences, and use the **context** of the problem (variable names and units).
+-   Unless told otherwise, rounding to two decimal places is fine.
+
+## Data sets on the exam
+
+Two real data sets appear on the exam. You do not need to know anything about them beyond what is written here and on the exam itself. The other questions use made-up scenarios that are fully described where they appear.
+
+### `alumni`: college alumni salaries
+
+The data come from the PayScale College Salary Report. Each row is **one college**, and there are **572 colleges** in the data. We used this data set in an earlier homework.
+
+| Variable     | Type         | Meaning                                                                                                          |
+|:-------------|:-------------|:-----------------------------------------------------------------------------------------------------------------|
+| `name`       | categorical  | The name of the college.                                                                                         |
+| `state_name` | categorical  | The state the college is in.                                                                                     |
+| `type`       | categorical  | Whether the college is **Private** or **Public**.                                                                |
+| `early`      | quantitative | Typical early-career pay of the college's alumni, in **thousands of dollars**. Ranges from 32.5 to 88.8.        |
+| `mid`        | quantitative | Typical mid-career pay of the college's alumni, in **thousands of dollars**.                                    |
+
+Both pay variables are measured in thousands of dollars, so a value of 52.4 means \$52,400.
+
+### `sp`: species on islands
+
+Each row is **one island** in Southeast Asia, and there are **14 islands** in the data. A student is studying biodiversity on these islands.
+
+| Variable  | Type         | Meaning                                                                                                              |
+|:----------|:-------------|:---------------------------------------------------------------------------------------------------------------------|
+| `Species` | quantitative | The number of unique species found on the island.                                                                    |
+| `area_k`  | quantitative | The island's area, in **thousands of square kilometers**. The largest island is about 743, and the smallest is 0.008. |
+
+## Reading R output
+
+You may see output from R functions that we have used in class. You do not need to run anything, but you should be able to read these:
+
+-   `tidy()` from the `broom` package: a table with one row per coefficient (`term`) and its `estimate`.
+-   `supernova()` from the `supernova` package: an ANOVA table that splits the total variation (Total) into the part explained by the model (Model) and the part left over (Error), and gives the PRE.
+-   `dplyr` code, such as `filter()`, `mutate()`, `group_by()`, and `summarize()`.
+
+## How to prepare
+
+1.  Try to do the "You should be able to..." lists in the [Exam 1 study guide](/slides/12-exam-01-review.qmd) **without looking** at the slides.
+2.  Take the [practice exam](/ae/ae-12-exam01.qmd) under timed conditions, **before** you open the solutions. The practice exam covers the same material, but its sections are arranged a little differently from the real exam.
+3.  Redo the AE and HW questions you struggled with.
+4.  Write your notes sheet **last**. Making it is studying.

@@ -47,6 +47,7 @@ knitr::opts_chunk$set(
 -   **Not allowed:** computers, phones, textbooks, other notes
 -   **Content:** Lectures 0-10, the readings, AEs 01-10, and HW 01-05
 -   **You will not write any code.** You may be asked to *read* a short piece of code or *interpret* R output.
+-   **Answers go on the blank paper** you are handed, with your name on every sheet and the sheets numbered. See the [prepare page](../prepare/prep-13.qmd) for the details and the data sets.
 
 ## Format {.midi}
 
@@ -54,15 +55,15 @@ Four sections. Show your work: partial credit is real.
 
 | Section | Style | What it tests |
 |:--|:--|:--|
-| A | Multiple choice | Quick concept checks |
-| B | Short answer | Interpreting models and R output, computing by hand |
-| C | True/False with justification | Spotting common misconceptions |
+| A | Multiple choice | Quick concept checks, and reading short `dplyr` code |
+| B | Fill in the blank | Key vocabulary, chosen from a word bank |
+| C | Short answer | Interpreting models and R output, computing by hand |
 | D | Evaluate a response | Diagnosing someone else's statistical reasoning |
 
 . . .
 
 -   Every calculation can be done with a basic calculator. You will not need to look anything up in a table: if a critical value or probability is needed, the exam will give it to you.
--   The focus is **understanding**, not memorization or coding.
+-   The focus is **understanding**, not memorization or coding. For Section B, make sure you can match each key term from this guide (for example, confounding variable, null distribution, SSE, empty model) to its definition.
 
 ## How to use this guide {.smaller}
 
