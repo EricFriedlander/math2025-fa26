@@ -359,7 +359,7 @@ Also notice: $SST = SSM + SSE$, so $1000 = 400 + 600$.
 
 ## Other output you might see {.smaller}
 
--   **A residual plot or a scatterplot with a fitted line:** be able to say whether points above/below the line have positive/negative residuals.
+-   **Scatterplot with a fitted line:** be able to say whether points above/below the line have positive/negative residuals.
 -   **A histogram of shuffled statistics with a red line for the observed value:** be able to say roughly what the p-value is (the share of the histogram at least as extreme as the line).
 -   **`dplyr` code with a small data table:** be able to say what rows and columns remain.
 -   **A table of group means:** be able to turn it into a regression equation with a reference level.
