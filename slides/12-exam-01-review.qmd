@@ -65,15 +65,17 @@ Four sections. Show your work: partial credit is real.
 -   Every calculation can be done with a basic calculator. You will not need to look anything up in a table: if a critical value or probability is needed, the exam will give it to you.
 -   The focus is **understanding**, not memorization or coding. For Section B, make sure you can match each key term from this guide (for example, confounding variable, null distribution, SSE, empty model) to its definition.
 
-## How to use this guide {.smaller}
+## How to study {.smaller}
 
 1.  For each topic, try to do the "You should be able to..." list **without looking** at the slides.
 2.  Redo the AE and HW questions you struggled with.
 3.  Take the [practice exam](../ae/ae-12-exam01-practice.qmd) under timed conditions, **before** you look at the solutions.
-4.  Write your notes sheet **last**. Making it is studying, so don't copy someone else's.
+4.  Look at the Exam directions and descriptions of datasets on the exam.
+5.  Write your notes sheet **last**. Making it is studying, so don't copy someone else's.
 
 ::: callout-tip
-The best notes sheets are not a dump of formulas. Include things you *forget*, such as how to interpret a p-value, what "reference level" means, and which direction each formula goes.
+1. If you feel like you won't do well **without** a notesheet, you probably won't do well **with** a note sheet.
+2. The best notes sheets are not a dump of formulas. Include things you *forget*, such as how to interpret a p-value, what "reference level" means, and which direction each formula goes.
 :::
 
 # Topic map
@@ -208,12 +210,13 @@ $$e_i = y_i - \hat{y}_i \qquad \text{(observed } - \text{ predicted)}$$
 -   $\hat{\beta}_1 = r \dfrac{s_y}{s_x}$, so the slope has the **same sign** as the correlation $r$.
 -   The residuals sum to 0.
 -   The residuals are uncorrelated with $x$.
+-   The least squares regression line also minimizes the $SSE$
 
 ::: callout-tip
 You can go from a slope and $\bar{x}, \bar{y}$ to an intercept, or from $r, s_x, s_y$ to a slope, with a calculator. Practice both directions.
 :::
 
-## Partitioning variation (ANOVA) {.smaller}
+## Partitioning variation (ANOVA) and PRE/$R^2$ {.smaller}
 
 $$\underbrace{SST}_{\text{total}} = \underbrace{SSM}_{\text{explained by model}} + \underbrace{SSE}_{\text{left over}}$$
 
@@ -223,9 +226,10 @@ $$\underbrace{SST}_{\text{total}} = \underbrace{SSM}_{\text{explained by model}}
 
 $$R^2 = PRE = \frac{SSM}{SST} = 1 - \frac{SSE}{SST}$$
 
+-   PRE = "Percent reduction in error"
 -   Between 0 and 1, no units.
--   Interpretation: "$R^2 \times 100$% of the variability in **[response]** is explained by **[predictor]**."
--   In simple linear regression, $R^2 = r^2$ (so you can recover $|r|$, but get the **sign** from the slope).
+-   Interpretation: "$R^2 (\text{ aka } PRE) \times 100$% of the variability in **[response]** is explained by **[predictor]**."
+-   In simple linear regression, $R^2 = r^2$ where $r$ is the correlation between your response and explanatory variable.
 
 ## RMSE {.smaller}
 
@@ -319,51 +323,19 @@ The p-value is the probability of getting a statistic **at least as extreme as o
 -   a measure of how big or important the effect is.
 
 A large p-value means "no convincing evidence," **not** "evidence of no relationship."
+
+You should be able to reason about p-values from the null distribution and observed PRE.
 :::
 
-# Reading R output
+## R Output You Might See {.smaller}
 
-## A fake example, start to finish {.smaller}
-
-A study of $n = 25$ days relates ice cream sales (in hundreds of dollars) to temperature (in degrees C). Here is the output:
-
-| term | estimate | p.value |
-|:--|--:|--:|
-| (Intercept) | 12.0 | 0.061 |
-| temp | 3.5 | 0.020 |
-
-| term | sumsq |
-|:--|--:|
-| Model | 400 |
-| Error | 600 |
-| Total | 1000 |
-
-## Reading it {.smaller}
-
-::: columns
-::: {.column width="50%"}
--   **Equation:** $\widehat{\text{sales}} = 12.0 + 3.5 \times \text{temp}$
--   **Prediction** at 20 degrees: $12.0 + 3.5(20) = 82$, or \$8,200.
--   **Slope:** each extra degree is associated with 3.5 more hundred dollars in sales, on average.
-:::
-
-::: {.column width="50%"}
--   **p = 0.020:** moderate evidence of a linear relationship.
--   **$R^2$** $= 400/1000 = 0.40$: 40% of the variability in sales is explained by temperature.
--   **RMSE** $= \sqrt{600/25} = \sqrt{24} \approx 4.9$ hundred dollars.
-:::
-:::
-
-. . .
-
-Also notice: $SST = SSM + SSE$, so $1000 = 400 + 600$.
-
-## Other output you might see {.smaller}
-
--   **Scatterplot with a fitted line:** be able to say whether points above/below the line have positive/negative residuals.
+-   **A scatterplot with a fitted line:** be able to say whether points above/below the line have positive/negative residuals.
+-   **A `tidy()` table of coefficients:** be able to write the fitted equation, make a prediction, and interpret the slope and intercept. For a categorical predictor, the reference level is the level with **no** row.
+-   **A table of group means:** be able to turn it into a regression equation with a reference level (the intercept is the reference mean, and each coefficient is a **difference** from it).
+-   **A jitter plot or boxplots by group:** be able to show how the model is represented (one prediction per group, at the group mean).
+-   **A `supernova()` table:** be able to read $SSM$, $SSE$, and $SST$, fill in a missing entry, find the PRE ($R^2$), and compute the RMSE. Its p-value can be read like a shuffled p-value that uses PRE as the test statistic.
 -   **A histogram of shuffled statistics with a red line for the observed value:** be able to say roughly what the p-value is (the share of the histogram at least as extreme as the line).
--   **`dplyr` code with a small data table:** be able to say what rows and columns remain.
--   **A table of group means:** be able to turn it into a regression equation with a reference level.
+-   **`dplyr` code (`filter`, `mutate`, `group_by` and `summarize`) with a small data table:** be able to say what rows and columns remain.
 
 # Checklist
 
