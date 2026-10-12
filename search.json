@@ -3626,7 +3626,7 @@
     "href": "slides/12-exam-01-review.html#properties-of-least-squares",
     "title": "Exam 1 Study Guide",
     "section": "Properties of least squares",
-    "text": "Properties of least squares\n\nThe line passes through \\((\\bar{x}, \\bar{y})\\), so \\(\\hat{\\beta}_0 = \\bar{y} - \\hat{\\beta}_1 \\bar{x}\\).\n\\(\\hat{\\beta}_1 = r \\dfrac{s_y}{s_x}\\), so the slope has the same sign as the correlation \\(r\\).\nThe residuals sum to 0.\nThe residuals are uncorrelated with \\(x\\).\n\n\n\n\n\n\n\nTip\n\n\nYou can go from a slope and \\(\\bar{x}, \\bar{y}\\) to an intercept, or from \\(r, s_x, s_y\\) to a slope, with a calculator. Practice both directions."
+    "text": "Properties of least squares\n\nThe line passes through \\((\\bar{x}, \\bar{y})\\), so \\(\\hat{\\beta}_0 = \\bar{y} - \\hat{\\beta}_1 \\bar{x}\\).\n\\(\\hat{\\beta}_1 = r \\dfrac{s_y}{s_x}\\), so the slope has the same sign as the correlation \\(r\\).\nThe residuals sum to 0.\nThe residuals are uncorrelated with \\(x\\).\nThe least squares regression line also minimizes the \\(SSE\\)\n\n\n\n\n\n\n\nTip\n\n\nYou can go from a slope and \\(\\bar{x}, \\bar{y}\\) to an intercept, or from \\(r, s_x, s_y\\) to a slope, with a calculator. Practice both directions."
   },
   {
     "objectID": "slides/12-exam-01-review.html#partitioning-variation-anova-and-prer2",
