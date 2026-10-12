@@ -203,8 +203,8 @@ Prof.&nbsp;Eric Friedlander
 </ul>
 </div>
 </section>
-<section id="how-to-use-this-guide" class="slide level2 smaller">
-<h2>How to use this guide</h2>
+<section id="how-to-study" class="slide level2 smaller">
+<h2>How to study</h2>
 <ol type="1">
 <li>For each topic, try to do the “You should be able to…” list <strong>without looking</strong> at the slides.</li>
 <li>Redo the AE and HW questions you struggled with.</li>
@@ -473,8 +473,8 @@ Prof.&nbsp;Eric Friedlander
 </div>
 </div>
 </section>
-<section id="partitioning-variation-anova" class="slide level2 smaller">
-<h2>Partitioning variation (ANOVA)</h2>
+<section id="partitioning-variation-anova-and-prer2" class="slide level2 smaller">
+<h2>Partitioning variation (ANOVA) and PRE/<span class="math inline">\(R^2\)</span></h2>
 <p><span class="math display">\[\underbrace{SST}_{\text{total}} = \underbrace{SSM}_{\text{explained by model}} + \underbrace{SSE}_{\text{left over}}\]</span></p>
 <ul>
 <li><span class="math inline">\(SST = \sum (y_i - \bar{y})^2\)</span> is the <span class="math inline">\(SSE\)</span> of the <strong>empty model</strong>.</li>
@@ -483,9 +483,10 @@ Prof.&nbsp;Eric Friedlander
 </ul>
 <p><span class="math display">\[R^2 = PRE = \frac{SSM}{SST} = 1 - \frac{SSE}{SST}\]</span></p>
 <ul>
+<li>PRE = “Percent reduction in error”</li>
 <li>Between 0 and 1, no units.</li>
-<li>Interpretation: “<span class="math inline">\(R^2 \times 100\)</span>% of the variability in <strong>[response]</strong> is explained by <strong>[predictor]</strong>.”</li>
-<li>In simple linear regression, <span class="math inline">\(R^2 = r^2\)</span> (so you can recover <span class="math inline">\(|r|\)</span>, but get the <strong>sign</strong> from the slope).</li>
+<li>Interpretation: “<span class="math inline">\(R^2 (\text{ aka } PRE) \times 100\)</span>% of the variability in <strong>[response]</strong> is explained by <strong>[predictor]</strong>.”</li>
+<li>In simple linear regression, <span class="math inline">\(R^2 = r^2\)</span> where <span class="math inline">\(r\)</span> is the correlation between your response and explanatory variable.</li>
 </ul>
 </section>
 <section id="rmse" class="slide level2 smaller">

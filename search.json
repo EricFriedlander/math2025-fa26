@@ -3559,11 +3559,11 @@
     "text": "Format\nFour sections. Show your work: partial credit is real.\n\n\n\n\n\n\n\n\nSection\nStyle\nWhat it tests\n\n\n\n\nA\nMultiple choice\nQuick concept checks, and reading short dplyr code\n\n\nB\nFill in the blank\nKey vocabulary, chosen from a word bank\n\n\nC\nShort answer\nInterpreting models and R output, computing by hand\n\n\nD\nEvaluate a response\nDiagnosing someone else’s statistical reasoning\n\n\n\n\n\nEvery calculation can be done with a basic calculator. You will not need to look anything up in a table: if a critical value or probability is needed, the exam will give it to you.\nThe focus is understanding, not memorization or coding. For Section B, make sure you can match each key term from this guide (for example, confounding variable, null distribution, SSE, empty model) to its definition."
   },
   {
-    "objectID": "slides/12-exam-01-review.html#how-to-use-this-guide",
-    "href": "slides/12-exam-01-review.html#how-to-use-this-guide",
+    "objectID": "slides/12-exam-01-review.html#how-to-study",
+    "href": "slides/12-exam-01-review.html#how-to-study",
     "title": "Exam 1 Study Guide",
-    "section": "How to use this guide",
-    "text": "How to use this guide\n\nFor each topic, try to do the “You should be able to…” list without looking at the slides.\nRedo the AE and HW questions you struggled with.\nTake the practice exam under timed conditions, before you look at the solutions.\nLook at the Exam directions and descriptions of datasets on the exam.\nWrite your notes sheet last. Making it is studying, so don’t copy someone else’s.\n\n\n\n\n\n\n\nTip\n\n\n\nIf you feel like you won’t do well without a notesheet, you probably won’t do well with a note sheet.\nThe best notes sheets are not a dump of formulas. Include things you forget, such as how to interpret a p-value, what “reference level” means, and which direction each formula goes."
+    "section": "How to study",
+    "text": "How to study\n\nFor each topic, try to do the “You should be able to…” list without looking at the slides.\nRedo the AE and HW questions you struggled with.\nTake the practice exam under timed conditions, before you look at the solutions.\nLook at the Exam directions and descriptions of datasets on the exam.\nWrite your notes sheet last. Making it is studying, so don’t copy someone else’s.\n\n\n\n\n\n\n\nTip\n\n\n\nIf you feel like you won’t do well without a notesheet, you probably won’t do well with a note sheet.\nThe best notes sheets are not a dump of formulas. Include things you forget, such as how to interpret a p-value, what “reference level” means, and which direction each formula goes."
   },
   {
     "objectID": "slides/12-exam-01-review.html#what-we-covered",
@@ -3629,11 +3629,11 @@
     "text": "Properties of least squares\n\nThe line passes through \\((\\bar{x}, \\bar{y})\\), so \\(\\hat{\\beta}_0 = \\bar{y} - \\hat{\\beta}_1 \\bar{x}\\).\n\\(\\hat{\\beta}_1 = r \\dfrac{s_y}{s_x}\\), so the slope has the same sign as the correlation \\(r\\).\nThe residuals sum to 0.\nThe residuals are uncorrelated with \\(x\\).\n\n\n\n\n\n\n\nTip\n\n\nYou can go from a slope and \\(\\bar{x}, \\bar{y}\\) to an intercept, or from \\(r, s_x, s_y\\) to a slope, with a calculator. Practice both directions."
   },
   {
-    "objectID": "slides/12-exam-01-review.html#partitioning-variation-anova",
-    "href": "slides/12-exam-01-review.html#partitioning-variation-anova",
+    "objectID": "slides/12-exam-01-review.html#partitioning-variation-anova-and-prer2",
+    "href": "slides/12-exam-01-review.html#partitioning-variation-anova-and-prer2",
     "title": "Exam 1 Study Guide",
-    "section": "Partitioning variation (ANOVA)",
-    "text": "Partitioning variation (ANOVA)\n\\[\\underbrace{SST}_{\\text{total}} = \\underbrace{SSM}_{\\text{explained by model}} + \\underbrace{SSE}_{\\text{left over}}\\]\n\n\\(SST = \\sum (y_i - \\bar{y})^2\\) is the \\(SSE\\) of the empty model.\n\\(SSM = SST - SSE\\).\n\\(SSE\\) cannot be bigger than \\(SST\\), so \\(SSM \\geq 0\\).\n\n\\[R^2 = PRE = \\frac{SSM}{SST} = 1 - \\frac{SSE}{SST}\\]\n\nBetween 0 and 1, no units.\nInterpretation: “\\(R^2 \\times 100\\)% of the variability in [response] is explained by [predictor].”\nIn simple linear regression, \\(R^2 = r^2\\) (so you can recover \\(|r|\\), but get the sign from the slope)."
+    "section": "Partitioning variation (ANOVA) and PRE/\\(R^2\\)",
+    "text": "Partitioning variation (ANOVA) and PRE/\\(R^2\\)\n\\[\\underbrace{SST}_{\\text{total}} = \\underbrace{SSM}_{\\text{explained by model}} + \\underbrace{SSE}_{\\text{left over}}\\]\n\n\\(SST = \\sum (y_i - \\bar{y})^2\\) is the \\(SSE\\) of the empty model.\n\\(SSM = SST - SSE\\).\n\\(SSE\\) cannot be bigger than \\(SST\\), so \\(SSM \\geq 0\\).\n\n\\[R^2 = PRE = \\frac{SSM}{SST} = 1 - \\frac{SSE}{SST}\\]\n\nPRE = “Percent reduction in error”\nBetween 0 and 1, no units.\nInterpretation: “\\(R^2 (\\text{ aka } PRE) \\times 100\\)% of the variability in [response] is explained by [predictor].”\nIn simple linear regression, \\(R^2 = r^2\\) where \\(r\\) is the correlation between your response and explanatory variable."
   },
   {
     "objectID": "slides/12-exam-01-review.html#rmse",
