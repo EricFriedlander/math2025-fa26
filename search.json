@@ -3678,25 +3678,11 @@
     "text": "Interpreting a p-value\nThe p-value is the probability of getting a statistic at least as extreme as ours, if the null hypothesis is true.\n\n\n\np-value\nEvidence against \\(H_0\\)\n\n\n\n\n\\(&lt; 0.01\\)\nstrong\n\n\n\\(0.01\\) to \\(0.05\\)\nmoderate\n\n\n\\(0.05\\) to \\(0.1\\)\nweak\n\n\n\\(&gt; 0.1\\)\neffectively none\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\nCommon wrong answers. The p-value is not:\n\nthe probability that \\(H_0\\) is true,\nthe probability that the results happened “by chance,”\na measure of how big or important the effect is.\n\nA large p-value means “no convincing evidence,” not “evidence of no relationship.”\nYou should be able to reason about p-values from the null distribution and observed PRE."
   },
   {
-    "objectID": "slides/12-exam-01-review.html#a-fake-example-start-to-finish",
-    "href": "slides/12-exam-01-review.html#a-fake-example-start-to-finish",
+    "objectID": "slides/12-exam-01-review.html#r-output-you-might-see",
+    "href": "slides/12-exam-01-review.html#r-output-you-might-see",
     "title": "Exam 1 Study Guide",
-    "section": "A fake example, start to finish",
-    "text": "A fake example, start to finish\nA study of \\(n = 25\\) days relates ice cream sales (in hundreds of dollars) to temperature (in degrees C). Here is the output:\n\n\n\nterm\nestimate\np.value\n\n\n\n\n(Intercept)\n12.0\n0.061\n\n\ntemp\n3.5\n0.020\n\n\n\n\n\n\nterm\nsumsq\n\n\n\n\nModel\n400\n\n\nError\n600\n\n\nTotal\n1000"
-  },
-  {
-    "objectID": "slides/12-exam-01-review.html#reading-it",
-    "href": "slides/12-exam-01-review.html#reading-it",
-    "title": "Exam 1 Study Guide",
-    "section": "Reading it",
-    "text": "Reading it\n\n\n\nEquation: \\(\\widehat{\\text{sales}} = 12.0 + 3.5 \\times \\text{temp}\\)\nPrediction at 20 degrees: \\(12.0 + 3.5(20) = 82\\), or $8,200.\nSlope: each extra degree is associated with 3.5 more hundred dollars in sales, on average.\n\n\n\np = 0.020: moderate evidence of a linear relationship.\n\\(R^2\\) \\(= 400/1000 = 0.40\\): 40% of the variability in sales is explained by temperature.\nRMSE \\(= \\sqrt{600/25} = \\sqrt{24} \\approx 4.9\\) hundred dollars.\n\n\n\nAlso notice: \\(SST = SSM + SSE\\), so \\(1000 = 400 + 600\\)."
-  },
-  {
-    "objectID": "slides/12-exam-01-review.html#other-output-you-might-see",
-    "href": "slides/12-exam-01-review.html#other-output-you-might-see",
-    "title": "Exam 1 Study Guide",
-    "section": "Other output you might see",
-    "text": "Other output you might see\n\nScatterplot with a fitted line: be able to say whether points above/below the line have positive/negative residuals.\nA histogram of shuffled statistics with a red line for the observed value: be able to say roughly what the p-value is (the share of the histogram at least as extreme as the line).\ndplyr code with a small data table: be able to say what rows and columns remain.\nA table of group means: be able to turn it into a regression equation with a reference level."
+    "section": "R Output You Might See",
+    "text": "R Output You Might See\n\nA scatterplot with a fitted line: be able to say whether points above/below the line have positive/negative residuals.\nA tidy() table of coefficients: be able to write the fitted equation, make a prediction, and interpret the slope and intercept. For a categorical predictor, the reference level is the level with no row.\nA table of group means: be able to turn it into a regression equation with a reference level (the intercept is the reference mean, and each coefficient is a difference from it).\nA jitter plot or boxplots by group: be able to show how the model is represented (one prediction per group, at the group mean).\nA supernova() table: be able to read \\(SSM\\), \\(SSE\\), and \\(SST\\), fill in a missing entry, find the PRE (\\(R^2\\)), and compute the RMSE. Its p-value can be read like a shuffled p-value that uses PRE as the test statistic.\nA histogram of shuffled statistics with a red line for the observed value: be able to say roughly what the p-value is (the share of the histogram at least as extreme as the line).\ndplyr code (filter, mutate, group_by and summarize) with a small data table: be able to say what rows and columns remain."
   },
   {
     "objectID": "slides/12-exam-01-review.html#concepts",

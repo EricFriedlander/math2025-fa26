@@ -694,86 +694,17 @@ Prof.&nbsp;Eric Friedlander
 </div>
 </div>
 </div>
-</section></section>
-<section>
-<section id="reading-r-output" class="title-slide slide level1 center">
-<h1>Reading R output</h1>
-
 </section>
-<section id="a-fake-example-start-to-finish" class="slide level2 smaller">
-<h2>A fake example, start to finish</h2>
-<p>A study of <span class="math inline">\(n = 25\)</span> days relates ice cream sales (in hundreds of dollars) to temperature (in degrees C). Here is the output:</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;">term</th>
-<th style="text-align: right;">estimate</th>
-<th style="text-align: right;">p.value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">12.0</td>
-<td style="text-align: right;">0.061</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">temp</td>
-<td style="text-align: right;">3.5</td>
-<td style="text-align: right;">0.020</td>
-</tr>
-</tbody>
-</table>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;">term</th>
-<th style="text-align: right;">sumsq</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Model</td>
-<td style="text-align: right;">400</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Error</td>
-<td style="text-align: right;">600</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Total</td>
-<td style="text-align: right;">1000</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="reading-it" class="slide level2 smaller">
-<h2>Reading it</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
+<section id="r-output-you-might-see" class="slide level2 smaller">
+<h2>R Output You Might See</h2>
 <ul>
-<li><strong>Equation:</strong> <span class="math inline">\(\widehat{\text{sales}} = 12.0 + 3.5 \times \text{temp}\)</span></li>
-<li><strong>Prediction</strong> at 20 degrees: <span class="math inline">\(12.0 + 3.5(20) = 82\)</span>, or $8,200.</li>
-<li><strong>Slope:</strong> each extra degree is associated with 3.5 more hundred dollars in sales, on average.</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<ul>
-<li><strong>p = 0.020:</strong> moderate evidence of a linear relationship.</li>
-<li><strong><span class="math inline">\(R^2\)</span></strong> <span class="math inline">\(= 400/1000 = 0.40\)</span>: 40% of the variability in sales is explained by temperature.</li>
-<li><strong>RMSE</strong> <span class="math inline">\(= \sqrt{600/25} = \sqrt{24} \approx 4.9\)</span> hundred dollars.</li>
-</ul>
-</div></div>
-<div class="fragment">
-<p>Also notice: <span class="math inline">\(SST = SSM + SSE\)</span>, so <span class="math inline">\(1000 = 400 + 600\)</span>.</p>
-</div>
-</section>
-<section id="other-output-you-might-see" class="slide level2 smaller">
-<h2>Other output you might see</h2>
-<ul>
-<li><strong>Scatterplot with a fitted line:</strong> be able to say whether points above/below the line have positive/negative residuals.</li>
+<li><strong>A scatterplot with a fitted line:</strong> be able to say whether points above/below the line have positive/negative residuals.</li>
+<li><strong>A <code>tidy()</code> table of coefficients:</strong> be able to write the fitted equation, make a prediction, and interpret the slope and intercept. For a categorical predictor, the reference level is the level with <strong>no</strong> row.</li>
+<li><strong>A table of group means:</strong> be able to turn it into a regression equation with a reference level (the intercept is the reference mean, and each coefficient is a <strong>difference</strong> from it).</li>
+<li><strong>A jitter plot or boxplots by group:</strong> be able to show how the model is represented (one prediction per group, at the group mean).</li>
+<li><strong>A <code>supernova()</code> table:</strong> be able to read <span class="math inline">\(SSM\)</span>, <span class="math inline">\(SSE\)</span>, and <span class="math inline">\(SST\)</span>, fill in a missing entry, find the PRE (<span class="math inline">\(R^2\)</span>), and compute the RMSE. Its p-value can be read like a shuffled p-value that uses PRE as the test statistic.</li>
 <li><strong>A histogram of shuffled statistics with a red line for the observed value:</strong> be able to say roughly what the p-value is (the share of the histogram at least as extreme as the line).</li>
-<li><strong><code>dplyr</code> code with a small data table:</strong> be able to say what rows and columns remain.</li>
-<li><strong>A table of group means:</strong> be able to turn it into a regression equation with a reference level.</li>
+<li><strong><code>dplyr</code> code (<code>filter</code>, <code>mutate</code>, <code>group_by</code> and <code>summarize</code>) with a small data table:</strong> be able to say what rows and columns remain.</li>
 </ul>
 </section></section>
 <section>
