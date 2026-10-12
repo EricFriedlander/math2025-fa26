@@ -3675,7 +3675,7 @@
     "href": "slides/12-exam-01-review.html#interpreting-a-p-value",
     "title": "Exam 1 Study Guide",
     "section": "Interpreting a p-value",
-    "text": "Interpreting a p-value\nThe p-value is the probability of getting a statistic at least as extreme as ours, if the null hypothesis is true.\n\n\n\np-value\nEvidence against \\(H_0\\)\n\n\n\n\n\\(&lt; 0.01\\)\nstrong\n\n\n\\(0.01\\) to \\(0.05\\)\nmoderate\n\n\n\\(0.05\\) to \\(0.1\\)\nweak\n\n\n\\(&gt; 0.1\\)\neffectively none\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\nCommon wrong answers. The p-value is not:\n\nthe probability that \\(H_0\\) is true,\nthe probability that the results happened “by chance,”\na measure of how big or important the effect is.\n\nA large p-value means “no convincing evidence,” not “evidence of no relationship.”"
+    "text": "Interpreting a p-value\nThe p-value is the probability of getting a statistic at least as extreme as ours, if the null hypothesis is true.\n\n\n\np-value\nEvidence against \\(H_0\\)\n\n\n\n\n\\(&lt; 0.01\\)\nstrong\n\n\n\\(0.01\\) to \\(0.05\\)\nmoderate\n\n\n\\(0.05\\) to \\(0.1\\)\nweak\n\n\n\\(&gt; 0.1\\)\neffectively none\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\nCommon wrong answers. The p-value is not:\n\nthe probability that \\(H_0\\) is true,\nthe probability that the results happened “by chance,”\na measure of how big or important the effect is.\n\nA large p-value means “no convincing evidence,” not “evidence of no relationship.”\nYou should be able to reason about p-values from the null distribution and observed PRE."
   },
   {
     "objectID": "slides/12-exam-01-review.html#a-fake-example-start-to-finish",
