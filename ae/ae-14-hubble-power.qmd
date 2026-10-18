@@ -60,8 +60,9 @@ format:
 
 ::: callout-important
 - Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-14".
-- Go to the assignment for this activity in [Canvas]() to get started.
-- Upload the `ae-14-hubble-power.qmd`, `cosmicflows4.csv`, `hubble-1929.csv`, and `hubble-1931.csv` files into the folder you just created.
+- Go to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743/assignments/244586) to get started.
+- Upload the `ae-14-hubble-power.qmd` file into the folder you just created.
+- Create a `data` folder inside it and upload `cosmicflows4.csv`, `hubble-1929.csv`, and `hubble-1931.csv` there (the data files are linked in the Canvas assignment).
 :::
 
 ## Intro: In Hubble's shoes
@@ -85,7 +86,7 @@ Run these chunks first. The last one defines two functions that simulate many st
 ```{r load-cf4}
 #| message: false
 # Cosmicflows-4 galaxy groups within 100 Mpc: a modern catalog of distances and velocities
-cf4 <- read_csv("cosmicflows4.csv") |>
+cf4 <- read_csv(here::here("data/cosmicflows4.csv")) |>
   filter(distance_mpc <= 100, n_galaxies >= 1)
 ```
 
@@ -241,8 +242,8 @@ Now you can look at what Hubble actually found.
 
 ```{r load-data}
 #| message: false
-hubble29 <- read_csv("hubble-1929.csv")
-hubble31 <- read_csv("hubble-1931.csv") |> rename(nebula = cluster)
+hubble29 <- read_csv(here::here("data/hubble-1929.csv"))
+hubble31 <- read_csv(here::here("data/hubble-1931.csv")) |> rename(nebula = cluster)
 
 hubble_both <- bind_rows(hubble29, hubble31)
 ```
