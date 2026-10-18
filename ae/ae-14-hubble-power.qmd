@@ -1,0 +1,279 @@
+---
+title: "AE 14: The Power to Discover an Expanding Universe"
+subtitle: "Cosmicflows-4 and Hubble's original data"
+editor: visual
+format:
+  html:
+    embed-resources: true
+    include-in-header:
+      text: |
+        <style>
+        /* Exercise / answer boxes. Canonical source: style/exercise-boxes.css
+           in the course repo — copy from there if this ever drifts. */
+        body { counter-reset: exercise; }
+        .exercise, .answer {
+          border-left: 4px solid #533860;
+          padding: .6em 1em;
+          margin: 1em 0;
+          border-radius: 4px;
+        }
+        .exercise { background: #f2eef5; }
+        .exercise::before {
+          counter-increment: exercise;
+          content: "Exercise " counter(exercise);
+          display: block;
+          font-weight: 700;
+          color: #533860;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .answer {
+          background: transparent;
+          border-left-color: #a49363;
+          border-left-style: dashed;
+          min-height: 3.5em;
+        }
+        .answer::before {
+          content: "Your answer";
+          display: block;
+          font-weight: 700;
+          color: #8a7a4f;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .quarto-dark .exercise {
+          background: rgba(255, 255, 255, .08);
+          border-left-color: #FFCB70;
+        }
+        .quarto-dark .exercise::before {
+          color: #FFCB70;
+        }
+        .quarto-dark .answer::before {
+          color: #ffd283;
+        }
+        </style>
+---
+
+::: callout-important
+- Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-14".
+- Go to the assignment for this activity in [Canvas]() to get started.
+- Upload the `ae-14-hubble-power.qmd`, `cosmicflows4.csv`, `hubble-1929.csv`, and `hubble-1931.csv` files into the folder you just created.
+:::
+
+## Intro: In Hubble's shoes
+
+It is the 1920s and you are Edwin Hubble. Every point in your dataset costs you a great deal: a spectrum of a faint galaxy photographed through the 100-inch telescope at Mount Wilson takes many hours, often over several nights, and telescope time is scarce. Before you commit years of your life to collecting data, you want to make sure that **you can detect the effect if it exists.**
+
+Your job today is to do a **power analysis**: to decide, *before* collecting data, how many galaxies you need to measure. You will not look at Hubble's real data until the very end.
+
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(ggformula)
+library(broom)
+library(knitr)
+```
+
+## Setup
+
+Run these chunks first. The last one defines two functions that simulate many studies of a given design and count how often the test rejects $H_0$. **You do not need to understand or change this code.**
+
+```{r load-cf4}
+#| message: false
+# Cosmicflows-4 galaxy groups within 100 Mpc: a modern catalog of distances and velocities
+cf4 <- read_csv("cosmicflows4.csv") |>
+  filter(distance_mpc <= 100, n_galaxies >= 1)
+```
+
+```{r power-functions}
+# Estimated power for a study with n galaxies, spread evenly from 0.03 Mpc to max_distance
+hubble_power <- function(n, max_distance, slope, sigma = 175, alpha = 0.05, reps = 1000) {
+  p <- replicate(reps, {
+    d <- runif(n, 0.03, max_distance)
+    v <- slope * d + rnorm(n, 0, sigma)
+    summary(lm(v ~ d))$coefficients[2, 4]
+  })
+  mean(p < alpha)
+}
+
+# Estimated power for a whole list of sample sizes
+power_curve <- function(n_values, max_distance, slope, sigma = 175, alpha = 0.05) {
+  tibble(n = n_values) |>
+    mutate(power = map_dbl(n, \(k) hubble_power(k, max_distance, slope, sigma, alpha, reps = 500)))
+}
+```
+
+## Part 1: What do we need to assume?
+
+We will model the velocity of galaxy $i$ as
+
+$$v_i = \beta_0 + \beta_1 d_i + \epsilon_i, \quad \epsilon_i \sim N(0, \sigma)$$
+
+where $d_i$ is its distance (Mpc) and $v_i$ is its recession velocity (km/s). We will test $H_0: \beta_1 = 0$ (no expansion, just random motions) at $\alpha = 0.05$.
+
+::: exercise
+To compute the power of this test, what do we need to know? Make a list. For each item, say whether *we get to choose it* or *we have to assume it*. Why is the second kind the hard part?
+:::
+
+::: answer
+:::
+
+## Part 2: Was Hubble's sample big enough?
+
+Hubble's 1929 study had **24** galaxies. The 1931 study of Hubble and Humason had **32** data points.
+
+Before making assumptions, let's see what we can learn from a population we already have: the `cf4` galaxy groups (distance in `distance_mpc`, velocity in `velocity_kms`).
+
+::: exercise
+Fit a model predicting `velocity_kms` from `distance_mpc` in `cf4` and save it as `cf4_fit`. Report the estimated slope $\hat{\beta}_1$ and the residual standard deviation $\hat{\sigma}$ (hint: `glance(cf4_fit)$sigma`).
+:::
+
+::: answer
+```{r cf4-fit}
+
+```
+:::
+
+Now treat $\hat{\beta}_1$ and $\hat{\sigma}$ as the truth and estimate the power of studies the same size as Hubble's. Fill in the four values below, delete `#| eval: false`, and run the chunk (it needs your `cf4_fit`).
+
+```{r power-population}
+#| eval: false
+
+# Fill these in
+slope_estimate <- 
+sigma_estimate <-
+sample_size_1929 <-
+sample_size_1931 <-
+
+# Don't change this (max_distance is how far Hubble could reach, in modern Mpc)
+power_1929_pop <- hubble_power(n = sample_size_1929, max_distance = 12,  slope = slope_estimate, sigma = sigma_estimate)
+power_1931_pop <- hubble_power(n = sample_size_1931, max_distance = 100, slope = slope_estimate, sigma = sigma_estimate)
+
+c(power_1929 = power_1929_pop, power_1931 = power_1931_pop)
+```
+
+::: exercise
+Interpret each power in a sentence. Which of the four ingredients (sample size, $\alpha$, variability, size of the slope) explain why the two studies have different power?
+:::
+
+::: answer
+:::
+
+::: exercise
+(Time Permitting) Note that there is a `max_distance` parameter in `hubble_power` function you used above. This represents the maximum distance that Hubble was able to gather galaxies from. Why do you think this is important in the power calculation? There are at least two reasons.
+:::
+
+::: answer
+:::
+
+## Part 3: A power analysis
+
+Now suppose you have not collected any data yet and you can only reach 2 Mpc. How many galaxies do you need?
+
+Remember that Hubble didn't have access to the CF4 data, so he needed to make assumptions based on other information. Here are the assumptions we will use for the rest of the activity. All distances are in **Hubble's 1920s units** (we now know his distance scale was too small, which is why his slopes are hundreds of km/s per Mpc instead of about 70).
+
+- **Significance level:** $\alpha = 0.05$.
+- **Noise:** $\sigma = 175$ km/s. Galaxies have their own motions (about 150 to 200 km/s) and the photographic spectra add measurement error (about 40 km/s).
+- **Reach:** the telescope can reach galaxies out to **2 Mpc**.
+- **Distances:** assume the galaxies you measure are spread evenly across the reach.
+
+The big unknown is the **true slope** $\beta_1$. Here are three principled guesses to try:
+
+| Prior | Slope (km/s per Mpc) | Where it comes from |
+|:-----------------------|:-----------------------|:-----------------------|
+| Optimistic | 575 | Lemaitre's 1927 estimate, made from Slipher's velocities and early distances |
+| Plausible | 450 | Slipher's average unexplained recession of the nebulae |
+| Conservative | 100 | A smaller slope, still on the same order of magnitude of Slipher and Lemaitre's estimates but made smaller to account for the possibility of over-estimation. |
+
+::: exercise
+Choose the slope you will start with (one of the three, or your own with a justification). Why did you choose it? What do you risk if the true slope is smaller than the one you chose?
+:::
+
+::: answer
+:::
+
+::: exercise
+Choose a **target power** (for example 80%, 90%, or 95%). Justify it: what does a Type II error cost you here (years of work, a missed discovery)? What does collecting more data cost?
+:::
+
+::: answer
+:::
+
+Run the chunk below with your slope and target power. Edit the list of sample sizes until the curve crosses your target power.
+
+```{r power-analysis}
+my_slope  <- 450                       # <- change me (try 575, 450, 100)
+my_target <- 0.90                      # <- change me
+my_n      <- c(5, 10, 20, 40, 60, 80)  # <- change me
+
+curve <- power_curve(my_n, max_distance = 2, slope = my_slope)
+
+curve |> kable()
+
+gf_line(power ~ n, data = curve, linewidth = 1.2, color = "#533860") |>
+  gf_point(size = 3, color = "#533860") |>
+  gf_hline(yintercept = my_target, linetype = "dashed", color = "#d53a19") |>
+  gf_labs(x = "Sample size", y = "Estimated power") |>
+  gf_lims(y = c(0, 1))
+```
+
+::: exercise
+What is the smallest sample size you tried that reaches your target power? Compare with Hubble's actual 24 galaxies and with your neighbors' answers.
+:::
+
+::: answer
+:::
+
+::: exercise
+Rerun with a different slope (try all three priors). How does the sample size you need depend on the slope you assume? What would you do if you were unsure which slope was right?
+:::
+
+::: answer
+:::
+
+## Part 4: If you finish early, Hubble's real data
+
+Now you can look at what Hubble actually found.
+
+```{r load-data}
+#| message: false
+hubble29 <- read_csv("hubble-1929.csv")
+hubble31 <- read_csv("hubble-1931.csv") |> rename(nebula = cluster)
+
+hubble_both <- bind_rows(hubble29, hubble31)
+```
+
+::: exercise
+Fit `velocity_kms ~ distance_mpc` to `hubble29` and then to `hubble_both`. Report the slope and p-value of each. Did Hubble detect the relationship?
+:::
+
+::: answer
+```{r fit-hubble}
+
+```
+:::
+
+::: exercise
+How do Hubble's slopes compare with the three priors? Was your chosen prior close to what he found? (His distances were about 6 times too small, so his slope was about 6 times too large.)
+:::
+
+::: answer
+:::
+
+::: exercise
+Why is it a bad idea to estimate power by plugging in the slope from the data you already collected?
+:::
+
+::: answer
+:::
+
+::: callout-important
+To submit the AE:
+
+- Render the document to produce the HTML with all of your work from today's class.
+- Upload your .qmd and .html files to the Canvas assignment.
+:::

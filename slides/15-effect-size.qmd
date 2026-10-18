@@ -1,0 +1,265 @@
+---
+title: "Effect Size"
+subtitle: "Is it real? Is it big?"
+author: "Prof. Eric Friedlander"
+footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/)"
+logo: "../images/logo.png"
+format:
+  revealjs:
+    theme: slides.scss
+    multiplex: false
+    transition: fade
+    slide-number: false
+    incremental: false
+    chalkboard: true
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+execute:
+  freeze: auto
+  echo: true
+  cache: false
+knitr:
+  opts_chunk:
+    R.options:
+    width: 200
+bibliography: references.bib
+---
+
+```{r setup}
+#| include: false
+
+library(countdown)
+
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.618,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+
+# load packages
+library(tidyverse)   # for data wrangling and visualization
+library(ggformula)   # for plotting using formulas
+library(broom)       # for formatting model output
+library(scales)      # for pretty axis labels
+library(knitr)       # for pretty tables
+library(kableExtra)  # also for pretty tables
+library(coursekata)  # for shuffle(), resample(), do(), b1(), tally()
+
+# Spotify data: popular songs (track_popularity >= 80)
+spotify <- read_csv(here::here("data/spotify-popular.csv")) |>
+  mutate(duration_min = duration_ms / 60000)
+
+
+
+spotify_fit <- lm(danceability ~ duration_min, data = spotify)
+
+# set default theme and larger font size for ggplot2
+ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
+```
+
+## Where we are {.smaller}
+
+Last time we saw that **power** depends on the size of the slope relative to the noise. Today:
+
+1. **Effect size:** how big is a relationship, not just whether it is detectable?
+2. Comparing predictors, and how effect size connects back to power.
+
+# Effect size
+
+## Statistically detectable. So what? {.smaller}
+
+```{r}
+#| echo: false
+fit_summary <- glance(spotify_fit)
+```
+
+For duration, the p-value is `r signif(tidy(spotify_fit)$p.value[2], 2)`: strong evidence of a relationship.
+
+```{r}
+#| echo: false
+#| out.width: "55%"
+
+gf_point(danceability ~ duration_min, data = spotify, alpha = 0.4) |>
+  gf_lm(color = "#d53a19", linewidth = 1.2) |>
+  gf_labs(x = "Duration (minutes)", y = "Danceability")
+```
+
+::: question
+Looking at the picture, how useful is duration for predicting danceability? How much of the variation does it explain?
+:::
+
+## Detectable is not the same as big {.smaller}
+
+```{r}
+spotify_fit |> glance() |> select(r.squared, p.value, nobs) |> kable(digits = 4)
+```
+
+- $R^2 =$ `r round(fit_summary$r.squared, 3)`: duration explains about **`r percent(fit_summary$r.squared, accuracy = 0.1)`** of the variation in danceability (the same quantity as PRE).
+- Yet the p-value is tiny. Why? Because we have `r nrow(spotify)` songs.
+
+. . .
+
+- **Statistical significance** answers: *is there evidence of any relationship at all?*
+- **Effect size** answers: *how big is the relationship, compared to the variability in the data?*
+
+## What is an effect size? {.smaller}
+
+An **effect size** measures how big a relationship is **relative to the noise** in the data.
+
+- It does **not** depend on the sample size (other than ordinary sampling variability).
+- The p-value **does** depend on the sample size: more data pushes p-values down, even when the effect is tiny.
+
+Two measures you can already compute:
+
+| Situation | Effect size | Meaning |
+|:---|:---|:---|
+| Quantitative predictor | $R^2$ (PRE) | Fraction of variation in $Y$ explained |
+| Two groups | Cohen's $d = \dfrac{\bar{y}_1 - \bar{y}_2}{s_{pooled}}$ | Difference in means, in SD units |
+
+- Warning: the **noise** or **sd** we refer to is of the data not the sampling distribution (i.e. not the standard error)
+
+## A Warning On Effect Size
+
+Different communities the use statistics can frequently mean different things when they say **effect size**:
+
+- Everyone usually means "Is the size of my coefficient large?" (in this case the raw slope would be considered a measure of effect size)
+- Most statisticians mean "Is the size of my coefficient large compared to my variation?" (This is the definition we will use in class)
+  - Note that this definitions requires two things: a measure of the raw size and a measure of the variability
+
+. . .
+
+::: question
+How does $R^2$ include both of these measure in it?
+:::
+
+## Cohen's $d$ for two groups {.smaller}
+
+Songs in a major key (`mode = 1`) vs. a minor key (`mode = 0`):
+
+```{r}
+#| echo: false
+#| out.width: "55%"
+
+spotify <- spotify |>
+  mutate(key_type = if_else(mode == 1, "Major", "Minor"))
+
+gf_boxplot(danceability ~ key_type, data = spotify, fill = "grey80") |>
+  gf_labs(x = "", y = "Danceability")
+```
+
+```{r}
+#| echo: false
+grp <- spotify |>
+  group_by(key_type) |>
+  summarize(m = mean(danceability), s = sd(danceability), n = n())
+s_pooled <- sqrt(sum((grp$n - 1) * grp$s^2) / (sum(grp$n) - 2))
+d <- (grp$m[grp$key_type == "Major"] - grp$m[grp$key_type == "Minor"]) / s_pooled
+```
+
+Major keys average `r round(abs(grp$m[1] - grp$m[2]), 3)` units `r if_else(d < 0, "lower", "higher")` in danceability: $d \approx$ `r round(d, 2)`, about a third of an SD.
+
+## Practice
+
+
+For each of the following questions, tell me whether you should answer it using a p-value, an effect size, or both:
+
+1. Is there convincing evidence that the key a song is in explains any of the variation in a songs danceability?
+2. Do I sell more cups of coffee in the park or in the business district?
+3. Is the increase in the number of cups of coffee I sell meaningful?
+4. Is the type of music an important predictor in the number of cups of coffee I sell?
+5. How price sensitive are coffee consumers?
+
+## Rules of thumb {.smaller}
+
+- There are general guidelines for what makes a large effect size (you can google them). 
+- **What counts as a meaningful effect depends on the problem.** So I will not present them.
+
+## Comparing predictors {.smaller}
+
+Each AE 11 group used a different predictor of `danceability`:
+
+```{r}
+#| echo: false
+
+predictors <- c("energy", "loudness", "valence", "tempo", "acousticness", "liveness")
+
+map_dfr(predictors, \(v) {
+  fit <- lm(reformulate(v, "danceability"), data = spotify)
+  tibble(
+    predictor = v,
+    r.squared = glance(fit)$r.squared,
+    p.value = tidy(fit)$p.value[2]
+  )
+}) |>
+  arrange(desc(r.squared)) |>
+  kable(digits = c(0, 3, 4))
+```
+
+::: question
+Match these $R^2$ values to the power curves we just saw. Will increasing effect size always decrease the p-value?
+:::
+
+## Effect size matters too {.smaller}
+
+```{r}
+#| echo: false
+
+power_at_v <- function(n, v, reps = 300) {
+  p <- replicate(reps, {
+    fit <- lm(reformulate(v, "danceability"), data = resample(spotify, n))
+    tidy(fit)$p.value[2]
+  })
+  mean(p < 0.05)
+}
+
+set.seed(2026)
+power_by_pred <- expand_grid(n = c(25, 50, 100, 200, 400),
+                             predictor = c("valence", "duration_min", "energy")) |>
+  mutate(power = map2_dbl(n, predictor, power_at_v))
+```
+
+```{r}
+#| echo: false
+#| out.width: "65%"
+
+gf_line(power ~ n, data = power_by_pred, color = ~ predictor, linewidth = 1.2) |>
+  gf_hline(yintercept = 0.8, linetype = "dashed") |>
+  gf_labs(x = "Sample size", y = "Estimated power", color = "Predictor") |>
+  gf_lims(y = c(0, 1))
+```
+
+::: question
+Same songs, same sample sizes. Why does one predictor reach 80% power with so few songs while another needs far more?
+:::
+
+. . .
+
+Because the relationships differ in **effect size**. So what is an effect size?
+
+
+
+## Activity {.smaller}
+
+::: appex
+📋 [AE 15 - Effect Size and Power](https://ericfriedlander.github.io/math2025-fa26/ae/ae-15-effect-size-power.html)
+:::
+
+- Stay in your AE 11 groups and keep your AE 11 predictor.
+- Compute the effect size of your model and compare with other groups.
+- Estimate the power of your test at several sample sizes.
+
+```{r}
+#| echo: false
+countdown(minutes = 20)
+```
+
+## Recap {.smaller}
+
+- A small p-value says a relationship is **detectable**. It doesn't say the relationship is **big**.
+- **Effect size** ($R^2$, Cohen's $d$) measures how big a relationship is relative to the noise, and doesn't grow with $n$. What counts as meaningful depends on context.
+- **Power** is the probability of detecting a real effect. It increases with sample size and effect size.
+- With a huge sample, ask whether the effect matters. With a small sample, remember that failing to reject $H_0$ is not proof of no relationship.
