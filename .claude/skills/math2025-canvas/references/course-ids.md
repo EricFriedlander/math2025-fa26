@@ -124,3 +124,11 @@ for m in course.get_modules():
 ```
 
 Run from `~/.claude/skills/canvas-course-editor` with `pixi run python -c "..."`.
+
+
+## Lecture 14 (added 2026-10-18)
+
+- Module `79970` (position 16), Slides + AE-14, unpublished.
+- Assignment `244586` AE-14: The Power to Discover an Expanding Universe, 10 pts, due 2026-10-21T16:50:00Z, unpublished.
+- Data files: `1799589` cosmicflows4.csv, `1799590` hubble-1929.csv, `1799591` hubble-1931.csv.
+- Next lecture module goes at position 17.

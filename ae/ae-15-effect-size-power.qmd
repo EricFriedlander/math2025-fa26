@@ -86,7 +86,7 @@ library(coursekata)  # for resample(), do(), tally()
 
 ```{r load-data}
 #| message: false
-spotify <- read_csv("spotify-popular.csv")
+spotify <- read_csv(here::here("data/spotify-popular.csv"))
 ```
 
 ### Predictor assignment
@@ -117,7 +117,6 @@ Interpret $R^2$ as an **effect size**: what percent of the variation in `danceab
 :::
 
 ::: answer
-
 :::
 
 ::: exercise
@@ -129,7 +128,6 @@ c.  Would you rather use a predictor with a tiny but detectable effect or a larg
 :::
 
 ::: answer
-
 :::
 
 ## Part 2: Power
@@ -174,7 +172,6 @@ Based on your results, about how many songs would you need to have **80% power**
 :::
 
 ::: answer
-
 :::
 
 ## Part 3: Reflection
@@ -188,7 +185,6 @@ c.  Suppose instead they had tested 12,000 students and found a p-value of 0.001
 :::
 
 ::: answer
-
 :::
 
 ::: callout-important
