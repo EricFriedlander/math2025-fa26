@@ -110,6 +110,90 @@
     ]
   },
   {
+    "objectID": "slides/15-effect-size.html#where-we-are",
+    "href": "slides/15-effect-size.html#where-we-are",
+    "title": "Effect Size",
+    "section": "Where we are",
+    "text": "Where we are\nLast time we saw that power depends on the size of the slope relative to the noise. Today:\n\nEffect size: how big is a relationship, not just whether it is detectable?\nComparing predictors, and how effect size connects back to power."
+  },
+  {
+    "objectID": "slides/15-effect-size.html#statistically-detectable.-so-what",
+    "href": "slides/15-effect-size.html#statistically-detectable.-so-what",
+    "title": "Effect Size",
+    "section": "Statistically detectable. So what?",
+    "text": "Statistically detectable. So what?\nFor duration, the p-value is 0.0017: strong evidence of a relationship.\n\n\nLooking at the picture, how useful is duration for predicting danceability? How much of the variation does it explain?"
+  },
+  {
+    "objectID": "slides/15-effect-size.html#detectable-is-not-the-same-as-big",
+    "href": "slides/15-effect-size.html#detectable-is-not-the-same-as-big",
+    "title": "Effect Size",
+    "section": "Detectable is not the same as big",
+    "text": "Detectable is not the same as big\n\nspotify_fit |&gt; glance() |&gt; select(r.squared, p.value, nobs) |&gt; kable(digits = 4)\n\n\n\n\nr.squared\np.value\nnobs\n\n\n\n\n0.0192\n0.0017\n508\n\n\n\n\n\n\n\\(R^2 =\\) 0.019: duration explains about 1.9% of the variation in danceability (the same quantity as PRE).\nYet the p-value is tiny. Why? Because we have 508 songs.\n\n\n\nStatistical significance answers: is there evidence of any relationship at all?\nEffect size answers: how big is the relationship, compared to the variability in the data?"
+  },
+  {
+    "objectID": "slides/15-effect-size.html#what-is-an-effect-size",
+    "href": "slides/15-effect-size.html#what-is-an-effect-size",
+    "title": "Effect Size",
+    "section": "What is an effect size?",
+    "text": "What is an effect size?\nAn effect size measures how big a relationship is relative to the noise in the data.\n\nIt does not depend on the sample size (other than ordinary sampling variability).\nThe p-value does depend on the sample size: more data pushes p-values down, even when the effect is tiny.\n\nTwo measures you can already compute:\n\n\n\n\n\n\n\n\nSituation\nEffect size\nMeaning\n\n\n\n\nQuantitative predictor\n\\(R^2\\) (PRE)\nFraction of variation in \\(Y\\) explained\n\n\nTwo groups\nCohen’s \\(d = \\dfrac{\\bar{y}_1 - \\bar{y}_2}{s_{pooled}}\\)\nDifference in means, in SD units\n\n\n\n\nWarning: the noise or sd we refer to is of the data not the sampling distribution (i.e. not the standard error)"
+  },
+  {
+    "objectID": "slides/15-effect-size.html#a-warning-on-effect-size",
+    "href": "slides/15-effect-size.html#a-warning-on-effect-size",
+    "title": "Effect Size",
+    "section": "A Warning On Effect Size",
+    "text": "A Warning On Effect Size\nDifferent communities the use statistics can frequently mean different things when they say effect size:\n\nEveryone usually means “Is the size of my coefficient large?” (in this case the raw slope would be considered a measure of effect size)\nMost statisticians mean “Is the size of my coefficient large compared to my variation?” (This is the definition we will use in class)\n\nNote that this definitions requires two things: a measure of the raw size and a measure of the variability\n\n\n\n\nHow does \\(R^2\\) include both of these measure in it?"
+  },
+  {
+    "objectID": "slides/15-effect-size.html#cohens-d-for-two-groups",
+    "href": "slides/15-effect-size.html#cohens-d-for-two-groups",
+    "title": "Effect Size",
+    "section": "Cohen’s \\(d\\) for two groups",
+    "text": "Cohen’s \\(d\\) for two groups\nSongs in a major key (mode = 1) vs. a minor key (mode = 0):\n\nMajor keys average 0.048 units lower in danceability: \\(d \\approx\\) -0.37, about a third of an SD."
+  },
+  {
+    "objectID": "slides/15-effect-size.html#practice",
+    "href": "slides/15-effect-size.html#practice",
+    "title": "Effect Size",
+    "section": "Practice",
+    "text": "Practice\nFor each of the following questions, tell me whether you should answer it using a p-value, an effect size, or both:\n\nIs there convincing evidence that the key a song is in explains any of the variation in a songs danceability?\nDo I sell more cups of coffee in the park or in the business district?\nIs the increase in the number of cups of coffee I sell meaningful?\nIs the type of music an important predictor in the number of cups of coffee I sell?\nHow price sensitive are coffee consumers?"
+  },
+  {
+    "objectID": "slides/15-effect-size.html#rules-of-thumb",
+    "href": "slides/15-effect-size.html#rules-of-thumb",
+    "title": "Effect Size",
+    "section": "Rules of thumb",
+    "text": "Rules of thumb\n\nThere are general guidelines for what makes a large effect size (you can google them).\nWhat counts as a meaningful effect depends on the problem. So I will not present them."
+  },
+  {
+    "objectID": "slides/15-effect-size.html#comparing-predictors",
+    "href": "slides/15-effect-size.html#comparing-predictors",
+    "title": "Effect Size",
+    "section": "Comparing predictors",
+    "text": "Comparing predictors\nEach AE 11 group used a different predictor of danceability:\n\n\n\n\n\npredictor\nr.squared\np.value\n\n\n\n\nvalence\n0.139\n0.0000\n\n\nacousticness\n0.030\n0.0001\n\n\ntempo\n0.022\n0.0008\n\n\nloudness\n0.017\n0.0036\n\n\nliveness\n0.007\n0.0616\n\n\nenergy\n0.002\n0.3299\n\n\n\n\n\n\nMatch these \\(R^2\\) values to the power curves we just saw. Will increasing effect size always decrease the p-value?"
+  },
+  {
+    "objectID": "slides/15-effect-size.html#effect-size-matters-too",
+    "href": "slides/15-effect-size.html#effect-size-matters-too",
+    "title": "Effect Size",
+    "section": "Effect size matters too",
+    "text": "Effect size matters too\n\n\nSame songs, same sample sizes. Why does one predictor reach 80% power with so few songs while another needs far more?\n\n\nBecause the relationships differ in effect size. So what is an effect size?"
+  },
+  {
+    "objectID": "slides/15-effect-size.html#activity",
+    "href": "slides/15-effect-size.html#activity",
+    "title": "Effect Size",
+    "section": "Activity",
+    "text": "Activity\n\n📋 AE 15 - Effect Size and Power\n\n\nStay in your AE 11 groups and keep your AE 11 predictor.\nCompute the effect size of your model and compare with other groups.\nEstimate the power of your test at several sample sizes."
+  },
+  {
+    "objectID": "slides/15-effect-size.html#recap",
+    "href": "slides/15-effect-size.html#recap",
+    "title": "Effect Size",
+    "section": "Recap",
+    "text": "Recap\n\nA small p-value says a relationship is detectable. It doesn’t say the relationship is big.\nEffect size (\\(R^2\\), Cohen’s \\(d\\)) measures how big a relationship is relative to the noise, and doesn’t grow with \\(n\\). What counts as meaningful depends on context.\nPower is the probability of detecting a real effect. It increases with sample size and effect size.\nWith a huge sample, ask whether the effect matters. With a small sample, remember that failing to reject \\(H_0\\) is not proof of no relationship."
+  },
+  {
     "objectID": "slides/13-slr-inference-math copy.html#last-time",
     "href": "slides/13-slr-inference-math copy.html#last-time",
     "title": "Hypothesis Tests and Confidence Intervals for the Slope",
@@ -1423,7 +1507,7 @@
     "href": "index.html",
     "title": "Schedule",
     "section": "",
-    "text": "This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses, with all changes documented here.\n\n\n\n\nLecture\nDOW\nDate\nTopic\nPrepare\nSlides\nAE\nHW\nProject\nNotes\n\n\n\n\n0\nW\nAug 26\nWelcome to MATH 2025!\n\n\n\n\n\nWelcome!\n\n\n1\nM\nAug 31\nGetting Started with R & Quarto\n\n\n\n\n\nOur first AE!\n\n\n2\nW\nSep 2\nExploratory Data Analysis\n\n\n\n\n\n\n\n\n\nM\nSep 7\nNo Class - Labor Day\n\n\n\n\n\nLabor Day - No Classes\n\n\n3\nW\nSep 9\nData Cleaning\n\n\n\n\n\nHW 1 Due\n\n\n4\nM\nSep 14\nIntroduction to Simple Linear Regression\n\n\n\n\n\n\n\n\n5\nW\nSep 16\nCategorical Predictors\n\n\n\n\n\nHW 2 Due\n\n\n6\nM\nSep 21\nResiduals & Least Squares\n\n\n\n\n\n\n\n\n7\nW\nSep 23\nModel Evaluation\n\n\n\n\n\nHW 3 Due\n\n\n8\nM\nSep 28\nStudy Design, Sampling & the Islands\n\n\n\n\n\n\n\n\n9\nW\nSep 30\nCollecting Data on the Islands\n\n\n\n\n\nHW 4 Due\n\n\n10\nM\nOct 5\nIntro to Inference\n\n\n\n\n\n\n\n\n11\nW\nOct 7\nHypothesis Testing and Confidence Intervals\n\n\n\n\n\nHW 5 Due\n\n\n12\nM\nOct 12\nExam 1 Review\n\n\n\n\n\n\n\n\n13\nW\nOct 14\nExam 1",
+    "text": "This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses, with all changes documented here.\n\n\n\n\nLecture\nDOW\nDate\nTopic\nPrepare\nSlides\nAE\nHW\nProject\nNotes\n\n\n\n\n0\nW\nAug 26\nWelcome to MATH 2025!\n\n\n\n\n\nWelcome!\n\n\n1\nM\nAug 31\nGetting Started with R & Quarto\n\n\n\n\n\nOur first AE!\n\n\n2\nW\nSep 2\nExploratory Data Analysis\n\n\n\n\n\n\n\n\n\nM\nSep 7\nNo Class - Labor Day\n\n\n\n\n\nLabor Day - No Classes\n\n\n3\nW\nSep 9\nData Cleaning\n\n\n\n\n\nHW 1 Due\n\n\n4\nM\nSep 14\nIntroduction to Simple Linear Regression\n\n\n\n\n\n\n\n\n5\nW\nSep 16\nCategorical Predictors\n\n\n\n\n\nHW 2 Due\n\n\n6\nM\nSep 21\nResiduals & Least Squares\n\n\n\n\n\n\n\n\n7\nW\nSep 23\nModel Evaluation\n\n\n\n\n\nHW 3 Due\n\n\n8\nM\nSep 28\nStudy Design, Sampling & the Islands\n\n\n\n\n\n\n\n\n9\nW\nSep 30\nCollecting Data on the Islands\n\n\n\n\n\nHW 4 Due\n\n\n10\nM\nOct 5\nIntro to Inference\n\n\n\n\n\n\n\n\n11\nW\nOct 7\nHypothesis Testing and Confidence Intervals\n\n\n\n\n\nHW 5 Due\n\n\n12\nM\nOct 12\nExam 1 Review\n\n\n\n\n\n\n\n\n13\nW\nOct 14\nExam 1\n\n\n\n\n\n\n\n\n14\nM\nOct 19\nDecisions, Errors, and Power\n\n\n\n\n\nFinish AE 11\n\n\n15\nW\nOct 21\nEffect Size\n\n\n\n\n\nHomework 6 Due",
     "crumbs": [
       "Schedule"
     ]
@@ -1641,6 +1725,48 @@
       "Computing",
       "R Resources"
     ]
+  },
+  {
+    "objectID": "ae/ae-15-effect-size-power.html",
+    "href": "ae/ae-15-effect-size-power.html",
+    "title": "AE 15: Effect Size and Power",
+    "section": "",
+    "text": "Important\n\n\n\n\nOpen RStudio and create a subfolder in your AE folder called “AE-15”.\nGo to the assignment for this activity in Canvas to get started.\nUpload the ae-15-effect-size-power.qmd and spotify-popular.csv files into the folder you just created."
+  },
+  {
+    "objectID": "ae/ae-15-effect-size-power.html#intro",
+    "href": "ae/ae-15-effect-size-power.html#intro",
+    "title": "AE 15: Effect Size and Power",
+    "section": "Intro",
+    "text": "Intro\nIn AE 11 you tested whether a song characteristic is related to danceability. A small p-value tells us a relationship is detectable, but not whether it is big, and not whether we would have detected it with a different amount of data. Today we answer both questions for the same Spotify data:\n\nMeasure the effect size of your predictor.\nEstimate the power of your test at different sample sizes."
+  },
+  {
+    "objectID": "ae/ae-15-effect-size-power.html#data",
+    "href": "ae/ae-15-effect-size-power.html#data",
+    "title": "AE 15: Effect Size and Power",
+    "section": "Data",
+    "text": "Data\nWe use the same data as AE 11: some of the most popular songs on Spotify (those with track_popularity &gt;= 80), with danceability as the response. See AE 11 for the full variable descriptions.\n\nlibrary(tidyverse)\nlibrary(ggformula)\nlibrary(broom)\nlibrary(knitr)\nlibrary(coursekata)  # for resample(), do(), tally()\n\n\nspotify &lt;- read_csv(here::here(\"data/spotify-popular.csv\"))\n\n\nPredictor assignment\nUse the same group and predictor as AE 11.\n\nGroup 1: energy\nGroup 2: loudness\nGroup 3: valence\nGroup 4: tempo\nGroup 5: acousticness\nGroup 6: liveness"
+  },
+  {
+    "objectID": "ae/ae-15-effect-size-power.html#part-1-effect-size",
+    "href": "ae/ae-15-effect-size-power.html#part-1-effect-size",
+    "title": "AE 15: Effect Size and Power",
+    "section": "Part 1: Effect size",
+    "text": "Part 1: Effect size\n\nFit the model predicting danceability from your explanatory variable and save it as spotify_fit. Use glance() to find \\(R^2\\) and the p-value for the model. (Hint: spotify_fit |&gt; glance(). The model’s p-value is the same as the slope’s.)\n\n\n\n\n\nInterpret \\(R^2\\) as an effect size: what percent of the variation in danceability does your predictor explain? Using the guideline that \\(R^2 \\approx 0.01\\) is small, \\(0.09\\) is medium, and \\(0.25\\) is large, how big is your effect? Write your predictor, \\(R^2\\), and p-value on the whiteboard.\n\n\n\n\n\nOnce every group has reported, compare the board.\n\nWhich predictors are statistically detectable (p &lt; 0.05)? Which have a meaningful effect size?\nIs there a predictor that is detectable but has a tiny effect? Explain how that is possible when the sample size is 508.\nWould you rather use a predictor with a tiny but detectable effect or a large effect to build a danceable playlist? Why?"
+  },
+  {
+    "objectID": "ae/ae-15-effect-size-power.html#part-2-power",
+    "href": "ae/ae-15-effect-size-power.html#part-2-power",
+    "title": "AE 15: Effect Size and Power",
+    "section": "Part 2: Power",
+    "text": "Part 2: Power\nWe will treat our songs as the “population” and take repeated resamples of a fixed size, run the test on each, and count how often we detect the relationship (p &lt; 0.05). The proportion detected is an estimate of the test’s power at that sample size.\n\nRun the code below, replacing energy with your predictor. What is the estimated power when we only have n = 30 songs? Interpret it in a sentence.\n\nset.seed(2026)\n\npower_sim &lt;- do(1000) * (\n  lm(danceability ~ energy, data = resample(spotify, 30)) |&gt;\n    tidy() |&gt;\n    filter(term == \"energy\")\n)\n\ntally(~ (p.value &lt; 0.05), data = power_sim, format = \"proportion\")\n\n\n\n\n\n\nRepeat Exercise 4 for at least three other sample sizes (for example 60, 120, and 250), then record the estimated power for each, including n = 30, in a table or a plot of power vs. sample size. (Hint: copy the code and change 30. If you are comfortable with functions, you can write one that takes n as an argument.)\n\n\n\n\n\nBased on your results, about how many songs would you need to have 80% power to detect the effect of your predictor? Compare with other groups. Why do the groups get such different answers?"
+  },
+  {
+    "objectID": "ae/ae-15-effect-size-power.html#part-3-reflection",
+    "href": "ae/ae-15-effect-size-power.html#part-3-reflection",
+    "title": "AE 15: Effect Size and Power",
+    "section": "Part 3: Reflection",
+    "text": "Part 3: Reflection\n\nA researcher tests a new teaching method on 12 students and finds a p-value of 0.30. They conclude, “The method has no effect.”\n\nWhat is wrong with this conclusion?\nHow could a power analysis have helped them before the study began?\nSuppose instead they had tested 12,000 students and found a p-value of 0.001 for a 0.3-point increase on a 100-point exam. What would you say about the statistical significance and the practical significance?\n\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTo submit the AE:\n\nRender the document to produce the HTML with all of your work from today’s class.\nUpload your .qmd and .html files to the Canvas assignment."
   },
   {
     "objectID": "ae/ae-12-exam01.html",
@@ -2059,6 +2185,55 @@
     "title": "AE 12: Exam 1 Practice Exam",
     "section": "Section D: Evaluate a Response (20 points)",
     "text": "Section D: Evaluate a Response (20 points)\nIn each question, a fictional student has written a response. Your job is to grade the reasoning, not to write your own full answer. For each numbered claim, say whether it is correct or incorrect. If it is incorrect, explain what is wrong and write a corrected statement.\n\n(10 pts) A university wants to know whether a new peer-mentoring program improves first-year retention. It emails all first-year students and invites them to join a study. Of those who respond, 200 volunteer. The researchers flip a coin for each volunteer to decide whether the student is placed in the mentoring program (100 students) or a comparison group (100 students). After one year, 90% of the mentored students and 80% of the comparison students are still enrolled. The difference is statistically significant.\nHere is Jordan’s response to the question “What can we conclude?”\n\n\nSince the students were randomly assigned, we can conclude that the mentoring program caused the higher retention among these volunteers.\nThe 200 volunteers are a big sample, so the fact that they volunteered does not matter. We can conclude the program would raise retention for all first-year students at this university.\nWe can also conclude that the program would raise retention for first-year students at every college in the country.\n\n\nEvaluate each numbered claim. (Claim 1 is worth 4 points, and claims 2 and 3 are worth 3 points each.)\n\n\n\n\n\n(10 pts) Using the rail_trail data again, a student studies whether the day’s rainfall (precip, in inches, from 0 to 1.49) is related to trail volume (users per day). The data cover 90 days. The output for the model predicting volume from precip is below. For this model, \\(R^2 = 0.054\\).\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n385.82\n13.94\n27.68\n&lt;0.001\n\n\nprecip\n-112.59\n50.23\n-2.24\n0.028\n\n\n\n\n\nHere is Riley’s response.\n\n\nThe p-value is 0.028, which is less than 0.05. This means there is only a 2.8% chance that the null hypothesis is true.\nTo build a null distribution, I shuffle the volume values many times and recompute the PRE each time. These shuffled PREs will be centered at my observed PRE of 0.054, because shuffling keeps the relationship in the data.\nBecause the slope is statistically significant, we can conclude that rainfall causes volume to decrease.\nBecause the slope is statistically significant, rainfall is a strong predictor that explains most of the variation in trail volume.\n\n\nEvaluate each numbered claim. (Claims 1 and 2 are worth 3 points each, and claims 3 and 4 are worth 2 points each.)\n\n\n\n\n\nEnd of exam. If you finish early, go back and check your units and your interpretations."
+  },
+  {
+    "objectID": "ae/ae-14-hubble-power.html",
+    "href": "ae/ae-14-hubble-power.html",
+    "title": "AE 14: The Power to Discover an Expanding Universe",
+    "section": "",
+    "text": "Important\n\n\n\n\nOpen RStudio and create a subfolder in your AE folder called “AE-14”.\nGo to the assignment for this activity in Canvas to get started.\nUpload the ae-14-hubble-power.qmd, cosmicflows4.csv, hubble-1929.csv, and hubble-1931.csv files into the folder you just created."
+  },
+  {
+    "objectID": "ae/ae-14-hubble-power.html#intro-in-hubbles-shoes",
+    "href": "ae/ae-14-hubble-power.html#intro-in-hubbles-shoes",
+    "title": "AE 14: The Power to Discover an Expanding Universe",
+    "section": "Intro: In Hubble’s shoes",
+    "text": "Intro: In Hubble’s shoes\nIt is the 1920s and you are Edwin Hubble. Every point in your dataset costs you a great deal: a spectrum of a faint galaxy photographed through the 100-inch telescope at Mount Wilson takes many hours, often over several nights, and telescope time is scarce. Before you commit years of your life to collecting data, you want to make sure that you can detect the effect if it exists.\nYour job today is to do a power analysis: to decide, before collecting data, how many galaxies you need to measure. You will not look at Hubble’s real data until the very end.\n\nlibrary(tidyverse)\nlibrary(ggformula)\nlibrary(broom)\nlibrary(knitr)"
+  },
+  {
+    "objectID": "ae/ae-14-hubble-power.html#setup",
+    "href": "ae/ae-14-hubble-power.html#setup",
+    "title": "AE 14: The Power to Discover an Expanding Universe",
+    "section": "Setup",
+    "text": "Setup\nRun these chunks first. The last one defines two functions that simulate many studies of a given design and count how often the test rejects \\(H_0\\). You do not need to understand or change this code.\n\n# Cosmicflows-4 galaxy groups within 100 Mpc: a modern catalog of distances and velocities\ncf4 &lt;- read_csv(here::here(\"data/cosmicflows4.csv\")) |&gt;\n  filter(distance_mpc &lt;= 100, n_galaxies &gt;= 1)\n\n\n# Estimated power for a study with n galaxies, spread evenly from 0.03 Mpc to max_distance\nhubble_power &lt;- function(n, max_distance, slope, sigma = 175, alpha = 0.05, reps = 1000) {\n  p &lt;- replicate(reps, {\n    d &lt;- runif(n, 0.03, max_distance)\n    v &lt;- slope * d + rnorm(n, 0, sigma)\n    summary(lm(v ~ d))$coefficients[2, 4]\n  })\n  mean(p &lt; alpha)\n}\n\n# Estimated power for a whole list of sample sizes\npower_curve &lt;- function(n_values, max_distance, slope, sigma = 175, alpha = 0.05) {\n  tibble(n = n_values) |&gt;\n    mutate(power = map_dbl(n, \\(k) hubble_power(k, max_distance, slope, sigma, alpha, reps = 500)))\n}"
+  },
+  {
+    "objectID": "ae/ae-14-hubble-power.html#part-1-what-do-we-need-to-assume",
+    "href": "ae/ae-14-hubble-power.html#part-1-what-do-we-need-to-assume",
+    "title": "AE 14: The Power to Discover an Expanding Universe",
+    "section": "Part 1: What do we need to assume?",
+    "text": "Part 1: What do we need to assume?\nWe will model the velocity of galaxy \\(i\\) as\n\\[v_i = \\beta_0 + \\beta_1 d_i + \\epsilon_i, \\quad \\epsilon_i \\sim N(0, \\sigma)\\]\nwhere \\(d_i\\) is its distance (Mpc) and \\(v_i\\) is its recession velocity (km/s). We will test \\(H_0: \\beta_1 = 0\\) (no expansion, just random motions) at \\(\\alpha = 0.05\\).\n\nTo compute the power of this test, what do we need to know? Make a list. For each item, say whether we get to choose it or we have to assume it. Why is the second kind the hard part?"
+  },
+  {
+    "objectID": "ae/ae-14-hubble-power.html#part-2-was-hubbles-sample-big-enough",
+    "href": "ae/ae-14-hubble-power.html#part-2-was-hubbles-sample-big-enough",
+    "title": "AE 14: The Power to Discover an Expanding Universe",
+    "section": "Part 2: Was Hubble’s sample big enough?",
+    "text": "Part 2: Was Hubble’s sample big enough?\nHubble’s 1929 study had 24 galaxies. The 1931 study of Hubble and Humason had 32 data points.\nBefore making assumptions, let’s see what we can learn from a population we already have: the cf4 galaxy groups (distance in distance_mpc, velocity in velocity_kms).\n\nFit a model predicting velocity_kms from distance_mpc in cf4 and save it as cf4_fit. Report the estimated slope \\(\\hat{\\beta}_1\\) and the residual standard deviation \\(\\hat{\\sigma}\\) (hint: glance(cf4_fit)$sigma).\n\n\n\n\nNow treat \\(\\hat{\\beta}_1\\) and \\(\\hat{\\sigma}\\) as the truth and estimate the power of studies the same size as Hubble’s. Fill in the four values below, delete #| eval: false, and run the chunk (it needs your cf4_fit).\n\n# Fill these in\nslope_estimate &lt;- \nsigma_estimate &lt;-\nsample_size_1929 &lt;-\nsample_size_1931 &lt;-\n\n# Don't change this (max_distance is how far Hubble could reach, in modern Mpc)\npower_1929_pop &lt;- hubble_power(n = sample_size_1929, max_distance = 12,  slope = slope_estimate, sigma = sigma_estimate)\npower_1931_pop &lt;- hubble_power(n = sample_size_1931, max_distance = 100, slope = slope_estimate, sigma = sigma_estimate)\n\nc(power_1929 = power_1929_pop, power_1931 = power_1931_pop)\n\n\nInterpret each power in a sentence. Which of the four ingredients (sample size, \\(\\alpha\\), variability, size of the slope) explain why the two studies have different power?\n\n\n\n\n\n(Time Permitting) Note that there is a max_distance parameter in hubble_power function you used above. This represents the maximum distance that Hubble was able to gather galaxies from. Why do you think this is important in the power calculation? There are at least two reasons."
+  },
+  {
+    "objectID": "ae/ae-14-hubble-power.html#part-3-a-power-analysis",
+    "href": "ae/ae-14-hubble-power.html#part-3-a-power-analysis",
+    "title": "AE 14: The Power to Discover an Expanding Universe",
+    "section": "Part 3: A power analysis",
+    "text": "Part 3: A power analysis\nNow suppose you have not collected any data yet and you can only reach 2 Mpc. How many galaxies do you need?\nRemember that Hubble didn’t have access to the CF4 data, so he needed to make assumptions based on other information. Here are the assumptions we will use for the rest of the activity. All distances are in Hubble’s 1920s units (we now know his distance scale was too small, which is why his slopes are hundreds of km/s per Mpc instead of about 70).\n\nSignificance level: \\(\\alpha = 0.05\\).\nNoise: \\(\\sigma = 175\\) km/s. Galaxies have their own motions (about 150 to 200 km/s) and the photographic spectra add measurement error (about 40 km/s).\nReach: the telescope can reach galaxies out to 2 Mpc.\nDistances: assume the galaxies you measure are spread evenly across the reach.\n\nThe big unknown is the true slope \\(\\beta_1\\). Here are three principled guesses to try:\n\n\n\n\n\n\n\n\nPrior\nSlope (km/s per Mpc)\nWhere it comes from\n\n\n\n\nOptimistic\n575\nLemaitre’s 1927 estimate, made from Slipher’s velocities and early distances\n\n\nPlausible\n450\nSlipher’s average unexplained recession of the nebulae\n\n\nConservative\n100\nA smaller slope, still on the same order of magnitude of Slipher and Lemaitre’s estimates but made smaller to account for the possibility of over-estimation.\n\n\n\n\nChoose the slope you will start with (one of the three, or your own with a justification). Why did you choose it? What do you risk if the true slope is smaller than the one you chose?\n\n\n\n\n\nChoose a target power (for example 80%, 90%, or 95%). Justify it: what does a Type II error cost you here (years of work, a missed discovery)? What does collecting more data cost?\n\n\n\n\nRun the chunk below with your slope and target power. Edit the list of sample sizes until the curve crosses your target power.\n\nmy_slope  &lt;- 450                       # &lt;- change me (try 575, 450, 100)\nmy_target &lt;- 0.90                      # &lt;- change me\nmy_n      &lt;- c(5, 10, 20, 40, 60, 80)  # &lt;- change me\n\ncurve &lt;- power_curve(my_n, max_distance = 2, slope = my_slope)\n\ncurve |&gt; kable()\n\n\n\n\nn\npower\n\n\n\n\n5\n0.502\n\n\n10\n0.946\n\n\n20\n1.000\n\n\n40\n1.000\n\n\n60\n1.000\n\n\n80\n1.000\n\n\n\n\ngf_line(power ~ n, data = curve, linewidth = 1.2, color = \"#533860\") |&gt;\n  gf_point(size = 3, color = \"#533860\") |&gt;\n  gf_hline(yintercept = my_target, linetype = \"dashed\", color = \"#d53a19\") |&gt;\n  gf_labs(x = \"Sample size\", y = \"Estimated power\") |&gt;\n  gf_lims(y = c(0, 1))\n\n\n\n\n\n\n\n\n\nWhat is the smallest sample size you tried that reaches your target power? Compare with Hubble’s actual 24 galaxies and with your neighbors’ answers.\n\n\n\n\n\nRerun with a different slope (try all three priors). How does the sample size you need depend on the slope you assume? What would you do if you were unsure which slope was right?"
+  },
+  {
+    "objectID": "ae/ae-14-hubble-power.html#part-4-if-you-finish-early-hubbles-real-data",
+    "href": "ae/ae-14-hubble-power.html#part-4-if-you-finish-early-hubbles-real-data",
+    "title": "AE 14: The Power to Discover an Expanding Universe",
+    "section": "Part 4: If you finish early, Hubble’s real data",
+    "text": "Part 4: If you finish early, Hubble’s real data\nNow you can look at what Hubble actually found.\n\nhubble29 &lt;- read_csv(here::here(\"data/hubble-1929.csv\"))\nhubble31 &lt;- read_csv(here::here(\"data/hubble-1931.csv\")) |&gt; rename(nebula = cluster)\n\nhubble_both &lt;- bind_rows(hubble29, hubble31)\n\n\nFit velocity_kms ~ distance_mpc to hubble29 and then to hubble_both. Report the slope and p-value of each. Did Hubble detect the relationship?\n\n\n\n\n\nHow do Hubble’s slopes compare with the three priors? Was your chosen prior close to what he found? (His distances were about 6 times too small, so his slope was about 6 times too large.)\n\n\n\n\n\nWhy is it a bad idea to estimate power by plugging in the slope from the data you already collected?\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTo submit the AE:\n\nRender the document to produce the HTML with all of your work from today’s class.\nUpload your .qmd and .html files to the Canvas assignment."
   },
   {
     "objectID": "computing-access.html",
@@ -3697,6 +3872,251 @@
     "title": "Exam 1 Study Guide",
     "section": "Practice",
     "text": "Practice\n\n📋 AE 12 - Exam 1 Practice\n\n\nTake it in one 75-minute sitting, with only a calculator and a notes sheet.\nThen check yourself against the solutions.\nRevisit the AEs and homeworks for any topic where you missed points.\nCome to office hours or see the tutor with questions: see the support page.\n\nGood luck!"
+  },
+  {
+    "objectID": "slides/14-errors-power.html#where-we-are",
+    "href": "slides/14-errors-power.html#where-we-are",
+    "title": "Decisions, Errors, and Power",
+    "section": "Where we are",
+    "text": "Where we are\nLast week was Exam 1, so we never finished the activity from Lecture 11. Today:\n\nA quick refresher on testing the slope.\nTime to finish AE 11.\nDecisions and errors: what can go wrong when we test?\nPower: how likely are we to detect a relationship that really exists? We will explore it with the expansion of the universe."
+  },
+  {
+    "objectID": "slides/14-errors-power.html#the-setup",
+    "href": "slides/14-errors-power.html#the-setup",
+    "title": "Decisions, Errors, and Power",
+    "section": "The setup",
+    "text": "The setup\nWe have data on 508 of the most popular songs on Spotify. Does a song’s duration help predict its danceability?"
+  },
+  {
+    "objectID": "slides/14-errors-power.html#the-five-steps",
+    "href": "slides/14-errors-power.html#the-five-steps",
+    "title": "Decisions, Errors, and Power",
+    "section": "The five steps",
+    "text": "The five steps\n\nChoose a statistic that captures the question: the slope \\(\\hat{\\beta}_1\\).\nHypotheses: \\(H_0: \\beta_1 = 0\\) (no linear relationship) vs. \\(H_A: \\beta_1 \\neq 0\\).\nNull distribution: what slopes do we get if there is no relationship? We built it by shuffling. It is normal, centered at 0, with spread \\(SE_{\\hat{\\beta}_1}\\).\nStandardize: \\(t = \\dfrac{\\hat{\\beta}_1 - 0}{SE_{\\hat{\\beta}_1}}\\), compared to a \\(t\\) distribution with \\(n - 2\\) degrees of freedom.\nConclude: the p-value is the probability of a statistic at least this extreme if \\(H_0\\) is true."
+  },
+  {
+    "objectID": "slides/14-errors-power.html#in-r",
+    "href": "slides/14-errors-power.html#in-r",
+    "title": "Decisions, Errors, and Power",
+    "section": "In R",
+    "text": "In R\n\nspotify_fit &lt;- lm(danceability ~ duration_min, data = spotify)\n\nspotify_fit |&gt;\n  tidy() |&gt;\n  kable(digits = 4)\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n0.7809\n0.0275\n28.3506\n0.0000\n\n\nduration_min\n-0.0242\n0.0077\n-3.1510\n0.0017\n\n\n\n\n\n\n\nWhat is the test statistic for the slope? What does it mean in words?\nWhat is the p-value, and what is your conclusion in context?"
+  },
+  {
+    "objectID": "slides/14-errors-power.html#activity",
+    "href": "slides/14-errors-power.html#activity",
+    "title": "Decisions, Errors, and Power",
+    "section": "Activity",
+    "text": "Activity\n\n📋 AE 11 - What Makes a Song Danceable?\n\n\nGet back into your groups and use the same predictor you were assigned and finish the Activity.\nWe will pick back up at the countdown. Keep your AE 11 model, because we will use it again."
+  },
+  {
+    "objectID": "slides/14-errors-power.html#from-a-p-value-to-a-decision",
+    "href": "slides/14-errors-power.html#from-a-p-value-to-a-decision",
+    "title": "Decisions, Errors, and Power",
+    "section": "From a p-value to a decision",
+    "text": "From a p-value to a decision\nSo far we have reported a p-value. Often a test ends with a decision.\n\nChoose a significance level \\(\\alpha\\) ahead of time (usually \\(0.05\\)).\nIf p-value \\(&lt; \\alpha\\): reject \\(H_0\\). The data provide convincing evidence for \\(H_A\\).\nIf p-value \\(\\geq \\alpha\\): fail to reject \\(H_0\\). The data do not provide convincing evidence for \\(H_A\\).\n\n\n\nWe never “accept” \\(H_0\\). Courtroom: \\(H_0\\) is “innocent,” and “not guilty” is not the same as “innocent.”\n\n\n\n\nFor the duration model, the p-value is 0.0017. With \\(\\alpha = 0.05\\), what is our decision?"
+  },
+  {
+    "objectID": "slides/14-errors-power.html#nothing-magical-happens-at-alpha",
+    "href": "slides/14-errors-power.html#nothing-magical-happens-at-alpha",
+    "title": "Decisions, Errors, and Power",
+    "section": "Nothing magical happens at \\(\\alpha\\)",
+    "text": "Nothing magical happens at \\(\\alpha\\)\n\nA p-value of \\(0.049\\) and a p-value of \\(0.051\\) are essentially the same amount of evidence, yet they lead to opposite “decisions.”\n\\(0.05\\) is a convention, not a law of nature.\nEvidence is a continuum. Report the p-value, the estimate, and a confidence interval, not just “significant” or “not significant.”\n\n\nSo why bother with decisions at all? Because they let us ask: how often will we be wrong?"
+  },
+  {
+    "objectID": "slides/14-errors-power.html#what-can-happen",
+    "href": "slides/14-errors-power.html#what-can-happen",
+    "title": "Decisions, Errors, and Power",
+    "section": "What can happen?",
+    "text": "What can happen?\n\nWhat are the four possible outcomes of a test?\n\n\n\n\n\n\n\n\n\n\n\nReject \\(H_0\\)\nFail to reject \\(H_0\\)\n\n\n\n\n\\(H_0\\) is true (no relationship)\nType I error (false positive)\nCorrect\n\n\n\\(H_0\\) is false (real relationship)\nCorrect\nType II error (false negative)"
+  },
+  {
+    "objectID": "slides/14-errors-power.html#types-of-error",
+    "href": "slides/14-errors-power.html#types-of-error",
+    "title": "Decisions, Errors, and Power",
+    "section": "Types of error",
+    "text": "Types of error\n\nType I error: rejecting \\(H_0\\) when it is true. \\(P(\\text{Type I}) = \\alpha\\), so we choose how often this happens.\nType II error: failing to reject \\(H_0\\) when it is false. \\(P(\\text{Type II}) = \\beta\\) is harder to control: it depends on how big the real effect is, how much data we have, and how noisy the data are.\nTrade-off: lowering \\(\\alpha\\) makes Type I errors rarer but Type II errors more common.\n\n\n\nIn a courtroom, which error is worse: convicting an innocent person or acquitting a guilty one? Is the same error always worse in science? Think about screening for a disease vs. approving a new drug."
+  },
+  {
+    "objectID": "slides/14-errors-power.html#statistical-power",
+    "href": "slides/14-errors-power.html#statistical-power",
+    "title": "Decisions, Errors, and Power",
+    "section": "Statistical power",
+    "text": "Statistical power\nThe bottom-left cell of our table is the one we usually want. Power is the probability that a test correctly rejects \\(H_0\\) when there really is an effect of a given size: \\(\\text{power} = 1 - P(\\text{Type II error})\\).\n\n\nWhat do you think the power of a test depends on?\n\n\n\n\nSample size: more data means more power\nSignificance level \\(\\alpha\\): a more lenient \\(\\alpha\\) means more power (and more false positives)\nVariability in the data: less noise means more power\nSize of the slope: a steeper relationship is easier to detect"
+  },
+  {
+    "objectID": "slides/14-errors-power.html#what-we-know-now",
+    "href": "slides/14-errors-power.html#what-we-know-now",
+    "title": "Decisions, Errors, and Power",
+    "section": "What we know now",
+    "text": "What we know now\nWe now know that the universe is expanding: galaxies move away from us, and farther galaxies move away faster. There is a linear relationship between a galaxy’s distance and its recession velocity:\n\\[v = C \\, d\\]\n\n\\(v\\): recession velocity (km/s)\n\\(d\\): distance (megaparsecs, Mpc, where 1 Mpc \\(\\approx\\) 3.26 million light years)\n\\(C\\): the Hubble constant, about 70 km/s per Mpc\n\n\n\nIn regression language, what is \\(C\\)? What would the intercept be?"
+  },
+  {
+    "objectID": "slides/14-errors-power.html#what-are-these-units",
+    "href": "slides/14-errors-power.html#what-are-these-units",
+    "title": "Decisions, Errors, and Power",
+    "section": "What are these units?",
+    "text": "What are these units?\nDistance: the megaparsec (Mpc). Astronomical distances are enormous, so astronomers use big units.\n\n1 parsec \\(\\approx\\) 3.26 light years, so 1 Mpc (a million parsecs) \\(\\approx\\) 3.26 million light years.\nAndromeda, our nearest large neighbor, is about 0.8 Mpc away. The Virgo Cluster is about 16 Mpc away.\n\n\nRecession velocity (km/s). Light from a galaxy that is moving away from us is stretched to longer, redder wavelengths (redshift). The more the light is shifted, the faster the galaxy is receding. So we can measure a galaxy’s velocity directly from its light, even though we cannot measure its distance directly.\n\nPositive velocity: moving away from us. Negative: moving toward us.\nFor scale, a galaxy at 100 Mpc recedes at roughly 7,000 km/s, about 25 million km/h.\n\n\n\nSo \\(C \\approx 70\\) km/s per Mpc means: for every additional 3.26 million light years of distance, a galaxy recedes about 70 km/s faster."
+  },
+  {
+    "objectID": "slides/14-errors-power.html#our-population-cosmicflows-4",
+    "href": "slides/14-errors-power.html#our-population-cosmicflows-4",
+    "title": "Decisions, Errors, and Power",
+    "section": "Our population: Cosmicflows-4",
+    "text": "Our population: Cosmicflows-4\nCosmicflows-4 (Tully et al., 2023) is a modern catalog of distances and velocities of galaxies. We will use the 8,514 galaxy groups within 100 Mpc as our population.\n\n\ncf4_fit &lt;- lm(velocity_kms ~ distance_mpc, data = cf4)\ncf4_fit |&gt; tidy() |&gt; kable(digits = 2)\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n117.71\n30.47\n3.86\n0\n\n\ndistance_mpc\n77.14\n0.47\n165.68\n0\n\n\n\n\n\nWith 8,514 groups, the slope is about 77 km/s per Mpc, our population’s version of \\(C\\). Nobody doubts this relationship."
+  },
+  {
+    "objectID": "slides/14-errors-power.html#back-in-the-1920s",
+    "href": "slides/14-errors-power.html#back-in-the-1920s",
+    "title": "Decisions, Errors, and Power",
+    "section": "Back in the 1920s",
+    "text": "Back in the 1920s\nIt was not always obvious. In the early 1920s, most astronomers thought the Milky Way was the whole universe, and that the universe was static.\n\n1912-1917: Vesto Slipher measures the velocities of spiral “nebulae.” Most are moving away from us.\n1924: Edwin Hubble uses Cepheid stars to show that Andromeda is far outside the Milky Way: it is another galaxy.\n1927: Georges Lemaitre predicts, from general relativity, that the universe is expanding.\n1929: Hubble publishes distances and velocities for 24 nebulae, measured with the 100-inch telescope at Mount Wilson.\n1931: Hubble and Milton Humason add distant galaxy clusters, 15 times farther away."
+  },
+  {
+    "objectID": "slides/14-errors-power.html#hubble-the-telescope",
+    "href": "slides/14-errors-power.html#hubble-the-telescope",
+    "title": "Decisions, Errors, and Power",
+    "section": "Hubble the telescope",
+    "text": "Hubble the telescope\n\nThe Hubble Space Telescope, launched in 1990, is named after him.\nOne of its main goals was to pin down \\(C\\). Its Key Project (2001) found \\(C = 72 \\pm 8\\) km/s per Mpc.\nToday astronomers still argue about the exact value (the “Hubble tension”), but not about whether the relationship exists.\n\n\n\nBefore Hubble ever pointed his telescope, he had to decide how many galaxies to measure. How many would be enough to detect the relationship if it exists? That is a question about power."
+  },
+  {
+    "objectID": "slides/14-errors-power.html#sampling-from-the-population",
+    "href": "slides/14-errors-power.html#sampling-from-the-population",
+    "title": "Decisions, Errors, and Power",
+    "section": "Sampling from the population",
+    "text": "Sampling from the population\nWe will treat Cosmicflows-4 as the population and take samples of galaxy groups, like an astronomer with a small telescope. Here is one sample of n = 5:\n\nset.seed(2026)\nlm(velocity_kms ~ distance_mpc, data = resample(cf4, 5)) |&gt;\n  tidy() |&gt;\n  kable(digits = 3)\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n1361.889\n984.372\n1.384\n0.26\n\n\ndistance_mpc\n62.534\n16.030\n3.901\n0.03\n\n\n\n\n\n\nDid this sample detect the relationship at \\(\\alpha = 0.05\\)?"
+  },
+  {
+    "objectID": "slides/14-errors-power.html#another-sample",
+    "href": "slides/14-errors-power.html#another-sample",
+    "title": "Decisions, Errors, and Power",
+    "section": "Another sample",
+    "text": "Another sample\n\nlm(velocity_kms ~ distance_mpc, data = resample(cf4, 5)) |&gt;\n  tidy() |&gt;\n  kable(digits = 3)\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n-281.439\n731.550\n-0.385\n0.726\n\n\ndistance_mpc\n79.119\n9.921\n7.975\n0.004\n\n\n\n\n\n\nHow do the estimate and p-value differ from the previous sample? Did both samples detect the relationship?"
+  },
+  {
+    "objectID": "slides/14-errors-power.html#ten-samples",
+    "href": "slides/14-errors-power.html#ten-samples",
+    "title": "Decisions, Errors, and Power",
+    "section": "Ten samples",
+    "text": "Ten samples\n\ndo(10) * (\n  lm(velocity_kms ~ distance_mpc, data = resample(cf4, 5)) |&gt;\n    tidy() |&gt;\n    filter(term == \"distance_mpc\")\n)\n\n# A tibble: 10 × 7\n   term         estimate std.error statistic p.value  .row .index\n   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;\n 1 distance_mpc    151.       22.3      6.75 0.00664     1      1\n 2 distance_mpc     82.2      46.2      1.78 0.173       1      2\n 3 distance_mpc     73.1      10.9      6.71 0.00675     1      3\n 4 distance_mpc     89.6      21.6      4.15 0.0255      1      4\n 5 distance_mpc    202.       99.2      2.04 0.135       1      5\n 6 distance_mpc    112.       31.7      3.55 0.0380      1      6\n 7 distance_mpc    154.       60.8      2.54 0.0848      1      7\n 8 distance_mpc    109.       35.2      3.09 0.0535      1      8\n 9 distance_mpc    108.       10.4     10.4  0.00191     1      9\n10 distance_mpc     70.6      13.7      5.14 0.0143      1     10\n\n\n\nIn how many of these 10 samples was the p-value below 0.05?"
+  },
+  {
+    "objectID": "slides/14-errors-power.html#one-thousand-samples",
+    "href": "slides/14-errors-power.html#one-thousand-samples",
+    "title": "Decisions, Errors, and Power",
+    "section": "One thousand samples",
+    "text": "One thousand samples\n\nn_samp &lt;- 5\n\npower_sim &lt;- do(1000) * (\n  lm(velocity_kms ~ distance_mpc, data = resample(cf4, n_samp)) |&gt;\n    tidy() |&gt;\n    filter(term == \"distance_mpc\")\n)\n\ntally(~ (p.value &lt; 0.05), data = power_sim, format = \"proportion\")\n\n(p.value &lt; 0.05)\n TRUE FALSE \n0.665 0.335 \n\n\nWith 5 galaxy groups, we would detect the relationship about 66% of the time. That is the power of the test when \\(n = 5\\)."
+  },
+  {
+    "objectID": "slides/14-errors-power.html#sample-size",
+    "href": "slides/14-errors-power.html#sample-size",
+    "title": "Decisions, Errors, and Power",
+    "section": "Sample size",
+    "text": "Sample size\n\nMore data, more power. The dashed line marks the common target of 80% power."
+  },
+  {
+    "objectID": "slides/14-errors-power.html#significance-level",
+    "href": "slides/14-errors-power.html#significance-level",
+    "title": "Decisions, Errors, and Power",
+    "section": "Significance level",
+    "text": "Significance level\n\n\nWhat do we give up in exchange for the extra power of a larger \\(\\alpha\\)?"
+  },
+  {
+    "objectID": "slides/14-errors-power.html#variability",
+    "href": "slides/14-errors-power.html#variability",
+    "title": "Decisions, Errors, and Power",
+    "section": "Variability",
+    "text": "Variability\nWhat if peculiar motions made galaxies scatter more around the line? We can build that population: keep the fitted line, but multiply the residuals by 1, 2, or 4."
+  },
+  {
+    "objectID": "slides/14-errors-power.html#variability-and-power",
+    "href": "slides/14-errors-power.html#variability-and-power",
+    "title": "Decisions, Errors, and Power",
+    "section": "Variability and power",
+    "text": "Variability and power\n\nMore scatter, less power."
+  },
+  {
+    "objectID": "slides/14-errors-power.html#size-of-the-slope",
+    "href": "slides/14-errors-power.html#size-of-the-slope",
+    "title": "Decisions, Errors, and Power",
+    "section": "Size of the slope",
+    "text": "Size of the slope\nNow imagine a universe that expands more slowly: keep the same scatter, but multiply the slope by 1, 0.5, or 0.25."
+  },
+  {
+    "objectID": "slides/14-errors-power.html#size-of-the-slope-and-power",
+    "href": "slides/14-errors-power.html#size-of-the-slope-and-power",
+    "title": "Decisions, Errors, and Power",
+    "section": "Size of the slope and power",
+    "text": "Size of the slope and power\n\n\nCompare this plot to the variability plot. What do you notice? Why might halving the slope and doubling the noise do the same thing?\n\n\n(Hold that thought. Next time we will give it a name: effect size.)"
+  },
+  {
+    "objectID": "slides/14-errors-power.html#what-drives-power",
+    "href": "slides/14-errors-power.html#what-drives-power",
+    "title": "Decisions, Errors, and Power",
+    "section": "What drives power?",
+    "text": "What drives power?\n\n\n\n\n\n\n\nTo get more power…\nBecause…\n\n\n\n\nIncrease the sample size\nLess sampling variability in the slope\n\n\nIncrease \\(\\alpha\\)\nEasier to reject, but more Type I errors\n\n\nReduce the variability\nThe signal stands out from the noise\n\n\nLook for a steeper slope\nThe signal is bigger"
+  },
+  {
+    "objectID": "slides/14-errors-power.html#what-was-the-power-of-hubbles-original-study",
+    "href": "slides/14-errors-power.html#what-was-the-power-of-hubbles-original-study",
+    "title": "Decisions, Errors, and Power",
+    "section": "What was the power of Hubble’s original study?",
+    "text": "What was the power of Hubble’s original study?\n\nNeed some assumptions first\n\n\n\n\n\n\n\n\nWe choose\nWe must assume\n\n\n\n\nSignificance level \\(\\alpha\\)\nThe true slope \\(\\beta_1\\): how fast does the universe expand?\n\n\nSample size \\(n\\)\nThe noise \\(\\sigma\\): how much do galaxies scatter around the line?\n\n\n\n\n📋 AE 14 - The Power to Discover an Expanding Universe\n\n\nComplete Parts 1 and 2 (Exercises 1-4)."
+  },
+  {
+    "objectID": "slides/14-errors-power.html#in-hubbles-shoes",
+    "href": "slides/14-errors-power.html#in-hubbles-shoes",
+    "title": "Decisions, Errors, and Power",
+    "section": "In Hubble’s shoes",
+    "text": "In Hubble’s shoes\nIt is the 1920s and you are Edwin Hubble. Every point on the plot costs you enormous effort:\n\nEach velocity needs a spectrum of a faint galaxy, photographed through the 100-inch telescope at Mount Wilson, then the largest in the world.\nExposures take many hours, often over several nights, and telescope time is scarce.\nDistances are even harder: you must find and measure individual stars in each galaxy.\n\n\nBefore spending years collecting data, we want to make sure that we can detect the effect if it exists.\n\nWhat would you need to know, or assume, to figure out how many galaxies to measure?"
+  },
+  {
+    "objectID": "slides/14-errors-power.html#power-analysis",
+    "href": "slides/14-errors-power.html#power-analysis",
+    "title": "Decisions, Errors, and Power",
+    "section": "Power analysis",
+    "text": "Power analysis\nA power analysis is done before collecting data:\n\nDecide on the smallest relationship you would care about (this is a judgment about practical significance, not a statistics question).\nChoose a target power, often 80%. Trade off the cost of a Type II error against the cost of more data.\nUse simulation (or a formula) to find the sample size that achieves it.\nCollect that much data.\n\n\n\n\n\n\n\n\nCaution\n\n\nPower computed from the effect you already observed only tells you how your study behaved. It is not a guarantee about a future study, because the observed effect is itself a noisy estimate."
+  },
+  {
+    "objectID": "slides/14-errors-power.html#what-should-we-assume",
+    "href": "slides/14-errors-power.html#what-should-we-assume",
+    "title": "Decisions, Errors, and Power",
+    "section": "What should we assume?",
+    "text": "What should we assume?\n\n\n\n\n\n\n\nWe choose\nWe must assume\n\n\n\n\nSignificance level \\(\\alpha\\)\nThe true slope \\(\\beta_1\\): how fast does the universe expand?\n\n\nTarget power\nThe noise \\(\\sigma\\): how much do galaxies scatter around the line?\n\n\n\n\n\nSignificance level: \\(\\alpha = 0.05\\).\nNoise: galaxies have their own motions, about 150 to 200 km/s, plus measurement error on photographic spectra, about 40 km/s. Together, \\(\\sigma \\approx 175\\) km/s.\nReach: the telescope can reach galaxies out to 2 Mpc, spread evenly."
+  },
+  {
+    "objectID": "slides/14-errors-power.html#what-about-slope",
+    "href": "slides/14-errors-power.html#what-about-slope",
+    "title": "Decisions, Errors, and Power",
+    "section": "What about slope?",
+    "text": "What about slope?\nThis is the hard one. We need a principled guess, and we will consider three (in Hubble’s 1920s distance units):\n\n\n\n\n\n\n\n\nPrior\nSlope (km/s per Mpc)\nWhere it comes from\n\n\n\n\nOptimistic\n575\nLemaitre’s 1927 estimate, from Slipher’s velocities and early distances\n\n\nPlausible\n450\nSlipher’s average unexplained recession of the nebulae\n\n\nConservative\n100\nA smaller slope, of the same order as Slipher’s and Lemaitre’s estimates, but reduced in case they were over-estimates"
+  },
+  {
+    "objectID": "slides/14-errors-power.html#activity-1",
+    "href": "slides/14-errors-power.html#activity-1",
+    "title": "Decisions, Errors, and Power",
+    "section": "Activity",
+    "text": "Activity\n\n📋 AE 14 - The Power to Discover an Expanding Universe\n\n\nContinue with Part 3: choose a slope from the priors above and see how much your assumptions matter.\nChoose your own target power, then find the sample size you would need.\nFinished early? Analyze Hubble’s real data (Part 4)."
+  },
+  {
+    "objectID": "slides/14-errors-power.html#hubbles-1929-data",
+    "href": "slides/14-errors-power.html#hubbles-1929-data",
+    "title": "Decisions, Errors, and Power",
+    "section": "Hubble’s 1929 data",
+    "text": "Hubble’s 1929 data\n\n\nhubble_fit &lt;- lm(velocity_kms ~ distance_mpc, data = hubble29)\nhubble_fit |&gt; tidy() |&gt; kable(digits = 3)\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n-40.784\n83.439\n-0.489\n0.63\n\n\ndistance_mpc\n454.158\n75.237\n6.036\n0.00\n\n\n\n\n\nHubble’s slope is about 454 km/s per Mpc, roughly 6 times today’s value. His distances were too small (he did not know about two types of Cepheids). But a relationship was there to see: right in the range of our priors."
+  },
+  {
+    "objectID": "slides/14-errors-power.html#hubble-and-humasons-1931-data",
+    "href": "slides/14-errors-power.html#hubble-and-humasons-1931-data",
+    "title": "Decisions, Errors, and Power",
+    "section": "Hubble and Humason’s 1931 data",
+    "text": "Hubble and Humason’s 1931 data\n\n\nlm(velocity_kms ~ distance_mpc, data = hubble_both) |&gt; tidy() |&gt; kable(digits = 3)\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n-189.207\n278.054\n-0.680\n0.501\n\n\ndistance_mpc\n451.366\n27.951\n16.149\n0.000\n\n\n\n\n\n\nDid your assumptions matter? What made the 1931 result so much more convincing than 1929?"
+  },
+  {
+    "objectID": "slides/14-errors-power.html#recap",
+    "href": "slides/14-errors-power.html#recap",
+    "title": "Decisions, Errors, and Power",
+    "section": "Recap",
+    "text": "Recap\n\nA test ends in a decision: reject or fail to reject \\(H_0\\). But evidence is a continuum, and nothing magical happens at \\(\\alpha\\).\nFour outcomes: a Type I error (probability \\(\\alpha\\)), a Type II error, and two correct decisions.\nPower is the probability of detecting a real relationship: \\(1 - P(\\text{Type II error})\\).\nPower increases with sample size, \\(\\alpha\\), less variability, and a steeper slope.\nA power analysis before collecting data: assume a slope and noise, choose a target power, and find the sample size you need.\nNext time: how big is a relationship, not just whether we can detect it?"
   },
   {
     "objectID": "support.html",

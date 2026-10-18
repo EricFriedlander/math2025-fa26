@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<link href="../images/logo.png" rel="icon" type="image/png">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
+
+  <meta name="author" content="Prof.&nbsp;Eric Friedlander">
+  <title>MATH 2025 - Fall 2026 – Decisions, Errors, and Power</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-3e75b18a091661a42b5a8f36bbfd11f1.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <link href="../site_libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+  <script src="../site_libs/countdown-0.6.0/countdown.js"></script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Decisions, Errors, and Power</h1>
+  <p class="subtitle">Could we have seen it?</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Prof.&nbsp;Eric Friedlander 
+</div>
+</div>
+</div>
+
+</section>
+<section id="where-we-are" class="slide level2 smaller">
+<h2>Where we are</h2>
+<p>Last week was Exam 1, so we never finished the activity from Lecture 11. Today:</p>
+<ol type="1">
+<li>A quick <strong>refresher</strong> on testing the slope.</li>
+<li>Time to <strong>finish AE 11</strong>.</li>
+<li><strong>Decisions and errors:</strong> what can go wrong when we test?</li>
+<li><strong>Power:</strong> how likely are we to detect a relationship that really exists? We will explore it with the expansion of the universe.</li>
+</ol>
+</section>
+<section>
+<section id="refresher-testing-a-slope" class="title-slide slide level1 center">
+<h1>Refresher: testing a slope</h1>
+
+</section>
+<section id="the-setup" class="slide level2 smaller">
+<h2>The setup</h2>
+<p>We have data on 508 of the most popular songs on Spotify. Does a song’s duration help predict its danceability?</p>
+
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"></section>
+<section id="the-five-steps" class="slide level2 smaller">
+<h2>The five steps</h2>
+<ol type="1">
+<li><strong>Choose a statistic</strong> that captures the question: the slope <span class="math inline">\(\hat{\beta}_1\)</span>.</li>
+<li><strong>Hypotheses:</strong> <span class="math inline">\(H_0: \beta_1 = 0\)</span> (no linear relationship) vs.&nbsp;<span class="math inline">\(H_A: \beta_1 \neq 0\)</span>.</li>
+<li><strong>Null distribution:</strong> what slopes do we get if there is no relationship? We built it by <strong>shuffling</strong>. It is normal, centered at 0, with spread <span class="math inline">\(SE_{\hat{\beta}_1}\)</span>.</li>
+<li><strong>Standardize:</strong> <span class="math inline">\(t = \dfrac{\hat{\beta}_1 - 0}{SE_{\hat{\beta}_1}}\)</span>, compared to a <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n - 2\)</span> degrees of freedom.</li>
+<li><strong>Conclude:</strong> the p-value is the probability of a statistic at least this extreme <strong>if <span class="math inline">\(H_0\)</span> is true</strong>.</li>
+</ol>
+</section>
+<section id="in-r" class="slide level2 smaller">
+<h2>In R</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>spotify_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(danceability <span class="sc">~</span> duration_min, <span class="at">data =</span> spotify)</span>
+<span id="cb1-2"><a></a></span>
+<span id="cb1-3"><a></a>spotify_fit <span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a></a>  <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
+<span id="cb1-5"><a></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">0.7809</td>
+<td style="text-align: right;">0.0275</td>
+<td style="text-align: right;">28.3506</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">duration_min</td>
+<td style="text-align: right;">-0.0242</td>
+<td style="text-align: right;">0.0077</td>
+<td style="text-align: right;">-3.1510</td>
+<td style="text-align: right;">0.0017</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="question">
+<ul>
+<li>What is the test statistic for the slope? What does it mean in words?</li>
+<li>What is the p-value, and what is your conclusion in context?</li>
+</ul>
+</div>
+</section>
+<section id="activity" class="slide level2 smaller">
+<h2>Activity</h2>
+<div class="appex">
+<p>📋 <a href="../ae/ae-11-spotify-inference.html">AE 11 - What Makes a Song Danceable?</a></p>
+</div>
+<ul>
+<li>Get back into your groups and use the same predictor you were assigned and finish the Activity.</li>
+<li>We will pick back up at the countdown. Keep your AE 11 model, because we will use it again.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_8dc34818" minutes="20" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+</div>
+</div>
+</section></section>
+<section>
+<section id="decisions-and-errors" class="title-slide slide level1 center">
+<h1>Decisions and errors</h1>
+
+</section>
+<section id="from-a-p-value-to-a-decision" class="slide level2 smaller">
+<h2>From a p-value to a decision</h2>
+<p>So far we have reported a p-value. Often a test ends with a <strong>decision</strong>.</p>
+<ul>
+<li>Choose a <strong>significance level</strong> <span class="math inline">\(\alpha\)</span> ahead of time (usually <span class="math inline">\(0.05\)</span>).</li>
+<li>If p-value <span class="math inline">\(&lt; \alpha\)</span>: <strong>reject <span class="math inline">\(H_0\)</span></strong>. The data provide convincing evidence for <span class="math inline">\(H_A\)</span>.</li>
+<li>If p-value <span class="math inline">\(\geq \alpha\)</span>: <strong>fail to reject <span class="math inline">\(H_0\)</span></strong>. The data do not provide convincing evidence for <span class="math inline">\(H_A\)</span>.</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>We never “accept” <span class="math inline">\(H_0\)</span>. Courtroom: <span class="math inline">\(H_0\)</span> is “innocent,” and “not guilty” is not the same as “innocent.”</li>
+</ul>
+</div>
+<div class="fragment">
+<div class="question">
+<p>For the duration model, the p-value is 0.0017. With <span class="math inline">\(\alpha = 0.05\)</span>, what is our decision?</p>
+</div>
+</div>
+</section>
+<section id="nothing-magical-happens-at-alpha" class="slide level2 smaller">
+<h2>Nothing magical happens at <span class="math inline">\(\alpha\)</span></h2>
+<ul>
+<li>A p-value of <span class="math inline">\(0.049\)</span> and a p-value of <span class="math inline">\(0.051\)</span> are essentially the same amount of evidence, yet they lead to opposite “decisions.”</li>
+<li><span class="math inline">\(0.05\)</span> is a convention, not a law of nature.</li>
+<li>Evidence is a <strong>continuum</strong>. Report the p-value, the estimate, and a confidence interval, not just “significant” or “not significant.”</li>
+</ul>
+<div class="fragment">
+<p>So why bother with decisions at all? Because they let us ask: <strong>how often will we be wrong?</strong></p>
+</div>
+</section>
+<section id="what-can-happen" class="slide level2 smaller">
+<h2>What can happen?</h2>
+<div class="question">
+<p>What are the four possible outcomes of a test?</p>
+</div>
+<div class="fragment">
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;"><strong>Reject <span class="math inline">\(H_0\)</span></strong></th>
+<th style="text-align: left;"><strong>Fail to reject <span class="math inline">\(H_0\)</span></strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong><span class="math inline">\(H_0\)</span> is true</strong> (no relationship)</td>
+<td style="text-align: left;"><strong>Type I error</strong> (false positive)</td>
+<td style="text-align: left;">Correct</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong><span class="math inline">\(H_0\)</span> is false</strong> (real relationship)</td>
+<td style="text-align: left;">Correct</td>
+<td style="text-align: left;"><strong>Type II error</strong> (false negative)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="types-of-error" class="slide level2 smaller">
+<h2>Types of error</h2>
+<ul>
+<li><strong>Type I error:</strong> rejecting <span class="math inline">\(H_0\)</span> when it is true. <span class="math inline">\(P(\text{Type I}) = \alpha\)</span>, so we choose how often this happens.</li>
+<li><strong>Type II error:</strong> failing to reject <span class="math inline">\(H_0\)</span> when it is false. <span class="math inline">\(P(\text{Type II}) = \beta\)</span> is harder to control: it depends on how big the real effect is, how much data we have, and how noisy the data are.</li>
+<li><strong>Trade-off:</strong> lowering <span class="math inline">\(\alpha\)</span> makes Type I errors rarer but Type II errors more common.</li>
+</ul>
+<div class="fragment">
+<div class="question">
+<p>In a courtroom, which error is worse: convicting an innocent person or acquitting a guilty one? Is the same error always worse in science? Think about screening for a disease vs.&nbsp;approving a new drug.</p>
+</div>
+</div>
+</section></section>
+<section>
+<section id="power" class="title-slide slide level1 center">
+<h1>Power</h1>
+
+</section>
+<section id="statistical-power" class="slide level2 smaller">
+<h2>Statistical power</h2>
+<p>The bottom-left cell of our table is the one we usually want. <strong>Power</strong> is the probability that a test correctly rejects <span class="math inline">\(H_0\)</span> when there really is an effect of a given size: <span class="math inline">\(\text{power} = 1 - P(\text{Type II error})\)</span>.</p>
+<div class="fragment">
+<div class="question">
+<p>What do you think the power of a test depends on?</p>
+</div>
+</div>
+<div class="fragment">
+<ul>
+<li><strong>Sample size:</strong> more data means more power</li>
+<li><strong>Significance level</strong> <span class="math inline">\(\alpha\)</span>: a more lenient <span class="math inline">\(\alpha\)</span> means more power (and more false positives)</li>
+<li><strong>Variability</strong> in the data: less noise means more power</li>
+<li><strong>Size of the slope:</strong> a steeper relationship is easier to detect</li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="an-expanding-universe" class="title-slide slide level1 center">
+<h1>An expanding universe</h1>
+
+</section>
+<section id="what-we-know-now" class="slide level2 smaller">
+<h2>What we know now</h2>
+<p>We now know that the universe is expanding: galaxies move away from us, and <strong>farther galaxies move away faster</strong>. There is a linear relationship between a galaxy’s distance and its recession velocity:</p>
+<p><span class="math display">\[v = C \, d\]</span></p>
+<ul>
+<li><span class="math inline">\(v\)</span>: recession velocity (km/s)</li>
+<li><span class="math inline">\(d\)</span>: distance (megaparsecs, Mpc, where 1 Mpc <span class="math inline">\(\approx\)</span> 3.26 million light years)</li>
+<li><span class="math inline">\(C\)</span>: the <strong>Hubble constant</strong>, about 70 km/s per Mpc</li>
+</ul>
+<div class="fragment">
+<div class="question">
+<p>In regression language, what is <span class="math inline">\(C\)</span>? What would the intercept be?</p>
+</div>
+</div>
+</section>
+<section id="what-are-these-units" class="slide level2 smaller">
+<h2>What are these units?</h2>
+<p><strong>Distance: the megaparsec (Mpc).</strong> Astronomical distances are enormous, so astronomers use big units.</p>
+<ul>
+<li>1 parsec <span class="math inline">\(\approx\)</span> 3.26 light years, so <strong>1 Mpc</strong> (a million parsecs) <span class="math inline">\(\approx\)</span> <strong>3.26 million light years</strong>.</li>
+<li>Andromeda, our nearest large neighbor, is about 0.8 Mpc away. The Virgo Cluster is about 16 Mpc away.</li>
+</ul>
+<div class="fragment">
+<p><strong>Recession velocity (km/s).</strong> Light from a galaxy that is moving away from us is stretched to longer, redder wavelengths (<strong>redshift</strong>). The more the light is shifted, the faster the galaxy is receding. So we can measure a galaxy’s velocity directly from its light, even though we cannot measure its distance directly.</p>
+<ul>
+<li>Positive velocity: moving <strong>away</strong> from us. Negative: moving toward us.</li>
+<li>For scale, a galaxy at 100 Mpc recedes at roughly 7,000 km/s, about 25 million km/h.</li>
+</ul>
+</div>
+<div class="fragment">
+<p>So <span class="math inline">\(C \approx 70\)</span> km/s per Mpc means: for every additional 3.26 million light years of distance, a galaxy recedes about 70 km/s faster.</p>
+</div>
+</section>
+<section id="our-population-cosmicflows-4" class="slide level2 smaller">
+<h2>Our population: Cosmicflows-4</h2>
+<p><strong>Cosmicflows-4</strong> (Tully et al., 2023) is a modern catalog of distances and velocities of galaxies. We will use the 8,514 galaxy groups within 100 Mpc as our <strong>population</strong>.</p>
+
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-4-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"><div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>cf4_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(velocity_kms <span class="sc">~</span> distance_mpc, <span class="at">data =</span> cf4)</span>
+<span id="cb2-2"><a></a>cf4_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">117.71</td>
+<td style="text-align: right;">30.47</td>
+<td style="text-align: right;">3.86</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">distance_mpc</td>
+<td style="text-align: right;">77.14</td>
+<td style="text-align: right;">0.47</td>
+<td style="text-align: right;">165.68</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>With 8,514 groups, the slope is about <strong>77 km/s per Mpc</strong>, our population’s version of <span class="math inline">\(C\)</span>. Nobody doubts this relationship.</p>
+</section>
+<section id="back-in-the-1920s" class="slide level2 smaller">
+<h2>Back in the 1920s</h2>
+<p>It was not always obvious. In the early 1920s, most astronomers thought the Milky Way was the whole universe, and that the universe was static.</p>
+<ul>
+<li><strong>1912-1917:</strong> Vesto Slipher measures the velocities of spiral “nebulae.” Most are moving away from us.</li>
+<li><strong>1924:</strong> Edwin Hubble uses Cepheid stars to show that Andromeda is far outside the Milky Way: it is another galaxy.</li>
+<li><strong>1927:</strong> Georges Lemaitre predicts, from general relativity, that the universe is expanding.</li>
+<li><strong>1929:</strong> Hubble publishes distances and velocities for <strong>24 nebulae</strong>, measured with the 100-inch telescope at Mount Wilson.</li>
+<li><strong>1931:</strong> Hubble and Milton Humason add distant galaxy clusters, 15 times farther away.</li>
+</ul>
+</section>
+<section id="hubble-the-telescope" class="slide level2 smaller">
+<h2>Hubble the telescope</h2>
+<ul>
+<li>The <strong>Hubble Space Telescope</strong>, launched in <strong>1990</strong>, is named after him.</li>
+<li>One of its main goals was to pin down <span class="math inline">\(C\)</span>. Its Key Project (2001) found <span class="math inline">\(C = 72 \pm 8\)</span> km/s per Mpc.</li>
+<li>Today astronomers still argue about the exact value (the “Hubble tension”), but not about whether the relationship exists.</li>
+</ul>
+<div class="fragment">
+<div class="question">
+<p>Before Hubble ever pointed his telescope, he had to decide how many galaxies to measure. How many would be enough to detect the relationship if it exists? That is a question about <strong>power</strong>.</p>
+</div>
+</div>
+</section></section>
+<section>
+<section id="simulating-power" class="title-slide slide level1 center">
+<h1>Simulating power</h1>
+
+</section>
+<section id="sampling-from-the-population" class="slide level2 smaller">
+<h2>Sampling from the population</h2>
+<p>We will treat Cosmicflows-4 as the population and take <strong>samples</strong> of galaxy groups, like an astronomer with a small telescope. Here is one sample of <code>n = 5</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb3-2"><a></a><span class="fu">lm</span>(velocity_kms <span class="sc">~</span> distance_mpc, <span class="at">data =</span> <span class="fu">resample</span>(cf4, <span class="dv">5</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a></a>  <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">1361.889</td>
+<td style="text-align: right;">984.372</td>
+<td style="text-align: right;">1.384</td>
+<td style="text-align: right;">0.26</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">distance_mpc</td>
+<td style="text-align: right;">62.534</td>
+<td style="text-align: right;">16.030</td>
+<td style="text-align: right;">3.901</td>
+<td style="text-align: right;">0.03</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="question">
+<p>Did this sample detect the relationship at <span class="math inline">\(\alpha = 0.05\)</span>?</p>
+</div>
+</section>
+<section id="another-sample" class="slide level2 smaller">
+<h2>Another sample</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">lm</span>(velocity_kms <span class="sc">~</span> distance_mpc, <span class="at">data =</span> <span class="fu">resample</span>(cf4, <span class="dv">5</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a></a>  <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">-281.439</td>
+<td style="text-align: right;">731.550</td>
+<td style="text-align: right;">-0.385</td>
+<td style="text-align: right;">0.726</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">distance_mpc</td>
+<td style="text-align: right;">79.119</td>
+<td style="text-align: right;">9.921</td>
+<td style="text-align: right;">7.975</td>
+<td style="text-align: right;">0.004</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="question">
+<p>How do the estimate and p-value differ from the previous sample? Did both samples detect the relationship?</p>
+</div>
+</section>
+<section id="ten-samples" class="slide level2 smaller">
+<h2>Ten samples</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="fu">do</span>(<span class="dv">10</span>) <span class="sc">*</span> (</span>
+<span id="cb5-2"><a></a>  <span class="fu">lm</span>(velocity_kms <span class="sc">~</span> distance_mpc, <span class="at">data =</span> <span class="fu">resample</span>(cf4, <span class="dv">5</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a></a>    <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a></a>    <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"distance_mpc"</span>)</span>
+<span id="cb5-5"><a></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 7
+   term         estimate std.error statistic p.value  .row .index
+   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;
+ 1 distance_mpc    151.       22.3      6.75 0.00664     1      1
+ 2 distance_mpc     82.2      46.2      1.78 0.173       1      2
+ 3 distance_mpc     73.1      10.9      6.71 0.00675     1      3
+ 4 distance_mpc     89.6      21.6      4.15 0.0255      1      4
+ 5 distance_mpc    202.       99.2      2.04 0.135       1      5
+ 6 distance_mpc    112.       31.7      3.55 0.0380      1      6
+ 7 distance_mpc    154.       60.8      2.54 0.0848      1      7
+ 8 distance_mpc    109.       35.2      3.09 0.0535      1      8
+ 9 distance_mpc    108.       10.4     10.4  0.00191     1      9
+10 distance_mpc     70.6      13.7      5.14 0.0143      1     10</code></pre>
+</div>
+</div>
+<div class="question">
+<p>In how many of these 10 samples was the p-value below 0.05?</p>
+</div>
+</section>
+<section id="one-thousand-samples" class="slide level2 smaller">
+<h2>One thousand samples</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a>n_samp <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb7-2"><a></a></span>
+<span id="cb7-3"><a></a>power_sim <span class="ot">&lt;-</span> <span class="fu">do</span>(<span class="dv">1000</span>) <span class="sc">*</span> (</span>
+<span id="cb7-4"><a></a>  <span class="fu">lm</span>(velocity_kms <span class="sc">~</span> distance_mpc, <span class="at">data =</span> <span class="fu">resample</span>(cf4, n_samp)) <span class="sc">|&gt;</span></span>
+<span id="cb7-5"><a></a>    <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-6"><a></a>    <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"distance_mpc"</span>)</span>
+<span id="cb7-7"><a></a>)</span>
+<span id="cb7-8"><a></a></span>
+<span id="cb7-9"><a></a><span class="fu">tally</span>(<span class="sc">~</span> (p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>), <span class="at">data =</span> power_sim, <span class="at">format =</span> <span class="st">"proportion"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(p.value &lt; 0.05)
+ TRUE FALSE 
+0.665 0.335 </code></pre>
+</div>
+</div>
+<p>With 5 galaxy groups, we would detect the relationship about <strong>66%</strong> of the time. That is the <strong>power</strong> of the test when <span class="math inline">\(n = 5\)</span>.</p>
+</section>
+<section id="sample-size" class="slide level2 smaller">
+<h2>Sample size</h2>
+
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-12-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><p>More data, more power. The dashed line marks the common target of <strong>80% power</strong>.</p>
+</section>
+<section id="significance-level" class="slide level2 smaller">
+<h2>Significance level</h2>
+
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
+<p>What do we give up in exchange for the extra power of a larger <span class="math inline">\(\alpha\)</span>?</p>
+</div>
+</section>
+<section id="variability" class="slide level2 smaller">
+<h2>Variability</h2>
+<p>What if peculiar motions made galaxies scatter more around the line? We can build that population: keep the fitted line, but <strong>multiply the residuals</strong> by 1, 2, or 4.</p>
+
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-16-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
+<section id="variability-and-power" class="slide level2 smaller">
+<h2>Variability and power</h2>
+
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-18-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><p>More scatter, less power.</p>
+</section>
+<section id="size-of-the-slope" class="slide level2 smaller">
+<h2>Size of the slope</h2>
+<p>Now imagine a universe that expands more slowly: keep the same scatter, but <strong>multiply the slope</strong> by 1, 0.5, or 0.25.</p>
+
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-20-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
+<section id="size-of-the-slope-and-power" class="slide level2 smaller">
+<h2>Size of the slope and power</h2>
+
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-21-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
+<p>Compare this plot to the variability plot. What do you notice? Why might halving the slope and doubling the noise do the same thing?</p>
+</div>
+<div class="fragment">
+<p>(Hold that thought. Next time we will give it a name: <strong>effect size</strong>.)</p>
+</div>
+</section>
+<section id="what-drives-power" class="slide level2 smaller">
+<h2>What drives power?</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">To get more power…</th>
+<th style="text-align: left;">Because…</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Increase the <strong>sample size</strong></td>
+<td style="text-align: left;">Less sampling variability in the slope</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Increase <span class="math inline">\(\alpha\)</span></td>
+<td style="text-align: left;">Easier to reject, but more Type I errors</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Reduce the <strong>variability</strong></td>
+<td style="text-align: left;">The signal stands out from the noise</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Look for a <strong>steeper slope</strong></td>
+<td style="text-align: left;">The signal is bigger</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="what-was-the-power-of-hubbles-original-study" class="slide level2">
+<h2>What was the power of Hubble’s original study?</h2>
+<ul>
+<li>Need some assumptions first</li>
+</ul>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">We <strong>choose</strong></th>
+<th style="text-align: left;">We must <strong>assume</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Significance level <span class="math inline">\(\alpha\)</span></td>
+<td style="text-align: left;">The true slope <span class="math inline">\(\beta_1\)</span>: how fast does the universe expand?</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sample size <span class="math inline">\(n\)</span></td>
+<td style="text-align: left;">The noise <span class="math inline">\(\sigma\)</span>: how much do galaxies scatter around the line?</td>
+</tr>
+</tbody>
+</table>
+<div class="appex">
+<p>📋 <a href="https://ericfriedlander.github.io/math2025-fa26/ae/ae-14-hubble-power.html">AE 14 - The Power to Discover an Expanding Universe</a></p>
+</div>
+<ul>
+<li>Complete Parts 1 and 2 (Exercises 1-4).</li>
+</ul>
+</section>
+<section id="in-hubbles-shoes" class="slide level2 smaller">
+<h2>In Hubble’s shoes</h2>
+<p>It is the 1920s and you are Edwin Hubble. Every point on the plot costs you enormous effort:</p>
+<ul>
+<li>Each velocity needs a <strong>spectrum</strong> of a faint galaxy, photographed through the 100-inch telescope at Mount Wilson, then the largest in the world.</li>
+<li>Exposures take many hours, often over several nights, and telescope time is scarce.</li>
+<li>Distances are even harder: you must find and measure individual stars in each galaxy.</li>
+</ul>
+<div class="fragment">
+<p>Before spending years collecting data, we want to make sure that <strong>we can detect the effect if it exists.</strong></p>
+<div class="question">
+<p>What would you need to know, or assume, to figure out how many galaxies to measure?</p>
+</div>
+</div>
+</section>
+<section id="power-analysis" class="slide level2 smaller">
+<h2>Power analysis</h2>
+<p>A <strong>power analysis</strong> is done <strong>before</strong> collecting data:</p>
+<ol type="1">
+<li>Decide on the <strong>smallest relationship you would care about</strong> (this is a judgment about practical significance, not a statistics question).</li>
+<li>Choose a <strong>target power</strong>, often 80%. Trade off the cost of a Type II error against the cost of more data.</li>
+<li>Use simulation (or a formula) to find the <strong>sample size</strong> that achieves it.</li>
+<li>Collect that much data.</li>
+</ol>
+<div class="fragment">
+<div class="callout callout-caution callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Caution</strong></p>
+</div>
+<div class="callout-content">
+<p>Power computed from the effect you <strong>already observed</strong> only tells you how your study behaved. It is not a guarantee about a future study, because the observed effect is itself a noisy estimate.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="what-should-we-assume" class="slide level2 smaller">
+<h2>What should we assume?</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">We <strong>choose</strong></th>
+<th style="text-align: left;">We must <strong>assume</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Significance level <span class="math inline">\(\alpha\)</span></td>
+<td style="text-align: left;">The true slope <span class="math inline">\(\beta_1\)</span>: how fast does the universe expand?</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Target power</td>
+<td style="text-align: left;">The noise <span class="math inline">\(\sigma\)</span>: how much do galaxies scatter around the line?</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<ul>
+<li><strong>Significance level:</strong> <span class="math inline">\(\alpha = 0.05\)</span>.</li>
+<li><strong>Noise:</strong> galaxies have their own motions, about 150 to 200 km/s, plus measurement error on photographic spectra, about 40 km/s. Together, <span class="math inline">\(\sigma \approx 175\)</span> km/s.</li>
+<li><strong>Reach:</strong> the telescope can reach galaxies out to 2 Mpc, spread evenly.</li>
+</ul>
+</div>
+</section>
+<section id="what-about-slope" class="slide level2">
+<h2>What about slope?</h2>
+<p>This is the hard one. We need a principled guess, and we will consider three (in Hubble’s 1920s distance units):</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Prior</th>
+<th style="text-align: left;">Slope (km/s per Mpc)</th>
+<th style="text-align: left;">Where it comes from</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Optimistic</td>
+<td style="text-align: left;">575</td>
+<td style="text-align: left;">Lemaitre’s 1927 estimate, from Slipher’s velocities and early distances</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Plausible</td>
+<td style="text-align: left;">450</td>
+<td style="text-align: left;">Slipher’s average unexplained recession of the nebulae</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Conservative</td>
+<td style="text-align: left;">100</td>
+<td style="text-align: left;">A smaller slope, of the same order as Slipher’s and Lemaitre’s estimates, but reduced in case they were over-estimates</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="activity-1" class="slide level2 smaller">
+<h2>Activity</h2>
+<div class="appex">
+<p>📋 <a href="https://ericfriedlander.github.io/math2025-fa26/ae/ae-14-hubble-power.html">AE 14 - The Power to Discover an Expanding Universe</a></p>
+</div>
+<ul>
+<li>Continue with Part 3: choose a slope from the priors above and see how much your assumptions matter.</li>
+<li>Choose your own target power, then find the sample size you would need.</li>
+<li>Finished early? Analyze Hubble’s real data (Part 4).</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_fa0d5f47" minutes="25" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+</div>
+</div>
+</section></section>
+<section>
+<section id="hubbles-actual-data" class="title-slide slide level1 center">
+<h1>Hubble’s actual data</h1>
+
+</section>
+<section id="hubbles-1929-data" class="slide level2 smaller">
+<h2>Hubble’s 1929 data</h2>
+
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-23-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>hubble_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(velocity_kms <span class="sc">~</span> distance_mpc, <span class="at">data =</span> hubble29)</span>
+<span id="cb9-2"><a></a>hubble_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">-40.784</td>
+<td style="text-align: right;">83.439</td>
+<td style="text-align: right;">-0.489</td>
+<td style="text-align: right;">0.63</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">distance_mpc</td>
+<td style="text-align: right;">454.158</td>
+<td style="text-align: right;">75.237</td>
+<td style="text-align: right;">6.036</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Hubble’s slope is about <strong>454</strong> km/s per Mpc, roughly 6 times today’s value. His distances were too small (he did not know about two types of Cepheids). But a relationship was there to see: right in the range of our priors.</p>
+</section>
+<section id="hubble-and-humasons-1931-data" class="slide level2 smaller">
+<h2>Hubble and Humason’s 1931 data</h2>
+
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-26-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a><span class="fu">lm</span>(velocity_kms <span class="sc">~</span> distance_mpc, <span class="at">data =</span> hubble_both) <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">-189.207</td>
+<td style="text-align: right;">278.054</td>
+<td style="text-align: right;">-0.680</td>
+<td style="text-align: right;">0.501</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">distance_mpc</td>
+<td style="text-align: right;">451.366</td>
+<td style="text-align: right;">27.951</td>
+<td style="text-align: right;">16.149</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="question">
+<p>Did your assumptions matter? What made the 1931 result so much more convincing than 1929?</p>
+</div>
+</section>
+<section id="recap" class="slide level2 smaller">
+<h2>Recap</h2>
+<ul>
+<li>A test ends in a decision: <strong>reject</strong> or <strong>fail to reject</strong> <span class="math inline">\(H_0\)</span>. But evidence is a continuum, and nothing magical happens at <span class="math inline">\(\alpha\)</span>.</li>
+<li>Four outcomes: a <strong>Type I error</strong> (probability <span class="math inline">\(\alpha\)</span>), a <strong>Type II error</strong>, and two correct decisions.</li>
+<li><strong>Power</strong> is the probability of detecting a real relationship: <span class="math inline">\(1 - P(\text{Type II error})\)</span>.</li>
+<li>Power increases with <strong>sample size</strong>, <strong><span class="math inline">\(\alpha\)</span></strong>, less <strong>variability</strong>, and a <strong>steeper slope</strong>.</li>
+<li>A <strong>power analysis</strong> before collecting data: assume a slope and noise, choose a target power, and find the sample size you need.</li>
+<li>Next time: how big is a relationship, not just whether we can detect it?</li>
+</ul>
+
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="../images/logo.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p><a href="https://ericfriedlander.github.io/math2025-fa26/">🔗 MATH 2025 - Fall 2026 - Schedule</a></p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/ericfriedlander\.github\.io\/math2025-fa26\/");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
