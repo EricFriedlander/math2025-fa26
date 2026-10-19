@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>AE 15: Effect Size and Power – MATH 2025 - Fall 2026</title>
+<title>AE 15: Effect Size – MATH 2025 - Fall 2026</title>
 <style>
 
 code{white-space: pre-wrap;}
@@ -4444,7 +4444,7 @@ color: #ffd283;
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">AE 15: Effect Size and Power</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">AE 15: Effect Size</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -4539,13 +4539,12 @@ color: #ffd283;
    
   <ul>
   <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro</a></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a>
-  <ul class="collapse">
-  <li><a href="#predictor-assignment" id="toc-predictor-assignment" class="nav-link" data-scroll-target="#predictor-assignment">Predictor assignment</a></li>
-  </ul></li>
-  <li><a href="#part-1-effect-size" id="toc-part-1-effect-size" class="nav-link" data-scroll-target="#part-1-effect-size">Part 1: Effect size</a></li>
-  <li><a href="#part-2-power" id="toc-part-2-power" class="nav-link" data-scroll-target="#part-2-power">Part 2: Power</a></li>
-  <li><a href="#part-3-reflection" id="toc-part-3-reflection" class="nav-link" data-scroll-target="#part-3-reflection">Part 3: Reflection</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#part-1-r2-for-a-slope" id="toc-part-1-r2-for-a-slope" class="nav-link" data-scroll-target="#part-1-r2-for-a-slope">Part 1: <span class="math inline">\(R^2\)</span> for a slope</a></li>
+  <li><a href="#part-2-cohens-d-for-a-difference-in-means" id="toc-part-2-cohens-d-for-a-difference-in-means" class="nav-link" data-scroll-target="#part-2-cohens-d-for-a-difference-in-means">Part 2: Cohen’s <span class="math inline">\(d\)</span> for a difference in means</a></li>
+  <li><a href="#part-3-your-groups-predictors" id="toc-part-3-your-groups-predictors" class="nav-link" data-scroll-target="#part-3-your-groups-predictors">Part 3: Your group’s predictors</a></li>
+  <li><a href="#part-4-effect-size-sample-size-and-power" id="toc-part-4-effect-size-sample-size-and-power" class="nav-link" data-scroll-target="#part-4-effect-size-sample-size-and-power">Part 4: Effect size, sample size, and power</a></li>
+  <li><a href="#part-5-reflection" id="toc-part-5-reflection" class="nav-link" data-scroll-target="#part-5-reflection">Part 5: Reflection</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/ae/ae-15-effect-size-power.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -4555,8 +4554,8 @@ color: #ffd283;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">AE 15: Effect Size and Power</h1>
-<p class="subtitle lead">Spotify danceability, continued</p>
+<h1 class="title">AE 15: Effect Size</h1>
+<p class="subtitle lead">The Framingham Heart Study</p>
 </div>
 
 
@@ -4586,21 +4585,26 @@ Important
 <ul>
 <li>Open <a href="https://rstudio.collegeofidaho.edu/">RStudio</a> and create a subfolder in your AE folder called “AE-15”.</li>
 <li>Go to the assignment for this activity in <a href>Canvas</a> to get started.</li>
-<li>Upload the <code>ae-15-effect-size-power.qmd</code> and <code>spotify-popular.csv</code> files into the folder you just created.</li>
+<li>Upload the <code>ae-15-effect-size-power.qmd</code> file into the folder you just created.</li>
+<li>Upload <code>framingham.csv</code> to your <code>Data</code> folder (the data file is linked in the Canvas assignment).</li>
 </ul>
 </div>
 </div>
 <section id="intro" class="level2">
 <h2 class="anchored" data-anchor-id="intro">Intro</h2>
-<p>In AE 11 you tested whether a song characteristic is related to <code>danceability</code>. A small p-value tells us a relationship is <em>detectable</em>, but not whether it is <em>big</em>, and not whether we would have detected it with a different amount of data. Today we answer both questions for the same Spotify data:</p>
+<p>Last time we saw that power depends on the size of the slope relative to the noise. A small p-value tells us a relationship is <em>detectable</em>, but not whether it is <em>big</em>. Today we measure how big using two <strong>effect sizes</strong>:</p>
 <ol type="1">
-<li>Measure the <strong>effect size</strong> of your predictor.</li>
-<li>Estimate the <strong>power</strong> of your test at different sample sizes.</li>
+<li><span class="math inline">\(R^2\)</span> for a slope (quantitative predictor).</li>
+<li>Cohen’s <span class="math inline">\(d\)</span> for a difference in means (binary predictor).</li>
 </ol>
 </section>
 <section id="data" class="level2">
 <h2 class="anchored" data-anchor-id="data">Data</h2>
-<p>We use the same data as AE 11: some of the most popular songs on Spotify (those with <code>track_popularity &gt;= 80</code>), with <code>danceability</code> as the response. See AE 11 for the full variable descriptions.</p>
+<p>The <strong>Framingham Heart Study</strong> began in 1948, following residents of Framingham, Massachusetts to learn what causes heart disease. Our response is <strong>systolic blood pressure</strong> (<code>sysBP</code>, mm Hg). Variables we will use:</p>
+<ul>
+<li><code>age</code>, <code>BMI</code>, <code>totChol</code> (total cholesterol), <code>heartRate</code>, <code>glucose</code>, <code>cigsPerDay</code>: quantitative</li>
+<li><code>male</code>, <code>diabetes</code>, <code>currentSmoker</code>, <code>BPMeds</code> (on blood pressure medication), <code>prevalentStroke</code>, <code>TenYearCHD</code> (heart disease within 10 years): binary, coded 0/1</li>
+</ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggformula)</span>
@@ -4609,31 +4613,60 @@ Important
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coursekata)  <span class="co"># for resample(), do(), tally()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>spotify <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data/spotify-popular.csv&quot;</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fram <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data/framingham.csv&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(sysBP)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<section id="predictor-assignment" class="level3">
-<h3 class="anchored" data-anchor-id="predictor-assignment">Predictor assignment</h3>
-<p>Use the <strong>same group and predictor as AE 11</strong>.</p>
-<ul>
-<li><strong>Group 1:</strong> <code>energy</code></li>
-<li><strong>Group 2:</strong> <code>loudness</code></li>
-<li><strong>Group 3:</strong> <code>valence</code></li>
-<li><strong>Group 4:</strong> <code>tempo</code></li>
-<li><strong>Group 5:</strong> <code>acousticness</code></li>
-<li><strong>Group 6:</strong> <code>liveness</code></li>
-</ul>
 </section>
-</section>
-<section id="part-1-effect-size" class="level2">
-<h2 class="anchored" data-anchor-id="part-1-effect-size">Part 1: Effect size</h2>
+<section id="part-1-r2-for-a-slope" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-r2-for-a-slope">Part 1: <span class="math inline">\(R^2\)</span> for a slope</h2>
 <div class="exercise">
-<p>Fit the model predicting <code>danceability</code> from your explanatory variable and save it as <code>spotify_fit</code>. Use <code>glance()</code> to find <span class="math inline">\(R^2\)</span> and the p-value for the model. (Hint: <code>spotify_fit |&gt; glance()</code>. The model’s p-value is the same as the slope’s.)</p>
+<p>Fit a model predicting <code>sysBP</code> from <code>BMI</code> and save it as <code>bmi_fit</code>. Use <code>glance()</code> to find <span class="math inline">\(R^2\)</span> and the p-value. (Hint: <code>bmi_fit |&gt; glance()</code>. The model’s p-value is the same as the slope’s.)</p>
 </div>
 <div class="answer">
 
 </div>
 <div class="exercise">
-<p>Interpret <span class="math inline">\(R^2\)</span> as an <strong>effect size</strong>: what percent of the variation in <code>danceability</code> does your predictor explain? Using the guideline that <span class="math inline">\(R^2 \approx 0.01\)</span> is small, <span class="math inline">\(0.09\)</span> is medium, and <span class="math inline">\(0.25\)</span> is large, how big is your effect? Write your predictor, <span class="math inline">\(R^2\)</span>, and p-value on the whiteboard.</p>
+<p>Interpret <span class="math inline">\(R^2\)</span> as an <strong>effect size</strong>: what percent of the variation in <code>sysBP</code> does BMI explain? In class we found that age explains about 15%. Which is the bigger effect? Do both have tiny p-values?</p>
+</div>
+<div class="answer">
+
+</div>
+</section>
+<section id="part-2-cohens-d-for-a-difference-in-means" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-cohens-d-for-a-difference-in-means">Part 2: Cohen’s <span class="math inline">\(d\)</span> for a difference in means</h2>
+<p>Cohen’s <span class="math inline">\(d\)</span> is the difference in means measured in standard deviations:</p>
+<p><span class="math display">\[d = \frac{\bar{y}_1 - \bar{y}_2}{s_{pooled}}, \qquad s_{pooled} = \sqrt{\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}}\]</span></p>
+<div class="exercise">
+<p>Compare blood pressure for participants with and without diabetes. Use <code>group_by(diabetes)</code> and <code>summarize()</code> to find the mean, SD, and sample size of <code>sysBP</code> in each group, then compute <span class="math inline">\(s_{pooled}\)</span> and Cohen’s <span class="math inline">\(d\)</span> by hand.</p>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>Fit <code>lm(sysBP ~ diabetes, data = fram)</code> and save it as <code>dia_fit</code>. Confirm that the slope divided by <code>sigma</code> (from <code>glance(dia_fit)</code>) equals your Cohen’s <span class="math inline">\(d\)</span>. Why does this work?</p>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>Interpret <span class="math inline">\(d\)</span> in a sentence, in context. Is the p-value or the effect size the better answer to “does diabetes matter for blood pressure?” Why?</p>
+</div>
+<div class="answer">
+
+</div>
+</section>
+<section id="part-3-your-groups-predictors" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-your-groups-predictors">Part 3: Your group’s predictors</h2>
+<p>Each group gets one quantitative and one binary predictor:</p>
+<ul>
+<li><strong>Group 1:</strong> <code>totChol</code> and <code>currentSmoker</code></li>
+<li><strong>Group 2:</strong> <code>heartRate</code> and <code>TenYearCHD</code></li>
+<li><strong>Group 3:</strong> <code>glucose</code> and <code>prevalentStroke</code></li>
+<li><strong>Group 4:</strong> <code>cigsPerDay</code> and <code>BPMeds</code></li>
+</ul>
+<p>(Some columns have missing values: <code>lm()</code> drops those rows automatically. If you have extra groups, double up.)</p>
+<div class="exercise">
+<p>Fit <code>sysBP</code> on your quantitative predictor and on your binary predictor. Report <span class="math inline">\(R^2\)</span>, <span class="math inline">\(d\)</span>, and the p-value for each on the whiteboard. (Hint: for the binary predictor, <span class="math inline">\(d\)</span> is the slope divided by <code>sigma</code>.)</p>
 </div>
 <div class="answer">
 
@@ -4642,49 +4675,50 @@ Important
 <p>Once every group has reported, compare the board.</p>
 <ol type="a">
 <li>Which predictors are <strong>statistically detectable</strong> (p &lt; 0.05)? Which have a <strong>meaningful</strong> effect size?</li>
-<li>Is there a predictor that is detectable but has a tiny effect? Explain how that is possible when the sample size is 508.</li>
-<li>Would you rather use a predictor with a tiny but detectable effect or a large effect to build a danceable playlist? Why?</li>
+<li>Is there a predictor that is detectable but has a small effect? Explain how that is possible with 4240 participants.</li>
+<li>Look at <code>prevalentStroke</code> and <code>BPMeds</code>: few participants in the “1” group, but large <span class="math inline">\(d\)</span>. What does that do to the p-value, and what does it say about how we should read <span class="math inline">\(d\)</span>?</li>
 </ol>
 </div>
 <div class="answer">
 
 </div>
 </section>
-<section id="part-2-power" class="level2">
-<h2 class="anchored" data-anchor-id="part-2-power">Part 2: Power</h2>
-<p>We will treat our songs as the “population” and take repeated <strong>resamples</strong> of a fixed size, run the test on each, and count how often we detect the relationship (p &lt; 0.05). The proportion detected is an estimate of the test’s <strong>power</strong> at that sample size.</p>
-<div class="exercise">
-<p>Run the code below, replacing <code>energy</code> with your predictor. What is the estimated power when we only have <code>n = 30</code> songs? Interpret it in a sentence.</p>
+<section id="part-4-effect-size-sample-size-and-power" class="level2">
+<h2 class="anchored" data-anchor-id="part-4-effect-size-sample-size-and-power">Part 4: Effect size, sample size, and power</h2>
+<p>We will treat Framingham as the “population” and take repeated <strong>resamples</strong> of a fixed size. Each time, we compute Cohen’s <span class="math inline">\(d\)</span> and the p-value for <code>male</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>power_sim <span class="ot">&lt;-</span> <span class="fu">do</span>(<span class="dv">1000</span>) <span class="sc">*</span> (</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(danceability <span class="sc">~</span> energy, <span class="at">data =</span> <span class="fu">resample</span>(spotify, <span class="dv">30</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;energy&quot;</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>n_samp <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># &lt;- change me</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>sim <span class="ot">&lt;-</span> <span class="fu">do</span>(<span class="dv">1000</span>) <span class="sc">*</span> {</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(sysBP <span class="sc">~</span> male, <span class="at">data =</span> <span class="fu">resample</span>(fram, n_samp))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">d =</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>] <span class="sc">/</span> <span class="fu">sigma</span>(fit), <span class="at">p.value =</span> <span class="fu">tidy</span>(fit)<span class="sc">$</span>p.value[<span class="dv">2</span>])</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tally</span>(<span class="sc">~</span> (p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>), <span class="at">data =</span> power_sim, <span class="at">format =</span> <span class="st">&quot;proportion&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(sim<span class="sc">$</span>d)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tally</span>(<span class="sc">~</span> (p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>), <span class="at">data =</span> sim, <span class="at">format =</span> <span class="st">&quot;proportion&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<div class="exercise">
+<p>Delete <code>#| eval: false</code> and run the chunk with <code>n_samp = 100</code>, then again with <code>n_samp = 4000</code>. For each, record the typical value of <span class="math inline">\(d\)</span> (the mean of <code>d</code>) and the proportion of samples with p &lt; 0.05, which is the estimated <strong>power</strong>.</p>
 </div>
 <div class="answer">
 
 </div>
 <div class="exercise">
-<p>Repeat Exercise 4 for at least <strong>three other sample sizes</strong> (for example 60, 120, and 250), then record the estimated power for each, including <code>n = 30</code>, in a table or a plot of power vs. sample size. (Hint: copy the code and change <code>30</code>. If you are comfortable with functions, you can write one that takes <code>n</code> as an argument.)</p>
+<p>What happened to <span class="math inline">\(d\)</span> as the sample size grew? What happened to the power? Explain in a sentence why this tells us that effect size and sample size play different roles.</p>
 </div>
 <div class="answer">
 
 </div>
 <div class="exercise">
-<p>Based on your results, about how many songs would you need to have <strong>80% power</strong> to detect the effect of your predictor? Compare with other groups. Why do the groups get such different answers?</p>
+<p>Roughly how many participants would you need for 80% power to detect the sex difference? What about the diabetes difference (change <code>male</code> to <code>diabetes</code>)? Why do the answers differ so much?</p>
 </div>
 <div class="answer">
 
 </div>
 </section>
-<section id="part-3-reflection" class="level2">
-<h2 class="anchored" data-anchor-id="part-3-reflection">Part 3: Reflection</h2>
+<section id="part-5-reflection" class="level2">
+<h2 class="anchored" data-anchor-id="part-5-reflection">Part 5: Reflection</h2>
 <div class="exercise">
 <p>A researcher tests a new teaching method on 12 students and finds a p-value of 0.30. They conclude, “The method has no effect.”</p>
 <ol type="a">

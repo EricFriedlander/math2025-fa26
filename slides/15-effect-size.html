@@ -215,58 +215,225 @@ Prof.&nbsp;Eric Friedlander
 </section>
 <section id="where-we-are" class="slide level2 smaller">
 <h2>Where we are</h2>
-<p>Last time we saw that <strong>power</strong> depends on the size of the slope relative to the noise. Today:</p>
+<p>Last time we saw that <strong>power</strong> depends on four things: sample size, <span class="math inline">\(\alpha\)</span>, variability, and the size of the slope. At the end we noticed something strange:</p>
+<div class="fragment">
+<div class="question">
+<p>Why did halving the slope and doubling the noise give the same power curve?</p>
+</div>
+</div>
+<div class="fragment">
+<p>Because power depends on the slope <strong>relative to the noise</strong>. Today we give that idea a name: <strong>effect size</strong>.</p>
 <ol type="1">
-<li><strong>Effect size:</strong> how big is a relationship, not just whether it is detectable?</li>
-<li>Comparing predictors, and how effect size connects back to power.</li>
+<li>Two kinds of questions: a slope and a difference in means.</li>
+<li><strong><span class="math inline">\(R^2\)</span></strong> and <strong>Cohen’s <span class="math inline">\(d\)</span></strong> as measures of effect size.</li>
+<li>Effect size vs.&nbsp;sample size vs.&nbsp;power.</li>
 </ol>
-</section>
-<section>
-<section id="effect-size" class="title-slide slide level1 center">
-<h1>Effect size</h1>
-
-</section>
-<section id="statistically-detectable.-so-what" class="slide level2 smaller">
-<h2>Statistically detectable. So what?</h2>
-<p>For duration, the p-value is 0.0017: strong evidence of a relationship.</p>
-
-<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><div class="question">
-<p>Looking at the picture, how useful is duration for predicting danceability? How much of the variation does it explain?</p>
 </div>
 </section>
-<section id="detectable-is-not-the-same-as-big" class="slide level2 smaller">
-<h2>Detectable is not the same as big</h2>
+<section>
+<section id="the-framingham-heart-study" class="title-slide slide level1 center">
+<h1>The Framingham Heart Study</h1>
+
+</section>
+<section id="where-does-blood-pressure-come-from" class="slide level2 smaller">
+<h2>Where does blood pressure come from?</h2>
+<p>In 1948, researchers began following residents of <strong>Framingham, Massachusetts</strong> to learn what causes heart disease. It is one of the most influential studies in medicine, and it gave us the term “risk factor.”</p>
+<p>We have 4,240 participants. Our response is <strong>systolic blood pressure</strong> (<code>sysBP</code>, mm Hg), the top number in a blood pressure reading.</p>
+<ul>
+<li>Quantitative predictors: <code>age</code>, <code>BMI</code>, <code>totChol</code>, <code>heartRate</code>, …</li>
+<li>Binary predictors: <code>male</code>, <code>diabetes</code>, <code>currentSmoker</code>, …</li>
+</ul>
+
+<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:50.0%"></section></section>
+<section>
+<section id="a-slope-age" class="title-slide slide level1 center">
+<h1>A slope: age</h1>
+
+</section>
+<section id="does-blood-pressure-rise-with-age" class="slide level2 smaller">
+<h2>Does blood pressure rise with age?</h2>
+
+<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"><div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>age_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(sysBP <span class="sc">~</span> age, <span class="at">data =</span> fram)</span>
+<span id="cb1-2"><a></a>age_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">82.1420</td>
+<td style="text-align: right;">1.8257</td>
+<td style="text-align: right;">44.9920</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">1.0128</td>
+<td style="text-align: right;">0.0363</td>
+<td style="text-align: right;">27.9112</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="question">
+<p>What is the conclusion of the test of the slope? Is the relationship <strong>detectable</strong>? Looking at the plot, is it <strong>big</strong>?</p>
+</div>
+</section>
+<section id="r2-as-an-effect-size" class="slide level2 smaller">
+<h2><span class="math inline">\(R^2\)</span> as an effect size</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>spotify_fit <span class="sc">|&gt;</span> <span class="fu">glance</span>() <span class="sc">|&gt;</span> <span class="fu">select</span>(r.squared, p.value, nobs) <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>age_fit <span class="sc">|&gt;</span> <span class="fu">glance</span>() <span class="sc">|&gt;</span> <span class="fu">select</span>(r.squared, sigma, p.value, nobs) <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
 <tr class="header">
 <th style="text-align: right;">r.squared</th>
+<th style="text-align: right;">sigma</th>
 <th style="text-align: right;">p.value</th>
 <th style="text-align: right;">nobs</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">0.0192</td>
-<td style="text-align: right;">0.0017</td>
-<td style="text-align: right;">508</td>
+<td style="text-align: right;">0.1553</td>
+<td style="text-align: right;">20.2529</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4240</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <ul>
-<li><span class="math inline">\(R^2 =\)</span> 0.019: duration explains about <strong>1.9%</strong> of the variation in danceability (the same quantity as PRE).</li>
-<li>Yet the p-value is tiny. Why? Because we have 508 songs.</li>
+<li><span class="math inline">\(R^2 =\)</span> 0.155: age explains about <strong>15.5%</strong> of the variation in blood pressure (recall PRE from Lecture 7).</li>
+<li>The p-value is astronomically small (less than <span class="math inline">\(10^{-100}\)</span>).</li>
 </ul>
 <div class="fragment">
-<ul>
-<li><strong>Statistical significance</strong> answers: <em>is there evidence of any relationship at all?</em></li>
-<li><strong>Effect size</strong> answers: <em>how big is the relationship, compared to the variability in the data?</em></li>
-</ul>
+<p>The p-value tells us the relationship is <strong>detectable</strong>. <span class="math inline">\(R^2\)</span> tells us <strong>how much</strong> of the story it explains: it compares the signal (the slope) to the noise (the scatter around the line).</p>
 </div>
+</section></section>
+<section>
+<section id="a-difference-in-means-sex" class="title-slide slide level1 center">
+<h1>A difference in means: sex</h1>
+
+</section>
+<section id="do-men-and-women-differ" class="slide level2 smaller">
+<h2>Do men and women differ?</h2>
+
+<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-6-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>sex_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(sysBP <span class="sc">~</span> sex, <span class="at">data =</span> fram)</span>
+<span id="cb3-2"><a></a>sex_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">133.0401</td>
+<td style="text-align: right;">0.4477</td>
+<td style="text-align: right;">297.1934</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sexMale</td>
+<td style="text-align: right;">-1.5970</td>
+<td style="text-align: right;">0.6833</td>
+<td style="text-align: right;">-2.3372</td>
+<td style="text-align: right;">0.0195</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="question">
+<p>What does the intercept mean? What does the slope mean? Is the difference statistically significant at <span class="math inline">\(\alpha = 0.05\)</span>?</p>
+</div>
+</section>
+<section id="significant.-but-is-it-big" class="slide level2 smaller">
+<h2>Significant. But is it big?</h2>
+<p>Men’s average blood pressure differs by only <strong>1.6 mm Hg</strong> (p = 0.019). The overall SD of blood pressure is about 22 mm Hg.</p>
+<div class="fragment">
+<p>How do we say “a difference of 1.6 mm Hg, <strong>compared to the noise</strong>”? Divide by the noise:</p>
+<p><span class="math display">\[
+d = \frac{\bar{y}_1 - \bar{y}_2}{s_{pooled}}, \qquad s_{pooled} = \sqrt{\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}}
+\]</span></p>
+<p>This is <strong>Cohen’s <span class="math inline">\(d\)</span></strong>: the difference in means, measured in standard deviations.</p>
+</div>
+</section>
+<section id="computing-cohens-d" class="slide level2 smaller">
+<h2>Computing Cohen’s <span class="math inline">\(d\)</span></h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>fram <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a></a>  <span class="fu">group_by</span>(sex) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(sysBP), <span class="at">sd =</span> <span class="fu">sd</span>(sysBP), <span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">sex</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Female</td>
+<td style="text-align: right;">133.04</td>
+<td style="text-align: right;">23.79</td>
+<td style="text-align: right;">2420</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Male</td>
+<td style="text-align: right;">131.44</td>
+<td style="text-align: right;">19.42</td>
+<td style="text-align: right;">1820</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Plugging in gives <span class="math inline">\(d \approx\)</span> -0.07: men and women differ by about <strong>0.07 standard deviations</strong>. That is tiny.</p>
+<div class="fragment">
+<p><strong>Connection to regression:</strong> the slope in <code>lm(sysBP ~ sex)</code> is the difference in means, and <code>sigma</code> (the residual standard error) is the pooled SD. So</p>
+<p><span class="math display">\[d = \frac{\hat{\beta}_1}{\hat{\sigma}_\epsilon} = \frac{-1.6}{22.02} = -0.07\]</span></p>
+<div class="question">
+<p>How can a difference this small be statistically significant?</p>
+</div>
+</div>
+</section>
+<section id="a-bigger-effect-diabetes" class="slide level2 smaller">
+<h2>A bigger effect: diabetes</h2>
+
+<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-11-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><p>Only 109 participants have diabetes, yet the difference is about <strong>15.5 mm Hg</strong>, with <span class="math inline">\(d \approx\)</span> 0.71.</p>
+<div class="question">
+<p>Which has the smaller p-value: sex (n = 4,240, <span class="math inline">\(d \approx 0.07\)</span>) or diabetes (n = 109 in one group, <span class="math inline">\(d \approx 0.7\)</span>)? Which is the bigger effect?</p>
+</div>
+</section></section>
+<section>
+<section id="effect-size" class="title-slide slide level1 center">
+<h1>Effect size</h1>
+
 </section>
 <section id="what-is-an-effect-size" class="slide level2 smaller">
 <h2>What is an effect size?</h2>
@@ -275,7 +442,6 @@ Prof.&nbsp;Eric Friedlander
 <li>It does <strong>not</strong> depend on the sample size (other than ordinary sampling variability).</li>
 <li>The p-value <strong>does</strong> depend on the sample size: more data pushes p-values down, even when the effect is tiny.</li>
 </ul>
-<p>Two measures you can already compute:</p>
 <table class="caption-top">
 <colgroup>
 <col style="width: 33%">
@@ -303,41 +469,24 @@ Prof.&nbsp;Eric Friedlander
 </tbody>
 </table>
 <ul>
-<li>Warning: the <strong>noise</strong> or <strong>sd</strong> we refer to is of the data not the sampling distribution (i.e.&nbsp;not the standard error)</li>
+<li>Warning: the <strong>noise</strong> or <strong>sd</strong> we refer to is of the data, not the sampling distribution (i.e.&nbsp;not the standard error).</li>
 </ul>
 </section>
-<section id="a-warning-on-effect-size" class="slide level2">
-<h2>A Warning On Effect Size</h2>
-<p>Different communities the use statistics can frequently mean different things when they say <strong>effect size</strong>:</p>
+<section id="a-warning-on-effect-size" class="slide level2 smaller">
+<h2>A warning on effect size</h2>
+<p>Different communities that use statistics frequently mean different things when they say <strong>effect size</strong>:</p>
 <ul>
-<li>Everyone usually means “Is the size of my coefficient large?” (in this case the raw slope would be considered a measure of effect size)</li>
-<li>Most statisticians mean “Is the size of my coefficient large compared to my variation?” (This is the definition we will use in class)
+<li>Everyone usually means “Is the size of my coefficient large?” (in this case the raw slope would be considered a measure of effect size).</li>
+<li>Most statisticians mean “Is the size of my coefficient large compared to my variation?” (This is the definition we will use in class.)
 <ul>
-<li>Note that this definitions requires two things: a measure of the raw size and a measure of the variability</li>
+<li>Note that this definition requires two things: a measure of the raw size and a measure of the variability.</li>
 </ul></li>
 </ul>
 <div class="fragment">
 <div class="question">
-<p>How does <span class="math inline">\(R^2\)</span> include both of these measure in it?</p>
+<p>How does <span class="math inline">\(R^2\)</span> include both of these measures in it? How does Cohen’s <span class="math inline">\(d\)</span>?</p>
 </div>
 </div>
-</section>
-<section id="cohens-d-for-two-groups" class="slide level2 smaller">
-<h2>Cohen’s <span class="math inline">\(d\)</span> for two groups</h2>
-<p>Songs in a major key (<code>mode = 1</code>) vs.&nbsp;a minor key (<code>mode = 0</code>):</p>
-
-<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-4-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><p>Major keys average 0.048 units lower in danceability: <span class="math inline">\(d \approx\)</span> -0.37, about a third of an SD.</p>
-</section>
-<section id="practice" class="slide level2">
-<h2>Practice</h2>
-<p>For each of the following questions, tell me whether you should answer it using a p-value, an effect size, or both:</p>
-<ol type="1">
-<li>Is there convincing evidence that the key a song is in explains any of the variation in a songs danceability?</li>
-<li>Do I sell more cups of coffee in the park or in the business district?</li>
-<li>Is the increase in the number of cups of coffee I sell meaningful?</li>
-<li>Is the type of music an important predictor in the number of cups of coffee I sell?</li>
-<li>How price sensitive are coffee consumers?</li>
-</ol>
 </section>
 <section id="rules-of-thumb" class="slide level2 smaller">
 <h2>Rules of thumb</h2>
@@ -345,82 +494,56 @@ Prof.&nbsp;Eric Friedlander
 <li>There are general guidelines for what makes a large effect size (you can google them).</li>
 <li><strong>What counts as a meaningful effect depends on the problem.</strong> So I will not present them.</li>
 </ul>
-</section>
-<section id="comparing-predictors" class="slide level2 smaller">
-<h2>Comparing predictors</h2>
-<p>Each AE 11 group used a different predictor of <code>danceability</code>:</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;">predictor</th>
-<th style="text-align: right;">r.squared</th>
-<th style="text-align: right;">p.value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">valence</td>
-<td style="text-align: right;">0.139</td>
-<td style="text-align: right;">0.0000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">acousticness</td>
-<td style="text-align: right;">0.030</td>
-<td style="text-align: right;">0.0001</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">tempo</td>
-<td style="text-align: right;">0.022</td>
-<td style="text-align: right;">0.0008</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">loudness</td>
-<td style="text-align: right;">0.017</td>
-<td style="text-align: right;">0.0036</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">liveness</td>
-<td style="text-align: right;">0.007</td>
-<td style="text-align: right;">0.0616</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">energy</td>
-<td style="text-align: right;">0.002</td>
-<td style="text-align: right;">0.3299</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="question">
-<p>Match these <span class="math inline">\(R^2\)</span> values to the power curves we just saw. Will increasing effect size always decrease the p-value?</p>
-</div>
-</section>
-<section id="effect-size-matters-too" class="slide level2 smaller">
-<h2>Effect size matters too</h2>
-
-<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
-<p>Same songs, same sample sizes. Why does one predictor reach 80% power with so few songs while another needs far more?</p>
-</div>
 <div class="fragment">
-<p>Because the relationships differ in <strong>effect size</strong>. So what is an effect size?</p>
+<div class="question">
+<p>Is a 1.6 mm Hg difference in blood pressure meaningful? What about 10 mm Hg? Who decides?</p>
 </div>
+</div>
+</section></section>
+<section>
+<section id="effect-size-sample-size-and-power" class="title-slide slide level1 center">
+<h1>Effect size, sample size, and power</h1>
+
+</section>
+<section id="effect-size-does-not-grow-with-n" class="slide level2 smaller">
+<h2>Effect size does not grow with <span class="math inline">\(n\)</span></h2>
+<p>Treat Framingham as a population. Take samples of size <span class="math inline">\(n\)</span>, and compute Cohen’s <span class="math inline">\(d\)</span> for sex and the p-value each time.</p>
+
+<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="question">
+<p>What happens to <span class="math inline">\(d\)</span> as <span class="math inline">\(n\)</span> grows? What happens to the p-value?</p>
+</div>
+</section>
+<section id="effect-size-and-power" class="slide level2 smaller">
+<h2>Effect size and power</h2>
+
+<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-16-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
+<p>This is the same idea as halving the slope and doubling the noise. <strong>Bigger effect size means more power at the same <span class="math inline">\(n\)</span>.</strong> Roughly how many people do we need for 80% power for each predictor?</p>
+</div>
+</section>
+<section id="practice" class="slide level2 smaller">
+<h2>Practice</h2>
+<p>For each of the following questions, tell me whether you should answer it using a p-value, an effect size, or both:</p>
+<ol type="1">
+<li>Is there convincing evidence that sex explains any of the variation in blood pressure?</li>
+<li>Do I sell more cups of coffee in the park or in the business district?</li>
+<li>Is the increase in the number of cups of coffee I sell meaningful?</li>
+<li>Is the type of music an important predictor in the number of cups of coffee I sell?</li>
+<li>How price sensitive are coffee consumers?</li>
+</ol>
 </section>
 <section id="activity" class="slide level2 smaller">
 <h2>Activity</h2>
 <div class="appex">
-<p>📋 <a href="https://ericfriedlander.github.io/math2025-fa26/ae/ae-15-effect-size-power.html">AE 15 - Effect Size and Power</a></p>
+<p>📋 <a href="https://ericfriedlander.github.io/math2025-fa26/ae/ae-15-effect-size-power.html">AE 15 - Effect Size</a></p>
 </div>
 <ul>
-<li>Stay in your AE 11 groups and keep your AE 11 predictor.</li>
-<li>Compute the effect size of your model and compare with other groups.</li>
-<li>Estimate the power of your test at several sample sizes.</li>
+<li>Compute <span class="math inline">\(R^2\)</span> and Cohen’s <span class="math inline">\(d\)</span> for blood pressure risk factors in Framingham.</li>
+<li>Your group will be assigned one quantitative and one binary predictor. Report them on the board.</li>
+<li>See how effect size, sample size, and p-values interact.</li>
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_8bb54601" minutes="20" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_2d5a3ef1" minutes="25" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
 </div>
 </div>
 </section>
@@ -428,8 +551,9 @@ Prof.&nbsp;Eric Friedlander
 <h2>Recap</h2>
 <ul>
 <li>A small p-value says a relationship is <strong>detectable</strong>. It doesn’t say the relationship is <strong>big</strong>.</li>
-<li><strong>Effect size</strong> (<span class="math inline">\(R^2\)</span>, Cohen’s <span class="math inline">\(d\)</span>) measures how big a relationship is relative to the noise, and doesn’t grow with <span class="math inline">\(n\)</span>. What counts as meaningful depends on context.</li>
-<li><strong>Power</strong> is the probability of detecting a real effect. It increases with sample size and effect size.</li>
+<li><strong>Effect size</strong> measures how big a relationship is relative to the noise: <span class="math inline">\(R^2\)</span> for a slope, Cohen’s <span class="math inline">\(d\)</span> for a difference in means (<span class="math inline">\(d = \hat{\beta}_1 / \hat{\sigma}_\epsilon\)</span> in regression).</li>
+<li>Effect size doesn’t grow with <span class="math inline">\(n\)</span>. The p-value does. What counts as meaningful depends on context.</li>
+<li><strong>Power</strong> is the probability of detecting a real effect. It increases with sample size <strong>and</strong> effect size.</li>
 <li>With a huge sample, ask whether the effect matters. With a small sample, remember that failing to reject <span class="math inline">\(H_0\)</span> is not proof of no relationship.</li>
 </ul>
 

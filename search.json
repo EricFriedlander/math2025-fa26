@@ -114,84 +114,112 @@
     "href": "slides/15-effect-size.html#where-we-are",
     "title": "Effect Size",
     "section": "Where we are",
-    "text": "Where we are\nLast time we saw that power depends on the size of the slope relative to the noise. Today:\n\nEffect size: how big is a relationship, not just whether it is detectable?\nComparing predictors, and how effect size connects back to power."
+    "text": "Where we are\nLast time we saw that power depends on four things: sample size, \\(\\alpha\\), variability, and the size of the slope. At the end we noticed something strange:\n\n\nWhy did halving the slope and doubling the noise give the same power curve?\n\n\n\nBecause power depends on the slope relative to the noise. Today we give that idea a name: effect size.\n\nTwo kinds of questions: a slope and a difference in means.\n\\(R^2\\) and Cohen’s \\(d\\) as measures of effect size.\nEffect size vs. sample size vs. power."
   },
   {
-    "objectID": "slides/15-effect-size.html#statistically-detectable.-so-what",
-    "href": "slides/15-effect-size.html#statistically-detectable.-so-what",
+    "objectID": "slides/15-effect-size.html#where-does-blood-pressure-come-from",
+    "href": "slides/15-effect-size.html#where-does-blood-pressure-come-from",
     "title": "Effect Size",
-    "section": "Statistically detectable. So what?",
-    "text": "Statistically detectable. So what?\nFor duration, the p-value is 0.0017: strong evidence of a relationship.\n\n\nLooking at the picture, how useful is duration for predicting danceability? How much of the variation does it explain?"
+    "section": "Where does blood pressure come from?",
+    "text": "Where does blood pressure come from?\nIn 1948, researchers began following residents of Framingham, Massachusetts to learn what causes heart disease. It is one of the most influential studies in medicine, and it gave us the term “risk factor.”\nWe have 4,240 participants. Our response is systolic blood pressure (sysBP, mm Hg), the top number in a blood pressure reading.\n\nQuantitative predictors: age, BMI, totChol, heartRate, …\nBinary predictors: male, diabetes, currentSmoker, …"
   },
   {
-    "objectID": "slides/15-effect-size.html#detectable-is-not-the-same-as-big",
-    "href": "slides/15-effect-size.html#detectable-is-not-the-same-as-big",
+    "objectID": "slides/15-effect-size.html#does-blood-pressure-rise-with-age",
+    "href": "slides/15-effect-size.html#does-blood-pressure-rise-with-age",
     "title": "Effect Size",
-    "section": "Detectable is not the same as big",
-    "text": "Detectable is not the same as big\n\nspotify_fit |&gt; glance() |&gt; select(r.squared, p.value, nobs) |&gt; kable(digits = 4)\n\n\n\n\nr.squared\np.value\nnobs\n\n\n\n\n0.0192\n0.0017\n508\n\n\n\n\n\n\n\\(R^2 =\\) 0.019: duration explains about 1.9% of the variation in danceability (the same quantity as PRE).\nYet the p-value is tiny. Why? Because we have 508 songs.\n\n\n\nStatistical significance answers: is there evidence of any relationship at all?\nEffect size answers: how big is the relationship, compared to the variability in the data?"
+    "section": "Does blood pressure rise with age?",
+    "text": "Does blood pressure rise with age?\n\n\nage_fit &lt;- lm(sysBP ~ age, data = fram)\nage_fit |&gt; tidy() |&gt; kable(digits = 4)\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n82.1420\n1.8257\n44.9920\n0\n\n\nage\n1.0128\n0.0363\n27.9112\n0\n\n\n\n\n\n\nWhat is the conclusion of the test of the slope? Is the relationship detectable? Looking at the plot, is it big?"
+  },
+  {
+    "objectID": "slides/15-effect-size.html#r2-as-an-effect-size",
+    "href": "slides/15-effect-size.html#r2-as-an-effect-size",
+    "title": "Effect Size",
+    "section": "\\(R^2\\) as an effect size",
+    "text": "\\(R^2\\) as an effect size\n\nage_fit |&gt; glance() |&gt; select(r.squared, sigma, p.value, nobs) |&gt; kable(digits = 4)\n\n\n\n\nr.squared\nsigma\np.value\nnobs\n\n\n\n\n0.1553\n20.2529\n0\n4240\n\n\n\n\n\n\n\\(R^2 =\\) 0.155: age explains about 15.5% of the variation in blood pressure (recall PRE from Lecture 7).\nThe p-value is astronomically small (less than \\(10^{-100}\\)).\n\n\nThe p-value tells us the relationship is detectable. \\(R^2\\) tells us how much of the story it explains: it compares the signal (the slope) to the noise (the scatter around the line)."
+  },
+  {
+    "objectID": "slides/15-effect-size.html#do-men-and-women-differ",
+    "href": "slides/15-effect-size.html#do-men-and-women-differ",
+    "title": "Effect Size",
+    "section": "Do men and women differ?",
+    "text": "Do men and women differ?\n\n\nsex_fit &lt;- lm(sysBP ~ sex, data = fram)\nsex_fit |&gt; tidy() |&gt; kable(digits = 4)\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n133.0401\n0.4477\n297.1934\n0.0000\n\n\nsexMale\n-1.5970\n0.6833\n-2.3372\n0.0195\n\n\n\n\n\n\nWhat does the intercept mean? What does the slope mean? Is the difference statistically significant at \\(\\alpha = 0.05\\)?"
+  },
+  {
+    "objectID": "slides/15-effect-size.html#significant.-but-is-it-big",
+    "href": "slides/15-effect-size.html#significant.-but-is-it-big",
+    "title": "Effect Size",
+    "section": "Significant. But is it big?",
+    "text": "Significant. But is it big?\nMen’s average blood pressure differs by only 1.6 mm Hg (p = 0.019). The overall SD of blood pressure is about 22 mm Hg.\n\nHow do we say “a difference of 1.6 mm Hg, compared to the noise”? Divide by the noise:\n\\[\nd = \\frac{\\bar{y}_1 - \\bar{y}_2}{s_{pooled}}, \\qquad s_{pooled} = \\sqrt{\\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}}\n\\]\nThis is Cohen’s \\(d\\): the difference in means, measured in standard deviations."
+  },
+  {
+    "objectID": "slides/15-effect-size.html#computing-cohens-d",
+    "href": "slides/15-effect-size.html#computing-cohens-d",
+    "title": "Effect Size",
+    "section": "Computing Cohen’s \\(d\\)",
+    "text": "Computing Cohen’s \\(d\\)\n\nfram |&gt;\n  group_by(sex) |&gt;\n  summarize(mean = mean(sysBP), sd = sd(sysBP), n = n()) |&gt;\n  kable(digits = 2)\n\n\n\n\nsex\nmean\nsd\nn\n\n\n\n\nFemale\n133.04\n23.79\n2420\n\n\nMale\n131.44\n19.42\n1820\n\n\n\n\n\nPlugging in gives \\(d \\approx\\) -0.07: men and women differ by about 0.07 standard deviations. That is tiny.\n\nConnection to regression: the slope in lm(sysBP ~ sex) is the difference in means, and sigma (the residual standard error) is the pooled SD. So\n\\[d = \\frac{\\hat{\\beta}_1}{\\hat{\\sigma}_\\epsilon} = \\frac{-1.6}{22.02} = -0.07\\]\n\nHow can a difference this small be statistically significant?"
+  },
+  {
+    "objectID": "slides/15-effect-size.html#a-bigger-effect-diabetes",
+    "href": "slides/15-effect-size.html#a-bigger-effect-diabetes",
+    "title": "Effect Size",
+    "section": "A bigger effect: diabetes",
+    "text": "A bigger effect: diabetes\n\nOnly 109 participants have diabetes, yet the difference is about 15.5 mm Hg, with \\(d \\approx\\) 0.71.\n\nWhich has the smaller p-value: sex (n = 4,240, \\(d \\approx 0.07\\)) or diabetes (n = 109 in one group, \\(d \\approx 0.7\\))? Which is the bigger effect?"
   },
   {
     "objectID": "slides/15-effect-size.html#what-is-an-effect-size",
     "href": "slides/15-effect-size.html#what-is-an-effect-size",
     "title": "Effect Size",
     "section": "What is an effect size?",
-    "text": "What is an effect size?\nAn effect size measures how big a relationship is relative to the noise in the data.\n\nIt does not depend on the sample size (other than ordinary sampling variability).\nThe p-value does depend on the sample size: more data pushes p-values down, even when the effect is tiny.\n\nTwo measures you can already compute:\n\n\n\n\n\n\n\n\nSituation\nEffect size\nMeaning\n\n\n\n\nQuantitative predictor\n\\(R^2\\) (PRE)\nFraction of variation in \\(Y\\) explained\n\n\nTwo groups\nCohen’s \\(d = \\dfrac{\\bar{y}_1 - \\bar{y}_2}{s_{pooled}}\\)\nDifference in means, in SD units\n\n\n\n\nWarning: the noise or sd we refer to is of the data not the sampling distribution (i.e. not the standard error)"
+    "text": "What is an effect size?\nAn effect size measures how big a relationship is relative to the noise in the data.\n\nIt does not depend on the sample size (other than ordinary sampling variability).\nThe p-value does depend on the sample size: more data pushes p-values down, even when the effect is tiny.\n\n\n\n\n\n\n\n\n\nSituation\nEffect size\nMeaning\n\n\n\n\nQuantitative predictor\n\\(R^2\\) (PRE)\nFraction of variation in \\(Y\\) explained\n\n\nTwo groups\nCohen’s \\(d = \\dfrac{\\bar{y}_1 - \\bar{y}_2}{s_{pooled}}\\)\nDifference in means, in SD units\n\n\n\n\nWarning: the noise or sd we refer to is of the data, not the sampling distribution (i.e. not the standard error)."
   },
   {
     "objectID": "slides/15-effect-size.html#a-warning-on-effect-size",
     "href": "slides/15-effect-size.html#a-warning-on-effect-size",
     "title": "Effect Size",
-    "section": "A Warning On Effect Size",
-    "text": "A Warning On Effect Size\nDifferent communities the use statistics can frequently mean different things when they say effect size:\n\nEveryone usually means “Is the size of my coefficient large?” (in this case the raw slope would be considered a measure of effect size)\nMost statisticians mean “Is the size of my coefficient large compared to my variation?” (This is the definition we will use in class)\n\nNote that this definitions requires two things: a measure of the raw size and a measure of the variability\n\n\n\n\nHow does \\(R^2\\) include both of these measure in it?"
-  },
-  {
-    "objectID": "slides/15-effect-size.html#cohens-d-for-two-groups",
-    "href": "slides/15-effect-size.html#cohens-d-for-two-groups",
-    "title": "Effect Size",
-    "section": "Cohen’s \\(d\\) for two groups",
-    "text": "Cohen’s \\(d\\) for two groups\nSongs in a major key (mode = 1) vs. a minor key (mode = 0):\n\nMajor keys average 0.048 units lower in danceability: \\(d \\approx\\) -0.37, about a third of an SD."
-  },
-  {
-    "objectID": "slides/15-effect-size.html#practice",
-    "href": "slides/15-effect-size.html#practice",
-    "title": "Effect Size",
-    "section": "Practice",
-    "text": "Practice\nFor each of the following questions, tell me whether you should answer it using a p-value, an effect size, or both:\n\nIs there convincing evidence that the key a song is in explains any of the variation in a songs danceability?\nDo I sell more cups of coffee in the park or in the business district?\nIs the increase in the number of cups of coffee I sell meaningful?\nIs the type of music an important predictor in the number of cups of coffee I sell?\nHow price sensitive are coffee consumers?"
+    "section": "A warning on effect size",
+    "text": "A warning on effect size\nDifferent communities that use statistics frequently mean different things when they say effect size:\n\nEveryone usually means “Is the size of my coefficient large?” (in this case the raw slope would be considered a measure of effect size).\nMost statisticians mean “Is the size of my coefficient large compared to my variation?” (This is the definition we will use in class.)\n\nNote that this definition requires two things: a measure of the raw size and a measure of the variability.\n\n\n\n\nHow does \\(R^2\\) include both of these measures in it? How does Cohen’s \\(d\\)?"
   },
   {
     "objectID": "slides/15-effect-size.html#rules-of-thumb",
     "href": "slides/15-effect-size.html#rules-of-thumb",
     "title": "Effect Size",
     "section": "Rules of thumb",
-    "text": "Rules of thumb\n\nThere are general guidelines for what makes a large effect size (you can google them).\nWhat counts as a meaningful effect depends on the problem. So I will not present them."
+    "text": "Rules of thumb\n\nThere are general guidelines for what makes a large effect size (you can google them).\nWhat counts as a meaningful effect depends on the problem. So I will not present them.\n\n\n\nIs a 1.6 mm Hg difference in blood pressure meaningful? What about 10 mm Hg? Who decides?"
   },
   {
-    "objectID": "slides/15-effect-size.html#comparing-predictors",
-    "href": "slides/15-effect-size.html#comparing-predictors",
+    "objectID": "slides/15-effect-size.html#effect-size-does-not-grow-with-n",
+    "href": "slides/15-effect-size.html#effect-size-does-not-grow-with-n",
     "title": "Effect Size",
-    "section": "Comparing predictors",
-    "text": "Comparing predictors\nEach AE 11 group used a different predictor of danceability:\n\n\n\n\n\npredictor\nr.squared\np.value\n\n\n\n\nvalence\n0.139\n0.0000\n\n\nacousticness\n0.030\n0.0001\n\n\ntempo\n0.022\n0.0008\n\n\nloudness\n0.017\n0.0036\n\n\nliveness\n0.007\n0.0616\n\n\nenergy\n0.002\n0.3299\n\n\n\n\n\n\nMatch these \\(R^2\\) values to the power curves we just saw. Will increasing effect size always decrease the p-value?"
+    "section": "Effect size does not grow with \\(n\\)",
+    "text": "Effect size does not grow with \\(n\\)\nTreat Framingham as a population. Take samples of size \\(n\\), and compute Cohen’s \\(d\\) for sex and the p-value each time.\n\n\nWhat happens to \\(d\\) as \\(n\\) grows? What happens to the p-value?"
   },
   {
-    "objectID": "slides/15-effect-size.html#effect-size-matters-too",
-    "href": "slides/15-effect-size.html#effect-size-matters-too",
+    "objectID": "slides/15-effect-size.html#effect-size-and-power",
+    "href": "slides/15-effect-size.html#effect-size-and-power",
     "title": "Effect Size",
-    "section": "Effect size matters too",
-    "text": "Effect size matters too\n\n\nSame songs, same sample sizes. Why does one predictor reach 80% power with so few songs while another needs far more?\n\n\nBecause the relationships differ in effect size. So what is an effect size?"
+    "section": "Effect size and power",
+    "text": "Effect size and power\n\n\nThis is the same idea as halving the slope and doubling the noise. Bigger effect size means more power at the same \\(n\\). Roughly how many people do we need for 80% power for each predictor?"
+  },
+  {
+    "objectID": "slides/15-effect-size.html#practice",
+    "href": "slides/15-effect-size.html#practice",
+    "title": "Effect Size",
+    "section": "Practice",
+    "text": "Practice\nFor each of the following questions, tell me whether you should answer it using a p-value, an effect size, or both:\n\nIs there convincing evidence that sex explains any of the variation in blood pressure?\nDo I sell more cups of coffee in the park or in the business district?\nIs the increase in the number of cups of coffee I sell meaningful?\nIs the type of music an important predictor in the number of cups of coffee I sell?\nHow price sensitive are coffee consumers?"
   },
   {
     "objectID": "slides/15-effect-size.html#activity",
     "href": "slides/15-effect-size.html#activity",
     "title": "Effect Size",
     "section": "Activity",
-    "text": "Activity\n\n📋 AE 15 - Effect Size and Power\n\n\nStay in your AE 11 groups and keep your AE 11 predictor.\nCompute the effect size of your model and compare with other groups.\nEstimate the power of your test at several sample sizes."
+    "text": "Activity\n\n📋 AE 15 - Effect Size\n\n\nCompute \\(R^2\\) and Cohen’s \\(d\\) for blood pressure risk factors in Framingham.\nYour group will be assigned one quantitative and one binary predictor. Report them on the board.\nSee how effect size, sample size, and p-values interact."
   },
   {
     "objectID": "slides/15-effect-size.html#recap",
     "href": "slides/15-effect-size.html#recap",
     "title": "Effect Size",
     "section": "Recap",
-    "text": "Recap\n\nA small p-value says a relationship is detectable. It doesn’t say the relationship is big.\nEffect size (\\(R^2\\), Cohen’s \\(d\\)) measures how big a relationship is relative to the noise, and doesn’t grow with \\(n\\). What counts as meaningful depends on context.\nPower is the probability of detecting a real effect. It increases with sample size and effect size.\nWith a huge sample, ask whether the effect matters. With a small sample, remember that failing to reject \\(H_0\\) is not proof of no relationship."
+    "text": "Recap\n\nA small p-value says a relationship is detectable. It doesn’t say the relationship is big.\nEffect size measures how big a relationship is relative to the noise: \\(R^2\\) for a slope, Cohen’s \\(d\\) for a difference in means (\\(d = \\hat{\\beta}_1 / \\hat{\\sigma}_\\epsilon\\) in regression).\nEffect size doesn’t grow with \\(n\\). The p-value does. What counts as meaningful depends on context.\nPower is the probability of detecting a real effect. It increases with sample size and effect size.\nWith a huge sample, ask whether the effect matters. With a small sample, remember that failing to reject \\(H_0\\) is not proof of no relationship."
   },
   {
     "objectID": "slides/13-slr-inference-math copy.html#last-time",
@@ -1729,44 +1757,58 @@
   {
     "objectID": "ae/ae-15-effect-size-power.html",
     "href": "ae/ae-15-effect-size-power.html",
-    "title": "AE 15: Effect Size and Power",
+    "title": "AE 15: Effect Size",
     "section": "",
-    "text": "Important\n\n\n\n\nOpen RStudio and create a subfolder in your AE folder called “AE-15”.\nGo to the assignment for this activity in Canvas to get started.\nUpload the ae-15-effect-size-power.qmd and spotify-popular.csv files into the folder you just created."
+    "text": "Important\n\n\n\n\nOpen RStudio and create a subfolder in your AE folder called “AE-15”.\nGo to the assignment for this activity in Canvas to get started.\nUpload the ae-15-effect-size-power.qmd file into the folder you just created.\nUpload framingham.csv to your Data folder (the data file is linked in the Canvas assignment)."
   },
   {
     "objectID": "ae/ae-15-effect-size-power.html#intro",
     "href": "ae/ae-15-effect-size-power.html#intro",
-    "title": "AE 15: Effect Size and Power",
+    "title": "AE 15: Effect Size",
     "section": "Intro",
-    "text": "Intro\nIn AE 11 you tested whether a song characteristic is related to danceability. A small p-value tells us a relationship is detectable, but not whether it is big, and not whether we would have detected it with a different amount of data. Today we answer both questions for the same Spotify data:\n\nMeasure the effect size of your predictor.\nEstimate the power of your test at different sample sizes."
+    "text": "Intro\nLast time we saw that power depends on the size of the slope relative to the noise. A small p-value tells us a relationship is detectable, but not whether it is big. Today we measure how big using two effect sizes:\n\n\\(R^2\\) for a slope (quantitative predictor).\nCohen’s \\(d\\) for a difference in means (binary predictor)."
   },
   {
     "objectID": "ae/ae-15-effect-size-power.html#data",
     "href": "ae/ae-15-effect-size-power.html#data",
-    "title": "AE 15: Effect Size and Power",
+    "title": "AE 15: Effect Size",
     "section": "Data",
-    "text": "Data\nWe use the same data as AE 11: some of the most popular songs on Spotify (those with track_popularity &gt;= 80), with danceability as the response. See AE 11 for the full variable descriptions.\n\nlibrary(tidyverse)\nlibrary(ggformula)\nlibrary(broom)\nlibrary(knitr)\nlibrary(coursekata)  # for resample(), do(), tally()\n\n\nspotify &lt;- read_csv(here::here(\"data/spotify-popular.csv\"))\n\n\nPredictor assignment\nUse the same group and predictor as AE 11.\n\nGroup 1: energy\nGroup 2: loudness\nGroup 3: valence\nGroup 4: tempo\nGroup 5: acousticness\nGroup 6: liveness"
+    "text": "Data\nThe Framingham Heart Study began in 1948, following residents of Framingham, Massachusetts to learn what causes heart disease. Our response is systolic blood pressure (sysBP, mm Hg). Variables we will use:\n\nage, BMI, totChol (total cholesterol), heartRate, glucose, cigsPerDay: quantitative\nmale, diabetes, currentSmoker, BPMeds (on blood pressure medication), prevalentStroke, TenYearCHD (heart disease within 10 years): binary, coded 0/1\n\n\nlibrary(tidyverse)\nlibrary(ggformula)\nlibrary(broom)\nlibrary(knitr)\nlibrary(coursekata)  # for resample(), do(), tally()\n\n\nfram &lt;- read_csv(here::here(\"data/framingham.csv\")) |&gt;\n  drop_na(sysBP)"
   },
   {
-    "objectID": "ae/ae-15-effect-size-power.html#part-1-effect-size",
-    "href": "ae/ae-15-effect-size-power.html#part-1-effect-size",
-    "title": "AE 15: Effect Size and Power",
-    "section": "Part 1: Effect size",
-    "text": "Part 1: Effect size\n\nFit the model predicting danceability from your explanatory variable and save it as spotify_fit. Use glance() to find \\(R^2\\) and the p-value for the model. (Hint: spotify_fit |&gt; glance(). The model’s p-value is the same as the slope’s.)\n\n\n\n\n\nInterpret \\(R^2\\) as an effect size: what percent of the variation in danceability does your predictor explain? Using the guideline that \\(R^2 \\approx 0.01\\) is small, \\(0.09\\) is medium, and \\(0.25\\) is large, how big is your effect? Write your predictor, \\(R^2\\), and p-value on the whiteboard.\n\n\n\n\n\nOnce every group has reported, compare the board.\n\nWhich predictors are statistically detectable (p &lt; 0.05)? Which have a meaningful effect size?\nIs there a predictor that is detectable but has a tiny effect? Explain how that is possible when the sample size is 508.\nWould you rather use a predictor with a tiny but detectable effect or a large effect to build a danceable playlist? Why?"
+    "objectID": "ae/ae-15-effect-size-power.html#part-1-r2-for-a-slope",
+    "href": "ae/ae-15-effect-size-power.html#part-1-r2-for-a-slope",
+    "title": "AE 15: Effect Size",
+    "section": "Part 1: \\(R^2\\) for a slope",
+    "text": "Part 1: \\(R^2\\) for a slope\n\nFit a model predicting sysBP from BMI and save it as bmi_fit. Use glance() to find \\(R^2\\) and the p-value. (Hint: bmi_fit |&gt; glance(). The model’s p-value is the same as the slope’s.)\n\n\n\n\n\nInterpret \\(R^2\\) as an effect size: what percent of the variation in sysBP does BMI explain? In class we found that age explains about 15%. Which is the bigger effect? Do both have tiny p-values?"
   },
   {
-    "objectID": "ae/ae-15-effect-size-power.html#part-2-power",
-    "href": "ae/ae-15-effect-size-power.html#part-2-power",
-    "title": "AE 15: Effect Size and Power",
-    "section": "Part 2: Power",
-    "text": "Part 2: Power\nWe will treat our songs as the “population” and take repeated resamples of a fixed size, run the test on each, and count how often we detect the relationship (p &lt; 0.05). The proportion detected is an estimate of the test’s power at that sample size.\n\nRun the code below, replacing energy with your predictor. What is the estimated power when we only have n = 30 songs? Interpret it in a sentence.\n\nset.seed(2026)\n\npower_sim &lt;- do(1000) * (\n  lm(danceability ~ energy, data = resample(spotify, 30)) |&gt;\n    tidy() |&gt;\n    filter(term == \"energy\")\n)\n\ntally(~ (p.value &lt; 0.05), data = power_sim, format = \"proportion\")\n\n\n\n\n\n\nRepeat Exercise 4 for at least three other sample sizes (for example 60, 120, and 250), then record the estimated power for each, including n = 30, in a table or a plot of power vs. sample size. (Hint: copy the code and change 30. If you are comfortable with functions, you can write one that takes n as an argument.)\n\n\n\n\n\nBased on your results, about how many songs would you need to have 80% power to detect the effect of your predictor? Compare with other groups. Why do the groups get such different answers?"
+    "objectID": "ae/ae-15-effect-size-power.html#part-2-cohens-d-for-a-difference-in-means",
+    "href": "ae/ae-15-effect-size-power.html#part-2-cohens-d-for-a-difference-in-means",
+    "title": "AE 15: Effect Size",
+    "section": "Part 2: Cohen’s \\(d\\) for a difference in means",
+    "text": "Part 2: Cohen’s \\(d\\) for a difference in means\nCohen’s \\(d\\) is the difference in means measured in standard deviations:\n\\[d = \\frac{\\bar{y}_1 - \\bar{y}_2}{s_{pooled}}, \\qquad s_{pooled} = \\sqrt{\\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}}\\]\n\nCompare blood pressure for participants with and without diabetes. Use group_by(diabetes) and summarize() to find the mean, SD, and sample size of sysBP in each group, then compute \\(s_{pooled}\\) and Cohen’s \\(d\\) by hand.\n\n\n\n\n\nFit lm(sysBP ~ diabetes, data = fram) and save it as dia_fit. Confirm that the slope divided by sigma (from glance(dia_fit)) equals your Cohen’s \\(d\\). Why does this work?\n\n\n\n\n\nInterpret \\(d\\) in a sentence, in context. Is the p-value or the effect size the better answer to “does diabetes matter for blood pressure?” Why?"
   },
   {
-    "objectID": "ae/ae-15-effect-size-power.html#part-3-reflection",
-    "href": "ae/ae-15-effect-size-power.html#part-3-reflection",
-    "title": "AE 15: Effect Size and Power",
-    "section": "Part 3: Reflection",
-    "text": "Part 3: Reflection\n\nA researcher tests a new teaching method on 12 students and finds a p-value of 0.30. They conclude, “The method has no effect.”\n\nWhat is wrong with this conclusion?\nHow could a power analysis have helped them before the study began?\nSuppose instead they had tested 12,000 students and found a p-value of 0.001 for a 0.3-point increase on a 100-point exam. What would you say about the statistical significance and the practical significance?\n\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTo submit the AE:\n\nRender the document to produce the HTML with all of your work from today’s class.\nUpload your .qmd and .html files to the Canvas assignment."
+    "objectID": "ae/ae-15-effect-size-power.html#part-3-your-groups-predictors",
+    "href": "ae/ae-15-effect-size-power.html#part-3-your-groups-predictors",
+    "title": "AE 15: Effect Size",
+    "section": "Part 3: Your group’s predictors",
+    "text": "Part 3: Your group’s predictors\nEach group gets one quantitative and one binary predictor:\n\nGroup 1: totChol and currentSmoker\nGroup 2: heartRate and TenYearCHD\nGroup 3: glucose and prevalentStroke\nGroup 4: cigsPerDay and BPMeds\n\n(Some columns have missing values: lm() drops those rows automatically. If you have extra groups, double up.)\n\nFit sysBP on your quantitative predictor and on your binary predictor. Report \\(R^2\\), \\(d\\), and the p-value for each on the whiteboard. (Hint: for the binary predictor, \\(d\\) is the slope divided by sigma.)\n\n\n\n\n\nOnce every group has reported, compare the board.\n\nWhich predictors are statistically detectable (p &lt; 0.05)? Which have a meaningful effect size?\nIs there a predictor that is detectable but has a small effect? Explain how that is possible with 4240 participants.\nLook at prevalentStroke and BPMeds: few participants in the “1” group, but large \\(d\\). What does that do to the p-value, and what does it say about how we should read \\(d\\)?"
+  },
+  {
+    "objectID": "ae/ae-15-effect-size-power.html#part-4-effect-size-sample-size-and-power",
+    "href": "ae/ae-15-effect-size-power.html#part-4-effect-size-sample-size-and-power",
+    "title": "AE 15: Effect Size",
+    "section": "Part 4: Effect size, sample size, and power",
+    "text": "Part 4: Effect size, sample size, and power\nWe will treat Framingham as the “population” and take repeated resamples of a fixed size. Each time, we compute Cohen’s \\(d\\) and the p-value for male.\n\nset.seed(2026)\nn_samp &lt;- 100   # &lt;- change me\n\nsim &lt;- do(1000) * {\n  fit &lt;- lm(sysBP ~ male, data = resample(fram, n_samp))\n  tibble(d = coef(fit)[2] / sigma(fit), p.value = tidy(fit)$p.value[2])\n}\n\nmean(sim$d)\ntally(~ (p.value &lt; 0.05), data = sim, format = \"proportion\")\n\n\nDelete #| eval: false and run the chunk with n_samp = 100, then again with n_samp = 4000. For each, record the typical value of \\(d\\) (the mean of d) and the proportion of samples with p &lt; 0.05, which is the estimated power.\n\n\n\n\n\nWhat happened to \\(d\\) as the sample size grew? What happened to the power? Explain in a sentence why this tells us that effect size and sample size play different roles.\n\n\n\n\n\nRoughly how many participants would you need for 80% power to detect the sex difference? What about the diabetes difference (change male to diabetes)? Why do the answers differ so much?"
+  },
+  {
+    "objectID": "ae/ae-15-effect-size-power.html#part-5-reflection",
+    "href": "ae/ae-15-effect-size-power.html#part-5-reflection",
+    "title": "AE 15: Effect Size",
+    "section": "Part 5: Reflection",
+    "text": "Part 5: Reflection\n\nA researcher tests a new teaching method on 12 students and finds a p-value of 0.30. They conclude, “The method has no effect.”\n\nWhat is wrong with this conclusion?\nHow could a power analysis have helped them before the study began?\nSuppose instead they had tested 12,000 students and found a p-value of 0.001 for a 0.3-point increase on a 100-point exam. What would you say about the statistical significance and the practical significance?\n\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTo submit the AE:\n\nRender the document to produce the HTML with all of your work from today’s class.\nUpload your .qmd and .html files to the Canvas assignment."
   },
   {
     "objectID": "ae/ae-12-exam01.html",
