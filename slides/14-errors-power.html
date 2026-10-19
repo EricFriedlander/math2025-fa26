@@ -232,7 +232,7 @@ Prof.&nbsp;Eric Friedlander
 <h2>The setup</h2>
 <p>We have data on 508 of the most popular songs on Spotify. Does a song’s duration help predict its danceability?</p>
 
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"></section>
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-1-1.png" style="width:60.0%" class="r-stretch"></section>
 <section id="the-five-steps" class="slide level2 smaller">
 <h2>The five steps</h2>
 <ol type="1">
@@ -245,7 +245,7 @@ Prof.&nbsp;Eric Friedlander
 </section>
 <section id="in-r" class="slide level2 smaller">
 <h2>In R</h2>
-<div class="cell" data-layout-align="center">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>spotify_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(danceability <span class="sc">~</span> duration_min, <span class="at">data =</span> spotify)</span>
 <span id="cb1-2"><a></a></span>
 <span id="cb1-3"><a></a>spotify_fit <span class="sc">|&gt;</span></span>
@@ -297,9 +297,9 @@ Prof.&nbsp;Eric Friedlander
 <li>Get back into your groups and use the same predictor you were assigned and finish the Activity.</li>
 <li>We will pick back up at the countdown. Keep your AE 11 model, because we will use it again.</li>
 </ul>
-<div class="cell" data-layout-align="center">
+<div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_9b1f5f47" minutes="20" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_dfb94ae9" minutes="20" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
 </div>
 </div>
 </section></section>
@@ -452,7 +452,7 @@ Prof.&nbsp;Eric Friedlander
 <h2>Our population: Cosmicflows-4</h2>
 <p><strong>Cosmicflows-4</strong> (Tully et al., 2023) is a modern catalog of distances and velocities of galaxies. We will use the 8,514 galaxy groups within 100 Mpc as our <strong>population</strong>.</p>
 
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-4-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"><div class="cell" data-layout-align="center">
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-4-1.png" style="width:60.0%" class="r-stretch"><div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>cf4_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(velocity_kms <span class="sc">~</span> distance_mpc, <span class="at">data =</span> cf4)</span>
 <span id="cb2-2"><a></a>cf4_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -519,7 +519,7 @@ Prof.&nbsp;Eric Friedlander
 <section id="sampling-from-the-population" class="slide level2 smaller">
 <h2>Sampling from the population</h2>
 <p>We will treat Cosmicflows-4 as the population and take <strong>samples</strong> of galaxy groups, like an astronomer with a small telescope. Here is one sample of <code>n = 5</code>:</p>
-<div class="cell" data-layout-align="center">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
 <span id="cb3-2"><a></a><span class="fu">lm</span>(velocity_kms <span class="sc">~</span> distance_mpc, <span class="at">data =</span> <span class="fu">resample</span>(cf4, <span class="dv">5</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb3-3"><a></a>  <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
@@ -560,7 +560,7 @@ Prof.&nbsp;Eric Friedlander
 </section>
 <section id="another-sample" class="slide level2 smaller">
 <h2>Another sample</h2>
-<div class="cell" data-layout-align="center">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">lm</span>(velocity_kms <span class="sc">~</span> distance_mpc, <span class="at">data =</span> <span class="fu">resample</span>(cf4, <span class="dv">5</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb4-2"><a></a>  <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
 <span id="cb4-3"><a></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -600,7 +600,7 @@ Prof.&nbsp;Eric Friedlander
 </section>
 <section id="ten-samples" class="slide level2 smaller">
 <h2>Ten samples</h2>
-<div class="cell" data-layout-align="center">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="fu">do</span>(<span class="dv">10</span>) <span class="sc">*</span> (</span>
 <span id="cb5-2"><a></a>  <span class="fu">lm</span>(velocity_kms <span class="sc">~</span> distance_mpc, <span class="at">data =</span> <span class="fu">resample</span>(cf4, <span class="dv">5</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb5-3"><a></a>    <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
@@ -628,7 +628,7 @@ Prof.&nbsp;Eric Friedlander
 </section>
 <section id="one-thousand-samples" class="slide level2 smaller">
 <h2>One thousand samples</h2>
-<div class="cell" data-layout-align="center">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a>n_samp <span class="ot">&lt;-</span> <span class="dv">5</span></span>
 <span id="cb7-2"><a></a></span>
 <span id="cb7-3"><a></a>power_sim <span class="ot">&lt;-</span> <span class="fu">do</span>(<span class="dv">1000</span>) <span class="sc">*</span> (</span>
@@ -649,12 +649,12 @@ Prof.&nbsp;Eric Friedlander
 <section id="sample-size" class="slide level2 smaller">
 <h2>Sample size</h2>
 
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-12-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><p>More data, more power. The dashed line marks the common target of <strong>80% power</strong>.</p>
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-12-1.png" style="width:65.0%" class="r-stretch"><p>More data, more power. The dashed line marks the common target of <strong>80% power</strong>.</p>
 </section>
 <section id="significance-level" class="slide level2 smaller">
 <h2>Significance level</h2>
 
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-14-1.png" style="width:65.0%" class="r-stretch"><div class="question">
 <p>What do we give up in exchange for the extra power of a larger <span class="math inline">\(\alpha\)</span>?</p>
 </div>
 </section>
@@ -662,21 +662,21 @@ Prof.&nbsp;Eric Friedlander
 <h2>Variability</h2>
 <p>What if peculiar motions made galaxies scatter more around the line? We can build that population: keep the fitted line, but <strong>multiply the residuals</strong> by 1, 2, or 4.</p>
 
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-16-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-16-1.png" style="width:75.0%" class="r-stretch"></section>
 <section id="variability-and-power" class="slide level2 smaller">
 <h2>Variability and power</h2>
 
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-18-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><p>More scatter, less power.</p>
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-18-1.png" style="width:65.0%" class="r-stretch"><p>More scatter, less power.</p>
 </section>
 <section id="size-of-the-slope" class="slide level2 smaller">
 <h2>Size of the slope</h2>
 <p>Now imagine a universe that expands more slowly: keep the same scatter, but <strong>multiply the slope</strong> by 1, 0.5, or 0.25.</p>
 
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-20-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-20-1.png" style="width:75.0%" class="r-stretch"></section>
 <section id="size-of-the-slope-and-power" class="slide level2 smaller">
 <h2>Size of the slope and power</h2>
 
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-21-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-21-1.png" style="width:65.0%" class="r-stretch"><div class="question">
 <p>Compare this plot to the variability plot. What do you notice? Why might halving the slope and doubling the noise do the same thing?</p>
 </div>
 <div class="fragment">
@@ -759,12 +759,11 @@ SE_{\hat{\beta}_1} = \frac{\hat{\sigma}_\epsilon}{\sqrt{(n-1)s_X^2}}, \qquad \ha
 <li>Each velocity needs a <strong>spectrum</strong> of a faint galaxy, photographed through the 100-inch telescope at Mount Wilson, then the largest in the world.</li>
 <li>Exposures take many hours, often over several nights, and telescope time is scarce.</li>
 <li>Distances are even harder: you must find and measure individual stars in each galaxy.</li>
+<li>The 100-inch telescope Edwin Hubble used cost $500,000 in 1917 which is about $13M today. . . .</li>
 </ul>
-<div class="fragment">
 <p>Before spending years collecting data, we want to make sure that <strong>we can detect the effect if it exists.</strong></p>
 <div class="question">
 <p>What would you need to know, or assume, to figure out how many galaxies to measure?</p>
-</div>
 </div>
 </section>
 <section id="power-analysis" class="slide level2 smaller">
@@ -869,9 +868,9 @@ SE_{\hat{\beta}_1} = \frac{\hat{\sigma}_\epsilon}{\sqrt{(n-1)s_X^2}}, \qquad \ha
 <li>Choose your own target power, then find the sample size you would need.</li>
 <li>Finished early? Analyze Hubble’s real data (Part 4).</li>
 </ul>
-<div class="cell" data-layout-align="center">
+<div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_e7d0b30c" minutes="25" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_779155e3" minutes="25" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
 </div>
 </div>
 </section></section>
@@ -883,7 +882,7 @@ SE_{\hat{\beta}_1} = \frac{\hat{\sigma}_\epsilon}{\sqrt{(n-1)s_X^2}}, \qquad \ha
 <section id="hubbles-1929-data" class="slide level2 smaller">
 <h2>Hubble’s 1929 data</h2>
 
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-23-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><div class="cell" data-layout-align="center">
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-23-1.png" style="width:55.0%" class="r-stretch"><div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>hubble_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(velocity_kms <span class="sc">~</span> distance_mpc, <span class="at">data =</span> hubble29)</span>
 <span id="cb9-2"><a></a>hubble_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -921,7 +920,7 @@ SE_{\hat{\beta}_1} = \frac{\hat{\sigma}_\epsilon}{\sqrt{(n-1)s_X^2}}, \qquad \ha
 <section id="hubble-and-humasons-1931-data" class="slide level2 smaller">
 <h2>Hubble and Humason’s 1931 data</h2>
 
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-26-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><div class="cell" data-layout-align="center">
+<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-26-1.png" style="width:55.0%" class="r-stretch"><div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a><span class="fu">lm</span>(velocity_kms <span class="sc">~</span> distance_mpc, <span class="at">data =</span> hubble_both) <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
