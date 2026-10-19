@@ -18,7 +18,7 @@ html-math-method:
 execute:
   freeze: auto
   echo: true
-  cache: false
+  cache: false 
 knitr:
   opts_chunk:
     R.options:
@@ -28,7 +28,6 @@ bibliography: references.bib
 
 ```{r setup}
 #| include: false
-
 library(countdown)
 
 knitr::opts_chunk$set(
@@ -184,7 +183,7 @@ What are the four possible outcomes of a test?
 ## Types of error {.smaller}
 
 - **Type I error:** rejecting $H_0$ when it is true. $P(\text{Type I}) = \alpha$, so we choose how often this happens.
-- **Type II error:** failing to reject $H_0$ when it is false. $P(\text{Type II}) = \beta$ is harder to control: it depends on how big the real effect is, how much data we have, and how noisy the data are.
+- **Type II error:** failing to reject $H_0$ when it is false. $P(\text{Type II})$ is harder to control: it depends on how big the real effect is, how much data we have, and how noisy the data are.
 - **Trade-off:** lowering $\alpha$ makes Type I errors rarer but Type II errors more common.
 
 . . .
@@ -211,6 +210,7 @@ What do you think the power of a test depends on?
 - **Significance level** $\alpha$: a more lenient $\alpha$ means more power (and more false positives)
 - **Variability** in the data: less noise means more power
 - **Size of the slope:** a steeper relationship is easier to detect
+  - The true value of $\beta_1$
 
 # An expanding universe
 
@@ -509,6 +509,12 @@ Compare this plot to the variability plot. What do you notice? Why might halving
 | Reduce the **variability** | The signal stands out from the noise |
 | Look for a **steeper slope** | The signal is bigger |
 
+. . .
+
+
+$$
+SE_{\hat{\beta}_1} = \frac{\hat{\sigma}_\epsilon}{\sqrt{(n-1)s_X^2}}, \qquad \hat{\sigma}_\epsilon = \sqrt{\frac{\sum_{i=1}^n (y_i - \hat{y}_i)^2}{n-2}}
+$$
 ## What was the power of Hubble's original study?
 
 - Need some assumptions first
@@ -531,7 +537,7 @@ It is the 1920s and you are Edwin Hubble. Every point on the plot costs you enor
 - Each velocity needs a **spectrum** of a faint galaxy, photographed through the 100-inch telescope at Mount Wilson, then the largest in the world.
 - Exposures take many hours, often over several nights, and telescope time is scarce.
 - Distances are even harder: you must find and measure individual stars in each galaxy.
-
+- The 100-inch telescope Edwin Hubble used cost \$500,000 in 1917 which is about \$13M today.
 . . .
 
 Before spending years collecting data, we want to make sure that **we can detect the effect if it exists.**
@@ -568,7 +574,7 @@ Power computed from the effect you **already observed** only tells you how your 
 - **Noise:** galaxies have their own motions, about 150 to 200 km/s, plus measurement error on photographic spectra, about 40 km/s. Together, $\sigma \approx 175$ km/s.
 - **Reach:** the telescope can reach galaxies out to 2 Mpc, spread evenly.
 
-## What about slope?
+## What about slope? {.smaller}
 
 This is the hard one. We need a principled guess, and we will consider three (in Hubble's 1920s distance units):
 
@@ -637,10 +643,6 @@ gf_point(velocity_kms ~ distance_mpc, data = hubble_both, color = ~ study, size 
 ```{r}
 lm(velocity_kms ~ distance_mpc, data = hubble_both) |> tidy() |> kable(digits = 3)
 ```
-
-::: question
-Did your assumptions matter? What made the 1931 result so much more convincing than 1929?
-:::
 
 ## Recap {.smaller}
 

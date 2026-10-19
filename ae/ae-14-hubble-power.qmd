@@ -62,7 +62,7 @@ format:
 - Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-14".
 - Go to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743/assignments/244586) to get started.
 - Upload the `ae-14-hubble-power.qmd` file into the folder you just created.
-- Create a `data` folder inside it and upload `cosmicflows4.csv`, `hubble-1929.csv`, and `hubble-1931.csv` there (the data files are linked in the Canvas assignment).
+- Upload `cosmicflows4.csv`, `hubble-1929.csv`, and `hubble-1931.csv` to your `Data` folder (the data files are linked in the Canvas assignment).
 :::
 
 ## Intro: In Hubble's shoes
@@ -81,7 +81,7 @@ library(knitr)
 
 ## Setup
 
-Run these chunks first. The last one defines two functions that simulate many studies of a given design and count how often the test rejects $H_0$. **You do not need to understand or change this code.**
+Run these chunks first. Note that you might have to play with the path so that it works in your folder. The last one defines two functions that simulate many studies of a given design and count how often the test rejects $H_0$. **You do not need to understand or change this code.**
 
 ```{r load-cf4}
 #| message: false
@@ -130,7 +130,7 @@ Hubble's 1929 study had **24** galaxies. The 1931 study of Hubble and Humason ha
 Before making assumptions, let's see what we can learn from a population we already have: the `cf4` galaxy groups (distance in `distance_mpc`, velocity in `velocity_kms`).
 
 ::: exercise
-Fit a model predicting `velocity_kms` from `distance_mpc` in `cf4` and save it as `cf4_fit`. Report the estimated slope $\hat{\beta}_1$ and the residual standard deviation $\hat{\sigma}$ (hint: `glance(cf4_fit)$sigma`).
+Fit a model predicting `velocity_kms` from `distance_mpc` in `cf4` and save it as `cf4_fit`. Report the estimated slope $\hat{\beta}_1$ and the residual standard deviation $\hat{\sigma}$ (hint: `glance(cf4_fit)` and look for `sigma`).
 :::
 
 ::: answer
@@ -144,7 +144,7 @@ Now treat $\hat{\beta}_1$ and $\hat{\sigma}$ as the truth and estimate the power
 ```{r power-population}
 #| eval: false
 
-# Fill these in
+# Fill these in and delete the eval line
 slope_estimate <- 
 sigma_estimate <-
 sample_size_1929 <-
@@ -165,7 +165,7 @@ Interpret each power in a sentence. Which of the four ingredients (sample size, 
 :::
 
 ::: exercise
-(Time Permitting) Note that there is a `max_distance` parameter in `hubble_power` function you used above. This represents the maximum distance that Hubble was able to gather galaxies from. Why do you think this is important in the power calculation? There are at least two reasons.
+(Time Permitting) Note that there is a `max_distance` parameter in `hubble_power` function you used above. This represents the maximum distance that Hubble was able to gather galaxies from. Why do you think this is important in the power calculation? Hint: Think about the formula for the standard error of $\hat{\beta}_1$.
 :::
 
 ::: answer
