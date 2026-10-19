@@ -3934,14 +3934,14 @@
     "href": "slides/14-errors-power.html#types-of-error",
     "title": "Decisions, Errors, and Power",
     "section": "Types of error",
-    "text": "Types of error\n\nType I error: rejecting \\(H_0\\) when it is true. \\(P(\\text{Type I}) = \\alpha\\), so we choose how often this happens.\nType II error: failing to reject \\(H_0\\) when it is false. \\(P(\\text{Type II}) = \\beta\\) is harder to control: it depends on how big the real effect is, how much data we have, and how noisy the data are.\nTrade-off: lowering \\(\\alpha\\) makes Type I errors rarer but Type II errors more common.\n\n\n\nIn a courtroom, which error is worse: convicting an innocent person or acquitting a guilty one? Is the same error always worse in science? Think about screening for a disease vs. approving a new drug."
+    "text": "Types of error\n\nType I error: rejecting \\(H_0\\) when it is true. \\(P(\\text{Type I}) = \\alpha\\), so we choose how often this happens.\nType II error: failing to reject \\(H_0\\) when it is false. \\(P(\\text{Type II})\\) is harder to control: it depends on how big the real effect is, how much data we have, and how noisy the data are.\nTrade-off: lowering \\(\\alpha\\) makes Type I errors rarer but Type II errors more common.\n\n\n\nIn a courtroom, which error is worse: convicting an innocent person or acquitting a guilty one? Is the same error always worse in science? Think about screening for a disease vs. approving a new drug."
   },
   {
     "objectID": "slides/14-errors-power.html#statistical-power",
     "href": "slides/14-errors-power.html#statistical-power",
     "title": "Decisions, Errors, and Power",
     "section": "Statistical power",
-    "text": "Statistical power\nThe bottom-left cell of our table is the one we usually want. Power is the probability that a test correctly rejects \\(H_0\\) when there really is an effect of a given size: \\(\\text{power} = 1 - P(\\text{Type II error})\\).\n\n\nWhat do you think the power of a test depends on?\n\n\n\n\nSample size: more data means more power\nSignificance level \\(\\alpha\\): a more lenient \\(\\alpha\\) means more power (and more false positives)\nVariability in the data: less noise means more power\nSize of the slope: a steeper relationship is easier to detect"
+    "text": "Statistical power\nThe bottom-left cell of our table is the one we usually want. Power is the probability that a test correctly rejects \\(H_0\\) when there really is an effect of a given size: \\(\\text{power} = 1 - P(\\text{Type II error})\\).\n\n\nWhat do you think the power of a test depends on?\n\n\n\n\nSample size: more data means more power\nSignificance level \\(\\alpha\\): a more lenient \\(\\alpha\\) means more power (and more false positives)\nVariability in the data: less noise means more power\nSize of the slope: a steeper relationship is easier to detect\n\nThe true value of \\(\\beta_1\\)"
   },
   {
     "objectID": "slides/14-errors-power.html#what-we-know-now",
