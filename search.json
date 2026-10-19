@@ -4102,7 +4102,7 @@
     "href": "slides/14-errors-power.html#hubble-and-humasons-1931-data",
     "title": "Decisions, Errors, and Power",
     "section": "Hubble and Humason’s 1931 data",
-    "text": "Hubble and Humason’s 1931 data\n\n\nlm(velocity_kms ~ distance_mpc, data = hubble_both) |&gt; tidy() |&gt; kable(digits = 3)\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n-189.207\n278.054\n-0.680\n0.501\n\n\ndistance_mpc\n451.366\n27.951\n16.149\n0.000\n\n\n\n\n\n\nDid your assumptions matter? What made the 1931 result so much more convincing than 1929?"
+    "text": "Hubble and Humason’s 1931 data\n\n\nlm(velocity_kms ~ distance_mpc, data = hubble_both) |&gt; tidy() |&gt; kable(digits = 3)\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n-189.207\n278.054\n-0.680\n0.501\n\n\ndistance_mpc\n451.366\n27.951\n16.149\n0.000"
   },
   {
     "objectID": "slides/14-errors-power.html#recap",
