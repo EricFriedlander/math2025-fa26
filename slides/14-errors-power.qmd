@@ -500,6 +500,7 @@ Compare this plot to the variability plot. What do you notice? Why might halving
 
 (Hold that thought. Next time we will give it a name: **effect size**.)
 
+
 ## What drives power? {.smaller}
 
 | To get more power... | Because... |
