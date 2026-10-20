@@ -66,13 +66,21 @@ cohens_d <- function(y, g) {
   unname((m[2] - m[1]) / s_pooled)
 }
 
+# Hubble (1929): 24 nebulae with individually estimated distances
+hubble29 <- read_csv(here::here("data/hubble-1929.csv"))
+hubble31 <- read_csv(here::here("data/hubble-1931.csv"))
+
 # set default theme and larger font size for ggplot2
 ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
 ```
 
 ## Where we are {.smaller}
 
-Last time we saw that **power** depends on four things: sample size, $\alpha$, variability, and the size of the slope. At the end we noticed something strange:
+Last time we saw that **power** depends on four things: sample size, $\alpha$, variability, and the size of the slope. Today we start by finishing our power analysis for Hubble's study (AE 14), then turn to effect size.
+
+. . .
+
+At the end of last time we noticed something strange:
 
 . . .
 
@@ -84,9 +92,126 @@ Why did halving the slope and doubling the noise give the same power curve?
 
 Because power depends on the slope **relative to the noise**. Today we give that idea a name: **effect size**.
 
-1. Two kinds of questions: a slope and a difference in means.
-2. **$R^2$** and **Cohen's $d$** as measures of effect size.
-3. Effect size vs. sample size vs. power.
+1. **Finish the power analysis** (AE 14, Parts 3 and 4).
+2. Two kinds of questions: a slope and a difference in means.
+3. **$R^2$** and **Cohen's $d$** as measures of effect size.
+4. Effect size vs. sample size vs. power.
+
+# Finishing the power analysis
+
+## In Hubble's shoes {.smaller}
+
+It is the 1920s and you are Edwin Hubble. Every point on the plot costs you enormous effort:
+
+- Each velocity needs a **spectrum** of a faint galaxy, photographed through the 100-inch telescope at Mount Wilson, then the largest in the world.
+- Exposures take many hours, often over several nights, and telescope time is scarce.
+- Distances are even harder: you must find and measure individual stars in each galaxy.
+- The 100-inch telescope Edwin Hubble used cost \$500,000 in 1917 which is about \$13M today.
+. . .
+
+Before spending years collecting data, we want to make sure that **we can detect the effect if it exists.**
+
+::: question
+What would you need to know, or assume, to figure out how many galaxies to measure?
+:::
+
+## Power analysis {.smaller}
+
+A **power analysis** is done **before** collecting data:
+
+1. Decide on the **smallest relationship you would care about** (this is a judgment about practical significance, not a statistics question).
+2. Choose a **target power**, often 80%. Trade off the cost of a Type II error against the cost of more data.
+3. Use simulation (or a formula) to find the **sample size** that achieves it.
+4. Collect that much data.
+
+. . .
+
+::: callout-caution
+Power computed from the effect you **already observed** only tells you how your study behaved. It is not a guarantee about a future study, because the observed effect is itself a noisy estimate.
+:::
+
+## What should we assume? {.smaller}
+
+| We **choose** | We must **assume** |
+|:---|:---|
+| Significance level $\alpha$ | The true slope $\beta_1$: how fast does the universe expand? |
+| Target power | The noise $\sigma$: how much do galaxies scatter around the line? |
+
+. . .
+
+- **Significance level:** $\alpha = 0.05$.
+- **Noise:** galaxies have their own motions, about 150 to 200 km/s, plus measurement error on photographic spectra, about 40 km/s. Together, $\sigma \approx 175$ km/s.
+- **Reach:** the telescope can reach galaxies out to 2 Mpc, spread evenly.
+
+## What about slope? {.smaller}
+
+This is the hard one. We need a principled guess, and we will consider three (in Hubble's 1920s distance units):
+
+
+| Prior | Slope (km/s per Mpc) | Where it comes from |
+|:---|:---|:---|
+| Optimistic | 575 | Lemaitre's 1927 estimate, from Slipher's velocities and early distances |
+| Plausible | 450 | Slipher's average unexplained recession of the nebulae |
+| Conservative | 100 | A smaller slope, of the same order as Slipher's and Lemaitre's estimates, but reduced in case they were over-estimates |
+
+## Activity {.smaller}
+
+::: appex
+📋 [AE 14 - The Power to Discover an Expanding Universe](https://ericfriedlander.github.io/math2025-fa26/ae/ae-14-hubble-power.html)
+:::
+
+- Continue with Part 3: choose a slope from the priors above and see how much your assumptions matter.
+- Choose your own target power, then find the sample size you would need.
+- Finished early? Analyze Hubble's real data (Part 4).
+
+```{r}
+#| echo: false
+countdown(minutes = 25)
+```
+
+# Hubble's actual data
+
+## Hubble's 1929 data {.smaller}
+
+```{r}
+#| echo: false
+#| out.width: "55%"
+
+gf_point(velocity_kms ~ distance_mpc, data = hubble29, size = 3) |>
+  gf_lm(color = "#d53a19", linewidth = 1.2) |>
+  gf_labs(x = "Distance (Mpc, Hubble's estimates)", y = "Velocity (km/s)")
+```
+
+```{r}
+hubble_fit <- lm(velocity_kms ~ distance_mpc, data = hubble29)
+hubble_fit |> tidy() |> kable(digits = 3)
+```
+
+Hubble's slope is about **`r round(coef(hubble_fit)[2])`** km/s per Mpc, roughly 6 times today's value. His distances were too small (he did not know about two types of Cepheids). But a relationship was there to see: right in the range of our priors.
+
+## Hubble and Humason's 1931 data {.smaller}
+
+```{r}
+#| echo: false
+
+hubble_both <- bind_rows(
+  hubble29 |> mutate(study = "1929"),
+  hubble31 |> rename(nebula = cluster) |> mutate(study = "1931 clusters")
+)
+```
+
+```{r}
+#| echo: false
+#| out.width: "55%"
+
+gf_point(velocity_kms ~ distance_mpc, data = hubble_both, color = ~ study, size = 3) |>
+  gf_lm(color = "black", linewidth = 1.2) |>
+  gf_labs(x = "Distance (Mpc, Hubble's estimates)", y = "Velocity (km/s)", color = "Study")
+```
+
+```{r}
+lm(velocity_kms ~ distance_mpc, data = hubble_both) |> tidy() |> kable(digits = 3)
+```
 
 # The Framingham Heart Study
 
@@ -391,6 +516,7 @@ countdown(minutes = 25)
 
 ## Recap {.smaller}
 
+- A **power analysis** before collecting data: assume a slope and noise, choose a target power, and find the sample size you need.
 - A small p-value says a relationship is **detectable**. It doesn't say the relationship is **big**.
 - **Effect size** measures how big a relationship is relative to the noise: $R^2$ for a slope, Cohen's $d$ for a difference in means ($d = \hat{\beta}_1 / \hat{\sigma}_\epsilon$ in regression).
 - Effect size doesn't grow with $n$. The p-value does. What counts as meaningful depends on context.
