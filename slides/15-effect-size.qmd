@@ -48,6 +48,7 @@ library(scales)      # for pretty axis labels
 library(knitr)       # for pretty tables
 library(kableExtra)  # also for pretty tables
 library(coursekata)  # for shuffle(), resample(), do(), b1(), tally()
+library(effectsize)  # for cohens_d()
 
 # Framingham Heart Study: systolic blood pressure and risk factors
 fram <- read_csv(here::here("data/framingham.csv")) |>
@@ -56,15 +57,6 @@ fram <- read_csv(here::here("data/framingham.csv")) |>
     sex = if_else(male == 1, "Male", "Female"),
     diabetes_status = if_else(diabetes == 1, "Diabetic", "Not diabetic")
   )
-
-# Cohen's d for a two-group comparison: difference in means over the pooled SD
-cohens_d <- function(y, g) {
-  m <- tapply(y, g, mean)
-  s <- tapply(y, g, sd)
-  n <- tapply(y, g, length)
-  s_pooled <- sqrt(sum((n - 1) * s^2) / (sum(n) - 2))
-  unname((m[2] - m[1]) / s_pooled)
-}
 
 # Hubble (1929): 24 nebulae with individually estimated distances
 hubble29 <- read_csv(here::here("data/hubble-1929.csv"))
@@ -257,7 +249,7 @@ What is the conclusion of the test of the slope? Is the relationship **detectabl
 ## $R^2$ as an effect size {.smaller}
 
 ```{r}
-age_fit |> glance() |> select(r.squared, sigma, p.value, nobs) |> kable(digits = 4)
+age_fit |> glance() |> kable(digits = 4)
 ```
 
 ```{r}
@@ -313,28 +305,44 @@ $$
 
 This is **Cohen's $d$**: the difference in means, measured in standard deviations.
 
-## Computing Cohen's $d$ {.smaller}
+## Exploring the formulas {.smaller}
 
-```{r}
-fram |>
-  group_by(sex) |>
-  summarize(mean = mean(sysBP), sd = sd(sysBP), n = n()) |>
-  kable(digits = 2)
-```
+$$
+d = \frac{\bar{y}_1 - \bar{y}_2}{s_{pooled}}, \qquad s_{pooled} = \sqrt{\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}}
+$$
+These look big and complicated... Let's think about what they actually are...
 
-```{r}
-#| echo: false
-sex_d <- cohens_d(fram$sysBP, fram$sex)
-sex_sigma <- glance(sex_fit)$sigma
-```
-
-Plugging in gives $d \approx$ `r round(sex_d, 2)`: men and women differ by about **`r round(abs(sex_d), 2)` standard deviations**. That is tiny.
+Thinking back to our regression equation... What is $\bar{y}_1-\bar{y}_2$ or $\bar{y}_{male} - \bar{y}_{female}$ the same as?
 
 . . .
 
-**Connection to regression:** the slope in `lm(sysBP ~ sex)` is the difference in means, and `sigma` (the residual standard error) is the pooled SD. So
+$$
+d = \frac{\bar{y}_1 - \bar{y}_2}{s_{pooled}} = \frac{\hat{\beta}_1}{s_{pooled}}
+$$
 
-$$d = \frac{\hat{\beta}_1}{\hat{\sigma}_\epsilon} = \frac{`r round(sex_b1, 2)`}{`r round(sex_sigma, 2)`} = `r round(sex_b1 / sex_sigma, 2)`$$
+. . .
+
+Let's do some algebra on the board for $s_{pooled}$...
+
+. . .
+
+$$
+s_{pooled} = \sqrt{\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}}
+= \sqrt{\frac{SSE}{n-2}}
+= \hat{\sigma}_\epsilon
+$$
+
+
+
+## Computing Cohen's $d$ {.smaller}
+
+Many ways to do this in R... all slightly different... We'll use the `cohens_d` function from the `effectsize` package:
+
+```{r}
+library(effectsize)
+
+cohens_d(sysBP ~ sex, data = fram)
+```
 
 ::: question
 How can a difference this small be statistically significant?
@@ -404,6 +412,21 @@ How does $R^2$ include both of these measures in it? How does Cohen's $d$?
 Is a 1.6 mm Hg difference in blood pressure meaningful? What about 10 mm Hg? Who decides?
 :::
 
+## Activity: Parts 1 and 2 {.smaller}
+
+::: appex
+📋 [AE 15 - Effect Size](https://ericfriedlander.github.io/math2025-fa26/ae/ae-15-effect-size-power.html)
+:::
+
+- Part 1: compute $R^2$ for a slope (`BMI`) and compare it to age.
+- Part 2: compute Cohen's $d$ for diabetes by hand, then check it with the regression slope divided by $\hat{\sigma}_\epsilon$ and with `cohens_d()` from the `effectsize` package.
+- We will pick back up at the countdown.
+
+```{r}
+#| echo: false
+countdown(minutes = 15)
+```
+
 # Effect size, sample size, and power
 
 ## Effect size does not grow with $n$ {.smaller}
@@ -420,7 +443,8 @@ n_sims <- expand_grid(n = sizes, rep = 1:200) |>
     res = map(n, \(k) {
       s <- resample(fram, k)
       tibble(
-        d = cohens_d(s$sysBP, s$sex),
+        # effectsize computes Female - Male (alphabetical); flip to Male - Female
+        d = -effectsize::cohens_d(sysBP ~ sex, data = s)$Cohens_d,
         p = tidy(lm(sysBP ~ sex, data = s))$p.value[2]
       )
     })
@@ -428,6 +452,33 @@ n_sims <- expand_grid(n = sizes, rep = 1:200) |>
   unnest(res) |>
   mutate(n = factor(n))
 ```
+
+```{r}
+#| echo: false
+#| out.width: "70%"
+#| fig.asp: 0.6
+
+sims_means <- n_sims |> 
+  group_by(n) |> 
+  summarize(mean_d = abs(mean(d)),
+  mean_p = mean(p))
+d_plot <- gf_col(n ~ mean_d, data = sims_means, fill = "grey80") |>
+  gf_labs(y = "Sample size", x = "Average Cohen's d")
+
+p_plot <- gf_col(n ~ mean_p, data = sims_means, fill = "#d9c9e0") |>
+  gf_labs(y = "Sample size", x = "p-value")
+
+patchwork::wrap_plots(d_plot, p_plot)
+```
+
+::: question
+What happens to $d$ as $n$ grows? What happens to the p-value?
+:::
+
+## Effect size does not grow with $n$ {.smaller}
+
+Treat Framingham as a population. Take samples of size $n$, and compute Cohen's $d$ for sex and the p-value each time.
+
 
 ```{r}
 #| echo: false
@@ -499,15 +550,15 @@ For each of the following questions, tell me whether you should answer it using 
 4. Is the type of music an important predictor in the number of cups of coffee I sell?
 5. How price sensitive are coffee consumers?
 
-## Activity {.smaller}
+## Activity: Parts 3-5 {.smaller}
 
 ::: appex
 📋 [AE 15 - Effect Size](https://ericfriedlander.github.io/math2025-fa26/ae/ae-15-effect-size-power.html)
 :::
 
-- Compute $R^2$ and Cohen's $d$ for blood pressure risk factors in Framingham.
-- Your group will be assigned one quantitative and one binary predictor. Report them on the board.
-- See how effect size, sample size, and p-values interact.
+- Part 3: your group will be assigned one quantitative and one binary predictor. Compute $R^2$ and Cohen's $d$ and report them on the board.
+- Part 4: see how effect size, sample size, and p-values interact.
+- Part 5: reflection.
 
 ```{r}
 #| echo: false

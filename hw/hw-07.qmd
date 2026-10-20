@@ -1,0 +1,368 @@
+---
+title: "HW 07: Is the Drive Worth It?"
+author: "Insert Name Here"
+subtitle: "Effect size and power with the Coffee Truck"
+editor: visual
+format:
+  html:
+    embed-resources: true
+    include-in-header:
+      text: |
+        <style>
+        /* Exercise / answer boxes. Canonical source: style/exercise-boxes.css
+           in the course repo, copy from there if this ever drifts. */
+        body { counter-reset: exercise; }
+        .exercise, .answer {
+          border-left: 4px solid #533860;
+          padding: .6em 1em;
+          margin: 1em 0;
+          border-radius: 4px;
+        }
+        .exercise { background: #f2eef5; }
+        .exercise::before {
+          counter-increment: exercise;
+          content: "Exercise " counter(exercise);
+          display: block;
+          font-weight: 700;
+          color: #533860;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .answer {
+          background: transparent;
+          border-left-color: #a49363;
+          border-left-style: dashed;
+          min-height: 3.5em;
+        }
+        .answer::before {
+          content: "Your answer";
+          display: block;
+          font-weight: 700;
+          color: #8a7a4f;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .quarto-dark .exercise {
+          background: rgba(255, 255, 255, .08);
+          border-left-color: #FFCB70;
+        }
+        .quarto-dark .exercise::before {
+          color: #FFCB70;
+        }
+        .quarto-dark .answer::before {
+          color: #ffd283;
+        }
+        </style>
+---
+
+```{r}
+#| include: FALSE
+knitr::opts_chunk$set(warning = FALSE,
+                      message = FALSE)
+```
+
+# Introduction
+
+Back to Jo's coffee truck! In lecture, we learned that a **power analysis** is done *before* collecting data, and that power depends on the size of the effect *relative to the noise*, which we called the **effect size**. In this HW you will plan an experiment for Jo from start to finish: decide how big an effect would be worth finding, express it as an effect size, and figure out how much data Jo needs to detect it.
+
+::: callout-note
+This is an **individual** assignment, but you're welcome to talk through ideas with classmates. Your code and writing should be your own.
+:::
+
+## Learning goals
+
+By the end of this homework, you will...
+
+- Translate a practical (dollars and cents) requirement into a raw effect and an effect size (Cohen's $d$)
+- Estimate the noise in a response from previous data
+- Use simulation to compute the power of a study and find the sample size needed for a target power
+- Explain how effect size, sample size, $\alpha$, and target power trade off
+- Distinguish between statistical significance and practical significance
+
+# Getting Started
+
+### Log in to RStudio
+
+- Go to [RStudio](https://rstudio.collegeofidaho.edu/) and login with your College of Idaho Email and Password.
+
+- Use the `hw` folder you made earlier in the semester. Create a subfolder called `hw07` to store this homework.
+
+- Log into [Canvas](https://cofi.instructure.com/courses/18743/assignments/), navigate to HW-07, and download the `hw-07.qmd` and `coffeetruck-demo.csv` files. Upload them into the folder you just made. <!-- TODO: fill in the HW-07 assignment ID in the Canvas URL once the assignment exists -->
+
+## R and RStudio
+
+See the [R resources](https://ericfriedlander.github.io/math2025-fa26/computing-r-resources.html) page for a guide to the RStudio IDE and Quarto file components.
+
+# Packages
+
+We will use the following packages in today's HW.
+
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(ggformula)
+library(broom)
+library(knitr)
+```
+
+# The Coffee Truck, revisited
+
+Jo normally parks the truck in the **Business District** for both the **Morning** and **Lunch** shifts. Jo is wondering whether it would be better to leave the Business District after the Morning shift and drive to **City Hall** for Lunch instead. Jo would like to run an experiment to find out.
+
+There is a catch: the drive from the Business District to City Hall costs **\$15 in gas** each day Jo makes it. Jo charges **\$3 per cup** (the price stays fixed throughout), so moving only pays off if Jo sells enough extra cups at City Hall to cover the gas.
+
+The experiment would work like this: each day, Jo flips a coin to decide whether to stay in the Business District for Lunch or to drive to City Hall for Lunch. Morning is always spent in the Business District. The response is the number of cups sold during the Lunch shift (`Sales`).
+
+## Data
+
+To get a sense of how much Lunch sales vary from day to day, we have some previous data from the Coffee Truck game: 45 Lunch shifts, all at a price of \$3 with no music, 15 each at three locations. The variables we will use are:
+
+- `Sales`: number of cups sold that shift
+- `Location`: `Business`, `CityHall`, or `Park`
+
+```{r load-data}
+#| message: false
+coffee <- read_csv(here::here("data/coffeetruck-demo.csv"))
+```
+
+## A function for computing power
+
+You haven't yet learned how to compute power in R, so here is a function that does it for you. You do **not** need to understand or change this code, but read the description below it carefully so you know how to use it.
+
+```{r power-functions}
+# Estimated power of a two-location experiment with n_days days at each location,
+# when the true difference in mean Sales is d standard deviations (Cohen's d)
+coffee_power <- function(n_days, d, alpha = 0.05, reps = 1000) {
+  p <- replicate(reps, {
+    location <- rep(c("Business", "CityHall"), each = n_days)
+    sales <- rnorm(2 * n_days, mean = d * (location == "CityHall"), sd = 1)
+    summary(lm(sales ~ location))$coefficients[2, 4]
+  })
+  mean(p < alpha)
+}
+
+# Estimated power for a whole list of values of n_days
+coffee_power_curve <- function(n_values, d, alpha = 0.05) {
+  tibble(n_days = n_values) |>
+    mutate(power = map_dbl(n_days, \(k) coffee_power(k, d, alpha, reps = 500)))
+}
+```
+
+- `coffee_power(n_days, d, alpha)` simulates 1000 experiments with `n_days` days at **each** location, where the true difference between City Hall and Business is `d` standard deviations. It tests $H_0: \beta_1 = 0$ at significance level `alpha` in each one and returns the proportion of experiments that rejected $H_0$: the estimated **power**.
+- `coffee_power_curve(n_values, d, alpha)` does the same for a whole list of sample sizes and returns a table, which is handy for plotting.
+- Your inputs are the sample size per location, the **effect size** `d` (not the raw difference in cups!), and `alpha` (which defaults to 0.05).
+
+# Exercises
+
+::: callout-tip
+Write all code and narrative in your Quarto file. Write all narrative in complete sentences. Throughout the assignment, you should periodically **render** your Quarto document to produce the updated HTML file.
+
+Make sure we can read all of your code in your HTML file. This means you will need to break up long lines of code. One way to help avoid long lines of code is to start a new line after every pipe (`|>`).
+
+In your `hw-07.qmd` document you'll see that each task is wrapped in an `exercise` box, with an empty `answer` box below it for you to fill in your response. Use this format for the remaining exercises.
+:::
+
+## Part 1: How big does the effect need to be?
+
+::: exercise
+**The design.** In the experiment described above:
+
+- What is the response variable and what is the explanatory variable?
+- Why should Jo randomly choose which days to spend Lunch at City Hall, rather than, say, going to City Hall for the first 30 days and the Business District for the last 30?
+:::
+
+::: answer
+:::
+
+::: exercise
+**The break-even effect.** Gas costs \$15 per day and each cup sells for \$3.
+
+- How many *extra* cups of coffee must Jo sell at Lunch in City Hall, compared to the Business District, to make the drive worth it? Do the calculation in R and show your work.
+- Is this a statement about statistical significance or practical significance? Explain.
+:::
+
+::: answer
+```{r break-even}
+
+```
+:::
+
+## Part 2: How noisy are the sales?
+
+::: exercise
+Filter the data to just the `Business` and `CityHall` Lunch shifts. Make a plot comparing `Sales` at the two locations, with informative labels, and compute the mean, standard deviation, and number of days at each location.
+:::
+
+::: answer
+```{r eda}
+
+```
+:::
+
+::: exercise
+Fit a linear model predicting `Sales` from `Location` (using only Business and City Hall) and save it as `loc_fit`. Use `tidy()` and `glance()` to display the results and find $\hat{\sigma}_\epsilon$ (the `sigma` column of `glance()`).
+
+- Interpret the slope in the context of the data.
+- Interpret $\hat{\sigma}_\epsilon$ in the context of the data.
+- When computing an effect size, we divide by $\hat{\sigma}_\epsilon$, the spread of the *data*, and not by the `std.error` of the slope, the spread of the *sampling distribution*. Why does it matter which one we use? (Hint: what happens to each of them as we collect more data?)
+:::
+
+::: answer
+```{r fit-loc}
+
+```
+:::
+
+::: exercise
+Use your break-even effect from Exercise 2 and your estimate $\hat{\sigma}_\epsilon$ to compute the effect size Jo needs to detect: Cohen's $d$.
+
+- Report $d$ and save it as an object, since you will need it below.
+- Interpret it in a sentence: "For the drive to be worth it, City Hall's average Lunch sales need to be ___ standard deviations above the Business District's."
+- Why is it reasonable to use a standard deviation estimated from *previous* data here? What is one thing that could make Jo's estimate of the noise off?
+:::
+
+::: answer
+```{r cohens-d}
+
+```
+:::
+
+::: callout-tip
+This is a good place to render your document.
+:::
+
+## Part 3: How much data does Jo need?
+
+::: exercise
+Suppose Jo runs the experiment for 15 days at each location, the same size as the previous data. Use `coffee_power()` with your effect size from Exercise 5 to estimate the power. Fill in the chunk below and run it.
+
+Interpret the result in a sentence. If the true difference is exactly the break-even difference, how often would Jo's experiment detect it?
+:::
+
+::: answer
+```{r power-15}
+#| eval: false
+
+# Fill in your effect size (and delete the eval line) before running
+coffee_power(n_days = 15, d = )
+```
+:::
+
+::: exercise
+Jo wants an experiment that detects the break-even effect **80% of the time**. Edit the list of sample sizes in the chunk below until the curve crosses the dashed line at 0.8 (you may need to try several lists, and may want to narrow in on a smaller range once you know roughly where it crosses).
+
+- How many days at each location does Jo need to reach 80% power?
+- How many days does the whole experiment take in total? If the truck runs 5 days a week, about how many weeks is that?
+:::
+
+::: answer
+```{r power-curve}
+#| eval: false
+
+my_d <-
+my_n <- c(10, 20, 40, 80, 160)  # <- change me
+
+curve <- coffee_power_curve(my_n, d = my_d)
+
+curve |> kable()
+
+gf_line(power ~ n_days, data = curve, linewidth = 1.2, color = "#533860") |>
+  gf_point(size = 3, color = "#533860") |>
+  gf_hline(yintercept = 0.8, linetype = "dashed", color = "#d53a19") |>
+  gf_labs(x = "Days at each location", y = "Estimated power") |>
+  gf_lims(y = c(0, 1))
+```
+:::
+
+::: exercise
+Now explore how the answer changes. Rerun your power analysis for each scenario below and report the number of days per location you need for each one:
+
+a.  Jo wants **90%** power instead of 80%.
+b.  The gas is more expensive than Jo thought: it costs **\$30** instead of \$15 (this changes the break-even effect, and therefore $d$).
+c.  Jo is willing to use $\alpha = 0.01$ instead of $0.05$. (Hint: `coffee_power_curve()` has an `alpha` argument.)
+
+For each scenario, which of the ingredients of power (sample size, $\alpha$, variability, size of the effect) changed, and in which direction did that move the sample size you need?
+:::
+
+::: answer
+```{r scenarios}
+
+```
+:::
+
+::: callout-tip
+This is a good place to render your document.
+:::
+
+## Part 4: Thinking about effect size and power
+
+::: exercise
+In the previous data, City Hall already sold roughly 8 more Lunch cups than the Business District. Why shouldn't Jo plug this *observed* difference into the power analysis instead of the break-even effect? What question does each of the two answer?
+:::
+
+::: answer
+:::
+
+::: exercise
+Suppose Jo runs the experiment for 15 days at each location, finds that City Hall sells more cups on average, but the p-value for the slope is 0.12.
+
+- Can Jo conclude that City Hall is no better than the Business District? Explain, using your answer to Exercise 6.
+- What type of error could Jo be making if they stop and stay in the Business District?
+:::
+
+::: answer
+:::
+
+::: exercise
+Now suppose Jo runs the experiment for 2,000 days and finds that City Hall sells an average of 1.5 more cups at Lunch, with a p-value less than 0.001.
+
+- Is the result statistically significant? Is it practically significant, i.e., is the drive worth it? Explain.
+- Would this result have been likely if Jo had stopped after 15 days at each location? Why or why not?
+- In one or two sentences, explain to Jo why a p-value alone can't tell them whether to make the drive.
+:::
+
+::: answer
+:::
+
+::: exercise
+Each cup of coffee costs Jo about \$1 in ingredients, so Jo only keeps \$2 per cup of the \$3 price.
+
+- How does this change the break-even number of extra cups? What does that do to the effect size Jo needs to detect, and to the number of days needed for 80% power? (You can answer in words, or rerun your power analysis to check.)
+- Jo can reduce the noise ($\sigma$) in the experiment by holding other things fixed, like the Music, the Price, and the time of day, and by running the experiment in similar weather. Explain why this makes it easier for Jo to detect the same raw difference in cups.
+:::
+
+::: answer
+:::
+
+::: callout-tip
+You're done and ready to submit your work! Render your document and upload the .qmd and .html files to Canvas.
+:::
+
+# Grading (28 pts + 2 pts for writing and workflow)
+
+<br>
+
+| Component             | Points |
+|:----------------------|:-------|
+| Ex 1                  | 2      |
+| Ex 2                  | 2      |
+| Ex 3                  | 2      |
+| Ex 4                  | 3      |
+| Ex 5                  | 2      |
+| Ex 6                  | 2      |
+| Ex 7                  | 3      |
+| Ex 8                  | 3      |
+| Ex 9                  | 2      |
+| Ex 10                 | 2      |
+| Ex 11                 | 3      |
+| Ex 12                 | 2      |
+| Grammar & Writing     | 1[^1]  |
+| Workflow & formatting | 1[^2]  |
+
+[^1]: The "Grammar & Writing" grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.
+
+[^2]: The "Workflow & formatting" grade is to assess the reproducible workflow and document format. This includes having a neatly organized document with readable code and your name and the date in the YAML.

@@ -67,7 +67,7 @@ format:
 
 ## Intro
 
-Last time we saw that power depends on the size of the slope relative to the noise. A small p-value tells us a relationship is *detectable*, but not whether it is *big*. Today we measure how big using two **effect sizes**:
+We saw that power depends on the size of the slope relative to the noise. A small p-value tells us a relationship is *detectable*, but not whether it is *big*. Today we measure how big using two **effect sizes**:
 
 1.  $R^2$ for a slope (quantitative predictor).
 2.  Cohen's $d$ for a difference in means (binary predictor).
@@ -86,12 +86,17 @@ library(ggformula)
 library(broom)
 library(knitr)
 library(coursekata)  # for resample(), do(), tally()
+library(effectsize)  # for cohens_d()
 ```
 
 ```{r load-data}
 #| message: false
 fram <- read_csv(here::here("data/framingham.csv")) |>
-  drop_na(sysBP)
+  drop_na(sysBP) |>
+  mutate(
+    sex = if_else(male == 1, "Male", "Female"),
+    diabetes_status = if_else(diabetes == 1, "Diabetic", "Not diabetic")
+  )
 ```
 
 ## Part 1: $R^2$ for a slope
@@ -120,7 +125,7 @@ Cohen's $d$ is the difference in means measured in standard deviations:
 $$d = \frac{\bar{y}_1 - \bar{y}_2}{s_{pooled}}, \qquad s_{pooled} = \sqrt{\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}}$$
 
 ::: exercise
-Compare blood pressure for participants with and without diabetes. Use `group_by(diabetes)` and `summarize()` to find the mean, SD, and sample size of `sysBP` in each group, then compute $s_{pooled}$ and Cohen's $d$ by hand.
+Compare blood pressure for participants with and without diabetes. Use `group_by(diabetes_status)` and `summarize()` to find the mean, SD, and sample size of `sysBP` in each group, then compute $s_{pooled}$ and Cohen's $d$ by hand.
 :::
 
 ::: answer
@@ -130,11 +135,21 @@ Compare blood pressure for participants with and without diabetes. Use `group_by
 :::
 
 ::: exercise
-Fit `lm(sysBP ~ diabetes, data = fram)` and save it as `dia_fit`. Confirm that the slope divided by `sigma` (from `glance(dia_fit)`) equals your Cohen's $d$. Why does this work?
+Fit `lm(sysBP ~ diabetes_status, data = fram)` and save it as `dia_fit`. Confirm that the slope divided by `sigma` (from `glance(dia_fit)`) equals your Cohen's $d$ (ignoring the sign). Why does this work?
 :::
 
 ::: answer
 ```{r d-from-lm}
+
+```
+:::
+
+::: exercise
+Now use the `cohens_d()` function from the `effectsize` package: `cohens_d(sysBP ~ diabetes_status, data = fram)`. Does it agree with your answers? (The sign depends on which group is listed first.)
+:::
+
+::: answer
+```{r d-effectsize}
 
 ```
 :::
@@ -158,7 +173,7 @@ Each group gets one quantitative and one binary predictor:
 (Some columns have missing values: `lm()` drops those rows automatically. If you have extra groups, double up.)
 
 ::: exercise
-Fit `sysBP` on your quantitative predictor and on your binary predictor. Report $R^2$, $d$, and the p-value for each on the whiteboard. (Hint: for the binary predictor, $d$ is the slope divided by `sigma`.)
+Fit `sysBP` on your quantitative predictor and on your binary predictor. Report $R^2$, $d$, and the p-value for each on the whiteboard. (Hint: for the binary predictor, $d$ is the slope divided by `sigma`, ignoring the sign.)
 :::
 
 ::: answer
