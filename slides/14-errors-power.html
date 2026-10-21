@@ -232,7 +232,7 @@ Prof.&nbsp;Eric Friedlander
 <h2>The setup</h2>
 <p>We have data on 508 of the most popular songs on Spotify. Does a song’s duration help predict its danceability?</p>
 
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"></section>
+<img data-src="14-errors-power_files/figure-html/unnamed-chunk-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"></section>
 <section id="the-five-steps" class="slide level2 smaller">
 <h2>The five steps</h2>
 <ol type="1">
@@ -299,7 +299,7 @@ Prof.&nbsp;Eric Friedlander
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_d8b6c72f" minutes="20" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_c8df86b8" minutes="20" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
 </div>
 </div>
 </section></section>
@@ -452,7 +452,7 @@ Prof.&nbsp;Eric Friedlander
 <h2>Our population: Cosmicflows-4</h2>
 <p><strong>Cosmicflows-4</strong> (Tully et al., 2023) is a modern catalog of distances and velocities of galaxies. We will use the 8,514 galaxy groups within 100 Mpc as our <strong>population</strong>.</p>
 
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-4-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"><div class="cell" data-layout-align="center">
+<img data-src="14-errors-power_files/figure-html/unnamed-chunk-4-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"><div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>cf4_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(velocity_kms <span class="sc">~</span> distance_mpc, <span class="at">data =</span> cf4)</span>
 <span id="cb2-2"><a></a>cf4_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -649,12 +649,12 @@ Prof.&nbsp;Eric Friedlander
 <section id="sample-size" class="slide level2 smaller">
 <h2>Sample size</h2>
 
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-12-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><p>More data, more power. The dashed line marks the common target of <strong>80% power</strong>.</p>
+<img data-src="14-errors-power_files/figure-html/unnamed-chunk-12-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><p>More data, more power. The dashed line marks the common target of <strong>80% power</strong>.</p>
 </section>
 <section id="significance-level" class="slide level2 smaller">
 <h2>Significance level</h2>
 
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
+<img data-src="14-errors-power_files/figure-html/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
 <p>What do we give up in exchange for the extra power of a larger <span class="math inline">\(\alpha\)</span>?</p>
 </div>
 </section>
@@ -662,21 +662,21 @@ Prof.&nbsp;Eric Friedlander
 <h2>Variability</h2>
 <p>What if peculiar motions made galaxies scatter more around the line? We can build that population: keep the fitted line, but <strong>multiply the residuals</strong> by 1, 2, or 4.</p>
 
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-16-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
+<img data-src="14-errors-power_files/figure-html/unnamed-chunk-16-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
 <section id="variability-and-power" class="slide level2 smaller">
 <h2>Variability and power</h2>
 
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-18-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><p>More scatter, less power.</p>
+<img data-src="14-errors-power_files/figure-html/unnamed-chunk-18-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><p>More scatter, less power.</p>
 </section>
 <section id="size-of-the-slope" class="slide level2 smaller">
 <h2>Size of the slope</h2>
 <p>Now imagine a universe that expands more slowly: keep the same scatter, but <strong>multiply the slope</strong> by 1, 0.5, or 0.25.</p>
 
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-20-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
+<img data-src="14-errors-power_files/figure-html/unnamed-chunk-20-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
 <section id="size-of-the-slope-and-power" class="slide level2 smaller">
 <h2>Size of the slope and power</h2>
 
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-21-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
+<img data-src="14-errors-power_files/figure-html/unnamed-chunk-21-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
 <p>Compare this plot to the variability plot. What do you notice? Why might halving the slope and doubling the noise do the same thing?</p>
 </div>
 <div class="fragment">
@@ -718,7 +718,11 @@ Prof.&nbsp;Eric Friedlander
 <div class="fragment">
 <p><span class="math display">\[
 SE_{\hat{\beta}_1} = \frac{\hat{\sigma}_\epsilon}{\sqrt{(n-1)s_X^2}}, \qquad \hat{\sigma}_\epsilon = \sqrt{\frac{\sum_{i=1}^n (y_i - \hat{y}_i)^2}{n-2}}
-\]</span> ## What was the power of Hubble’s original study?</p>
+\]</span></p>
+</div>
+</section>
+<section id="what-was-the-power-of-hubbles-original-study" class="slide level2">
+<h2>What was the power of Hubble’s original study?</h2>
 <ul>
 <li>Need some assumptions first</li>
 </ul>
@@ -750,208 +754,6 @@ SE_{\hat{\beta}_1} = \frac{\hat{\sigma}_\epsilon}{\sqrt{(n-1)s_X^2}}, \qquad \ha
 <ul>
 <li>Complete Parts 1 and 2 (Exercises 1-4).</li>
 </ul>
-</div>
-</section>
-<section id="in-hubbles-shoes" class="slide level2 smaller">
-<h2>In Hubble’s shoes</h2>
-<p>It is the 1920s and you are Edwin Hubble. Every point on the plot costs you enormous effort:</p>
-<ul>
-<li>Each velocity needs a <strong>spectrum</strong> of a faint galaxy, photographed through the 100-inch telescope at Mount Wilson, then the largest in the world.</li>
-<li>Exposures take many hours, often over several nights, and telescope time is scarce.</li>
-<li>Distances are even harder: you must find and measure individual stars in each galaxy.</li>
-<li>The 100-inch telescope Edwin Hubble used cost $500,000 in 1917 which is about $13M today. . . .</li>
-</ul>
-<p>Before spending years collecting data, we want to make sure that <strong>we can detect the effect if it exists.</strong></p>
-<div class="question">
-<p>What would you need to know, or assume, to figure out how many galaxies to measure?</p>
-</div>
-</section>
-<section id="power-analysis" class="slide level2 smaller">
-<h2>Power analysis</h2>
-<p>A <strong>power analysis</strong> is done <strong>before</strong> collecting data:</p>
-<ol type="1">
-<li>Decide on the <strong>smallest relationship you would care about</strong> (this is a judgment about practical significance, not a statistics question).</li>
-<li>Choose a <strong>target power</strong>, often 80%. Trade off the cost of a Type II error against the cost of more data.</li>
-<li>Use simulation (or a formula) to find the <strong>sample size</strong> that achieves it.</li>
-<li>Collect that much data.</li>
-</ol>
-<div class="fragment">
-<div class="callout callout-caution callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Caution</strong></p>
-</div>
-<div class="callout-content">
-<p>Power computed from the effect you <strong>already observed</strong> only tells you how your study behaved. It is not a guarantee about a future study, because the observed effect is itself a noisy estimate.</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="what-should-we-assume" class="slide level2 smaller">
-<h2>What should we assume?</h2>
-<table class="caption-top">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">We <strong>choose</strong></th>
-<th style="text-align: left;">We must <strong>assume</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Significance level <span class="math inline">\(\alpha\)</span></td>
-<td style="text-align: left;">The true slope <span class="math inline">\(\beta_1\)</span>: how fast does the universe expand?</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Target power</td>
-<td style="text-align: left;">The noise <span class="math inline">\(\sigma\)</span>: how much do galaxies scatter around the line?</td>
-</tr>
-</tbody>
-</table>
-<div class="fragment">
-<ul>
-<li><strong>Significance level:</strong> <span class="math inline">\(\alpha = 0.05\)</span>.</li>
-<li><strong>Noise:</strong> galaxies have their own motions, about 150 to 200 km/s, plus measurement error on photographic spectra, about 40 km/s. Together, <span class="math inline">\(\sigma \approx 175\)</span> km/s.</li>
-<li><strong>Reach:</strong> the telescope can reach galaxies out to 2 Mpc, spread evenly.</li>
-</ul>
-</div>
-</section>
-<section id="what-about-slope" class="slide level2 smaller">
-<h2>What about slope?</h2>
-<p>This is the hard one. We need a principled guess, and we will consider three (in Hubble’s 1920s distance units):</p>
-<table class="caption-top">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Prior</th>
-<th style="text-align: left;">Slope (km/s per Mpc)</th>
-<th style="text-align: left;">Where it comes from</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Optimistic</td>
-<td style="text-align: left;">575</td>
-<td style="text-align: left;">Lemaitre’s 1927 estimate, from Slipher’s velocities and early distances</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Plausible</td>
-<td style="text-align: left;">450</td>
-<td style="text-align: left;">Slipher’s average unexplained recession of the nebulae</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Conservative</td>
-<td style="text-align: left;">100</td>
-<td style="text-align: left;">A smaller slope, of the same order as Slipher’s and Lemaitre’s estimates, but reduced in case they were over-estimates</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="activity-1" class="slide level2 smaller">
-<h2>Activity</h2>
-<div class="appex">
-<p>📋 <a href="https://ericfriedlander.github.io/math2025-fa26/ae/ae-14-hubble-power.html">AE 14 - The Power to Discover an Expanding Universe</a></p>
-</div>
-<ul>
-<li>Continue with Part 3: choose a slope from the priors above and see how much your assumptions matter.</li>
-<li>Choose your own target power, then find the sample size you would need.</li>
-<li>Finished early? Analyze Hubble’s real data (Part 4).</li>
-</ul>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_1b96f08a" minutes="25" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
-</div>
-</div>
-</section></section>
-<section>
-<section id="hubbles-actual-data" class="title-slide slide level1 center">
-<h1>Hubble’s actual data</h1>
-
-</section>
-<section id="hubbles-1929-data" class="slide level2 smaller">
-<h2>Hubble’s 1929 data</h2>
-
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-23-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>hubble_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(velocity_kms <span class="sc">~</span> distance_mpc, <span class="at">data =</span> hubble29)</span>
-<span id="cb9-2"><a></a>hubble_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;">term</th>
-<th style="text-align: right;">estimate</th>
-<th style="text-align: right;">std.error</th>
-<th style="text-align: right;">statistic</th>
-<th style="text-align: right;">p.value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">-40.784</td>
-<td style="text-align: right;">83.439</td>
-<td style="text-align: right;">-0.489</td>
-<td style="text-align: right;">0.63</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">distance_mpc</td>
-<td style="text-align: right;">454.158</td>
-<td style="text-align: right;">75.237</td>
-<td style="text-align: right;">6.036</td>
-<td style="text-align: right;">0.00</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>Hubble’s slope is about <strong>454</strong> km/s per Mpc, roughly 6 times today’s value. His distances were too small (he did not know about two types of Cepheids). But a relationship was there to see: right in the range of our priors.</p>
-</section>
-<section id="hubble-and-humasons-1931-data" class="slide level2 smaller">
-<h2>Hubble and Humason’s 1931 data</h2>
-
-<img data-src="14-errors-power_files/figure-revealjs/unnamed-chunk-26-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a><span class="fu">lm</span>(velocity_kms <span class="sc">~</span> distance_mpc, <span class="at">data =</span> hubble_both) <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;">term</th>
-<th style="text-align: right;">estimate</th>
-<th style="text-align: right;">std.error</th>
-<th style="text-align: right;">statistic</th>
-<th style="text-align: right;">p.value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">-189.207</td>
-<td style="text-align: right;">278.054</td>
-<td style="text-align: right;">-0.680</td>
-<td style="text-align: right;">0.501</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">distance_mpc</td>
-<td style="text-align: right;">451.366</td>
-<td style="text-align: right;">27.951</td>
-<td style="text-align: right;">16.149</td>
-<td style="text-align: right;">0.000</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 </section>
 <section id="recap" class="slide level2 smaller">
 <h2>Recap</h2>
@@ -960,8 +762,7 @@ SE_{\hat{\beta}_1} = \frac{\hat{\sigma}_\epsilon}{\sqrt{(n-1)s_X^2}}, \qquad \ha
 <li>Four outcomes: a <strong>Type I error</strong> (probability <span class="math inline">\(\alpha\)</span>), a <strong>Type II error</strong>, and two correct decisions.</li>
 <li><strong>Power</strong> is the probability of detecting a real relationship: <span class="math inline">\(1 - P(\text{Type II error})\)</span>.</li>
 <li>Power increases with <strong>sample size</strong>, <strong><span class="math inline">\(\alpha\)</span></strong>, less <strong>variability</strong>, and a <strong>steeper slope</strong>.</li>
-<li>A <strong>power analysis</strong> before collecting data: assume a slope and noise, choose a target power, and find the sample size you need.</li>
-<li>Next time: how big is a relationship, not just whether we can detect it?</li>
+<li>Next time: finish the power analysis for Hubble’s study, then ask how big a relationship is, not just whether we can detect it.</li>
 </ul>
 
 
@@ -1184,44 +985,6 @@ SE_{\hat{\beta}_1} = \frac{\hat{\sigma}_\epsilon}{\sqrt{(n-1)s_X^2}}, \qquad \ha
         ]
       });
     </script>
-    
-    <script>
-      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-      // slide changes (different for each slide format).
-      (function () {
-        // dispatch for htmlwidgets
-        function fireSlideEnter() {
-          const event = window.document.createEvent("Event");
-          event.initEvent("slideenter", true, true);
-          window.document.dispatchEvent(event);
-        }
-
-        function fireSlideChanged(previousSlide, currentSlide) {
-          fireSlideEnter();
-
-          // dispatch for shiny
-          if (window.jQuery) {
-            if (previousSlide) {
-              window.jQuery(previousSlide).trigger("hidden");
-            }
-            if (currentSlide) {
-              window.jQuery(currentSlide).trigger("shown");
-            }
-          }
-        }
-
-        // hookup for slidy
-        if (window.w3c_slidy) {
-          window.w3c_slidy.add_observer(function (slide_num) {
-            // slide_num starts at position 1
-            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-          });
-        }
-
-      })();
-    </script>
-
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")

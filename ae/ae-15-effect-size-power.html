@@ -4592,7 +4592,7 @@ Important
 </div>
 <section id="intro" class="level2">
 <h2 class="anchored" data-anchor-id="intro">Intro</h2>
-<p>Last time we saw that power depends on the size of the slope relative to the noise. A small p-value tells us a relationship is <em>detectable</em>, but not whether it is <em>big</em>. Today we measure how big using two <strong>effect sizes</strong>:</p>
+<p>We saw that power depends on the size of the slope relative to the noise. A small p-value tells us a relationship is <em>detectable</em>, but not whether it is <em>big</em>. Today we measure how big using two <strong>effect sizes</strong>:</p>
 <ol type="1">
 <li><span class="math inline">\(R^2\)</span> for a slope (quantitative predictor).</li>
 <li>Cohen’s <span class="math inline">\(d\)</span> for a difference in means (binary predictor).</li>
@@ -4610,11 +4610,16 @@ Important
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggformula)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coursekata)  <span class="co"># for resample(), do(), tally()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coursekata)  <span class="co"># for resample(), do(), tally()</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)  <span class="co"># for cohens_d()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fram <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data/framingham.csv&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(sysBP)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(sysBP) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sex =</span> <span class="fu">if_else</span>(male <span class="sc">==</span> <span class="dv">1</span>, <span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Female&quot;</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">diabetes_status =</span> <span class="fu">if_else</span>(diabetes <span class="sc">==</span> <span class="dv">1</span>, <span class="st">&quot;Diabetic&quot;</span>, <span class="st">&quot;Not diabetic&quot;</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="part-1-r2-for-a-slope" class="level2">
@@ -4637,13 +4642,19 @@ Important
 <p>Cohen’s <span class="math inline">\(d\)</span> is the difference in means measured in standard deviations:</p>
 <p><span class="math display">\[d = \frac{\bar{y}_1 - \bar{y}_2}{s_{pooled}}, \qquad s_{pooled} = \sqrt{\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}}\]</span></p>
 <div class="exercise">
-<p>Compare blood pressure for participants with and without diabetes. Use <code>group_by(diabetes)</code> and <code>summarize()</code> to find the mean, SD, and sample size of <code>sysBP</code> in each group, then compute <span class="math inline">\(s_{pooled}\)</span> and Cohen’s <span class="math inline">\(d\)</span> by hand.</p>
+<p>Compare blood pressure for participants with and without diabetes. Use <code>group_by(diabetes_status)</code> and <code>summarize()</code> to find the mean, SD, and sample size of <code>sysBP</code> in each group, then compute <span class="math inline">\(s_{pooled}\)</span> and Cohen’s <span class="math inline">\(d\)</span> by hand.</p>
 </div>
 <div class="answer">
 
 </div>
 <div class="exercise">
-<p>Fit <code>lm(sysBP ~ diabetes, data = fram)</code> and save it as <code>dia_fit</code>. Confirm that the slope divided by <code>sigma</code> (from <code>glance(dia_fit)</code>) equals your Cohen’s <span class="math inline">\(d\)</span>. Why does this work?</p>
+<p>Fit <code>lm(sysBP ~ diabetes_status, data = fram)</code> and save it as <code>dia_fit</code>. Confirm that the slope divided by <code>sigma</code> (from <code>glance(dia_fit)</code>) equals your Cohen’s <span class="math inline">\(d\)</span> (ignoring the sign). Why does this work?</p>
+</div>
+<div class="answer">
+
+</div>
+<div class="exercise">
+<p>Now use the <code>cohens_d()</code> function from the <code>effectsize</code> package: <code>cohens_d(sysBP ~ diabetes_status, data = fram)</code>. Does it agree with your answers? (The sign depends on which group is listed first.)</p>
 </div>
 <div class="answer">
 
@@ -4666,7 +4677,7 @@ Important
 </ul>
 <p>(Some columns have missing values: <code>lm()</code> drops those rows automatically. If you have extra groups, double up.)</p>
 <div class="exercise">
-<p>Fit <code>sysBP</code> on your quantitative predictor and on your binary predictor. Report <span class="math inline">\(R^2\)</span>, <span class="math inline">\(d\)</span>, and the p-value for each on the whiteboard. (Hint: for the binary predictor, <span class="math inline">\(d\)</span> is the slope divided by <code>sigma</code>.)</p>
+<p>Fit <code>sysBP</code> on your quantitative predictor and on your binary predictor. Report <span class="math inline">\(R^2\)</span>, <span class="math inline">\(d\)</span>, and the p-value for each on the whiteboard. (Hint: for the binary predictor, <span class="math inline">\(d\)</span> is the slope divided by <code>sigma</code>, ignoring the sign.)</p>
 </div>
 <div class="answer">
 

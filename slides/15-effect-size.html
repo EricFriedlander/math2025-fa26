@@ -215,7 +215,10 @@ Prof.&nbsp;Eric Friedlander
 </section>
 <section id="where-we-are" class="slide level2 smaller">
 <h2>Where we are</h2>
-<p>Last time we saw that <strong>power</strong> depends on four things: sample size, <span class="math inline">\(\alpha\)</span>, variability, and the size of the slope. At the end we noticed something strange:</p>
+<p>Last time we saw that <strong>power</strong> depends on four things: sample size, <span class="math inline">\(\alpha\)</span>, variability, and the size of the slope. Today we start by finishing our power analysis for Hubble’s study (AE 14), then turn to effect size.</p>
+<div class="fragment">
+<p>At the end of last time we noticed something strange:</p>
+</div>
 <div class="fragment">
 <div class="question">
 <p>Why did halving the slope and doubling the noise give the same power curve?</p>
@@ -224,12 +227,219 @@ Prof.&nbsp;Eric Friedlander
 <div class="fragment">
 <p>Because power depends on the slope <strong>relative to the noise</strong>. Today we give that idea a name: <strong>effect size</strong>.</p>
 <ol type="1">
+<li><strong>Finish the power analysis</strong> (AE 14, Parts 3 and 4).</li>
 <li>Two kinds of questions: a slope and a difference in means.</li>
 <li><strong><span class="math inline">\(R^2\)</span></strong> and <strong>Cohen’s <span class="math inline">\(d\)</span></strong> as measures of effect size.</li>
 <li>Effect size vs.&nbsp;sample size vs.&nbsp;power.</li>
 </ol>
 </div>
 </section>
+<section>
+<section id="finishing-the-power-analysis" class="title-slide slide level1 center">
+<h1>Finishing the power analysis</h1>
+
+</section>
+<section id="in-hubbles-shoes" class="slide level2 smaller">
+<h2>In Hubble’s shoes</h2>
+<p>It is the 1920s and you are Edwin Hubble. Every point on the plot costs you enormous effort:</p>
+<ul>
+<li>Each velocity needs a <strong>spectrum</strong> of a faint galaxy, photographed through the 100-inch telescope at Mount Wilson, then the largest in the world.</li>
+<li>Exposures take many hours, often over several nights, and telescope time is scarce.</li>
+<li>Distances are even harder: you must find and measure individual stars in each galaxy.</li>
+<li>The 100-inch telescope Edwin Hubble used cost $500,000 in 1917 which is about $13M today. . . .</li>
+</ul>
+<p>Before spending years collecting data, we want to make sure that <strong>we can detect the effect if it exists.</strong></p>
+<div class="question">
+<p>What would you need to know, or assume, to figure out how many galaxies to measure?</p>
+</div>
+</section>
+<section id="power-analysis" class="slide level2 smaller">
+<h2>Power analysis</h2>
+<p>A <strong>power analysis</strong> is done <strong>before</strong> collecting data:</p>
+<ol type="1">
+<li>Decide on the <strong>smallest relationship you would care about</strong> (this is a judgment about practical significance, not a statistics question).</li>
+<li>Choose a <strong>target power</strong>, often 80%. Trade off the cost of a Type II error against the cost of more data.</li>
+<li>Use simulation (or a formula) to find the <strong>sample size</strong> that achieves it.</li>
+<li>Collect that much data.</li>
+</ol>
+<div class="fragment">
+<div class="callout callout-caution callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Caution</strong></p>
+</div>
+<div class="callout-content">
+<p>Power computed from the effect you <strong>already observed</strong> only tells you how your study behaved. It is not a guarantee about a future study, because the observed effect is itself a noisy estimate.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="what-should-we-assume" class="slide level2 smaller">
+<h2>What should we assume?</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">We <strong>choose</strong></th>
+<th style="text-align: left;">We must <strong>assume</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Significance level <span class="math inline">\(\alpha\)</span></td>
+<td style="text-align: left;">The true slope <span class="math inline">\(\beta_1\)</span>: how fast does the universe expand?</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Target power</td>
+<td style="text-align: left;">The noise <span class="math inline">\(\sigma\)</span>: how much do galaxies scatter around the line?</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<ul>
+<li><strong>Significance level:</strong> <span class="math inline">\(\alpha = 0.05\)</span>.</li>
+<li><strong>Noise:</strong> galaxies have their own motions, about 150 to 200 km/s, plus measurement error on photographic spectra, about 40 km/s. Together, <span class="math inline">\(\sigma \approx 175\)</span> km/s.</li>
+<li><strong>Reach:</strong> the telescope can reach galaxies out to 2 Mpc, spread evenly.</li>
+</ul>
+</div>
+</section>
+<section id="what-about-slope" class="slide level2 smaller">
+<h2>What about slope?</h2>
+<p>This is the hard one. We need a principled guess, and we will consider three (in Hubble’s 1920s distance units):</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Prior</th>
+<th style="text-align: left;">Slope (km/s per Mpc)</th>
+<th style="text-align: left;">Where it comes from</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Optimistic</td>
+<td style="text-align: left;">575</td>
+<td style="text-align: left;">Lemaitre’s 1927 estimate, from Slipher’s velocities and early distances</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Plausible</td>
+<td style="text-align: left;">450</td>
+<td style="text-align: left;">Slipher’s average unexplained recession of the nebulae</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Conservative</td>
+<td style="text-align: left;">100</td>
+<td style="text-align: left;">A smaller slope, of the same order as Slipher’s and Lemaitre’s estimates, but reduced in case they were over-estimates</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="activity" class="slide level2 smaller">
+<h2>Activity</h2>
+<div class="appex">
+<p>📋 <a href="https://ericfriedlander.github.io/math2025-fa26/ae/ae-14-hubble-power.html">AE 14 - The Power to Discover an Expanding Universe</a></p>
+</div>
+<ul>
+<li>Continue with Part 3: choose a slope from the priors above and see how much your assumptions matter.</li>
+<li>Choose your own target power, then find the sample size you would need.</li>
+<li>Finished early? Analyze Hubble’s real data (Part 4).</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_8ba2101b" minutes="25" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+</div>
+</div>
+</section></section>
+<section>
+<section id="hubbles-actual-data" class="title-slide slide level1 center">
+<h1>Hubble’s actual data</h1>
+
+</section>
+<section id="hubbles-1929-data" class="slide level2 smaller">
+<h2>Hubble’s 1929 data</h2>
+
+<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>hubble_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(velocity_kms <span class="sc">~</span> distance_mpc, <span class="at">data =</span> hubble29)</span>
+<span id="cb1-2"><a></a>hubble_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">-40.784</td>
+<td style="text-align: right;">83.439</td>
+<td style="text-align: right;">-0.489</td>
+<td style="text-align: right;">0.63</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">distance_mpc</td>
+<td style="text-align: right;">454.158</td>
+<td style="text-align: right;">75.237</td>
+<td style="text-align: right;">6.036</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Hubble’s slope is about <strong>454</strong> km/s per Mpc, roughly 6 times today’s value. His distances were too small (he did not know about two types of Cepheids). But a relationship was there to see: right in the range of our priors.</p>
+</section>
+<section id="hubble-and-humasons-1931-data" class="slide level2 smaller">
+<h2>Hubble and Humason’s 1931 data</h2>
+
+<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-5-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">lm</span>(velocity_kms <span class="sc">~</span> distance_mpc, <span class="at">data =</span> hubble_both) <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">-189.207</td>
+<td style="text-align: right;">278.054</td>
+<td style="text-align: right;">-0.680</td>
+<td style="text-align: right;">0.501</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">distance_mpc</td>
+<td style="text-align: right;">451.366</td>
+<td style="text-align: right;">27.951</td>
+<td style="text-align: right;">16.149</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section></section>
 <section>
 <section id="the-framingham-heart-study" class="title-slide slide level1 center">
 <h1>The Framingham Heart Study</h1>
@@ -244,7 +454,7 @@ Prof.&nbsp;Eric Friedlander
 <li>Binary predictors: <code>male</code>, <code>diabetes</code>, <code>currentSmoker</code>, …</li>
 </ul>
 
-<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:50.0%"></section></section>
+<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-7-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:50.0%"></section></section>
 <section>
 <section id="a-slope-age" class="title-slide slide level1 center">
 <h1>A slope: age</h1>
@@ -253,9 +463,9 @@ Prof.&nbsp;Eric Friedlander
 <section id="does-blood-pressure-rise-with-age" class="slide level2 smaller">
 <h2>Does blood pressure rise with age?</h2>
 
-<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"><div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>age_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(sysBP <span class="sc">~</span> age, <span class="at">data =</span> fram)</span>
-<span id="cb1-2"><a></a>age_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"><div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>age_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(sysBP <span class="sc">~</span> age, <span class="at">data =</span> fram)</span>
+<span id="cb3-2"><a></a>age_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
@@ -293,22 +503,52 @@ Prof.&nbsp;Eric Friedlander
 <section id="r2-as-an-effect-size" class="slide level2 smaller">
 <h2><span class="math inline">\(R^2\)</span> as an effect size</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>age_fit <span class="sc">|&gt;</span> <span class="fu">glance</span>() <span class="sc">|&gt;</span> <span class="fu">select</span>(r.squared, sigma, p.value, nobs) <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>age_fit <span class="sc">|&gt;</span> <span class="fu">glance</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 13%">
+<col style="width: 7%">
+<col style="width: 9%">
+<col style="width: 7%">
+<col style="width: 2%">
+<col style="width: 9%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 11%">
+<col style="width: 4%">
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: right;">r.squared</th>
+<th style="text-align: right;">adj.r.squared</th>
 <th style="text-align: right;">sigma</th>
+<th style="text-align: right;">statistic</th>
 <th style="text-align: right;">p.value</th>
+<th style="text-align: right;">df</th>
+<th style="text-align: right;">logLik</th>
+<th style="text-align: right;">AIC</th>
+<th style="text-align: right;">BIC</th>
+<th style="text-align: right;">deviance</th>
+<th style="text-align: right;">df.residual</th>
 <th style="text-align: right;">nobs</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">0.1553</td>
+<td style="text-align: right;">0.1551</td>
 <td style="text-align: right;">20.2529</td>
+<td style="text-align: right;">779.0353</td>
 <td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-18770.49</td>
+<td style="text-align: right;">37546.97</td>
+<td style="text-align: right;">37566.03</td>
+<td style="text-align: right;">1738346</td>
+<td style="text-align: right;">4238</td>
 <td style="text-align: right;">4240</td>
 </tr>
 </tbody>
@@ -331,9 +571,9 @@ Prof.&nbsp;Eric Friedlander
 <section id="do-men-and-women-differ" class="slide level2 smaller">
 <h2>Do men and women differ?</h2>
 
-<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-6-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>sex_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(sysBP <span class="sc">~</span> sex, <span class="at">data =</span> fram)</span>
-<span id="cb3-2"><a></a>sex_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-12-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>sex_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(sysBP <span class="sc">~</span> sex, <span class="at">data =</span> fram)</span>
+<span id="cb5-2"><a></a>sex_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
@@ -379,53 +619,51 @@ d = \frac{\bar{y}_1 - \bar{y}_2}{s_{pooled}}, \qquad s_{pooled} = \sqrt{\frac{(n
 <p>This is <strong>Cohen’s <span class="math inline">\(d\)</span></strong>: the difference in means, measured in standard deviations.</p>
 </div>
 </section>
+<section id="exploring-the-formulas" class="slide level2 smaller">
+<h2>Exploring the formulas</h2>
+<p><span class="math display">\[
+d = \frac{\bar{y}_1 - \bar{y}_2}{s_{pooled}}, \qquad s_{pooled} = \sqrt{\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}}
+\]</span> These look big and complicated… Let’s think about what they actually are…</p>
+<p>Thinking back to our regression equation… What is <span class="math inline">\(\bar{y}_1-\bar{y}_2\)</span> or <span class="math inline">\(\bar{y}_{male} - \bar{y}_{female}\)</span> the same as?</p>
+<div class="fragment">
+<p><span class="math display">\[
+d = \frac{\bar{y}_1 - \bar{y}_2}{s_{pooled}} = \frac{\hat{\beta}_1}{s_{pooled}}
+\]</span></p>
+</div>
+<div class="fragment">
+<p>Let’s do some algebra on the board for <span class="math inline">\(s_{pooled}\)</span>…</p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[
+s_{pooled} = \sqrt{\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}}
+= \sqrt{\frac{SSE}{n-2}}
+= \hat{\sigma}_\epsilon
+\]</span></p>
+</div>
+</section>
 <section id="computing-cohens-d" class="slide level2 smaller">
 <h2>Computing Cohen’s <span class="math inline">\(d\)</span></h2>
+<p>Many ways to do this in R… all slightly different… We’ll use the <code>cohens_d</code> function from the <code>effectsize</code> package:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>fram <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a></a>  <span class="fu">group_by</span>(sex) <span class="sc">|&gt;</span></span>
-<span id="cb4-3"><a></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(sysBP), <span class="at">sd =</span> <span class="fu">sd</span>(sysBP), <span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
-<span id="cb4-4"><a></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;">sex</th>
-<th style="text-align: right;">mean</th>
-<th style="text-align: right;">sd</th>
-<th style="text-align: right;">n</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">133.04</td>
-<td style="text-align: right;">23.79</td>
-<td style="text-align: right;">2420</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">131.44</td>
-<td style="text-align: right;">19.42</td>
-<td style="text-align: right;">1820</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb6-2"><a></a></span>
+<span id="cb6-3"><a></a><span class="fu">cohens_d</span>(sysBP <span class="sc">~</span> sex, <span class="at">data =</span> fram)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Cohen's d |       95% CI
+------------------------
+0.07      | [0.01, 0.13]
+
+- Estimated using pooled SD.</code></pre>
 </div>
 </div>
-<p>Plugging in gives <span class="math inline">\(d \approx\)</span> -0.07: men and women differ by about <strong>0.07 standard deviations</strong>. That is tiny.</p>
-<div class="fragment">
-<p><strong>Connection to regression:</strong> the slope in <code>lm(sysBP ~ sex)</code> is the difference in means, and <code>sigma</code> (the residual standard error) is the pooled SD. So</p>
-<p><span class="math display">\[d = \frac{\hat{\beta}_1}{\hat{\sigma}_\epsilon} = \frac{-1.6}{22.02} = -0.07\]</span></p>
 <div class="question">
 <p>How can a difference this small be statistically significant?</p>
-</div>
 </div>
 </section>
 <section id="a-bigger-effect-diabetes" class="slide level2 smaller">
 <h2>A bigger effect: diabetes</h2>
 
-<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-11-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><p>Only 109 participants have diabetes, yet the difference is about <strong>15.5 mm Hg</strong>, with <span class="math inline">\(d \approx\)</span> 0.71.</p>
+<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-16-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><p>Only 109 participants have diabetes, yet the difference is about <strong>15.5 mm Hg</strong>, with <span class="math inline">\(d \approx\)</span> 0.71.</p>
 <div class="question">
 <p>Which has the smaller p-value: sex (n = 4,240, <span class="math inline">\(d \approx 0.07\)</span>) or diabetes (n = 109 in one group, <span class="math inline">\(d \approx 0.7\)</span>)? Which is the bigger effect?</p>
 </div>
@@ -499,6 +737,22 @@ d = \frac{\bar{y}_1 - \bar{y}_2}{s_{pooled}}, \qquad s_{pooled} = \sqrt{\frac{(n
 <p>Is a 1.6 mm Hg difference in blood pressure meaningful? What about 10 mm Hg? Who decides?</p>
 </div>
 </div>
+</section>
+<section id="activity-parts-1-and-2" class="slide level2 smaller">
+<h2>Activity: Parts 1 and 2</h2>
+<div class="appex">
+<p>📋 <a href="https://ericfriedlander.github.io/math2025-fa26/ae/ae-15-effect-size-power.html">AE 15 - Effect Size</a></p>
+</div>
+<ul>
+<li>Part 1: compute <span class="math inline">\(R^2\)</span> for a slope (<code>BMI</code>) and compare it to age.</li>
+<li>Part 2: compute Cohen’s <span class="math inline">\(d\)</span> for diabetes by hand, then check it with the regression slope divided by <span class="math inline">\(\hat{\sigma}_\epsilon\)</span> and with <code>cohens_d()</code> from the <code>effectsize</code> package.</li>
+<li>We will pick back up at the countdown.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_e4974475" minutes="15" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+</div>
+</div>
 </section></section>
 <section>
 <section id="effect-size-sample-size-and-power" class="title-slide slide level1 center">
@@ -509,14 +763,22 @@ d = \frac{\bar{y}_1 - \bar{y}_2}{s_{pooled}}, \qquad s_{pooled} = \sqrt{\frac{(n
 <h2>Effect size does not grow with <span class="math inline">\(n\)</span></h2>
 <p>Treat Framingham as a population. Take samples of size <span class="math inline">\(n\)</span>, and compute Cohen’s <span class="math inline">\(d\)</span> for sex and the p-value each time.</p>
 
-<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="question">
+<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-20-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="question">
+<p>What happens to <span class="math inline">\(d\)</span> as <span class="math inline">\(n\)</span> grows? What happens to the p-value?</p>
+</div>
+</section>
+<section id="effect-size-does-not-grow-with-n-1" class="slide level2 smaller">
+<h2>Effect size does not grow with <span class="math inline">\(n\)</span></h2>
+<p>Treat Framingham as a population. Take samples of size <span class="math inline">\(n\)</span>, and compute Cohen’s <span class="math inline">\(d\)</span> for sex and the p-value each time.</p>
+
+<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-21-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="question">
 <p>What happens to <span class="math inline">\(d\)</span> as <span class="math inline">\(n\)</span> grows? What happens to the p-value?</p>
 </div>
 </section>
 <section id="effect-size-and-power" class="slide level2 smaller">
 <h2>Effect size and power</h2>
 
-<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-16-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
+<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-23-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
 <p>This is the same idea as halving the slope and doubling the noise. <strong>Bigger effect size means more power at the same <span class="math inline">\(n\)</span>.</strong> Roughly how many people do we need for 80% power for each predictor?</p>
 </div>
 </section>
@@ -531,25 +793,26 @@ d = \frac{\bar{y}_1 - \bar{y}_2}{s_{pooled}}, \qquad s_{pooled} = \sqrt{\frac{(n
 <li>How price sensitive are coffee consumers?</li>
 </ol>
 </section>
-<section id="activity" class="slide level2 smaller">
-<h2>Activity</h2>
+<section id="activity-parts-3-5" class="slide level2 smaller">
+<h2>Activity: Parts 3-5</h2>
 <div class="appex">
 <p>📋 <a href="https://ericfriedlander.github.io/math2025-fa26/ae/ae-15-effect-size-power.html">AE 15 - Effect Size</a></p>
 </div>
 <ul>
-<li>Compute <span class="math inline">\(R^2\)</span> and Cohen’s <span class="math inline">\(d\)</span> for blood pressure risk factors in Framingham.</li>
-<li>Your group will be assigned one quantitative and one binary predictor. Report them on the board.</li>
-<li>See how effect size, sample size, and p-values interact.</li>
+<li>Part 3: your group will be assigned one quantitative and one binary predictor. Compute <span class="math inline">\(R^2\)</span> and Cohen’s <span class="math inline">\(d\)</span> and report them on the board.</li>
+<li>Part 4: see how effect size, sample size, and p-values interact.</li>
+<li>Part 5: reflection.</li>
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_2d5a3ef1" minutes="25" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_c7d77063" minutes="25" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
 </div>
 </div>
 </section>
 <section id="recap" class="slide level2 smaller">
 <h2>Recap</h2>
 <ul>
+<li>A <strong>power analysis</strong> before collecting data: assume a slope and noise, choose a target power, and find the sample size you need.</li>
 <li>A small p-value says a relationship is <strong>detectable</strong>. It doesn’t say the relationship is <strong>big</strong>.</li>
 <li><strong>Effect size</strong> measures how big a relationship is relative to the noise: <span class="math inline">\(R^2\)</span> for a slope, Cohen’s <span class="math inline">\(d\)</span> for a difference in means (<span class="math inline">\(d = \hat{\beta}_1 / \hat{\sigma}_\epsilon\)</span> in regression).</li>
 <li>Effect size doesn’t grow with <span class="math inline">\(n\)</span>. The p-value does. What counts as meaningful depends on context.</li>
