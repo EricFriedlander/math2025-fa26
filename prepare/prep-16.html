@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>R Cheatsheet – MATH 2025 - Fall 2026</title>
+<title>Preparation for Multiple Linear Regression &amp; Project Overview – MATH 2025 - Fall 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,30 +26,28 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./computing-r-resources.html" rel="next">
-<link href="./computing-access.html" rel="prev">
-<link href="./images/logo.png" rel="icon" type="image/png">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-33269adcf1721b81efc5ea7fcfe7f0ee.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-33269adcf1721b81efc5ea7fcfe7f0ee.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-33269adcf1721b81efc5ea7fcfe7f0ee.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e1e4316a937e405fa73af67f06fa422b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-99d9197e19e769ab1e5c0648d655a6c3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-e1e4316a937e405fa73af67f06fa422b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/logo.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-33269adcf1721b81efc5ea7fcfe7f0ee.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-33269adcf1721b81efc5ea7fcfe7f0ee.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-33269adcf1721b81efc5ea7fcfe7f0ee.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-e1e4316a937e405fa73af67f06fa422b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-99d9197e19e769ab1e5c0648d655a6c3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e1e4316a937e405fa73af67f06fa422b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -79,7 +77,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="style/exercise-boxes.css">
+<link rel="stylesheet" href="../style/exercise-boxes.css">
 </head>
 
 <body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -253,7 +251,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./computing-access.html">Computing</a></li><li class="breadcrumb-item"><a href="./computing-inferencesummary.html">R Cheatsheet</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Preparation for Multiple Linear Regression &amp; Project Overview</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -267,9 +265,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
-      <a href="./index.html" class="sidebar-logo-link">
-      <img src="./images/logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
-      <img src="./images/logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../images/logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../images/logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
       </a>
       <div class="sidebar-tools-main tools-wide">
     <a href="https://rstudio.collegeofidaho.edu/" title="RStudio" class="quarto-navigation-tool px-1" aria-label="RStudio"><i class="bi bi-code-square"></i></a>
@@ -286,59 +284,53 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Schedule</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./about.html" class="sidebar-item-text sidebar-link">
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./syllabus.html" class="sidebar-item-text sidebar-link">
+  <a href="../syllabus.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Syllabus</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./support.html" class="sidebar-item-text sidebar-link">
+  <a href="../support.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course support</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./links.html" class="sidebar-item-text sidebar-link">
+  <a href="../links.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Useful links</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Computing</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./computing-access.html" class="sidebar-item-text sidebar-link">
+  <a href="../computing-access.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Computing access</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./computing-inferencesummary.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">R Cheatsheet</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./computing-r-resources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">R resources</span></a>
+  <a href="../computing-r-resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Resources</span></a>
   </div>
 </li>
       </ul>
@@ -353,21 +345,18 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#useful-code-for-creating-basic-figures-requires-ggformula" id="toc-useful-code-for-creating-basic-figures-requires-ggformula" class="nav-link active" data-scroll-target="#useful-code-for-creating-basic-figures-requires-ggformula">Useful code for creating basic figures (requires ggformula)</a></li>
-  <li><a href="#useful-code-for-calculating-summary-statistics-requires-mosaic" id="toc-useful-code-for-calculating-summary-statistics-requires-mosaic" class="nav-link" data-scroll-target="#useful-code-for-calculating-summary-statistics-requires-mosaic">Useful code for calculating summary statistics: (requires mosaic)</a>
-  <ul class="collapse">
-  <li><a href="#useful-functions-fitting-and-analyzing-models" id="toc-useful-functions-fitting-and-analyzing-models" class="nav-link" data-scroll-target="#useful-functions-fitting-and-analyzing-models">Useful functions fitting and analyzing models</a></li>
-  </ul></li>
+  <li><a href="#assigned-reading" id="toc-assigned-reading" class="nav-link active" data-scroll-target="#assigned-reading">Assigned reading</a></li>
+  <li><a href="#assigned-videos" id="toc-assigned-videos" class="nav-link" data-scroll-target="#assigned-videos">Assigned videos</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/computing-inferencesummary.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/prepare/prep-16.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./computing-access.html">Computing</a></li><li class="breadcrumb-item"><a href="./computing-inferencesummary.html">R Cheatsheet</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">R Cheatsheet</h1>
+<h1 class="title">Preparation for Multiple Linear Regression &amp; Project Overview</h1>
 </div>
 
 
@@ -384,49 +373,28 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="useful-code-for-creating-basic-figures-requires-ggformula" class="level3">
-<h3 class="anchored" data-anchor-id="useful-code-for-creating-basic-figures-requires-ggformula">Useful code for creating basic figures (requires ggformula)</h3>
+<section id="assigned-reading" class="level2">
+<h2 class="anchored" data-anchor-id="assigned-reading">Assigned reading</h2>
+<p>Finish reading these if you haven’t yet:</p>
 <ul>
-<li>Histogram: <code>gf_histogram( ~ variable, data = data_name)</code></li>
-<li>Boxplot: <code>gf_boxplot( ~ variable, data = data_name)</code></li>
-<li>Dotplot: <code>gf_dotplot( ~ variable, data = data_name)</code></li>
-<li>Barchart: <code>gf_bar( ~ variable, data = data_name)</code></li>
-<li>Side-by-side “dodged” barchart: <code>gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position="dodge")</code></li>
-<li>Stacked barchart: <code>gf_bar( ~ variable1, fill = ~ variable2, data = state_data)</code></li>
-<li>Standardized barchart: <code>gf_bar( ~ variable1, fill = ~ variable2, data = state_data, position="fill")</code></li>
-<li>Side-by-side boxplot: <code>gf_boxplot( variable1 ~ variable2, data = data_name)</code></li>
-<li>Scatterplot: <code>gf_point(variable1 ~ variable2, data = data_name)</code></li>
-<li>Scatterplot with a third variable as color: <code>gf_point(variable1 ~ variable2, color = ~ variable3, data = data_name)</code></li>
+<li>If you already feel comfortable with R &amp; this isn’t your first statistics class:
+<ul>
+<li>Introduction to Regression Analysis: A Data Science Approach: <a href="https://introregression.netlify.app/07-mlr">Ch 7: Mutiple Linear RegressiSimple linear regression</a></li>
+</ul></li>
+<li>If you’re new to R &amp; statistics:
+<ul>
+<li>Introduction to Modern Statistics (IMS) <a href="https://openintro-ims.netlify.app/model-slr">Ch 8: Linear regression with multiple predictors</a></li>
+</ul></li>
 </ul>
 </section>
-<section id="useful-code-for-calculating-summary-statistics-requires-mosaic" class="level2">
-<h2 class="anchored" data-anchor-id="useful-code-for-calculating-summary-statistics-requires-mosaic">Useful code for calculating summary statistics: (requires mosaic)</h2>
+<section id="assigned-videos" class="level2">
+<h2 class="anchored" data-anchor-id="assigned-videos">Assigned videos</h2>
 <ul>
-<li>Means: <code>mean( ~ variable, data = data_name)</code> or <code>mean(variable1 ~ variable2, data = data_name)</code></li>
-<li>Counts/Tables: <code>tally( ~ variable, data = data_name)</code> or <code>tally(variable1 ~ variable2, data = data_name)</code></li>
-<li>5-number-summary etc: <code>favstats( ~ variable, data = data_name)</code> or <code>favstats(variable1 ~ variable2, data = data_name)</code></li>
+<li>Watch <a href="https://www.youtube.com/watch?v=NFSWwxKiFZs">Finding Groups on the Islands</a></li>
+<li>Watch <a href="https://www.youtube.com/watch?v=R9T0PS8hV6w">Time on the Islands</a></li>
 </ul>
-<section id="useful-functions-fitting-and-analyzing-models" class="level3">
-<h3 class="anchored" data-anchor-id="useful-functions-fitting-and-analyzing-models">Useful functions fitting and analyzing models</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Model type</th>
-<th>Action</th>
-<th>Function</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Simple Linear Regression</td>
-<td>Fit Model</td>
-<td><code>lm(Y ~ X, data = data_name)</code></td>
-</tr>
-</tbody>
-</table>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -843,18 +811,6 @@ ul.task-list li input[type="checkbox"] {
     }
   });
   </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="./computing-access.html" class="pagination-link" aria-label="Computing access">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Computing access</span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="./computing-r-resources.html" class="pagination-link" aria-label="R resources">
-        <span class="nav-page-text">R resources</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -863,7 +819,7 @@ ul.task-list li input[type="checkbox"] {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/computing-inferencesummary.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/prepare/prep-16.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This site is built with <a href="https://quarto.org/">Quarto</a></p>
 </div>
