@@ -91,7 +91,7 @@ By the end of this homework, you will...
 
 - Use the `hw` folder you made earlier in the semester. Create a subfolder called `hw07` to store this homework.
 
-- Log into [Canvas](https://cofi.instructure.com/courses/18743/assignments/), navigate to HW-07, and download the `hw-07.qmd` and `coffeetruck-demo.csv` files. Upload them into the folder you just made. <!-- TODO: fill in the HW-07 assignment ID in the Canvas URL once the assignment exists -->
+- Log into [Canvas](https://cofi.instructure.com/courses/18743/assignments/), navigate to HW-07, and download the `hw-07.qmd` and `coffee-data-power.csv` files. Upload them into the folder you just made. <!-- TODO: fill in the HW-07 assignment ID in the Canvas URL once the assignment exists -->
 
 ## R and RStudio
 
@@ -119,14 +119,14 @@ The experiment would work like this: each day, Jo flips a coin to decide whether
 
 ## Data
 
-To get a sense of how much Lunch sales vary from day to day, we have some previous data from the Coffee Truck game: 45 Lunch shifts, all at a price of \$3 with no music, 15 each at three locations. The variables we will use are:
+To get a sense of how much Lunch sales vary from day to day, we have some previous data from the Coffee Truck game: 30 days of Jo's usual routine in the Business District, with both a Morning and a Lunch shift each day (60 shifts in all), all at a price of \$3 with no music. The variables we will use are:
 
 - `Sales`: number of cups sold that shift
-- `Location`: `Business`, `CityHall`, or `Park`
+- `TimeOfDay`: `Morning` or `Lunch`
 
 ```{r load-data}
 #| message: false
-coffee <- read_csv(here::here("data/coffeetruck-demo.csv"))
+coffee <- read_csv(here::here("data/coffee-data-power.csv"))
 ```
 
 ## A function for computing power
@@ -155,6 +155,25 @@ coffee_power_curve <- function(n_values, d, alpha = 0.05) {
 - `coffee_power(n_days, d, alpha)` simulates 1000 experiments with `n_days` days at **each** location, where the true difference between City Hall and Business is `d` standard deviations. It tests $H_0: \beta_1 = 0$ at significance level `alpha` in each one and returns the proportion of experiments that rejected $H_0$: the estimated **power**.
 - `coffee_power_curve(n_values, d, alpha)` does the same for a whole list of sample sizes and returns a table, which is handy for plotting.
 - Your inputs are the sample size per location, the **effect size** `d` (not the raw difference in cups!), and `alpha` (which defaults to 0.05).
+
+Here is an example of each function, for a made-up effect size of $d = 0.8$ (a different value than the one you will need). Because the functions use simulation, your numbers will change slightly each time you run them.
+
+```{r power-example}
+# Power with 20 days at each location, if the true effect size is 0.8
+coffee_power(n_days = 20, d = 0.8)
+
+# The same, but using alpha = 0.01 instead of the default 0.05
+coffee_power(n_days = 20, d = 0.8, alpha = 0.01)
+
+# Power for several sample sizes at once: returns a table with columns n_days and power
+example_curve <- coffee_power_curve(n_values = c(5, 10, 20, 40), d = 0.8)
+example_curve |> kable()
+
+# Plot the power curve
+gf_line(power ~ n_days, data = example_curve) |>
+  gf_point() |>
+  gf_labs(x = "Days at each location", y = "Estimated power")
+```
 
 # Exercises
 
@@ -194,7 +213,7 @@ In your `hw-07.qmd` document you'll see that each task is wrapped in an `exercis
 ## Part 2: How noisy are the sales?
 
 ::: exercise
-Filter the data to just the `Business` and `CityHall` Lunch shifts. Make a plot comparing `Sales` at the two locations, with informative labels, and compute the mean, standard deviation, and number of days at each location.
+Make a plot comparing `Sales` in the Morning and at Lunch, with informative labels, and compute the mean, standard deviation, and number of shifts for each time of day. Is the variability similar for the two shifts?
 :::
 
 ::: answer
@@ -204,24 +223,24 @@ Filter the data to just the `Business` and `CityHall` Lunch shifts. Make a plot 
 :::
 
 ::: exercise
-Fit a linear model predicting `Sales` from `Location` (using only Business and City Hall) and save it as `loc_fit`. Use `tidy()` and `glance()` to display the results and find $\hat{\sigma}_\epsilon$ (the `sigma` column of `glance()`).
+Fit a linear model predicting `Sales` from `TimeOfDay` and save it as `time_fit`. Use `tidy()` and `glance()` to display the results and find $\hat{\sigma}_\epsilon$ (the `sigma` column of `glance()`). Since the Business District is the only location in these data, this is our best estimate of the day-to-day noise in sales.
 
-- Interpret the slope in the context of the data.
+- Interpret the slope in the context of the data. Does it tell Jo anything about whether City Hall is better than the Business District? Why or why not?
 - Interpret $\hat{\sigma}_\epsilon$ in the context of the data.
 - When computing an effect size, we divide by $\hat{\sigma}_\epsilon$, the spread of the *data*, and not by the `std.error` of the slope, the spread of the *sampling distribution*. Why does it matter which one we use? (Hint: what happens to each of them as we collect more data?)
 :::
 
 ::: answer
-```{r fit-loc}
+```{r fit-time}
 
 ```
 :::
 
 ::: exercise
-Use your break-even effect from Exercise 2 and your estimate $\hat{\sigma}_\epsilon$ to compute the effect size Jo needs to detect: Cohen's $d$.
+Use your break-even effect from Exercise 2 and your estimate $\hat{\sigma}_\epsilon$ to compute the effect size Jo needs to detect.
 
 - Report $d$ and save it as an object, since you will need it below.
-- Interpret it in a sentence: "For the drive to be worth it, City Hall's average Lunch sales need to be ___ standard deviations above the Business District's."
+- Interpret it in a sentence: "For the drive to be worth it, City Hall's average Lunch sales need to be \_\_\_ standard deviations above the Business District's."
 - Why is it reasonable to use a standard deviation estimated from *previous* data here? What is one thing that could make Jo's estimate of the noise off?
 :::
 
@@ -238,17 +257,17 @@ This is a good place to render your document.
 ## Part 3: How much data does Jo need?
 
 ::: exercise
-Suppose Jo runs the experiment for 15 days at each location, the same size as the previous data. Use `coffee_power()` with your effect size from Exercise 5 to estimate the power. Fill in the chunk below and run it.
+Suppose Jo runs the experiment for 30 days at each location, the same number of days as the previous data. Use `coffee_power()` with your effect size from Exercise 5 to estimate the power. Fill in the chunk below and run it.
 
 Interpret the result in a sentence. If the true difference is exactly the break-even difference, how often would Jo's experiment detect it?
 :::
 
 ::: answer
-```{r power-15}
+```{r power-30}
 #| eval: false
 
 # Fill in your effect size (and delete the eval line) before running
-coffee_power(n_days = 15, d = )
+coffee_power(n_days = 30, d = )
 ```
 :::
 
@@ -301,14 +320,14 @@ This is a good place to render your document.
 ## Part 4: Thinking about effect size and power
 
 ::: exercise
-In the previous data, City Hall already sold roughly 8 more Lunch cups than the Business District. Why shouldn't Jo plug this *observed* difference into the power analysis instead of the break-even effect? What question does each of the two answer?
+The previous data contain no City Hall days at all, so we used them only to estimate the noise. Where did the *effect* in our power analysis come from? Why is it better to base it on the break-even effect than on a difference we have already observed in our data (for example, from a pilot run at City Hall)? What question does each of the two answer?
 :::
 
 ::: answer
 :::
 
 ::: exercise
-Suppose Jo runs the experiment for 15 days at each location, finds that City Hall sells more cups on average, but the p-value for the slope is 0.12.
+Suppose Jo runs the experiment for 30 days at each location, finds that City Hall sells more cups on average, but the p-value for the slope is 0.12.
 
 - Can Jo conclude that City Hall is no better than the Business District? Explain, using your answer to Exercise 6.
 - What type of error could Jo be making if they stop and stay in the Business District?
@@ -321,7 +340,7 @@ Suppose Jo runs the experiment for 15 days at each location, finds that City Hal
 Now suppose Jo runs the experiment for 2,000 days and finds that City Hall sells an average of 1.5 more cups at Lunch, with a p-value less than 0.001.
 
 - Is the result statistically significant? Is it practically significant, i.e., is the drive worth it? Explain.
-- Would this result have been likely if Jo had stopped after 15 days at each location? Why or why not?
+- Would this result have been likely if Jo had stopped after 30 days at each location? Why or why not?
 - In one or two sentences, explain to Jo why a p-value alone can't tell them whether to make the drive.
 :::
 
