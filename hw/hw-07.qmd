@@ -91,7 +91,7 @@ By the end of this homework, you will...
 
 - Use the `hw` folder you made earlier in the semester. Create a subfolder called `hw07` to store this homework.
 
-- Log into [Canvas](https://cofi.instructure.com/courses/18743/assignments/), navigate to HW-07, and download the `hw-07.qmd` and `coffee-data-power.csv` files. Upload them into the folder you just made. <!-- TODO: fill in the HW-07 assignment ID in the Canvas URL once the assignment exists -->
+- Log into [Canvas](https://cofi.instructure.com/courses/18743/assignments/244799), navigate to HW-07, and download the `hw-07.qmd` and `coffee-data-power.csv` files. Upload them into the folder you just made.
 
 ## R and RStudio
 

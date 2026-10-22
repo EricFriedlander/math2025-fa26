@@ -1,0 +1,17 @@
+---
+title: "Preparation for Multiple Linear Regression & Project Overview"
+---
+
+## Assigned reading
+
+Finish reading these if you haven't yet:
+
+- If you already feel comfortable with R & this isn't your first statistics class:
+    - Introduction to Regression Analysis: A Data Science Approach: [Ch 7: Mutiple Linear RegressiSimple linear regression](https://introregression.netlify.app/07-mlr)
+- If you're new to R & statistics:
+    - Introduction to Modern Statistics (IMS) [Ch 8: Linear regression with multiple predictors](https://openintro-ims.netlify.app/model-slr)
+
+## Assigned videos
+
+- Watch [Finding Groups on the Islands](https://www.youtube.com/watch?v=NFSWwxKiFZs)
+- Watch [Time on the Islands](https://www.youtube.com/watch?v=R9T0PS8hV6w)

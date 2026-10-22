@@ -132,3 +132,18 @@ Run from `~/.claude/skills/canvas-course-editor` with `pixi run python -c "..."`
 - Assignment `244586` AE-14: The Power to Discover an Expanding Universe, 10 pts, due 2026-10-21T16:50:00Z, unpublished.
 - Data files: `1799589` cosmicflows4.csv, `1799590` hubble-1929.csv, `1799591` hubble-1931.csv.
 - Next lecture module goes at position 17.
+
+
+## Lecture 15 (added 2026-10-21)
+
+- Module `80070` (position 17), Slides + AE-15 + HW-07, unpublished.
+- Assignment `244798` AE-15: Effect Size, 10 pts, due 2026-10-26T16:50:00Z, unpublished.
+- Assignment `244799` HW-07: Is the Drive Worth It?, 30 pts, due 2026-10-28T16:50:00Z, unpublished.
+- Data files: `1801200` framingham.csv, `1801201` coffee-data-power.csv.
+- Next lecture module goes at position 18.
+
+
+## Lecture 16 (added 2026-10-21)
+
+- Module `80071` (position 18), Prepare only (`ExternalUrl`, item `407486`), unpublished.
+- Next lecture module goes at position 19.
