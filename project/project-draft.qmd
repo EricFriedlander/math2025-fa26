@@ -16,7 +16,7 @@ The goal of the complete draft and final edited project is to synthesize all pri
 
 #### To Turn In
 
-In your team's shared RStudio Project folder, go back to the Quarto document you used for the pilot (the one including your methods section) and complete this part of the assignment there. All members contribute to **both** writing and computation.
+In your RStudio Project folder, go back to the Quarto document you used for the pilot (the one including your methods section) and complete this part of the assignment there.
  
 :::
 

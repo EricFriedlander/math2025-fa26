@@ -10,11 +10,10 @@ This rubric outlines the evaluation criteria for the **Islands Research Project*
 
 | Component | Weight |
 |------------|---------|
-| Final Project | **40%** |
+| Final Project | **45%** |
 | Interim Assignments (Complete/Detailed) | **30%** |
 | Poster Presentation | **10%** |
 | Individual Reflection | **15%** |
-| Group Assessment | **5%** |
 
 ## Rubric for Grading the Final Project
 
@@ -69,7 +68,7 @@ This rubric outlines the evaluation criteria for the **Islands Research Project*
 | Criteria | Points |
 |-----------|---------|
 | Descriptive and appropriate title. | 0–1 |
-| Names of all group members included. | 0–1 |
+| Author name included. | 0–1 |
 | Dataset complete, tidy (rows = observations, columns = variables). | 0–2 |
 | Organization and labeled sections clear and professional. | 0–4 |
 | Edited and proofread (minimal grammar/spelling issues). | 0–4 |

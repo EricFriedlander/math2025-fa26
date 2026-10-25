@@ -12,13 +12,12 @@ title: "Project 1: Pilot Study"
 
 #### Goal
 
-The goal of the pilot study assignment is to develop a preliminary research question and to collect some initial data, both in preparation for your group Island project.
+The goal of the pilot study assignment is to develop a preliminary research question and to collect some initial data, both in preparation for your individual Island project.
 
 #### To Turn In
 
-In your team's shared RStudio Project folder:
+In your RStudio Project folder:
 
-- Names of investigators and their roles  
 - Research question (1–2 sentences)  
 - Draft of methods section
 
@@ -30,9 +29,9 @@ In Canvas:
 ## Preliminaries
 
 - Review [the Islands tips](project-islands-tips.qmd) document.
-- Work through **one shared login** to the Islands.  
-- Use a **shared Google Sheet** for data (tidy format: one row per person, one column per variable).  
-- Use your team's **shared RStudio Project folder** for writing.
+- Work through **your own login** to the Islands.  
+- Use **your own Google Sheet** for data (tidy format: one row per person, one column per variable).  
+- Use your own **RStudio Project folder** for writing.
 
 ## Research Question
 
@@ -46,7 +45,7 @@ In Canvas:
 
 ## Design a Study
 
-- Read [this Chapter](https://openintrostat.github.io/ims/data-design.html) on study design.
+- Read [this guide to study design](https://www.cebm.ox.ac.uk/files/testing/cebm-study-design-april-20131.pdf) from the Centre for Evidence-Based Medicine (University of Oxford).
 - Design a study to answer your research question.
     - Describe how subjects were selected.  
     - Random sampling is not required, but justify representativeness.  

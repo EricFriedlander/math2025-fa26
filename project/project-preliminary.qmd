@@ -16,7 +16,7 @@ The goal of this assignment is to begin analyzing your collected data, producing
 
 #### To Turn In
 
-In your team's shared RStudio Project folder, create a **new Quarto document** called `preliminary-analysis.qmd` including your preliminary analysis. All members contribute to **both** writing and computation.
+In your RStudio Project folder, create a **new Quarto document** called `preliminary-analysis.qmd` including your preliminary analysis.
  
 :::
 

@@ -1,5 +1,5 @@
 ---
-title: "Preparation for Multiple Linear Regression & Project Overview"
+title: "Preparation for Multiple Linear Regression"
 ---
 
 ## Assigned reading

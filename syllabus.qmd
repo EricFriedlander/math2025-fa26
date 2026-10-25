@@ -109,7 +109,7 @@ There will be two in-class exams in this course. Each exam will be completed wit
 
 ### Project
 
-The purpose of the [final project](/project/project-overview.qmd) is to apply what you've learned throughout the semester to analyze an interesting data-driven research question. The project will be completed in groups of two, and each group will present their work through a written report and poster presentation taking place during the final exam. More information about the project will be provided during the semester.
+The purpose of the [final project](/project/project-overview.qmd) is to apply what you've learned throughout the semester to analyze an interesting data-driven research question. The project will be completed individually, and each student will present their work through a written report and poster presentation taking place during the final exam. More information about the project will be provided during the semester.
 
 ## Grading
 
@@ -172,7 +172,7 @@ Your success in this course depends very much on you and the effort you put into
 
 -   The homework assignments must be completed individually but you are welcome to discuss the assignment with classmates (e.g., discuss what's the best way for approaching a problem, what functions are useful for accomplishing a particular task, etc.). However you may not directly share (i.e. via copy/paste or copying) answers to homework questions (including and especially any code) with anyone other than myself.
 
--   For the projects, collaboration within teams is not only allowed, but expected. Communication between teams at a high level is also allowed however you may not share code or components of the project across teams.
+-   The projects are completed individually. You may discuss ideas and approaches at a high level with classmates, however you may not share code, data, or written components of the project.
 
 #### Reusing code
 

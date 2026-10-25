@@ -16,7 +16,7 @@ The goal of this assignment is to present your study and results in a clear, con
 
 #### To Turn In
 
-A poster summarizing your Islands project as a PDF file uploaded to Canvas. All members contribute to both writing and design. You can find template on Canvas.
+A poster summarizing your Islands project as a PDF file uploaded to Canvas. You can find template on Canvas.
  
 :::
 
@@ -32,6 +32,5 @@ You will create a 3 column, 40" X 36" poster including an introduction, research
 
 ## Presentation Logistics
 
-- Every group member must participate verbally.  
-- Your group will present during our scheduled final exam time.
+- You will present your poster during our scheduled final exam time.
 - Slides can be created in any software (PowerPoint, Google Slides, etc.) but must be uploaded to Canvas as a PDF. Templates are available on Canvas.

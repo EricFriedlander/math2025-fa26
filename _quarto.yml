@@ -55,18 +55,16 @@ website:
         - href: computing-access.qmd
         - href: computing-r-resources.qmd
           text: R Resources
-      # - section: Project
-      #   contents:
-      #   - href: project/project-overview.qmd
-      #     text: "Overview"
-      #   - href: project/project-rubric.qmd
-      #     text: "Project Rubric"
-      #   - href: project/poster-rubric.qmd
-      #     text: "Poster Rubric"
-      #   - href: project/project-islands-tips.qmd
-      #     text: "Tips on Islands"
-      #   - href: project/project-group-dynamics.qmd
-      #     text: "Group Dynamics"
+      - section: Project
+        contents:
+        - href: project/project-overview.qmd
+          text: "Overview"
+        - href: project/project-rubric.qmd
+          text: "Project Rubric"
+        - href: project/poster-rubric.qmd
+          text: "Poster Rubric"
+        - href: project/project-islands-tips.qmd
+          text: "Tips on Islands"
       # - section: Exams
       #   contents:
       #   - href: exam/exam-rubric.qmd
