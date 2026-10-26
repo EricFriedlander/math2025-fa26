@@ -1,0 +1,405 @@
+---
+title: "Multiple Linear Regression"
+subtitle: "AE 15 review, then more than one predictor"
+author: "Prof. Eric Friedlander"
+footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/)"
+logo: "../images/logo.png"
+format:
+  revealjs:
+    theme: slides.scss
+    multiplex: false
+    transition: fade
+    slide-number: false
+    incremental: false
+    chalkboard: true
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+execute:
+  freeze: auto
+  echo: true
+  cache: false
+knitr:
+  opts_chunk:
+    R.options:
+    width: 200
+bibliography: references.bib
+---
+
+```{r setup}
+#| include: false
+
+library(countdown)
+
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.618,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+
+# load packages
+library(tidyverse)   # for data wrangling and visualization
+library(ggformula)   # for plotting using formulas
+library(broom)       # for formatting model output
+library(scales)      # for pretty axis labels
+library(knitr)       # for pretty tables
+library(kableExtra)  # also for pretty tables
+library(coursekata)  # for resample(), do(), tally()
+library(effectsize)  # for cohens_d()
+
+# Framingham Heart Study (AE 15 review)
+fram <- read_csv(here::here("data/framingham.csv")) |>
+  drop_na(sysBP) |>
+  mutate(
+    sex = if_else(male == 1, "Male", "Female"),
+    diabetes_status = if_else(diabetes == 1, "Diabetic", "Not diabetic")
+  )
+
+# DC bikeshare (MLR)
+bikeshare <- read_csv(here::here("data/dcbikeshare.csv")) |>
+  mutate(
+    season = case_when(
+      season == 1 ~ "winter",
+      season == 2 ~ "spring",
+      season == 3 ~ "summer",
+      season == 4 ~ "fall"),
+    season = factor(season, levels = c("winter", "spring", "summer", "fall"))
+  )
+
+# set default theme and larger font size for ggplot2
+ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
+```
+
+# Review: AE 15
+
+## Where we are {.smaller}
+
+You were asked to finish AE 15 after class. Let's check in on each part:
+
+1. Parts 1-2: $R^2$ for a slope, Cohen's $d$ for a difference in means.
+2. Part 3: every group's predictors.
+3. Part 4: effect size, sample size, and power.
+4. Part 5: reflection.
+
+Then we start **multiple** regression.
+
+## Parts 1-2: $R^2$ and $d$ {.smaller}
+
+```{r}
+bmi_fit <- lm(sysBP ~ BMI, data = fram)
+bmi_fit |> glance() |> select(r.squared, p.value) |> kable(digits = 4)
+```
+
+```{r}
+dia_fit <- lm(sysBP ~ diabetes_status, data = fram)
+c(slope_over_sigma = unname(coef(dia_fit)[2] / sigma(dia_fit)),
+  effectsize = cohens_d(sysBP ~ diabetes_status, data = fram)$Cohens_d)
+```
+
+::: question
+BMI explains about what percent of the variation in `sysBP`? How does that compare to age (about 15%)? Why do the two $d$ values have opposite signs?
+:::
+
+## Part 3: everyone's predictors {.smaller}
+
+```{r}
+#| echo: false
+
+effect_row <- function(v) {
+  f <- lm(reformulate(v, "sysBP"), data = fram)
+  is_binary <- all(na.omit(fram[[v]]) %in% 0:1)
+  tibble(
+    predictor = v,
+    n = nobs(f),
+    n_in_1_group = if (is_binary) sum(fram[[v]] == 1, na.rm = TRUE) else NA,
+    R2 = glance(f)$r.squared,
+    d = if (is_binary) abs(coef(f)[2] / sigma(f)) else NA,
+    p = tidy(f)$p.value[2]
+  )
+}
+
+c("totChol", "heartRate", "glucose", "cigsPerDay",
+  "currentSmoker", "TenYearCHD", "prevalentStroke", "BPMeds") |>
+  map(effect_row) |>
+  list_rbind() |>
+  kable(digits = c(0, 0, 0, 3, 2, 4), format.args = list(scientific = FALSE), col.names = c("Predictor", "n", "n in '1' group", "R²", "d", "p-value")) |>
+  kable_styling(font_size = 22)
+```
+
+::: question
+Which predictors are **detectable** (p < 0.05)? Which are **meaningful**? Why do `prevalentStroke` and `BPMeds` have a large $d$ but so few people in the "1" group?
+:::
+
+## Part 4: $d$ vs. power {.smaller}
+
+```{r sim}
+set.seed(2026)
+
+sim_sex <- function(n_samp, reps = 300) {
+  map(1:reps, \(i) {
+    fit <- lm(sysBP ~ male, data = resample(fram, n_samp))
+    tibble(d = coef(fit)[2] / sigma(fit), p = tidy(fit)$p.value[2])
+  }) |>
+    list_rbind() |>
+    summarize(mean_d = mean(d), power = mean(p < 0.05))
+}
+
+bind_rows(`n = 100` = sim_sex(100), `n = 4000` = sim_sex(4000), .id = "sample size") |>
+  kable(digits = 3)
+```
+
+::: question
+What stayed put and what changed as $n$ grew? What does that say about the different jobs of effect size and sample size?
+:::
+
+## Part 5: reflection {.smaller}
+
+A researcher tests a new teaching method on 12 students and finds p = 0.30. They conclude, "The method has no effect."
+
+::: question
+What is wrong with this conclusion? How could a power analysis have helped? What if they had tested 12,000 students and found p = 0.001 for a 0.3-point gain on a 100-point exam?
+:::
+
+. . .
+
+- Failing to reject is **not** evidence of no effect: with n = 12, power was probably low.
+- A power analysis before the study tells you how many students you need for the effect you care about.
+- With 12,000 students the result is **statistically** significant but probably not **practically** significant.
+
+## From one predictor to many {.smaller}
+
+Every model so far has had **one** predictor. But the world is rarely that tidy:
+
+- Blood pressure depends on age **and** BMI **and** sex...
+- Bike rentals depend on temperature **and** the season **and** the weather...
+
+Today: **multiple linear regression (MLR)**.
+
+# Multiple linear regression
+
+## Data: DC bikeshare {.smaller}
+
+Daily rentals from the Capital Bikeshare system in Washington, DC (you saw this in Lectures 3-7).
+
+- **Response**: `count`, total bikes rented that day
+- **Predictors**: `temp_orig` (temperature, °C) and `season` (winter, spring, summer, fall)
+
+```{r}
+#| echo: false
+bikeshare |> select(count, temp_orig, season) |> glimpse()
+```
+
+## Recall: two simple models {.smaller}
+
+```{r}
+temp_fit <- lm(count ~ temp_orig, data = bikeshare)
+season_fit <- lm(count ~ season, data = bikeshare)
+```
+
+```{r}
+#| echo: false
+temp_fit |> tidy() |> kable(digits = 2)
+season_fit |> tidy() |> kable(digits = 2)
+```
+
+::: question
+Warmer days have more rentals. Summer has more rentals than winter. Are these two findings telling us the **same** thing or **different** things?
+:::
+
+## Why use both? {.smaller}
+
+```{r}
+#| echo: false
+gf_point(count ~ temp_orig, color = ~ season, data = bikeshare, alpha = 0.6) |>
+  gf_labs(x = "Temperature (°C)", y = "Daily rentals", color = "Season")
+```
+
+::: question
+Season and temperature are related to each other. If we only use temperature, what is the temperature slope "absorbing"?
+:::
+
+## The MLR model {.smaller}
+
+**Recall:** the simple linear regression model assumes
+
+$$
+Y|X\sim N(\beta_0 + \beta_1 X, \sigma_{\epsilon}^2)
+$$
+
+. . .
+
+**Similarly:** the multiple linear regression model assumes
+
+$$
+Y|X_1, X_2, \ldots, X_p \sim N(\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p, \sigma_{\epsilon}^2)
+$$
+
+. . .
+
+At any combination of the predictors, the mean response is
+
+$$
+\mu_{Y|X_1, \ldots, X_p} = \beta_0 + \beta_1 X_{1} + \dots + \beta_p X_p
+\qquad
+\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X_{1} + \dots + \hat{\beta}_p X_{p}
+$$
+
+## Fitting the model in R {.smaller}
+
+```{r}
+mlr_fit <- lm(count ~ temp_orig + season, data = bikeshare)
+mlr_fit |> tidy() |> kable(digits = 2)
+```
+
+. . .
+
+`season` has four levels, so R makes **three** indicator variables (winter is the reference level):
+
+$$
+\widehat{\text{count}} = \hat{\beta}_0 + \hat{\beta}_1 \,\text{temp} + \hat{\beta}_2 \,\text{spring} + \hat{\beta}_3 \,\text{summer} + \hat{\beta}_4 \,\text{fall}
+$$
+
+```{r}
+#| echo: false
+b <- coef(mlr_fit)
+```
+
+$$
+\widehat{\text{count}} = `r round(b[1])` + `r round(b[2], 1)` \,\text{temp} + `r round(b[3])` \,\text{spring} + `r round(b[4])` \,\text{summer} + `r round(b[5])` \,\text{fall}
+$$
+
+## What does the model look like? {.smaller}
+
+```{r}
+#| echo: false
+mlr_fit |>
+  augment() |>
+  gf_point(count ~ temp_orig, color = ~ season, alpha = 0.3) |>
+  gf_line(.fitted ~ temp_orig, color = ~ season, linewidth = 1.2) |>
+  gf_labs(x = "Temperature (°C)", y = "Daily rentals", color = "Season")
+```
+
+::: question
+How many lines? How many slopes? How many intercepts? Which coefficient moves a line up or down?
+:::
+
+## Interpreting $\hat{\beta}_j$ {.smaller}
+
+The coefficient $\hat{\beta}_j$ is the expected change in the **mean** of $y$ when $x_j$ increases by one unit, **holding the values of all other predictors constant**.
+
+. . .
+
+::: question
+Interpret the temperature coefficient in context. Interpret the `summer` coefficient in context. What does the intercept represent, and is it meaningful?
+:::
+
+. . .
+
+Notice that the temperature slope in the MLR is **not** the temperature slope from the simple model:
+
+```{r}
+#| echo: false
+tibble(model = c("count ~ temp_orig", "count ~ temp_orig + season"),
+       `temp_orig slope` = c(coef(temp_fit)[2], coef(mlr_fit)[2])) |>
+  kable(digits = 1)
+```
+
+::: question
+Why did the slope change (a little)? What was the simple model's slope absorbing?
+:::
+
+## Activity: Parts 0-3 {.smaller}
+
+::: appex
+📋 [AE 17 - Multiple Linear Regression with the Coffee Truck](https://ericfriedlander.github.io/math2025-fa26/ae/ae-17-mlr-coffee-truck.html)
+:::
+
+- Part 0: generate your group's coffee truck data (pick one categorical variable to vary).
+- Part 1: explore `Sales`, `Temperature`, and your categorical variable.
+- Part 2: fit two simple models, then the multiple regression.
+- Part 3: interpret every coefficient and plot the lines.
+
+```{r}
+#| echo: false
+countdown(minutes = 25)
+```
+
+# Prediction
+
+## Prediction {.smaller}
+
+::: question
+How many bikes do we expect on a 25°C summer day?
+:::
+
+```{r}
+new_day <- tibble(temp_orig = 25, season = "summer")
+predict(mlr_fit, new_day)
+```
+
+. . .
+
+Just like in SLR, `predict()` gives intervals:
+
+```{r}
+predict(mlr_fit, new_day, interval = "confidence", level = 0.90)
+predict(mlr_fit, new_day, interval = "prediction", level = 0.90)
+```
+
+::: question
+What is each interval about? Which is wider, and why?
+:::
+
+## Cautions {.smaller}
+
+- **Do not extrapolate!** With several predictors you can extrapolate in many directions at once, even when each predictor is individually in range.
+
+```{r}
+#| echo: false
+bikeshare |> group_by(season) |> summarize(min_temp = min(temp_orig), max_temp = max(temp_orig)) |> kable(digits = 1)
+```
+
+::: question
+Would you trust a prediction for a 30°C winter day?
+:::
+
+. . .
+
+- The model shows **association, not causation**. Season and temperature are tangled together in observational data.
+
+## Activity: Part 4 {.smaller}
+
+::: appex
+📋 [AE 17 - Multiple Linear Regression with the Coffee Truck](https://ericfriedlander.github.io/math2025-fa26/ae/ae-17-mlr-coffee-truck.html)
+:::
+
+- Part 4: predict `Sales` for a new day, with confidence and prediction intervals.
+- Part 5: reflection on randomized vs. observational data.
+
+```{r}
+#| echo: false
+countdown(minutes = 15)
+```
+
+## Coming next {.smaller}
+
+In our plot, all four seasons have the **same** temperature slope (parallel lines).
+
+::: question
+Is it believable that an extra degree adds the same number of rentals in winter as in summer?
+:::
+
+. . .
+
+Next time: categorical predictors in more depth, and what to do when the slope differs by group.
+
+## Recap {.smaller}
+
+- **MLR** models the mean response as a linear function of several predictors.
+- Each coefficient is the change in mean response per unit change in that predictor, **holding the others constant**.
+- A coefficient can change when other predictors are added, especially when the predictors are related to each other.
+- Prediction works as in SLR (`predict()`), but extrapolation can happen in many directions.
+- An additive model with a categorical predictor gives **parallel lines**: one slope, one intercept per level.

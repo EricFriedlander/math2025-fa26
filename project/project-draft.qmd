@@ -21,6 +21,8 @@ The goal of the complete draft is to synthesize all prior work into a cohesive r
 #### To Turn In
 
 In your RStudio Project folder, submit `islands-paper.qmd` (the same document you have been building since the pilot) with all four sections complete.
+
+Upload both your `islands-paper.qmd` and the rendered PDF (`islands-paper.pdf`) to Canvas. Every checkpoint requires both files.
  
 :::
 

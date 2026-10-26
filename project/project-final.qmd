@@ -21,6 +21,7 @@ The goal of the final edited project is to turn your draft into a cohesive resea
 #### To Turn In
 
 - In your RStudio Project folder, go back to `islands-paper.qmd` and make any changes or additions based on feedback you received.
+- Upload both your `islands-paper.qmd` and the rendered PDF (`islands-paper.pdf`) to Canvas. Every checkpoint requires both files.
 - Personal reflection as a PDF file submitted to Canvas. Everyone submits their own, even if you worked in a group.
 :::
 

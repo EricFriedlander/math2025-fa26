@@ -1,0 +1,234 @@
+---
+title: "AE 17: Multiple Linear Regression"
+subtitle: "The Coffee Truck"
+editor: visual
+format:
+  html:
+    embed-resources: true
+    include-in-header:
+      text: |
+        <style>
+        /* Exercise / answer boxes. Canonical source: style/exercise-boxes.css
+           in the course repo — copy from there if this ever drifts. */
+        body { counter-reset: exercise; }
+        .exercise, .answer {
+          border-left: 4px solid #533860;
+          padding: .6em 1em;
+          margin: 1em 0;
+          border-radius: 4px;
+        }
+        .exercise { background: #f2eef5; }
+        .exercise::before {
+          counter-increment: exercise;
+          content: "Exercise " counter(exercise);
+          display: block;
+          font-weight: 700;
+          color: #533860;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .answer {
+          background: transparent;
+          border-left-color: #a49363;
+          border-left-style: dashed;
+          min-height: 3.5em;
+        }
+        .answer::before {
+          content: "Your answer";
+          display: block;
+          font-weight: 700;
+          color: #8a7a4f;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .quarto-dark .exercise {
+          background: rgba(255, 255, 255, .08);
+          border-left-color: #FFCB70;
+        }
+        .quarto-dark .exercise::before {
+          color: #FFCB70;
+        }
+        .quarto-dark .answer::before {
+          color: #ffd283;
+        }
+        </style>
+---
+
+::: callout-important
+- Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-17".
+- Go to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743) to get started.
+- Upload the `ae-17-mlr-coffee-truck.qmd` file into the folder you just created. We will generate a data set for this activity shortly.
+:::
+
+## Intro
+
+We're back at [Jo's coffee truck](https://www.stat2games.sites.grinnell.edu/games/coffeetruck.html). Today we fit our first **multiple linear regression**: a model for `Sales` with two predictors at once.
+
+- `Temperature`: the temperature (°F) on each simulated day. The game records it automatically, you don't choose it.
+- One **categorical** variable that *your group* picks: `Location`, `Music`, or `TimeOfDay`.
+
+::: callout-important
+This game's data lands in a table that's **public to anyone**, attached to your group name. Pick a new user name that doesn't identify you.
+:::
+
+## Part 0: Generate your data
+
+::: exercise
+On the ID screen, enter **`MATH2025FA26`** as the Group Name and come up with a Team Name to enter as well (write it down and remember it).
+
+a.  Pick **one** categorical variable to vary: `Location`, `Music`, or `TimeOfDay`. Write down which one your group chose, and its levels.
+b.  Set up your sim:
+    - Select **all levels** of your categorical variable.
+    - Hold everything else fixed: choose one (and only one) level for each of the other two categorical variables, and set **Price** to \$3.
+    - **Design Type**: `Random Sample`, and choose enough repetitions to get at least 60 days of data.
+c.  Click **Start Sim**, then `Get All Sales Data` -\> `Continue` -\> `Game Data`. Enter **`MATH2025FA26`** for your group name and your Team Name in the PlayerID field.
+d.  Download the CSV and upload it to your `data` folder.
+e.  Load the packages, then read in your data with `read_csv()`. Confirm the number of rows, then use `glimpse()` to check that `Sales` and `Temperature` are numeric and your categorical variable is a character column.
+:::
+
+::: answer
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(ggformula)
+library(broom)
+library(mosaic)
+library(knitr)
+library(coursekata)
+```
+
+```{r load-data}
+#| message: false
+
+```
+:::
+
+::: callout-note
+In the code below, replace `Location` with **your** categorical variable.
+:::
+
+## Part 1: Explore
+
+::: exercise
+Before looking at any plots: do you expect `Temperature` to be related to `Sales`? Do you expect your categorical variable to be related to `Sales`? Do you expect `Temperature` to be related to your categorical variable? Why or why not?
+:::
+
+::: answer
+:::
+
+::: exercise
+Make a scatterplot of `Sales` vs. `Temperature` with points colored by your categorical variable, and a boxplot of `Sales` by your categorical variable. Describe what you see. Does `Temperature` look different across the levels of your categorical variable?
+:::
+
+::: answer
+```{r explore-plots}
+
+```
+:::
+
+## Part 2: Two simple models, then one multiple regression
+
+::: exercise
+Fit three models and display each with `tidy()`:
+
+-   `fit_temp`: `Sales ~ Temperature`
+-   `fit_cat`: `Sales ~ Location` (use your variable)
+-   `fit_both`: `Sales ~ Temperature + Location` (use your variable)
+
+Write the fitted equation for `fit_both` on the whiteboard. (Hint: how many indicator variables does a categorical variable with $k$ levels need?)
+:::
+
+::: answer
+```{r fit-models}
+
+```
+:::
+
+::: exercise
+Compare the `Temperature` coefficient (and its p-value) in `fit_temp` and `fit_both`. Compare the coefficients for your categorical variable in `fit_cat` and `fit_both`. Did they change a lot, a little, or not at all? Why do you think that is? (Hint: look back at your answer to the third question in Part 1. Compare with the bikeshare example from class, where the temperature slope changed a lot when we added `season`.)
+:::
+
+::: answer
+:::
+
+## Part 3: Interpret
+
+::: exercise
+Interpret **every** coefficient in `fit_both` in context. For the slopes use the phrase "holding ... constant". Is the intercept meaningful here? Why or why not?
+:::
+
+::: answer
+:::
+
+::: exercise
+Use `augment()` to get fitted values for `fit_both`, then plot the data with one fitted line per level of your categorical variable. (Hint: `gf_point()` then `gf_line(.fitted ~ Temperature, color = ~ Location)`.) What do you notice about the lines?
+:::
+
+::: answer
+```{r parallel-lines}
+
+```
+:::
+
+::: exercise
+On the whiteboard, write out the separate line (intercept and slope) for two of the levels of your categorical variable. Which coefficient is the difference between the lines?
+:::
+
+::: answer
+:::
+
+## Part 4: Predict
+
+::: exercise
+Pick a temperature within the range of your data and a level of your categorical variable.
+
+a.  Predict `Sales` by hand using the fitted equation (addition and multiplication only).
+b.  Check your answer with `predict()`.
+c.  Compute a 90% confidence interval and a 90% prediction interval. Interpret both in context. Which is wider and why?
+:::
+
+::: answer
+```{r predict}
+
+```
+:::
+
+::: exercise
+Give an example of a combination of `Temperature` and your categorical variable at which you **should not** trust a prediction. (Hint: check the range of `Temperature` within each level of your categorical variable with `group_by()` and `summarize()`.)
+:::
+
+::: answer
+```{r ranges}
+
+```
+:::
+
+## Part 5: Reflection
+
+::: exercise
+Compare $R^2$ for `fit_temp`, `fit_cat`, and `fit_both` (use `glance()`). Does adding a second predictor always make $R^2$ go up? Does a big increase in $R^2$ mean the added predictor "matters"?
+:::
+
+::: answer
+```{r r-squared}
+
+```
+:::
+
+::: exercise
+In the bikeshare data, adding `season` changed the temperature slope a lot. In your coffee truck data, the game assigns `Temperature` and your categorical variable independently of each other. How does that explain the difference? What does this tell you about when the coefficients in a multiple regression will differ from those in simple regressions?
+:::
+
+::: answer
+:::
+
+::: callout-important
+To submit the AE:
+
+- Render the document to produce the HTML with all of your work from today's class.
+- Upload your .qmd and .html files to the Canvas assignment.
+:::

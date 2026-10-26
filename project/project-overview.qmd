@@ -23,7 +23,7 @@ By the end of the semester you (or your group) will have run your own research s
 You will not write this all at once. **Every checkpoint adds to the same paper**, so by Monday, November 30 you will have a complete draft, and the last step is revising it and turning it into your poster.
 
 Start from the [paper template](https://raw.githubusercontent.com/EricFriedlander/math2025-fa26/master/project/islands-paper-template.qmd), you should createa  `project` folder in your RStudio project, save this template, and keep adding to that one file.
-Note that this will render as a PDF instead of an html file.
+Note that this will render as a PDF instead of an html file. At every checkpoint you must upload **both** your `islands-paper.qmd` file and the rendered PDF to Canvas.
 
 # Roadmap
 

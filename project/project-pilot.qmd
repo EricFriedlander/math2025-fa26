@@ -25,8 +25,9 @@ In your RStudio Project folder, in `islands-paper.qmd`:
 - Introduction: 1-2 paragraphs of background, ending with your research question (1–2 sentences) and hypothesis
 - Methods: study design, participants and sampling, and variables
 
-In Canvas:
+In [Canvas](https://cofi.instructure.com/courses/18743/assignments/244939):
 
+- Upload both your `islands-paper.qmd` file and the rendered PDF (`islands-paper.pdf`). You must upload both files at every checkpoint.
 - Link to Google Sheet with data  
 - If you are working in a group, who is in it (one submission per group)  
 :::
