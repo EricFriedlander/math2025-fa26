@@ -335,6 +335,41 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Project</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../project/project-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../project/project-rubric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Project Rubric</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../project/poster-rubric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Poster Rubric</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../project/project-islands-tips.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tips on Islands</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -345,7 +380,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#assignment-deliverables" id="toc-assignment-deliverables" class="nav-link active" data-scroll-target="#assignment-deliverables">Assignment Deliverables</a></li>
+  <li><a href="#assignment-deliverables" id="toc-assignment-deliverables" class="nav-link active" data-scroll-target="#assignment-deliverables">Assignment Deliverables</a>
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/project/project-draft.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -386,60 +427,56 @@ ul.task-list li input[type="checkbox"] {
 <h4 class="anchored" data-anchor-id="due-date">Due Date</h4>
 <p><strong>Monday, November 30, 2026</strong></p>
 </section>
+<section id="where-this-fits" class="level4">
+<h4 class="anchored" data-anchor-id="where-this-fits">Where this fits</h4>
+<p>This checkpoint completes your paper: the full <strong>Results</strong> and the <strong>Discussion</strong>, plus revisions to the Introduction and Methods from earlier feedback. See the <a href="../project/project-overview.html">project overview</a> for the full roadmap.</p>
+</section>
 <section id="goal" class="level4">
 <h4 class="anchored" data-anchor-id="goal">Goal</h4>
-<p>The goal of the complete draft and final edited project is to synthesize all prior work into a cohesive research paper analyzing your collected Islands data.</p>
+<p>The goal of the complete draft is to synthesize all prior work into a cohesive research paper analyzing your collected Islands data.</p>
 </section>
 <section id="to-turn-in" class="level4">
 <h4 class="anchored" data-anchor-id="to-turn-in">To Turn In</h4>
-<p>In your team’s shared RStudio Project folder, go back to the Quarto document you used for the pilot (the one including your methods section) and complete this part of the assignment there. All members contribute to <strong>both</strong> writing and computation.</p>
+<p>In your RStudio Project folder, submit <code>islands-paper.qmd</code> (the same document you have been building since the pilot) with all four sections complete.</p>
 </section>
 </div>
 </div>
 <section id="assignment-deliverables" class="level2">
 <h2 class="anchored" data-anchor-id="assignment-deliverables">Assignment Deliverables</h2>
-<p>Submit a <strong>complete draft</strong> of your Islands research project that combines all previous components into a unified, publication-style report.<br>
-The report must include the following sections:</p>
-<ol type="1">
-<li><strong>Motivation and Research Question</strong>
+<p>Submit a <strong>complete draft</strong> of your Islands research paper in publication style, with these four sections.</p>
+<section id="introduction" class="level3">
+<h3 class="anchored" data-anchor-id="introduction">Introduction</h3>
 <ul>
-<li>Explain the motivation and background of your study.<br>
-</li>
-<li>Clearly state the research question.</li>
-</ul></li>
-<li><strong>Methods Section</strong>
+<li>Explain the motivation and background of your study.</li>
+<li>Clearly state the research question and hypothesis.</li>
+<li>Revise using feedback from the pilot.</li>
+</ul>
+</section>
+<section id="methods" class="level3">
+<h3 class="anchored" data-anchor-id="methods">Methods</h3>
 <ul>
-<li>Fully describe the design, sampling, intervention/exposure, response, demographics, and statistical approach. You should build upon and refine the methods section from your pilot submission.<br>
-</li>
-<li>Keep this concise and non-redundant.</li>
-</ul></li>
-<li><strong>Power Analysis Summary</strong>
+<li>Fully describe the design, sampling, intervention/exposure, response, demographics, and statistical approach. Build upon and refine your earlier Methods, and keep them concise and non-redundant.</li>
+<li><strong>Sample size:</strong> briefly recap your power analysis and sample size determination. Show key calculations but omit full output.</li>
+</ul>
+</section>
+<section id="results" class="level3">
+<h3 class="anchored" data-anchor-id="results">Results</h3>
 <ul>
-<li>Include a brief recap of your power analysis and sample size determination.<br>
-</li>
-<li>Show key calculations but omit full output.</li>
-</ul></li>
-<li><strong>Visual and Numerical Summaries</strong>
+<li><strong>Visual and numerical summaries:</strong> present descriptive analyses of all key variables, including demographic balance.</li>
+<li><strong>Multiple regression model:</strong> fit and describe a multiple regression model addressing your main research question. Discuss your rationale for variable inclusion and model structure, and check the conditions.</li>
+<li><strong>Interpretation:</strong> describe which variables are significant and how they relate to your hypotheses. Every table and figure must be explained in the text.</li>
+</ul>
+</section>
+<section id="discussion" class="level3">
+<h3 class="anchored" data-anchor-id="discussion">Discussion</h3>
 <ul>
-<li>Present descriptive analyses of all key variables.</li>
-</ul></li>
-<li><strong>Multiple Regression Model</strong>
-<ul>
-<li>Fit and describe a multiple regression model addressing your main research question.<br>
-</li>
-<li>Discuss rationale for variable inclusion and model structure.</li>
-</ul></li>
-<li><strong>Discussion of Significance</strong>
-<ul>
-<li>Interpret which variables are significant and how they relate to your hypotheses.</li>
-</ul></li>
-<li><strong>Conclusion</strong>
-<ul>
-<li>Summarize the findings, implications, and potential extensions.</li>
-</ul></li>
-</ol>
+<li>Restate the question and key results, and say whether the results support your hypothesis.</li>
+<li>Discuss limitations: sampling and generalizability, randomization and causal claims, sample size and other constraints.</li>
+<li>Summarize implications and suggest potential extensions.</li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<link href="../images/logo.png" rel="icon" type="image/png">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
+
+  <meta name="author" content="Prof.&nbsp;Eric Friedlander">
+  <title>MATH 2025 - Fall 2026 – Effect Size, Continued</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-3e75b18a091661a42b5a8f36bbfd11f1.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <link href="../site_libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+  <script src="../site_libs/countdown-0.6.0/countdown.js"></script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Effect Size, Continued</h1>
+  <p class="subtitle">Cohen’s d, sample size, and power</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Prof.&nbsp;Eric Friedlander 
+</div>
+</div>
+</div>
+
+</section>
+<section id="where-we-are" class="slide level2 smaller">
+<h2>Where we are</h2>
+<p>Last time we finished our power analysis for Hubble’s study and saw that power depends on the slope <strong>relative to the noise</strong>. We gave that idea a name: <strong>effect size</strong>.</p>
+<ul>
+<li>For a slope, <span class="math inline">\(R^2\)</span> is an effect size: age explains about 15% of the variation in blood pressure.</li>
+<li>For a difference in means, <strong>Cohen’s <span class="math inline">\(d\)</span></strong> is an effect size.</li>
+<li>Sex vs.&nbsp;blood pressure: <strong>significant</strong>, but the difference is only about 1.6 mm Hg. Is it <em>big</em>?</li>
+</ul>
+<div class="fragment">
+<p>Today:</p>
+<ol type="1">
+<li>Cohen’s <span class="math inline">\(d\)</span> in R, and a bigger effect (diabetes).</li>
+<li>What is an effect size? Effect size vs.&nbsp;sample size vs.&nbsp;power.</li>
+<li><strong>AE 15</strong>.</li>
+<li>Project overview.</li>
+</ol>
+</div>
+</section>
+<section id="cohens-d-recap" class="slide level2 smaller">
+<h2>Cohen’s <span class="math inline">\(d\)</span>: recap</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>sex_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(sysBP <span class="sc">~</span> sex, <span class="at">data =</span> fram)</span>
+<span id="cb1-2"><a></a>sex_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">133.0401</td>
+<td style="text-align: right;">0.4477</td>
+<td style="text-align: right;">297.1934</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sexMale</td>
+<td style="text-align: right;">-1.5970</td>
+<td style="text-align: right;">0.6833</td>
+<td style="text-align: right;">-2.3372</td>
+<td style="text-align: right;">0.0195</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><span class="math display">\[
+d = \frac{\bar{y}_1 - \bar{y}_2}{s_{pooled}} = \frac{\hat{\beta}_1}{s_{pooled}} = \frac{\hat{\beta}_1}{\hat{\sigma}_\epsilon}, \qquad s_{pooled} = \sqrt{\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}} = \sqrt{\frac{SSE}{n-2}}
+\]</span></p>
+<p>The slope for a binary predictor <strong>is</strong> the difference in means, and the pooled SD <strong>is</strong> the residual standard error.</p>
+</section>
+<section id="computing-cohens-d" class="slide level2 smaller">
+<h2>Computing Cohen’s <span class="math inline">\(d\)</span></h2>
+<p>Many ways to do this in R… all slightly different… We’ll use the <code>cohens_d</code> function from the <code>effectsize</code> package:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb2-2"><a></a></span>
+<span id="cb2-3"><a></a><span class="fu">cohens_d</span>(sysBP <span class="sc">~</span> sex, <span class="at">data =</span> fram)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Cohen's d |       95% CI
+------------------------
+0.07      | [0.01, 0.13]
+
+- Estimated using pooled SD.</code></pre>
+</div>
+</div>
+<div class="question">
+<p>How can a difference this small be statistically significant?</p>
+</div>
+</section>
+<section id="a-bigger-effect-diabetes" class="slide level2 smaller">
+<h2>A bigger effect: diabetes</h2>
+
+<img data-src="16-effect-size-cont_files/figure-revealjs/unnamed-chunk-3-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><p>Only 109 participants have diabetes, yet the difference is about <strong>15.5 mm Hg</strong>, with <span class="math inline">\(d \approx\)</span> 0.71.</p>
+<div class="question">
+<p>Which has the smaller p-value: sex (n = 4,240, <span class="math inline">\(d \approx 0.07\)</span>) or diabetes (n = 109 in one group, <span class="math inline">\(d \approx 0.7\)</span>)? Which is the bigger effect?</p>
+</div>
+</section>
+<section>
+<section id="effect-size" class="title-slide slide level1 center">
+<h1>Effect size</h1>
+
+</section>
+<section id="what-is-an-effect-size" class="slide level2 smaller">
+<h2>What is an effect size?</h2>
+<p>An <strong>effect size</strong> measures how big a relationship is <strong>relative to the noise</strong> in the data.</p>
+<ul>
+<li>It does <strong>not</strong> depend on the sample size (other than ordinary sampling variability).</li>
+<li>The p-value <strong>does</strong> depend on the sample size: more data pushes p-values down, even when the effect is tiny.</li>
+</ul>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Situation</th>
+<th style="text-align: left;">Effect size</th>
+<th style="text-align: left;">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Quantitative predictor</td>
+<td style="text-align: left;"><span class="math inline">\(R^2\)</span> (PRE)</td>
+<td style="text-align: left;">Fraction of variation in <span class="math inline">\(Y\)</span> explained</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Two groups</td>
+<td style="text-align: left;">Cohen’s <span class="math inline">\(d = \dfrac{\bar{y}_1 - \bar{y}_2}{s_{pooled}}\)</span></td>
+<td style="text-align: left;">Difference in means, in SD units</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Warning: the <strong>noise</strong> or <strong>sd</strong> we refer to is of the data, not the sampling distribution (i.e.&nbsp;not the standard error).</li>
+</ul>
+</section>
+<section id="a-warning-on-effect-size" class="slide level2 smaller">
+<h2>A warning on effect size</h2>
+<p>Different communities that use statistics frequently mean different things when they say <strong>effect size</strong>:</p>
+<ul>
+<li>Everyone usually means “Is the size of my coefficient large?” (in this case the raw slope would be considered a measure of effect size).</li>
+<li>Most statisticians mean “Is the size of my coefficient large compared to my variation?” (This is the definition we will use in class.)
+<ul>
+<li>Note that this definition requires two things: a measure of the raw size and a measure of the variability.</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<div class="question">
+<p>How does <span class="math inline">\(R^2\)</span> include both of these measures in it? How does Cohen’s <span class="math inline">\(d\)</span>?</p>
+</div>
+</div>
+</section>
+<section id="rules-of-thumb" class="slide level2 smaller">
+<h2>Rules of thumb</h2>
+<ul>
+<li>There are general guidelines for what makes a large effect size (you can google them).</li>
+<li><strong>What counts as a meaningful effect depends on the problem.</strong> So I will not present them.</li>
+</ul>
+<div class="fragment">
+<div class="question">
+<p>Is a 1.6 mm Hg difference in blood pressure meaningful? What about 10 mm Hg? Who decides?</p>
+</div>
+</div>
+</section>
+<section id="activity-parts-1-and-2" class="slide level2 smaller">
+<h2>Activity: Parts 1 and 2</h2>
+<div class="appex">
+<p>📋 <a href="https://ericfriedlander.github.io/math2025-fa26/ae/ae-15-effect-size-power.html">AE 15 - Effect Size</a></p>
+</div>
+<ul>
+<li>Part 1: compute <span class="math inline">\(R^2\)</span> for a slope (<code>BMI</code>) and compare it to age.</li>
+<li>Part 2: compute Cohen’s <span class="math inline">\(d\)</span> for diabetes by hand, then check it with the regression slope divided by <span class="math inline">\(\hat{\sigma}_\epsilon\)</span> and with <code>cohens_d()</code> from the <code>effectsize</code> package.</li>
+<li>We will pick back up at the countdown.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_70175b74" minutes="15" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+</div>
+</div>
+</section></section>
+<section>
+<section id="effect-size-sample-size-and-power" class="title-slide slide level1 center">
+<h1>Effect size, sample size, and power</h1>
+
+</section>
+<section id="effect-size-does-not-grow-with-n" class="slide level2 smaller">
+<h2>Effect size does not grow with <span class="math inline">\(n\)</span></h2>
+<p>Treat Framingham as a population. Take samples of size <span class="math inline">\(n\)</span>, and compute Cohen’s <span class="math inline">\(d\)</span> for sex and the p-value each time.</p>
+
+<img data-src="16-effect-size-cont_files/figure-revealjs/unnamed-chunk-7-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="question">
+<p>What happens to <span class="math inline">\(d\)</span> as <span class="math inline">\(n\)</span> grows? What happens to the p-value?</p>
+</div>
+</section>
+<section id="effect-size-does-not-grow-with-n-1" class="slide level2 smaller">
+<h2>Effect size does not grow with <span class="math inline">\(n\)</span></h2>
+<p>Treat Framingham as a population. Take samples of size <span class="math inline">\(n\)</span>, and compute Cohen’s <span class="math inline">\(d\)</span> for sex and the p-value each time.</p>
+
+<img data-src="16-effect-size-cont_files/figure-revealjs/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="question">
+<p>What happens to <span class="math inline">\(d\)</span> as <span class="math inline">\(n\)</span> grows? What happens to the p-value?</p>
+</div>
+</section>
+<section id="effect-size-and-power" class="slide level2 smaller">
+<h2>Effect size and power</h2>
+
+<img data-src="16-effect-size-cont_files/figure-revealjs/unnamed-chunk-10-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
+<p>This is the same idea as halving the slope and doubling the noise. <strong>Bigger effect size means more power at the same <span class="math inline">\(n\)</span>.</strong> Roughly how many people do we need for 80% power for each predictor?</p>
+</div>
+</section>
+<section id="practice" class="slide level2 smaller">
+<h2>Practice</h2>
+<p>For each of the following questions, tell me whether you should answer it using a p-value, an effect size, or both:</p>
+<ol type="1">
+<li>Is there convincing evidence that sex explains any of the variation in blood pressure?</li>
+<li>Do I sell more cups of coffee in the park or in the business district?</li>
+<li>Is the increase in the number of cups of coffee I sell meaningful?</li>
+<li>Is the type of music an important predictor in the number of cups of coffee I sell?</li>
+<li>How price sensitive are coffee consumers?</li>
+</ol>
+</section>
+<section id="activity-parts-3-5" class="slide level2 smaller">
+<h2>Activity: Parts 3-5</h2>
+<div class="appex">
+<p>📋 <a href="https://ericfriedlander.github.io/math2025-fa26/ae/ae-15-effect-size-power.html">AE 15 - Effect Size</a></p>
+</div>
+<ul>
+<li>Part 3: your group will be assigned one quantitative and one binary predictor. Compute <span class="math inline">\(R^2\)</span> and Cohen’s <span class="math inline">\(d\)</span> and report them on the board.</li>
+<li>Part 4: see how effect size, sample size, and p-values interact.</li>
+<li>Part 5: reflection.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_12b76a21" minutes="25" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+</div>
+</div>
+</section>
+<section id="recap" class="slide level2 smaller">
+<h2>Recap</h2>
+<ul>
+<li>A small p-value says a relationship is <strong>detectable</strong>. It doesn’t say the relationship is <strong>big</strong>.</li>
+<li><strong>Effect size</strong> measures how big a relationship is relative to the noise: <span class="math inline">\(R^2\)</span> for a slope, Cohen’s <span class="math inline">\(d\)</span> for a difference in means (<span class="math inline">\(d = \hat{\beta}_1 / \hat{\sigma}_\epsilon\)</span> in regression).</li>
+<li>Effect size doesn’t grow with <span class="math inline">\(n\)</span>. The p-value does. What counts as meaningful depends on context.</li>
+<li><strong>Power</strong> is the probability of detecting a real effect. It increases with sample size <strong>and</strong> effect size.</li>
+<li>With a huge sample, ask whether the effect matters. With a small sample, remember that failing to reject <span class="math inline">\(H_0\)</span> is not proof of no relationship.</li>
+</ul>
+</section></section>
+<section>
+<section id="project-overview" class="title-slide slide level1 center">
+<h1>Project overview</h1>
+
+</section>
+<section id="where-we-are-going" class="slide level2 smaller">
+<h2>Where we are going</h2>
+<p>By the end of the semester you will have run your own study on the Islands and written it up as:</p>
+<ul>
+<li><strong>A paper</strong> with an <strong>Introduction, Methods, Results, and Discussion</strong></li>
+<li><strong>A poster</strong> presenting the same four sections, at the final exam</li>
+<li>You may complete this project individually or in a group of up to 3 people.
+<ul>
+<li>If you would like to work in a group, please email me your group members before submitting your first checkpoint.</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<p>You will not write it all at once: <strong>every checkpoint adds to the same paper</strong> (<code>islands-paper.qmd</code>), so the full draft is essentially done by Nov 30.</p>
+</div>
+</section>
+<section id="the-roadmap" class="slide level2 smaller">
+<h2>The roadmap</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Checkpoint</th>
+<th style="text-align: left;">Due</th>
+<th style="text-align: left;">Add to your paper</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1: Pilot</td>
+<td style="text-align: left;">Wed Nov 4</td>
+<td style="text-align: left;"><strong>Introduction</strong> and <strong>Methods</strong> (design, sampling, variables)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2: Power</td>
+<td style="text-align: left;">Wed Nov 11</td>
+<td style="text-align: left;"><strong>Methods: Sample size</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3: Preliminary</td>
+<td style="text-align: left;">Wed Nov 18</td>
+<td style="text-align: left;"><strong>Methods: Statistical analysis</strong> and first draft of <strong>Results</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4: Full draft</td>
+<td style="text-align: left;">Mon Nov 30</td>
+<td style="text-align: left;">Complete <strong>Results</strong> and <strong>Discussion</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5: Final + poster</td>
+<td style="text-align: left;">Dec 7-10</td>
+<td style="text-align: left;">Revised paper, poster, reflection</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="project-overview-1" class="slide level2 smaller">
+<h2>Project overview</h2>
+<div class="appex">
+<p>📋 <a href="https://ericfriedlander.github.io/math2025-fa26/project/project-overview.html">Project Overview</a></p>
+</div>
+</section></section>
+<section>
+<section id="types-of-studies" class="title-slide slide level1 center">
+<h1>Types of studies</h1>
+
+</section>
+<section id="which-design-is-it" class="slide level2 smaller">
+<h2>Which design is it?</h2>
+<p>Your pilot methods section needs to name your <strong>study design</strong>. These come from the <a href="https://www.cebm.ox.ac.uk/files/testing/cebm-study-design-april-20131.pdf">Oxford CEBM guide to study design</a> (Howick, adapted from Grimes and Schulz, <em>Lancet</em> 2002).</p>
+<div class="fragment">
+<div class="question">
+<p>Did the investigator <strong>assign</strong> the exposures (i.e.&nbsp;the explanatory variable)?</p>
+</div>
+</div>
+<div class="fragment">
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Experimental study</th>
+<th style="text-align: left;">Observational study</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Who assigns the exposure?</td>
+<td style="text-align: left;"><strong>You</strong> (the investigator)</td>
+<td style="text-align: left;">Nobody: you only <strong>observe</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Next question</td>
+<td style="text-align: left;">Was allocation <strong>random</strong>?</td>
+<td style="text-align: left;">Is there a <strong>comparison group</strong>?</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="experimental-studies" class="slide level2 smaller">
+<h2>Experimental studies</h2>
+<ul>
+<li><strong>Randomized controlled trial (RCT):</strong> subjects are allocated to treatment and control groups by a random process, “akin to flipping a coin.”</li>
+<li><strong>Non-randomized controlled trial:</strong> you assign exposures, but not at random.</li>
+</ul>
+<div class="fragment">
+<p>Why randomize?</p>
+<ul>
+<li>Random allocation reduces <strong>selection bias</strong> and <strong>allocation bias</strong> (especially when the allocation is concealed).</li>
+<li>Because they are experiments, trials can also use <strong>blinding</strong> of participants and caregivers, which reduces <strong>performance bias</strong>.</li>
+</ul>
+</div>
+<div class="fragment">
+<div class="question">
+<p>On the Islands, you can assign islanders to treatments yourself. What would randomizing look like? What would a non-random assignment look like?</p>
+</div>
+</div>
+</section>
+<section id="observational-studies" class="slide level2 smaller">
+<h2>Observational studies</h2>
+<p>You observe exposures that already exist. Is there a comparison group?</p>
+<ul>
+<li><strong>No: descriptive study.</strong> Describes the characteristics of a population (often a survey). It cannot tell us what <em>caused</em> something, or show that one variable affects another.</li>
+<li><strong>Yes: analytical study.</strong> Used to <strong>test hypotheses</strong> by comparing groups. Which kind depends on the <strong>direction</strong>: do we start from the exposure, start from the outcome, or measure both at once?</li>
+<li><strong>Your project must be an analytical study!</strong> . . .</li>
+</ul>
+<p>(<strong>Exploratory</strong> studies also exist: small and short, used when little is known about a topic.)</p>
+</section>
+<section id="three-analytical-designs" class="slide level2 smaller">
+<h2>Three analytical designs</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Design</th>
+<th style="text-align: left;">Direction</th>
+<th style="text-align: left;">Idea</th>
+<th style="text-align: left;">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Cohort</strong></td>
+<td style="text-align: left;">Exposure <span class="math inline">\(\rightarrow\)</span> outcome</td>
+<td style="text-align: left;">Start with people who do not have the outcome, measure baseline, follow them over time</td>
+<td style="text-align: left;">Usually very expensive; can compute risks and ratios; good for studying many outcomes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Case-control</strong></td>
+<td style="text-align: left;">Outcome <span class="math inline">\(\rightarrow\)</span> exposure</td>
+<td style="text-align: left;">Compare people with the outcome (cases) to similar people without it (controls)</td>
+<td style="text-align: left;">Usually cheaper; good for studying many exposures</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Cross-sectional</strong></td>
+<td style="text-align: left;">Both at the same time</td>
+<td style="text-align: left;">A “snapshot” of a population at one point in time</td>
+<td style="text-align: left;">Cannot tell whether the exposure came before the outcome</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>Example: does smoking (exposure) lead to lung cancer (outcome)? A <strong>cohort</strong> study follows smokers and non-smokers forward in time. A <strong>case-control</strong> study starts with people with and without lung cancer and looks back at their smoking history.</p>
+</div>
+</section>
+<section id="what-is-your-islands-study" class="slide level2 smaller">
+<h2>What is your Islands study?</h2>
+<div class="question">
+<p>For each of these, is it experimental or observational? Which design?</p>
+<ol type="1">
+<li>You randomly assign islanders to two different training programs and measure their performance afterward.</li>
+<li>You pick islanders who already chose two different activities and compare their outcomes.</li>
+<li>You record the age and strength of 30 islanders at a single moment.</li>
+</ol>
+</div>
+<div class="fragment">
+<p>In your pilot, decide which design fits your research question, and say <strong>why</strong> in your methods section. Remember: only a randomized experiment lets you make strong causal claims.</p>
+<p><strong>Note:</strong> it is unlikely that you choose a Case-control study since you’ll be using a Case-Control study because you response variable will be quantitative.</p>
+
+
+</div>
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="../images/logo.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p><a href="https://ericfriedlander.github.io/math2025-fa26/">🔗 MATH 2025 - Fall 2026 - Schedule</a></p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/ericfriedlander\.github\.io\/math2025-fa26\/");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

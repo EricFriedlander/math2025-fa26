@@ -230,7 +230,6 @@ Prof.&nbsp;Eric Friedlander
 <li><strong>Finish the power analysis</strong> (AE 14, Parts 3 and 4).</li>
 <li>Two kinds of questions: a slope and a difference in means.</li>
 <li><strong><span class="math inline">\(R^2\)</span></strong> and <strong>Cohen’s <span class="math inline">\(d\)</span></strong> as measures of effect size.</li>
-<li>Effect size vs.&nbsp;sample size vs.&nbsp;power.</li>
 </ol>
 </div>
 </section>
@@ -357,7 +356,7 @@ Prof.&nbsp;Eric Friedlander
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_8ba2101b" minutes="25" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_15cdae48" minutes="25" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
 </div>
 </div>
 </section></section>
@@ -639,188 +638,9 @@ s_{pooled} = \sqrt{\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}}
 = \sqrt{\frac{SSE}{n-2}}
 = \hat{\sigma}_\epsilon
 \]</span></p>
-</div>
-</section>
-<section id="computing-cohens-d" class="slide level2 smaller">
-<h2>Computing Cohen’s <span class="math inline">\(d\)</span></h2>
-<p>Many ways to do this in R… all slightly different… We’ll use the <code>cohens_d</code> function from the <code>effectsize</code> package:</p>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="fu">library</span>(effectsize)</span>
-<span id="cb6-2"><a></a></span>
-<span id="cb6-3"><a></a><span class="fu">cohens_d</span>(sysBP <span class="sc">~</span> sex, <span class="at">data =</span> fram)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Cohen's d |       95% CI
-------------------------
-0.07      | [0.01, 0.13]
-
-- Estimated using pooled SD.</code></pre>
-</div>
-</div>
-<div class="question">
-<p>How can a difference this small be statistically significant?</p>
-</div>
-</section>
-<section id="a-bigger-effect-diabetes" class="slide level2 smaller">
-<h2>A bigger effect: diabetes</h2>
-
-<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-16-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><p>Only 109 participants have diabetes, yet the difference is about <strong>15.5 mm Hg</strong>, with <span class="math inline">\(d \approx\)</span> 0.71.</p>
-<div class="question">
-<p>Which has the smaller p-value: sex (n = 4,240, <span class="math inline">\(d \approx 0.07\)</span>) or diabetes (n = 109 in one group, <span class="math inline">\(d \approx 0.7\)</span>)? Which is the bigger effect?</p>
-</div>
-</section></section>
-<section>
-<section id="effect-size" class="title-slide slide level1 center">
-<h1>Effect size</h1>
-
-</section>
-<section id="what-is-an-effect-size" class="slide level2 smaller">
-<h2>What is an effect size?</h2>
-<p>An <strong>effect size</strong> measures how big a relationship is <strong>relative to the noise</strong> in the data.</p>
-<ul>
-<li>It does <strong>not</strong> depend on the sample size (other than ordinary sampling variability).</li>
-<li>The p-value <strong>does</strong> depend on the sample size: more data pushes p-values down, even when the effect is tiny.</li>
-</ul>
-<table class="caption-top">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Situation</th>
-<th style="text-align: left;">Effect size</th>
-<th style="text-align: left;">Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Quantitative predictor</td>
-<td style="text-align: left;"><span class="math inline">\(R^2\)</span> (PRE)</td>
-<td style="text-align: left;">Fraction of variation in <span class="math inline">\(Y\)</span> explained</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Two groups</td>
-<td style="text-align: left;">Cohen’s <span class="math inline">\(d = \dfrac{\bar{y}_1 - \bar{y}_2}{s_{pooled}}\)</span></td>
-<td style="text-align: left;">Difference in means, in SD units</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>Warning: the <strong>noise</strong> or <strong>sd</strong> we refer to is of the data, not the sampling distribution (i.e.&nbsp;not the standard error).</li>
-</ul>
-</section>
-<section id="a-warning-on-effect-size" class="slide level2 smaller">
-<h2>A warning on effect size</h2>
-<p>Different communities that use statistics frequently mean different things when they say <strong>effect size</strong>:</p>
-<ul>
-<li>Everyone usually means “Is the size of my coefficient large?” (in this case the raw slope would be considered a measure of effect size).</li>
-<li>Most statisticians mean “Is the size of my coefficient large compared to my variation?” (This is the definition we will use in class.)
-<ul>
-<li>Note that this definition requires two things: a measure of the raw size and a measure of the variability.</li>
-</ul></li>
-</ul>
-<div class="fragment">
-<div class="question">
-<p>How does <span class="math inline">\(R^2\)</span> include both of these measures in it? How does Cohen’s <span class="math inline">\(d\)</span>?</p>
-</div>
-</div>
-</section>
-<section id="rules-of-thumb" class="slide level2 smaller">
-<h2>Rules of thumb</h2>
-<ul>
-<li>There are general guidelines for what makes a large effect size (you can google them).</li>
-<li><strong>What counts as a meaningful effect depends on the problem.</strong> So I will not present them.</li>
-</ul>
-<div class="fragment">
-<div class="question">
-<p>Is a 1.6 mm Hg difference in blood pressure meaningful? What about 10 mm Hg? Who decides?</p>
-</div>
-</div>
-</section>
-<section id="activity-parts-1-and-2" class="slide level2 smaller">
-<h2>Activity: Parts 1 and 2</h2>
-<div class="appex">
-<p>📋 <a href="https://ericfriedlander.github.io/math2025-fa26/ae/ae-15-effect-size-power.html">AE 15 - Effect Size</a></p>
-</div>
-<ul>
-<li>Part 1: compute <span class="math inline">\(R^2\)</span> for a slope (<code>BMI</code>) and compare it to age.</li>
-<li>Part 2: compute Cohen’s <span class="math inline">\(d\)</span> for diabetes by hand, then check it with the regression slope divided by <span class="math inline">\(\hat{\sigma}_\epsilon\)</span> and with <code>cohens_d()</code> from the <code>effectsize</code> package.</li>
-<li>We will pick back up at the countdown.</li>
-</ul>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_e4974475" minutes="15" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
-</div>
-</div>
-</section></section>
-<section>
-<section id="effect-size-sample-size-and-power" class="title-slide slide level1 center">
-<h1>Effect size, sample size, and power</h1>
-
-</section>
-<section id="effect-size-does-not-grow-with-n" class="slide level2 smaller">
-<h2>Effect size does not grow with <span class="math inline">\(n\)</span></h2>
-<p>Treat Framingham as a population. Take samples of size <span class="math inline">\(n\)</span>, and compute Cohen’s <span class="math inline">\(d\)</span> for sex and the p-value each time.</p>
-
-<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-20-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="question">
-<p>What happens to <span class="math inline">\(d\)</span> as <span class="math inline">\(n\)</span> grows? What happens to the p-value?</p>
-</div>
-</section>
-<section id="effect-size-does-not-grow-with-n-1" class="slide level2 smaller">
-<h2>Effect size does not grow with <span class="math inline">\(n\)</span></h2>
-<p>Treat Framingham as a population. Take samples of size <span class="math inline">\(n\)</span>, and compute Cohen’s <span class="math inline">\(d\)</span> for sex and the p-value each time.</p>
-
-<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-21-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="question">
-<p>What happens to <span class="math inline">\(d\)</span> as <span class="math inline">\(n\)</span> grows? What happens to the p-value?</p>
-</div>
-</section>
-<section id="effect-size-and-power" class="slide level2 smaller">
-<h2>Effect size and power</h2>
-
-<img data-src="15-effect-size_files/figure-revealjs/unnamed-chunk-23-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="question">
-<p>This is the same idea as halving the slope and doubling the noise. <strong>Bigger effect size means more power at the same <span class="math inline">\(n\)</span>.</strong> Roughly how many people do we need for 80% power for each predictor?</p>
-</div>
-</section>
-<section id="practice" class="slide level2 smaller">
-<h2>Practice</h2>
-<p>For each of the following questions, tell me whether you should answer it using a p-value, an effect size, or both:</p>
-<ol type="1">
-<li>Is there convincing evidence that sex explains any of the variation in blood pressure?</li>
-<li>Do I sell more cups of coffee in the park or in the business district?</li>
-<li>Is the increase in the number of cups of coffee I sell meaningful?</li>
-<li>Is the type of music an important predictor in the number of cups of coffee I sell?</li>
-<li>How price sensitive are coffee consumers?</li>
-</ol>
-</section>
-<section id="activity-parts-3-5" class="slide level2 smaller">
-<h2>Activity: Parts 3-5</h2>
-<div class="appex">
-<p>📋 <a href="https://ericfriedlander.github.io/math2025-fa26/ae/ae-15-effect-size-power.html">AE 15 - Effect Size</a></p>
-</div>
-<ul>
-<li>Part 3: your group will be assigned one quantitative and one binary predictor. Compute <span class="math inline">\(R^2\)</span> and Cohen’s <span class="math inline">\(d\)</span> and report them on the board.</li>
-<li>Part 4: see how effect size, sample size, and p-values interact.</li>
-<li>Part 5: reflection.</li>
-</ul>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_c7d77063" minutes="25" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
-</div>
-</div>
-</section>
-<section id="recap" class="slide level2 smaller">
-<h2>Recap</h2>
-<ul>
-<li>A <strong>power analysis</strong> before collecting data: assume a slope and noise, choose a target power, and find the sample size you need.</li>
-<li>A small p-value says a relationship is <strong>detectable</strong>. It doesn’t say the relationship is <strong>big</strong>.</li>
-<li><strong>Effect size</strong> measures how big a relationship is relative to the noise: <span class="math inline">\(R^2\)</span> for a slope, Cohen’s <span class="math inline">\(d\)</span> for a difference in means (<span class="math inline">\(d = \hat{\beta}_1 / \hat{\sigma}_\epsilon\)</span> in regression).</li>
-<li>Effect size doesn’t grow with <span class="math inline">\(n\)</span>. The p-value does. What counts as meaningful depends on context.</li>
-<li><strong>Power</strong> is the probability of detecting a real effect. It increases with sample size <strong>and</strong> effect size.</li>
-<li>With a huge sample, ask whether the effect matters. With a small sample, remember that failing to reject <span class="math inline">\(H_0\)</span> is not proof of no relationship.</li>
-</ul>
 
 
+</div>
 </section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">

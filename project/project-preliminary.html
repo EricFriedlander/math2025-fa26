@@ -335,6 +335,41 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Project</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../project/project-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../project/project-rubric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Project Rubric</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../project/poster-rubric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Poster Rubric</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../project/project-islands-tips.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tips on Islands</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -386,13 +421,17 @@ ul.task-list li input[type="checkbox"] {
 <h4 class="anchored" data-anchor-id="due-date">Due Date</h4>
 <p><strong>Wednesday, November 18, 2026</strong></p>
 </section>
+<section id="where-this-fits" class="level4">
+<h4 class="anchored" data-anchor-id="where-this-fits">Where this fits</h4>
+<p>This checkpoint adds the <strong>Methods: Statistical analysis</strong> subsection and a first draft of the <strong>Results</strong> section to your paper. See the <a href="../project/project-overview.html">project overview</a> for the full roadmap.</p>
+</section>
 <section id="goal" class="level4">
 <h4 class="anchored" data-anchor-id="goal">Goal</h4>
 <p>The goal of this assignment is to begin analyzing your collected data, producing visualizations, summaries, and your first regression model.</p>
 </section>
 <section id="to-turn-in" class="level4">
 <h4 class="anchored" data-anchor-id="to-turn-in">To Turn In</h4>
-<p>In your team’s shared RStudio Project folder, create a <strong>new Quarto document</strong> called <code>preliminary-analysis.qmd</code> including your preliminary analysis. All members contribute to <strong>both</strong> writing and computation.</p>
+<p>In your RStudio Project folder, in <code>islands-paper.qmd</code> (the same document as before), add your preliminary analysis under Methods and Results.</p>
 </section>
 </div>
 </div>
@@ -400,23 +439,23 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="assignment-deliverables">Assignment Deliverables</h2>
 <p>Your preliminary analysis should include the following components:</p>
 <ol type="1">
-<li><p><strong>Research Question</strong><br>
-Restate your question and provide sufficient background so that all variables are clearly defined.</p></li>
+<li><p><strong>Statistical Analysis (Methods)</strong><br>
+Describe the models you plan to fit and why, and how you will check conditions. Make sure all variables are clearly defined in your Variables subsection.</p></li>
 <li><p><strong>Sampling Reflection</strong><br>
-Discuss whether aspects of your sampling may limit generalization to all Islanders.</p></li>
+Note (you will develop this in your Discussion) whether aspects of your sampling may limit generalization to all Islanders.</p></li>
 <li><p><strong>Visualizations (3–4 minimum)</strong></p>
 <ul>
 <li>Each plot must have accurate and descriptive labels.<br>
 </li>
 <li>Include at least one plot assessing randomization effectiveness (e.g., demographic balance across treatments).<br>
 </li>
-<li>Each visualization must be followed by at least one interpretive sentence—no “naked plots.” That is, each visualization must have a <em>purpose</em>.</li>
+<li>Each visualization must be followed by at least one interpretive sentence: no “naked plots.” That is, each visualization must have a <em>purpose</em>.</li>
 </ul></li>
 <li><p><strong>Numerical Summaries</strong></p>
 <ul>
 <li>Provide descriptive statistics for relevant variables.<br>
 </li>
-<li>Each table or summary must be followed by explanatory text—no “naked tables.”</li>
+<li>Each table or summary must be followed by explanatory text: no “naked tables.”</li>
 </ul></li>
 <li><p><strong>Regression Model</strong></p>
 <ul>
@@ -426,7 +465,7 @@ Discuss whether aspects of your sampling may limit generalization to all Islande
 </ul></li>
 <li><p><strong>Reproducibility</strong></p>
 <ul>
-<li>All analysis must be in a single Quarto document with code integrated into the narrative. <strong>DO NOT</strong> write all your code at the top and then the text below.</li>
+<li>All analysis must be in your single paper document (<code>islands-paper.qmd</code>) with code integrated into the narrative. <strong>DO NOT</strong> write all your code at the top and then the text below.</li>
 </ul></li>
 </ol>
 

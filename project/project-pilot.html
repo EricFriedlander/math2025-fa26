@@ -335,6 +335,41 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Project</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../project/project-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../project/project-rubric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Project Rubric</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../project/poster-rubric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Poster Rubric</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../project/project-islands-tips.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tips on Islands</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -351,6 +386,7 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#preliminary-data-collection" id="toc-preliminary-data-collection" class="nav-link" data-scroll-target="#preliminary-data-collection">Preliminary Data Collection</a></li>
   </ul></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#methods-section" id="toc-methods-section" class="nav-link" data-scroll-target="#methods-section">Methods Section</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/EricFriedlander/math2025-fa26/edit/main/project/project-pilot.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EricFriedlander/math2025-fa26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -392,23 +428,26 @@ ul.task-list li input[type="checkbox"] {
 <h4 class="anchored" data-anchor-id="due-date">Due Date</h4>
 <p><strong>Wednesday, November 4, 2026</strong></p>
 </section>
+<section id="where-this-fits" class="level4">
+<h4 class="anchored" data-anchor-id="where-this-fits">Where this fits</h4>
+<p>You are starting your paper. This checkpoint adds the <strong>Introduction</strong> and the first part of <strong>Methods</strong> (design, sampling, variables). Start from the <a href="https://raw.githubusercontent.com/EricFriedlander/math2025-fa26/master/project/islands-paper-template.qmd">paper template</a>, saved as <code>islands-paper.qmd</code>. See the <a href="../project/project-overview.html">project overview</a> for the full roadmap.</p>
+</section>
 <section id="goal" class="level4">
 <h4 class="anchored" data-anchor-id="goal">Goal</h4>
-<p>The goal of the pilot study assignment is to develop a preliminary research question and to collect some initial data, both in preparation for your group Island project.</p>
+<p>The goal of the pilot study assignment is to develop a preliminary research question and to collect some initial data, both in preparation for your Island project.</p>
 </section>
 <section id="to-turn-in" class="level4">
 <h4 class="anchored" data-anchor-id="to-turn-in">To Turn In</h4>
-<p>In your team’s shared RStudio Project folder:</p>
+<p>In your RStudio Project folder, in <code>islands-paper.qmd</code>:</p>
 <ul>
-<li>Names of investigators and their roles<br>
-</li>
-<li>Research question (1–2 sentences)<br>
-</li>
-<li>Draft of methods section</li>
+<li>Introduction: 1-2 paragraphs of background, ending with your research question (1–2 sentences) and hypothesis</li>
+<li>Methods: study design, participants and sampling, and variables</li>
 </ul>
 <p>In Canvas:</p>
 <ul>
 <li>Link to Google Sheet with data<br>
+</li>
+<li>If you are working in a group, who is in it (one submission per group)<br>
 </li>
 </ul>
 </section>
@@ -418,11 +457,11 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="preliminaries">Preliminaries</h2>
 <ul>
 <li>Review <a href="../project/project-islands-tips.html">the Islands tips</a> document.</li>
-<li>Work through <strong>one shared login</strong> to the Islands.<br>
+<li>Work through <strong>your own login</strong> to the Islands (in a group, each member can use their own login and combine data, or you can share one, but the group must agree on one study).<br>
 </li>
-<li>Use a <strong>shared Google Sheet</strong> for data (tidy format: one row per person, one column per variable).<br>
+<li>Use <strong>your own (or your group’s) Google Sheet</strong> for data (tidy format: one row per person, one column per variable).<br>
 </li>
-<li>Use your team’s <strong>shared RStudio Project folder</strong> for writing.</li>
+<li>Use one <strong>RStudio Project folder</strong> for writing (your own, or one shared by your group).</li>
 </ul>
 </section>
 <section id="research-question" class="level2">
@@ -432,8 +471,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
 <li>You may use the <strong>PICO</strong> structure (Population, Intervention, Comparison, Outcome).
 <ul>
-<li>Description: https://guides.mclibrary.duke.edu/ebm/pico</li>
-<li>Sample PICO questions: https://libraryguides.nau.edu/c.php?g=665927&amp;p=4682772</li>
+<li><a href="https://guides.mclibrary.duke.edu/ebm/pico">Description</a></li>
+<li><a href="https://libraryguides.nau.edu/c.php?g=665927&amp;p=4682772">Sample PICO questions</a></li>
 </ul></li>
 <li>Questions can be <strong>experimental</strong> or <strong>observational</strong>.</li>
 </ul>
@@ -442,46 +481,54 @@ ul.task-list li input[type="checkbox"] {
 <section id="design-a-study" class="level2">
 <h2 class="anchored" data-anchor-id="design-a-study">Design a Study</h2>
 <ul>
-<li>Read <a href="https://openintrostat.github.io/ims/data-design.html">this Chapter</a> on study design.</li>
+<li>Read <a href="https://www.cebm.ox.ac.uk/files/testing/cebm-study-design-april-20131.pdf">this guide to study design</a> from the Centre for Evidence-Based Medicine (University of Oxford).</li>
 <li>Design a study to answer your research question.
 <ul>
-<li>Describe how subjects were selected.<br>
+<li>Describe how subjects will be selected.<br>
 </li>
-<li>Random sampling is not required, but justify representativeness.<br>
+<li>Random sampling is not required, but if you do not use it you must justify representativeness.<br>
 </li>
 <li>Response variable must be <strong>quantitative</strong>.<br>
 </li>
-<li>Collect at least <strong>four</strong> <strong>demographic information</strong> that you think may confound your results (at least two must be numeric).</li>
+<li>Primary explanatory variable may be either <strong>quantitative</strong> or <strong>categorical</strong></li>
+<li>Collect at least <strong>four</strong> additional <strong>demographic variables</strong> that you think may confound your results (at least two must be numeric).</li>
 </ul></li>
 </ul>
 <section id="preliminary-data-collection" class="level3">
 <h3 class="anchored" data-anchor-id="preliminary-data-collection">Preliminary Data Collection</h3>
-<p>Using your study design, measure <strong>at least 20 islanders</strong> for a pilot study.</p>
+<p>Using your study design, measure <strong>at least 20 islanders</strong> for a pilot study storing your results in a google sheet.</p>
 </section>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Write 1-2 paragraphs that move from general to specific:</p>
+<ul>
+<li>Find at least two research papers related to your research question.</li>
+<li>Why does this topic matter? What is plausible or already known (you can draw on what you learn on the Islands)?</li>
+<li>What is your research question, and what do you hypothesize?</li>
+<li>Make sure you reference and cite these papers in your Introduction.</li>
+</ul>
+<p>End with your research question from above.</p>
 </section>
 <section id="methods-section" class="level2">
 <h2 class="anchored" data-anchor-id="methods-section">Methods Section</h2>
-<p>Clearly describe the following in your methods section:</p>
+<p>In the Methods section of your paper, clearly describe the following in your methods section:</p>
 <ul>
 <li>Study design (e.g., experimental, case-control, cohort)<br>
 </li>
 <li>Target population<br>
 </li>
-<li>Inclusion/exclusion criteria<br>
-</li>
+<li>Inclusion/exclusion criteria</li>
 <li>Sampling methods<br>
 </li>
-<li>Explanatory variable(s)</li>
+<li>Explanatory variable</li>
 <li>Outcome (numeric response variable)<br>
 </li>
 <li>Demographic variables (≥4 total, ≥2 numeric)<br>
 </li>
-<li>Randomization and blinding methods (if applicable)<br>
-</li>
-<li>Study implementation and timing<br>
-</li>
-<li>Planned statistical methods (to appear in final project)</li>
+<li>Randomization and blinding methods (if applicable)</li>
 </ul>
+<p>You will add your sample size justification and statistical analysis plan to Methods in later checkpoints.</p>
 <p>Write clearly and concisely without repetition.</p>
 
 
