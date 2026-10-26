@@ -10,43 +10,44 @@ title: "Project 4: Final Draft"
 
 **Monday, November 30, 2026**
 
+#### Where this fits
+
+This checkpoint completes your paper: the full **Results** and the **Discussion**, plus revisions to the Introduction and Methods from earlier feedback. See the [project overview](project-overview.qmd) for the full roadmap.
+
 #### Goal
 
-The goal of the complete draft and final edited project is to synthesize all prior work into a cohesive research paper analyzing your collected Islands data.
+The goal of the complete draft is to synthesize all prior work into a cohesive research paper analyzing your collected Islands data.
 
 #### To Turn In
 
-In your RStudio Project folder, go back to the Quarto document you used for the pilot (the one including your methods section) and complete this part of the assignment there.
+In your RStudio Project folder, submit `islands-paper.qmd` (the same document you have been building since the pilot) with all four sections complete.
  
 :::
 
 
 ## Assignment Deliverables
 
-Submit a **complete draft** of your Islands research project that combines all previous components into a unified, publication-style report.  
-The report must include the following sections:
+Submit a **complete draft** of your Islands research paper in publication style, with these four sections.
 
-1. **Motivation and Research Question**  
-   - Explain the motivation and background of your study.  
-   - Clearly state the research question.
+### Introduction
 
-2. **Methods Section**  
-   - Fully describe the design, sampling, intervention/exposure, response, demographics, and statistical approach. You should build upon and refine the methods section from your pilot submission.  
-   - Keep this concise and non-redundant.
+- Explain the motivation and background of your study.
+- Clearly state the research question and hypothesis.
+- Revise using feedback from the pilot.
 
-3. **Power Analysis Summary**  
-   - Include a brief recap of your power analysis and sample size determination.  
-   - Show key calculations but omit full output.
+### Methods
 
-4. **Visual and Numerical Summaries**  
-   - Present descriptive analyses of all key variables.
+- Fully describe the design, sampling, intervention/exposure, response, demographics, and statistical approach. Build upon and refine your earlier Methods, and keep them concise and non-redundant.
+- **Sample size:** briefly recap your power analysis and sample size determination. Show key calculations but omit full output.
 
-5. **Multiple Regression Model**  
-   - Fit and describe a multiple regression model addressing your main research question.  
-   - Discuss rationale for variable inclusion and model structure.
+### Results
 
-6. **Discussion of Significance**  
-   - Interpret which variables are significant and how they relate to your hypotheses.
+- **Visual and numerical summaries:** present descriptive analyses of all key variables, including demographic balance.
+- **Multiple regression model:** fit and describe a multiple regression model addressing your main research question. Discuss your rationale for variable inclusion and model structure, and check the conditions.
+- **Interpretation:** describe which variables are significant and how they relate to your hypotheses. Every table and figure must be explained in the text.
 
-7. **Conclusion**  
-   - Summarize the findings, implications, and potential extensions.
+### Discussion
+
+- Restate the question and key results, and say whether the results support your hypothesis.
+- Discuss limitations: sampling and generalizability, randomization and causal claims, sample size and other constraints.
+- Summarize implications and suggest potential extensions.

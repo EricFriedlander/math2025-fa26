@@ -10,28 +10,33 @@ title: "Project 1: Pilot Study"
 
 **Wednesday, November 4, 2026**
 
+#### Where this fits
+
+You are starting your paper. This checkpoint adds the **Introduction** and the first part of **Methods** (design, sampling, variables). Start from the [paper template](https://raw.githubusercontent.com/EricFriedlander/math2025-fa26/master/project/islands-paper-template.qmd), saved as `islands-paper.qmd`. See the [project overview](project-overview.qmd) for the full roadmap.
+
 #### Goal
 
-The goal of the pilot study assignment is to develop a preliminary research question and to collect some initial data, both in preparation for your individual Island project.
+The goal of the pilot study assignment is to develop a preliminary research question and to collect some initial data, both in preparation for your Island project.
 
 #### To Turn In
 
-In your RStudio Project folder:
+In your RStudio Project folder, in `islands-paper.qmd`:
 
-- Research question (1–2 sentences)  
-- Draft of methods section
+- Introduction: 1-2 paragraphs of background, ending with your research question (1–2 sentences) and hypothesis
+- Methods: study design, participants and sampling, and variables
 
 In Canvas:
 
 - Link to Google Sheet with data  
+- If you are working in a group, who is in it (one submission per group)  
 :::
 
 ## Preliminaries
 
 - Review [the Islands tips](project-islands-tips.qmd) document.
-- Work through **your own login** to the Islands.  
-- Use **your own Google Sheet** for data (tidy format: one row per person, one column per variable).  
-- Use your own **RStudio Project folder** for writing.
+- Work through **your own login** to the Islands (in a group, each member can use their own login and combine data, or you can share one, but the group must agree on one study).  
+- Use **your own (or your group's) Google Sheet** for data (tidy format: one row per person, one column per variable).  
+- Use one **RStudio Project folder** for writing (your own, or one shared by your group).
 
 ## Research Question
 
@@ -58,9 +63,18 @@ In Canvas:
 Using your study design, measure **at least 20 islanders** for a pilot study.
 
 
+## Introduction
+
+Write 1-2 paragraphs that move from general to specific:
+
+- Why does this topic matter? What is plausible or already known (you can draw on what you learn on the Islands)?
+- What is your research question, and what do you hypothesize?
+
+End with your research question from above.
+
 ## Methods Section
 
-Clearly describe the following in your methods section:
+In the Methods section of your paper, clearly describe the following in your methods section:
 
 - Study design (e.g., experimental, case-control, cohort)  
 - Target population  
@@ -71,6 +85,7 @@ Clearly describe the following in your methods section:
 - Demographic variables (≥4 total, ≥2 numeric)  
 - Randomization and blinding methods (if applicable)  
 - Study implementation and timing  
-- Planned statistical methods (to appear in final project)
+
+You will add your sample size justification and statistical analysis plan to Methods in later checkpoints.
 
 Write clearly and concisely without repetition.

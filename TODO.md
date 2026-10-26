@@ -82,3 +82,10 @@ Sanity-check the HW spread against however the semester actually unfolds — it 
 - [ ] Decide whether groups of two still fits enrollment (`project/project-overview.qmd`).
 - [ ] Re-check every `data/` CSV still loads, especially anything sourced via `scripts/UpdateCensus.R`.
 - [x] Update the Canvas course link in `_quarto.yml` sidebar tools once the real URL exists (see Infrastructure above).
+
+---
+
+## Project restructure (Oct 2026)
+
+- [x] Project reframed as one growing IMRaD paper plus a poster: `project/project-overview.qmd` now has the end goal and a checkpoint roadmap; every checkpoint page says which paper sections it adds; students keep one `islands-paper.qmd` started from `project/islands-paper-template.qmd`.
+- [ ] The paper-template links point at `raw.githubusercontent.com/.../master/...`, so they only work once the template is pushed to `master`.

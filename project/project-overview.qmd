@@ -2,55 +2,71 @@
 title: "Project Overview"
 ---
 
-:::{.callout-tip icon=false}
-## Important dates
+# Groups
 
-* 11/4/26 (Wednesday) Project 1: Pilot
-* 11/11/26 (Wednesday) Project 2: Power
-* 11/18/26 (Wednesday) Project 3: Preliminary Analysis
-* 11/30/26 (Monday) Project 4: Full draft
-* 12/7/26-12/10/26 (Final exam period, exact slot TBD) Project 5: Final (edited) Project, Reflection, and Poster Presentation
-::: 
+You may work **alone or in a group of up to three students**: your choice. A group submits one paper, one poster, and one set of checkpoints, with the whole group sharing the grade. Each group member still submits their own [individual reflection](project-final.qmd). If you work in a group, split the work so that everyone contributes to the writing, the data collection, and the analysis, and make sure every member understands the whole project, since poster questions go to everyone. Let me know your group by the Pilot checkpoint (Wednesday, November 4).
 
-# Project Overview
+# The End Goal
+
+By the end of the semester you (or your group) will have run your own research study on the Islands and written it up in two forms:
+
+1. **A research paper** with four sections: **Introduction, Methods, Results, and Discussion** (the standard format of a scientific paper).
+2. **A poster** presenting the same four sections, which you will present to your peers during the final exam period.
+
+| Section | What it does | Where the course material comes in |
+|:---|:---|:---|
+| **Introduction** | Why does your question matter? What is your research question and hypothesis? | Study design, research questions |
+| **Methods** | What did you do, and why? Design, sampling, variables, sample size, statistical analysis | Study design, power and effect size, model building |
+| **Results** | What did you find? Summaries, plots, and your multiple regression model | MLR, categorical predictors, inference, conditions, model evaluation |
+| **Discussion** | What does it mean? Answer your question, discuss limitations, suggest next steps | Causal inference, generalizability, interpretation |
+
+You will not write this all at once. **Every checkpoint adds to the same paper**, so by Monday, November 30 you will have a complete draft, and the last step is revising it and turning it into your poster.
+
+Start from the [paper template](https://raw.githubusercontent.com/EricFriedlander/math2025-fa26/master/project/islands-paper-template.qmd) (right-click and save as `islands-paper.qmd` in your RStudio Project folder), and keep adding to that one file.
+
+# Roadmap
+
+| Checkpoint | Due | Add to your paper | Data collection |
+|:---|:---|:---|:---|
+| [1: Pilot](project-pilot.qmd) | Wed Nov 4 | **Introduction** (background and research question) and **Methods** (design, sampling, variables) | Collect pilot data (at least 20 islanders) |
+| [2: Power](project-power.qmd) | Wed Nov 11 | **Methods: Sample size** (power analysis and justification); revise the Introduction | Decide on your sample size and start full data collection |
+| [3: Preliminary Analysis](project-preliminary.qmd) | Wed Nov 18 | **Methods: Statistical analysis** and a first draft of **Results** (summaries, plots, one regression) | Finish data collection |
+| [4: Full Draft](project-draft.qmd) | Mon Nov 30 | Complete **Results** (final multiple regression model, conditions) and **Discussion** | None |
+| [5: Final Paper and Poster](project-final.qmd) | Final exam period, Dec 7-10 (exact slot TBD) | Revise the whole paper using feedback; [poster](project-poster.qmd) presenting the four sections; reflection | None |
+
+Each checkpoint asks for roughly one to two sections' worth of writing, with the sections that depend on your data (Results, Discussion) arriving last. The earlier checkpoints are graded on completeness and feedback, so use them to get comments before the full draft.
+
+# Checkpoints
 
 ## Pilot
 
-The [pilot project](project-pilot.qmd) will be based on a preliminary data collection.  Details about the structure of the data are given in the assignment, note that the response variable must be numerical.  You will have an opportunity to collect more data as we go, but the better the original data are, the better the follow-up data collection will be. The goal of the pilot study assignment is to develop a preliminary research question and to collect some initial data, both in preparation for your individual Island project.
+The [pilot](project-pilot.qmd) develops your research question and study design, and collects a small initial data set. You write the **Introduction** and **Methods** for your paper. The response variable must be numerical. The better your pilot data, the better the follow-up data collection will be.
 
 ## Power
 
-The [power analysis](project-power.qmd) will use the pilot data to estimate the sample size which will be needed to see the effect of interest.  Most of the code will be written by the professor, but you will need to understand both **why** the power analysis is important and **how** the power analysis is implemented.  The goal of the power analysis assignment is to estimate how many observations are needed for an Islands project to reach significance.
+The [power analysis](project-power.qmd) uses the pilot data to estimate how many observations you need to see the effect of interest. Most of the code is provided, but you need to understand both **why** power matters and **how** the analysis is implemented. You write the **Sample size** subsection of Methods.
 
 ## Preliminary Analysis
 
-The [preliminary analysis](project-preliminary.qmd) will contain numerical and graphical summaries.  Additionally, one regression model should be run. The goal of the preliminary data analysis assignment is to start working with the variables including visualizations, numerical summaries, and modeling.
+The [preliminary analysis](project-preliminary.qmd) starts the **Results**: numerical and graphical summaries and one regression model. You also write the **Statistical analysis** subsection of Methods.
 
 ## Full Draft
 
-The [complete draft](project-draft.qmd) of the project will contain a full set of analyses designed to answer the research question (and practice with multiple regression).  The report will continue to have sections which communicate the study background and methods to the reader.  All plots and tables should be well labelled. The goal of the assignment is to provide a complete analysis of the data collected on the Islands as a research project.
+The [full draft](project-draft.qmd) is a complete paper: all four sections, with a full set of analyses (including a multiple regression model) answering your research question. All plots and tables should be well labelled.
 
-## Poster Presentation
+## Final Paper, Poster, and Reflection
 
-The [poster presentation](project-poster.qmd) will bring together your work and showcase your ideas. The goal of this assignment is to synthesize your study and your results into a clear and succinct presentation to your peers.
+The [final paper](project-final.qmd) is your revised draft, and a short individual reflection (even if you worked in a group). The [poster](project-poster.qmd) condenses the same four sections into a single page for presentation to your peers.
 
-## Final Project and Reflection
-
-The [final project](project-final.qmd) will compile all of the project pieces together into a beautiful and clear report. The paper will have sections which communicate the study background and methods to the reader as well a conclusions of the experiment.  All plots and tables should be well labelled. The goal of the assignment is to provide a complete analysis of the data collected on the Islands as a research project.
-
-Along with the final project report, each student will fill out an individual reflection piece.
-
-A detailed grading rubric is provided to assist you in putting the entire project together.
+A detailed [grading rubric](project-rubric.qmd) is provided to assist you in putting the entire project together.
 
 # Grading
 
 ## Grading Criteria
 
-- Technical depth and sophistication  
-- Quality of written report (organization, clarity, correctness, appropriate visuals)  
-- Quality of oral presentation (organization, visuals, ability to answer questions)  
-
-
+- Technical depth and sophistication
+- Quality of written report (organization, clarity, correctness, appropriate visuals)
+- Quality of oral presentation (organization, visuals, ability to answer questions)
 
 ## Acknowledgements
 

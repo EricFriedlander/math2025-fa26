@@ -256,7 +256,7 @@ countdown::countdown(minutes = 3L)
 
     -   Two exams
 
-    -   Final group project
+    -   Final project (alone or in a group of up to three)
 :::
 :::
 

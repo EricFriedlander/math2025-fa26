@@ -334,6 +334,27 @@ countdown(minutes = 25)
 
 # Project overview
 
+## Where we are going {.smaller}
+
+By the end of the semester you will have run your own study on the Islands and written it up as:
+
+- **A paper** with an **Introduction, Methods, Results, and Discussion**
+- **A poster** presenting the same four sections, at the final exam
+
+. . .
+
+You will not write it all at once: **every checkpoint adds to the same paper** (`islands-paper.qmd`), so the full draft is essentially done by Nov 30.
+
+## The roadmap {.smaller}
+
+| Checkpoint | Due | Add to your paper |
+|:---|:---|:---|
+| 1: Pilot | Wed Nov 4 | **Introduction** and **Methods** (design, sampling, variables) |
+| 2: Power | Wed Nov 11 | **Methods: Sample size** |
+| 3: Preliminary | Wed Nov 18 | **Methods: Statistical analysis** and first draft of **Results** |
+| 4: Full draft | Mon Nov 30 | Complete **Results** and **Discussion** |
+| 5: Final + poster | Dec 7-10 | Revised paper, poster, reflection |
+
 ## Project overview {.smaller}
 
 ::: appex

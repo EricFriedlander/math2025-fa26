@@ -45,7 +45,11 @@ This rubric outlines the evaluation criteria for the **Islands Research Project*
 | Each figure is described (no “naked” figures). | 0–3 |
 | Technical assumptions assessed and documented. | 0–4 |
 
-### Discussion and Conclusions — *10 Points Total*
+### Discussion — *20 Points Total*
+
+The Discussion section is graded in two parts: Conclusions (10 points) and Limitations (10 points).
+
+#### Conclusions — *10 Points*
 
 | Criteria | Points |
 |-----------|---------|
@@ -55,7 +59,7 @@ This rubric outlines the evaluation criteria for the **Islands Research Project*
 | Suggests ideas for future work based on current findings. | 0–2 |
 
 
-### Limitations — *10 Points Total*
+#### Limitations — *10 Points*
 
 | Criteria | Points |
 |-----------|---------|
@@ -85,7 +89,6 @@ This rubric outlines the evaluation criteria for the **Islands Research Project*
 | Introduction | 10 |
 | Methods | 20 |
 | Results | 25 |
-| Discussion / Conclusions | 10 |
-| Limitations | 10 |
+| Discussion (Conclusions 10, Limitations 10) | 20 |
 | Coverage / Clarity | 25 |
 | **Total** | **100** |

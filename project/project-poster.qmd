@@ -10,6 +10,10 @@ title: "Project 5: Poster Presentation"
 
 **Final exam period, December 7-10, 2026 (exact slot TBD)**
 
+#### Where this fits
+
+Your poster is your paper in miniature: the same **Introduction, Methods, Results, and Discussion**, condensed into one page. See the [project overview](project-overview.qmd) for the full roadmap.
+
 #### Goal
 
 The goal of this assignment is to present your study and results in a clear, concise, and engaging way to your peers.
@@ -28,9 +32,15 @@ You have conducted a quantitative research project. Now you will learn how to pr
 
 Learn keys to a successful poster presentation. Consider your audience and frame your research question and results in an understandable and interesting way. Understand you should be brief, use large font size, and incorporate graphics instead of text whenever possible. See how being clear and concise with a logical layout will ensure the viewing experience is intellectually and aesthetically satisfying for your audience. Click [HERE](https://www.youtube.com/watch?v=WpRpCzoumOQ) to a watch the video lesson.
 
-You will create a 3 column, 40" X 36" poster including an introduction, research questions, methods, results, and discussion.
+You will create a 3 column, 40" X 36" poster with the same four sections as your paper. A suggested layout:
+
+| Column 1 | Column 2 | Column 3 |
+|:---|:---|:---|
+| **Introduction** (background, research question, hypothesis) and **Methods** (design, sampling, variables, sample size, analysis) | **Results** (a key plot or two, a summary table, your regression model) | **Discussion** (answer to your question, limitations, next steps) |
+
+Pull the text and figures from your paper, but cut hard: use short phrases, large fonts, and let the graphics do the work.
 
 ## Presentation Logistics
 
-- You will present your poster during our scheduled final exam time.
+- You will present your poster during our scheduled final exam time. Groups present together, and every member should be ready to answer questions.
 - Slides can be created in any software (PowerPoint, Google Slides, etc.) but must be uploaded to Canvas as a PDF. Templates are available on Canvas.

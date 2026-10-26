@@ -10,13 +10,17 @@ title: "Project 2: Power Analysis"
 
 **Wednesday, November 11, 2026**
 
+#### Where this fits
+
+This checkpoint adds the **Methods: Sample size** subsection to your paper. Revise your Introduction and earlier Methods using the feedback on your pilot. See the [project overview](project-overview.qmd) for the full roadmap.
+
 #### Goal
 
 The goal of this assignment is to estimate how many observations are required for an Islands project to achieve statistical significance.
 
 #### To Turn In
 
-In your RStudio Project folder, create a **new Quarto document** called `power-analysis.qmd` including your power analysis.
+In your RStudio Project folder, in `islands-paper.qmd` (the same document as your pilot), fill in the **Sample size** subsection of Methods with your power analysis.
  
 :::
 

@@ -10,14 +10,18 @@ title: "Project 5: Final Submission + Reflection"
 
 **Final exam period, December 7-10, 2026 (exact slot TBD)**
 
+#### Where this fits
+
+This is the last step: revise your whole paper. The [poster](project-poster.qmd) is turned in separately and presents the same four sections. See the [project overview](project-overview.qmd) for the full roadmap.
+
 #### Goal
 
-The goal of the complete draft and final edited project is to synthesize all prior work into a cohesive research paper analyzing your collected Islands data.
+The goal of the final edited project is to turn your draft into a cohesive research paper (Introduction, Methods, Results, Discussion) analyzing your collected Islands data.
 
 #### To Turn In
 
-- In your RStudio Project folder, go back to the Quarto document you used for the draft and make any changes or additions based on feedback you received.
-- Personal reflection as a PDF file submitted to Canvas.
+- In your RStudio Project folder, go back to `islands-paper.qmd` and make any changes or additions based on feedback you received.
+- Personal reflection as a PDF file submitted to Canvas. Everyone submits their own, even if you worked in a group.
 :::
 
 

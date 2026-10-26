@@ -1,0 +1,84 @@
+---
+title: "Your Descriptive Title Here"
+author: "Your Name (and group members, if any)"
+format:
+  html:
+    embed-resources: true
+    toc: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+<!--
+ISLANDS PAPER TEMPLATE
+Save this file as islands-paper.qmd in your RStudio Project folder and keep
+adding to the SAME file at every checkpoint. Delete these comments as you go.
+
+Checkpoint 1 (Nov 4):  Introduction + Methods (design, sampling, variables)
+Checkpoint 2 (Nov 11): Methods > Sample size
+Checkpoint 3 (Nov 18): Methods > Statistical analysis + first draft of Results
+Checkpoint 4 (Nov 30): Complete Results + Discussion (full draft)
+Checkpoint 5 (Finals): Revise using feedback, then turn the paper into your poster
+-->
+
+```{r}
+#| label: setup
+#| eval: false
+library(tidyverse)
+library(broom)
+library(mosaic)
+
+# Checkpoint 3: read in your data (File > Import Dataset, or read_csv("your-data.csv"))
+# islands <- read_csv("your-data.csv")
+```
+
+## Introduction
+
+<!-- Checkpoint 1. 1-2 paragraphs, general to specific:
+     (1) Why does this topic matter? What is already known or plausible?
+     (2) What is your research question and your hypothesis?
+     End with one sentence stating your research question (PICO form is fine). -->
+
+## Methods
+
+### Study design
+
+<!-- Checkpoint 1. Experimental or observational? Which design (RCT, cohort, case-control, cross-sectional)? Why? -->
+
+### Participants and sampling
+
+<!-- Checkpoint 1. Target population, inclusion/exclusion criteria, how islanders were selected, randomization and blinding (if any). -->
+
+### Variables
+
+<!-- Checkpoint 1. Explanatory variable(s), numeric response, and at least 4 demographic variables (at least 2 numeric). Give definitions, units, and levels. -->
+
+### Sample size
+
+<!-- Checkpoint 2. Power analysis from your pilot data, the sample size you chose and why, and whether the pilot data are included. -->
+
+### Statistical analysis
+
+<!-- Checkpoint 3. Which models will you fit and why? How will you check conditions and decide which variables to include? -->
+
+## Results
+
+<!-- Checkpoint 3 (first draft) and Checkpoint 4 (complete).
+     - Describe your sample (table of summaries, demographic balance across groups)
+     - Plots and tables, each followed by text explaining it (no naked plots or tables)
+     - Your multiple regression model, with interpretation
+     - Conditions check -->
+
+## Discussion
+
+<!-- Checkpoint 4.
+     - Restate your question and the main result. Do the data support your hypothesis?
+     - Interpret the key coefficients in context
+     - Limitations: sampling and generalizability, randomization and causal claims, sample size, missing variables
+     - Future work -->
+
+## References
+
+<!-- Cite anything you rely on (e.g., the study design guide, background sources). -->
