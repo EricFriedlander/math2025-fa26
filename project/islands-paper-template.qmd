@@ -1,10 +1,7 @@
 ---
 title: "Your Descriptive Title Here"
 author: "Your Name (and group members, if any)"
-format:
-  html:
-    embed-resources: true
-    toc: true
+format: pdf
 execute:
   echo: true
   warning: false

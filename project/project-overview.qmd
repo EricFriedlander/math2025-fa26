@@ -13,18 +13,22 @@ By the end of the semester you (or your group) will have run your own research s
 1. **A research paper** with four sections: **Introduction, Methods, Results, and Discussion** (the standard format of a scientific paper).
 2. **A poster** presenting the same four sections, which you will present to your peers during the final exam period.
 
-| Section | What it does | Where the course material comes in |
-|:---|:---|:---|
-| **Introduction** | Why does your question matter? What is your research question and hypothesis? | Study design, research questions |
-| **Methods** | What did you do, and why? Design, sampling, variables, sample size, statistical analysis | Study design, power and effect size, model building |
-| **Results** | What did you find? Summaries, plots, and your multiple regression model | MLR, categorical predictors, inference, conditions, model evaluation |
-| **Discussion** | What does it mean? Answer your question, discuss limitations, suggest next steps | Causal inference, generalizability, interpretation |
+ Where the course material comes in |
+|:---|:---|
+| **Introduction** | Why does your question matter? What is your research question and hypothesis? |
+| **Methods** | What did you do, and why? Design, sampling, variables, sample size, statistical analysis |
+| **Results** | What did you find? Summaries, plots, and your multiple regression model |
+| **Discussion** | What does it mean? Answer your question, discuss limitations, suggest next steps |
 
 You will not write this all at once. **Every checkpoint adds to the same paper**, so by Monday, November 30 you will have a complete draft, and the last step is revising it and turning it into your poster.
 
-Start from the [paper template](https://raw.githubusercontent.com/EricFriedlander/math2025-fa26/master/project/islands-paper-template.qmd) (right-click and save as `islands-paper.qmd` in your RStudio Project folder), and keep adding to that one file.
+Start from the [paper template](https://raw.githubusercontent.com/EricFriedlander/math2025-fa26/master/project/islands-paper-template.qmd), you should createa  `project` folder in your RStudio project, save this template, and keep adding to that one file.
+Note that this will render as a PDF instead of an html file.
 
 # Roadmap
+
+Here is a preliminary roadmap. 
+Note, however, that this may change.
 
 | Checkpoint | Due | Add to your paper | Data collection |
 |:---|:---|:---|:---|

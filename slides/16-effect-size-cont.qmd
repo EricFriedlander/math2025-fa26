@@ -340,6 +340,8 @@ By the end of the semester you will have run your own study on the Islands and w
 
 - **A paper** with an **Introduction, Methods, Results, and Discussion**
 - **A poster** presenting the same four sections, at the final exam
+- You may complete this project individually or in a group of up to 3 people. 
+  + If you would like to work in a group, please email me your group members before submitting your first checkpoint.
 
 . . .
 
@@ -370,7 +372,7 @@ Your pilot methods section needs to name your **study design**. These come from 
 . . .
 
 ::: question
-Did the investigator **assign** the exposures?
+Did the investigator **assign** the exposures (i.e. the explanatory variable)?
 :::
 
 . . .
@@ -404,7 +406,7 @@ You observe exposures that already exist. Is there a comparison group?
 
 - **No: descriptive study.** Describes the characteristics of a population (often a survey). It cannot tell us what *caused* something, or show that one variable affects another.
 - **Yes: analytical study.** Used to **test hypotheses** by comparing groups. Which kind depends on the **direction**: do we start from the exposure, start from the outcome, or measure both at once?
-
+- **Your project must be an analytical study!**
 . . .
 
 (**Exploratory** studies also exist: small and short, used when little is known about a topic.)
@@ -434,3 +436,5 @@ For each of these, is it experimental or observational? Which design?
 . . .
 
 In your pilot, decide which design fits your research question, and say **why** in your methods section. Remember: only a randomized experiment lets you make strong causal claims.
+
+**Note:** it is unlikely that you choose a Case-control study since you'll be using a Case-Control study because you response variable will be quantitative. 

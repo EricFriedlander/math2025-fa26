@@ -42,8 +42,8 @@ In Canvas:
 
 -   Develop a question that is **interesting** and **feasible**.  
 -   You may use the **PICO** structure (Population, Intervention, Comparison, Outcome).
-    -   Description:  https://guides.mclibrary.duke.edu/ebm/pico
-    -   Sample PICO questions: https://libraryguides.nau.edu/c.php?g=665927&p=4682772
+    -   [Description](https://guides.mclibrary.duke.edu/ebm/pico)
+    -   [Sample PICO questions](https://libraryguides.nau.edu/c.php?g=665927&p=4682772)
 -   Questions can be **experimental** or **observational**.
 
 **Final form:** 1–2 sentences describing the population, treatment/exposure, comparison, and outcome.
@@ -52,23 +52,26 @@ In Canvas:
 
 - Read [this guide to study design](https://www.cebm.ox.ac.uk/files/testing/cebm-study-design-april-20131.pdf) from the Centre for Evidence-Based Medicine (University of Oxford).
 - Design a study to answer your research question.
-    - Describe how subjects were selected.  
-    - Random sampling is not required, but justify representativeness.  
+    - Describe how subjects will be selected.  
+    - Random sampling is not required, but if you do not use it you must justify representativeness.  
     - Response variable must be **quantitative**.  
-    - Collect at least **four** **demographic information** that you think may confound your results (at least two must be numeric).  
+    - Primary explanatory variable may be either **quantitative** or **categorical**
+    - Collect at least **four** additional **demographic variables** that you think may confound your results (at least two must be numeric).  
 
 
 ### Preliminary Data Collection
 
-Using your study design, measure **at least 20 islanders** for a pilot study.
+Using your study design, measure **at least 20 islanders** for a pilot study storing your results in a google sheet.
 
 
 ## Introduction
 
 Write 1-2 paragraphs that move from general to specific:
 
+- Find at least two research papers related to your research question.
 - Why does this topic matter? What is plausible or already known (you can draw on what you learn on the Islands)?
 - What is your research question, and what do you hypothesize?
+- Make sure you reference and cite these papers in your Introduction.
 
 End with your research question from above.
 
@@ -78,13 +81,12 @@ In the Methods section of your paper, clearly describe the following in your met
 
 - Study design (e.g., experimental, case-control, cohort)  
 - Target population  
-- Inclusion/exclusion criteria  
+- Inclusion/exclusion criteria 
 - Sampling methods  
-- Explanatory variable(s)
+- Explanatory variable
 - Outcome (numeric response variable)  
 - Demographic variables (≥4 total, ≥2 numeric)  
 - Randomization and blinding methods (if applicable)  
-- Study implementation and timing  
 
 You will add your sample size justification and statistical analysis plan to Methods in later checkpoints.
 
