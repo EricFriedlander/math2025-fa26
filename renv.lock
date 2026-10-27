@@ -926,7 +926,7 @@
       "Encoding": "UTF-8",
       "RoxygenNote": "6.1.0",
       "NeedsCompilation": "no",
-      "Repository": "RSPM"
+      "Repository": "P3M"
     },
     "TH.data": {
       "Package": "TH.data",
@@ -1062,11 +1062,11 @@
     },
     "backports": {
       "Package": "backports",
-      "Version": "1.5.1",
+      "Version": "1.4.1",
       "Source": "Repository",
       "Type": "Package",
       "Title": "Reimplementations of Functions Introduced Since R-3.0.0",
-      "Authors@R": "c( person(\"Michel\", \"Lang\", NULL, \"michellang@gmail.com\", role = c(\"cre\", \"aut\"), comment = c(ORCID = \"0000-0001-9754-0393\")), person(\"Duncan\", \"Murdoch\", NULL, \"murdoch.duncan@gmail.com\", role = c(\"aut\")), person(\"R Core Team\", role = \"aut\"))",
+      "Authors@R": "c( person(\"Michel\", \"Lang\", NULL, \"michellang@gmail.com\", role = c(\"cre\", \"aut\"), comment = c(ORCID = \"0000-0001-9754-0393\")), person(\"R Core Team\", role = \"aut\"))",
       "Maintainer": "Michel Lang <michellang@gmail.com>",
       "Description": "Functions introduced or changed since R v3.0.0 are re-implemented in this package. The backports are conditionally exported in order to let R resolve the function name to either the implemented backport, or the respective base version, if available. Package developers can make use of new functions or arguments by selectively importing specific backports to support older installations.",
       "URL": "https://github.com/r-lib/backports",
@@ -1078,9 +1078,9 @@
         "R (>= 3.0.0)"
       ],
       "Encoding": "UTF-8",
-      "RoxygenNote": "7.3.3",
-      "Author": "Michel Lang [cre, aut] (ORCID: <https://orcid.org/0000-0001-9754-0393>), Duncan Murdoch [aut], R Core Team [aut]",
-      "Repository": "P3M"
+      "RoxygenNote": "7.1.2",
+      "Author": "Michel Lang [cre, aut] (<https://orcid.org/0000-0001-9754-0393>), R Core Team [aut]",
+      "Repository": "CRAN"
     },
     "base64enc": {
       "Package": "base64enc",
@@ -2994,14 +2994,15 @@
         "testthat",
         "dplyr"
       ],
-      "Author": "Hadley Wickham [aut, cre], Romain François [aut], Lucy D'Agostino McGowan [aut], RStudio [cph]",
-      "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "emo",
       "RemoteUsername": "hadley",
       "RemoteRef": "HEAD",
-      "RemoteSha": "3f03b11491ce3d6fc5601e210927eff73bf8e350"
+      "RemoteSha": "3f03b11491ce3d6fc5601e210927eff73bf8e350",
+      "NeedsCompilation": "no",
+      "Author": "Hadley Wickham [aut, cre], Romain François [aut], Lucy D'Agostino McGowan [aut], RStudio [cph]",
+      "Maintainer": "Hadley Wickham <hadley@rstudio.com>"
     },
     "evaluate": {
       "Package": "evaluate",
@@ -5774,8 +5775,7 @@
       "NeedsCompilation": "yes",
       "Author": "Hadley Wickham [aut, cre], RStudio [cph]",
       "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
-      "Repository": "P3M",
-      "Encoding": "UTF-8"
+      "Repository": "CRAN"
     },
     "lbfgs": {
       "Package": "lbfgs",

@@ -130,7 +130,7 @@ c("totChol", "heartRate", "glucose", "cigsPerDay",
 ```
 
 ::: question
-Which predictors are **detectable** (p < 0.05)? Which are **meaningful**? Why do `prevalentStroke` and `BPMeds` have a large $d$ but so few people in the "1" group?
+Which predictors are **detectable** (p < 0.05)? Which are **meaningful**?
 :::
 
 ## Part 4: $d$ vs. power {.smaller}
@@ -317,7 +317,7 @@ Why did the slope change (a little)? What was the simple model's slope absorbing
 📋 [AE 17 - Multiple Linear Regression with the Coffee Truck](https://ericfriedlander.github.io/math2025-fa26/ae/ae-17-mlr-coffee-truck.html)
 :::
 
-- Part 0: generate your group's coffee truck data (pick one categorical variable to vary).
+- Part 0: load the pre-generated coffee truck data (your group is assigned a categorical variable).
 - Part 1: explore `Sales`, `Temperature`, and your categorical variable.
 - Part 2: fit two simple models, then the multiple regression.
 - Part 3: interpret every coefficient and plot the lines.
@@ -340,18 +340,6 @@ new_day <- tibble(temp_orig = 25, season = "summer")
 predict(mlr_fit, new_day)
 ```
 
-. . .
-
-Just like in SLR, `predict()` gives intervals:
-
-```{r}
-predict(mlr_fit, new_day, interval = "confidence", level = 0.90)
-predict(mlr_fit, new_day, interval = "prediction", level = 0.90)
-```
-
-::: question
-What is each interval about? Which is wider, and why?
-:::
 
 ## Cautions {.smaller}
 
@@ -376,8 +364,7 @@ Would you trust a prediction for a 30°C winter day?
 📋 [AE 17 - Multiple Linear Regression with the Coffee Truck](https://ericfriedlander.github.io/math2025-fa26/ae/ae-17-mlr-coffee-truck.html)
 :::
 
-- Part 4: predict `Sales` for a new day, with confidence and prediction intervals.
-- Part 5: reflection on randomized vs. observational data.
+- Part 4: predict `Sales` for a new day.
 
 ```{r}
 #| echo: false
