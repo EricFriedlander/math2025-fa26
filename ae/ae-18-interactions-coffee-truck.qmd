@@ -1,0 +1,192 @@
+---
+title: "AE 18: Interaction Terms"
+subtitle: "The Coffee Truck"
+editor: visual
+format:
+  html:
+    embed-resources: true
+    include-in-header:
+      text: |
+        <style>
+        /* Exercise / answer boxes. Canonical source: style/exercise-boxes.css
+           in the course repo — copy from there if this ever drifts. */
+        body { counter-reset: exercise; }
+        .exercise, .answer {
+          border-left: 4px solid #533860;
+          padding: .6em 1em;
+          margin: 1em 0;
+          border-radius: 4px;
+        }
+        .exercise { background: #f2eef5; }
+        .exercise::before {
+          counter-increment: exercise;
+          content: "Exercise " counter(exercise);
+          display: block;
+          font-weight: 700;
+          color: #533860;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .answer {
+          background: transparent;
+          border-left-color: #a49363;
+          border-left-style: dashed;
+          min-height: 3.5em;
+        }
+        .answer::before {
+          content: "Your answer";
+          display: block;
+          font-weight: 700;
+          color: #8a7a4f;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .quarto-dark .exercise {
+          background: rgba(255, 255, 255, .08);
+          border-left-color: #FFCB70;
+        }
+        .quarto-dark .exercise::before {
+          color: #FFCB70;
+        }
+        .quarto-dark .answer::before {
+          color: #ffd283;
+        }
+        </style>
+---
+
+::: callout-important
+- Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-18".
+- Go to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743) to get started.
+- Upload the `ae-18-interactions-coffee-truck.qmd` file into the folder you just created.
+:::
+
+## Intro
+
+Back at [Jo's coffee truck](https://www.stat2games.sites.grinnell.edu/games/coffeetruck.html). In lecture we saw that City Hall and the Business District behave very differently depending on the time of day. Today you check whether that story holds for a different pair of locations, using **interaction terms**.
+
+We use the same pre-generated data as AE 17: 180 shifts, with `Location`, `TimeOfDay`, and `Temperature` recorded for each, and `Price` fixed at \$3. Variables:
+
+- `Sales`: cups sold (our response).
+- `Location`: Business, CityHall, Park, or Zoo.
+- `TimeOfDay`: Morning, Lunch, or Afternoon.
+- `Temperature`: temperature (°F).
+
+Each group gets a **pair of locations**:
+
+- **Group 1:** `Business` and `Park`
+- **Group 2:** `Business` and `Zoo`
+- **Group 3:** `CityHall` and `Park`
+- **Group 4:** `CityHall` and `Zoo`
+- **Group 5:** `Park` and `Zoo`
+
+(If you have extra groups, double up.) In the code below, replace the locations in the `filter()` with **your** pair.
+
+## Part 0: Load your data
+
+::: exercise
+Read the data in from the Google Sheet with `read_csv()` and the link below, then use `filter()` to keep only the two locations assigned to your group. Save the result as `pair`. Confirm the number of rows (it should be 90) and use `glimpse()` to check the columns.
+
+`https://docs.google.com/spreadsheets/d/e/2PACX-1vREJa-pGZtlZ6daqYK2R1-jHQv5k48uEQ5Lsu4ci_Nyu8IUqGs0zPui8cYVOy9nXJNbd4bm-gLQO0AB/pub?output=csv`
+:::
+
+::: answer
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(ggformula)
+library(broom)
+library(knitr)
+```
+
+```{r load-data}
+#| message: false
+
+```
+:::
+
+## Part 1: Explore
+
+::: exercise
+Use `group_by()` and `summarize()` to find the mean `Sales` for each combination of `Location` and `TimeOfDay` in your pair. Then make an **interaction plot**: put `TimeOfDay` on the x-axis, mean `Sales` on the y-axis, and draw one line for each `Location` (hint: `gf_line()` with `color = ~ Location` and `group = ~ Location`, then `gf_point()`).
+
+Describe what you see. Do the two lines look parallel? Does one location always win?
+:::
+
+::: answer
+```{r explore-means}
+
+```
+:::
+
+## Part 2: Additive vs. interaction
+
+::: exercise
+Fit two models for your pair and display each with `tidy()`:
+
+- `add_fit`: `Sales ~ Location + TimeOfDay`
+- `int_fit`: `Sales ~ Location * TimeOfDay`
+
+Write both fitted equations on the whiteboard. How many coefficients does each have? Use `glance()` to compare $R^2$ and $\hat{\sigma}_\epsilon$ for the two models. Is the interaction worth adding?
+:::
+
+::: answer
+```{r fit-models}
+
+```
+:::
+
+::: exercise
+Use `int_fit` to reconstruct the mean `Sales` for **two** of the six combinations of location and time of day, using only the coefficients (addition and multiplication). Check them against your table from Part 1. Then do the same for `add_fit`. Which model gets the means right?
+:::
+
+::: answer
+```{r reconstruct}
+
+```
+:::
+
+## Part 3: Interpret
+
+::: exercise
+Interpret each **interaction** coefficient in `int_fit` in context. Remember that it is a difference in differences. Be careful about the reference level of each variable.
+:::
+
+::: answer
+:::
+
+::: exercise
+Use the coefficients of `int_fit` to find the difference between your two locations at each time of day: Morning, Lunch, and Afternoon. Does the difference change sign? Compare with what the additive model says the difference is.
+:::
+
+::: answer
+```{r differences}
+
+```
+:::
+
+## Part 4: Reflection
+
+::: exercise
+Jo can only work one shift per day and wants to know where to park for **each** time of day. Using your pair of locations, say where Jo should park in the Morning, at Lunch, and in the Afternoon. Then say what Jo would have done if they had only looked at the additive model.
+:::
+
+::: answer
+:::
+
+::: exercise
+In HW 08 you only looked at Lunch. Based on today's results, was that a good decision for answering Jo's question? What would you have missed if you had pooled all three shifts and fit `Sales ~ Location`?
+:::
+
+::: answer
+:::
+
+::: callout-important
+To submit the AE:
+
+- Render the document to produce the HTML with all of your work from today's class.
+- Upload your .qmd and .html files to the Canvas assignment.
+:::

@@ -327,50 +327,6 @@ Why did the slope change (a little)? What was the simple model's slope absorbing
 countdown(minutes = 25)
 ```
 
-# Prediction
-
-## Prediction {.smaller}
-
-::: question
-How many bikes do we expect on a 25°C summer day?
-:::
-
-```{r}
-new_day <- tibble(temp_orig = 25, season = "summer")
-predict(mlr_fit, new_day)
-```
-
-
-## Cautions {.smaller}
-
-- **Do not extrapolate!** With several predictors you can extrapolate in many directions at once, even when each predictor is individually in range.
-
-```{r}
-#| echo: false
-bikeshare |> group_by(season) |> summarize(min_temp = min(temp_orig), max_temp = max(temp_orig)) |> kable(digits = 1)
-```
-
-::: question
-Would you trust a prediction for a 30°C winter day?
-:::
-
-. . .
-
-- The model shows **association, not causation**. Season and temperature are tangled together in observational data.
-
-## Activity: Part 4 {.smaller}
-
-::: appex
-📋 [AE 17 - Multiple Linear Regression with the Coffee Truck](https://ericfriedlander.github.io/math2025-fa26/ae/ae-17-mlr-coffee-truck.html)
-:::
-
-- Part 4: predict `Sales` for a new day.
-
-```{r}
-#| echo: false
-countdown(minutes = 15)
-```
-
 ## Coming next {.smaller}
 
 In our plot, all four seasons have the **same** temperature slope (parallel lines).
@@ -381,12 +337,11 @@ Is it believable that an extra degree adds the same number of rentals in winter 
 
 . . .
 
-Next time: categorical predictors in more depth, and what to do when the slope differs by group.
+Next time: we finish the activity with **prediction**, then ask what to do when the slope differs by group: **interaction terms**.
 
 ## Recap {.smaller}
 
 - **MLR** models the mean response as a linear function of several predictors.
 - Each coefficient is the change in mean response per unit change in that predictor, **holding the others constant**.
 - A coefficient can change when other predictors are added, especially when the predictors are related to each other.
-- Prediction works as in SLR (`predict()`), but extrapolation can happen in many directions.
 - An additive model with a categorical predictor gives **parallel lines**: one slope, one intercept per level.

@@ -68,7 +68,7 @@ format:
 
 We're back at [Jo's coffee truck](https://www.stat2games.sites.grinnell.edu/games/coffeetruck.html). Today we fit our first **multiple linear regression**: a model for `Sales` with two predictors at once.
 
-I ran the experiment for you: 179 simulated shifts, with `Location`, `Music`, and `TimeOfDay` all randomly varied and `Price` held at \$3. Variables:
+I ran the experiment for you: 180 simulated shifts, with `Location`, `Music`, and `TimeOfDay` all randomly varied and `Price` held at \$3. Variables:
 
 - `Sales`: cups sold (our response).
 - `Temperature`: the temperature (°F) during the shift. The game records it, Jo doesn't control it.
@@ -86,7 +86,7 @@ In the code below, replace `Location` with **your** categorical variable.
 ## Part 0: Load your data
 
 ::: exercise
-Read the data in from the Google Sheet with `read_csv()` and the link below. Confirm the number of rows (179), then use `glimpse()` to check that `Sales` and `Temperature` are numeric and your categorical variable is a character column. Write down your categorical variable and its levels.
+Read the data in from the Google Sheet with `read_csv()` and the link below. Confirm the number of rows (180), then use `glimpse()` to check that `Sales` and `Temperature` are numeric and your categorical variable is a character column. Write down your categorical variable and its levels.
 
 `https://docs.google.com/spreadsheets/d/e/2PACX-1vREJa-pGZtlZ6daqYK2R1-jHQv5k48uEQ5Lsu4ci_Nyu8IUqGs0zPui8cYVOy9nXJNbd4bm-gLQO0AB/pub?output=csv`
 :::

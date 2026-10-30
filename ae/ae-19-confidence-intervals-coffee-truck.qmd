@@ -1,0 +1,228 @@
+---
+title: "AE 19: Confidence Intervals"
+subtitle: "The Coffee Truck"
+editor: visual
+format:
+  html:
+    embed-resources: true
+    include-in-header:
+      text: |
+        <style>
+        /* Exercise / answer boxes. Canonical source: style/exercise-boxes.css
+           in the course repo — copy from there if this ever drifts. */
+        body { counter-reset: exercise; }
+        .exercise, .answer {
+          border-left: 4px solid #533860;
+          padding: .6em 1em;
+          margin: 1em 0;
+          border-radius: 4px;
+        }
+        .exercise { background: #f2eef5; }
+        .exercise::before {
+          counter-increment: exercise;
+          content: "Exercise " counter(exercise);
+          display: block;
+          font-weight: 700;
+          color: #533860;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .answer {
+          background: transparent;
+          border-left-color: #a49363;
+          border-left-style: dashed;
+          min-height: 3.5em;
+        }
+        .answer::before {
+          content: "Your answer";
+          display: block;
+          font-weight: 700;
+          color: #8a7a4f;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .quarto-dark .exercise {
+          background: rgba(255, 255, 255, .08);
+          border-left-color: #FFCB70;
+        }
+        .quarto-dark .exercise::before {
+          color: #FFCB70;
+        }
+        .quarto-dark .answer::before {
+          color: #ffd283;
+        }
+        </style>
+---
+
+::: callout-important
+- Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-19".
+- Go to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743) to get started.
+- Upload the `ae-19-confidence-intervals-coffee-truck.qmd` file into the folder you just created.
+:::
+
+## Intro
+
+Back at [Jo's coffee truck](https://www.stat2games.sites.grinnell.edu/games/coffeetruck.html) one more time. In AE 18 you found that the best location depends on the time of day. Today you ask a different question about a single time of day, Lunch: **how sure are we about the difference between two locations?** You will answer it with a confidence interval, two different ways.
+
+We use the same pre-generated data as AE 17 and AE 18 (180 shifts, `Price` fixed at \$3). Use the same pair of locations as in AE 18:
+
+- **Group 1:** `Business` and `Park`
+- **Group 2:** `Business` and `Zoo`
+- **Group 3:** `CityHall` and `Park`
+- **Group 4:** `CityHall` and `Zoo`
+- **Group 5:** `Park` and `Zoo`
+
+R puts levels in alphabetical order, so the `Location` coefficient is the **second** location minus the **first** (for example, `Zoo` minus `Business`). Suppose Jo currently parks at the first location for Lunch and is considering driving to the second. The drive costs \$15 in gas, and Jo charges \$3 per cup, so the break-even is **5 extra cups** (as in HW 07).
+
+In the code below, replace the locations in the `filter()` with **your** pair.
+
+## Part 0: Load your data
+
+::: exercise
+Read the data in from the Google Sheet with `read_csv()` and the link below. Use `filter()` to keep only **Lunch** shifts at the two locations assigned to your group. Save the result as `lunch`. Confirm the number of rows (it should be 30), and use `glimpse()` to check the columns.
+
+`https://docs.google.com/spreadsheets/d/e/2PACX-1vREJa-pGZtlZ6daqYK2R1-jHQv5k48uEQ5Lsu4ci_Nyu8IUqGs0zPui8cYVOy9nXJNbd4bm-gLQO0AB/pub?output=csv`
+:::
+
+::: answer
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(ggformula)
+library(broom)
+library(knitr)
+library(coursekata)  # for resample() and do()
+```
+
+```{r load-data}
+#| message: false
+
+```
+:::
+
+## Part 1: The estimate
+
+::: exercise
+Fit `Sales ~ Location` on your `lunch` data and save it as `lunch_fit`. Display it with `tidy()`. Interpret the `Location` coefficient in context. Is it bigger than the break-even of 5 cups?
+:::
+
+::: answer
+```{r fit-lunch}
+
+```
+:::
+
+## Part 2: A bootstrap interval
+
+::: exercise
+Use the `resample()` function to take one bootstrap resample of your `lunch` data and refit the model on it. Run your code a few times. What changes from run to run, and why?
+:::
+
+::: answer
+```{r one-resample}
+
+```
+:::
+
+::: exercise
+Build a bootstrap distribution of the `Location` coefficient. Fill in the chunk below, delete `#| eval: false`, and run it. Then make a histogram of your 1000 bootstrapped coefficients and mark your original estimate on it.
+:::
+
+::: answer
+```{r bootstrap}
+#| eval: false
+set.seed(2026)
+
+boot <- do(1000) * {
+  fit <- lm(Sales ~ Location, data = resample(lunch))
+  tibble(slope = coef(fit)[2])
+}
+```
+:::
+
+::: exercise
+Use `quantile()` to find the 2.5th and 97.5th percentiles of your bootstrapped coefficients. This is your 95% **bootstrap confidence interval**. Write the interval on the whiteboard and interpret it in a sentence.
+:::
+
+::: answer
+```{r boot-ci}
+
+```
+:::
+
+## Part 3: A formula-based interval
+
+::: exercise
+Use `tidy(lunch_fit, conf.int = TRUE)` or `confint(lunch_fit)` to get the formula-based 95% interval for the `Location` coefficient. Then verify it by hand: get the estimate and `std.error` from `tidy()`, find $t^*$ using `qt(0.975, df = df.residual(lunch_fit))`, and compute $\hat\beta_1 \pm t^* \cdot SE(\hat\beta_1)$.
+
+Compare it with your bootstrap interval. How close are they?
+:::
+
+::: answer
+```{r formula-ci}
+
+```
+:::
+
+## Part 4: What should Jo do?
+
+::: exercise
+Use your interval to answer Jo's question.
+
+a.  Does your interval contain 0? What does that tell you about the p-value for the `Location` coefficient?
+b.  Where does your interval sit relative to the 5-cup break-even? Is the difference statistically significant, practically significant, both, or neither?
+c.  Each cup also costs Jo about \$1 in ingredients, which makes the break-even 7.5 cups. Does that change your answer?
+d.  Write a short recommendation for Jo (2 to 4 sentences) that uses the interval, not just the point estimate.
+:::
+
+::: answer
+:::
+
+## Part 5: Narrowing the interval
+
+::: exercise
+Add `Temperature` to your model: fit `Sales ~ Location + Temperature` on `lunch` and get the 95% interval for the `Location` coefficient. Compare its width with your interval from Part 3. Did adding `Temperature` make the interval narrower or wider? Explain why in terms of $\hat{\sigma}_\epsilon$ and the degrees of freedom.
+:::
+
+::: answer
+```{r add-temp}
+
+```
+:::
+
+::: exercise
+Suppose Jo had only run the experiment for 5 days at each location instead of 15. Take a random sample of 5 days at each location from your `lunch` data (hint: `group_by(Location)` and `slice_sample(n = 5)`), refit the model, and get the interval. Run it several times. How does the width of the interval change? What does this tell you about how much data Jo needs?
+:::
+
+::: answer
+```{r small-sample}
+
+```
+:::
+
+## Part 6: Reflection
+
+::: exercise
+Compare what you learned from the p-value and from the interval. Which one is more useful for Jo? Which one is more useful for a scientist who wants to know whether there is *any* difference between the two locations?
+:::
+
+::: answer
+:::
+
+::: exercise
+A classmate says, "There is a 95% chance that the true difference is in my interval." What is wrong with that statement? What is a correct interpretation?
+:::
+
+::: answer
+:::
+
+::: callout-important
+To submit the AE:
+
+- Render the document to produce the HTML with all of your work from today's class.
+- Upload your .qmd and .html files to the Canvas assignment.
+:::

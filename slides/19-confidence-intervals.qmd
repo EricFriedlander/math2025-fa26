@@ -1,0 +1,411 @@
+---
+title: "Confidence Intervals"
+subtitle: "How sure are we about the estimate?"
+author: "Prof. Eric Friedlander"
+footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/)"
+logo: "../images/logo.png"
+format:
+  revealjs:
+    theme: slides.scss
+    multiplex: false
+    transition: fade
+    slide-number: false
+    incremental: false
+    chalkboard: true
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+execute:
+  freeze: auto
+  echo: true
+  cache: false
+knitr:
+  opts_chunk:
+    R.options:
+    width: 200
+bibliography: references.bib
+---
+
+```{r setup}
+#| include: false
+
+library(countdown)
+
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.618,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+
+# load packages
+library(tidyverse)   # for data wrangling and visualization
+library(ggformula)   # for plotting using formulas
+library(broom)       # for formatting model output
+library(knitr)       # for pretty tables
+library(kableExtra)  # also for pretty tables
+library(coursekata)  # for resample(), do(), tally()
+
+# Coffee truck data: the same pre-generated experiment as AE 17 / AE 18 / HW 08.
+# 180 shifts, 15 per Location x TimeOfDay cell, Price fixed at $3.
+coffee <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vREJa-pGZtlZ6daqYK2R1-jHQv5k48uEQ5Lsu4ci_Nyu8IUqGs0zPui8cYVOy9nXJNbd4bm-gLQO0AB/pub?output=csv")
+
+# The HW 07 / HW 08 comparison: Business vs. City Hall at Lunch
+lunch <- coffee |>
+  filter(TimeOfDay == "Lunch", Location %in% c("Business", "CityHall"))
+
+# set default theme and larger font size for ggplot2
+ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
+```
+
+# Review: AE 18
+
+## Where we are {.smaller}
+
+Last time we found that the effect of `Location` on `Sales` depends on `TimeOfDay`.
+
+```{r}
+#| echo: false
+cell_means <- coffee |>
+  filter(Location %in% c("Business", "CityHall")) |>
+  group_by(Location, TimeOfDay) |>
+  summarize(mean_sales = mean(Sales), .groups = "drop") |>
+  mutate(TimeOfDay = factor(TimeOfDay, levels = c("Morning", "Lunch", "Afternoon")))
+
+gf_line(mean_sales ~ TimeOfDay, data = cell_means, color = ~ Location,
+        group = ~ Location, linewidth = 1.2) |>
+  gf_point(size = 3) |>
+  gf_labs(x = "Time of day", y = "Mean cups sold")
+```
+
+::: question
+At Lunch, City Hall sells about 18 more cups than the Business District. Jo's gas costs \$15 and each cup sells for \$3. Should Jo drive?
+:::
+
+## The problem with one number {.smaller}
+
+```{r}
+lunch_fit <- lm(Sales ~ Location, data = lunch)
+lunch_fit |> tidy() |> kable(digits = 2)
+```
+
+The estimate for `LocationCityHall` is **`r round(coef(lunch_fit)[2], 1)` cups**, from only 15 days at each location.
+
+. . .
+
+::: question
+If Jo ran the experiment again, would they get exactly `r round(coef(lunch_fit)[2], 1)` again? Would the answer be 10? 30? 5?
+:::
+
+. . .
+
+A **confidence interval** gives a range of plausible values for the true difference, based on how much the estimate varies from sample to sample.
+
+# The bootstrap
+
+## Resampling our data {.smaller}
+
+We only have one sample. To see how much the estimate would vary, we **pretend our sample is the population** and draw new samples from it, **with replacement**, of the same size.
+
+```{r}
+set.seed(2026)
+one_resample <- resample(lunch)
+lm(Sales ~ Location, data = one_resample) |> tidy() |> kable(digits = 2)
+```
+
+. . .
+
+Same data, different resample, different estimate.
+
+::: question
+Which new idea is this similar to? (Hint: Lectures 10 and 11 used shuffling.) What is different?
+:::
+
+## 1000 resamples {.smaller}
+
+```{r boot}
+set.seed(2026)
+boot <- do(1000) * {
+  fit <- lm(Sales ~ Location, data = resample(lunch))
+  tibble(slope = coef(fit)[2])
+}
+```
+
+```{r}
+#| echo: false
+#| out.width: "70%"
+gf_histogram(~ slope, data = boot, bins = 30, fill = "grey80", color = "white") |>
+  gf_vline(xintercept = coef(lunch_fit)[2], color = "#533860", linewidth = 1.2) |>
+  gf_labs(x = "Estimated City Hall - Business difference (cups)", y = "Count")
+```
+
+The distribution of the bootstrap estimates is centered on **our estimate** (purple line), not on 0 as in a hypothesis test.
+
+## A bootstrap confidence interval {.smaller}
+
+Take the middle 95% of the bootstrapped estimates: the 2.5th and 97.5th percentiles.
+
+```{r}
+boot_ci <- quantile(boot$slope, c(0.025, 0.975))
+boot_ci
+```
+
+```{r}
+#| echo: false
+#| out.width: "70%"
+gf_histogram(~ slope, data = boot, bins = 30, fill = "grey80", color = "white") |>
+  gf_vline(xintercept = boot_ci, color = "#d53a19", linewidth = 1.2, linetype = "dashed") |>
+  gf_labs(x = "Estimated City Hall - Business difference (cups)", y = "Count")
+```
+
+::: question
+Based on this interval, what are plausible values for the true difference in mean sales at Lunch?
+:::
+
+# The formula-based interval
+
+## From a standard error to an interval {.smaller}
+
+From Lecture 11, we know the **standard error** of a slope, and that $(\hat\beta_1 - \beta_1)/SE(\hat\beta_1)$ follows a $t$ distribution. So:
+
+$$
+\hat\beta_1 \;\pm\; t^* \times SE(\hat\beta_1)
+$$
+
+where $t^*$ cuts off the middle 95% of a $t$ distribution with $n - 2$ degrees of freedom.
+
+```{r}
+t_star <- qt(0.975, df = df.residual(lunch_fit))
+t_star
+```
+
+. . .
+
+```{r}
+est <- tidy(lunch_fit)$estimate[2]
+se <- tidy(lunch_fit)$std.error[2]
+c(est - t_star * se, est + t_star * se)
+```
+
+## In R {.smaller}
+
+```{r}
+lunch_fit |> tidy(conf.int = TRUE) |> kable(digits = 2)
+```
+
+```{r}
+confint(lunch_fit)
+```
+
+Compare with the bootstrap interval:
+
+```{r}
+#| echo: false
+tibble(
+  method = c("Formula (t)", "Bootstrap"),
+  lower = c(confint(lunch_fit)[2, 1], boot_ci[1]),
+  upper = c(confint(lunch_fit)[2, 2], boot_ci[2])
+) |>
+  kable(digits = 1)
+```
+
+::: question
+Why are they so close? When might they be different?
+:::
+
+# What does "95% confident" mean?
+
+## Interpreting an interval {.smaller}
+
+::: question
+Which of these is correct?
+
+1. There is a 95% chance that the true difference is between `r round(confint(lunch_fit)[2, 1], 1)` and `r round(confint(lunch_fit)[2, 2], 1)`.
+2. 95% of the Lunch shifts had a difference in this range.
+3. If we repeated the experiment many times and made an interval each time, about 95% of the intervals would contain the true difference.
+:::
+
+. . .
+
+Only **3** is right. The true difference is a fixed number. The **interval** is what changes from sample to sample.
+
+## Simulating the "95%" {.smaller}
+
+Let's pretend our fitted model is the truth. We run the experiment 1000 times, make a 95% interval each time, and count how often the interval contains the true difference.
+
+```{r}
+set.seed(2026)
+true_diff <- coef(lunch_fit)[2]
+
+covers <- replicate(1000, {
+  y <- fitted(lunch_fit) + rnorm(nrow(lunch), sd = sigma(lunch_fit))
+  ci <- confint(lm(y ~ Location, data = lunch))[2, ]
+  ci[1] < true_diff & true_diff < ci[2]
+})
+
+mean(covers)
+```
+
+. . .
+
+```{r}
+#| echo: false
+#| out.width: "55%"
+set.seed(2026)
+intervals <- map(1:30, \(i) {
+  y <- fitted(lunch_fit) + rnorm(nrow(lunch), sd = sigma(lunch_fit))
+  ci <- confint(lm(y ~ Location, data = lunch))[2, ]
+  tibble(run = i, lower = ci[1], upper = ci[2],
+         covers = ci[1] < true_diff & true_diff < ci[2])
+}) |>
+  list_rbind()
+
+gf_segment(run + run ~ lower + upper, data = intervals,
+             color = ~ covers, linewidth = 1) |>
+  gf_vline(xintercept = true_diff, linetype = "dashed") |>
+  gf_labs(x = "Interval for the difference (cups)", y = "Experiment", color = "Contains the truth?")
+```
+
+# Intervals, tests, and effect size
+
+## Intervals and tests {.smaller}
+
+- If 0 is **outside** the 95% interval, the p-value for $H_0: \beta_1 = 0$ is below 0.05.
+- If 0 is **inside**, the p-value is above 0.05.
+
+. . .
+
+But the interval tells us more: it shows the **size** of the effect, not just whether it is detectable.
+
+::: question
+For Jo's problem, what matters more: whether the difference is zero, or whether it is bigger than the break-even?
+:::
+
+## Back to the break-even {.smaller}
+
+From HW 07: Jo needs at least **5 extra cups** at City Hall to cover \$15 of gas (at \$3 per cup).
+
+```{r}
+#| echo: false
+#| out.width: "70%"
+ci <- confint(lunch_fit)[2, ]
+gf_segment(1 + 1 ~ ci[1] + ci[2], linewidth = 2, color = "#533860") |>
+  gf_point(1 ~ coef(lunch_fit)[2], size = 4, color = "#533860") |>
+  gf_vline(xintercept = c(0, 5), linetype = c("solid", "dashed"),
+           color = c("grey40", "#d53a19")) |>
+  gf_lims(x = c(-5, 35)) |>
+  gf_labs(x = "City Hall - Business difference at Lunch (cups)", y = "") |>
+  gf_theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
+```
+
+::: question
+The grey line is 0 and the dashed red line is the break-even. Where does the interval sit? What would you tell Jo?
+:::
+
+. . .
+
+Each cup actually costs \$1 in ingredients, so Jo keeps \$2 per cup and the break-even is 7.5 cups. Does that change your answer?
+
+## Four cases {.smaller}
+
+Where the interval sits relative to 0 and to the break-even tells you what to do:
+
+| Interval | Statistically significant? | Practically significant? | Advice |
+|:---|:---|:---|:---|
+| Entirely above the break-even | Yes | Yes | Drive |
+| Above 0, but spans the break-even | Yes | Unclear | Gather more data |
+| Spans 0 and the break-even | No | Unclear | Not enough data to tell |
+| Entirely below the break-even | maybe | No | Do not drive |
+
+# What makes an interval narrow?
+
+## Width {.smaller}
+
+The width of a $t$ interval is $2 \times t^* \times SE(\hat\beta_1)$. A narrow interval means a precise estimate.
+
+```{r width-sim}
+#| echo: false
+set.seed(2026)
+width_by_n <- map(c(5, 10, 15), \(k) {
+  widths <- replicate(500, {
+    s <- lunch |> group_by(Location) |> slice_sample(n = k) |> ungroup()
+    diff(confint(lm(Sales ~ Location, data = s))[2, ])
+  })
+  tibble(`Days per location` = k, `Average interval width` = mean(widths))
+}) |>
+  list_rbind()
+width_by_n |> kable(digits = 1)
+```
+
+::: question
+What happens to the width as we collect more data? What other things should make the interval narrower? (Hint: think back to power in Lectures 14 and 15.)
+:::
+
+. . .
+
+- More data: smaller $SE$.
+- Less noise ($\hat\sigma_\epsilon$): smaller $SE$.
+- A lower confidence level (90% instead of 95%): smaller $t^*$, but a worse guarantee.
+
+# Intervals for regression coefficients
+
+## Intervals in MLR {.smaller}
+
+The same recipe works for every coefficient in a multiple regression.
+
+```{r}
+temp_fit <- lm(Sales ~ Temperature, data = coffee)
+mlr_fit <- lm(Sales ~ Temperature + Location + TimeOfDay, data = coffee)
+
+bind_rows(
+  tidy(temp_fit, conf.int = TRUE) |> mutate(model = "Temperature only"),
+  tidy(mlr_fit, conf.int = TRUE) |> mutate(model = "Temperature + Location + TimeOfDay")
+) |>
+  filter(term == "Temperature") |>
+  select(model, estimate, conf.low, conf.high) |>
+  kable(digits = 2)
+```
+
+::: question
+The interval for the `Temperature` slope moved when we added `Location` and `TimeOfDay`. Why? Does Jo's conclusion about temperature change?
+:::
+
+## Intervals and interactions {.smaller}
+
+Back to last time's interaction model for Business vs. City Hall:
+
+```{r}
+int_fit <- lm(Sales ~ Location * TimeOfDay,
+              data = coffee |> filter(Location %in% c("Business", "CityHall")))
+int_fit |> tidy(conf.int = TRUE) |> select(term, estimate, conf.low, conf.high) |> kable(digits = 1)
+```
+
+::: question
+Is there convincing evidence that the City Hall effect is different at Lunch than in the Afternoon? How can you tell from the interval?
+:::
+
+## Activity: AE 19 {.smaller}
+
+::: appex
+📋 [AE 19 - Confidence Intervals with the Coffee Truck](https://ericfriedlander.github.io/math2025-fa26/ae/ae-19-confidence-intervals-coffee-truck.html)
+:::
+
+- Use your pair of locations from AE 18, at Lunch.
+- Build a bootstrap interval and a formula-based interval for the difference.
+- Compare the interval to the break-even and decide whether Jo should drive.
+- See how adding `Temperature` changes the interval.
+
+```{r}
+#| echo: false
+countdown(minutes = 30)
+```
+
+## Recap {.smaller}
+
+- A **confidence interval** gives plausible values for a parameter, based on how much the estimate varies from sample to sample.
+- Two ways to make one: **bootstrap** (resample the data) or **formula** ($\hat\beta \pm t^* \cdot SE$).
+- "95% confident" is a statement about the **procedure**: about 95% of intervals made this way contain the truth.
+- An interval shows both **whether** an effect is detectable (does it contain 0?) and **how big** it could be (where does it sit relative to the break-even?).
+- Intervals get narrower with more data and less noise.

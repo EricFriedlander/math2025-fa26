@@ -159,3 +159,14 @@ font-size: 0.85em;
 .strong .b{
   color: orange ;
 }
+
+/* plotly 3D figures: no scroll bars, centered in the slide */
+.reveal .html-widget.plotly {
+  overflow: hidden !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+.reveal .plotly .plot-container,
+.reveal .plotly .svg-container {
+  overflow: hidden !important;
+}

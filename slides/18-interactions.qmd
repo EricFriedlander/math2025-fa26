@@ -1,0 +1,592 @@
+---
+title: "Interaction Terms"
+subtitle: "When the effect of one variable depends on another"
+author: "Prof. Eric Friedlander"
+footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/)"
+logo: "../images/logo.png"
+format:
+  revealjs:
+    theme: slides.scss
+    multiplex: false
+    transition: fade
+    slide-number: false
+    incremental: false
+    chalkboard: true
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+execute:
+  freeze: auto
+  echo: true
+  cache: false
+knitr:
+  opts_chunk:
+    R.options:
+    width: 200
+bibliography: references.bib
+---
+
+```{r setup}
+#| include: false
+
+library(countdown)
+
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.618,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+
+# load packages
+library(tidyverse)   # for data wrangling and visualization
+library(ggformula)   # for plotting using formulas
+library(broom)       # for formatting model output
+library(knitr)       # for pretty tables
+library(kableExtra)  # also for pretty tables
+library(coursekata)
+library(plotly)      # for the 3D pictures
+
+# DC bikeshare: used for the prediction section and the quantitative interactions
+bikeshare <- read_csv(here::here("data/dcbikeshare.csv")) |>
+  mutate(
+    season = case_when(
+      season == 1 ~ "winter",
+      season == 2 ~ "spring",
+      season == 3 ~ "summer",
+      season == 4 ~ "fall"),
+    season = factor(season, levels = c("winter", "spring", "summer", "fall"))
+  )
+
+# the additive model from last time
+mlr_fit <- lm(count ~ temp_orig + season, data = bikeshare)
+
+# 3D helper for the two-quantitative case (same plotly pattern as the old categorical-predictors deck).
+# surface_z(): predictions on a grid, one row per y value and one column per x value.
+surface_z <- function(fit, xs, ys, xname, yname) {
+  grid <- expand.grid(xs, ys)
+  names(grid) <- c(xname, yname)
+  matrix(predict(fit, grid), nrow = length(ys), byrow = TRUE)
+}
+
+# surface_plot(): 3D scatterplot of the data with a model surface on top
+surface_plot <- function(data, x, y, z, zmat, xs, ys, labels, point_color = "red") {
+  plot_ly(data, x = data[[x]], y = data[[y]], z = data[[z]],
+          color = I(point_color), opacity = 1,
+          type = "scatter3d", mode = "markers", size = 1) |>
+    add_surface(x = xs, y = ys, z = zmat, opacity = 0.8,
+                inherit = FALSE, showscale = FALSE) |>
+    layout(scene = list(xaxis = list(title = labels[1]),
+                        yaxis = list(title = labels[2]),
+                        zaxis = list(title = labels[3])),
+           autosize = TRUE,
+           margin = list(l = 0, r = 0, t = 0, b = 0)) |>
+    config(displayModeBar = FALSE)
+}
+
+# Coffee truck data: the same pre-generated experiment as AE 17 / HW 08.
+# 180 shifts, 15 per Location x TimeOfDay cell, Price fixed at $3.
+coffee <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vREJa-pGZtlZ6daqYK2R1-jHQv5k48uEQ5Lsu4ci_Nyu8IUqGs0zPui8cYVOy9nXJNbd4bm-gLQO0AB/pub?output=csv") |> 
+  mutate(TimeOfDay = factor(TimeOfDay, levels=c("Morning", "Lunch", "Afternoon")))
+
+# Business vs. City Hall: the comparison from HW 07 / HW 08
+bc <- coffee |>
+  filter(Location %in% c("Business", "CityHall"))
+
+# set default theme and larger font size for ggplot2
+ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
+```
+
+# Review: AE 17
+
+## Where we are {.smaller}
+
+Last time we fit our first multiple regression on the coffee truck: `Sales` from `Temperature` **and** a categorical variable.
+
+```{r}
+#| echo: false
+ae_fit <- lm(Sales ~ Temperature + Location, data = coffee)
+ae_fit |> tidy() |> kable(digits = 2)
+```
+
+::: question
+Interpret the `Temperature` coefficient and the `LocationZoo` coefficient. What does the fitted picture look like?
+:::
+
+. . .
+
+- `Temperature`: holding `Location` constant, each extra °F is associated with about `r abs(round(coef(ae_fit)[2], 2))` fewer cups.
+- `LocationZoo`: holding `Temperature` constant, the Zoo sells about `r abs(round(coef(ae_fit)[5]))` fewer cups than the Business District.
+- The fitted picture is **parallel lines**: one slope, one intercept per location.
+
+# Prediction
+
+## Prediction {.smaller}
+
+::: question
+How many bikes do we expect on a 25°C summer day?
+:::
+
+```{r}
+new_day <- tibble(temp_orig = 25, season = "summer")
+predict(mlr_fit, new_day)
+```
+
+## Cautions {.smaller}
+
+- **Do not extrapolate!** With several predictors you can extrapolate in many directions at once, even when each predictor is individually in range.
+
+```{r}
+#| echo: false
+bikeshare |> group_by(season) |> summarize(min_temp = min(temp_orig), max_temp = max(temp_orig)) |> kable(digits = 1)
+```
+
+::: question
+Would you trust a prediction for a 30°C winter day?
+:::
+
+. . .
+
+- The model shows **association, not causation**. Season and temperature are tangled together in observational data.
+
+## Activity: Parts 4-5 {.smaller}
+
+::: appex
+📋 [AE 17 - Multiple Linear Regression with the Coffee Truck](https://ericfriedlander.github.io/math2025-fa26/ae/ae-17-mlr-coffee-truck.html)
+:::
+
+- Part 4: predict `Sales` for a new day, and find a prediction you should not trust.
+- Part 5: reflection on $R^2$ and on randomized vs. observational data.
+
+```{r}
+#| echo: false
+countdown(minutes = 15)
+```
+
+## From parallel lines to interactions {.smaller}
+
+Every model so far has been **additive**: the effect of one variable is the same at every value of the other. In a plot, that means **parallel lines**.
+
+::: question
+Is it believable that an extra degree adds the same number of rentals in winter as in summer? That City Hall beats the Business District by the same amount at every time of day?
+:::
+
+. . .
+
+Today:
+
+1. A model with two predictors is a **surface**. An interaction **twists** it.
+2. Three cases, one picture each: **two categorical** (group means), **one of each** (lines), **two quantitative** (a surface).
+3. **AE 18**.
+
+# A model is a surface
+
+## Two predictors, one surface {.smaller}
+
+With two explanatory variables $X_1$ and $X_2$, the mean of $Y$ is a **surface** above the $(X_1, X_2)$ plane.
+
+$$
+\text{additive:}\quad \mu_Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2
+$$
+
+. . .
+
+A **flat, tilted plane**. Fix $X_2$ and you get a line in $X_1$ with slope $\beta_1$. Change $X_2$ and the line just slides up or down: **parallel lines**.
+
+. . .
+
+$$
+\text{with interaction:}\quad \mu_Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2
+$$
+
+Fix $X_2$ and the slope in $X_1$ is $\beta_1 + \beta_3 X_2$: it **changes** with $X_2$. The plane gets a **twist**.
+
+# Case 1: Two categorical variables
+
+## The data {.smaller}
+
+Same experiment as AE 17 and HW 08, but now we use **every** shift (Morning, Lunch, and Afternoon).
+
+```{r}
+#| echo: false
+coffee |>
+  select(Location, TimeOfDay, Temperature, Sales) |>
+  glimpse()
+```
+
+- `Sales` (cups): our response.
+- `Location`: Business, CityHall, Park, or Zoo.
+- `TimeOfDay`: Morning, Lunch, or Afternoon.
+- `Temperature` (°F): recorded each shift.
+
+## Modeling `Sales` from time and location {.smaller}
+
+Let's start with what we know: an **additive** model with both predictors (Business District vs. City Hall).
+
+```{r}
+add_fit <- lm(Sales ~ Location + TimeOfDay, data = bc)
+add_fit |> tidy() |> kable(digits = 2)
+```
+
+This model says the City Hall vs. Business difference is **the same** at every time of day.
+
+## How good is this model? {.smaller}
+
+```{r}
+#| echo: false
+#| out.width: "65%"
+gf_jitter(Sales ~ TimeOfDay, data = bc, color = ~Location, height=0,width=0.1) |> 
+gf_model(Sales ~ TimeOfDay + Location) |>
+  gf_labs(x = "Time of day", y = "Cups sold", color = "Location")
+```
+
+::: question
+Lines show the model's predicted mean for each group. How could the model be better?
+:::
+
+## What do the data say? {.smaller}
+
+```{r}
+#| echo: false
+cell_means <- bc |>
+  group_by(Location, TimeOfDay) |>
+  summarize(mean_sales = mean(Sales), n = n(), .groups = "drop")
+
+cell_means |>
+  select(-n) |>
+  pivot_wider(names_from = TimeOfDay, values_from = mean_sales) |>
+  kable(digits = 1)
+```
+
+```{r}
+#| echo: false
+#| out.width: "65%"
+gf_jitter(Sales ~ TimeOfDay, data = bc, color = ~Location, height=0,width=0.1) |> 
+gf_model(Sales ~ TimeOfDay * Location) |>
+  gf_labs(x = "Time of day", y = "Mean cups sold", color = "Location")
+```
+
+::: question
+Is City Hall better than the Business District? What would you tell Jo?
+:::
+
+## It depends! {.smaller}
+
+- **Morning:** City Hall sells about `r round(cell_means$mean_sales[cell_means$Location == "Business" & cell_means$TimeOfDay == "Morning"] - cell_means$mean_sales[cell_means$Location == "CityHall" & cell_means$TimeOfDay == "Morning"])` *fewer* cups.
+- **Lunch:** City Hall sells about `r round(cell_means$mean_sales[cell_means$Location == "CityHall" & cell_means$TimeOfDay == "Lunch"] - cell_means$mean_sales[cell_means$Location == "Business" & cell_means$TimeOfDay == "Lunch"])` *more* cups.
+- **Afternoon:** City Hall sells about `r round(cell_means$mean_sales[cell_means$Location == "Business" & cell_means$TimeOfDay == "Afternoon"] - cell_means$mean_sales[cell_means$Location == "CityHall" & cell_means$TimeOfDay == "Afternoon"])` *fewer* cups.
+
+. . .
+
+When the effect of `Location` **depends on** `TimeOfDay`, we say there is an **interaction** between `Location` and `TimeOfDay`.
+
+. . .
+
+::: question
+HW 08 only looked at Lunch. Why was that a good idea? What would we miss if we pooled all three shifts?
+:::
+
+# The interaction model
+
+## Adding an interaction {.smaller}
+
+To let the `Location` effect differ by `TimeOfDay`, we add the **product** of the indicator variables:
+
+```{r}
+int_fit <- lm(Sales ~ Location * TimeOfDay, data = bc)
+int_fit |> tidy() |> kable(digits = 2)
+```
+
+`Location * TimeOfDay` is shorthand for `Location + TimeOfDay + Location:TimeOfDay`.
+
+## The model equation {.smaller}
+
+With the reference levels Business and Morning:
+
+$$
+\begin{aligned}
+\widehat{\text{Sales}} = &\hat\beta_0 \\
+&+ \hat\beta_1 \,\text{CityHall} + \hat\beta_2 \,\text{Lunch} + \hat\beta_3 \,\text{Afternoon} \\
+&\underbrace{+ \hat\beta_4 \,(\text{CityHall} \times \text{Lunch}) + \hat\beta_5 \,(\text{CityHall} \times \text{Afternoon})}_{\text{interaction terms}}
+\end{aligned}
+$$
+
+```{r}
+#| echo: false
+b <- coef(int_fit)
+names(b) <- c("b0", "b1", "b2", "b3", "b4", "b5")
+
+# number with an explicit sign, for building the equation
+sgn <- function(x) sprintf("%+.1f", x)
+```
+
+$$
+\begin{aligned}
+\widehat{\text{Sales}} = &`r round(b["b0"], 1)` \\
+&`r sgn(b["b1"])` \,\text{CityHall} `r sgn(b["b2"])` \,\text{Lunch} `r sgn(b["b3"])` \,\text{Afternoon} \\
+&\underbrace{`r sgn(b["b4"])` \,(\text{CityHall} \times \text{Lunch}) `r sgn(b["b5"])` \,(\text{CityHall} \times \text{Afternoon})}_{\text{interaction terms}}
+\end{aligned}
+$$
+
+::: question
+For each of the six combinations of location and time of day, which terms are "on"? Write the equation for each one.
+:::
+
+## Recovering the cell means {.smaller}
+
+Each of the six means is the sum of the terms that are "on":
+
+```{r}
+#| echo: false
+tibble(
+  Combination = c("Business, Morning", "Business, Lunch", "Business, Afternoon",
+                  "CityHall, Morning", "CityHall, Lunch", "CityHall, Afternoon"),
+  `Terms on` = c("b0", "b0 + b2", "b0 + b3", "b0 + b1", "b0 + b1 + b2 + b4", "b0 + b1 + b3 + b5"),
+  `Model value` = c(b["b0"], b["b0"] + b["b2"], b["b0"] + b["b3"],
+                    b["b0"] + b["b1"], b["b0"] + b["b1"] + b["b2"] + b["b4"],
+                    b["b0"] + b["b1"] + b["b3"] + b["b5"])
+) |>
+  kable(digits = 1)
+```
+
+. . .
+
+The interaction model reproduces all six means exactly. It has one parameter per cell.
+
+## Interpreting the interaction terms {.smaller}
+
+- $\hat\beta_1$ (`LocationCityHall`): City Hall minus Business **in the Morning** (the reference time). It is *not* the overall City Hall effect anymore.
+- $\hat\beta_4$ (`LocationCityHall:TimeOfDayLunch`): how much **bigger** the City Hall vs. Business difference is at Lunch than in the Morning. A difference in differences.
+- $\hat\beta_5$: the same, comparing Afternoon to Morning.
+
+. . .
+
+::: question
+Use the coefficients to find the City Hall minus Business difference at Lunch. Does it match the table of means we saw earlier?
+:::
+
+# Case 2: One of each
+
+## Is the temperature slope the same in every season? {.smaller}
+
+Last time we fit `count ~ temp_orig + season`: one slope for temperature, a different intercept for each season.
+
+```{r}
+#| echo: false
+season_add <- lm(count ~ temp_orig + season, data = bikeshare)
+season_int <- lm(count ~ temp_orig * season, data = bikeshare)
+
+augment(season_add) |>
+  gf_point(count ~ temp_orig, color = ~ season, alpha = 0.3) |>
+  gf_line(.fitted ~ temp_orig, color = ~ season, linewidth = 1.3) |>
+  gf_labs(x = "Temperature (°C)", y = "Daily rentals", color = "Season", title = "Additive: parallel lines")
+```
+
+::: question
+How well do these parallel lines follow the data in each season?
+:::
+
+## Letting the slope depend on season {.smaller}
+
+```{r}
+#| echo: false
+augment(season_int) |>
+  gf_point(count ~ temp_orig, color = ~ season, alpha = 0.3) |>
+  gf_line(.fitted ~ temp_orig, color = ~ season, linewidth = 1.3) |>
+  gf_labs(x = "Temperature (°C)", y = "Daily rentals", color = "Season", title = "Interaction: a separate slope for each season")
+```
+
+::: question
+Which season has a very different slope? (Careful: each line only covers the temperatures that occur in its season.)
+:::
+
+## Slopes by season {.smaller}
+
+```{r}
+season_int |> tidy() |> kable(digits = 1)
+```
+
+- Winter (the reference level): slope $\hat\beta_1$ = `r round(coef(season_int)["temp_orig"], 0)` rentals per °C.
+- Summer: slope $\hat\beta_1 + \hat\beta_3$ = `r round(coef(season_int)["temp_orig"] + coef(season_int)["temp_orig:seasonsummer"], 0)` rentals per °C.
+
+::: question
+What would it mean for the summer slope to be about zero?
+:::
+
+# Case 3: Two quantitative
+
+## Temperature and time {.smaller}
+
+Bike share kept growing over the two years of data. Let's ask whether warm days mattered **more** later on.
+
+- $X_1$ = temperature (°C), $X_2$ = `instant`, the day number (1 to 731).
+
+$$
+\widehat{\text{count}} = \hat\beta_0 + \hat\beta_1 \,\text{temp} + \hat\beta_2 \,\text{day} + \hat\beta_3 \,(\text{temp} \times \text{day})
+$$
+
+```{r}
+quant_add <- lm(count ~ temp_orig + instant, data = bikeshare)
+quant_int <- lm(count ~ temp_orig * instant, data = bikeshare)
+
+quant_xs <- seq(min(bikeshare$temp_orig), max(bikeshare$temp_orig), length.out = 30)
+quant_ys <- seq(min(bikeshare$instant), max(bikeshare$instant), length.out = 30)
+quant_labels <- c("Temperature (°C)", "Day number", "Daily rentals")
+```
+
+## Additive: a flat plane {.smaller}
+
+```{r}
+#| echo: false
+#| dpi: 96
+surface_plot(bikeshare, "temp_orig", "instant", "count",
+             surface_z(quant_add, quant_xs, quant_ys, "temp_orig", "instant"),
+             quant_xs, quant_ys, quant_labels)
+```
+
+The temperature slope is $\hat\beta_1 =$ `r round(coef(quant_add)[2], 0)` rentals per °C on **every** day.
+
+## Interaction: a twisted surface {.smaller}
+
+```{r}
+#| echo: false
+#| dpi: 96
+surface_plot(bikeshare, "temp_orig", "instant", "count",
+             surface_z(quant_int, quant_xs, quant_ys, "temp_orig", "instant"),
+             quant_xs, quant_ys, quant_labels)
+```
+
+::: question
+Compare the edge at day 1 with the edge at day 731. Where is the surface steeper in the temperature direction?
+:::
+
+## The slope is now a function {.smaller}
+
+```{r}
+quant_int |> tidy() |> kable(digits = 3)
+```
+
+$$
+\text{slope of temp} = \hat\beta_1 + \hat\beta_3 \times \text{day}
+$$
+
+```{r}
+#| echo: false
+b_q <- coef(quant_int)
+tibble(Day = c(1, 365, 731)) |>
+  mutate(`Slope of temperature` = b_q["temp_orig"] + b_q["temp_orig:instant"] * Day) |>
+  kable(digits = 0)
+```
+
+. . .
+
+For a fixed day, the slope of temperature is a number. As the day changes, the slope changes **linearly**: that is what a product term does.
+
+## An interaction we don't need {.smaller}
+
+What about temperature and humidity?
+
+```{r}
+#| echo: false
+hum_int <- lm(count ~ temp_orig * hum, data = bikeshare)
+hum_int |> tidy() |> kable(digits = 1)
+```
+
+::: question
+The interaction coefficient is small relative to its standard error, and $R^2$ barely moves. What would the surface look like? Would you add the term?
+:::
+
+# The three cases
+
+## Same idea, three pictures {.smaller}
+
+| | Two categorical | One of each | Two quantitative |
+|:---|:---|:---|:---|
+| Example | `Location` x `TimeOfDay` | `temp_orig` x `season` | `temp_orig` x `instant` |
+| Picture | jitter plot with group means | scatterplot with fitted lines | 3D surface |
+| Additive model | same gap between groups at every level (parallel profiles) | parallel lines | flat tilted plane |
+| Interaction adds | the 4th corner (a twist) | a different slope per group | a slope that changes with $X_2$ |
+| $\hat\beta_3$ means | difference in differences | the **change in slope** from the reference group | change in the slope of $X_1$ per unit of $X_2$ |
+
+. . .
+
+In all three cases, the interaction term is $X_1 \times X_2$, and it is what **bends** the surface.
+
+# Choosing a model
+
+## Do we need the interaction? {.smaller}
+
+```{r}
+#| echo: false
+fit_row <- function(label, fit) glance(fit) |> transmute(model = label, r.squared, sigma)
+
+bind_rows(
+  fit_row("Coffee: Location + TimeOfDay", lm(Sales ~ Location + TimeOfDay, data = bc)),
+  fit_row("Coffee: Location * TimeOfDay", lm(Sales ~ Location * TimeOfDay, data = bc)),
+  fit_row("Bikes: temp + season", lm(count ~ temp_orig + season, data = bikeshare)),
+  fit_row("Bikes: temp * season", lm(count ~ temp_orig * season, data = bikeshare)),
+  fit_row("Bikes: temp + day", lm(count ~ temp_orig + instant, data = bikeshare)),
+  fit_row("Bikes: temp * day", lm(count ~ temp_orig * instant, data = bikeshare)),
+  fit_row("Bikes: temp + humidity", lm(count ~ temp_orig + hum, data = bikeshare)),
+  fit_row("Bikes: temp * humidity", lm(count ~ temp_orig * hum, data = bikeshare))
+) |>
+  kable(digits = c(0, 3, 1))
+```
+
+::: question
+Which interaction is worth adding? How do you know? (Think about $R^2$, $\hat{\sigma}_\epsilon$, and the pictures.)
+:::
+
+. . .
+
+- A real interaction should show up in the plot, the $R^2$, and the size of the interaction coefficients relative to $\hat{\sigma}_\epsilon$.
+- Every interaction adds parameters. Add one when the picture and the context call for it.
+- We will learn formal tools for this later.
+
+## Interactions and "holding constant" {.smaller}
+
+Last time: a coefficient is the change in the mean response per unit change in that predictor, **holding the other predictors constant**.
+
+. . .
+
+With an interaction, that sentence is incomplete:
+
+- There is **no single** effect of `Location`. There is one for each time of day.
+- Always describe the effect **at a particular value** of the other variable.
+
+. . .
+
+::: question
+Jo asks, "How much better is City Hall?" What should you say back?
+:::
+
+## Activity: AE 18 {.smaller}
+
+::: appex
+📋 [AE 18 - Interactions with the Coffee Truck](https://ericfriedlander.github.io/math2025-fa26/ae/ae-18-interactions-coffee-truck.html)
+:::
+
+- Each group gets a different pair of locations.
+- Build the table of means, plot the interaction, and fit both the additive and interaction models.
+- Recommend where Jo should park for each shift.
+
+```{r}
+#| echo: false
+countdown(minutes = 30)
+```
+
+## Recap {.smaller}
+
+- An **interaction** means the effect of one variable depends on the value of another.
+- Categorical x categorical: the interaction terms are "differences in differences".
+- Categorical x quantitative: each group gets its own slope (parallel lines become non-parallel).
+- Quantitative x quantitative: the slope of one variable changes **linearly** with the other.
+- Geometrically, an additive model is a **flat plane** and an interaction **twists** it.
+- With an interaction, main effects are the effects at the reference level, not overall effects.
+- An additive model can hide a big pattern. Plot the data first.
+
+. . .
+
+**Next time:** we have a lot of estimates, like "City Hall sells 18 more cups at Lunch". How sure are we? **Confidence intervals.**
