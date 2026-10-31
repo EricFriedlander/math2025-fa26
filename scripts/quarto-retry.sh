@@ -8,14 +8,15 @@
 
 QUARTO_REAL=/usr/local/bin/quarto
 
-for attempt in 1 2 3 4 5; do
+for attempt in $(seq 1 15); do
   errfile=$(mktemp)
   "$QUARTO_REAL" "$@" 2> >(tee "$errfile" >&2)
   status=$?
   sleep 0.3  # let tee finish writing before we read the file
   if [ "$status" -ne 0 ] && grep -q "quarto-session-temp" "$errfile"; then
     rm -f "$errfile"
-    sleep 1
+    echo "[quarto-retry] session-temp race, retrying (attempt $attempt)" >&2
+    sleep 0.5
     continue
   fi
   rm -f "$errfile"

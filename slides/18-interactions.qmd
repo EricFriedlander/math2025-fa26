@@ -60,6 +60,74 @@ bikeshare <- read_csv(here::here("data/dcbikeshare.csv")) |>
     season = factor(season, levels = c("winter", "spring", "summer", "fall"))
   )
 
+# Framingham Heart Study: the data for the three interaction cases
+fram <- read_csv(here::here("data/framingham.csv")) |>
+  drop_na(sysBP) |>
+  mutate(
+    sex = factor(if_else(male == 1, "Male", "Female"), levels = c("Female", "Male")),
+    diabetes_status = factor(if_else(diabetes == 1, "Diabetic", "Not diabetic"),
+                             levels = c("Not diabetic", "Diabetic"))
+  )
+
+# group means and plot helpers for the diabetes x sex slides
+cell_means <- fram |>
+  group_by(sex, diabetes_status) |>
+  summarize(mean_bp = mean(sysBP), n = n(), .groups = "drop")
+
+sex_colors <- c(Female = "#E4572E", Male = "#1F77B4")
+
+# one line per sex through `line_means` (one value per row of cell_means), with the four
+# actual group means as diamonds. Optionally show the jittered data and the labeled means.
+bp_plot <- function(line_means, show_data = TRUE, show_labels = TRUE) {
+  dodge <- position_dodge(width = 0.6)
+  p <- gf_point(sysBP ~ diabetes_status, data = fram, color = ~ sex,
+                alpha = if (show_data) 0.25 else 0, size = 1.5,
+                position = position_jitterdodge(jitter.width = 0.15, jitter.height = 0, dodge.width = 0.6)) |>
+    gf_line(line_means ~ diabetes_status, data = mutate(cell_means, line_means = line_means),
+            color = ~ sex, group = ~ sex, linewidth = 1.2, position = dodge) |>
+    gf_point(mean_bp ~ diabetes_status, data = cell_means, fill = ~ sex, group = ~ sex,
+             color = "black", size = 5, shape = 23, stroke = 1.5, position = dodge)
+  if (show_labels) {
+    p <- p |>
+      gf_label(mean_bp ~ x_pos,
+               data = mutate(cell_means, x_pos = as.numeric(diabetes_status) + if_else(sex == "Female", -0.15, 0.15)),
+               label = ~ round(mean_bp, 1), color = ~ sex, fill = "white",
+               vjust = -0.7, size = 6, fontface = "bold", show.legend = FALSE)
+  }
+  p |>
+    gf_refine(scale_color_manual(values = sex_colors),
+              scale_fill_manual(values = sex_colors),
+              guides(fill = "none")) |>
+    gf_labs(x = "Diabetes status", y = "Systolic BP (mm Hg)", color = "Sex")
+}
+
+# the same picture with each coefficient of the interaction model marked on it.
+# `b` holds the coefficients named b0, b1, b2, b3 (see the model equation slide).
+beta_plot <- function(b) {
+  y0 <- b[["b0"]]                 # Female, Not diabetic
+  y1 <- y0 + b[["b1"]]            # Female, Diabetic
+  ym0 <- y0 + b[["b2"]]           # Male, Not diabetic
+  ypar <- y1 + b[["b2"]]          # Male, Diabetic if the lines were parallel
+  ym1 <- ypar + b[["b3"]]         # Male, Diabetic (actual)
+  fmt <- function(x) sprintf("%.1f", x)
+  bp_plot(cell_means$mean_bp, show_data = FALSE, show_labels = FALSE) +
+    annotate("segment", x = 0.85, xend = 1.85, y = y0, yend = y0, linetype = "dashed", colour = "grey30") +
+    annotate("segment", x = 1.85, xend = 1.85, y = y0, yend = y1, linewidth = 1.6, colour = "grey20") +
+    annotate("segment", x = 1.15, xend = 1.15, y = y0, yend = ym0, linewidth = 1.6, colour = "grey20") +
+    annotate("segment", x = 1.15, xend = 2.15, y = ym0, yend = ypar, linetype = "dotted", linewidth = 1,
+             colour = sex_colors[["Male"]]) +
+    annotate("segment", x = 2.15, xend = 2.15, y = ypar, yend = ym1, linewidth = 1.6, colour = "grey20") +
+    annotate("label", x = 0.78, y = y0, label = paste0("hat(beta)[0]==", fmt(y0)),
+             parse = TRUE, size = 5, fill = "white", hjust = 1) +
+    annotate("label", x = 1.22, y = ym0 - 2.5, label = paste0("hat(beta)[2]==", fmt(b[["b2"]])),
+             parse = TRUE, size = 5, fill = "white", hjust = 0) +
+    annotate("label", x = 1.8, y = (y0 + y1) / 2 + 3, label = paste0("hat(beta)[1]==", fmt(b[["b1"]])),
+             parse = TRUE, size = 5, fill = "white", hjust = 1) +
+    annotate("label", x = 2.22, y = (ypar + ym1) / 2, label = paste0("hat(beta)[3]==", fmt(b[["b3"]])),
+             parse = TRUE, size = 5, fill = "white", hjust = 0) +
+    coord_cartesian(ylim = c(122, 158), xlim = c(0.3, 2.7))
+}
+
 # the additive model from last time
 mlr_fit <- lm(count ~ temp_orig + season, data = bikeshare)
 
@@ -90,10 +158,6 @@ surface_plot <- function(data, x, y, z, zmat, xs, ys, labels, point_color = "red
 # 180 shifts, 15 per Location x TimeOfDay cell, Price fixed at $3.
 coffee <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vREJa-pGZtlZ6daqYK2R1-jHQv5k48uEQ5Lsu4ci_Nyu8IUqGs0zPui8cYVOy9nXJNbd4bm-gLQO0AB/pub?output=csv") |> 
   mutate(TimeOfDay = factor(TimeOfDay, levels=c("Morning", "Lunch", "Afternoon")))
-
-# Business vs. City Hall: the comparison from HW 07 / HW 08
-bc <- coffee |>
-  filter(Location %in% c("Business", "CityHall"))
 
 # set default theme and larger font size for ggplot2
 ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
@@ -138,15 +202,40 @@ predict(mlr_fit, new_day)
 
 - **Do not extrapolate!** With several predictors you can extrapolate in many directions at once, even when each predictor is individually in range.
 
+
 ```{r}
 #| echo: false
-bikeshare |> group_by(season) |> summarize(min_temp = min(temp_orig), max_temp = max(temp_orig)) |> kable(digits = 1)
+library(patchwork) 
+p1 <- bikeshare |> 
+  gf_histogram(~temp_orig)
+p2 <- bikeshare |> 
+  gf_point(count ~ temp_orig)
+
+p1 + p2
 ```
 
 ::: question
 Would you trust a prediction for a 30°C winter day?
 :::
 
+## Cautions {.smaller}
+
+- **Do not extrapolate!** With several predictors you can extrapolate in many directions at once, even when each predictor is individually in range.
+
+
+```{r}
+#| echo: false
+p1 <- bikeshare |> 
+  gf_histogram(~temp_orig)
+p2 <- bikeshare |> 
+  gf_boxplot(temp_orig ~ season)
+
+p1 + p2
+```
+
+::: question
+Would you trust a prediction for a 30°C winter day?
+:::
 . . .
 
 - The model shows **association, not causation**. Season and temperature are tangled together in observational data.
@@ -158,7 +247,6 @@ Would you trust a prediction for a 30°C winter day?
 :::
 
 - Part 4: predict `Sales` for a new day, and find a prediction you should not trust.
-- Part 5: reflection on $R^2$ and on randomized vs. observational data.
 
 ```{r}
 #| echo: false
@@ -170,22 +258,22 @@ countdown(minutes = 15)
 Every model so far has been **additive**: the effect of one variable is the same at every value of the other. In a plot, that means **parallel lines**.
 
 ::: question
-Is it believable that an extra degree adds the same number of rentals in winter as in summer? That City Hall beats the Business District by the same amount at every time of day?
+Is it believable that an extra degree adds the same number of rentals in winter as in summer? That diabetes raises blood pressure by the same amount for men and for women?
 :::
 
 . . .
 
 Today:
 
-1. A model with two predictors is a **surface**. An interaction **twists** it.
+1. Conceptualizing models with two predictors.
 2. Three cases, one picture each: **two categorical** (group means), **one of each** (lines), **two quantitative** (a surface).
 3. **AE 18**.
 
-# A model is a surface
+# Interaction Terms
 
-## Two predictors, one surface {.smaller}
+## Interaction means multiplication {.smaller}
 
-With two explanatory variables $X_1$ and $X_2$, the mean of $Y$ is a **surface** above the $(X_1, X_2)$ plane.
+With two explanatory variables $X_1$ and $X_2$, our model is purely additive.
 
 $$
 \text{additive:}\quad \mu_Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2
@@ -193,7 +281,7 @@ $$
 
 . . .
 
-A **flat, tilted plane**. Fix $X_2$ and you get a line in $X_1$ with slope $\beta_1$. Change $X_2$ and the line just slides up or down: **parallel lines**.
+Adding an interaction term, multiplies two variables, treating the product like a new variable:
 
 . . .
 
@@ -201,122 +289,120 @@ $$
 \text{with interaction:}\quad \mu_Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2
 $$
 
-Fix $X_2$ and the slope in $X_1$ is $\beta_1 + \beta_3 X_2$: it **changes** with $X_2$. The plane gets a **twist**.
+. . .
+
+Intuition: The impact of $X_1$ on $Y$, depends on the value of $X_2$ (and vice versa)
 
 # Case 1: Two categorical variables
 
 ## The data {.smaller}
 
-Same experiment as AE 17 and HW 08, but now we use **every** shift (Morning, Lunch, and Afternoon).
+The Framingham Heart Study, as in Lectures 15 and 16. Our response is systolic blood pressure (`sysBP`, mm Hg).
 
 ```{r}
 #| echo: false
-coffee |>
-  select(Location, TimeOfDay, Temperature, Sales) |>
+fram |>
+  select(sysBP, sex, diabetes_status, age, BMI, totChol) |>
   glimpse()
 ```
 
-- `Sales` (cups): our response.
-- `Location`: Business, CityHall, Park, or Zoo.
-- `TimeOfDay`: Morning, Lunch, or Afternoon.
-- `Temperature` (°F): recorded each shift.
+- `sex`: Female or Male.
+- `diabetes_status`: Not diabetic or Diabetic.
+- `age` (years), `BMI`, and `totChol` (total cholesterol, mg/dL): we will use these later.
 
-## Modeling `Sales` from time and location {.smaller}
+## Modeling blood pressure from sex and diabetes {.smaller}
 
-Let's start with what we know: an **additive** model with both predictors (Business District vs. City Hall).
+Let's start with what we know: an **additive** model with both predictors.
 
 ```{r}
-add_fit <- lm(Sales ~ Location + TimeOfDay, data = bc)
+add_fit <- lm(sysBP ~ diabetes_status + sex, data = fram)
 add_fit |> tidy() |> kable(digits = 2)
 ```
 
-This model says the City Hall vs. Business difference is **the same** at every time of day.
+This model says the effect of diabetes is **the same** for men and for women (and the male vs. female difference is the same whether or not someone has diabetes).
 
 ## How good is this model? {.smaller}
 
 ```{r}
 #| echo: false
 #| out.width: "65%"
-gf_jitter(Sales ~ TimeOfDay, data = bc, color = ~Location, height=0,width=0.1) |> 
-gf_model(Sales ~ TimeOfDay + Location) |>
-  gf_labs(x = "Time of day", y = "Cups sold", color = "Location")
+bp_plot(predict(add_fit, cell_means))
 ```
 
 ::: question
-Lines show the model's predicted mean for each group. How could the model be better?
+Lines show the model's predicted mean for each group. Diamonds show the **actual** mean of each group. Does it look like the impact of diabetes depends on sex?
+:::
+
+. . .
+
+::: question
+How could the model be better?
 :::
 
 ## What do the data say? {.smaller}
 
 ```{r}
 #| echo: false
-cell_means <- bc |>
-  group_by(Location, TimeOfDay) |>
-  summarize(mean_sales = mean(Sales), n = n(), .groups = "drop")
-
 cell_means |>
   select(-n) |>
-  pivot_wider(names_from = TimeOfDay, values_from = mean_sales) |>
+  pivot_wider(names_from = diabetes_status, values_from = mean_bp) |>
   kable(digits = 1)
 ```
 
 ```{r}
 #| echo: false
 #| out.width: "65%"
-gf_jitter(Sales ~ TimeOfDay, data = bc, color = ~Location, height=0,width=0.1) |> 
-gf_model(Sales ~ TimeOfDay * Location) |>
-  gf_labs(x = "Time of day", y = "Mean cups sold", color = "Location")
+bp_plot(cell_means$mean_bp)
 ```
 
 ::: question
-Is City Hall better than the Business District? What would you tell Jo?
+Does diabetes change blood pressure by the same amount for men and for women?
 :::
 
 ## It depends! {.smaller}
 
-- **Morning:** City Hall sells about `r round(cell_means$mean_sales[cell_means$Location == "Business" & cell_means$TimeOfDay == "Morning"] - cell_means$mean_sales[cell_means$Location == "CityHall" & cell_means$TimeOfDay == "Morning"])` *fewer* cups.
-- **Lunch:** City Hall sells about `r round(cell_means$mean_sales[cell_means$Location == "CityHall" & cell_means$TimeOfDay == "Lunch"] - cell_means$mean_sales[cell_means$Location == "Business" & cell_means$TimeOfDay == "Lunch"])` *more* cups.
-- **Afternoon:** City Hall sells about `r round(cell_means$mean_sales[cell_means$Location == "Business" & cell_means$TimeOfDay == "Afternoon"] - cell_means$mean_sales[cell_means$Location == "CityHall" & cell_means$TimeOfDay == "Afternoon"])` *fewer* cups.
+```{r}
+#| echo: false
+mu <- function(s, d) cell_means$mean_bp[cell_means$sex == s & cell_means$diabetes_status == d]
+```
+
+- **Women:** diabetes goes with a blood pressure about `r round(mu("Female", "Diabetic") - mu("Female", "Not diabetic"))` mm Hg higher.
+- **Men:** diabetes goes with a blood pressure about `r round(mu("Male", "Diabetic") - mu("Male", "Not diabetic"))` mm Hg higher.
 
 . . .
 
-When the effect of `Location` **depends on** `TimeOfDay`, we say there is an **interaction** between `Location` and `TimeOfDay`.
+When the effect of `diabetes_status` **depends on** `sex`, we say there is an **interaction** between `diabetes_status` and `sex`.
 
-. . .
-
-::: question
-HW 08 only looked at Lunch. Why was that a good idea? What would we miss if we pooled all three shifts?
-:::
 
 # The interaction model
 
 ## Adding an interaction {.smaller}
 
-To let the `Location` effect differ by `TimeOfDay`, we add the **product** of the indicator variables:
+To let the diabetes effect differ by sex, we add the **product** of the indicator variables:
 
 ```{r}
-int_fit <- lm(Sales ~ Location * TimeOfDay, data = bc)
+int_fit <- lm(sysBP ~ diabetes_status * sex, data = fram)
 int_fit |> tidy() |> kable(digits = 2)
 ```
 
-`Location * TimeOfDay` is shorthand for `Location + TimeOfDay + Location:TimeOfDay`.
+`diabetes_status * sex` is shorthand for `diabetes_status + sex + diabetes_status:sex` where the color specifies an interaction term.
 
 ## The model equation {.smaller}
 
-With the reference levels Business and Morning:
+With the reference levels Not diabetic and Female:
 
 $$
 \begin{aligned}
-\widehat{\text{Sales}} = &\hat\beta_0 \\
-&+ \hat\beta_1 \,\text{CityHall} + \hat\beta_2 \,\text{Lunch} + \hat\beta_3 \,\text{Afternoon} \\
-&\underbrace{+ \hat\beta_4 \,(\text{CityHall} \times \text{Lunch}) + \hat\beta_5 \,(\text{CityHall} \times \text{Afternoon})}_{\text{interaction terms}}
+\widehat{\text{sysBP}} = &\hat\beta_0 \\
+&+ \hat\beta_1 \,\text{Diabetic} + \hat\beta_2 \,\text{Male} \\
+&\underbrace{+ \hat\beta_3 \,(\text{Diabetic} \times \text{Male})}_{\text{interaction term}}
 \end{aligned}
 $$
 
 ```{r}
 #| echo: false
 b <- coef(int_fit)
-names(b) <- c("b0", "b1", "b2", "b3", "b4", "b5")
+names(b) <- c("b0", "b1", "b2", "b3")
 
 # number with an explicit sign, for building the equation
 sgn <- function(x) sprintf("%+.1f", x)
@@ -324,116 +410,136 @@ sgn <- function(x) sprintf("%+.1f", x)
 
 $$
 \begin{aligned}
-\widehat{\text{Sales}} = &`r round(b["b0"], 1)` \\
-&`r sgn(b["b1"])` \,\text{CityHall} `r sgn(b["b2"])` \,\text{Lunch} `r sgn(b["b3"])` \,\text{Afternoon} \\
-&\underbrace{`r sgn(b["b4"])` \,(\text{CityHall} \times \text{Lunch}) `r sgn(b["b5"])` \,(\text{CityHall} \times \text{Afternoon})}_{\text{interaction terms}}
+\widehat{\text{sysBP}} = &`r round(b["b0"], 1)` \\
+&`r sgn(b["b1"])` \,\text{Diabetic} `r sgn(b["b2"])` \,\text{Male} \\
+&\underbrace{`r sgn(b["b3"])` \,(\text{Diabetic} \times \text{Male})}_{\text{interaction term}}
 \end{aligned}
 $$
 
 ::: question
-For each of the six combinations of location and time of day, which terms are "on"? Write the equation for each one.
+For each of the four combinations of diabetes status and sex, which terms are "on"? Write the equation for each one.
 :::
 
 ## Recovering the cell means {.smaller}
 
-Each of the six means is the sum of the terms that are "on":
+Each of the four means is the sum of the terms that are "on":
 
 ```{r}
 #| echo: false
 tibble(
-  Combination = c("Business, Morning", "Business, Lunch", "Business, Afternoon",
-                  "CityHall, Morning", "CityHall, Lunch", "CityHall, Afternoon"),
-  `Terms on` = c("b0", "b0 + b2", "b0 + b3", "b0 + b1", "b0 + b1 + b2 + b4", "b0 + b1 + b3 + b5"),
-  `Model value` = c(b["b0"], b["b0"] + b["b2"], b["b0"] + b["b3"],
-                    b["b0"] + b["b1"], b["b0"] + b["b1"] + b["b2"] + b["b4"],
-                    b["b0"] + b["b1"] + b["b3"] + b["b5"])
+  Combination = c("Female, Not diabetic", "Female, Diabetic", "Male, Not diabetic", "Male, Diabetic"),
+  `Terms on` = c("b0", "b0 + b1", "b0 + b2", "b0 + b1 + b2 + b3"),
+  `Model value` = c(b["b0"], b["b0"] + b["b1"], b["b0"] + b["b2"],
+                    b["b0"] + b["b1"] + b["b2"] + b["b3"])
 ) |>
   kable(digits = 1)
 ```
 
 . . .
 
-The interaction model reproduces all six means exactly. It has one parameter per cell.
+The interaction model reproduces all four means exactly. It has one parameter per cell.
 
-## Interpreting the interaction terms {.smaller}
+## Interpreting the interaction term {.smaller}
 
-- $\hat\beta_1$ (`LocationCityHall`): City Hall minus Business **in the Morning** (the reference time). It is *not* the overall City Hall effect anymore.
-- $\hat\beta_4$ (`LocationCityHall:TimeOfDayLunch`): how much **bigger** the City Hall vs. Business difference is at Lunch than in the Morning. A difference in differences.
-- $\hat\beta_5$: the same, comparing Afternoon to Morning.
+:::: {.columns}
 
-. . .
-
-::: question
-Use the coefficients to find the City Hall minus Business difference at Lunch. Does it match the table of means we saw earlier?
+::: {.column width="45%"}
+- $\hat\beta_0$: the mean for the reference group, **non-diabetic women**.
+- $\hat\beta_1$ (`diabetes_statusDiabetic`): the diabetes effect **for women** (the reference sex). It is *not* the overall diabetes effect anymore.
+- $\hat\beta_2$ (`sexMale`): Male minus Female **among non-diabetic participants** (the reference diabetes status).
+- $\hat\beta_3$ (`diabetes_statusDiabetic:sexMale`): how much **bigger** (or smaller) the diabetes effect is for men than for women. The **gap** between the dotted line (men if the lines were parallel) and the actual men's mean.
 :::
 
-# Case 2: One of each
+::: {.column width="55%"}
+```{r}
+#| echo: false
+#| out.width: "100%"
+beta_plot(b)
+```
+:::
 
-## Is the temperature slope the same in every season? {.smaller}
+::::
 
-Last time we fit `count ~ temp_orig + season`: one slope for temperature, a different intercept for each season.
+::: question
+Use the coefficients to find the Male minus Female difference among participants with diabetes. Does it match the table of means we saw earlier?
+:::
+
+# Case 2: Categorical-Quantitative Interaction
+
+## Is the age slope the same for men and women? {.smaller}
+
+Now let's predict `sysBP` from `age` and `sex`. An additive model gives one slope for age and a different intercept for each sex.
 
 ```{r}
 #| echo: false
-season_add <- lm(count ~ temp_orig + season, data = bikeshare)
-season_int <- lm(count ~ temp_orig * season, data = bikeshare)
+age_add <- lm(sysBP ~ age + sex, data = fram)
+age_int <- lm(sysBP ~ age * sex, data = fram)
 
-augment(season_add) |>
-  gf_point(count ~ temp_orig, color = ~ season, alpha = 0.3) |>
-  gf_line(.fitted ~ temp_orig, color = ~ season, linewidth = 1.3) |>
-  gf_labs(x = "Temperature (°C)", y = "Daily rentals", color = "Season", title = "Additive: parallel lines")
+augment(age_add) |>
+  gf_point(sysBP ~ age, color = ~ sex, alpha = 0.15, size = 0.5) |>
+  gf_line(.fitted ~ age, color = ~ sex, linewidth = .5) |>
+  gf_refine(scale_color_manual(values = sex_colors)) |>
+  gf_labs(x = "Age (years)", y = "Systolic BP (mm Hg)", color = "Sex", title = "Additive: parallel lines")
 ```
 
 ::: question
-How well do these parallel lines follow the data in each season?
+Do we believe that men and women age in the same way?
 :::
 
-## Letting the slope depend on season {.smaller}
+## Letting the slope depend on sex {.smaller}
 
 ```{r}
 #| echo: false
-augment(season_int) |>
-  gf_point(count ~ temp_orig, color = ~ season, alpha = 0.3) |>
-  gf_line(.fitted ~ temp_orig, color = ~ season, linewidth = 1.3) |>
-  gf_labs(x = "Temperature (°C)", y = "Daily rentals", color = "Season", title = "Interaction: a separate slope for each season")
+augment(age_int) |>
+  gf_point(sysBP ~ age, color = ~ sex, alpha = 0.15, size-0.5) |>
+  gf_line(.fitted ~ age, color = ~ sex, linewidth = .5) |>
+  gf_refine(scale_color_manual(values = sex_colors)) |>
+  gf_labs(x = "Age (years)", y = "Systolic BP (mm Hg)", color = "Sex", title = "Interaction: a separate slope for each sex")
 ```
 
 ::: question
-Which season has a very different slope? (Careful: each line only covers the temperatures that occur in its season.)
+Which group's blood pressure rises faster with age? At what age do the lines nearly meet?
 :::
 
-## Slopes by season {.smaller}
+## Slopes by sex {.smaller}
 
 ```{r}
-season_int |> tidy() |> kable(digits = 1)
+age_int |> tidy() |> kable(digits = 2)
 ```
 
-- Winter (the reference level): slope $\hat\beta_1$ = `r round(coef(season_int)["temp_orig"], 0)` rentals per °C.
-- Summer: slope $\hat\beta_1 + \hat\beta_3$ = `r round(coef(season_int)["temp_orig"] + coef(season_int)["temp_orig:seasonsummer"], 0)` rentals per °C.
+- Women (the reference level): slope $\hat\beta_1$ = `r round(coef(age_int)["age"], 2)` mm Hg per year.
+- Men: slope $\hat\beta_1 + \hat\beta_3$ = `r round(coef(age_int)["age"] + coef(age_int)["age:sexMale"], 2)` mm Hg per year.
 
 ::: question
-What would it mean for the summer slope to be about zero?
+What does the negative interaction coefficient say about how blood pressure changes with age for men compared with women?
 :::
 
 # Case 3: Two quantitative
 
-## Temperature and time {.smaller}
+## Age and BMI {.smaller}
 
-Bike share kept growing over the two years of data. Let's ask whether warm days mattered **more** later on.
+Finally, two quantitative predictors. Let's predict total cholesterol (`totChol`, mg/dL) from:
 
-- $X_1$ = temperature (°C), $X_2$ = `instant`, the day number (1 to 731).
+- $X_1$ = `age` (years), $X_2$ = `BMI`.
 
 $$
-\widehat{\text{count}} = \hat\beta_0 + \hat\beta_1 \,\text{temp} + \hat\beta_2 \,\text{day} + \hat\beta_3 \,(\text{temp} \times \text{day})
+\widehat{\text{totChol}} = \hat\beta_0 + \hat\beta_1 \,\text{age} + \hat\beta_2 \,\text{BMI} + \hat\beta_3 \,(\text{age} \times \text{BMI})
 $$
 
 ```{r}
-quant_add <- lm(count ~ temp_orig + instant, data = bikeshare)
-quant_int <- lm(count ~ temp_orig * instant, data = bikeshare)
+quant_add <- lm(totChol ~ age + BMI, data = fram)
+quant_int <- lm(totChol ~ age * BMI, data = fram)
 
-quant_xs <- seq(min(bikeshare$temp_orig), max(bikeshare$temp_orig), length.out = 30)
-quant_ys <- seq(min(bikeshare$instant), max(bikeshare$instant), length.out = 30)
-quant_labels <- c("Temperature (°C)", "Day number", "Daily rentals")
+# the 3D pictures show 600 randomly chosen participants (plotting all 4,000+ is slow)
+set.seed(2026)
+fram_pts <- fram |>
+  drop_na(totChol, BMI) |>
+  filter(totChol < 400, BMI < 45) |>
+  slice_sample(n = 600)
+
+quant_xs <- seq(min(fram$age), max(fram$age), length.out = 30)
+quant_ys <- seq(17, 40, length.out = 30)
+quant_labels <- c("Age (years)", "BMI", "Total cholesterol")
 ```
 
 ## Additive: a flat plane {.smaller}
@@ -441,25 +547,25 @@ quant_labels <- c("Temperature (°C)", "Day number", "Daily rentals")
 ```{r}
 #| echo: false
 #| dpi: 96
-surface_plot(bikeshare, "temp_orig", "instant", "count",
-             surface_z(quant_add, quant_xs, quant_ys, "temp_orig", "instant"),
+surface_plot(fram_pts, "age", "BMI", "totChol",
+             surface_z(quant_add, quant_xs, quant_ys, "age", "BMI"),
              quant_xs, quant_ys, quant_labels)
 ```
 
-The temperature slope is $\hat\beta_1 =$ `r round(coef(quant_add)[2], 0)` rentals per °C on **every** day.
+The age slope is $\hat\beta_1 =$ `r round(coef(quant_add)["age"], 2)` mg/dL per year for **every** BMI.
 
 ## Interaction: a twisted surface {.smaller}
 
 ```{r}
 #| echo: false
 #| dpi: 96
-surface_plot(bikeshare, "temp_orig", "instant", "count",
-             surface_z(quant_int, quant_xs, quant_ys, "temp_orig", "instant"),
+surface_plot(fram_pts, "age", "BMI", "totChol",
+             surface_z(quant_int, quant_xs, quant_ys, "age", "BMI"),
              quant_xs, quant_ys, quant_labels)
 ```
 
 ::: question
-Compare the edge at day 1 with the edge at day 731. Where is the surface steeper in the temperature direction?
+Compare the edge where BMI is low with the edge where BMI is high. Along which edge does cholesterol rise faster with age?
 :::
 
 ## The slope is now a function {.smaller}
@@ -469,33 +575,37 @@ quant_int |> tidy() |> kable(digits = 3)
 ```
 
 $$
-\text{slope of temp} = \hat\beta_1 + \hat\beta_3 \times \text{day}
+\text{slope of age} = \hat\beta_1 + \hat\beta_3 \times \text{BMI}
 $$
 
 ```{r}
 #| echo: false
 b_q <- coef(quant_int)
-tibble(Day = c(1, 365, 731)) |>
-  mutate(`Slope of temperature` = b_q["temp_orig"] + b_q["temp_orig:instant"] * Day) |>
-  kable(digits = 0)
+tibble(BMI = c(21, 25, 31)) |>
+  mutate(`Slope of age` = b_q["age"] + b_q["age:BMI"] * BMI) |>
+  kable(digits = 2)
 ```
 
 . . .
 
-For a fixed day, the slope of temperature is a number. As the day changes, the slope changes **linearly**: that is what a product term does.
+For a fixed BMI, the slope of age is a number. As BMI changes, the slope changes **linearly**: that is what a product term does.
+
+::: question
+Interpret $\hat\beta_3$: how does the age slope change for each one-unit increase in BMI?
+:::
 
 ## An interaction we don't need {.smaller}
 
-What about temperature and humidity?
+Not every pair of quantitative variables interacts. What about age and cholesterol for predicting blood pressure?
 
 ```{r}
 #| echo: false
-hum_int <- lm(count ~ temp_orig * hum, data = bikeshare)
-hum_int |> tidy() |> kable(digits = 1)
+bp_int <- lm(sysBP ~ age * totChol, data = fram)
+bp_int |> tidy() |> kable(digits = 4)
 ```
 
 ::: question
-The interaction coefficient is small relative to its standard error, and $R^2$ barely moves. What would the surface look like? Would you add the term?
+The interaction coefficient is tiny relative to its standard error, and the age slope is about the same at every cholesterol level. What would the surface look like? Would you add the term?
 :::
 
 # The three cases
@@ -504,7 +614,7 @@ The interaction coefficient is small relative to its standard error, and $R^2$ b
 
 | | Two categorical | One of each | Two quantitative |
 |:---|:---|:---|:---|
-| Example | `Location` x `TimeOfDay` | `temp_orig` x `season` | `temp_orig` x `instant` |
+| Example | `diabetes_status` x `sex` | `age` x `sex` | `age` x `BMI` |
 | Picture | jitter plot with group means | scatterplot with fitted lines | 3D surface |
 | Additive model | same gap between groups at every level (parallel profiles) | parallel lines | flat tilted plane |
 | Interaction adds | the 4th corner (a twist) | a different slope per group | a slope that changes with $X_2$ |
@@ -520,19 +630,19 @@ In all three cases, the interaction term is $X_1 \times X_2$, and it is what **b
 
 ```{r}
 #| echo: false
-fit_row <- function(label, fit) glance(fit) |> transmute(model = label, r.squared, sigma)
+fit_row <- function(label, fit) glance(fit) |> transmute(model = label, r.squared, sigma = signif(sigma, 3))
 
 bind_rows(
-  fit_row("Coffee: Location + TimeOfDay", lm(Sales ~ Location + TimeOfDay, data = bc)),
-  fit_row("Coffee: Location * TimeOfDay", lm(Sales ~ Location * TimeOfDay, data = bc)),
-  fit_row("Bikes: temp + season", lm(count ~ temp_orig + season, data = bikeshare)),
-  fit_row("Bikes: temp * season", lm(count ~ temp_orig * season, data = bikeshare)),
-  fit_row("Bikes: temp + day", lm(count ~ temp_orig + instant, data = bikeshare)),
-  fit_row("Bikes: temp * day", lm(count ~ temp_orig * instant, data = bikeshare)),
-  fit_row("Bikes: temp + humidity", lm(count ~ temp_orig + hum, data = bikeshare)),
-  fit_row("Bikes: temp * humidity", lm(count ~ temp_orig * hum, data = bikeshare))
+  fit_row("BP: diabetes + sex", lm(sysBP ~ diabetes_status + sex, data = fram)),
+  fit_row("BP: diabetes * sex", lm(sysBP ~ diabetes_status * sex, data = fram)),
+  fit_row("BP: age + sex", lm(sysBP ~ age + sex, data = fram)),
+  fit_row("BP: age * sex", lm(sysBP ~ age * sex, data = fram)),
+  fit_row("Chol: age + BMI", lm(totChol ~ age + BMI, data = fram)),
+  fit_row("Chol: age * BMI", lm(totChol ~ age * BMI, data = fram)),
+  fit_row("BP: age + cholesterol", lm(sysBP ~ age + totChol, data = fram)),
+  fit_row("BP: age * cholesterol", lm(sysBP ~ age * totChol, data = fram))
 ) |>
-  kable(digits = c(0, 3, 1))
+  kable(digits = c(0, 3, 3))
 ```
 
 ::: question
@@ -553,13 +663,13 @@ Last time: a coefficient is the change in the mean response per unit change in t
 
 With an interaction, that sentence is incomplete:
 
-- There is **no single** effect of `Location`. There is one for each time of day.
+- There is **no single** effect of diabetes. There is one for women and one for men.
 - Always describe the effect **at a particular value** of the other variable.
 
 . . .
 
 ::: question
-Jo asks, "How much better is City Hall?" What should you say back?
+A patient asks, "How much does diabetes raise my blood pressure?" What should you say back?
 :::
 
 ## Activity: AE 18 {.smaller}

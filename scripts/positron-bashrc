@@ -1,0 +1,6 @@
+# Used by the workspace terminal profile (.vscode/settings.json).
+# Loads your normal ~/.bashrc, then shadows `quarto` with the retry wrapper. A shell function
+# wins over PATH lookup, which matters because the Quarto extension prepends /opt/quarto/bin
+# to the terminal PATH after workspace settings are applied.
+[ -f ~/.bashrc ] && . ~/.bashrc
+quarto() { "$(dirname "${BASH_SOURCE[0]}")/quarto-retry.sh" "$@"; }

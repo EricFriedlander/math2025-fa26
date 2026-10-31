@@ -1,3 +1,14 @@
 {
-    "quarto.path": "/home/efriedlander/Documents/Teaching/fall26/math2025-fa26/scripts/quarto-retry.sh"
+    "quarto.path": "/home/efriedlander/Documents/Teaching/fall26/math2025-fa26/scripts/quarto-retry.sh",
+    "terminal.integrated.profiles.linux": {
+        "bash-quarto-retry": {
+            "path": "bash",
+            "args": [
+                "--rcfile",
+                "${workspaceFolder}/scripts/positron-bashrc"
+            ]
+        }
+    },
+    "terminal.integrated.defaultProfile.linux": "bash-quarto-retry",
+    "quarto.render.previewType": "external"
 }
