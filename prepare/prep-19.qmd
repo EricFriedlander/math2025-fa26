@@ -1,0 +1,12 @@
+---
+title: "Preparation for Confidence Intervals"
+---
+
+## Assigned reading
+
+Read sections 8.1 to 8.4 of *Introduction to Regression Analysis: A Data Science Approach*, [Ch 8: Inference for multiple linear regression](https://introregression.netlify.app/08-mlr-inference):
+
+- 8.1 Introduction: Inference for lemurs
+- 8.2 Recap: Overview of statistical inference
+- 8.3 Simulation-based inference
+- 8.4 Theory-based inference

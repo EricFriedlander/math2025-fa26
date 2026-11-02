@@ -77,8 +77,9 @@ cell_means <- fram |>
 sex_colors <- c(Female = "#E4572E", Male = "#1F77B4")
 
 # one line per sex through `line_means` (one value per row of cell_means), with the four
-# actual group means as diamonds. Optionally show the jittered data and the labeled means.
-bp_plot <- function(line_means, show_data = TRUE, show_labels = TRUE) {
+# actual group means as diamonds. Optionally show the jittered data, the labeled means, and
+# an x at each model prediction (the end points of the lines).
+bp_plot <- function(line_means, show_data = TRUE, show_labels = TRUE, show_predictions = FALSE) {
   dodge <- position_dodge(width = 0.6)
   p <- gf_point(sysBP ~ diabetes_status, data = fram, color = ~ sex,
                 alpha = if (show_data) 0.25 else 0, size = 1.5,
@@ -87,6 +88,11 @@ bp_plot <- function(line_means, show_data = TRUE, show_labels = TRUE) {
             color = ~ sex, group = ~ sex, linewidth = 1.2, position = dodge) |>
     gf_point(mean_bp ~ diabetes_status, data = cell_means, fill = ~ sex, group = ~ sex,
              color = "black", size = 5, shape = 23, stroke = 1.5, position = dodge)
+  if (show_predictions) {
+    p <- p |>
+      gf_point(line_means ~ diabetes_status, data = mutate(cell_means, line_means = line_means),
+               group = ~ sex, color = "black", shape = 4, size = 5, stroke = 2, position = dodge)
+  }
   if (show_labels) {
     p <- p |>
       gf_label(mean_bp ~ x_pos,
@@ -321,22 +327,31 @@ add_fit |> tidy() |> kable(digits = 2)
 
 This model says the effect of diabetes is **the same** for men and for women (and the male vs. female difference is the same whether or not someone has diabetes).
 
-## How good is this model? {.smaller}
+## What this model actually is {.smaller}
+
+An additive model is just the **grand mean** plus one **effect** for each variable. Each effect is how far a group's **marginal mean** sits from the grand mean:
+
+$$
+\widehat{\text{sysBP}} = \underbrace{\bar y_{\text{ND}\cdot} + \bar y_{\cdot\text{F}} - \bar y}_{\hat\beta_0} + \underbrace{(\bar y_{\text{D}\cdot} - \bar y_{\text{ND}\cdot})}_{\hat\beta_1}\,\text{Diabetic} + \underbrace{(\bar y_{\cdot\text{M}} - \bar y_{\cdot\text{F}})}_{\hat\beta_2}\,\text{Male}
+$$
+
+- $\bar{y}$: mean `sysBP` of everyone
+- $\bar y_{\text{ND}\cdot}$ and $\bar y_{\text{D}\cdot}$: mean of `sysBP` for just people without or with diabetes
+- $\bar y_{\cdot M}$ and $\bar y_{\cdot M}$: mean of `sysBP` for just males or just females
+
+## Visualizing the Model {.smaller}
 
 ```{r}
 #| echo: false
 #| out.width: "65%"
-bp_plot(predict(add_fit, cell_means))
+bp_plot(predict(add_fit, cell_means), show_predictions = TRUE)
 ```
 
-::: question
-Lines show the model's predicted mean for each group. Diamonds show the **actual** mean of each group. Does it look like the impact of diabetes depends on sex?
-:::
+- Lines and **x** marks show the model's predicted mean for each group
+- Diamonds show the **actual** mean of each group.
 
-. . .
-
-::: question
-How could the model be better?
+::: question 
+Does it look like the impact of diabetes depends on sex? If so, does our model capture that?
 :::
 
 ## What do the data say? {.smaller}
@@ -359,7 +374,7 @@ bp_plot(cell_means$mean_bp)
 Does diabetes change blood pressure by the same amount for men and for women?
 :::
 
-## It depends! {.smaller}
+##  It doesn't look like it! {.smaller}
 
 ```{r}
 #| echo: false
@@ -376,6 +391,40 @@ When the effect of `diabetes_status` **depends on** `sex`, we say there is an **
 
 # The interaction model
 
+## Building the interaction term by hand {.smaller}
+
+An interaction term is just a **new column**: the product of the two 0/1 (dummy) variables.
+
+```{r}
+#| echo: false
+fram_int <- fram |>
+  mutate(
+    diabetic = if_else(diabetes_status == "Diabetic", 1, 0),
+    is_male = if_else(sex == "Male", 1, 0),
+    diabetic_male = diabetic * is_male
+  )
+
+fram_int |>
+  count(diabetes_status, sex, diabetic, is_male, diabetic_male) |>
+  kable()
+```
+
+. . .
+
+The product `diabetic_male` is 1 **only** for men with diabetes, and 0 for everyone else.
+
+. . .
+
+The model with an interaction term is:
+
+$$
+\hat{y} = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1\times X_2 + \epsilon
+$$
+
+. . .
+
+Always include the single order terms (i.e. $\beta_1 X_1$ and $\beta_2 X_2$)
+
 ## Adding an interaction {.smaller}
 
 To let the diabetes effect differ by sex, we add the **product** of the indicator variables:
@@ -385,7 +434,7 @@ int_fit <- lm(sysBP ~ diabetes_status * sex, data = fram)
 int_fit |> tidy() |> kable(digits = 2)
 ```
 
-`diabetes_status * sex` is shorthand for `diabetes_status + sex + diabetes_status:sex` where the color specifies an interaction term.
+`diabetes_status * sex` will automatically add the single order terms
 
 ## The model equation {.smaller}
 
@@ -416,8 +465,13 @@ $$
 \end{aligned}
 $$
 
+```{r}
+#| echo: false
+fram |> group_by(sex, diabetes) |> summarize(avg_sysBP = mean(sysBP)) |> kable()
+``` 
+
 ::: question
-For each of the four combinations of diabetes status and sex, which terms are "on"? Write the equation for each one.
+On the board, show that the model is just predicting the mean of each group.
 :::
 
 ## Recovering the cell means {.smaller}
@@ -460,10 +514,6 @@ beta_plot(b)
 
 ::::
 
-::: question
-Use the coefficients to find the Male minus Female difference among participants with diabetes. Does it match the table of means we saw earlier?
-:::
-
 # Case 2: Categorical-Quantitative Interaction
 
 ## Is the age slope the same for men and women? {.smaller}
@@ -504,6 +554,7 @@ Which group's blood pressure rises faster with age? At what age do the lines nea
 ## Slopes by sex {.smaller}
 
 ```{r}
+age_int <- lm(sysBP ~ age * sex, data = fram)
 age_int |> tidy() |> kable(digits = 2)
 ```
 
@@ -511,7 +562,8 @@ age_int |> tidy() |> kable(digits = 2)
 - Men: slope $\hat\beta_1 + \hat\beta_3$ = `r round(coef(age_int)["age"] + coef(age_int)["age:sexMale"], 2)` mm Hg per year.
 
 ::: question
-What does the negative interaction coefficient say about how blood pressure changes with age for men compared with women?
+- What does the negative interaction coefficient say about how blood pressure changes with age for men compared with women?
+- One the board, write out the two lines nested in this model: the male line and the female line
 :::
 
 # Case 3: Two quantitative
@@ -522,11 +574,44 @@ Finally, two quantitative predictors. Let's predict total cholesterol (`totChol`
 
 - $X_1$ = `age` (years), $X_2$ = `BMI`.
 
+We'll compare two models:
+
+::::{.columns}
+:::{.column}
+#### Additive Model (no interaction)
+
+$$
+\widehat{\text{totChol}} = \hat\beta_0 + \hat\beta_1 \,\text{age} + \hat\beta_2 \,\text{BMI}
+$$
+
+```{r}
+lm(totChol ~ age + BMI, data = fram) |> tidy() |> kable()
+```
+:::
+:::{.column}
+#### Interaction Model
+
 $$
 \widehat{\text{totChol}} = \hat\beta_0 + \hat\beta_1 \,\text{age} + \hat\beta_2 \,\text{BMI} + \hat\beta_3 \,(\text{age} \times \text{BMI})
 $$
 
 ```{r}
+lm(totChol ~ age * BMI, data = fram) |> tidy() |> kable()
+```
+:::
+::::
+
+::: question
+Break into four groups. Each group write the equations for a line on the board (one from each model):
+
+- Group 1: Fix BMI = 20
+- Group 2: Fix BMI = 30
+- Group 3: Fix age = 35
+- Group 4: Fix age = 70
+:::
+
+```{r}
+#| echo: false
 quant_add <- lm(totChol ~ age + BMI, data = fram)
 quant_int <- lm(totChol ~ age * BMI, data = fram)
 
@@ -564,9 +649,6 @@ surface_plot(fram_pts, "age", "BMI", "totChol",
              quant_xs, quant_ys, quant_labels)
 ```
 
-::: question
-Compare the edge where BMI is low with the edge where BMI is high. Along which edge does cholesterol rise faster with age?
-:::
 
 ## The slope is now a function {.smaller}
 
@@ -594,20 +676,6 @@ For a fixed BMI, the slope of age is a number. As BMI changes, the slope changes
 Interpret $\hat\beta_3$: how does the age slope change for each one-unit increase in BMI?
 :::
 
-## An interaction we don't need {.smaller}
-
-Not every pair of quantitative variables interacts. What about age and cholesterol for predicting blood pressure?
-
-```{r}
-#| echo: false
-bp_int <- lm(sysBP ~ age * totChol, data = fram)
-bp_int |> tidy() |> kable(digits = 4)
-```
-
-::: question
-The interaction coefficient is tiny relative to its standard error, and the age slope is about the same at every cholesterol level. What would the surface look like? Would you add the term?
-:::
-
 # The three cases
 
 ## Same idea, three pictures {.smaller}
@@ -623,37 +691,6 @@ The interaction coefficient is tiny relative to its standard error, and the age 
 . . .
 
 In all three cases, the interaction term is $X_1 \times X_2$, and it is what **bends** the surface.
-
-# Choosing a model
-
-## Do we need the interaction? {.smaller}
-
-```{r}
-#| echo: false
-fit_row <- function(label, fit) glance(fit) |> transmute(model = label, r.squared, sigma = signif(sigma, 3))
-
-bind_rows(
-  fit_row("BP: diabetes + sex", lm(sysBP ~ diabetes_status + sex, data = fram)),
-  fit_row("BP: diabetes * sex", lm(sysBP ~ diabetes_status * sex, data = fram)),
-  fit_row("BP: age + sex", lm(sysBP ~ age + sex, data = fram)),
-  fit_row("BP: age * sex", lm(sysBP ~ age * sex, data = fram)),
-  fit_row("Chol: age + BMI", lm(totChol ~ age + BMI, data = fram)),
-  fit_row("Chol: age * BMI", lm(totChol ~ age * BMI, data = fram)),
-  fit_row("BP: age + cholesterol", lm(sysBP ~ age + totChol, data = fram)),
-  fit_row("BP: age * cholesterol", lm(sysBP ~ age * totChol, data = fram))
-) |>
-  kable(digits = c(0, 3, 3))
-```
-
-::: question
-Which interaction is worth adding? How do you know? (Think about $R^2$, $\hat{\sigma}_\epsilon$, and the pictures.)
-:::
-
-. . .
-
-- A real interaction should show up in the plot, the $R^2$, and the size of the interaction coefficients relative to $\hat{\sigma}_\epsilon$.
-- Every interaction adds parameters. Add one when the picture and the context call for it.
-- We will learn formal tools for this later.
 
 ## Interactions and "holding constant" {.smaller}
 
@@ -672,21 +709,6 @@ With an interaction, that sentence is incomplete:
 A patient asks, "How much does diabetes raise my blood pressure?" What should you say back?
 :::
 
-## Activity: AE 18 {.smaller}
-
-::: appex
-📋 [AE 18 - Interactions with the Coffee Truck](https://ericfriedlander.github.io/math2025-fa26/ae/ae-18-interactions-coffee-truck.html)
-:::
-
-- Each group gets a different pair of locations.
-- Build the table of means, plot the interaction, and fit both the additive and interaction models.
-- Recommend where Jo should park for each shift.
-
-```{r}
-#| echo: false
-countdown(minutes = 30)
-```
-
 ## Recap {.smaller}
 
 - An **interaction** means the effect of one variable depends on the value of another.
@@ -696,7 +718,3 @@ countdown(minutes = 30)
 - Geometrically, an additive model is a **flat plane** and an interaction **twists** it.
 - With an interaction, main effects are the effects at the reference level, not overall effects.
 - An additive model can hide a big pattern. Plot the data first.
-
-. . .
-
-**Next time:** we have a lot of estimates, like "City Hall sells 18 more cups at Lunch". How sure are we? **Confidence intervals.**
