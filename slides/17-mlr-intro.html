@@ -99,7 +99,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-3e75b18a091661a42b5a8f36bbfd11f1.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-5d88f87b865f6c5b14d5e02e8b8f5a37.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -678,89 +678,7 @@ Y|X_1, X_2, \ldots, X_p \sim N(\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \be
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_99275977" minutes="25" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
-</div>
-</div>
-</section></section>
-<section>
-<section id="prediction" class="title-slide slide level1 center">
-<h1>Prediction</h1>
-
-</section>
-<section id="prediction-1" class="slide level2 smaller">
-<h2>Prediction</h2>
-<div class="question">
-<p>How many bikes do we expect on a 25°C summer day?</p>
-</div>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>new_day <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">temp_orig =</span> <span class="dv">25</span>, <span class="at">season =</span> <span class="st">"summer"</span>)</span>
-<span id="cb8-2"><a></a><span class="fu">predict</span>(mlr_fit, new_day)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       1 
-5041.681 </code></pre>
-</div>
-</div>
-</section>
-<section id="cautions" class="slide level2 smaller">
-<h2>Cautions</h2>
-<ul>
-<li><strong>Do not extrapolate!</strong> With several predictors you can extrapolate in many directions at once, even when each predictor is individually in range.</li>
-</ul>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;">season</th>
-<th style="text-align: right;">min_temp</th>
-<th style="text-align: right;">max_temp</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">winter</td>
-<td style="text-align: right;">2.4</td>
-<td style="text-align: right;">23.5</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">spring</td>
-<td style="text-align: right;">10.4</td>
-<td style="text-align: right;">33.1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">summer</td>
-<td style="text-align: right;">19.2</td>
-<td style="text-align: right;">35.3</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">fall</td>
-<td style="text-align: right;">9.1</td>
-<td style="text-align: right;">27.0</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="question">
-<p>Would you trust a prediction for a 30°C winter day?</p>
-</div>
-<div class="fragment">
-<ul>
-<li>The model shows <strong>association, not causation</strong>. Season and temperature are tangled together in observational data.</li>
-</ul>
-</div>
-</section>
-<section id="activity-part-4" class="slide level2 smaller">
-<h2>Activity: Part 4</h2>
-<div class="appex">
-<p>📋 <a href="https://ericfriedlander.github.io/math2025-fa26/ae/ae-17-mlr-coffee-truck.html">AE 17 - Multiple Linear Regression with the Coffee Truck</a></p>
-</div>
-<ul>
-<li>Part 4: predict <code>Sales</code> for a new day.</li>
-</ul>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_727c1993" minutes="15" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_6d9fe047" minutes="25" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
 </div>
 </div>
 </section>
@@ -771,7 +689,7 @@ Y|X_1, X_2, \ldots, X_p \sim N(\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \be
 <p>Is it believable that an extra degree adds the same number of rentals in winter as in summer?</p>
 </div>
 <div class="fragment">
-<p>Next time: categorical predictors in more depth, and what to do when the slope differs by group.</p>
+<p>Next time: we finish the activity with <strong>prediction</strong>, then ask what to do when the slope differs by group: <strong>interaction terms</strong>.</p>
 </div>
 </section>
 <section id="recap" class="slide level2 smaller">
@@ -780,7 +698,6 @@ Y|X_1, X_2, \ldots, X_p \sim N(\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \be
 <li><strong>MLR</strong> models the mean response as a linear function of several predictors.</li>
 <li>Each coefficient is the change in mean response per unit change in that predictor, <strong>holding the others constant</strong>.</li>
 <li>A coefficient can change when other predictors are added, especially when the predictors are related to each other.</li>
-<li>Prediction works as in SLR (<code>predict()</code>), but extrapolation can happen in many directions.</li>
 <li>An additive model with a categorical predictor gives <strong>parallel lines</strong>: one slope, one intercept per level.</li>
 </ul>
 
