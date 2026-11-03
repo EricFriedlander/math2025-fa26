@@ -13,6 +13,6 @@
 			}
 		},
 		"terminal.integrated.defaultProfile.linux": "bash-quarto-retry",
-		"quarto.render.previewType": "external"
+		"quarto.render.previewType": "internal"
 	}
 }

@@ -1,0 +1,435 @@
+---
+title: "Inference for Multiple Regression"
+subtitle: "Where do p-values come from, and what do they mean with several predictors?"
+author: "Prof. Eric Friedlander"
+footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/)"
+logo: "../images/logo.png"
+format:
+  revealjs:
+    theme: slides.scss
+    multiplex: false
+    transition: fade
+    slide-number: false
+    incremental: false
+    chalkboard: true
+    scrollable: true
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+execute:
+  freeze: auto
+  echo: true
+  cache: false
+knitr:
+  opts_chunk:
+    R.options:
+    width: 200
+bibliography: references.bib
+---
+
+```{r setup}
+#| include: false
+
+library(countdown)
+library(mosaic)
+
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.618,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+
+# load packages
+library(tidyverse)   # for data wrangling and visualization
+library(ggformula)   # for plotting using formulas
+library(broom)       # for formatting model output
+library(knitr)       # for pretty tables
+library(kableExtra)  # also for pretty tables
+library(coursekata)  # for resample(), do(), tally()
+library(plotly)      # for the 3D pictures (loaded last: it masks coursekata's do())
+
+# Coffee truck data: the same pre-generated experiment as AE 17 / AE 18 / HW 08.
+# 180 shifts, 15 per Location x TimeOfDay cell, Price fixed at $3.
+coffee <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vREJa-pGZtlZ6daqYK2R1-jHQv5k48uEQ5Lsu4ci_Nyu8IUqGs0zPui8cYVOy9nXJNbd4bm-gLQO0AB/pub?output=csv") |>
+  mutate(TimeOfDay = factor(TimeOfDay, levels = c("Morning", "Lunch", "Afternoon")))
+
+# The HW 07 / HW 08 comparison: Business vs. City Hall at Lunch
+lunch <- coffee |>
+  filter(TimeOfDay == "Lunch", Location %in% c("Business", "CityHall"))
+
+fram <- read_csv(here::here("data/framingham.csv")) |>
+  drop_na(sysBP) |>
+  mutate(
+    sex = factor(if_else(male == 1, "Male", "Female"), levels = c("Female", "Male")),
+    diabetes_status = factor(if_else(diabetes == 1, "Diabetic", "Not diabetic"),
+                             levels = c("Not diabetic", "Diabetic"))
+  )
+
+# surface_z(): predictions on a grid, one row per y value and one column per x value.
+surface_z <- function(fit, xs, ys, xname, yname) {
+  grid <- expand.grid(xs, ys)
+  names(grid) <- c(xname, yname)
+  matrix(predict(fit, grid), nrow = length(ys), byrow = TRUE)
+}
+
+# surface_plot(): 3D scatterplot of the data with a model surface on top
+surface_plot <- function(data, x, y, z, zmat, xs, ys, labels, point_color = "red") {
+plot_ly(data, x = data[[x]], y = data[[y]], z = data[[z]],
+        color = I(point_color), opacity = 1,
+        type = "scatter3d", mode = "markers", size = 1) |>
+  add_surface(x = xs, y = ys, z = zmat, opacity = 0.8,
+              inherit = FALSE, showscale = FALSE) |>
+  layout(scene = list(xaxis = list(title = labels[1]),
+                      yaxis = list(title = labels[2]),
+                      zaxis = list(title = labels[3])),
+          autosize = TRUE,
+          margin = list(l = 0, r = 0, t = 0, b = 0)) |>
+  config(displayModeBar = FALSE)
+}
+# set default theme and larger font size for ggplot2
+ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
+```
+
+# Interaction: Two quantitative variables
+
+## Age and BMI {.smaller}
+
+Finally, two quantitative predictors. Let's predict total cholesterol (`totChol`, mg/dL) from:
+
+- $X_1$ = `age` (years), $X_2$ = `BMI`.
+
+We'll compare two models:
+
+::::{.columns}
+:::{.column}
+#### Additive Model (no interaction)
+
+$$
+\widehat{\text{totChol}} = \hat\beta_0 + \hat\beta_1 \,\text{age} + \hat\beta_2 \,\text{BMI}
+$$
+
+```{r}
+lm(totChol ~ age + BMI, data = fram) |> tidy() |> kable()
+```
+:::
+:::{.column}
+#### Interaction Model
+
+$$
+\widehat{\text{totChol}} = \hat\beta_0 + \hat\beta_1 \,\text{age} + \hat\beta_2 \,\text{BMI} + \hat\beta_3 \,(\text{age} \times \text{BMI})
+$$
+
+```{r}
+lm(totChol ~ age * BMI, data = fram) |> tidy() |> kable()
+```
+:::
+::::
+
+::: question
+Break into four groups. Each group write the equations for a line on the board (one from each model):
+
+- Group 1: Fix BMI = 20
+- Group 2: Fix BMI = 30
+- Group 3: Fix age = 35
+- Group 4: Fix age = 70
+:::
+
+```{r}
+#| echo: false
+quant_add <- lm(totChol ~ age + BMI, data = fram)
+quant_int <- lm(totChol ~ age * BMI, data = fram)
+
+# the 3D pictures show 600 randomly chosen participants (plotting all 4,000+ is slow)
+set.seed(2026)
+fram_pts <- fram |>
+  drop_na(totChol, BMI) |>
+  filter(totChol < 400, BMI < 45) |>
+  slice_sample(n = 600)
+
+quant_xs <- seq(min(fram$age), max(fram$age), length.out = 30)
+quant_ys <- seq(17, 40, length.out = 30)
+quant_labels <- c("Age (years)", "BMI", "Total cholesterol")
+```
+
+## Additive: a flat plane {.smaller}
+
+```{r}
+#| echo: false
+#| dpi: 96
+surface_plot(fram_pts, "age", "BMI", "totChol",
+             surface_z(quant_add, quant_xs, quant_ys, "age", "BMI"),
+             quant_xs, quant_ys, quant_labels)
+```
+
+The age slope is $\hat\beta_1 =$ `r round(coef(quant_add)["age"], 2)` mg/dL per year for **every** BMI.
+
+## Interaction: a twisted surface {.smaller}
+
+```{r}
+#| echo: false
+#| dpi: 96
+surface_plot(fram_pts, "age", "BMI", "totChol",
+             surface_z(quant_int, quant_xs, quant_ys, "age", "BMI"),
+             quant_xs, quant_ys, quant_labels)
+```
+
+
+## The slope is now a function {.smaller}
+
+```{r}
+quant_int |> tidy() |> kable(digits = 3)
+```
+
+$$
+\text{slope of age} = \hat\beta_1 + \hat\beta_3 \times \text{BMI}
+$$
+
+```{r}
+#| echo: false
+b_q <- coef(quant_int)
+tibble(BMI = c(21, 25, 31)) |>
+  mutate(`Slope of age` = b_q["age"] + b_q["age:BMI"] * BMI) |>
+  kable(digits = 2)
+```
+
+. . .
+
+For a fixed BMI, the slope of age is a number. As BMI changes, the slope changes **linearly**: that is what a product term does.
+
+::: question
+Interpret $\hat\beta_3$: how does the age slope change for each one-unit increase in BMI?
+:::
+
+
+
+```{r}
+#| echo: false
+bc <- coffee |> filter(Location %in% c("Business", "CityHall"))
+cell_means <- bc |>
+  group_by(Location, TimeOfDay) |>
+  summarize(mean_sales = mean(Sales), .groups = "drop")
+```
+
+# Today's activity
+
+## AE 19: your pilot data {.smaller}
+
+::: appex
+📋 [AE 19 - Your Pilot Data: Models and t-tests](https://ericfriedlander.github.io/math2025-fa26/ae/ae-19-pilot-t-tests.html)
+:::
+
+Today you work with the data **you collected** for Project 1. The first step is to get it into R.
+
+## Publishing a Google Sheet as a CSV {.smaller}
+
+1. Make sure the sheet is **tidy**: a header row, one row per islander, no merged cells or notes.
+2. **File > Share > Publish to web**.
+3. On the **Link** tab, pick the **data tab** (not "Entire document") and **Comma-separated values (.csv)**.
+4. Click **Publish**, then copy the link. It ends in `output=csv`.
+5. Leave "Automatically republish when changes are made" checked.
+
+. . .
+
+```r
+pilot <- read_csv("<your link here>")
+```
+
+::: question
+How can you check the link works before you open R? (Hint: paste it into a browser tab.)
+:::
+
+## Activity: Parts 0-3 {.smaller}
+
+- **Part 0:** publish your sheet and read it into R.
+- **Part 1:** choose your **primary** explanatory variable and a **second** explanatory variable. Which of the three cases are you in?
+- **Part 2:** fit `simple_fit`, `add_fit` (additive), and `int_fit` (interaction).
+- **Part 3:** describe what each model looks like **geometrically**, then check with a picture.
+
+```{r}
+#| echo: false
+countdown(minutes = 25)
+```
+
+## Back from the activity {.smaller}
+
+::: question
+- Which case were you in? What did your additive model look like? What did your interaction model look like?
+- What does the interaction model allow that the additive model does not?
+:::
+
+# P-values with several predictors
+
+## Where do p-values come from? {.smaller}
+
+Back in Lectures 10-11 we got p-values by **shuffling**:
+
+```{r shuffle-slr}
+set.seed(2026)
+obs_slr <- coef(lm(Sales ~ Temperature, data = coffee))[2]
+shuf_slr <- replicate(1000, coef(lm(shuffle(Sales) ~ Temperature, data = coffee))[2])
+```
+
+```{r}
+#| echo: false
+#| out.width: "65%"
+gf_histogram(~ shuf_slr, bins = 30, fill = "grey80", color = "white") |>
+  gf_vline(xintercept = obs_slr, color = "#533860", linewidth = 1.2) |>
+  gf_labs(x = "Temperature slope from a shuffled data set", y = "Number of shuffles")
+```
+
+## Hypothesis Testing For A Single $\beta_i$
+
+In a model with multiple predictors, the hypothesis for a single coefficient are:
+
+$H_0:$ $\beta_j = 0$ **given the other predictors are in the model**
+
+$H_A:$ $\beta_j \neq 0$ **give the other predictors are in the model**
+. . .
+
+So how could we simulate a work were $\beta_j = 0$
+
+::: question
+Which of the following lines of code do you think we should use to test the null hypothesis that `Temperature` has no effect if `Location` is in the model:
+
+```{r}
+#| eval: false
+
+lm(shuffle(Sales) ~ Temperature + Location, data = coffee) # Option 1
+lm(Sales ~ shuffle(Temperature) + Location, data = coffee) # Option 2
+```
+:::
+
+## Shuffling in multiple regression {.smaller}
+
+With several predictors, shuffling `Sales` breaks **every** relationship at once. But the null for one row is narrower: $H_0: \beta_j = 0$ **given the other predictors**.
+
+. . .
+
+So we shuffle only what the other predictors **cannot explain**:
+
+1. Fit the model **without** the predictor being tested.
+2. Shuffle the **residuals** from that fit: the part of `Sales` the other predictors do not explain.
+3. Add them back to the fitted values to make a new response, then refit the **full** model and record $\hat\beta_j$.
+
+```{r shuffle-mlr}
+set.seed(2026)
+mlr_fit <- lm(Sales ~ Temperature + Location, data = coffee)
+mlr_fit |> tidy() |> kable()
+null_dist_temp <- mosaic::do(1000) * lm(Sales ~ shuffle(Temperature) + Location, data = coffee)
+null_dist_temp |> gf_histogram(~Temperature, color = ~(abs(Temperature)>0.725)) |> gf_vline(xintercept = ~-0.725, color = "red")
+```
+
+The relationships among the **other** predictors and `Sales` stay intact. Only the link between `Temperature` and `Sales` is broken.
+
+## Back to the T-Distribution {.smaller}
+
+- As in SLR, we can divide $\hat\beta_j$ by its **standard error**, the spread of its sampling distribution.
+- The T-statistic follows a T-distribution with $n-p-1$ degrees of freedom
+- For the slope of $X_j$ in a multiple regression:
+
+$$
+SE_{\hat\beta_j} = \frac{\hat\sigma_\epsilon}{\sqrt{n - 1\; s_{X_j}^2\; (1 - R_j^2)}}
+$$
+
+- **Noise** ($\hat\sigma_\epsilon$): adding useful predictors shrinks it, which **narrows** the distribution.
+- **Sample size** ($n$) and **spread of $X_j$** ($s_{X_j}$): more data, or a wider range of $X_j$, **narrows** it.
+- **Overlap with other predictors** ($R_j^2$, the $R^2$ from predicting $X_j$ from the other predictors): the more $X_j$ is explained by the others, the **wider** it gets. We return to this when we cover multicollinearity.
+
+## What does each p-value test? {.smaller}
+
+```{r}
+mlr_fit <- lm(Sales ~ Temperature + Location + TimeOfDay, data = coffee)
+mlr_fit |> tidy() |> kable(digits = 3)
+```
+
+Every row is a $t$-test of $H_0: \beta_j = 0$
+
+::: question
+- Write the null and alternative hypotheses for the `Temperature` row in words, and for the `LocationZoo` row.
+- Interpret the t-statistic in context.
+- Interpret the p-value in context.
+:::
+
+## The p-value depends on the model {.smaller}
+
+:::: columns
+::: column
+```{r}
+temp_fit <- lm(Sales ~ Temperature, data = coffee)
+temp_fit |> tidy() |> kable(digits=4)
+```
+:::
+::: column
+```{r}
+mlr_fit <- lm (Sales ~ Temperature + Location + TimeOfDay, data = coffee)
+mlr_fit |> tidy() |> kable(digits=4)
+```
+:::
+::::
+
+::: question
+The estimate, the standard error, and the p-value all changed. Why? Are the two p-values answering the same question?
+:::
+
+. . .
+
+::: question
+The p-value went up in the larger model. Which other variable do you think confounds `Temperature`?
+:::
+
+. . .
+
+- The estimate changes because `Temperature` is related to `Location` and `TimeOfDay` (**confounding**).
+- The standard error changes because the residual noise $\hat\sigma_\epsilon$ is smaller once the other variables soak up some variation.
+- So the p-value answers a **different question** in each model.
+
+## Categorical predictors: tests against a reference level {.smaller}
+
+```{r}
+lm(Sales ~ Location, data = coffee) |> tidy() |> kable(digits = 3)
+```
+
+Each `Location` p-value compares that location with the **reference level** (Business), not with every other location.
+
+```{r}
+coffee |>
+  mutate(Location = relevel(factor(Location), ref = "Zoo")) |>
+  lm(Sales ~ Location, data = _) |>
+  tidy() |> kable(digits = 3)
+```
+
+::: question
+What changed when we switched the reference level to Zoo? What stayed the same?
+:::
+
+## Activity: Part 4 {.smaller}
+
+Back to **your pilot data** in AE 19:
+
+- State what each p-value in `add_fit` tests.
+- Compare the p-value for your primary variable in `simple_fit` and `add_fit`. Why did it change?
+- If a variable is categorical, which level is the reference? What does each p-value compare?
+
+```{r}
+#| echo: false
+countdown(minutes = 15)
+```
+
+## Recap {.smaller}
+
+- A p-value comes from a **null distribution**: the sampling distribution of $\hat\beta_j$ if $H_0$ were true. Shuffling builds it, and the $t$ distribution approximates it.
+- Each $t$-test in MLR tests $H_0: \beta_j = 0$ **given the other predictors in the model**, so the p-value depends on the model.
+- Categorical coefficients are tests against the **reference level**.
+
+## Coming next {.smaller}
+
+A $t$-test checks **one** coefficient at a time. But `Location` has three dummy variables, and an interaction has several terms.
+
+::: question
+How do we test whether a whole **batch** of coefficients is zero?
+:::
+
+Next time: **nested models** and the **$F$-test**.

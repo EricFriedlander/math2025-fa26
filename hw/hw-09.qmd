@@ -1,0 +1,205 @@
+---
+title: "HW 09: Reading the p-values in a Multiple Regression"
+author: "Insert Name Here"
+subtitle: "A short assignment on t-tests in multiple regression"
+editor: visual
+format:
+  html:
+    embed-resources: true
+    include-in-header:
+      text: |
+        <style>
+        /* Exercise / answer boxes. Canonical source: style/exercise-boxes.css
+           in the course repo, copy from there if this ever drifts. */
+        body { counter-reset: exercise; }
+        .exercise, .answer {
+          border-left: 4px solid #533860;
+          padding: .6em 1em;
+          margin: 1em 0;
+          border-radius: 4px;
+        }
+        .exercise { background: #f2eef5; }
+        .exercise::before {
+          counter-increment: exercise;
+          content: "Exercise " counter(exercise);
+          display: block;
+          font-weight: 700;
+          color: #533860;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .answer {
+          background: transparent;
+          border-left-color: #a49363;
+          border-left-style: dashed;
+          min-height: 3.5em;
+        }
+        .answer::before {
+          content: "Your answer";
+          display: block;
+          font-weight: 700;
+          color: #8a7a4f;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .quarto-dark .exercise {
+          background: rgba(255, 255, 255, .08);
+          border-left-color: #FFCB70;
+        }
+        .quarto-dark .exercise::before {
+          color: #FFCB70;
+        }
+        .quarto-dark .answer::before {
+          color: #ffd283;
+        }
+        </style>
+---
+
+```{r}
+#| include: FALSE
+knitr::opts_chunk$set(warning = FALSE,
+                      message = FALSE)
+```
+
+# Introduction
+
+This is a **short** homework, so that you have time to finish your Project 2 power analysis, which is due the same day. You practice interpreting the coefficients of additive and interaction models (Lesson 18) and reading the p-values in a multiple regression (Lesson 19), using the Coffee Truck data you generated in HW 08.
+
+::: callout-note
+This is an **individual** assignment, but you're welcome to talk through ideas with classmates. Your code and writing should be your own.
+:::
+
+## Learning goals
+
+By the end of this homework, you will...
+
+- Interpret every coefficient in an additive model and in a model with an interaction term
+- Use additive and interaction models to make predictions
+- State the hypotheses that a $t$-test in a multiple regression tests, including the "given the other predictors" clause
+- Explain why a coefficient, its standard error, and its p-value change when you add predictors
+- Interpret the coefficient and p-value of a categorical predictor in context
+- Explain why a large p-value in a small sample is not evidence of no effect
+
+# Getting Started
+
+### Log in to RStudio
+
+- Go to [RStudio](https://rstudio.collegeofidaho.edu/) and login with your College of Idaho Email and Password.
+
+- Use the `hw` folder you made earlier in the semester. Create a subfolder called `hw09` to store this homework.
+
+- Log into [Canvas](https://cofi.instructure.com/courses/18743), navigate to HW-09, and download the `hw-09.qmd` file. Upload it into the folder you just made.
+
+## R and RStudio
+
+See the [R resources](https://ericfriedlander.github.io/math2025-fa26/computing-r-resources.html) page for a guide to the RStudio IDE and Quarto file components.
+
+# Packages
+
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(ggformula)
+library(broom)
+library(knitr)
+```
+
+# Exercises
+
+::: callout-tip
+Write all code and narrative in your Quarto file, in complete sentences. Periodically **render** your document. Break up long lines of code, for example by starting a new line after every pipe (`|>`).
+:::
+
+## Part 1: Your Coffee Truck data from HW 08
+
+Use the data you generated in HW 08: Lunch shifts at the Business District and City Hall, with `Sales` (cups sold), `Location`, and `Temperature` (°F). Copy your `read_csv()` call from HW 08 into the chunk below.
+
+::: callout-note
+If you no longer have your data, ask me for the class data set. Say so in your write-up.
+:::
+
+::: exercise
+Load your `coffee-hw08.csv` data and use `glimpse()` to confirm it has the columns above. Then fit two models and display each with `tidy()`:
+
+- `loc_fit`: `Sales ~ Location`
+- `both_fit`: `Sales ~ Location + Temperature`
+
+a.  Write the null and alternative hypotheses tested by the `LocationCityHall` row of `both_fit`, in words and in context. Be sure to include the "holding `Temperature` constant" idea.
+b.  Make a small table with the `LocationCityHall` estimate, standard error, and p-value from both models.
+c.  Write the fitted equation for `both_fit` and interpret **every** coefficient in context (including the intercept). Use the phrase "holding ... constant" for the slopes.
+d.  Did the `LocationCityHall` estimate change much between the two models? Did the standard error? Explain why, using the fact that Jo randomly assigned `Location` but did not control `Temperature`. Are the two p-values answering the same question?
+:::
+
+::: answer
+```{r load-coffee}
+
+```
+:::
+
+::: exercise
+The p-value in the `LocationCityHall` row tests whether the true difference is *zero*.
+
+a.  Interpret the estimate and p-value in `both_fit` in context. Which location is City Hall being compared with?
+b.  In HW 08, the question was whether the difference exceeds the break-even of 5 cups. Does this p-value answer that question? Why or why not?
+:::
+
+::: answer
+```{r break-even}
+
+```
+:::
+
+::: exercise
+So far `both_fit` is **additive**: it assumes the effect of `Temperature` is the same at both locations. Fit a model with an **interaction**, `int_fit`: `Sales ~ Location * Temperature`, and display it with `tidy()`.
+
+a.  Write the fitted equation and then the two separate lines, one for the Business District and one for City Hall.
+b.  Interpret **every** coefficient of `int_fit` in context: the intercept, `LocationCityHall`, `Temperature`, and `LocationCityHall:Temperature`. Be careful about which location is the reference level, and about what the main-effect rows mean once there is an interaction.
+c.  Describe the geometry of `both_fit` and `int_fit`. Make one plot with the data and the fitted lines from `int_fit`.
+d.  Use `predict()` to predict `Sales` at each location on a 70°F day with `both_fit` and with `int_fit`. Do the two models disagree? Where on the temperature axis would they disagree most?
+e.  Is there convincing evidence of an interaction? Which p-value tells you? Which model would you use to answer Jo's question, and why?
+f.  In plain english, describe what it means for there to be an interaction between `Location` and `Temperature`.
+:::
+
+::: answer
+```{r interaction}
+
+```
+:::
+
+## Part 2: Many tests
+
+Consider the Islands for this next question.
+
+::: exercise
+A classmate collects 12 variables on each islander, regresses the response on all 12 at once, and finds that exactly one predictor has $p = 0.03$. They conclude, "This variable is a significant predictor, and I will build my project around it."
+
+Explain what is wrong with this reasoning. Use what you learned about false positives when we tested many predictors in Lesson 20, and say what the classmate should have done before collecting the data.
+:::
+
+::: answer
+:::
+
+::: callout-tip
+You're done and ready to submit your work! Render your document and upload the .qmd and .html files to Canvas.
+:::
+
+# Grading (13 pts + 2 pts for writing and workflow)
+
+<br>
+
+| Component             | Points |
+|:----------------------|:-------|
+| Ex 1                  | 4      |
+| Ex 2                  | 3      |
+| Ex 3                  | 4      |
+| Ex 4                  | 2      |
+| Grammar & Writing     | 1[^1]  |
+| Workflow & formatting | 1[^2]  |
+
+[^1]: The "Grammar & Writing" grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.
+
+[^2]: The "Workflow & formatting" grade is to assess the reproducible workflow and document format. This includes having a neatly organized document with readable code and your name and the date in the YAML.

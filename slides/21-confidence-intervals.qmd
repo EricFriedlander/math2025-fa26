@@ -60,11 +60,11 @@ lunch <- coffee |>
 ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
 ```
 
-# Review: AE 18
+# Review: p-values and F-tests
 
 ## Where we are {.smaller}
 
-Last time we found that the effect of `Location` on `Sales` depends on `TimeOfDay`.
+Last time we used the $F$-test to test whole batches of coefficients, and we found that the effect of `Location` on `Sales` depends on `TimeOfDay`.
 
 ```{r}
 #| echo: false
@@ -81,7 +81,7 @@ gf_line(mean_sales ~ TimeOfDay, data = cell_means, color = ~ Location,
 ```
 
 ::: question
-At Lunch, City Hall sells about 18 more cups than the Business District. Jo's gas costs \$15 and each cup sells for \$3. Should Jo drive?
+A p-value tells us whether a coefficient could be 0, but not **how big** it is. At Lunch, City Hall sells about 18 more cups than the Business District. Jo's gas costs \$15 and each cup sells for \$3. Should Jo drive?
 :::
 
 ## The problem with one number {.smaller}
@@ -102,6 +102,41 @@ If Jo ran the experiment again, would they get exactly `r round(coef(lunch_fit)[
 . . .
 
 A **confidence interval** gives a range of plausible values for the true difference, based on how much the estimate varies from sample to sample.
+
+## The sampling distribution when there is an effect {.smaller}
+
+In Lecture 19, shuffling gave us the sampling distribution of $\hat\beta_1$ **if there were no effect**: centered at 0.
+
+. . .
+
+If the true difference is **not** 0, the sampling distribution is centered at the **true** difference instead. The spread is still about $SE(\hat\beta_1)$.
+
+Let's pretend our fitted Lunch model is the truth, and rerun the experiment 1000 times:
+
+```{r sampling-dist}
+set.seed(2026)
+sim_slopes <- replicate(1000, {
+  y <- fitted(lunch_fit) + rnorm(nrow(lunch), sd = sigma(lunch_fit))
+  coef(lm(y ~ Location, data = lunch))[2]
+})
+shuf_slopes <- replicate(1000, coef(lm(shuffle(Sales) ~ Location, data = lunch))[2])
+```
+
+```{r}
+#| echo: false
+#| out.width: "70%"
+bind_rows(
+  tibble(slope = shuf_slopes, source = "Shuffled (H0 true)"),
+  tibble(slope = sim_slopes, source = "Repeated experiments (effect is real)")
+) |>
+  gf_histogram(~ slope, fill = ~ source, bins = 40, alpha = 0.6, position = "identity") |>
+  gf_vline(xintercept = coef(lunch_fit)[2], linetype = "dashed") |>
+  gf_labs(x = "Estimated City Hall - Business difference (cups)", y = "Count", fill = "")
+```
+
+::: question
+Where is each distribution centered? Which one tells us how much our estimate could vary from sample to sample **when the effect is real**? That is what a confidence interval needs.
+:::
 
 # The bootstrap
 
@@ -386,16 +421,17 @@ int_fit |> tidy(conf.int = TRUE) |> select(term, estimate, conf.low, conf.high) 
 Is there convincing evidence that the City Hall effect is different at Lunch than in the Afternoon? How can you tell from the interval?
 :::
 
-## Activity: AE 19 {.smaller}
+## Activity: AE 21 {.smaller}
 
 ::: appex
-📋 [AE 19 - Confidence Intervals with the Coffee Truck](https://ericfriedlander.github.io/math2025-fa26/ae/ae-19-confidence-intervals-coffee-truck.html)
+📋 [AE 21 - Your Pilot Data: Confidence Intervals](https://ericfriedlander.github.io/math2025-fa26/ae/ae-21-pilot-confidence-intervals.html)
 :::
 
-- Use your pair of locations from AE 18, at Lunch.
-- Build a bootstrap interval and a formula-based interval for the difference.
-- Compare the interval to the break-even and decide whether Jo should drive.
-- See how adding `Temperature` changes the interval.
+Back to **your pilot data**. Paste in your code from AE 19 first, then:
+
+- **Part 1:** get the formula-based 95% interval for each coefficient and interpret your primary variable's interval.
+- **Part 2:** build a bootstrap interval and compare it with the formula interval.
+- **Part 3:** is your pilot precise enough? What does the width tell you about your full-study sample size?
 
 ```{r}
 #| echo: false
@@ -408,4 +444,4 @@ countdown(minutes = 30)
 - Two ways to make one: **bootstrap** (resample the data) or **formula** ($\hat\beta \pm t^* \cdot SE$).
 - "95% confident" is a statement about the **procedure**: about 95% of intervals made this way contain the truth.
 - An interval shows both **whether** an effect is detectable (does it contain 0?) and **how big** it could be (where does it sit relative to the break-even?).
-- Intervals get narrower with more data and less noise.
+- Intervals get narrower with more data and less noise, so the width of your pilot interval helps you plan the sample size for your full study.

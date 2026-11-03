@@ -1,0 +1,191 @@
+---
+title: "AE 20: Your Pilot Data, Nested Models and F-tests"
+subtitle: "Testing batches of coefficients with anova()"
+editor: visual
+format:
+  html:
+    embed-resources: true
+    include-in-header:
+      text: |
+        <style>
+        /* Exercise / answer boxes. Canonical source: style/exercise-boxes.css
+           in the course repo — copy from there if this ever drifts. */
+        body { counter-reset: exercise; }
+        .exercise, .answer {
+          border-left: 4px solid #533860;
+          padding: .6em 1em;
+          margin: 1em 0;
+          border-radius: 4px;
+        }
+        .exercise { background: #f2eef5; }
+        .exercise::before {
+          counter-increment: exercise;
+          content: "Exercise " counter(exercise);
+          display: block;
+          font-weight: 700;
+          color: #533860;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .answer {
+          background: transparent;
+          border-left-color: #a49363;
+          border-left-style: dashed;
+          min-height: 3.5em;
+        }
+        .answer::before {
+          content: "Your answer";
+          display: block;
+          font-weight: 700;
+          color: #8a7a4f;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .quarto-dark .exercise {
+          background: rgba(255, 255, 255, .08);
+          border-left-color: #FFCB70;
+        }
+        .quarto-dark .exercise::before {
+          color: #FFCB70;
+        }
+        .quarto-dark .answer::before {
+          color: #ffd283;
+        }
+        </style>
+---
+
+::: callout-important
+- Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-20".
+- Go to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743) to get started.
+- Upload the `ae-20-pilot-f-tests.qmd` file into the folder you just created.
+:::
+
+## Intro
+
+Last time you fit three models to your pilot data. A $t$-test checks **one** coefficient, but today you test whole **batches** of coefficients by comparing nested models with an $F$-test.
+
+## Part 0: Bring your work forward
+
+::: exercise
+Open your `ae-19-pilot-t-tests.qmd`. **Copy and paste** the code you need into the chunks below, so you can keep working with your pilot data. You need:
+
+- the `read_csv()` call (with your published link) and any `factor()` cleaning,
+- `simple_fit` (`y ~ x1`), `add_fit` (`y ~ x1 + x2`), and `int_fit` (`y ~ x1 * x2`).
+
+Run the chunks and confirm that the models fit with no errors.
+:::
+
+::: answer
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(ggformula)
+library(broom)
+library(knitr)
+library(coursekata)
+```
+
+```{r load-data}
+#| message: false
+# Paste your read_csv() link and factor() cleaning code from AE 19 here
+
+```
+
+```{r refit-models}
+# Paste your simple_fit, add_fit, and int_fit code from AE 19 here
+
+```
+:::
+
+## Part 1: The interaction p-values
+
+::: exercise
+Look at `tidy(int_fit)`. What does the p-value of the **interaction** term test, in words and in context? What does the p-value of the `x1` row test now? (Hint: it is the effect of `x1` at a *particular* value of `x2`. Which one?)
+:::
+
+::: answer
+:::
+
+## Part 2: Nested models
+
+::: exercise
+Which of your three models are **nested** in which? Complete the sentences: `simple_fit` is nested in ________, and `add_fit` is nested in ________. What terms does the bigger model add each time? How many extra coefficients is that?
+:::
+
+::: answer
+:::
+
+::: exercise
+Use `anova()` to test whether your **second variable** matters at all, after accounting for your primary variable: compare `simple_fit` (reduced) with `add_fit` (full). State the null hypothesis, the $F$ statistic, the p-value, and your conclusion in context.
+:::
+
+::: answer
+```{r anova-second-variable}
+#| eval: false
+anova(simple_fit, add_fit)
+```
+:::
+
+::: exercise
+If your second variable has only **one** coefficient (it is numeric, or categorical with two levels), compare the p-value from `anova()` with the p-value on the `x2` row of `tidy(add_fit)`. They should match. Also check that $F = t^2$. If your second variable has **more than two levels**, why can't you get a single p-value from `tidy()`?
+:::
+
+::: answer
+```{r compare-t-f}
+
+```
+:::
+
+## Part 3: Do you need the interaction?
+
+::: exercise
+Use `anova(add_fit, int_fit)` to test whether the interaction improves the model. State the null hypothesis and interpret the p-value in context. Would you keep the interaction in your analysis?
+:::
+
+::: answer
+```{r anova-interaction}
+#| eval: false
+anova(add_fit, int_fit)
+```
+:::
+
+::: exercise
+**Check the $F$ statistic by hand.** Compute the sum of squared errors of each model with `sum(resid(fit)^2)`, then compute $F$ from the formula in lecture. Does it match `anova()`?
+:::
+
+::: answer
+```{r f-by-hand}
+
+```
+:::
+
+## Part 4: Reflection
+
+::: exercise
+With only about 20 islanders, suppose a p-value is large. Does that mean there is no effect? What would you want to know before concluding that? (Hint: think about power from Lessons 14-16.)
+:::
+
+::: answer
+:::
+
+::: exercise
+How many p-values did you look at today? If you tested many variables hoping one would be significant, what would happen to your false-positive rate? What is your **primary hypothesis** for the full study, and why should you state it before collecting the full data?
+:::
+
+::: answer
+:::
+
+::: callout-note
+Keep your code. In AE 21 you will paste it in once more to build confidence intervals.
+:::
+
+::: callout-important
+To submit the AE:
+
+- Render the document to produce the HTML with all of your work from today's class.
+- Upload your .qmd and .html files to the Canvas assignment.
+:::

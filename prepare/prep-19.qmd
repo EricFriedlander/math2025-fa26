@@ -1,5 +1,5 @@
 ---
-title: "Preparation for Confidence Intervals"
+title: "Preparation for Inference in Multiple Regression"
 ---
 
 ## Assigned reading

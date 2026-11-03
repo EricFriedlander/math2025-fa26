@@ -1,0 +1,216 @@
+---
+title: "AE 19: Your Pilot Data, Models and t-tests"
+subtitle: "Two explanatory variables, geometry, and individual p-values"
+editor: visual
+format:
+  html:
+    embed-resources: true
+    include-in-header:
+      text: |
+        <style>
+        /* Exercise / answer boxes. Canonical source: style/exercise-boxes.css
+           in the course repo — copy from there if this ever drifts. */
+        body { counter-reset: exercise; }
+        .exercise, .answer {
+          border-left: 4px solid #533860;
+          padding: .6em 1em;
+          margin: 1em 0;
+          border-radius: 4px;
+        }
+        .exercise { background: #f2eef5; }
+        .exercise::before {
+          counter-increment: exercise;
+          content: "Exercise " counter(exercise);
+          display: block;
+          font-weight: 700;
+          color: #533860;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .answer {
+          background: transparent;
+          border-left-color: #a49363;
+          border-left-style: dashed;
+          min-height: 3.5em;
+        }
+        .answer::before {
+          content: "Your answer";
+          display: block;
+          font-weight: 700;
+          color: #8a7a4f;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .quarto-dark .exercise {
+          background: rgba(255, 255, 255, .08);
+          border-left-color: #FFCB70;
+        }
+        .quarto-dark .exercise::before {
+          color: #FFCB70;
+        }
+        .quarto-dark .answer::before {
+          color: #ffd283;
+        }
+        </style>
+---
+
+::: callout-important
+- Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-19".
+- Go to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743) to get started.
+- Upload the `ae-19-pilot-t-tests.qmd` file into the folder you just created.
+:::
+
+## Intro
+
+Over the next three lessons you will work with **your own data**: the pilot study you collected for Project 1.
+
+- **AE 19 (today):** publish your Google Sheet so R can read it, choose two explanatory variables, fit an additive model and an interaction model, describe what each looks like geometrically, and interpret the individual $t$-test p-values.
+- **AE 20:** test whole batches of coefficients with nested models and $F$-tests.
+- **AE 21:** turn your estimates into confidence intervals and ask whether your pilot is precise enough.
+
+Keep your code from each AE: you will **copy and paste** it into the next one.
+
+Your pilot has only about 20 islanders, so expect wide uncertainty. That is the point: it tells you what your full study needs to look like.
+
+## Part 0: Publish your Google Sheet as a CSV
+
+To read a Google Sheet straight into R, you first **publish** it as a CSV. Do this in your browser:
+
+1.  Make sure your sheet is **tidy**: one header row of variable names, one row per islander, no merged cells, notes, or blank rows.
+2.  In Google Sheets, click **File \> Share \> Publish to web**.
+3.  On the **Link** tab, change "Entire document" to the **tab that holds your data**.
+4.  Change "Web page" to **Comma-separated values (.csv)**.
+5.  Click **Publish** and confirm.
+6.  Copy the link. It should end in `output=csv`.
+7.  Keep "Automatically republish when changes are made" checked, so new islanders appear in R without republishing.
+8.  **Test it:** paste the link into a new browser tab. A CSV file should download.
+
+::: callout-note
+Anyone with the link can read a published sheet. That is fine here because the islanders are fictional. Never publish a sheet with real personal information.
+:::
+
+::: exercise
+Paste your link into `read_csv()` and save the result as `pilot`. Use `glimpse()` to check the columns. How many islanders do you have? Which variables are numeric and which are categorical?
+:::
+
+::: answer
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(ggformula)
+library(broom)
+library(knitr)
+library(coursekata)
+```
+
+```{r load-data}
+#| message: false
+
+```
+:::
+
+::: exercise
+Convert each categorical variable you plan to use with `factor()` (inside `mutate()`). Check that a variable that should be numeric is not accidentally read in as text.
+:::
+
+::: answer
+```{r clean-data}
+
+```
+:::
+
+## Part 1: Choose your variables
+
+::: exercise
+Fill in the following for your study:
+
+- **Response** (numeric):
+- **Primary explanatory variable** (from your research question):
+- **Second explanatory variable** (one of your demographic variables):
+
+Why did you pick that second variable? Is it a possible **confounder** (related to both the primary variable and the response), or might it change the **effect** of the primary variable (an interaction)? Which case are you in: categorical + categorical, categorical + quantitative, or quantitative + quantitative?
+:::
+
+::: answer
+:::
+
+::: exercise
+Make a plot of the response against your primary variable, with the second variable shown by color, a facet, or both. (Hints: for a categorical x use `gf_jitter()` or `gf_boxplot()`, for a quantitative x use `gf_point()`. If your second variable is quantitative, you can still color by it.) Describe what you see.
+:::
+
+::: answer
+```{r explore}
+
+```
+:::
+
+## Part 2: Fit three models
+
+::: exercise
+Fit three models and display each with `tidy()`. Replace `y`, `x1`, and `x2` with your variable names.
+
+- `simple_fit`: `y ~ x1`
+- `add_fit`: `y ~ x1 + x2` (additive)
+- `int_fit`: `y ~ x1 * x2` (with an interaction)
+
+How many coefficients does each model have? Write the fitted equation for `add_fit` and `int_fit`.
+:::
+
+::: answer
+```{r fit-models}
+#| eval: false
+simple_fit <- lm(y ~ x1, data = pilot)
+add_fit <- lm(y ~ x1 + x2, data = pilot)
+int_fit <- lm(y ~ x1 * x2, data = pilot)
+
+tidy(simple_fit)
+tidy(add_fit)
+tidy(int_fit)
+```
+:::
+
+## Part 3: What do the models look like?
+
+::: exercise
+Describe, in words, what the **additive** model looks like geometrically, and what the **interaction** model looks like. Use the picture that matches your case:
+
+- **Two categorical:** parallel profiles vs. non-parallel profiles
+- **One of each:** parallel lines vs. a separate slope for each group
+- **Two quantitative:** a flat, tilted plane vs. a twisted surface
+
+What does your interaction model allow that your additive model does not?
+:::
+
+::: answer
+:::
+
+## Part 4: Interpreting the p-values
+
+::: exercise
+Look at the `p.value` column of `tidy(add_fit)`. Find the row (or rows) corresponding to your primary explanatory variable. State the null hypothesis that the p-value tests, in words and in context. (Remember that every test in a multiple regression is conditional: "holding the other variables in the model constant".)
+:::
+
+::: answer
+:::
+
+::: exercise
+Compare the p-value for your primary variable in `simple_fit` and in `add_fit`. Did it change? Why? What question is each p-value answering?
+:::
+
+::: answer
+:::
+
+::: callout-note
+Keep your `simple_fit`, `add_fit`, and `int_fit` code. In AE 20 you will paste it in again to test whole batches of coefficients.
+:::
+
+::: callout-important
+To submit the AE:
+
+- Render the document to produce the HTML with all of your work from today's class.
+- Upload your .qmd and .html files to the Canvas assignment.
+:::

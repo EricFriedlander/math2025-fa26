@@ -1,0 +1,272 @@
+---
+title: "Nested Models and the F-test"
+subtitle: "Testing a whole batch of coefficients at once"
+author: "Prof. Eric Friedlander"
+footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/)"
+logo: "../images/logo.png"
+format:
+  revealjs:
+    theme: slides.scss
+    multiplex: false
+    transition: fade
+    slide-number: false
+    incremental: false
+    chalkboard: true
+    scrollable: true
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+execute:
+  freeze: auto
+  echo: true
+  cache: false
+knitr:
+  opts_chunk:
+    R.options:
+    width: 200
+bibliography: references.bib
+---
+
+```{r setup}
+#| include: false
+
+library(countdown)
+
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.618,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+
+# load packages
+library(tidyverse)   # for data wrangling and visualization
+library(ggformula)   # for plotting using formulas
+library(broom)       # for formatting model output
+library(knitr)       # for pretty tables
+library(kableExtra)  # also for pretty tables
+library(coursekata)  # for resample(), do(), shuffle()
+
+# Coffee truck data: the same pre-generated experiment as AE 17 / AE 18 / HW 08.
+# 180 shifts, 15 per Location x TimeOfDay cell, Price fixed at $3.
+coffee <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vREJa-pGZtlZ6daqYK2R1-jHQv5k48uEQ5Lsu4ci_Nyu8IUqGs0zPui8cYVOy9nXJNbd4bm-gLQO0AB/pub?output=csv") |>
+  mutate(TimeOfDay = factor(TimeOfDay, levels = c("Morning", "Lunch", "Afternoon")))
+
+# Business vs. City Hall, all three times of day
+bc <- coffee |> filter(Location %in% c("Business", "CityHall"))
+
+# set default theme and larger font size for ggplot2
+ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
+```
+
+# Review: t-tests in MLR
+
+## Where we are {.smaller}
+
+```{r}
+mlr_fit <- lm(Sales ~ Temperature + Location + TimeOfDay, data = coffee)
+mlr_fit |> tidy() |> kable(digits = 3)
+```
+
+Each row is a $t$-test of $H_0: \beta_j = 0$ **given the other predictors**.
+
+::: question
+`Location` has three rows (`LocationCityHall`, `LocationPark`, `LocationZoo`). Each compares one location with the Business District. Is there a single p-value that answers "does `Location` matter at all?"
+:::
+
+# Testing Batches Of Coefficients
+
+## Nested models {.smaller}
+
+A $t$-test checks **one** coefficient. To test several coefficients at once (like all the `Location` dummies), we compare two models.
+
+Model A is **nested** in Model B if B contains every predictor in A, plus more. Setting the extra coefficients in B to 0 gives you A.
+
+| Reduced model (A) | Full model (B) | The extra terms in B |
+|:---|:---|:---|
+| `Sales ~ Temperature + TimeOfDay` | `Sales ~ Temperature + Location + TimeOfDay` | 3 `Location` dummies |
+| `Sales ~ Location + TimeOfDay` | `Sales ~ Location * TimeOfDay` | the interaction terms |
+| `Sales ~ Temperature` | `Sales ~ Location` | none: **not nested** |
+
+. . .
+
+::: question
+Why is `Sales ~ Temperature` not nested in `Sales ~ Location`? Name a model that `Sales ~ Temperature` **is** nested in.
+:::
+
+## The $F$-test {.smaller}
+
+A full model always fits the data at least as well as a reduced one, because it has more freedom. The question is whether it fits **enough better** to be worth the extra terms, or whether the improvement is just what chance would give us.
+
+. . .
+
+We measure fit with the **sum of squared errors**, $SSE = \sum (y_i - \hat y_i)^2$:
+
+$$
+F = \frac{(SSE_{\text{reduced}} - SSE_{\text{full}}) \,/\, (\text{number of extra coefficients})}{SSE_{\text{full}} \,/\, df_{\text{full}}}
+$$
+
+- **Numerator:** the improvement in fit **per extra coefficient**.
+- **Denominator:** the leftover noise per residual degree of freedom, i.e. $\hat\sigma_\epsilon^2$ of the full model.
+- If the extra terms do nothing, $F$ is near 1. A large $F$ means the full model fits much better than we would expect from noise.
+
+. . .
+
+$H_0$: all the extra coefficients are 0 (the reduced model is enough). 
+
+$H_A$: at least one is not 0. 
+
+The p-value comes from an $F$ distribution with (extra coefficients, $df_{\text{full}}$) degrees of freedom.
+
+## Using `anova()` {.smaller}
+
+Give `anova()` the **reduced model first**, then the **full model**.
+
+```{r}
+reduced <- lm(Sales ~ Temperature + TimeOfDay, data = coffee)
+full <- lm(Sales ~ Temperature + Location + TimeOfDay, data = coffee)
+anova(reduced, full)
+```
+
+| Column | Meaning |
+|:---|:---|
+| `Res.Df` | residual degrees of freedom of each model |
+| `RSS` | the sum of squared errors ($SSE$) of each model. R labels it "residual sum of squares" |
+| `Df` | number of extra coefficients in the full model |
+| `Sum of Sq` | $SSE_{\text{reduced}} - SSE_{\text{full}}$ |
+| `F` and `Pr(>F)` | the test statistic and its p-value |
+
+. . .
+
+::: question
+How many extra coefficients does `full` have? Check that `Sum of Sq` equals the difference in the two `RSS` values.
+:::
+
+## Checking the $F$ statistic by hand {.smaller}
+
+```{r}
+sse_r <- sum(resid(reduced)^2)
+sse_f <- sum(resid(full)^2)
+extra <- df.residual(reduced) - df.residual(full)
+
+F_stat <- ((sse_r - sse_f) / extra) / (sse_f / df.residual(full))
+F_stat
+pf(F_stat, extra, df.residual(full), lower.tail = FALSE)
+```
+
+This matches the `F` and `Pr(>F)` from `anova()`.
+
+## One test for a whole variable {.smaller}
+
+Does `Location` matter **at all**, after accounting for `Temperature` and `TimeOfDay`? That is the `anova(reduced, full)` comparison we just ran.
+
+- $H_0$: all `Location` coefficients are 0.
+- A small p-value says at least one location differs, but not which. For that, look at the individual $t$-tests (the reference-level comparisons).
+
+::: question
+What do you conclude about `Location`? What would you conclude if the p-value were 0.6?
+:::
+
+## P-values in the interaction model {.smaller}
+
+```{r}
+int_fit <- lm(Sales ~ Location * TimeOfDay, data = bc)
+int_fit |> tidy() |> kable(digits = 3)
+```
+
+::: question
+- The `LocationCityHall` row is a test of the City Hall effect **at which time of day**?
+- What null hypothesis does the `LocationCityHall:TimeOfDayLunch` row test?
+:::
+
+. . .
+
+- The interaction p-value tests: "**does the effect of one variable depend on the other?**"
+- Main-effect p-values are **conditional**: they are the effect at the reference level of the other variable.
+- Keep both main effects in the model whenever you keep their interaction.
+
+## Do we need the interaction? {.smaller}
+
+```{r}
+add_fit <- lm(Sales ~ Location + TimeOfDay, data = bc)
+anova(add_fit, int_fit)
+```
+
+::: question
+Interpret this p-value in context. What would you tell Jo?
+:::
+
+## Many predictors, many p-values {.smaller}
+
+What if we throw in predictors that have **nothing** to do with the response?
+
+```{r noise}
+set.seed(2026)
+noise_fit <- function() {
+  d <- tibble(y = rnorm(100), !!!set_names(map(1:10, \(i) rnorm(100)), paste0("x", 1:10)))
+  fit <- lm(y ~ ., data = d)
+  sum(tidy(fit)$p.value[-1] < 0.05)
+}
+false_pos <- replicate(1000, noise_fit())
+mean(false_pos >= 1)
+```
+
+. . .
+
+With 10 pure-noise predictors, about **`r round(100 * mean(false_pos >= 1))`%** of models have at least one "significant" predictor.
+
+::: question
+What does this suggest about going on a fishing expedition? How does this connect to naming a **primary hypothesis** in your analysis plan before you collect the full data?
+:::
+
+## "Not significant" is not "no effect" {.smaller}
+
+```{r}
+set.seed(2026)
+small <- bc |> filter(TimeOfDay == "Lunch") |> group_by(Location) |> slice_sample(n = 4) |> ungroup()
+lm(Sales ~ Location, data = small) |> tidy() |> kable(digits = 3)
+```
+
+The full Lunch data showed a difference of about 18 cups. With 4 days per location, the p-value is large.
+
+::: question
+Does a large p-value mean City Hall and the Business District sell the same amount? What went wrong? (Hint: Lessons 14-16.)
+:::
+
+## Activity: AE 20 {.smaller}
+
+::: appex
+📋 [AE 20 - Your Pilot Data: Nested Models and F-tests](https://ericfriedlander.github.io/math2025-fa26/ae/ae-20-pilot-f-tests.html)
+:::
+
+Paste in your code from AE 19 (loading your data and fitting `simple_fit`, `add_fit`, and `int_fit`), then:
+
+- Decide which of your models are **nested**.
+- Use `anova()` to test whether your second variable matters, and whether the interaction matters.
+- Think about small samples and multiple tests.
+
+```{r}
+#| echo: false
+countdown(minutes = 30)
+```
+
+## Recap {.smaller}
+
+- Model A is **nested** in Model B if B has every term in A plus more.
+- The $F$-test compares the **sum of squared errors** of a reduced and a full model: is the improvement more than noise?
+- Use `anova(reduced, full)` to test a whole variable, or an interaction, at once.
+- With an interaction, main-effect p-values are conditional, and the interaction p-value asks whether the effect **depends on** the other variable.
+- Many tests mean many chances for false positives: name your primary hypothesis in advance.
+- A large p-value with a small sample is not evidence of no effect.
+
+## Coming next {.smaller}
+
+A p-value only tells us whether a coefficient could be 0. It does not tell us **how big** the effect is, or how precisely we have estimated it.
+
+::: question
+Jo's data say City Hall sells about 18 more cups at Lunch. How sure are we about that number?
+:::
+
+Next time: **confidence intervals**.
