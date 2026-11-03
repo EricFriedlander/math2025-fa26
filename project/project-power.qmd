@@ -20,9 +20,9 @@ The goal of this assignment is to estimate how many observations are required fo
 
 #### To Turn In
 
-In your RStudio Project folder, in `islands-paper.qmd` (the same document as your pilot), fill in the **Sample size** subsection of Methods with your power analysis.
+**Do not start a new document.** Open the same `islands-paper.qmd` you used for your pilot, in your RStudio Project folder, and add the **Sample size** subsection of Methods with your power analysis. Your power analysis code and write-up live inside that document.
 
-Upload both your `islands-paper.qmd` and the rendered PDF (`islands-paper.pdf`) to Canvas. Every checkpoint requires both files.
+Then render `islands-paper.qmd` to PDF and, in [Canvas](https://cofi.instructure.com/courses/18743/assignments/245383), upload both your `islands-paper.qmd` and the rendered PDF (`islands-paper.pdf`). Every checkpoint requires both files.
  
 :::
 
