@@ -5,8 +5,12 @@
     <lastmod>2026-10-26T14:21:57.618Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/19-confidence-intervals.html</loc>
-    <lastmod>2026-11-02T14:43:51.270Z</lastmod>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/21-confidence-intervals.html</loc>
+    <lastmod>2026-11-03T22:01:37.335Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/19-mlr-inference.html</loc>
+    <lastmod>2026-11-03T22:01:37.334Z</lastmod>
   </url>
   <url>
     <loc>https://ericfriedlander.github.io/math2025-fa26/slides/17-mlr-intro.html</loc>
@@ -93,120 +97,132 @@
     <lastmod>2026-08-24T21:27:12.411Z</lastmod>
   </url>
   <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-08.html</loc>
-    <lastmod>2026-10-28T15:27:19.380Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-06.html</loc>
-    <lastmod>2026-10-13T15:16:31.538Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-05-islands.html</loc>
-    <lastmod>2026-09-29T22:03:30.770Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-03.html</loc>
-    <lastmod>2026-09-23T14:39:32.024Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-01.html</loc>
-    <lastmod>2026-09-02T18:55:13.600Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/computing-access.html</loc>
-    <lastmod>2026-08-24T20:05:35.229Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-18-interactions-coffee-truck.html</loc>
-    <lastmod>2026-11-02T14:43:51.269Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-15-effect-size-power.html</loc>
-    <lastmod>2026-10-26T13:43:55.760Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-12-exam01.html</loc>
-    <lastmod>2026-10-13T15:16:31.537Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-12-exam01-practice-solutions.html</loc>
-    <lastmod>2026-10-13T15:16:31.537Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-10-islands-inference.html</loc>
-    <lastmod>2026-10-05T15:31:46.552Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-06-07-coffee-truck-eval.html</loc>
-    <lastmod>2026-09-23T14:39:32.024Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-03-04-bikeshare.html</loc>
-    <lastmod>2026-09-14T16:03:20.027Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-01-getting-started.html</loc>
-    <lastmod>2026-08-31T14:55:43.305Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/about.html</loc>
-    <lastmod>2026-10-05T15:31:46.552Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-02-exploratory-data-analysis.html</loc>
-    <lastmod>2026-09-02T18:55:13.600Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-05-coffee-truck.html</loc>
-    <lastmod>2026-09-15T20:34:04.735Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-09-islands-collection.html</loc>
-    <lastmod>2026-10-07T14:37:29.158Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-11-spotify-inference.html</loc>
-    <lastmod>2026-10-13T15:16:31.536Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-12-exam01-practice.html</loc>
-    <lastmod>2026-10-13T15:16:31.537Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-14-hubble-power.html</loc>
-    <lastmod>2026-10-19T15:53:08.928Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-17-mlr-coffee-truck.html</loc>
-    <lastmod>2026-11-02T14:43:51.269Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-19-confidence-intervals-coffee-truck.html</loc>
-    <lastmod>2026-11-02T14:43:51.269Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/computing-r-resources.html</loc>
-    <lastmod>2026-09-10T19:42:42.342Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-02.html</loc>
-    <lastmod>2026-09-23T14:39:32.024Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-04.html</loc>
-    <lastmod>2026-09-24T15:05:25.151Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-05.html</loc>
-    <lastmod>2026-10-07T14:37:29.158Z</lastmod>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-09.html</loc>
+    <lastmod>2026-11-03T22:01:37.334Z</lastmod>
   </url>
   <url>
     <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-07.html</loc>
     <lastmod>2026-10-26T13:43:55.760Z</lastmod>
   </url>
   <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-05.html</loc>
+    <lastmod>2026-10-07T14:37:29.158Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-04.html</loc>
+    <lastmod>2026-09-24T15:05:25.151Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-02.html</loc>
+    <lastmod>2026-09-23T14:39:32.024Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/computing-r-resources.html</loc>
+    <lastmod>2026-09-10T19:42:42.342Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-21-pilot-confidence-intervals.html</loc>
+    <lastmod>2026-11-03T22:01:37.334Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-19-pilot-t-tests.html</loc>
+    <lastmod>2026-11-03T22:01:37.334Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-17-mlr-coffee-truck.html</loc>
+    <lastmod>2026-11-02T14:43:51.269Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-14-hubble-power.html</loc>
+    <lastmod>2026-10-19T15:53:08.928Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-12-exam01-practice.html</loc>
+    <lastmod>2026-10-13T15:16:31.537Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-11-spotify-inference.html</loc>
+    <lastmod>2026-10-13T15:16:31.536Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-09-islands-collection.html</loc>
+    <lastmod>2026-10-07T14:37:29.158Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-05-coffee-truck.html</loc>
+    <lastmod>2026-09-15T20:34:04.735Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-02-exploratory-data-analysis.html</loc>
+    <lastmod>2026-09-02T18:55:13.600Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/about.html</loc>
+    <lastmod>2026-10-05T15:31:46.552Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-01-getting-started.html</loc>
+    <lastmod>2026-08-31T14:55:43.305Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-03-04-bikeshare.html</loc>
+    <lastmod>2026-09-14T16:03:20.027Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-06-07-coffee-truck-eval.html</loc>
+    <lastmod>2026-09-23T14:39:32.024Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-10-islands-inference.html</loc>
+    <lastmod>2026-10-05T15:31:46.552Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-12-exam01-practice-solutions.html</loc>
+    <lastmod>2026-10-13T15:16:31.537Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-12-exam01.html</loc>
+    <lastmod>2026-10-13T15:16:31.537Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-15-effect-size-power.html</loc>
+    <lastmod>2026-10-26T13:43:55.760Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-18-interactions-coffee-truck.html</loc>
+    <lastmod>2026-11-02T14:43:51.269Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/ae/ae-20-pilot-f-tests.html</loc>
+    <lastmod>2026-11-03T22:01:37.334Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/computing-access.html</loc>
+    <lastmod>2026-08-24T20:05:35.229Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-01.html</loc>
+    <lastmod>2026-09-02T18:55:13.600Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-03.html</loc>
+    <lastmod>2026-09-23T14:39:32.024Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-05-islands.html</loc>
+    <lastmod>2026-09-29T22:03:30.770Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-06.html</loc>
+    <lastmod>2026-10-13T15:16:31.538Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/hw/hw-08.html</loc>
+    <lastmod>2026-10-28T15:27:19.380Z</lastmod>
+  </url>
+  <url>
     <loc>https://ericfriedlander.github.io/math2025-fa26/index.html</loc>
-    <lastmod>2026-11-02T15:43:18.644Z</lastmod>
+    <lastmod>2026-11-03T22:01:37.334Z</lastmod>
   </url>
   <url>
     <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-01.html</loc>
@@ -234,7 +250,7 @@
   </url>
   <url>
     <loc>https://ericfriedlander.github.io/math2025-fa26/prepare/prep-19.html</loc>
-    <lastmod>2026-11-02T14:43:51.269Z</lastmod>
+    <lastmod>2026-11-03T22:01:37.334Z</lastmod>
   </url>
   <url>
     <loc>https://ericfriedlander.github.io/math2025-fa26/project/poster-rubric.html</loc>
@@ -295,6 +311,10 @@
   <url>
     <loc>https://ericfriedlander.github.io/math2025-fa26/slides/18-interactions.html</loc>
     <lastmod>2026-11-02T14:43:51.270Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ericfriedlander.github.io/math2025-fa26/slides/20-nested-f-test.html</loc>
+    <lastmod>2026-11-03T22:01:37.334Z</lastmod>
   </url>
   <url>
     <loc>https://ericfriedlander.github.io/math2025-fa26/support.html</loc>
