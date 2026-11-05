@@ -405,45 +405,14 @@ The p-value went up in the larger model. Which other variable do you think confo
 - The standard error changes because the residual noise $\hat\sigma_\epsilon$ is smaller once the other variables soak up some variation.
 - So the p-value answers a **different question** in each model.
 
-## Categorical predictors: tests against a reference level {.smaller}
-
-```{r}
-lm(Sales ~ Location, data = coffee) |> tidy() |> kable(digits = 3)
-```
-
-Each `Location` p-value compares that location with the **reference level** (Business), not with every other location.
-
-```{r}
-coffee |>
-  mutate(Location = relevel(factor(Location), ref = "Zoo")) |>
-  lm(Sales ~ Location, data = _) |>
-  tidy() |> kable(digits = 3)
-```
-
-::: question
-What changed when we switched the reference level to Zoo? What stayed the same?
-:::
-
-## Activity: Part 4 {.smaller}
-
-Back to **your pilot data** in AE 19:
-
-- State what each p-value in `add_fit` tests.
-- Compare the p-value for your primary variable in `simple_fit` and `add_fit`. Why did it change?
-- If a variable is categorical, which level is the reference? What does each p-value compare?
-
-```{r}
-#| echo: false
-countdown(minutes = 15)
-```
-
 ## Recap {.smaller}
 
 - A p-value comes from a **null distribution**: the sampling distribution of $\hat\beta_j$ if $H_0$ were true. Shuffling builds it, and the $t$ distribution approximates it.
 - Each $t$-test in MLR tests $H_0: \beta_j = 0$ **given the other predictors in the model**, so the p-value depends on the model.
-- Categorical coefficients are tests against the **reference level**.
 
-## Coming next {.smaller}
+## Before next class {.smaller}
+
+Finish **AE 19** (including Part 4) outside of class and submit it on Canvas.
 
 A $t$-test checks **one** coefficient at a time. But `Location` has three dummy variables, and an interaction has several terms.
 
@@ -451,4 +420,4 @@ A $t$-test checks **one** coefficient at a time. But `Location` has three dummy 
 How do we test whether a whole **batch** of coefficients is zero?
 :::
 
-Next time: **nested models** and the **$F$-test**.
+Next time: we start by discussing **Part 4**, then look at **categorical predictors**, **nested models**, and the **$F$-test**.

@@ -31,6 +31,7 @@ bibliography: references.bib
 #| include: false
 
 library(countdown)
+library(mosaic)
 
 knitr::opts_chunk$set(
   fig.width = 8,
@@ -48,6 +49,7 @@ library(broom)       # for formatting model output
 library(knitr)       # for pretty tables
 library(kableExtra)  # also for pretty tables
 library(coursekata)  # for resample(), do(), shuffle()
+library(plotly)      # for the 3D wobble pictures (loaded last: it masks coursekata's do())
 
 # Coffee truck data: the same pre-generated experiment as AE 17 / AE 18 / HW 08.
 # 180 shifts, 15 per Location x TimeOfDay cell, Price fixed at $3.
@@ -57,9 +59,125 @@ coffee <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vREJa-pGZtlZ
 # Business vs. City Hall, all three times of day
 bc <- coffee |> filter(Location %in% c("Business", "CityHall"))
 
+# sim_xy(): n points where corr(X1, X2) is exactly r, and
+# y = 2 + 0*X1 + 1*X2 + noise (so the true X1 slope is 0).
+# Same seed => same X1 and same noise, so r is the only thing that changes between pictures.
+sim_xy <- function(r, n = 40, sigma = 1.5, beta = c(2, 0, 1), seed = 1) {
+  set.seed(seed)
+  z1 <- as.numeric(scale(rnorm(n)))
+  z2 <- as.numeric(scale(resid(lm(rnorm(n) ~ z1))))
+  x2 <- r * z1 + sqrt(1 - r^2) * z2
+  tibble(x1 = z1, x2 = x2,
+         y = beta[1] + beta[2] * z1 + beta[3] * x2 + rnorm(n, 0, sigma))
+}
+
+# wobble_plot(): 3D scatterplot of simulated data with the fitted plane y ~ x1 + x2.
+# The "New noise" button redraws the noise in y, refits the plane, and updates the plot,
+# all in the browser (the x values and the true plane never change).
+wobble_plot <- function(r, sigma = 1.5, beta = c(2, 0, 1), lim = 2.5) {
+  d <- sim_xy(r, sigma = sigma, beta = beta)
+  b <- coef(lm(y ~ x1 + x2, data = d))
+  zmat <- function(b) matrix(b[1] + b[2] * rep(c(-lim, lim), times = 2) + b[3] * rep(c(-lim, lim), each = 2),
+                             nrow = 2, byrow = TRUE)
+  label <- function(b) sprintf("Fitted slopes: b1 = %.2f, b2 = %.2f   (truth: b1 = %g, b2 = %g)",
+                               b[2], b[3], beta[2], beta[3])
+  plot_ly(height = 450) |>
+    add_trace(x = d$x1, y = d$x2, z = d$y, type = "scatter3d", mode = "markers",
+              marker = list(size = 3, color = "#C0392B"), showlegend = FALSE) |>
+    add_surface(x = c(-lim, lim), y = c(-lim, lim), z = zmat(b), opacity = 0.75,
+                colorscale = list(c(0, "#533860"), c(1, "#533860")), showscale = FALSE) |>
+    layout(scene = list(xaxis = list(title = "X1", range = c(-lim, lim)),
+                        yaxis = list(title = "X2", range = c(-lim, lim)),
+                        zaxis = list(title = "Y", range = c(-12, 16)),
+                        aspectmode = "cube",
+                        camera = list(eye = list(x = 1.7, y = -1.7, z = 0.7))),
+           autosize = TRUE,
+           margin = list(l = 0, r = 0, t = 30, b = 0),
+           annotations = list(list(text = label(b), x = 0.5, y = 1, xref = "paper", yref = "paper",
+                                   showarrow = FALSE, font = list(size = 16))),
+           updatemenus = list(list(type = "buttons", showactive = FALSE, x = 0, y = 0.9,
+                                   buttons = list(list(method = "skip", label = "New noise"))))) |>
+    config(displayModeBar = FALSE) |>
+    htmlwidgets::onRender("
+      function(el, x, d) {
+        var n = d.x1.length, L = d.lim;
+        function gauss() { var u = 1 - Math.random(), v = Math.random();
+                           return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+        // least squares for y ~ 1 + x1 + x2 via the normal equations (3 x 3 Gaussian elimination)
+        function fit(y) {
+          var A = [[0,0,0],[0,0,0],[0,0,0]], c = [0,0,0], i, j, k, row;
+          for (i = 0; i < n; i++) {
+            row = [1, d.x1[i], d.x2[i]];
+            for (j = 0; j < 3; j++) { c[j] += row[j] * y[i];
+                                      for (k = 0; k < 3; k++) A[j][k] += row[j] * row[k]; }
+          }
+          for (j = 0; j < 3; j++) {
+            for (i = j + 1; i < 3; i++) { var f = A[i][j] / A[j][j];
+              for (k = j; k < 3; k++) A[i][k] -= f * A[j][k]; c[i] -= f * c[j]; }
+          }
+          var b = [0,0,0];
+          for (j = 2; j >= 0; j--) { var s = c[j];
+            for (k = j + 1; k < 3; k++) s -= A[j][k] * b[k]; b[j] = s / A[j][j]; }
+          return b;
+        }
+        el.on('plotly_buttonclicked', function() {
+          var y = [], i;
+          for (i = 0; i < n; i++) y.push(d.beta[0] + d.beta[1] * d.x1[i] + d.beta[2] * d.x2[i] + d.sigma * gauss());
+          var b = fit(y), e = [-L, L];
+          var z = e.map(function(x2) { return e.map(function(x1) { return b[0] + b[1] * x1 + b[2] * x2; }); });
+          Plotly.restyle(el, {z: [y]}, [0]);
+          Plotly.restyle(el, {z: [z]}, [1]);
+          Plotly.relayout(el, {'annotations[0].text': 'Fitted slopes: b1 = ' + b[1].toFixed(2) +
+            ', b2 = ' + b[2].toFixed(2) + '   (truth: b1 = ' + d.beta[1] + ', b2 = ' + d.beta[2] + ')'});
+        });
+      }", data = list(x1 = d$x1, x2 = d$x2, beta = beta, sigma = sigma, lim = lim))
+}
+
 # set default theme and larger font size for ggplot2
 ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
 ```
+
+# AE 19 Part 4: discussion
+
+## Discussing AE 19 Part 4 {.smaller}
+
+::: appex
+📋 [AE 19 - Your Pilot Data: t-tests](https://ericfriedlander.github.io/math2025-fa26/ae/ae-19-pilot-t-tests.html)
+:::
+
+Talk with a neighbor about your pilot data:
+
+::: question
+- What null hypothesis does the p-value for your primary variable in `add_fit` test? (Remember: *holding the other variables in the model constant*.)
+- Did that p-value change between `simple_fit` and `add_fit`? Why? What question is each p-value answering?
+:::
+
+```{r}
+#| echo: false
+countdown(minutes = 5)
+```
+
+# Categorical predictors
+
+## Categorical predictors: tests against a reference level {.smaller}
+
+```{r}
+lm(Sales ~ Location, data = coffee) |> tidy() |> kable(digits = 3)
+```
+
+Each `Location` p-value compares that location with the **reference level** (Business), not with every other location.
+
+```{r}
+#| code-line-numbers: "|2"
+coffee |>
+  mutate(Location = relevel(factor(Location), ref = "Zoo")) |>
+  lm(Sales ~ Location, data = _) |>
+  tidy() |> kable(digits = 3)
+```
+
+::: question
+What changed when we switched the reference level to Zoo? What stayed the same?
+:::
 
 # Review: t-tests in MLR
 
@@ -76,29 +194,115 @@ Each row is a $t$-test of $H_0: \beta_j = 0$ **given the other predictors**.
 `Location` has three rows (`LocationCityHall`, `LocationPark`, `LocationZoo`). Each compares one location with the Business District. Is there a single p-value that answers "does `Location` matter at all?"
 :::
 
+# A correction: what do we shuffle?
+
+## Correction: shuffle the **response** {.smaller}
+
+Last time I said that, to test one coefficient, we shuffle the **explanatory** variable. **That was wrong.** We shuffle the **response**:
+
+```{r}
+#| eval: false
+lm(shuffle(Sales) ~ Temperature + TimeOfDay, data = coffee) # correct: shuffle the response
+lm(Sales ~ shuffle(Temperature) + TimeOfDay, data = coffee) # wrong: shuffle an explanatory variable
+```
+
+. . .
+
+- Shuffling `Sales` breaks the link between the response and **all** of the predictors, but the predictors stay exactly as we observed them, **including how they relate to each other**.
+- Shuffling `Temperature` also breaks the relationship between `Temperature` and `TimeOfDay`. The shuffled data sets have predictors that look nothing like ours.
+
+::: question
+Why might it matter if the shuffled data sets have predictors that are related differently from the real ones?
+:::
+
+## Does it matter? {.smaller}
+
+A simulated data set where `X1` and `X2` are highly correlated ($r = 0.95$), and the true slope of `X1` is **0**:
+
+```{r}
+#| echo: false
+corr_data <- sim_xy(r = 0.95)
+```
+
+```{r shuffle-compare}
+#| fig-height: 3.2
+corr_fit <- lm(y ~ x1 + x2, data = corr_data)
+set.seed(2026)
+shuf_y <- mosaic::do(1000) * lm(mosaic::shuffle(y) ~ x1 + x2, data = corr_data)
+shuf_x <- mosaic::do(1000) * lm(y ~ mosaic::shuffle(x1) + x2, data = corr_data)
+
+bind_rows(tibble(method = "Shuffle Y (correct)", slope = shuf_y$x1),
+          tibble(method = "Shuffle X1 (wrong)", slope = shuf_x[[2]])) |>
+  gf_histogram(~ slope | method, bins = 30, fill = "grey80", color = "white") |>
+  gf_vline(xintercept = coef(corr_fit)[["x1"]], color = "#533860", linewidth = 1.2) |>
+  gf_labs(x = "X1 slope from a shuffled data set", y = "Number of shuffles")
+```
+
+::: question
+Which null distribution is narrower? What would that do to the p-value? To see why, look at the next two slides.
+:::
+
+## Correlated predictors: a wobbly plane {.smaller}
+
+`X1` and `X2` are highly correlated ($r = 0.95$). The truth: `Y` depends on `X2` only (true `X1` slope = 0).
+
+```{r}
+#| echo: false
+wobble_plot(r = 0.95)
+```
+
+::: question
+Click **New noise** several times (you can also rotate the plot). What does the plane do? How far does the `X1` slope stray from 0?
+:::
+
+## Uncorrelated predictors: a steady plane {.smaller}
+
+Same `X1`, same noise, same truth, but now `X1` and `X2` are uncorrelated ($r = 0$).
+
+```{r}
+#| echo: false
+wobble_plot(r = 0)
+```
+
+::: question
+Compare with the last slide. Why does the plane wobble so much less?
+:::
+
+## Why this matters for shuffling {.smaller}
+
+- When `X1` and `X2` are correlated, the data can't easily separate their effects: many different planes fit almost equally well. So $\hat\beta_1$ varies a lot from sample to sample, and its **standard error is large**.
+- Shuffling `X1` would make it uncorrelated with `X2`, turning the wobbly picture into the steady one. The null distribution would be **too narrow** and the p-values **too small**.
+- Shuffling `Y` keeps the correlation between the predictors, so the null distribution reflects the wobble we really have.
+
+**Shuffle the response.**
+
 # Testing Batches Of Coefficients
 
 ## Nested models {.smaller}
 
 A $t$-test checks **one** coefficient. To test several coefficients at once (like all the `Location` dummies), we compare two models.
 
-Model A is **nested** in Model B if B contains every predictor in A, plus more. Setting the extra coefficients in B to 0 gives you A.
+Model A is **nested** in Model B if B contains every predictor/coefficient in A, plus more. Setting the extra coefficients in B to 0 gives you A.
 
-| Reduced model (A) | Full model (B) | The extra terms in B |
+| This model | is nested in this model | The extra terms |
 |:---|:---|:---|
 | `Sales ~ Temperature + TimeOfDay` | `Sales ~ Temperature + Location + TimeOfDay` | 3 `Location` dummies |
 | `Sales ~ Location + TimeOfDay` | `Sales ~ Location * TimeOfDay` | the interaction terms |
 | `Sales ~ Temperature` | `Sales ~ Location` | none: **not nested** |
 
+When comparing models, we call the smaller model the **reduced model** and the larger model the **full model**.
+
 . . .
 
 ::: question
-Why is `Sales ~ Temperature` not nested in `Sales ~ Location`? Name a model that `Sales ~ Temperature` **is** nested in.
+- Why is `Sales ~ Temperature` not nested in `Sales ~ Location`? 
+- Name a model that `Sales ~ Temperature` **is** nested in.
 :::
 
 ## The $F$-test {.smaller}
 
-A full model always fits the data at least as well as a reduced one, because it has more freedom. The question is whether it fits **enough better** to be worth the extra terms, or whether the improvement is just what chance would give us.
+- A full model will always result in a higher $R^2$ and a lower $SSE$
+- Question: Is the improvement to be worth the extra terms?
 
 . . .
 
@@ -127,36 +331,22 @@ Give `anova()` the **reduced model first**, then the **full model**.
 ```{r}
 reduced <- lm(Sales ~ Temperature + TimeOfDay, data = coffee)
 full <- lm(Sales ~ Temperature + Location + TimeOfDay, data = coffee)
-anova(reduced, full)
+anova(reduced, full) |> tidy() |> kable()
 ```
 
 | Column | Meaning |
 |:---|:---|
-| `Res.Df` | residual degrees of freedom of each model |
+| `df.residual`/`Res.Df` | residual degrees of freedom of each model |
 | `RSS` | the sum of squared errors ($SSE$) of each model. R labels it "residual sum of squares" |
-| `Df` | number of extra coefficients in the full model |
+| `df` | number of extra coefficients in the full model |
 | `Sum of Sq` | $SSE_{\text{reduced}} - SSE_{\text{full}}$ |
-| `F` and `Pr(>F)` | the test statistic and its p-value |
+| `statistics` and `p.value`/`F` and `Pr(>F)` | the test statistic and its p-value |
 
 . . .
 
 ::: question
 How many extra coefficients does `full` have? Check that `Sum of Sq` equals the difference in the two `RSS` values.
 :::
-
-## Checking the $F$ statistic by hand {.smaller}
-
-```{r}
-sse_r <- sum(resid(reduced)^2)
-sse_f <- sum(resid(full)^2)
-extra <- df.residual(reduced) - df.residual(full)
-
-F_stat <- ((sse_r - sse_f) / extra) / (sse_f / df.residual(full))
-F_stat
-pf(F_stat, extra, df.residual(full), lower.tail = FALSE)
-```
-
-This matches the `F` and `Pr(>F)` from `anova()`.
 
 ## One test for a whole variable {.smaller}
 
@@ -169,57 +359,57 @@ Does `Location` matter **at all**, after accounting for `Temperature` and `TimeO
 What do you conclude about `Location`? What would you conclude if the p-value were 0.6?
 :::
 
-## P-values in the interaction model {.smaller}
+## F-Test = T-Test for One Coefficient {.smaller}
 
+:::: columns
+::: column
 ```{r}
-int_fit <- lm(Sales ~ Location * TimeOfDay, data = bc)
-int_fit |> tidy() |> kable(digits = 3)
+full_model <- lm(Sales ~ Temperature + TimeOfDay, data = coffee)
+full_model |> tidy() |> kable()
 ```
-
-::: question
-- The `LocationCityHall` row is a test of the City Hall effect **at which time of day**?
-- What null hypothesis does the `LocationCityHall:TimeOfDayLunch` row test?
 :::
+::: column
+```{r}
+reduced_model <- lm(Sales~ TimeOfDay, data = coffee)
+anova(reduced_model, full_model) |> tidy() |> kable()
+```
+:::
+::::
 
-. . .
-
-- The interaction p-value tests: "**does the effect of one variable depend on the other?**"
-- Main-effect p-values are **conditional**: they are the effect at the reference level of the other variable.
-- Keep both main effects in the model whenever you keep their interaction.
+Exactly the same!
 
 ## Do we need the interaction? {.smaller}
 
 ```{r}
-add_fit <- lm(Sales ~ Location + TimeOfDay, data = bc)
-anova(add_fit, int_fit)
+lm(Sales ~ Location * Temperature, data = bc) |> tidy() |> kable() # bc is just the business and city hall data
 ```
+
+- The interaction p-value tests: "**does the effect of one variable depend on the other?**"
+- Main-effect p-values become hard to interpret and can safely be ignored... Once interaction is important, both variables that are interacting must also be important.
+- Keep both main effects in the model whenever you keep their interaction.
 
 ::: question
 Interpret this p-value in context. What would you tell Jo?
 :::
 
-## Many predictors, many p-values {.smaller}
+## P-values in the interaction model {.smaller}
 
-What if we throw in predictors that have **nothing** to do with the response?
-
-```{r noise}
-set.seed(2026)
-noise_fit <- function() {
-  d <- tibble(y = rnorm(100), !!!set_names(map(1:10, \(i) rnorm(100)), paste0("x", 1:10)))
-  fit <- lm(y ~ ., data = d)
-  sum(tidy(fit)$p.value[-1] < 0.05)
-}
-false_pos <- replicate(1000, noise_fit())
-mean(false_pos >= 1)
+```{r}
+int_fit <- lm(Sales ~ Location * TimeOfDay, data = coffee)
+int_fit |> tidy() |> kable(digits = 3)
 ```
+
+::: question
+This case has MULTIPLE interactions terms for the same two variables... How can we test them all at once?
+:::
 
 . . .
 
-With 10 pure-noise predictors, about **`r round(100 * mean(false_pos >= 1))`%** of models have at least one "significant" predictor.
+```{r}
+add_fit <- lm(Sales ~ Location + TimeOfDay, data = coffee)
+anova(add_fit, int_fit) |> tidy() |> kable()
+```
 
-::: question
-What does this suggest about going on a fishing expedition? How does this connect to naming a **primary hypothesis** in your analysis plan before you collect the full data?
-:::
 
 ## "Not significant" is not "no effect" {.smaller}
 
