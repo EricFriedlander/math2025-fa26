@@ -266,33 +266,36 @@ countdown(minutes = 25)
 
 Back in Lectures 10-11 we got p-values by **shuffling**:
 
+:::: columns
+::: column
 ```{r shuffle-slr}
 set.seed(2026)
-obs_slr <- coef(lm(Sales ~ Temperature, data = coffee))[2]
-shuf_slr <- replicate(1000, coef(lm(shuffle(Sales) ~ Temperature, data = coffee))[2])
-```
+lm(Sales ~ Temperature, data = coffee) |> tidy() |> kable()
 
+```
+:::
+::: column
 ```{r}
-#| echo: false
-#| out.width: "65%"
-gf_histogram(~ shuf_slr, bins = 30, fill = "grey80", color = "white") |>
-  gf_vline(xintercept = obs_slr, color = "#533860", linewidth = 1.2) |>
+null_dist <- mosaic::do(1000) * lm(shuffle(Sales) ~ Temperature, data = coffee)
+gf_histogram(~ Temperature, data = null_dist, bins = 30, fill = "grey80", color = "white") |>
+  gf_vline(xintercept = -1.236484, color = "#533860", linewidth = 1.2) |>
   gf_labs(x = "Temperature slope from a shuffled data set", y = "Number of shuffles")
 ```
+:::
+::::
 
-## Hypothesis Testing For A Single $\beta_i$
+## Hypothesis Testing For A Single $\beta_i$ {.smaller}
 
-In a model with multiple predictors, the hypothesis for a single coefficient are:
+In a model with multiple predictors, the hypotheses for a single coefficient are:
 
 $H_0:$ $\beta_j = 0$ **given the other predictors are in the model**
 
 $H_A:$ $\beta_j \neq 0$ **give the other predictors are in the model**
+
 . . .
 
-So how could we simulate a work were $\beta_j = 0$
-
 ::: question
-Which of the following lines of code do you think we should use to test the null hypothesis that `Temperature` has no effect if `Location` is in the model:
+Consider the two lines of code below. For each one:
 
 ```{r}
 #| eval: false
@@ -300,43 +303,59 @@ Which of the following lines of code do you think we should use to test the null
 lm(shuffle(Sales) ~ Temperature + Location, data = coffee) # Option 1
 lm(Sales ~ shuffle(Temperature) + Location, data = coffee) # Option 2
 ```
+
+1. What relationships are broken?
+2. What relationships are maintained?
+3. Which do you think we should use for the null hypothesis above?
+4. What would the other one be testing?
 :::
 
 ## Shuffling in multiple regression {.smaller}
 
-With several predictors, shuffling `Sales` breaks **every** relationship at once. But the null for one row is narrower: $H_0: \beta_j = 0$ **given the other predictors**.
+With several predictors, shuffling `Sales` breaks the relationship between `Sales` and the other predictors but maintains the relationship between those predictors. But the null for one row is narrower: $H_0: \beta_j = 0$ **given the other predictors**.
 
 . . .
 
-So we shuffle only what the other predictors **cannot explain**:
-
-1. Fit the model **without** the predictor being tested.
-2. Shuffle the **residuals** from that fit: the part of `Sales` the other predictors do not explain.
-3. Add them back to the fitted values to make a new response, then refit the **full** model and record $\hat\beta_j$.
 
 ```{r shuffle-mlr}
 set.seed(2026)
 mlr_fit <- lm(Sales ~ Temperature + Location, data = coffee)
 mlr_fit |> tidy() |> kable()
-null_dist_temp <- mosaic::do(1000) * lm(Sales ~ shuffle(Temperature) + Location, data = coffee)
-null_dist_temp |> gf_histogram(~Temperature, color = ~(abs(Temperature)>0.725)) |> gf_vline(xintercept = ~-0.725, color = "red")
+null_dist_temp <- mosaic::do(1000) * lm(shuffle(Sales) ~ Temperature + Location, data = coffee)
+null_dist_temp |> gf_histogram(~Temperature) |> gf_vline(xintercept = ~-0.725, color = "red")
 ```
 
-The relationships among the **other** predictors and `Sales` stay intact. Only the link between `Temperature` and `Sales` is broken.
+## Confounding & P-Values {.smaller}
+
+Suppose our customers are extremely sensitive to temperature. In addition, the temperature is highly dependent on the Time of Day. You collect data on Sales, Temperature, and Time of Day (assume you're just doing breakfast and lunch) and fit three different models:
+
+- **Temp Model**: `Sales ~ Temperature`
+- **Time Model**: `Sales ~ TimeOfDay`
+- **Time & Temp Model**: `Sales ~ Temperature + TimeOfDay`
+
+1. Would you expect the p-value for `Temperature` in **Temp Model** to be large or small?
+2. Would you expect the p-value for `TimeOfDay` in **Time Model** to be large or small?
+3. How would you expect the p-values for `Temperature` and `TimeOfDay` to change in the **Time & Temp Model**.
 
 ## Back to the T-Distribution {.smaller}
 
 - As in SLR, we can divide $\hat\beta_j$ by its **standard error**, the spread of its sampling distribution.
-- The T-statistic follows a T-distribution with $n-p-1$ degrees of freedom
+- The T-statistic follows a T-distribution with $n-p$ degrees of freedom where $p$ is the number of coefficients in the model including the intercept
 - For the slope of $X_j$ in a multiple regression:
 
 $$
-SE_{\hat\beta_j} = \frac{\hat\sigma_\epsilon}{\sqrt{n - 1\; s_{X_j}^2\; (1 - R_j^2)}}
+SE_{\hat\beta_j} = \frac{\hat\sigma_\epsilon}{\sqrt{(n - 1)\; s_{X_j}^2\; (1 - R_j^2)}},\qquad
+\hat\sigma_\epsilon = \sqrt{\frac{SSE}{n-p}}
 $$
 
-- **Noise** ($\hat\sigma_\epsilon$): adding useful predictors shrinks it, which **narrows** the distribution.
+- **Noise** ($\hat\sigma_\epsilon$): adding useful predictors shrinks it, which **narrows** the distribution. Adding a useless predictor increases it.
 - **Sample size** ($n$) and **spread of $X_j$** ($s_{X_j}$): more data, or a wider range of $X_j$, **narrows** it.
 - **Overlap with other predictors** ($R_j^2$, the $R^2$ from predicting $X_j$ from the other predictors): the more $X_j$ is explained by the others, the **wider** it gets. We return to this when we cover multicollinearity.
+
+. . .
+
+- Wider sampling distribution $\Rightarrow$ larger p-value $\Rightarrow$ reduced power $\Rightarrow$ adding in confounding variables increases the p-value and reduces power
+- Also note that we decrease degrees of freedom as we include more coefficients... this also reduces power.
 
 ## What does each p-value test? {.smaller}
 

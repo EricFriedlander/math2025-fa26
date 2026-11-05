@@ -74,7 +74,7 @@ Over the next three lessons you will work with **your own data**: the pilot stud
 
 Keep your code from each AE: you will **copy and paste** it into the next one.
 
-Your pilot has only about 20 islanders, so expect wide uncertainty. That is the point: it tells you what your full study needs to look like.
+Your pilot has only about 20 islanders, so most of your p-values will likely not be significant. That is the point: it tells you what your full study needs to look like.
 
 ## Part 0: Publish your Google Sheet as a CSV
 
@@ -87,14 +87,13 @@ To read a Google Sheet straight into R, you first **publish** it as a CSV. Do th
 5.  Click **Publish** and confirm.
 6.  Copy the link. It should end in `output=csv`.
 7.  Keep "Automatically republish when changes are made" checked, so new islanders appear in R without republishing.
-8.  **Test it:** paste the link into a new browser tab. A CSV file should download.
 
 ::: callout-note
 Anyone with the link can read a published sheet. That is fine here because the islanders are fictional. Never publish a sheet with real personal information.
 :::
 
 ::: exercise
-Paste your link into `read_csv()` and save the result as `pilot`. Use `glimpse()` to check the columns. How many islanders do you have? Which variables are numeric and which are categorical?
+Paste your link into `read_csv()` (in quotes) and save the result as `pilot`. Use `glimpse()` to check the columns. How many islanders do you have? Which variables are numeric and which are categorical?
 :::
 
 ::: answer
@@ -139,7 +138,7 @@ Why did you pick that second variable? Is it a possible **confounder** (related 
 :::
 
 ::: exercise
-Make a plot of the response against your primary variable, with the second variable shown by color, a facet, or both. (Hints: for a categorical x use `gf_jitter()` or `gf_boxplot()`, for a quantitative x use `gf_point()`. If your second variable is quantitative, you can still color by it.) Describe what you see.
+(Time Permitting) Make a plot of the response against your primary variable, with the second variable shown by color, a facet, or both. (Hints: for a categorical x use `gf_jitter()` or `gf_boxplot()`, for a quantitative x use `gf_point()`. If your second variable is quantitative, you can still color by it.) Describe what you see.
 :::
 
 ::: answer
