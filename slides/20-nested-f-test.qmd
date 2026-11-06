@@ -159,7 +159,7 @@ countdown(minutes = 5)
 
 # Categorical predictors
 
-## Categorical predictors: tests against a reference level {.smaller}
+## Categorical predictors: tests against a reference level
 
 ```{r}
 lm(Sales ~ Location, data = coffee) |> tidy() |> kable(digits = 3)
@@ -167,17 +167,20 @@ lm(Sales ~ Location, data = coffee) |> tidy() |> kable(digits = 3)
 
 Each `Location` p-value compares that location with the **reference level** (Business), not with every other location.
 
+## Relevel your factors to get your desired reference level
+
 ```{r}
 #| code-line-numbers: "|2"
-coffee |>
-  mutate(Location = relevel(factor(Location), ref = "Zoo")) |>
-  lm(Sales ~ Location, data = _) |>
+
+coffee_zoo_base <-  coffee |>
+  mutate(Location = relevel(factor(Location), ref = "Zoo"))
+
+lm(Sales ~ Location, data = coffee_zoo_base) |>
   tidy() |> kable(digits = 3)
 ```
 
-::: question
-What changed when we switched the reference level to Zoo? What stayed the same?
-:::
+
+You might want to do this if you have an experiment with one control (reference level) and multiple treatments.
 
 # Review: t-tests in MLR
 
@@ -277,6 +280,18 @@ Compare with the last slide. Why does the plane wobble so much less?
 **Shuffle the response.**
 
 # Testing Batches Of Coefficients
+
+## Is Location Important?
+
+```{r}
+lm(Sales ~ Temperature + Location + TimeOfDay, data = coffee) |> 
+  tidy() |> 
+  kable(digits = 4)
+```
+
+. . .
+
+Don't really have a way to determine whether the whole variable `Location` is important...
 
 ## Nested models {.smaller}
 
@@ -378,6 +393,8 @@ anova(reduced_model, full_model) |> tidy() |> kable()
 
 Exactly the same!
 
+# P-values and interaction
+
 ## Do we need the interaction? {.smaller}
 
 ```{r}
@@ -424,6 +441,10 @@ The full Lunch data showed a difference of about 18 cups. With 4 days per locati
 ::: question
 Does a large p-value mean City Hall and the Business District sell the same amount? What went wrong? (Hint: Lessons 14-16.)
 :::
+
+. . .
+
+**Caution**: Collecting more data because you didn't get the result you were hoping for is bad practice. It typically means you had a poorly designed study. If you only collect more data when you don't get a significant result, you are biasing your analyses.
 
 ## Activity: AE 20 {.smaller}
 
