@@ -92,3 +92,26 @@ In the Methods section of your paper, clearly describe the following in your met
 You will add your sample size justification and statistical analysis plan to Methods in later checkpoints.
 
 Write clearly and concisely without repetition.
+
+
+## Grading Rubric
+
+This checkpoint is worth **15 points**, which is 1.875% of your course grade (the four interim checkpoints together make up 30% of the project, and the project is 25% of the course). Pilot checkpoints are graded mainly on completeness and on how well the work sets up the rest of your paper, and you will get written feedback to use in later checkpoints. The criteria mirror the Introduction and Methods criteria in the [final project rubric](project-rubric.qmd).
+
+| Criteria | Full credit | Points |
+|:---|:---|:---:|
+| **Research question and hypothesis** | The question is 1-2 sentences, names the population, exposure or treatment, comparison, and outcome, and is both interesting and feasible on the Islands. A hypothesis is stated and matches the question. | 0-3 |
+| **Introduction** | 1-2 paragraphs that move from general to specific and explain why the topic matters. Draws on at least two research papers, both cited in the text with a reference list. Ends with the research question. | 0-3 |
+| **Methods: design and sampling** | Study design (experimental or observational), target population, inclusion/exclusion criteria, sampling method (with a justification of representativeness if not random), and randomization and blinding (if applicable) are described with enough detail that someone else could replicate the study. | 0-4 |
+| **Methods: variables** | The numeric response, the primary explanatory variable, and at least four demographic variables (at least two numeric) are each defined, with units or levels. Demographic variables are plausibly related to confounding. | 0-2 |
+| **Pilot data** | The linked Google Sheet is viewable by the instructor, includes at least 20 islanders, and is tidy (one row per person, one column per variable) with clear column names matching the Methods. | 0-2 |
+| **Submission and writing** | Both `islands-paper.qmd` and the rendered `islands-paper.pdf` are uploaded, group members are listed (if applicable), and the writing is clear, concise, and free of repetition and major typos. | 0-1 |
+| **Total** | | **15** |
+
+### What the point levels look like
+
+- **Full credit:** meets every element in the "Full credit" column.
+- **Partial credit:** an element is present but vague, incomplete, or inconsistent with the rest of the paper (for example, a research question with no clear comparison, or a variable listed in Methods that is missing from the data).
+- **No credit:** the element is missing.
+
+If a requirement is not met (for example, fewer than 20 islanders, or a categorical response variable), you will be asked to fix it before the Power checkpoint, since the later checkpoints build directly on this data.
