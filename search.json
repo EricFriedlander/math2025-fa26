@@ -5360,18 +5360,11 @@
     "text": "Do we need the interaction?\n\nadd_fit &lt;- lm(Sales ~ Location + TimeOfDay, data = bc)\nanova(add_fit, int_fit)\n\nAnalysis of Variance Table\n\nModel 1: Sales ~ Location + TimeOfDay\nModel 2: Sales ~ Location * TimeOfDay\n  Res.Df   RSS Df Sum of Sq      F   Pr(&gt;F)    \n1     86 20183                                 \n2     84 11659  2    8523.9 30.707 9.78e-11 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\n\nInterpret this p-value in context. What would you tell Jo?"
   },
   {
-    "objectID": "slides/20-nested-f-test.html#many-predictors-many-p-values",
-    "href": "slides/20-nested-f-test.html#many-predictors-many-p-values",
-    "title": "Nested Models and the F-test",
-    "section": "Many predictors, many p-values",
-    "text": "Many predictors, many p-values\nWhat if we throw in predictors that have nothing to do with the response?\n\nset.seed(2026)\nnoise_fit &lt;- function() {\n  d &lt;- tibble(y = rnorm(100), !!!set_names(map(1:10, \\(i) rnorm(100)), paste0(\"x\", 1:10)))\n  fit &lt;- lm(y ~ ., data = d)\n  sum(tidy(fit)$p.value[-1] &lt; 0.05)\n}\nfalse_pos &lt;- replicate(1000, noise_fit())\nmean(false_pos &gt;= 1)\n\n[1] 0.419\n\n\n\nWith 10 pure-noise predictors, about 42% of models have at least one “significant” predictor.\n\nWhat does this suggest about going on a fishing expedition? How does this connect to naming a primary hypothesis in your analysis plan before you collect the full data?"
-  },
-  {
     "objectID": "slides/20-nested-f-test.html#not-significant-is-not-no-effect",
     "href": "slides/20-nested-f-test.html#not-significant-is-not-no-effect",
     "title": "Nested Models and the F-test",
     "section": "“Not significant” is not “no effect”",
-    "text": "“Not significant” is not “no effect”\n\nset.seed(2026)\nsmall &lt;- bc |&gt; filter(TimeOfDay == \"Lunch\") |&gt; group_by(Location) |&gt; slice_sample(n = 4) |&gt; ungroup()\nlm(Sales ~ Location, data = small) |&gt; tidy() |&gt; kable(digits = 3)\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n67.50\n6.689\n10.092\n0.000\n\n\nLocationCityHall\n22.75\n9.459\n2.405\n0.053\n\n\n\n\n\nThe full Lunch data showed a difference of about 18 cups. With 4 days per location, the p-value is large.\n\nDoes a large p-value mean City Hall and the Business District sell the same amount? What went wrong? (Hint: Lessons 14-16.)"
+    "text": "“Not significant” is not “no effect”\n\nset.seed(2026)\nsmall &lt;- bc |&gt; filter(TimeOfDay == \"Lunch\") |&gt; group_by(Location) |&gt; slice_sample(n = 4) |&gt; ungroup()\nlm(Sales ~ Location, data = small) |&gt; tidy() |&gt; kable(digits = 3)\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n67.50\n6.689\n10.092\n0.000\n\n\nLocationCityHall\n22.75\n9.459\n2.405\n0.053\n\n\n\n\n\nThe full Lunch data showed a difference of about 18 cups. With 4 days per location, the p-value is large.\n\nDoes a large p-value mean City Hall and the Business District sell the same amount? What went wrong? (Hint: Lessons 14-16.)\n\n\n\n\n\n\n\n\nWarning\n\n\nCollecting more data because you got an insignificant result is bad statistics and results in a biased p-value."
   },
   {
     "objectID": "slides/20-nested-f-test.html#activity-ae-20",
