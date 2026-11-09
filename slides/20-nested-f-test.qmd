@@ -144,20 +144,6 @@ anova(reduced, full)
 How many extra coefficients does `full` have? Check that `Sum of Sq` equals the difference in the two `RSS` values.
 :::
 
-## Checking the $F$ statistic by hand {.smaller}
-
-```{r}
-sse_r <- sum(resid(reduced)^2)
-sse_f <- sum(resid(full)^2)
-extra <- df.residual(reduced) - df.residual(full)
-
-F_stat <- ((sse_r - sse_f) / extra) / (sse_f / df.residual(full))
-F_stat
-pf(F_stat, extra, df.residual(full), lower.tail = FALSE)
-```
-
-This matches the `F` and `Pr(>F)` from `anova()`.
-
 ## One test for a whole variable {.smaller}
 
 Does `Location` matter **at all**, after accounting for `Temperature` and `TimeOfDay`? That is the `anova(reduced, full)` comparison we just ran.
@@ -198,29 +184,6 @@ anova(add_fit, int_fit)
 Interpret this p-value in context. What would you tell Jo?
 :::
 
-## Many predictors, many p-values {.smaller}
-
-What if we throw in predictors that have **nothing** to do with the response?
-
-```{r noise}
-set.seed(2026)
-noise_fit <- function() {
-  d <- tibble(y = rnorm(100), !!!set_names(map(1:10, \(i) rnorm(100)), paste0("x", 1:10)))
-  fit <- lm(y ~ ., data = d)
-  sum(tidy(fit)$p.value[-1] < 0.05)
-}
-false_pos <- replicate(1000, noise_fit())
-mean(false_pos >= 1)
-```
-
-. . .
-
-With 10 pure-noise predictors, about **`r round(100 * mean(false_pos >= 1))`%** of models have at least one "significant" predictor.
-
-::: question
-What does this suggest about going on a fishing expedition? How does this connect to naming a **primary hypothesis** in your analysis plan before you collect the full data?
-:::
-
 ## "Not significant" is not "no effect" {.smaller}
 
 ```{r}
@@ -233,6 +196,12 @@ The full Lunch data showed a difference of about 18 cups. With 4 days per locati
 
 ::: question
 Does a large p-value mean City Hall and the Business District sell the same amount? What went wrong? (Hint: Lessons 14-16.)
+:::
+
+. . .
+
+:::{.callout-warning}
+Collecting more data because you got an insignificant result is **bad statistics** and results in a biased p-value.
 :::
 
 ## Activity: AE 20 {.smaller}
