@@ -4633,7 +4633,7 @@ Important
 <p>Open your <code>ae-19-pilot-t-tests.qmd</code>. <strong>Copy and paste</strong> the code you need into the chunks below, so you can keep working with your pilot data. You need:</p>
 <ul>
 <li>the <code>read_csv()</code> call (with your published link) and any <code>factor()</code> cleaning,</li>
-<li><code>simple_fit</code> (<code>y ~ x1</code>), <code>add_fit</code> (<code>y ~ x1 + x2</code>), and <code>int_fit</code> (<code>y ~ x1 * x2</code>).</li>
+<li><code>y ~ x1</code> (<code>simple_fit</code>), <code>y ~ x1 + x2</code> (<code>add_fit</code>), and <code>y ~ x1 * x2</code> (<code>int_fit</code>).</li>
 </ul>
 <p>Run the chunks and confirm that the models fit with no errors.</p>
 </div>
@@ -4679,7 +4679,7 @@ Important
 </div>
 </div>
 <div class="exercise">
-<p>If your second variable has only <strong>one</strong> coefficient (it is numeric, or categorical with two levels), compare the p-value from <code>anova()</code> with the p-value on the <code>x2</code> row of <code>tidy(add_fit)</code>. They should match. Also check that <span class="math inline">\(F = t^2\)</span>. If your second variable has <strong>more than two levels</strong>, why can’t you get a single p-value from <code>tidy()</code>?</p>
+<p>If your second variable has only <strong>one</strong> coefficient (it is numeric, or categorical with two levels), compare the p-value from <code>anova()</code> with the p-value on the <code>x2</code> row of <code>tidy(add_fit)</code>. They should match. If your second variable has <strong>more than two levels</strong>, why can’t you get a single p-value from <code>tidy()</code>?</p>
 </div>
 <div class="answer">
 
