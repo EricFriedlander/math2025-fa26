@@ -419,25 +419,6 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 </section>
-<section id="checking-the-f-statistic-by-hand" class="slide level2 smaller">
-<h2>Checking the <span class="math inline">\(F\)</span> statistic by hand</h2>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>sse_r <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(reduced)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb4-2"><a></a>sse_f <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(full)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb4-3"><a></a>extra <span class="ot">&lt;-</span> <span class="fu">df.residual</span>(reduced) <span class="sc">-</span> <span class="fu">df.residual</span>(full)</span>
-<span id="cb4-4"><a></a></span>
-<span id="cb4-5"><a></a>F_stat <span class="ot">&lt;-</span> ((sse_r <span class="sc">-</span> sse_f) <span class="sc">/</span> extra) <span class="sc">/</span> (sse_f <span class="sc">/</span> <span class="fu">df.residual</span>(full))</span>
-<span id="cb4-6"><a></a>F_stat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 26.38604</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="fu">pf</span>(F_stat, extra, <span class="fu">df.residual</span>(full), <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 4.196163e-14</code></pre>
-</div>
-</div>
-<p>This matches the <code>F</code> and <code>Pr(&gt;F)</code> from <code>anova()</code>.</p>
-</section>
 <section id="one-test-for-a-whole-variable" class="slide level2 smaller">
 <h2>One test for a whole variable</h2>
 <p>Does <code>Location</code> matter <strong>at all</strong>, after accounting for <code>Temperature</code> and <code>TimeOfDay</code>? That is the <code>anova(reduced, full)</code> comparison we just ran.</p>
@@ -452,8 +433,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <section id="p-values-in-the-interaction-model" class="slide level2 smaller">
 <h2>P-values in the interaction model</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>int_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sales <span class="sc">~</span> Location <span class="sc">*</span> TimeOfDay, <span class="at">data =</span> bc)</span>
-<span id="cb8-2"><a></a>int_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>int_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sales <span class="sc">~</span> Location <span class="sc">*</span> TimeOfDay, <span class="at">data =</span> bc)</span>
+<span id="cb4-2"><a></a>int_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <colgroup>
@@ -536,8 +517,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <section id="do-we-need-the-interaction" class="slide level2 smaller">
 <h2>Do we need the interaction?</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>add_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sales <span class="sc">~</span> Location <span class="sc">+</span> TimeOfDay, <span class="at">data =</span> bc)</span>
-<span id="cb9-2"><a></a><span class="fu">anova</span>(add_fit, int_fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>add_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sales <span class="sc">~</span> Location <span class="sc">+</span> TimeOfDay, <span class="at">data =</span> bc)</span>
+<span id="cb5-2"><a></a><span class="fu">anova</span>(add_fit, int_fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -558,14 +539,14 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <h2>Many predictors, many p-values</h2>
 <p>What if we throw in predictors that have <strong>nothing</strong> to do with the response?</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
-<span id="cb11-2"><a></a>noise_fit <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb11-3"><a></a>  d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">y =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>), <span class="sc">!!!</span><span class="fu">set_names</span>(<span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, \(i) <span class="fu">rnorm</span>(<span class="dv">100</span>)), <span class="fu">paste0</span>(<span class="st">"x"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)))</span>
-<span id="cb11-4"><a></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> ., <span class="at">data =</span> d)</span>
-<span id="cb11-5"><a></a>  <span class="fu">sum</span>(<span class="fu">tidy</span>(fit)<span class="sc">$</span>p.value[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
-<span id="cb11-6"><a></a>}</span>
-<span id="cb11-7"><a></a>false_pos <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">noise_fit</span>())</span>
-<span id="cb11-8"><a></a><span class="fu">mean</span>(false_pos <span class="sc">&gt;=</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb7-2"><a></a>noise_fit <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb7-3"><a></a>  d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">y =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>), <span class="sc">!!!</span><span class="fu">set_names</span>(<span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, \(i) <span class="fu">rnorm</span>(<span class="dv">100</span>)), <span class="fu">paste0</span>(<span class="st">"x"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)))</span>
+<span id="cb7-4"><a></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> ., <span class="at">data =</span> d)</span>
+<span id="cb7-5"><a></a>  <span class="fu">sum</span>(<span class="fu">tidy</span>(fit)<span class="sc">$</span>p.value[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
+<span id="cb7-6"><a></a>}</span>
+<span id="cb7-7"><a></a>false_pos <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">noise_fit</span>())</span>
+<span id="cb7-8"><a></a><span class="fu">mean</span>(false_pos <span class="sc">&gt;=</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.419</code></pre>
 </div>
@@ -580,9 +561,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <section id="not-significant-is-not-no-effect" class="slide level2 smaller">
 <h2>“Not significant” is not “no effect”</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
-<span id="cb13-2"><a></a>small <span class="ot">&lt;-</span> bc <span class="sc">|&gt;</span> <span class="fu">filter</span>(TimeOfDay <span class="sc">==</span> <span class="st">"Lunch"</span>) <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Location) <span class="sc">|&gt;</span> <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">4</span>) <span class="sc">|&gt;</span> <span class="fu">ungroup</span>()</span>
-<span id="cb13-3"><a></a><span class="fu">lm</span>(Sales <span class="sc">~</span> Location, <span class="at">data =</span> small) <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb9-2"><a></a>small <span class="ot">&lt;-</span> bc <span class="sc">|&gt;</span> <span class="fu">filter</span>(TimeOfDay <span class="sc">==</span> <span class="st">"Lunch"</span>) <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Location) <span class="sc">|&gt;</span> <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">4</span>) <span class="sc">|&gt;</span> <span class="fu">ungroup</span>()</span>
+<span id="cb9-3"><a></a><span class="fu">lm</span>(Sales <span class="sc">~</span> Location, <span class="at">data =</span> small) <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
@@ -631,7 +612,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_1d96c021" minutes="30" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_46b60fba" minutes="30" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
 </div>
 </div>
 </section>

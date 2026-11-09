@@ -5339,13 +5339,6 @@
     "text": "Using anova()\nGive anova() the reduced model first, then the full model.\n\nreduced &lt;- lm(Sales ~ Temperature + TimeOfDay, data = coffee)\nfull &lt;- lm(Sales ~ Temperature + Location + TimeOfDay, data = coffee)\nanova(reduced, full)\n\nAnalysis of Variance Table\n\nModel 1: Sales ~ Temperature + TimeOfDay\nModel 2: Sales ~ Temperature + Location + TimeOfDay\n  Res.Df   RSS Df Sum of Sq      F    Pr(&gt;F)    \n1    176 59174                                  \n2    173 40598  3     18576 26.386 4.196e-14 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\n\n\n\n\n\n\n\nColumn\nMeaning\n\n\n\n\nRes.Df\nresidual degrees of freedom of each model\n\n\nRSS\nthe sum of squared errors (\\(SSE\\)) of each model. R labels it “residual sum of squares”\n\n\nDf\nnumber of extra coefficients in the full model\n\n\nSum of Sq\n\\(SSE_{\\text{reduced}} - SSE_{\\text{full}}\\)\n\n\nF and Pr(&gt;F)\nthe test statistic and its p-value\n\n\n\n\n\nHow many extra coefficients does full have? Check that Sum of Sq equals the difference in the two RSS values."
   },
   {
-    "objectID": "slides/20-nested-f-test.html#checking-the-f-statistic-by-hand",
-    "href": "slides/20-nested-f-test.html#checking-the-f-statistic-by-hand",
-    "title": "Nested Models and the F-test",
-    "section": "Checking the \\(F\\) statistic by hand",
-    "text": "Checking the \\(F\\) statistic by hand\n\nsse_r &lt;- sum(resid(reduced)^2)\nsse_f &lt;- sum(resid(full)^2)\nextra &lt;- df.residual(reduced) - df.residual(full)\n\nF_stat &lt;- ((sse_r - sse_f) / extra) / (sse_f / df.residual(full))\nF_stat\n\n[1] 26.38604\n\npf(F_stat, extra, df.residual(full), lower.tail = FALSE)\n\n[1] 4.196163e-14\n\n\nThis matches the F and Pr(&gt;F) from anova()."
-  },
-  {
     "objectID": "slides/20-nested-f-test.html#one-test-for-a-whole-variable",
     "href": "slides/20-nested-f-test.html#one-test-for-a-whole-variable",
     "title": "Nested Models and the F-test",
