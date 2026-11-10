@@ -27,28 +27,88 @@ Upload both your `islands-paper.qmd` and the rendered PDF (`islands-paper.pdf`) 
 :::
 
 
+## What to expect at this checkpoint
+
+::: {.callout-note}
+- **You do not need to be done collecting data.** You should be making clear progress, and your analysis should use whatever data you have so far.
+- **Your analysis may change.** If further data collection shows that your plan needs to change (for example, a different model, variable, or visualization), update your analysis accordingly. This checkpoint is a first pass, not a commitment.
+- **Write in the past tense, as if the study is finished.** This text will eventually become part of your final paper, so write your Methods and Results as if you have already done the work ("We fit a multiple regression...", not "We will fit..."). Update it as your data collection and analysis change.
+- **You will not learn how to check model conditions until next week.** Do your best with what we have covered, and plan to return to your conditions once we have covered them.
+:::
+
 ## Assignment Deliverables
 
-Your preliminary analysis should include the following components:
+Your preliminary analysis should include the following components. Each one is labeled with the section of your paper where it belongs:
 
-1. **Statistical Analysis (Methods)**  
-   Describe the models you plan to fit and why, and how you will check conditions. Make sure all variables are clearly defined in your Variables subsection.
+| # | Component | Where it goes |
+|:--|:----------|:--------------|
+| 1 | Statistical Analysis | **Methods** (new subsection) |
+| 2 | Sampling Reflection | **Discussion** (Limitations) |
+| 3 | Visualizations and Numerical Summaries | **Results** |
+| 4 | Regression Model | **Results** |
+| 5 | Reproducibility | The **whole document** |
 
-2. **Sampling Reflection**  
-   Note (you will develop this in your Discussion) whether aspects of your sampling may limit generalization to all Islanders.
+1. **Statistical Analysis (goes in Methods)**  
+   This is a new subsection of Methods, after your design, sampling, and variables. Write it in complete sentences and in the **past tense**, as if you have already done the analysis ("We fit...", not "We will fit...").
+   - State your **primary hypothesis** and the **primary explanatory variable** it is about.
+   - Describe the model(s) you fit, naming the response variable and every explanatory variable, and say whether each is quantitative or categorical.
+   - Justify each choice: why include your primary variable, and why include each additional variable (for example, because you think it confounds your results)?
+   - Say whether you used an additive model or an interaction, and why.
+   - Because we do not cover how to check conditions until next week, you only need a brief placeholder sentence naming which conditions you checked (written in the past tense), and you will fill in the details in a later draft.
+   - Make sure all variables are clearly defined in your Variables subsection (units, coding of categorical variables, and the reference level).
 
-3. **Visualizations (3–4 minimum)**  
-   - Each plot must have accurate and descriptive labels.  
-   - Include at least one plot assessing randomization effectiveness (e.g., demographic balance across treatments).  
-   - Each visualization must be followed by at least one interpretive sentence: no “naked plots.” That is, each visualization must have a *purpose*.
+2. **Sampling Reflection (goes in Discussion)**  
+   Write a short paragraph (3-5 sentences) in the Discussion section of your paper, as the start of your discussion of limitations. Write it in the past tense as well. Focus on the **implications** of your study design and sampling, not on re-describing them. Your Methods already explain how you collected the data, so do not repeat that here.
+   - Say who your results **can and cannot be generalized to**, given how your sample was selected.
+   - Name at least one specific aspect of your sampling or design that limits what you can conclude, and explain how it might affect your results (for example, which direction it might push your estimate).
+   - Connect it back to your research question: how much should a reader trust your conclusion about **all** Islanders?
+   - The rest of your Discussion is not due yet, so a clear first draft of this paragraph is enough. You will build on it for the full draft.
 
-4. **Numerical Summaries**  
-   - Provide descriptive statistics for relevant variables.  
-   - Each table or summary must be followed by explanatory text: no “naked tables.”
+3. **Visualizations and Numerical Summaries (goes in Results)**  
+   
+   ::: callout-important
+   You will likely create a lot of plots and tables that don't end up in your final report.  It is ok to create plots, notice that they don't say anything interested, delete them, and add a brief note saying you looked at them and that there wasn't anything notable. For this preliminary analysis, err on the side of including more and then deleting the things you don't need later.
+   :::
 
-5. **Regression Model**  
-   - Include output from at least one regression predicting the response variable.  
-   - Provide a short interpretation (one or more sentences).
+   Describe your data using a mix of plots and tables, placed in Results right where you discuss them. You may include asn many or as few items as you need but I expect that you'll end up with around **3-4 items in total** (plots and tables together), and make sure you cover the following:
+   - Your **response variable**: its shape, center, and spread.
+   - The **relationship** between your response and your primary explanatory variable (see below for what to do if it is quantitative).
+   - At least one item checking **balance on your demographic variables** (see below, it depends on whether your study is an experiment or observational).
 
-6. **Reproducibility**  
+   **Do not present the same information in both a table and a visualization.** If a plot already shows the group means and spreads, a table repeating those numbers adds nothing. Choose the one that fits what you want the reader to learn:
+
+   | Use a **visualization** when you want to show... | Use a **table** when you want to show... |
+   |:---|:---|
+   | Shape, skew, or outliers in a distribution | Exact values a reader may want to look up or cite |
+   | A relationship or trend between variables | Many variables at once, each with a few numbers (for example, a demographic balance table) |
+   | A comparison between groups | A few precise numbers, such as the sample size, means, and SDs by group |
+   | Whether groups look balanced or different | Summaries that would be cluttered or unreadable in a plot |
+
+   A good rule: **if you need to read exact numbers, use a table; if you need to see a pattern, use a plot.** If you are unsure, pick the plot and put any exact numbers you need in a sentence of text.
+
+   **Checking balance on demographic variables.** The goal is to see whether other variables (age, gender, and so on) differ across the values of your primary explanatory variable, because differences could confound your results. What this looks like depends on your study:
+   - **If you ran an experiment** (you randomly assigned the treatment): this is a **randomization check**. Compare the demographic variables across your treatment groups. If randomization worked, the groups should look similar on these variables, apart from chance differences. If they do not, say so and note that it could affect your conclusions.
+   - **If your study is observational** (you did not assign the explanatory variable): there is no randomization to check, so you are looking for **confounding**. Compare the demographic variables across the values of your explanatory variable in exactly the same way. Here you *expect* some imbalance, since nothing randomized it. Large differences tell you which variables you most need to adjust for in your regression, and which limit any causal claims.
+   - **Either way**, pick the one or two demographic variables you think matter most (not every one), and use the same kind of display: for a categorical demographic variable, side-by-side or stacked bars (or a table of percentages) across groups, and for a quantitative one, boxplots or overlaid density plots across groups.
+
+   **If your primary explanatory variable is quantitative** (so it has no groups):
+   - **Relationship plot:** make a scatterplot of the response against the explanatory variable, with a fitted line (`geom_smooth(method = "lm")`).
+   - **Summaries:** report the mean, SD, and range of the explanatory variable (not "by group"), and consider the correlation with the response.
+   - **Balance check:** do not split your data into groups. Instead, compare each demographic variable to the explanatory variable directly: a scatterplot (or correlation) for a quantitative demographic variable, and boxplots of the explanatory variable by group for a categorical one. Strong relationships flag likely confounders.
+
+   Quality requirements for every item:
+   - Plots need accurate and descriptive axis labels (with units), a title or caption, and readable text.
+   - Tables should be formatted neatly (for example, with `kable()`), with clear column names and rounded numbers. For quantitative variables report the mean and SD (or median and IQR if the data are skewed), and for categorical variables report counts or percentages, by group when your explanatory variable is categorical (if it is quantitative, summarize it overall).
+   - Each plot or table must be followed by at least one interpretive sentence: no "naked plots" or "naked tables." That is, each item must have a *purpose*. Say what the reader should notice and what it means for your question.
+
+4. **Regression Model (goes in Results)**  
+   - You should ultimately setting on a final model predicting your response variable. Display the output of this model in readable form (for example, `tidy()` with `kable()`).
+   - Interpret the coefficient for your **primary explanatory variable** in context, with units, and the "holding the other variables constant" phrase if you have other predictors. Say whether the p-value is consistent with your hypothesis.
+   - Interpret any other coefficients that are notable (for example, the intercept or a confounder).
+   - Remember that your estimates are based on a partial data set, so you may need to update them as you collect more data.
+
+5. **Reproducibility & Polish (applies to the whole document)**  
    - All analysis must be in your single paper document (`islands-paper.qmd`) with code integrated into the narrative. **DO NOT** write all your code at the top and then the text below.
+   - Your document must render from start to finish with no errors, and you should load your data (with `read_csv()` and your published link) inside the document.
+   - Keep your code readable: break long lines (for example, after every pipe) and use clear object names.
+   - You should describe code and output immediately rather then writing big long chunks of code first followed by all your analysis.
