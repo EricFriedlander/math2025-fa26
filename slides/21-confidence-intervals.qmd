@@ -260,14 +260,24 @@ $$
 
 where $t^*$ cuts off the middle 95% of a $t$ distribution with $n - p$ degrees of freedom.
 
+. . .
+
+The **confidence level** is the percentage of the sampling distribution we call "plausible": the middle 95% for a 95% interval, the middle 90% for a 90% interval, and so on. A different level means a different $t^*$.
+
 ## In R {.smaller}
 
 ```{r}
 lunch_fit |> tidy(conf.int = TRUE) |> kable(digits = 2)
 ```
 
+By default `conf.int = TRUE` gives a 95% interval. Change the **confidence level** with `conf.level`:
+
+```{r}
+lunch_fit |> tidy(conf.int = TRUE, conf.level = 0.90) |> kable(digits = 2)
+```
+
 ::: question
-Do `conf.low` and `conf.high` match the two values you found with the slider?
+Do `conf.low` and `conf.high` match the two values you found with the slider? Is the 90% interval wider or narrower than the 95% interval? Why?
 :::
 
 # What does "95% confident" mean?
@@ -329,57 +339,6 @@ gf_segment(run + run ~ lower + upper, data = intervals,
 
 [My favorite visuliazation](https://rpsychologist.com/d3/CI/)
 
-# Intervals, tests, and effect size
-
-## Intervals and tests {.smaller}
-
-- If 0 is **outside** the 95% interval, the p-value for $H_0: \beta_1 = 0$ is below 0.05.
-- If 0 is **inside**, the p-value is above 0.05.
-
-. . .
-
-But the interval tells us more: it shows the **size** of the effect, not just whether it is detectable.
-
-::: question
-For Jo's problem, what matters more: whether the difference is zero, or whether it is bigger than the break-even?
-:::
-
-## Back to the break-even {.smaller}
-
-From HW 07: Jo needs at least **5 extra cups** at City Hall to cover \$15 of gas (at \$3 per cup).
-
-```{r}
-#| echo: false
-#| out.width: "70%"
-ci <- confint(lunch_fit)[2, ]
-gf_segment(1 + 1 ~ ci[1] + ci[2], linewidth = 2, color = "#533860") |>
-  gf_point(1 ~ coef(lunch_fit)[2], size = 4, color = "#533860") |>
-  gf_vline(xintercept = c(0, 5), linetype = c("solid", "dashed"),
-           color = c("grey40", "#d53a19")) |>
-  gf_lims(x = c(-5, 35)) |>
-  gf_labs(x = "City Hall - Business difference at Lunch (cups)", y = "") |>
-  gf_theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
-```
-
-::: question
-The grey line is 0 and the dashed red line is the break-even. Where does the interval sit? What would you tell Jo?
-:::
-
-. . .
-
-Each cup actually costs \$1 in ingredients, so Jo keeps \$2 per cup and the break-even is 7.5 cups. Does that change your answer?
-
-## Four cases {.smaller}
-
-Where the interval sits relative to 0 and to the break-even tells you what to do:
-
-| Interval | Statistically significant? | Practically significant? | Advice |
-|:---|:---|:---|:---|
-| Entirely above the break-even | Yes | Yes | Drive |
-| Above 0, but spans the break-even | Yes | Unclear | Gather more data |
-| Spans 0 and the break-even | No | Unclear | Probably not worth it to move (esp. if you did a power analysis) |
-| Entirely below the break-even | maybe | No | Do not drive |
-
 # What makes an interval narrow?
 
 ## Width {.smaller}
@@ -410,42 +369,113 @@ What happens to the width as we collect more data? What other things should make
 - Less noise ($\hat\sigma_\epsilon$): smaller $SE$.
 - A lower confidence level (90% instead of 95%): smaller $t^*$, but a worse guarantee.
 
-# Intervals for regression coefficients
-
 ## Intervals in MLR {.smaller}
 
-The same recipe works for every coefficient in a multiple regression.
+Note that, just like p-values, confidence intervals for coefficients depend on which other variables are in the model.
 
+:::: columns
+::: column
 ```{r}
-temp_fit <- lm(Sales ~ Temperature, data = coffee)
-mlr_fit <- lm(Sales ~ Temperature + Location + TimeOfDay, data = coffee)
-
-bind_rows(
-  tidy(temp_fit, conf.int = TRUE) |> mutate(model = "Temperature only"),
-  tidy(mlr_fit, conf.int = TRUE) |> mutate(model = "Temperature + Location + TimeOfDay")
-) |>
-  filter(term == "Temperature") |>
-  select(model, estimate, conf.low, conf.high) |>
-  kable(digits = 2)
+lm(Sales ~ Temperature, data = coffee) |> tidy(conf.int = TRUE) |> kable(digits=2)
 ```
+:::
+::: columns
+```{r}
+lm(Sales ~ Temperature + Location + TimeOfDay, data = coffee) |> tidy(conf.int = TRUE) |> kable(digits=2)
+```
+:::
+::::
 
 ::: question
 The interval for the `Temperature` slope moved when we added `Location` and `TimeOfDay`. Why? Does Jo's conclusion about temperature change?
 :::
 
-## Intervals and interactions {.smaller}
 
-Back to last time's interaction model for Business vs. City Hall:
+# Prediction intervals
+
+## Two different questions {.smaller}
+
+Jo is deciding whether to drive to City Hall for Lunch. There are two things Jo might ask:
+
+1. What is the **average** number of cups sold at City Hall at Lunch? (a **confidence interval** for the mean)
+2. How many cups will I sell **next Tuesday** at City Hall? (a **prediction interval** for one new shift)
 
 ```{r}
-int_fit <- lm(Sales ~ Location * TimeOfDay,
-              data = coffee |> filter(Location %in% c("Business", "CityHall")))
-int_fit |> tidy(conf.int = TRUE) |> select(term, estimate, conf.low, conf.high) |> kable(digits = 1)
+new_shift <- tibble(Location = "CityHall")
+```
+
+:::: columns
+::: column
+#### Confidence interval
+```{r}
+predict(lunch_fit, newdata = new_shift, interval = "confidence") |> kable(digits = 1)
+```
+:::
+::: column
+#### Prediction interval
+```{r}
+predict(lunch_fit, newdata = new_shift, interval = "prediction") |> kable(digits = 1)
+```
+:::
+::::
+
+::: question
+Both intervals are centered at the same value. Why is the prediction interval so much wider? Which one would you use to plan next Tuesday?
+:::
+
+## Why is the prediction interval wider? {.smaller}
+
+A single shift = the true mean **plus** random noise:
+
+$$
+y_{\text{new}} = \underbrace{\beta_0 + \beta_1 x}_{\text{what we estimate}} + \underbrace{\epsilon}_{\text{shift-to-shift noise}}
+$$
+
+- The **confidence interval** only accounts for uncertainty in our estimate of the coefficients. It shrinks to 0 width as $n$ grows.
+- The **prediction interval** also accounts for the noise $\epsilon$ in one new observation:
+
+$$
+\hat y \;\pm\; t^* \sqrt{\hat\sigma_\epsilon^2 + SE(\hat y)^2}
+$$
+
+. . .
+
+::: question
+What happens to each interval if we collect 10,000 more shifts? Can a prediction interval ever get narrower than about $\pm 2\hat\sigma_\epsilon$?
+:::
+
+## Both intervals in a plot {.smaller}
+
+```{r}
+#| echo: false
+#| out.width: "75%"
+
+temp_fit <- lm(Sales ~ Temperature, data = coffee) 
+temp_grid <- tibble(Temperature = seq(min(coffee$Temperature), max(coffee$Temperature), length.out = 100))
+bands <- bind_cols(
+  temp_grid,
+  predict(temp_fit, temp_grid, interval = "confidence") |> as_tibble(),
+  predict(temp_fit, temp_grid, interval = "prediction") |> as_tibble() |>
+    select(pred_lwr = lwr, pred_upr = upr)
+)
+
+ggplot() +
+  geom_point(aes(Temperature, Sales), data = coffee, alpha = 0.4) +
+  geom_ribbon(aes(Temperature, ymin = pred_lwr, ymax = pred_upr), data = bands,
+              fill = "grey70", alpha = 0.4) +
+  geom_ribbon(aes(Temperature, ymin = lwr, ymax = upr), data = bands,
+              fill = "#533860", alpha = 0.5) +
+  geom_line(aes(Temperature, fit), data = bands, color = "#533860", linewidth = 1) +
+  labs(x = "Temperature", y = "Cups sold")
 ```
 
 ::: question
-Is there convincing evidence that the City Hall effect is different at Lunch than in the Afternoon? How can you tell from the interval?
+The purple band is the confidence interval for the mean, the grey band is the prediction interval for one new shift. Roughly what fraction of the points should fall inside each band?
 :::
+
+. . .
+
+A 95% prediction interval should contain about **95% of new observations**. A 95% confidence interval contains the **true mean** 95% of the time.
 
 ## Activity: AE 21 {.smaller}
 
@@ -455,9 +485,10 @@ Is there convincing evidence that the City Hall effect is different at Lunch tha
 
 Back to **your pilot data**. Paste in your code from AE 19 first, then:
 
-- **Part 1:** get the formula-based 95% interval for each coefficient and interpret your primary variable's interval.
-- **Part 2:** use the "which true values are plausible?" idea to rebuild your interval by hand.
-- **Part 3:** is your pilot precise enough? What does the width tell you about your full-study sample size?
+- **Part 1:** get the 95% interval for each coefficient and interpret your primary variable's interval.
+- **Part 2:** change the confidence level and interpret what "95% confident" means.
+- **Part 3:** get a confidence interval and a prediction interval for a new observation.
+- **Part 4:** is your pilot precise enough? What does the width tell you about your full-study sample size?
 
 ```{r}
 #| echo: false
@@ -469,5 +500,6 @@ countdown(minutes = 30)
 - A **confidence interval** gives plausible values for a parameter, based on how much the estimate varies from sample to sample.
 - The interval is every true value that would make our estimate unsurprising: $\hat\beta \pm t^* \cdot SE$.
 - "95% confident" is a statement about the **procedure**: about 95% of intervals made this way contain the truth.
-- An interval shows both **whether** an effect is detectable (does it contain 0?) and **how big** it could be (where does it sit relative to the break-even?).
+- An interval shows both **whether** an effect is detectable (does it contain 0?) and **how big** it could be.
+- A **prediction interval** is for one new observation, so it adds the noise $\hat\sigma_\epsilon$ and is always wider than the confidence interval for the mean.
 - Intervals get narrower with more data and less noise, so the width of your pilot interval helps you plan the sample size for your full study.

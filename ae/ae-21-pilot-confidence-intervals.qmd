@@ -100,7 +100,7 @@ library(knitr)
 ```
 :::
 
-## Part 1: Formula-based intervals
+## Part 1: Confidence intervals
 
 ::: exercise
 Get the 95% confidence interval for every coefficient in `simple_fit` and `add_fit`, using `tidy(fit, conf.int = TRUE)`. Interpret the interval for your **primary variable** in `add_fit` in context. Does the interval agree with the p-value from AE 19 (is 0 inside or outside)?
@@ -115,54 +115,23 @@ tidy(add_fit, conf.int = TRUE)
 :::
 
 ::: exercise
-Verify one interval by hand: take the estimate and `std.error` from `tidy()`, find $t^*$ with `qt(0.975, df = df.residual(add_fit))`, and compute $\hat\beta \pm t^* \cdot SE(\hat\beta)$.
-:::
-
-::: answer
-```{r interval-by-hand}
-
-```
-:::
-
-::: exercise
 Compare the interval for your primary variable in `simple_fit` and in `add_fit`. Did the estimate move? Did the width change? Explain why.
 :::
 
 ::: answer
 :::
 
-## Part 2: Which true values are plausible?
-
-A 95% confidence interval is every true value of the coefficient that would make your estimate unsurprising: values within $t^*$ standard errors of your estimate.
+## Part 2: The confidence level
 
 ::: exercise
-Pull the estimate and standard error for your primary coefficient in `add_fit`, and compute $t^*$. Then, for several candidate true values (0, a practically meaningful effect, and a couple of others), compute how many standard errors your estimate is from each, `abs(est - b) / se`. Which candidates are plausible (fewer than $t^*$ standard errors away)?
+Get the interval for `add_fit` at the 90% and 99% confidence levels by adding `conf.level = 0.90` (or `0.99`) to `tidy()`. How does the width of the interval for your primary variable change as the confidence level goes up? Why is there a trade-off?
 :::
 
 ::: answer
-```{r candidates}
+```{r conf-level}
 #| eval: false
-est <- tidy(add_fit)$estimate[2]   # change [2] to the row for your primary variable
-se <- tidy(add_fit)$std.error[2]
-t_star <- qt(0.975, df = df.residual(add_fit))
-
-candidates <- c(0, 5, 10, 20)      # replace with values that make sense for your study
-tibble(candidate = candidates,
-       ses_away = abs(est - candidates) / se,
-       plausible = ses_away < t_star)
-```
-:::
-
-::: exercise
-Now try a fine grid of candidate values and keep the plausible ones. Compare `range()` of the plausible values with the interval from Part 1. Why do they match?
-:::
-
-::: answer
-```{r grid}
-#| eval: false
-grid <- seq(est - 10 * se, est + 10 * se, by = 0.01)
-plausible <- grid[abs(est - grid) / se < t_star]
-range(plausible)
+tidy(add_fit, conf.int = TRUE, conf.level = 0.90)
+tidy(add_fit, conf.int = TRUE, conf.level = 0.99)
 ```
 :::
 
@@ -173,7 +142,30 @@ A classmate says, "There is a 95% chance that the true effect is in my interval.
 ::: answer
 :::
 
-## Part 3: Is the pilot precise enough?
+## Part 3: Prediction intervals
+
+::: exercise
+Pick values of your predictors for one **new** observation (for example, a typical islander). Use `predict()` on `add_fit` to get both a confidence interval for the **mean** response and a prediction interval for **one new** response at those values. Put the new values in `new_obs`, using the same variable names as your model.
+:::
+
+::: answer
+```{r predict}
+#| eval: false
+new_obs <- tibble(x1 = , x2 = )   # fill in values for your variables
+
+predict(add_fit, newdata = new_obs, interval = "confidence")
+predict(add_fit, newdata = new_obs, interval = "prediction")
+```
+:::
+
+::: exercise
+Both intervals are centered at the same value. Why is the prediction interval wider? In the context of your study, when would you want each one?
+:::
+
+::: answer
+:::
+
+## Part 4: Is the pilot precise enough?
 
 ::: exercise
 How wide is your 95% interval for the primary variable? Name an effect size that would be **practically meaningful** for your research question (the smallest difference or slope you would care about). Does your interval rule it in, rule it out, or leave it open?
