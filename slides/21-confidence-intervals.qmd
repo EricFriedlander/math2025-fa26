@@ -485,10 +485,10 @@ A 95% prediction interval should contain about **95% of new observations**. A 95
 
 Back to **your pilot data**. Paste in your code from AE 19 first, then:
 
-- **Part 1:** get the 95% interval for each coefficient and interpret your primary variable's interval.
+- **Part 1:** get the 95% interval for each coefficient, interpret your primary variable's interval, and compare it across `simple_fit` and `add_fit`.
 - **Part 2:** change the confidence level and interpret what "95% confident" means.
-- **Part 3:** get a confidence interval and a prediction interval for a new observation.
-- **Part 4:** is your pilot precise enough? What does the width tell you about your full-study sample size?
+- **Part 3:** get a confidence interval and a prediction interval for a new observation, and explain why the prediction interval is wider.
+- **Part 4:** what would it take to get a narrower interval? Propose a rough sample size for your full study (this feeds into your Project 2: Power write-up).
 
 ```{r}
 #| echo: false

@@ -1,0 +1,217 @@
+---
+title: "HW 10: Confidence Intervals"
+author: "Insert Name Here"
+subtitle: "A short assignment on confidence and prediction intervals"
+editor: visual
+format:
+  html:
+    embed-resources: true
+    include-in-header:
+      text: |
+        <style>
+        /* Exercise / answer boxes. Canonical source: style/exercise-boxes.css
+           in the course repo, copy from there if this ever drifts. */
+        body { counter-reset: exercise; }
+        .exercise, .answer {
+          border-left: 4px solid #533860;
+          padding: .6em 1em;
+          margin: 1em 0;
+          border-radius: 4px;
+        }
+        .exercise { background: #f2eef5; }
+        .exercise::before {
+          counter-increment: exercise;
+          content: "Exercise " counter(exercise);
+          display: block;
+          font-weight: 700;
+          color: #533860;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .answer {
+          background: transparent;
+          border-left-color: #a49363;
+          border-left-style: dashed;
+          min-height: 3.5em;
+        }
+        .answer::before {
+          content: "Your answer";
+          display: block;
+          font-weight: 700;
+          color: #8a7a4f;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .quarto-dark .exercise {
+          background: rgba(255, 255, 255, .08);
+          border-left-color: #FFCB70;
+        }
+        .quarto-dark .exercise::before {
+          color: #FFCB70;
+        }
+        .quarto-dark .answer::before {
+          color: #ffd283;
+        }
+        </style>
+---
+
+```{r}
+#| include: FALSE
+knitr::opts_chunk$set(warning = FALSE,
+                      message = FALSE)
+```
+
+# Introduction
+
+This is a **short** homework on confidence intervals (Lesson 21). You return to the Coffee Truck data you generated in HW 08 and use intervals to ask not just *whether* an effect exists, but *how big* it could be, and how precisely we can predict a single day.
+
+::: callout-note
+This is an **individual** assignment, but you're welcome to talk through ideas with classmates. Your code and writing should be your own.
+:::
+
+## Learning goals
+
+By the end of this homework, you will...
+
+- Get and interpret a confidence interval for a regression coefficient in context
+- Use an interval to decide whether an effect is statistically and practically significant
+- Change the confidence level and explain the trade-off between width and confidence
+- Correctly interpret what "95% confident" means
+- Explain why an interval's width changes when you add predictors
+- Distinguish a confidence interval for a mean from a prediction interval for one new observation
+
+# Getting Started
+
+### Log in to RStudio
+
+- Go to [RStudio](https://rstudio.collegeofidaho.edu/) and login with your College of Idaho Email and Password.
+
+- Use the `hw` folder you made earlier in the semester. Create a subfolder called `hw10` to store this homework.
+
+- Log into [Canvas](https://cofi.instructure.com/courses/18743), navigate to HW-10, and download the `hw-10.qmd` file. Upload it into the folder you just made.
+
+## R and RStudio
+
+See the [R resources](https://ericfriedlander.github.io/math2025-fa26/computing-r-resources.html) page for a guide to the RStudio IDE and Quarto file components.
+
+# Packages
+
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(ggformula)
+library(broom)
+library(knitr)
+```
+
+# Exercises
+
+::: callout-tip
+Write all code and narrative in your Quarto file, in complete sentences. Periodically **render** your document. Break up long lines of code, for example by starting a new line after every pipe (`|>`).
+:::
+
+## Part 1: Your Coffee Truck data
+
+Use the data you generated in HW 08: Lunch shifts at the Business District and City Hall, with `Sales` (cups sold), `Location`, and `Temperature` (°F). Copy your `read_csv()` call from HW 08 into the first chunk below.
+
+::: callout-note
+If you no longer have your data, ask me for the class data set. Say so in your write-up.
+:::
+
+::: exercise
+Load your `coffee-hw08.csv` data and fit `loc_fit`: `Sales ~ Location`. Display the model with `tidy(conf.int = TRUE)`.
+
+a.  Interpret the 95% confidence interval for `LocationCityHall` in context.
+b.  Does the interval agree with the p-value in the same row (is 0 inside or outside)?
+c.  In HW 08, Jo needed at least **5 extra cups** at City Hall to break even. Where does your interval sit relative to 0 and relative to 5? Is the effect statistically significant? Practically significant? What would you tell Jo?
+:::
+
+::: answer
+```{r loc-fit}
+
+```
+:::
+
+## Part 2: Confidence level and interpretation
+
+::: exercise
+Get the interval for `LocationCityHall` in `loc_fit` at the 90%, 95%, and 99% confidence levels (use the `conf.level` argument of `tidy()`).
+
+a.  Make a small table with the lower bound, upper bound, and width at each level.
+b.  How does the width change as the confidence level goes up? Why is there a trade-off? (Think about the "size of the net.")
+:::
+
+::: answer
+```{r conf-levels}
+
+```
+:::
+
+::: exercise
+Your friend says, "My 95% interval for the City Hall effect is (`lower`, `upper`), so there is a 95% chance that the true effect is in that range."
+
+a.  What is wrong with this statement? (Hint: what is random, and what is fixed?)
+b.  Write a correct interpretation of "95% confident" for your interval.
+:::
+
+::: answer
+:::
+
+## Part 3: Intervals in multiple regression
+
+::: exercise
+Fit `both_fit`: `Sales ~ Location + Temperature`, and display it with `tidy(conf.int = TRUE)`.
+
+a.  Make a small table comparing the 95% interval for `LocationCityHall` in `loc_fit` and in `both_fit`: the estimate, lower bound, upper bound, and width.
+b.  Did the estimate move? Did the width change? Explain why, using what you know about how adding `Temperature` changes the residual noise and the standard error.
+c.  Interpret the 95% interval for the `Temperature` slope in `both_fit` in context.
+:::
+
+::: answer
+```{r both-fit}
+
+```
+:::
+
+## Part 4: Prediction intervals
+
+::: exercise
+Jo is planning a single Lunch shift at City Hall on a 70°F day. Use `predict()` with `both_fit` to get a 95% **confidence interval** for the mean and a 95% **prediction interval** for one new shift.
+
+a.  Put both intervals in one small table.
+b.  Interpret each interval in context.
+c.  Why is the prediction interval so much wider, even though both are centered at the same value?
+d.  If Jo wants to know how many cups to prepare for **that one day**, which interval should Jo use? If Jo wants to know the long-run average at City Hall on 70°F days, which one?
+:::
+
+::: answer
+```{r predict}
+
+```
+:::
+
+::: callout-tip
+You're done and ready to submit your work! Render your document and upload the .qmd and .html files to Canvas.
+:::
+
+# Grading (13 pts + 2 pts for writing and workflow)
+
+<br>
+
+| Component             | Points |
+|:----------------------|:-------|
+| Ex 1                  | 4      |
+| Ex 2                  | 2      |
+| Ex 3                  | 2      |
+| Ex 4                  | 3      |
+| Ex 5                  | 2      |
+| Grammar & Writing     | 1[^1]  |
+| Workflow & formatting | 1[^2]  |
+
+[^1]: The "Grammar & Writing" grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.
+
+[^2]: The "Workflow & formatting" grade is to assess the reproducible workflow and document format. This includes having a neatly organized document with readable code and your name and the date in the YAML.

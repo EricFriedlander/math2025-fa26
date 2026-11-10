@@ -151,7 +151,7 @@ Pick values of your predictors for one **new** observation (for example, a typic
 ::: answer
 ```{r predict}
 #| eval: false
-new_obs <- tibble(x1 = , x2 = )   # fill in values for your variables
+new_obs <- tibble(x1 = , x2 = )   # fill in values for your variables, don't forget to change the variable names so that they match your variables exactly
 
 predict(add_fit, newdata = new_obs, interval = "confidence")
 predict(add_fit, newdata = new_obs, interval = "prediction")
@@ -159,7 +159,7 @@ predict(add_fit, newdata = new_obs, interval = "prediction")
 :::
 
 ::: exercise
-Both intervals are centered at the same value. Why is the prediction interval wider? In the context of your study, when would you want each one?
+Both intervals are centered at the same value. Why is the prediction interval wider? In the context of your study, when would you want each one? 
 :::
 
 ::: answer
@@ -168,35 +168,12 @@ Both intervals are centered at the same value. Why is the prediction interval wi
 ## Part 4: Is the pilot precise enough?
 
 ::: exercise
-How wide is your 95% interval for the primary variable? Name an effect size that would be **practically meaningful** for your research question (the smallest difference or slope you would care about). Does your interval rule it in, rule it out, or leave it open?
-:::
-
-::: answer
-:::
-
-::: exercise
-If you kept the interaction, get the 95% interval for the **interaction** coefficient in `int_fit`. What range of values does it include, and what does that say about whether your two variables interact?
-:::
-
-::: answer
-```{r int-interval}
-
-```
-:::
-
-::: exercise
 What would it take to get a narrower interval in your full study (more islanders, less noise, or something else)? Use this to propose a rough sample size for your full study. This feeds into your Project 2: Power write-up.
 :::
 
 ::: answer
 :::
 
-::: exercise
-Which model, `add_fit` or `int_fit`, would you put in your analysis plan for the full study, and why? What is your **primary hypothesis**?
-:::
-
-::: answer
-:::
 
 ::: callout-important
 To submit the AE:
