@@ -1,0 +1,7 @@
+---
+title: "Preparation for Multicollinearity"
+---
+
+## Assigned reading
+
+Read section 8.6 of *Introduction to Regression Analysis: A Data Science Approach*, [8.6 Multicollinearity](https://introregression.netlify.app/08-mlr-inference.html#sec-mlr-multicollinearity), in Ch 8: Inference for multiple linear regression.

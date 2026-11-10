@@ -1,0 +1,10 @@
+---
+title: "Preparation for MLR Conditions"
+---
+
+## Assigned reading
+
+Read section 8.5 of *Introduction to Regression Analysis: A Data Science Approach*, [8.5 Model conditions and diagnostics](https://introregression.netlify.app/08-mlr-inference.html#sec-mlr-conditions-diagnositics), in Ch 8: Inference for multiple linear regression:
+
+- 8.5.1 Model conditions
+- 8.5.2 Model diagnostics
