@@ -22,7 +22,7 @@ The goal of this assignment is to begin analyzing your collected data, producing
 
 In your RStudio Project folder, in `islands-paper.qmd` (the same document as before), add your preliminary analysis under Methods and Results.
 
-Upload both your `islands-paper.qmd` and the rendered PDF (`islands-paper.pdf`) to Canvas. Every checkpoint requires both files.
+Upload both your `islands-paper.qmd` and the rendered PDF (`islands-paper.pdf`) to [Canvas](https://cofi.instructure.com/courses/18743/assignments/245469). Every checkpoint requires both files.
  
 :::
 
