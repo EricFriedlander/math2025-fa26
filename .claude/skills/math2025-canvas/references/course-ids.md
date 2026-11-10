@@ -147,3 +147,11 @@ Run from `~/.claude/skills/canvas-course-editor` with `pixi run python -c "..."`
 
 - Module `80071` (position 18), Prepare only (`ExternalUrl`, item `407486`), unpublished.
 - Next lecture module goes at position 19.
+
+
+## Lecture 20 (added 2026-11-09)
+
+- Module `80216` (position 22), Slides + AE-20, unpublished.
+- Assignment `245540` AE-20: Your Pilot Data, Nested Models and F-tests, 10 pts, due 2026-11-11T17:50:00Z (17:50Z, not 16:50Z, since DST ended Nov 1), unpublished.
+- No data file (students use their own pilot-data link). No Prepare or HW this lecture.
+- Next lecture module goes at position 23.
