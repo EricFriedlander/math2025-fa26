@@ -50,7 +50,7 @@ Using your pilot study data:
 #| eval: false
 
 sample_size <- 100 # modify this value until you get a power of 0.7
-sampling_distribution <- do(1000) * lm(response ~ explanatory, data = resample(pilot_data, n = sample_size)) |> tidy() |> filter(term == "explanatory")
+sampling_distribution <- do(1000) * lm(response ~ explanatory, data = resample(pilot_data, size = sample_size)) |> tidy() |> filter(term == "explanatory")
 power <- mean(sampling_distribution$p.value < 0.05)
 power
 ```
