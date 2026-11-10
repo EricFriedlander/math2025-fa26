@@ -12,6 +12,7 @@ format:
     slide-number: false
     incremental: false
     chalkboard: true
+    scrollable: true
 html-math-method:
   method: mathjax
   url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
@@ -45,8 +46,7 @@ library(tidyverse)   # for data wrangling and visualization
 library(ggformula)   # for plotting using formulas
 library(broom)       # for formatting model output
 library(knitr)       # for pretty tables
-library(kableExtra)  # also for pretty tables
-library(coursekata)  # for resample(), do(), tally()
+library(coursekata)  # for shuffle()
 
 # Coffee truck data: the same pre-generated experiment as AE 17 / AE 18 / HW 08.
 # 180 shifts, 15 per Location x TimeOfDay cell, Price fixed at $3.
@@ -103,126 +103,162 @@ If Jo ran the experiment again, would they get exactly `r round(coef(lunch_fit)[
 
 A **confidence interval** gives a range of plausible values for the true difference, based on how much the estimate varies from sample to sample.
 
-## The sampling distribution when there is an effect {.smaller}
+# From null distribution to sampling distribution
 
-In Lecture 19, shuffling gave us the sampling distribution of $\hat\beta_1$ **if there were no effect**: centered at 0.
+## Remember the null distribution {.smaller}
 
-. . .
-
-If the true difference is **not** 0, the sampling distribution is centered at the **true** difference instead. The spread is still about $SE(\hat\beta_1)$.
-
-Let's pretend our fitted Lunch model is the truth, and rerun the experiment 1000 times:
-
-```{r sampling-dist}
-set.seed(2026)
-sim_slopes <- replicate(1000, {
-  y <- fitted(lunch_fit) + rnorm(nrow(lunch), sd = sigma(lunch_fit))
-  coef(lm(y ~ Location, data = lunch))[2]
-})
-shuf_slopes <- replicate(1000, coef(lm(shuffle(Sales) ~ Location, data = lunch))[2])
+```{r est-se}
+#| include: false
+est <- tidy(lunch_fit)$estimate[2]
+se <- tidy(lunch_fit)$std.error[2]
+t_star <- qt(0.975, df = df.residual(lunch_fit))
 ```
+
+From Lecture 11: if $H_0: \beta_1 = 0$ is true, then $\hat\beta_1$ is approximately **normal**, with **mean 0** and **standard deviation equal to its standard error**, here $SE(\hat\beta_1) =$ `r round(se, 1)`.
 
 ```{r}
 #| echo: false
 #| out.width: "70%"
-bind_rows(
-  tibble(slope = shuf_slopes, source = "Shuffled (H0 true)"),
-  tibble(slope = sim_slopes, source = "Repeated experiments (effect is real)")
-) |>
-  gf_histogram(~ slope, fill = ~ source, bins = 40, alpha = 0.6, position = "identity") |>
-  gf_vline(xintercept = coef(lunch_fit)[2], linetype = "dashed") |>
-  gf_labs(x = "Estimated City Hall - Business difference (cups)", y = "Count", fill = "")
-```
-
-::: question
-Where is each distribution centered? Which one tells us how much our estimate could vary from sample to sample **when the effect is real**? That is what a confidence interval needs.
-:::
-
-# The bootstrap
-
-## Resampling our data {.smaller}
-
-We only have one sample. To see how much the estimate would vary, we **pretend our sample is the population** and draw new samples from it, **with replacement**, of the same size.
-
-```{r}
-set.seed(2026)
-one_resample <- resample(lunch)
-lm(Sales ~ Location, data = one_resample) |> tidy() |> kable(digits = 2)
+gf_dist("norm", mean = 0, sd = se, geom = "area", fill = "grey80") |>
+  gf_vline(xintercept = est, linetype = "dashed", color = "#533860", linewidth = 1.2) |>
+  gf_lims(x = c(-35, 35)) |>
+  gf_labs(x = "Estimated City Hall - Business difference (cups)", y = "Density",
+          title = "Null distribution (dashed line: our estimate)")
 ```
 
 . . .
 
-Same data, different resample, different estimate.
-
 ::: question
-Which new idea is this similar to? (Hint: Lectures 10 and 11 used shuffling.) What is different?
+Why is the middle of this distribution at 0?
 :::
 
-## 1000 resamples {.smaller}
+. . .
 
-```{r boot}
-set.seed(2026)
-boot <- do(1000) * {
-  fit <- lm(Sales ~ Location, data = resample(lunch))
-  tibble(slope = coef(fit)[2])
+Because we **assumed** the $\beta_1$ is 0 (i.e. there is no effect of `Location` on `Sales`). If nothing is going on, estimates scatter around 0 from sample to sample, just by chance.
+
+## What if the truth is not 0? {.smaller}
+
+::: question
+Suppose the true difference were $\beta_1 = 10$ cups. If Jo ran the experiment many times, where would the estimates be centered? What if the true difference were $\beta_1 = 25$?
+:::
+
+. . .
+
+The sampling distribution of $\hat\beta_1$ is centered at the **true** $\beta_1$, with the same spread, $SE(\hat\beta_1)$. The null distribution is just the special case $\beta_1 = 0$.
+
+```{r}
+#| echo: false
+#| out.width: "70%"
+gf_dist("norm", mean = 0, sd = se, geom = "area", fill = "grey80") |>
+  gf_lims(x = c(-35, 35)) |>
+  gf_refine(scale_x_continuous(
+    breaks = c(-se, 0, se),
+    labels = expression(beta[1] - SE(hat(beta)[1]), beta[1], beta[1] + SE(hat(beta)[1])))) |>
+  gf_labs(x = "Estimated City Hall - Business difference (cups)", y = "Density",
+          title = "Sampling distribution") |>
+  gf_theme(axis.text.x = element_text(size = 14))
+```
+
+. . .
+
+The catch: we don't know the true $\beta_1$, so we don't know where to center the distribution.
+
+## Which true values are plausible? {.smaller}
+
+We know where our estimate landed. Slide the **sampling distribution** to different true values. The shaded middle 95% is where estimates usually fall.
+
+```{r ojs-data}
+#| include: false
+z_grid <- seq(-6, 6, by = 0.05)
+ojs_define(
+  ci_est = est,
+  ci_se = se,
+  ci_tstar = t_star,
+  ci_z = z_grid,
+  ci_d = dt(z_grid, df = df.residual(lunch_fit)),
+  ci_dmax = dt(0, df = df.residual(lunch_fit)) / se
+)
+```
+
+```{ojs}
+//| echo: false
+viewof beta = Inputs.range([-10, 40], {step: 0.1, value: 0, label: "True difference β₁"})
+```
+
+```{ojs}
+//| echo: false
+{
+  const pts = ci_z.map((z, i) => ({x: beta + z * ci_se, y: ci_d[i] / ci_se, mid: Math.abs(z) <= ci_tstar}));
+  const inside = Math.abs(ci_est - beta) <= ci_tstar * ci_se;
+  const col = inside ? "#533860" : "#d53a19";
+  const plot = Plot.plot({
+    width: 900, height: 260, marginBottom: 30, style: {fontSize: "18px"},
+    x: {domain: [-40, 70], label: null},
+    y: {axis: null, domain: [0, 1.2 * ci_dmax]},
+    marks: [
+      Plot.areaY(pts.filter(p => p.mid), {x: "x", y: "y", fill: "#533860", fillOpacity: 0.3, clip: true}),
+      Plot.line(pts, {x: "x", y: "y", stroke: "#533860", clip: true}),
+      Plot.ruleX([beta], {stroke: "grey", strokeDasharray: "4"}),
+      Plot.ruleX([ci_est], {stroke: col, strokeWidth: 3}),
+      // beta_1 above the dotted line (moves with the slider)
+      Plot.text([{x: beta, y: 1.08 * ci_dmax}], {x: "x", y: "y", text: ["β"], fill: "grey", textAnchor: "middle"}),
+      Plot.text([{x: beta, y: 1.08 * ci_dmax}], {x: "x", y: "y", text: ["₁"], fill: "grey", textAnchor: "start", dx: 7, dy: 4}),
+      // "our estimate  beta-hat_1" next to the estimate line, hat drawn by hand
+      Plot.text([{x: ci_est, y: 0.3 * ci_dmax}], {x: "x", y: "y", text: ["our estimate"], fill: col, textAnchor: "end", dx: -22}),
+      Plot.text([{x: ci_est, y: 0.3 * ci_dmax}], {x: "x", y: "y", text: ["β"], fill: col, textAnchor: "middle", dx: -9}),
+      Plot.text([{x: ci_est, y: 0.3 * ci_dmax}], {x: "x", y: "y", text: ["^"], fill: col, textAnchor: "middle", dx: -9, dy: -5}),
+      Plot.text([{x: ci_est, y: 0.3 * ci_dmax}], {x: "x", y: "y", text: ["₁"], fill: col, textAnchor: "start", dx: -3, dy: 4})
+    ]
+  });
+  return html`<div>${plot}<div style="text-align: center; font-size: 0.8em;">Estimated City Hall - Business difference (cups)</div></div>`;
 }
 ```
 
-```{r}
-#| echo: false
-#| out.width: "70%"
-gf_histogram(~ slope, data = boot, bins = 30, fill = "grey80", color = "white") |>
-  gf_vline(xintercept = coef(lunch_fit)[2], color = "#533860", linewidth = 1.2) |>
-  gf_labs(x = "Estimated City Hall - Business difference (cups)", y = "Count")
-```
-
-The distribution of the bootstrap estimates is centered on **our estimate** (purple line), not on 0 as in a hypothesis test.
-
-## A bootstrap confidence interval {.smaller}
-
-Take the middle 95% of the bootstrapped estimates: the 2.5th and 97.5th percentiles.
-
-```{r}
-boot_ci <- quantile(boot$slope, c(0.025, 0.975))
-boot_ci
-```
-
-```{r}
-#| echo: false
-#| out.width: "70%"
-gf_histogram(~ slope, data = boot, bins = 30, fill = "grey80", color = "white") |>
-  gf_vline(xintercept = boot_ci, color = "#d53a19", linewidth = 1.2, linetype = "dashed") |>
-  gf_labs(x = "Estimated City Hall - Business difference (cups)", y = "Count")
+```{ojs}
+//| echo: false
+html`<p style="font-size: 0.9em; color: ${Math.abs(ci_est - beta) <= ci_tstar * ci_se ? "#533860" : "#d53a19"}"><b>Our estimate is ${(Math.abs(ci_est - beta) / ci_se).toFixed(2)} standard errors from β₁ = ${beta.toFixed(1)}:</b> ${Math.abs(ci_est - beta) <= ci_tstar * ci_se ? "a plausible value (inside the middle 95%)." : "not plausible (outside the middle 95%)."}</p>`
 ```
 
 ::: question
-Based on this interval, what are plausible values for the true difference in mean sales at Lunch?
+Start at 0. Slide right until our estimate lands inside the middle 95%. Keep going: where does it fall out the other side? Write down both values.
+:::
+
+## The plausible values are the interval {.smaller}
+
+```{r}
+#| echo: false
+#| out.width: "70%"
+ci_bounds <- confint(lunch_fit)[2, ]
+grid <- tibble(x = seq(-30, 70, by = 0.2))
+curves <- bind_rows(
+  grid |> mutate(y = dt((x - ci_bounds[1]) / se, df.residual(lunch_fit)) / se, center = "lower"),
+  grid |> mutate(y = dt((x - ci_bounds[2]) / se, df.residual(lunch_fit)) / se, center = "upper")
+)
+ggplot(curves, aes(x, y, group = center)) +
+  geom_line(color = "#533860") +
+  geom_vline(xintercept = est, color = "#d53a19", linewidth = 1.2) +
+  geom_vline(xintercept = ci_bounds, linetype = "dashed", color = "grey40") +
+  labs(x = "Estimated City Hall - Business difference (cups)", y = NULL) +
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
+```
+
+A **95% confidence interval** is every true value whose sampling distribution puts our estimate (red line) in its middle 95%. The two extreme values are the interval's **endpoints**.
+
+::: question
+At each endpoint, how many standard errors away is our estimate? What does that tell you about how to compute the endpoints directly?
 :::
 
 # The formula-based interval
 
 ## From a standard error to an interval {.smaller}
 
-From Lecture 11, we know the **standard error** of a slope, and that $(\hat\beta_1 - \beta_1)/SE(\hat\beta_1)$ follows a $t$ distribution. So:
+The slider stopped exactly $t^*$ **standard errors** from our estimate on each side. From Lecture 11, $(\hat\beta_1 - \beta_1)/SE(\hat\beta_1)$ follows a $t$ distribution, so the endpoints are:
 
 $$
 \hat\beta_1 \;\pm\; t^* \times SE(\hat\beta_1)
 $$
 
-where $t^*$ cuts off the middle 95% of a $t$ distribution with $n - 2$ degrees of freedom.
-
-```{r}
-t_star <- qt(0.975, df = df.residual(lunch_fit))
-t_star
-```
-
-. . .
-
-```{r}
-est <- tidy(lunch_fit)$estimate[2]
-se <- tidy(lunch_fit)$std.error[2]
-c(est - t_star * se, est + t_star * se)
-```
+where $t^*$ cuts off the middle 95% of a $t$ distribution with $n - p$ degrees of freedom.
 
 ## In R {.smaller}
 
@@ -230,24 +266,8 @@ c(est - t_star * se, est + t_star * se)
 lunch_fit |> tidy(conf.int = TRUE) |> kable(digits = 2)
 ```
 
-```{r}
-confint(lunch_fit)
-```
-
-Compare with the bootstrap interval:
-
-```{r}
-#| echo: false
-tibble(
-  method = c("Formula (t)", "Bootstrap"),
-  lower = c(confint(lunch_fit)[2, 1], boot_ci[1]),
-  upper = c(confint(lunch_fit)[2, 2], boot_ci[2])
-) |>
-  kable(digits = 1)
-```
-
 ::: question
-Why are they so close? When might they be different?
+Do `conf.low` and `conf.high` match the two values you found with the slider?
 :::
 
 # What does "95% confident" mean?
@@ -266,11 +286,21 @@ Which of these is correct?
 
 Only **3** is right. The true difference is a fixed number. The **interval** is what changes from sample to sample.
 
+. . .
+
+Analogy: Fishing
+
+- Fish = true $\beta_1$
+- Net = confidence interval
+- Confidence level (i.e. 95\%) = size of net
+
 ## Simulating the "95%" {.smaller}
 
 Let's pretend our fitted model is the truth. We run the experiment 1000 times, make a 95% interval each time, and count how often the interval contains the true difference.
 
 ```{r}
+#| echo: false
+#| out.width: "55%"
 set.seed(2026)
 true_diff <- coef(lunch_fit)[2]
 
@@ -281,14 +311,6 @@ covers <- replicate(1000, {
 })
 
 mean(covers)
-```
-
-. . .
-
-```{r}
-#| echo: false
-#| out.width: "55%"
-set.seed(2026)
 intervals <- map(1:30, \(i) {
   y <- fitted(lunch_fit) + rnorm(nrow(lunch), sd = sigma(lunch_fit))
   ci <- confint(lm(y ~ Location, data = lunch))[2, ]
@@ -302,6 +324,10 @@ gf_segment(run + run ~ lower + upper, data = intervals,
   gf_vline(xintercept = true_diff, linetype = "dashed") |>
   gf_labs(x = "Interval for the difference (cups)", y = "Experiment", color = "Contains the truth?")
 ```
+
+. . .
+
+[My favorite visuliazation](https://rpsychologist.com/d3/CI/)
 
 # Intervals, tests, and effect size
 
@@ -351,7 +377,7 @@ Where the interval sits relative to 0 and to the break-even tells you what to do
 |:---|:---|:---|:---|
 | Entirely above the break-even | Yes | Yes | Drive |
 | Above 0, but spans the break-even | Yes | Unclear | Gather more data |
-| Spans 0 and the break-even | No | Unclear | Not enough data to tell |
+| Spans 0 and the break-even | No | Unclear | Probably not worth it to move (esp. if you did a power analysis) |
 | Entirely below the break-even | maybe | No | Do not drive |
 
 # What makes an interval narrow?
@@ -430,7 +456,7 @@ Is there convincing evidence that the City Hall effect is different at Lunch tha
 Back to **your pilot data**. Paste in your code from AE 19 first, then:
 
 - **Part 1:** get the formula-based 95% interval for each coefficient and interpret your primary variable's interval.
-- **Part 2:** build a bootstrap interval and compare it with the formula interval.
+- **Part 2:** use the "which true values are plausible?" idea to rebuild your interval by hand.
 - **Part 3:** is your pilot precise enough? What does the width tell you about your full-study sample size?
 
 ```{r}
@@ -441,7 +467,7 @@ countdown(minutes = 30)
 ## Recap {.smaller}
 
 - A **confidence interval** gives plausible values for a parameter, based on how much the estimate varies from sample to sample.
-- Two ways to make one: **bootstrap** (resample the data) or **formula** ($\hat\beta \pm t^* \cdot SE$).
+- The interval is every true value that would make our estimate unsurprising: $\hat\beta \pm t^* \cdot SE$.
 - "95% confident" is a statement about the **procedure**: about 95% of intervals made this way contain the truth.
 - An interval shows both **whether** an effect is detectable (does it contain 0?) and **how big** it could be (where does it sit relative to the break-even?).
 - Intervals get narrower with more data and less noise, so the width of your pilot interval helps you plan the sample size for your full study.

@@ -1,6 +1,6 @@
 ---
 title: "AE 21: Your Pilot Data, Confidence Intervals"
-subtitle: "Intervals, bootstrap, and planning your full study"
+subtitle: "Intervals, plausible values, and planning your full study"
 editor: visual
 format:
   html:
@@ -66,7 +66,7 @@ format:
 
 ## Intro
 
-A p-value tells you whether a coefficient could be 0, but not **how big** the effect is or how precisely you have measured it. Today you build **confidence intervals** for your pilot data, two different ways, and ask whether your pilot is precise enough to plan your full study.
+A p-value tells you whether a coefficient could be 0, but not **how big** the effect is or how precisely you have measured it. Today you build **confidence intervals** for your pilot data, and ask whether your pilot is precise enough to plan your full study.
 
 ## Part 0: Bring your work forward
 
@@ -86,7 +86,6 @@ library(tidyverse)
 library(ggformula)
 library(broom)
 library(knitr)
-library(coursekata)
 ```
 
 ```{r load-data}
@@ -132,30 +131,38 @@ Compare the interval for your primary variable in `simple_fit` and in `add_fit`.
 ::: answer
 :::
 
-## Part 2: A bootstrap interval
+## Part 2: Which true values are plausible?
+
+A 95% confidence interval is every true value of the coefficient that would make your estimate unsurprising: values within $t^*$ standard errors of your estimate.
 
 ::: exercise
-Build a bootstrap distribution of your primary coefficient in `add_fit`. Fill in the model formula, delete `#| eval: false`, and run it. If your primary variable is categorical, the coefficient you want may be the second one, `coef(fit)[2]`, or whichever row matches your comparison.
+Pull the estimate and standard error for your primary coefficient in `add_fit`, and compute $t^*$. Then, for several candidate true values (0, a practically meaningful effect, and a couple of others), compute how many standard errors your estimate is from each, `abs(est - b) / se`. Which candidates are plausible (fewer than $t^*$ standard errors away)?
 :::
 
 ::: answer
-```{r bootstrap}
+```{r candidates}
 #| eval: false
-set.seed(2026)
-boot <- do(1000) * {
-  fit <- lm(y ~ x1 + x2, data = resample(pilot))
-  tibble(estimate = coef(fit)[2])
-}
+est <- tidy(add_fit)$estimate[2]   # change [2] to the row for your primary variable
+se <- tidy(add_fit)$std.error[2]
+t_star <- qt(0.975, df = df.residual(add_fit))
+
+candidates <- c(0, 5, 10, 20)      # replace with values that make sense for your study
+tibble(candidate = candidates,
+       ses_away = abs(est - candidates) / se,
+       plausible = ses_away < t_star)
 ```
 :::
 
 ::: exercise
-Make a histogram of your bootstrapped estimates and mark your original estimate on it. Then use `quantile(boot$estimate, c(0.025, 0.975))` to get the 95% **bootstrap interval**. How does it compare with the formula interval from Part 1? Why might they differ when you only have about 20 islanders?
+Now try a fine grid of candidate values and keep the plausible ones. Compare `range()` of the plausible values with the interval from Part 1. Why do they match?
 :::
 
 ::: answer
-```{r boot-interval}
-
+```{r grid}
+#| eval: false
+grid <- seq(est - 10 * se, est + 10 * se, by = 0.01)
+plausible <- grid[abs(est - grid) / se < t_star]
+range(plausible)
 ```
 :::
 
