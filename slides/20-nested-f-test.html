@@ -196,6 +196,14 @@
   </style>
   <link href="../site_libs/countdown-0.6.0/countdown.css" rel="stylesheet">
   <script src="../site_libs/countdown-0.6.0/countdown.js"></script>
+  <script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+  <script src="../site_libs/plotly-binding-4.12.1/plotly.js"></script>
+  <script src="../site_libs/typedarray-0.1/typedarray.min.js"></script>
+  <script src="../site_libs/jquery-3.5.1/jquery.min.js"></script>
+  <link href="../site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+  <script src="../site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+  <link href="../site_libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet">
+  <script src="../site_libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -215,6 +223,138 @@ Prof.&nbsp;Eric Friedlander
 
 </section>
 <section>
+<section id="ae-19-part-4-discussion" class="title-slide slide level1 center">
+<h1>AE 19 Part 4: discussion</h1>
+
+</section>
+<section id="discussing-ae-19-part-4" class="slide level2 smaller">
+<h2>Discussing AE 19 Part 4</h2>
+<div class="appex">
+<p>📋 <a href="https://ericfriedlander.github.io/math2025-fa26/ae/ae-19-pilot-t-tests.html">AE 19 - Your Pilot Data: t-tests</a></p>
+</div>
+<p>Talk with a neighbor about your pilot data:</p>
+<div class="question">
+<ul>
+<li>What null hypothesis does the p-value for your primary variable in <code>add_fit</code> test? (Remember: <em>holding the other variables in the model constant</em>.)</li>
+<li>Did that p-value change between <code>simple_fit</code> and <code>add_fit</code>? Why? What question is each p-value answering?</li>
+</ul>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_cb2bf1c0" minutes="5" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+</div>
+</div>
+</section></section>
+<section>
+<section id="categorical-predictors" class="title-slide slide level1 center">
+<h1>Categorical predictors</h1>
+
+</section>
+<section id="categorical-predictors-tests-against-a-reference-level" class="slide level2">
+<h2>Categorical predictors: tests against a reference level</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">lm</span>(Sales <span class="sc">~</span> Location, <span class="at">data =</span> coffee) <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">74.356</td>
+<td style="text-align: right;">2.950</td>
+<td style="text-align: right;">25.207</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LocationCityHall</td>
+<td style="text-align: right;">-5.844</td>
+<td style="text-align: right;">4.172</td>
+<td style="text-align: right;">-1.401</td>
+<td style="text-align: right;">0.163</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LocationPark</td>
+<td style="text-align: right;">11.511</td>
+<td style="text-align: right;">4.172</td>
+<td style="text-align: right;">2.759</td>
+<td style="text-align: right;">0.006</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LocationZoo</td>
+<td style="text-align: right;">-19.067</td>
+<td style="text-align: right;">4.172</td>
+<td style="text-align: right;">-4.571</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Each <code>Location</code> p-value compares that location with the <strong>reference level</strong> (Business), not with every other location.</p>
+</section>
+<section id="relevel-your-factors-to-get-your-desired-reference-level" class="slide level2">
+<h2>Relevel your factors to get your desired reference level</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" data-code-line-numbers="|2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>coffee_zoo_base <span class="ot">&lt;-</span>  coffee <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a></a>  <span class="fu">mutate</span>(<span class="at">Location =</span> <span class="fu">relevel</span>(<span class="fu">factor</span>(Location), <span class="at">ref =</span> <span class="st">"Zoo"</span>))</span>
+<span id="cb2-3"><a></a></span>
+<span id="cb2-4"><a></a><span class="fu">lm</span>(Sales <span class="sc">~</span> Location, <span class="at">data =</span> coffee_zoo_base) <span class="sc">|&gt;</span></span>
+<span id="cb2-5"><a></a>  <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">55.289</td>
+<td style="text-align: right;">2.950</td>
+<td style="text-align: right;">18.744</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LocationBusiness</td>
+<td style="text-align: right;">19.067</td>
+<td style="text-align: right;">4.172</td>
+<td style="text-align: right;">4.571</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LocationCityHall</td>
+<td style="text-align: right;">13.222</td>
+<td style="text-align: right;">4.172</td>
+<td style="text-align: right;">3.170</td>
+<td style="text-align: right;">0.002</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LocationPark</td>
+<td style="text-align: right;">30.578</td>
+<td style="text-align: right;">4.172</td>
+<td style="text-align: right;">7.330</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>You might want to do this if you have an experiment with one control (reference level) and multiple treatments.</p>
+</section></section>
+<section>
 <section id="review-t-tests-in-mlr" class="title-slide slide level1 center">
 <h1>Review: t-tests in MLR</h1>
 
@@ -222,8 +362,8 @@ Prof.&nbsp;Eric Friedlander
 <section id="where-we-are" class="slide level2 smaller">
 <h2>Where we are</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>mlr_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sales <span class="sc">~</span> Temperature <span class="sc">+</span> Location <span class="sc">+</span> TimeOfDay, <span class="at">data =</span> coffee)</span>
-<span id="cb1-2"><a></a>mlr_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>mlr_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sales <span class="sc">~</span> Temperature <span class="sc">+</span> Location <span class="sc">+</span> TimeOfDay, <span class="at">data =</span> coffee)</span>
+<span id="cb3-2"><a></a>mlr_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
@@ -295,14 +435,166 @@ Prof.&nbsp;Eric Friedlander
 </div>
 </section></section>
 <section>
+<section id="a-correction-what-do-we-shuffle" class="title-slide slide level1 center">
+<h1>A correction: what do we shuffle?</h1>
+
+</section>
+<section id="correction-shuffle-the-response" class="slide level2 smaller">
+<h2>Correction: shuffle the <strong>response</strong></h2>
+<p>Last time I said that, to test one coefficient, we shuffle the <strong>explanatory</strong> variable. <strong>That was wrong.</strong> We shuffle the <strong>response</strong>:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">lm</span>(<span class="fu">shuffle</span>(Sales) <span class="sc">~</span> Temperature <span class="sc">+</span> TimeOfDay, <span class="at">data =</span> coffee) <span class="co"># correct: shuffle the response</span></span>
+<span id="cb4-2"><a></a><span class="fu">lm</span>(Sales <span class="sc">~</span> <span class="fu">shuffle</span>(Temperature) <span class="sc">+</span> TimeOfDay, <span class="at">data =</span> coffee) <span class="co"># wrong: shuffle an explanatory variable</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="fragment">
+<ul>
+<li>Shuffling <code>Sales</code> breaks the link between the response and <strong>all</strong> of the predictors, but the predictors stay exactly as we observed them, <strong>including how they relate to each other</strong>.</li>
+<li>Shuffling <code>Temperature</code> also breaks the relationship between <code>Temperature</code> and <code>TimeOfDay</code>. The shuffled data sets have predictors that look nothing like ours.</li>
+</ul>
+<div class="question">
+<p>Why might it matter if the shuffled data sets have predictors that are related differently from the real ones?</p>
+</div>
+</div>
+</section>
+<section id="does-it-matter" class="slide level2 smaller">
+<h2>Does it matter?</h2>
+<p>A simulated data set where <code>X1</code> and <code>X2</code> are highly correlated (<span class="math inline">\(r = 0.95\)</span>), and the true slope of <code>X1</code> is <strong>0</strong>:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>corr_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> corr_data)</span>
+<span id="cb5-2"><a></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb5-3"><a></a>shuf_y <span class="ot">&lt;-</span> mosaic<span class="sc">::</span><span class="fu">do</span>(<span class="dv">1000</span>) <span class="sc">*</span> <span class="fu">lm</span>(mosaic<span class="sc">::</span><span class="fu">shuffle</span>(y) <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> corr_data)</span>
+<span id="cb5-4"><a></a>shuf_x <span class="ot">&lt;-</span> mosaic<span class="sc">::</span><span class="fu">do</span>(<span class="dv">1000</span>) <span class="sc">*</span> <span class="fu">lm</span>(y <span class="sc">~</span> mosaic<span class="sc">::</span><span class="fu">shuffle</span>(x1) <span class="sc">+</span> x2, <span class="at">data =</span> corr_data)</span>
+<span id="cb5-5"><a></a></span>
+<span id="cb5-6"><a></a><span class="fu">bind_rows</span>(<span class="fu">tibble</span>(<span class="at">method =</span> <span class="st">"Shuffle Y (correct)"</span>, <span class="at">slope =</span> shuf_y<span class="sc">$</span>x1),</span>
+<span id="cb5-7"><a></a>          <span class="fu">tibble</span>(<span class="at">method =</span> <span class="st">"Shuffle X1 (wrong)"</span>, <span class="at">slope =</span> shuf_x[[<span class="dv">2</span>]])) <span class="sc">|&gt;</span></span>
+<span id="cb5-8"><a></a>  <span class="fu">gf_histogram</span>(<span class="sc">~</span> slope <span class="sc">|</span> method, <span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"grey80"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-9"><a></a>  <span class="fu">gf_vline</span>(<span class="at">xintercept =</span> <span class="fu">coef</span>(corr_fit)[[<span class="st">"x1"</span>]], <span class="at">color =</span> <span class="st">"#533860"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-10"><a></a>  <span class="fu">gf_labs</span>(<span class="at">x =</span> <span class="st">"X1 slope from a shuffled data set"</span>, <span class="at">y =</span> <span class="st">"Number of shuffles"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="20-nested-f-test_files/figure-revealjs/shuffle-compare-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><div class="question">
+<p>Which null distribution is narrower? What would that do to the p-value? To see why, look at the next two slides.</p>
+</div>
+</section>
+<section id="correlated-predictors-a-wobbly-plane" class="slide level2 smaller">
+<h2>Correlated predictors: a wobbly plane</h2>
+<p><code>X1</code> and <code>X2</code> are highly correlated (<span class="math inline">\(r = 0.95\)</span>). The truth: <code>Y</code> depends on <code>X2</code> only (true <code>X1</code> slope = 0).</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="htmlwidget-730f0e8140ffc2f7c865" style="width:80%;height:450px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-730f0e8140ffc2f7c865">{"x":{"visdat":{"234ea96fa7aa16":["function () ","plotlyVisDat"]},"cur_data":"234ea96fa7aa16","attrs":{"234ea96fa7aa16":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":[-0.81031547189302355,0.10332756866208691,-1.0462268133293786,1.6953993114427977,0.26783628206948396,-1.0291288179478124,0.44594292232327293,0.72890783739561826,0.54558833497803594,-0.44821174733770647,1.6012268277809114,0.33588377285499404,-0.80443589117862691,-2.6015697694257427,1.1649297176248625,-0.15446586779152416,-0.12204857259909603,0.96068764342291035,0.82240008403815534,0.56602438316620951,0.932651369328382,0.77831939273830353,-0.01969307009572693,-2.3474177698573477,0.59526244733372047,-0.16709195007295499,-0.27949803605334683,-1.7625315484865236,-0.64305566022997063,0.36757359975648768,1.4285558964061382,-0.21971484880407391,0.33343457281817368,-0.16447123796472268,-1.6568629863988311,-0.5718276888255186,-0.54847663418991199,-0.1706836673442238,1.1368407663898976,0.75693531929562119],"y":[-0.80882389198350257,-0.038913632416097022,-0.71705381804661739,1.6370226765474842,-0.045612220830894723,-1.188733394041118,0.47547168298035003,0.86342949874928632,0.39753637723657809,-0.1291599052914324,1.4995500228675287,0.040610632167953631,-0.62845895351722236,-2.7129641530513298,1.4758031624406893,0.50919118816777453,-0.27588158770347398,0.43844174671623032,0.87647226987326932,0.40757725338691386,1.6078711512691166,0.62682832922988085,0.18007139971348982,-2.0891890366044756,0.22244480703653902,-0.12269019927532115,-0.91206167128208038,-1.0784780092055564,-0.55212759126425448,1.033297461433091,1.3750469562985854,-0.48023268429541205,0.46216453883261072,-0.50948998410890489,-1.9281081507779794,-0.44181947950522038,-0.67595186846240063,-0.19087394996246615,0.98038493459887355,0.4174080920795129],"z":[0.33817300878874468,1.7583184448981548,3.0500766768131893,1.3516724759028413,2.8453070606117379,1.3106921627791595,4.0701214388948941,2.4071536132978353,2.9525645921110102,2.2714882808669139,2.6857699763800529,3.852412341142712,3.1121449700252053,0.33735632122116765,5.8560533442519578,3.3469208265157304,-0.19076990039052877,1.5785436253609009,1.0395533475257355,1.6974762987279466,2.6773211354329303,2.6900021389462339,0.81368892688482153,0.14785412200163683,1.2405678411583125,4.5282407047836477,2.1629995427437283,2.2867833350372844,2.0241504454752626,5.5565615822122183,2.4214422753751199,0.82730022016373883,4.6105878966451055,0.51446548592554509,-0.2391792661809275,0.96896862633180381,0.84405882871483917,1.3904560955726954,3.7216674315006144,2.1514123686751034],"type":"scatter3d","mode":"markers","marker":{"size":3,"color":"#C0392B"},"showlegend":false,"inherit":true},"234ea96fa7aa16.1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"z":[[0.34488768195938047,-6.3780584665407121],[10.728577398696967,4.0056312501968732]],"type":"surface","x":[-2.5,2.5],"y":[-2.5,2.5],"opacity":0.75,"colorscale":[["0","#533860"],["1","#533860"]],"showscale":false,"inherit":true}},"layout":{"height":450,"margin":{"b":0,"l":0,"t":30,"r":0},"scene":{"xaxis":{"title":"X1","range":[-2.5,2.5]},"yaxis":{"title":"X2","range":[-2.5,2.5]},"zaxis":{"title":"Y","range":[-12,16]},"aspectmode":"cube","camera":{"eye":{"x":1.7,"y":-1.7,"z":0.69999999999999996}}},"autosize":true,"annotations":[{"text":"Fitted slopes: b1 = -1.34, b2 = 2.08   (truth: b1 = 0, b2 = 1)","x":0.5,"y":1,"xref":"paper","yref":"paper","showarrow":false,"font":{"size":16}}],"updatemenus":[{"type":"buttons","showactive":false,"x":0,"y":0.90000000000000002,"buttons":[{"method":"skip","label":"New noise"}]}],"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displayModeBar":false},"data":[{"x":[-0.81031547189302355,0.10332756866208691,-1.0462268133293786,1.6953993114427977,0.26783628206948396,-1.0291288179478124,0.44594292232327293,0.72890783739561826,0.54558833497803594,-0.44821174733770647,1.6012268277809114,0.33588377285499404,-0.80443589117862691,-2.6015697694257427,1.1649297176248625,-0.15446586779152416,-0.12204857259909603,0.96068764342291035,0.82240008403815534,0.56602438316620951,0.932651369328382,0.77831939273830353,-0.01969307009572693,-2.3474177698573477,0.59526244733372047,-0.16709195007295499,-0.27949803605334683,-1.7625315484865236,-0.64305566022997063,0.36757359975648768,1.4285558964061382,-0.21971484880407391,0.33343457281817368,-0.16447123796472268,-1.6568629863988311,-0.5718276888255186,-0.54847663418991199,-0.1706836673442238,1.1368407663898976,0.75693531929562119],"y":[-0.80882389198350257,-0.038913632416097022,-0.71705381804661739,1.6370226765474842,-0.045612220830894723,-1.188733394041118,0.47547168298035003,0.86342949874928632,0.39753637723657809,-0.1291599052914324,1.4995500228675287,0.040610632167953631,-0.62845895351722236,-2.7129641530513298,1.4758031624406893,0.50919118816777453,-0.27588158770347398,0.43844174671623032,0.87647226987326932,0.40757725338691386,1.6078711512691166,0.62682832922988085,0.18007139971348982,-2.0891890366044756,0.22244480703653902,-0.12269019927532115,-0.91206167128208038,-1.0784780092055564,-0.55212759126425448,1.033297461433091,1.3750469562985854,-0.48023268429541205,0.46216453883261072,-0.50948998410890489,-1.9281081507779794,-0.44181947950522038,-0.67595186846240063,-0.19087394996246615,0.98038493459887355,0.4174080920795129],"z":[0.33817300878874468,1.7583184448981548,3.0500766768131893,1.3516724759028413,2.8453070606117379,1.3106921627791595,4.0701214388948941,2.4071536132978353,2.9525645921110102,2.2714882808669139,2.6857699763800529,3.852412341142712,3.1121449700252053,0.33735632122116765,5.8560533442519578,3.3469208265157304,-0.19076990039052877,1.5785436253609009,1.0395533475257355,1.6974762987279466,2.6773211354329303,2.6900021389462339,0.81368892688482153,0.14785412200163683,1.2405678411583125,4.5282407047836477,2.1629995427437283,2.2867833350372844,2.0241504454752626,5.5565615822122183,2.4214422753751199,0.82730022016373883,4.6105878966451055,0.51446548592554509,-0.2391792661809275,0.96896862633180381,0.84405882871483917,1.3904560955726954,3.7216674315006144,2.1514123686751034],"type":"scatter3d","mode":"markers","marker":{"color":"#C0392B","size":3,"line":{"color":"rgba(31,119,180,1)"}},"showlegend":false,"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"frame":null},{"colorbar":{"title":"","ticklen":2},"colorscale":[["0","#533860"],["1","#533860"]],"showscale":false,"z":[[0.34488768195938047,-6.3780584665407121],[10.728577398696967,4.0056312501968732]],"type":"surface","x":[-2.5,2.5],"y":[-2.5,2.5],"opacity":0.75,"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":{"render":[{"code":"\n      function(el, x, d) {\n        var n = d.x1.length, L = d.lim;\n        function gauss() { var u = 1 - Math.random(), v = Math.random();\n                           return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }\n        // least squares for y ~ 1 + x1 + x2 via the normal equations (3 x 3 Gaussian elimination)\n        function fit(y) {\n          var A = [[0,0,0],[0,0,0],[0,0,0]], c = [0,0,0], i, j, k, row;\n          for (i = 0; i < n; i++) {\n            row = [1, d.x1[i], d.x2[i]];\n            for (j = 0; j < 3; j++) { c[j] += row[j] * y[i];\n                                      for (k = 0; k < 3; k++) A[j][k] += row[j] * row[k]; }\n          }\n          for (j = 0; j < 3; j++) {\n            for (i = j + 1; i < 3; i++) { var f = A[i][j] / A[j][j];\n              for (k = j; k < 3; k++) A[i][k] -= f * A[j][k]; c[i] -= f * c[j]; }\n          }\n          var b = [0,0,0];\n          for (j = 2; j >= 0; j--) { var s = c[j];\n            for (k = j + 1; k < 3; k++) s -= A[j][k] * b[k]; b[j] = s / A[j][j]; }\n          return b;\n        }\n        el.on('plotly_buttonclicked', function() {\n          var y = [], i;\n          for (i = 0; i < n; i++) y.push(d.beta[0] + d.beta[1] * d.x1[i] + d.beta[2] * d.x2[i] + d.sigma * gauss());\n          var b = fit(y), e = [-L, L];\n          var z = e.map(function(x2) { return e.map(function(x1) { return b[0] + b[1] * x1 + b[2] * x2; }); });\n          Plotly.restyle(el, {z: [y]}, [0]);\n          Plotly.restyle(el, {z: [z]}, [1]);\n          Plotly.relayout(el, {'annotations[0].text': 'Fitted slopes: b1 = ' + b[1].toFixed(2) +\n            ', b2 = ' + b[2].toFixed(2) + '   (truth: b1 = ' + d.beta[1] + ', b2 = ' + d.beta[2] + ')'});\n        });\n      }","data":{"x1":[-0.81031547189302355,0.10332756866208691,-1.0462268133293786,1.6953993114427977,0.26783628206948396,-1.0291288179478124,0.44594292232327293,0.72890783739561826,0.54558833497803594,-0.44821174733770647,1.6012268277809114,0.33588377285499404,-0.80443589117862691,-2.6015697694257427,1.1649297176248625,-0.15446586779152416,-0.12204857259909603,0.96068764342291035,0.82240008403815534,0.56602438316620951,0.932651369328382,0.77831939273830353,-0.01969307009572693,-2.3474177698573477,0.59526244733372047,-0.16709195007295499,-0.27949803605334683,-1.7625315484865236,-0.64305566022997063,0.36757359975648768,1.4285558964061382,-0.21971484880407391,0.33343457281817368,-0.16447123796472268,-1.6568629863988311,-0.5718276888255186,-0.54847663418991199,-0.1706836673442238,1.1368407663898976,0.75693531929562119],"x2":[-0.80882389198350257,-0.038913632416097022,-0.71705381804661739,1.6370226765474842,-0.045612220830894723,-1.188733394041118,0.47547168298035003,0.86342949874928632,0.39753637723657809,-0.1291599052914324,1.4995500228675287,0.040610632167953631,-0.62845895351722236,-2.7129641530513298,1.4758031624406893,0.50919118816777453,-0.27588158770347398,0.43844174671623032,0.87647226987326932,0.40757725338691386,1.6078711512691166,0.62682832922988085,0.18007139971348982,-2.0891890366044756,0.22244480703653902,-0.12269019927532115,-0.91206167128208038,-1.0784780092055564,-0.55212759126425448,1.033297461433091,1.3750469562985854,-0.48023268429541205,0.46216453883261072,-0.50948998410890489,-1.9281081507779794,-0.44181947950522038,-0.67595186846240063,-0.19087394996246615,0.98038493459887355,0.4174080920795129],"beta":[2,0,1],"sigma":1.5,"lim":2.5}}]}}</script>
+</div>
+</div>
+<div class="question">
+<p>Click <strong>New noise</strong> several times (you can also rotate the plot). What does the plane do? How far does the <code>X1</code> slope stray from 0?</p>
+</div>
+</section>
+<section id="uncorrelated-predictors-a-steady-plane" class="slide level2 smaller">
+<h2>Uncorrelated predictors: a steady plane</h2>
+<p>Same <code>X1</code>, same noise, same truth, but now <code>X1</code> and <code>X2</code> are uncorrelated (<span class="math inline">\(r = 0\)</span>).</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="htmlwidget-10d37e8428da6b9e7447" style="width:80%;height:450px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-10d37e8428da6b9e7447">{"x":{"visdat":{"234ea91262b836":["function () ","plotlyVisDat"]},"cur_data":"234ea91262b836","attrs":{"234ea91262b836":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":[-0.81031547189302355,0.10332756866208691,-1.0462268133293786,1.6953993114427977,0.26783628206948396,-1.0291288179478124,0.44594292232327293,0.72890783739561826,0.54558833497803594,-0.44821174733770647,1.6012268277809114,0.33588377285499404,-0.80443589117862691,-2.6015697694257427,1.1649297176248625,-0.15446586779152416,-0.12204857259909603,0.96068764342291035,0.82240008403815534,0.56602438316620951,0.932651369328382,0.77831939273830353,-0.01969307009572693,-2.3474177698573477,0.59526244733372047,-0.16709195007295499,-0.27949803605334683,-1.7625315484865236,-0.64305566022997063,0.36757359975648768,1.4285558964061382,-0.21971484880407391,0.33343457281817368,-0.16447123796472268,-1.6568629863988311,-0.5718276888255186,-0.54847663418991199,-0.1706836673442238,1.1368407663898976,0.75693531929562119],"y":[-0.12497744177064088,-0.43899076566632683,0.88666691226257088,0.084526306280947636,-0.96095047227831742,-0.67593621981888596,0.16597573541747218,0.54753277188333915,-0.38678168038974409,0.95001232908470346,-0.069224885355866017,-0.89184640928855308,0.43476440869088867,-0.77333210405768815,1.1821298607036705,2.1006692483742802,-0.51220334666352174,-1.5186922867137873,0.30485899294582586,-0.41680048786040458,2.311777683811207,-0.36052883892157706,0.63660489997085579,0.45110613260766252,-1.0986537322140875,0.11544328213789912,-2.0705804459736035,1.90849368409557,0.18823156058429852,2.19088154020185,0.057386262469098157,-0.86950733371306776,0.46565809850583029,-1.1312807726536065,-1.1339901591318353,0.32479377865303327,-0.49607402923655014,-0.091991914145754014,-0.31901945684234373,-0.96615070598484287],"z":[1.0220194590016063,1.3582413116479251,4.6537974071223775,-0.2008238943636953,1.929968809164315,1.8234893370013916,3.7606254913320161,2.0912568864318879,2.168246534484688,3.35066051524305,1.1169950681566583,2.9199552996862055,4.1753683322333162,2.2769883702148093,5.5623800425149392,4.9383988867222364,-0.42709165935057669,-0.3785904080691167,0.46794007059829212,0.87309855748062803,3.3812276679750206,1.7026449707947757,1.2702224271421876,2.688149291213775,-0.080530698092314168,4.7663741861968685,1.0044807680522052,5.2737550283384103,2.7645095973238156,6.7141456609809778,1.1037815815456327,0.43802557074608306,4.614081456318325,-0.10732530261915652,0.5549387254652165,1.7355818844900575,1.0239366679406896,1.4893381313894076,2.4222630400593967,0.76785357061074755],"type":"scatter3d","mode":"markers","marker":{"size":3,"color":"#C0392B"},"showlegend":false,"inherit":true},"234ea91262b836.1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"z":[[-0.36104836274778496,-1.9694892803471724],[6.3200082125034269,4.7115672949040395]],"type":"surface","x":[-2.5,2.5],"y":[-2.5,2.5],"opacity":0.75,"colorscale":[["0","#533860"],["1","#533860"]],"showscale":false,"inherit":true}},"layout":{"height":450,"margin":{"b":0,"l":0,"t":30,"r":0},"scene":{"xaxis":{"title":"X1","range":[-2.5,2.5]},"yaxis":{"title":"X2","range":[-2.5,2.5]},"zaxis":{"title":"Y","range":[-12,16]},"aspectmode":"cube","camera":{"eye":{"x":1.7,"y":-1.7,"z":0.69999999999999996}}},"autosize":true,"annotations":[{"text":"Fitted slopes: b1 = -0.32, b2 = 1.34   (truth: b1 = 0, b2 = 1)","x":0.5,"y":1,"xref":"paper","yref":"paper","showarrow":false,"font":{"size":16}}],"updatemenus":[{"type":"buttons","showactive":false,"x":0,"y":0.90000000000000002,"buttons":[{"method":"skip","label":"New noise"}]}],"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displayModeBar":false},"data":[{"x":[-0.81031547189302355,0.10332756866208691,-1.0462268133293786,1.6953993114427977,0.26783628206948396,-1.0291288179478124,0.44594292232327293,0.72890783739561826,0.54558833497803594,-0.44821174733770647,1.6012268277809114,0.33588377285499404,-0.80443589117862691,-2.6015697694257427,1.1649297176248625,-0.15446586779152416,-0.12204857259909603,0.96068764342291035,0.82240008403815534,0.56602438316620951,0.932651369328382,0.77831939273830353,-0.01969307009572693,-2.3474177698573477,0.59526244733372047,-0.16709195007295499,-0.27949803605334683,-1.7625315484865236,-0.64305566022997063,0.36757359975648768,1.4285558964061382,-0.21971484880407391,0.33343457281817368,-0.16447123796472268,-1.6568629863988311,-0.5718276888255186,-0.54847663418991199,-0.1706836673442238,1.1368407663898976,0.75693531929562119],"y":[-0.12497744177064088,-0.43899076566632683,0.88666691226257088,0.084526306280947636,-0.96095047227831742,-0.67593621981888596,0.16597573541747218,0.54753277188333915,-0.38678168038974409,0.95001232908470346,-0.069224885355866017,-0.89184640928855308,0.43476440869088867,-0.77333210405768815,1.1821298607036705,2.1006692483742802,-0.51220334666352174,-1.5186922867137873,0.30485899294582586,-0.41680048786040458,2.311777683811207,-0.36052883892157706,0.63660489997085579,0.45110613260766252,-1.0986537322140875,0.11544328213789912,-2.0705804459736035,1.90849368409557,0.18823156058429852,2.19088154020185,0.057386262469098157,-0.86950733371306776,0.46565809850583029,-1.1312807726536065,-1.1339901591318353,0.32479377865303327,-0.49607402923655014,-0.091991914145754014,-0.31901945684234373,-0.96615070598484287],"z":[1.0220194590016063,1.3582413116479251,4.6537974071223775,-0.2008238943636953,1.929968809164315,1.8234893370013916,3.7606254913320161,2.0912568864318879,2.168246534484688,3.35066051524305,1.1169950681566583,2.9199552996862055,4.1753683322333162,2.2769883702148093,5.5623800425149392,4.9383988867222364,-0.42709165935057669,-0.3785904080691167,0.46794007059829212,0.87309855748062803,3.3812276679750206,1.7026449707947757,1.2702224271421876,2.688149291213775,-0.080530698092314168,4.7663741861968685,1.0044807680522052,5.2737550283384103,2.7645095973238156,6.7141456609809778,1.1037815815456327,0.43802557074608306,4.614081456318325,-0.10732530261915652,0.5549387254652165,1.7355818844900575,1.0239366679406896,1.4893381313894076,2.4222630400593967,0.76785357061074755],"type":"scatter3d","mode":"markers","marker":{"color":"#C0392B","size":3,"line":{"color":"rgba(31,119,180,1)"}},"showlegend":false,"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"frame":null},{"colorbar":{"title":"","ticklen":2},"colorscale":[["0","#533860"],["1","#533860"]],"showscale":false,"z":[[-0.36104836274778496,-1.9694892803471724],[6.3200082125034269,4.7115672949040395]],"type":"surface","x":[-2.5,2.5],"y":[-2.5,2.5],"opacity":0.75,"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":{"render":[{"code":"\n      function(el, x, d) {\n        var n = d.x1.length, L = d.lim;\n        function gauss() { var u = 1 - Math.random(), v = Math.random();\n                           return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }\n        // least squares for y ~ 1 + x1 + x2 via the normal equations (3 x 3 Gaussian elimination)\n        function fit(y) {\n          var A = [[0,0,0],[0,0,0],[0,0,0]], c = [0,0,0], i, j, k, row;\n          for (i = 0; i < n; i++) {\n            row = [1, d.x1[i], d.x2[i]];\n            for (j = 0; j < 3; j++) { c[j] += row[j] * y[i];\n                                      for (k = 0; k < 3; k++) A[j][k] += row[j] * row[k]; }\n          }\n          for (j = 0; j < 3; j++) {\n            for (i = j + 1; i < 3; i++) { var f = A[i][j] / A[j][j];\n              for (k = j; k < 3; k++) A[i][k] -= f * A[j][k]; c[i] -= f * c[j]; }\n          }\n          var b = [0,0,0];\n          for (j = 2; j >= 0; j--) { var s = c[j];\n            for (k = j + 1; k < 3; k++) s -= A[j][k] * b[k]; b[j] = s / A[j][j]; }\n          return b;\n        }\n        el.on('plotly_buttonclicked', function() {\n          var y = [], i;\n          for (i = 0; i < n; i++) y.push(d.beta[0] + d.beta[1] * d.x1[i] + d.beta[2] * d.x2[i] + d.sigma * gauss());\n          var b = fit(y), e = [-L, L];\n          var z = e.map(function(x2) { return e.map(function(x1) { return b[0] + b[1] * x1 + b[2] * x2; }); });\n          Plotly.restyle(el, {z: [y]}, [0]);\n          Plotly.restyle(el, {z: [z]}, [1]);\n          Plotly.relayout(el, {'annotations[0].text': 'Fitted slopes: b1 = ' + b[1].toFixed(2) +\n            ', b2 = ' + b[2].toFixed(2) + '   (truth: b1 = ' + d.beta[1] + ', b2 = ' + d.beta[2] + ')'});\n        });\n      }","data":{"x1":[-0.81031547189302355,0.10332756866208691,-1.0462268133293786,1.6953993114427977,0.26783628206948396,-1.0291288179478124,0.44594292232327293,0.72890783739561826,0.54558833497803594,-0.44821174733770647,1.6012268277809114,0.33588377285499404,-0.80443589117862691,-2.6015697694257427,1.1649297176248625,-0.15446586779152416,-0.12204857259909603,0.96068764342291035,0.82240008403815534,0.56602438316620951,0.932651369328382,0.77831939273830353,-0.01969307009572693,-2.3474177698573477,0.59526244733372047,-0.16709195007295499,-0.27949803605334683,-1.7625315484865236,-0.64305566022997063,0.36757359975648768,1.4285558964061382,-0.21971484880407391,0.33343457281817368,-0.16447123796472268,-1.6568629863988311,-0.5718276888255186,-0.54847663418991199,-0.1706836673442238,1.1368407663898976,0.75693531929562119],"x2":[-0.12497744177064088,-0.43899076566632683,0.88666691226257088,0.084526306280947636,-0.96095047227831742,-0.67593621981888596,0.16597573541747218,0.54753277188333915,-0.38678168038974409,0.95001232908470346,-0.069224885355866017,-0.89184640928855308,0.43476440869088867,-0.77333210405768815,1.1821298607036705,2.1006692483742802,-0.51220334666352174,-1.5186922867137873,0.30485899294582586,-0.41680048786040458,2.311777683811207,-0.36052883892157706,0.63660489997085579,0.45110613260766252,-1.0986537322140875,0.11544328213789912,-2.0705804459736035,1.90849368409557,0.18823156058429852,2.19088154020185,0.057386262469098157,-0.86950733371306776,0.46565809850583029,-1.1312807726536065,-1.1339901591318353,0.32479377865303327,-0.49607402923655014,-0.091991914145754014,-0.31901945684234373,-0.96615070598484287],"beta":[2,0,1],"sigma":1.5,"lim":2.5}}]}}</script>
+</div>
+</div>
+<div class="question">
+<p>Compare with the last slide. Why does the plane wobble so much less?</p>
+</div>
+</section>
+<section id="why-this-matters-for-shuffling" class="slide level2 smaller">
+<h2>Why this matters for shuffling</h2>
+<ul>
+<li>When <code>X1</code> and <code>X2</code> are correlated, the data can’t easily separate their effects: many different planes fit almost equally well. So <span class="math inline">\(\hat\beta_1\)</span> varies a lot from sample to sample, and its <strong>standard error is large</strong>.</li>
+<li>Shuffling <code>X1</code> would make it uncorrelated with <code>X2</code>, turning the wobbly picture into the steady one. The null distribution would be <strong>too narrow</strong> and the p-values <strong>too small</strong>.</li>
+<li>Shuffling <code>Y</code> keeps the correlation between the predictors, so the null distribution reflects the wobble we really have.</li>
+</ul>
+<p><strong>Shuffle the response.</strong></p>
+</section></section>
+<section>
 <section id="testing-batches-of-coefficients" class="title-slide slide level1 center">
 <h1>Testing Batches Of Coefficients</h1>
 
 </section>
+<section id="is-location-important" class="slide level2">
+<h2>Is Location Important?</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="fu">lm</span>(Sales <span class="sc">~</span> Temperature <span class="sc">+</span> Location <span class="sc">+</span> TimeOfDay, <span class="at">data =</span> coffee) <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a></a>  <span class="fu">tidy</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb6-3"><a></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">93.5480</td>
+<td style="text-align: right;">16.3961</td>
+<td style="text-align: right;">5.7055</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Temperature</td>
+<td style="text-align: right;">-0.6199</td>
+<td style="text-align: right;">0.2740</td>
+<td style="text-align: right;">-2.2622</td>
+<td style="text-align: right;">0.0249</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LocationCityHall</td>
+<td style="text-align: right;">-4.1638</td>
+<td style="text-align: right;">3.3139</td>
+<td style="text-align: right;">-1.2565</td>
+<td style="text-align: right;">0.2106</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LocationPark</td>
+<td style="text-align: right;">11.4836</td>
+<td style="text-align: right;">3.2295</td>
+<td style="text-align: right;">3.5558</td>
+<td style="text-align: right;">0.0005</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LocationZoo</td>
+<td style="text-align: right;">-17.6340</td>
+<td style="text-align: right;">3.2910</td>
+<td style="text-align: right;">-5.3582</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TimeOfDayLunch</td>
+<td style="text-align: right;">25.4470</td>
+<td style="text-align: right;">2.8025</td>
+<td style="text-align: right;">9.0801</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TimeOfDayAfternoon</td>
+<td style="text-align: right;">26.2063</td>
+<td style="text-align: right;">2.7968</td>
+<td style="text-align: right;">9.3700</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="fragment">
+<p>Don’t really have a way to determine whether the whole variable <code>Location</code> is important…</p>
+</div>
+</section>
 <section id="nested-models" class="slide level2 smaller">
 <h2>Nested models</h2>
 <p>A <span class="math inline">\(t\)</span>-test checks <strong>one</strong> coefficient. To test several coefficients at once (like all the <code>Location</code> dummies), we compare two models.</p>
-<p>Model A is <strong>nested</strong> in Model B if B contains every predictor in A, plus more. Setting the extra coefficients in B to 0 gives you A.</p>
+<p>Model A is <strong>nested</strong> in Model B if B contains every predictor/coefficient in A, plus more. Setting the extra coefficients in B to 0 gives you A.</p>
 <table class="caption-top">
 <colgroup>
 <col style="width: 33%">
@@ -311,9 +603,9 @@ Prof.&nbsp;Eric Friedlander
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Reduced model (A)</th>
-<th style="text-align: left;">Full model (B)</th>
-<th style="text-align: left;">The extra terms in B</th>
+<th style="text-align: left;">This model</th>
+<th style="text-align: left;">is nested in this model</th>
+<th style="text-align: left;">The extra terms</th>
 </tr>
 </thead>
 <tbody>
@@ -334,15 +626,22 @@ Prof.&nbsp;Eric Friedlander
 </tr>
 </tbody>
 </table>
+<p>When comparing models, we call the smaller model the <strong>reduced model</strong> and the larger model the <strong>full model</strong>.</p>
 <div class="fragment">
 <div class="question">
-<p>Why is <code>Sales ~ Temperature</code> not nested in <code>Sales ~ Location</code>? Name a model that <code>Sales ~ Temperature</code> <strong>is</strong> nested in.</p>
+<ul>
+<li>Why is <code>Sales ~ Temperature</code> not nested in <code>Sales ~ Location</code>?</li>
+<li>Name a model that <code>Sales ~ Temperature</code> <strong>is</strong> nested in.</li>
+</ul>
 </div>
 </div>
 </section>
 <section id="the-f-test" class="slide level2 smaller">
 <h2>The <span class="math inline">\(F\)</span>-test</h2>
-<p>A full model always fits the data at least as well as a reduced one, because it has more freedom. The question is whether it fits <strong>enough better</strong> to be worth the extra terms, or whether the improvement is just what chance would give us.</p>
+<ul>
+<li>A full model will always result in a higher <span class="math inline">\(R^2\)</span> and a lower <span class="math inline">\(SSE\)</span></li>
+<li>Question: Is the improvement to be worth the extra terms?</li>
+</ul>
 <div class="fragment">
 <p>We measure fit with the <strong>sum of squared errors</strong>, <span class="math inline">\(SSE = \sum (y_i - \hat y_i)^2\)</span>:</p>
 <p><span class="math display">\[
@@ -364,19 +663,52 @@ F = \frac{(SSE_{\text{reduced}} - SSE_{\text{full}}) \,/\, (\text{number of extr
 <h2>Using <code>anova()</code></h2>
 <p>Give <code>anova()</code> the <strong>reduced model first</strong>, then the <strong>full model</strong>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>reduced <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sales <span class="sc">~</span> Temperature <span class="sc">+</span> TimeOfDay, <span class="at">data =</span> coffee)</span>
-<span id="cb2-2"><a></a>full <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sales <span class="sc">~</span> Temperature <span class="sc">+</span> Location <span class="sc">+</span> TimeOfDay, <span class="at">data =</span> coffee)</span>
-<span id="cb2-3"><a></a><span class="fu">anova</span>(reduced, full)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Analysis of Variance Table
-
-Model 1: Sales ~ Temperature + TimeOfDay
-Model 2: Sales ~ Temperature + Location + TimeOfDay
-  Res.Df   RSS Df Sum of Sq      F    Pr(&gt;F)    
-1    176 59174                                  
-2    173 40598  3     18576 26.386 4.196e-14 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a>reduced <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sales <span class="sc">~</span> Temperature <span class="sc">+</span> TimeOfDay, <span class="at">data =</span> coffee)</span>
+<span id="cb7-2"><a></a>full <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sales <span class="sc">~</span> Temperature <span class="sc">+</span> Location <span class="sc">+</span> TimeOfDay, <span class="at">data =</span> coffee)</span>
+<span id="cb7-3"><a></a><span class="fu">anova</span>(reduced, full) <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<colgroup>
+<col style="width: 45%">
+<col style="width: 12%">
+<col style="width: 9%">
+<col style="width: 3%">
+<col style="width: 9%">
+<col style="width: 10%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">df.residual</th>
+<th style="text-align: right;">rss</th>
+<th style="text-align: right;">df</th>
+<th style="text-align: right;">sumsq</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Sales ~ Temperature + TimeOfDay</td>
+<td style="text-align: right;">176</td>
+<td style="text-align: right;">59173.55</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sales ~ Temperature + Location + TimeOfDay</td>
+<td style="text-align: right;">173</td>
+<td style="text-align: right;">40597.64</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">18575.91</td>
+<td style="text-align: right;">26.38604</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <table class="caption-top">
@@ -392,7 +724,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><code>Res.Df</code></td>
+<td style="text-align: left;"><code>df.residual</code>/<code>Res.Df</code></td>
 <td style="text-align: left;">residual degrees of freedom of each model</td>
 </tr>
 <tr class="even">
@@ -400,7 +732,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <td style="text-align: left;">the sum of squared errors (<span class="math inline">\(SSE\)</span>) of each model. R labels it “residual sum of squares”</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><code>Df</code></td>
+<td style="text-align: left;"><code>df</code></td>
 <td style="text-align: left;">number of extra coefficients in the full model</td>
 </tr>
 <tr class="even">
@@ -408,7 +740,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <td style="text-align: left;"><span class="math inline">\(SSE_{\text{reduced}} - SSE_{\text{full}}\)</span></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><code>F</code> and <code>Pr(&gt;F)</code></td>
+<td style="text-align: left;"><code>statistics</code> and <code>p.value</code>/<code>F</code> and <code>Pr(&gt;F)</code></td>
 <td style="text-align: left;">the test statistic and its p-value</td>
 </tr>
 </tbody>
@@ -430,11 +762,183 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>What do you conclude about <code>Location</code>? What would you conclude if the p-value were 0.6?</p>
 </div>
 </section>
+<section id="f-test-t-test-for-one-coefficient" class="slide level2 smaller">
+<h2>F-Test = T-Test for One Coefficient</h2>
+<div class="columns">
+<div class="column">
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>full_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sales <span class="sc">~</span> Temperature <span class="sc">+</span> TimeOfDay, <span class="at">data =</span> coffee)</span>
+<span id="cb8-2"><a></a>full_model <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">122.453439</td>
+<td style="text-align: right;">19.0300619</td>
+<td style="text-align: right;">6.434737</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Temperature</td>
+<td style="text-align: right;">-1.142914</td>
+<td style="text-align: right;">0.3136588</td>
+<td style="text-align: right;">-3.643814</td>
+<td style="text-align: right;">0.0003533</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TimeOfDayLunch</td>
+<td style="text-align: right;">25.107106</td>
+<td style="text-align: right;">3.3539049</td>
+<td style="text-align: right;">7.485932</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TimeOfDayAfternoon</td>
+<td style="text-align: right;">26.197618</td>
+<td style="text-align: right;">3.3477066</td>
+<td style="text-align: right;">7.825542</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div><div class="column">
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>reduced_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sales<span class="sc">~</span> TimeOfDay, <span class="at">data =</span> coffee)</span>
+<span id="cb9-2"><a></a><span class="fu">anova</span>(reduced_model, full_model) <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top" style="width:100%;">
+<colgroup>
+<col style="width: 37%">
+<col style="width: 14%">
+<col style="width: 10%">
+<col style="width: 3%">
+<col style="width: 10%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">df.residual</th>
+<th style="text-align: right;">rss</th>
+<th style="text-align: right;">df</th>
+<th style="text-align: right;">sumsq</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Sales ~ TimeOfDay</td>
+<td style="text-align: right;">177</td>
+<td style="text-align: right;">63637.58</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sales ~ Temperature + TimeOfDay</td>
+<td style="text-align: right;">176</td>
+<td style="text-align: right;">59173.55</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4464.033</td>
+<td style="text-align: right;">13.27738</td>
+<td style="text-align: right;">0.0003533</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div></div>
+<p>Exactly the same!</p>
+</section></section>
+<section>
+<section id="p-values-and-interaction" class="title-slide slide level1 center">
+<h1>P-values and interaction</h1>
+
+</section>
+<section id="do-we-need-the-interaction" class="slide level2 smaller">
+<h2>Do we need the interaction?</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a><span class="fu">lm</span>(Sales <span class="sc">~</span> Location <span class="sc">*</span> Temperature, <span class="at">data =</span> bc) <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>() <span class="co"># bc is just the business and city hall data</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top" style="width:100%;">
+<colgroup>
+<col style="width: 39%">
+<col style="width: 16%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">87.2205966</td>
+<td style="text-align: right;">41.4288759</td>
+<td style="text-align: right;">2.1053093</td>
+<td style="text-align: right;">0.0381810</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LocationCityHall</td>
+<td style="text-align: right;">-10.6226164</td>
+<td style="text-align: right;">58.4856136</td>
+<td style="text-align: right;">-0.1816279</td>
+<td style="text-align: right;">0.8563022</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Temperature</td>
+<td style="text-align: right;">-0.2190416</td>
+<td style="text-align: right;">0.7039482</td>
+<td style="text-align: right;">-0.3111615</td>
+<td style="text-align: right;">0.7564308</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LocationCityHall:Temperature</td>
+<td style="text-align: right;">0.0874289</td>
+<td style="text-align: right;">0.9721659</td>
+<td style="text-align: right;">0.0899320</td>
+<td style="text-align: right;">0.9285503</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ul>
+<li>The interaction p-value tests: “<strong>does the effect of one variable depend on the other?</strong>”</li>
+<li>Main-effect p-values become hard to interpret and can safely be ignored… Once interaction is important, both variables that are interacting must also be important.</li>
+<li>Keep both main effects in the model whenever you keep their interaction.</li>
+</ul>
+<div class="question">
+<p>Interpret this p-value in context. What would you tell Jo?</p>
+</div>
+</section>
 <section id="p-values-in-the-interaction-model" class="slide level2 smaller">
 <h2>P-values in the interaction model</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>int_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sales <span class="sc">~</span> Location <span class="sc">*</span> TimeOfDay, <span class="at">data =</span> bc)</span>
-<span id="cb4-2"><a></a>int_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a>int_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sales <span class="sc">~</span> Location <span class="sc">*</span> TimeOfDay, <span class="at">data =</span> coffee)</span>
+<span id="cb11-2"><a></a>int_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <colgroup>
@@ -457,43 +961,85 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <tr class="odd">
 <td style="text-align: left;">(Intercept)</td>
 <td style="text-align: right;">74.533</td>
-<td style="text-align: right;">3.042</td>
-<td style="text-align: right;">24.502</td>
+<td style="text-align: right;">3.154</td>
+<td style="text-align: right;">23.630</td>
 <td style="text-align: right;">0.000</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">LocationCityHall</td>
 <td style="text-align: right;">-29.400</td>
-<td style="text-align: right;">4.302</td>
-<td style="text-align: right;">-6.834</td>
+<td style="text-align: right;">4.461</td>
+<td style="text-align: right;">-6.591</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LocationPark</td>
+<td style="text-align: right;">-3.600</td>
+<td style="text-align: right;">4.461</td>
+<td style="text-align: right;">-0.807</td>
+<td style="text-align: right;">0.421</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LocationZoo</td>
+<td style="text-align: right;">-50.533</td>
+<td style="text-align: right;">4.461</td>
+<td style="text-align: right;">-11.329</td>
 <td style="text-align: right;">0.000</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">TimeOfDayLunch</td>
 <td style="text-align: right;">-3.267</td>
-<td style="text-align: right;">4.302</td>
-<td style="text-align: right;">-0.759</td>
-<td style="text-align: right;">0.450</td>
+<td style="text-align: right;">4.461</td>
+<td style="text-align: right;">-0.732</td>
+<td style="text-align: right;">0.465</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">TimeOfDayAfternoon</td>
 <td style="text-align: right;">2.733</td>
-<td style="text-align: right;">4.302</td>
-<td style="text-align: right;">0.635</td>
-<td style="text-align: right;">0.527</td>
+<td style="text-align: right;">4.461</td>
+<td style="text-align: right;">0.613</td>
+<td style="text-align: right;">0.541</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">LocationCityHall:TimeOfDayLunch</td>
 <td style="text-align: right;">47.667</td>
-<td style="text-align: right;">6.084</td>
-<td style="text-align: right;">7.835</td>
+<td style="text-align: right;">6.308</td>
+<td style="text-align: right;">7.556</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LocationPark:TimeOfDayLunch</td>
+<td style="text-align: right;">18.333</td>
+<td style="text-align: right;">6.308</td>
+<td style="text-align: right;">2.906</td>
+<td style="text-align: right;">0.004</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LocationZoo:TimeOfDayLunch</td>
+<td style="text-align: right;">50.467</td>
+<td style="text-align: right;">6.308</td>
+<td style="text-align: right;">8.000</td>
 <td style="text-align: right;">0.000</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">LocationCityHall:TimeOfDayAfternoon</td>
 <td style="text-align: right;">23.000</td>
-<td style="text-align: right;">6.084</td>
-<td style="text-align: right;">3.781</td>
+<td style="text-align: right;">6.308</td>
+<td style="text-align: right;">3.646</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LocationPark:TimeOfDayAfternoon</td>
+<td style="text-align: right;">27.000</td>
+<td style="text-align: right;">6.308</td>
+<td style="text-align: right;">4.280</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LocationZoo:TimeOfDayAfternoon</td>
+<td style="text-align: right;">43.933</td>
+<td style="text-align: right;">6.308</td>
+<td style="text-align: right;">6.964</td>
 <td style="text-align: right;">0.000</td>
 </tr>
 </tbody>
@@ -501,46 +1047,65 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <div class="question">
-<ul>
-<li>The <code>LocationCityHall</code> row is a test of the City Hall effect <strong>at which time of day</strong>?</li>
-<li>What null hypothesis does the <code>LocationCityHall:TimeOfDayLunch</code> row test?</li>
-</ul>
+<p>This case has MULTIPLE interactions terms for the same two variables… How can we test them all at once?</p>
 </div>
 <div class="fragment">
-<ul>
-<li>The interaction p-value tests: “<strong>does the effect of one variable depend on the other?</strong>”</li>
-<li>Main-effect p-values are <strong>conditional</strong>: they are the effect at the reference level of the other variable.</li>
-<li>Keep both main effects in the model whenever you keep their interaction.</li>
-</ul>
-</div>
-</section>
-<section id="do-we-need-the-interaction" class="slide level2 smaller">
-<h2>Do we need the interaction?</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>add_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sales <span class="sc">~</span> Location <span class="sc">+</span> TimeOfDay, <span class="at">data =</span> bc)</span>
-<span id="cb5-2"><a></a><span class="fu">anova</span>(add_fit, int_fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Analysis of Variance Table
-
-Model 1: Sales ~ Location + TimeOfDay
-Model 2: Sales ~ Location * TimeOfDay
-  Res.Df   RSS Df Sum of Sq      F   Pr(&gt;F)    
-1     86 20183                                 
-2     84 11659  2    8523.9 30.707 9.78e-11 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>add_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sales <span class="sc">~</span> Location <span class="sc">+</span> TimeOfDay, <span class="at">data =</span> coffee)</span>
+<span id="cb12-2"><a></a><span class="fu">anova</span>(add_fit, int_fit) <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 15%">
+<col style="width: 11%">
+<col style="width: 3%">
+<col style="width: 11%">
+<col style="width: 12%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">df.residual</th>
+<th style="text-align: right;">rss</th>
+<th style="text-align: right;">df</th>
+<th style="text-align: right;">sumsq</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Sales ~ Location + TimeOfDay</td>
+<td style="text-align: right;">174</td>
+<td style="text-align: right;">41798.59</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sales ~ Location * TimeOfDay</td>
+<td style="text-align: right;">168</td>
+<td style="text-align: right;">25070.80</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">16727.79</td>
+<td style="text-align: right;">18.68222</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
-<div class="question">
-<p>Interpret this p-value in context. What would you tell Jo?</p>
 </div>
 </section>
 <section id="not-significant-is-not-no-effect" class="slide level2 smaller">
 <h2>“Not significant” is not “no effect”</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
-<span id="cb7-2"><a></a>small <span class="ot">&lt;-</span> bc <span class="sc">|&gt;</span> <span class="fu">filter</span>(TimeOfDay <span class="sc">==</span> <span class="st">"Lunch"</span>) <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Location) <span class="sc">|&gt;</span> <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">4</span>) <span class="sc">|&gt;</span> <span class="fu">ungroup</span>()</span>
-<span id="cb7-3"><a></a><span class="fu">lm</span>(Sales <span class="sc">~</span> Location, <span class="at">data =</span> small) <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb13-2"><a></a>small <span class="ot">&lt;-</span> bc <span class="sc">|&gt;</span> <span class="fu">filter</span>(TimeOfDay <span class="sc">==</span> <span class="st">"Lunch"</span>) <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Location) <span class="sc">|&gt;</span> <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">4</span>) <span class="sc">|&gt;</span> <span class="fu">ungroup</span>()</span>
+<span id="cb13-3"><a></a><span class="fu">lm</span>(Sales <span class="sc">~</span> Location, <span class="at">data =</span> small) <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
@@ -576,19 +1141,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>Does a large p-value mean City Hall and the Business District sell the same amount? What went wrong? (Hint: Lessons 14-16.)</p>
 </div>
 <div class="fragment">
-<div class="callout callout-warning callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Warning</strong></p>
-</div>
-<div class="callout-content">
-<p>Collecting more data because you got an insignificant result is <strong>bad statistics</strong> and results in a biased p-value.</p>
-</div>
-</div>
-</div>
+<p><strong>Caution</strong>: Collecting more data because you didn’t get the result you were hoping for is bad practice. It typically means you had a poorly designed study. If you only collect more data when you don’t get a significant result, you are biasing your analyses.</p>
 </div>
 </section>
 <section id="activity-ae-20" class="slide level2 smaller">
@@ -604,7 +1157,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_05f50f9e" minutes="30" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_ab3dc58e" minutes="30" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
 </div>
 </div>
 </section>

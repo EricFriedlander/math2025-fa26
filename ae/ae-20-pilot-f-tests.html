@@ -4679,7 +4679,7 @@ Important
 </div>
 </div>
 <div class="exercise">
-<p>If your second variable has only <strong>one</strong> coefficient (it is numeric, or categorical with two levels), compare the p-value from <code>anova()</code> with the p-value on the <code>x2</code> row of <code>tidy(add_fit)</code>. They should match. If your second variable has <strong>more than two levels</strong>, why can’t you get a single p-value from <code>tidy()</code>?</p>
+<p>If your second variable has only <strong>one</strong> coefficient (it is numeric, or categorical with two levels), compare the p-value from <code>anova()</code> with the p-value on the <code>x2</code> row of <code>tidy(add_fit)</code>. They should match. Also check that <span class="math inline">\(F = t^2\)</span>. If your second variable has <strong>more than two levels</strong>, why can’t you get a single p-value from <code>tidy()</code>?</p>
 </div>
 <div class="answer">
 
@@ -4694,12 +4694,6 @@ Important
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(add_fit, int_fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</div>
-<div class="exercise">
-<p><strong>Check the <span class="math inline">\(F\)</span> statistic by hand.</strong> Compute the sum of squared errors of each model with <code>sum(resid(fit)^2)</code>, then compute <span class="math inline">\(F\)</span> from the formula in lecture. Does it match <code>anova()</code>?</p>
-</div>
-<div class="answer">
-
 </div>
 </section>
 <section id="part-4-reflection" class="level2">
