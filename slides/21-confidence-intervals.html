@@ -228,7 +228,7 @@ Prof.&nbsp;Eric Friedlander
 <h2>Where we are</h2>
 <p>Last time we used the <span class="math inline">\(F\)</span>-test to test whole batches of coefficients, and we found that the effect of <code>Location</code> on <code>Sales</code> depends on <code>TimeOfDay</code>.</p>
 
-<img data-src="21-confidence-intervals_files/figure-html/unnamed-chunk-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><div class="question">
+<img data-src="21-confidence-intervals_files/figure-revealjs/unnamed-chunk-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><div class="question">
 <p>A p-value tells us whether a coefficient could be 0, but not <strong>how big</strong> it is. At Lunch, City Hall sells about 18 more cups than the Business District. Jo’s gas costs $15 and each cup sells for $3. Should Jo drive?</p>
 </div>
 </section>
@@ -286,7 +286,7 @@ Prof.&nbsp;Eric Friedlander
 <h2>Remember the null distribution</h2>
 <p>From Lecture 11: if <span class="math inline">\(H_0: \beta_1 = 0\)</span> is true, then <span class="math inline">\(\hat\beta_1\)</span> is approximately <strong>normal</strong>, with <strong>mean 0</strong> and <strong>standard deviation equal to its standard error</strong>, here <span class="math inline">\(SE(\hat\beta_1) =\)</span> 4.8.</p>
 
-<img data-src="21-confidence-intervals_files/figure-html/unnamed-chunk-3-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="fragment">
+<img data-src="21-confidence-intervals_files/figure-revealjs/unnamed-chunk-3-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="fragment">
 <div class="question">
 <p>Why is the middle of this distribution at 0?</p>
 </div>
@@ -303,14 +303,10 @@ Prof.&nbsp;Eric Friedlander
 <div class="fragment">
 <p>The sampling distribution of <span class="math inline">\(\hat\beta_1\)</span> is centered at the <strong>true</strong> <span class="math inline">\(\beta_1\)</span>, with the same spread, <span class="math inline">\(SE(\hat\beta_1)\)</span>. The null distribution is just the special case <span class="math inline">\(\beta_1 = 0\)</span>.</p>
 <div class="cell" data-layout-align="center">
-<div class="cell-output cell-output-stderr">
-<pre><code>Scale for x is already present.
-Adding another scale for x, which will replace the existing scale.</code></pre>
-</div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="21-confidence-intervals_files/figure-html/unnamed-chunk-4-1.png" class="quarto-figure quarto-figure-center" style="width:70.0%"></p>
+<p><img data-src="21-confidence-intervals_files/figure-revealjs/unnamed-chunk-4-1.png" class="quarto-figure quarto-figure-center" style="width:70.0%"></p>
 </figure>
 </div>
 </div>
@@ -324,7 +320,7 @@ Adding another scale for x, which will replace the existing scale.</code></pre>
 <h2>Which true values are plausible?</h2>
 <p>We know where our estimate landed. Slide the <strong>sampling distribution</strong> to different true values. The shaded middle 95% is where estimates usually fall.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="184" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 183;"><span id="cb3-184"><a></a>viewof beta <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">10</span><span class="op">,</span> <span class="dv">40</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"True difference β₁"</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="184" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 183;"><span id="cb2-184"><a></a>viewof beta <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">10</span><span class="op">,</span> <span class="dv">40</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"True difference β₁"</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-1" data-nodetype="declaration">
 
@@ -332,31 +328,31 @@ Adding another scale for x, which will replace the existing scale.</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="189" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 188;"><span id="cb4-189"><a></a>{</span>
-<span id="cb4-190"><a></a>  <span class="kw">const</span> pts <span class="op">=</span> ci_z<span class="op">.</span><span class="fu">map</span>((z<span class="op">,</span> i) <span class="kw">=&gt;</span> ({<span class="dt">x</span><span class="op">:</span> beta <span class="op">+</span> z <span class="op">*</span> ci_se<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> ci_d[i] <span class="op">/</span> ci_se<span class="op">,</span> <span class="dt">mid</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(z) <span class="op">&lt;=</span> ci_tstar}))<span class="op">;</span></span>
-<span id="cb4-191"><a></a>  <span class="kw">const</span> inside <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(ci_est <span class="op">-</span> beta) <span class="op">&lt;=</span> ci_tstar <span class="op">*</span> ci_se<span class="op">;</span></span>
-<span id="cb4-192"><a></a>  <span class="kw">const</span> col <span class="op">=</span> inside <span class="op">?</span> <span class="st">"#533860"</span> <span class="op">:</span> <span class="st">"#d53a19"</span><span class="op">;</span></span>
-<span id="cb4-193"><a></a>  <span class="kw">const</span> plot <span class="op">=</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb4-194"><a></a>    <span class="dt">width</span><span class="op">:</span> <span class="dv">900</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">260</span><span class="op">,</span> <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">30</span><span class="op">,</span> <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
-<span id="cb4-195"><a></a>    <span class="dt">x</span><span class="op">:</span> {<span class="dt">domain</span><span class="op">:</span> [<span class="op">-</span><span class="dv">40</span><span class="op">,</span> <span class="dv">70</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="kw">null</span>}<span class="op">,</span></span>
-<span id="cb4-196"><a></a>    <span class="dt">y</span><span class="op">:</span> {<span class="dt">axis</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">1.2</span> <span class="op">*</span> ci_dmax]}<span class="op">,</span></span>
-<span id="cb4-197"><a></a>    <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb4-198"><a></a>      Plot<span class="op">.</span><span class="fu">areaY</span>(pts<span class="op">.</span><span class="fu">filter</span>(p <span class="kw">=&gt;</span> p<span class="op">.</span><span class="at">mid</span>)<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#533860"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.3</span><span class="op">,</span> <span class="dt">clip</span><span class="op">:</span> <span class="kw">true</span>})<span class="op">,</span></span>
-<span id="cb4-199"><a></a>      Plot<span class="op">.</span><span class="fu">line</span>(pts<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#533860"</span><span class="op">,</span> <span class="dt">clip</span><span class="op">:</span> <span class="kw">true</span>})<span class="op">,</span></span>
-<span id="cb4-200"><a></a>      Plot<span class="op">.</span><span class="fu">ruleX</span>([beta]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"grey"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"4"</span>})<span class="op">,</span></span>
-<span id="cb4-201"><a></a>      Plot<span class="op">.</span><span class="fu">ruleX</span>([ci_est]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> col<span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span>})<span class="op">,</span></span>
-<span id="cb4-202"><a></a>      <span class="co">// beta_1 above the dotted line (moves with the slider)</span></span>
-<span id="cb4-203"><a></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> beta<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">1.08</span> <span class="op">*</span> ci_dmax}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> [<span class="st">"β"</span>]<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"grey"</span><span class="op">,</span> <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"middle"</span>})<span class="op">,</span></span>
-<span id="cb4-204"><a></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> beta<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">1.08</span> <span class="op">*</span> ci_dmax}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> [<span class="st">"₁"</span>]<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"grey"</span><span class="op">,</span> <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"start"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="dv">7</span><span class="op">,</span> <span class="dt">dy</span><span class="op">:</span> <span class="dv">4</span>})<span class="op">,</span></span>
-<span id="cb4-205"><a></a>      <span class="co">// "our estimate  beta-hat_1" next to the estimate line, hat drawn by hand</span></span>
-<span id="cb4-206"><a></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> ci_est<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">0.3</span> <span class="op">*</span> ci_dmax}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> [<span class="st">"our estimate"</span>]<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> col<span class="op">,</span> <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"end"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="op">-</span><span class="dv">22</span>})<span class="op">,</span></span>
-<span id="cb4-207"><a></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> ci_est<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">0.3</span> <span class="op">*</span> ci_dmax}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> [<span class="st">"β"</span>]<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> col<span class="op">,</span> <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"middle"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="op">-</span><span class="dv">9</span>})<span class="op">,</span></span>
-<span id="cb4-208"><a></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> ci_est<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">0.3</span> <span class="op">*</span> ci_dmax}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> [<span class="st">"^"</span>]<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> col<span class="op">,</span> <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"middle"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="op">-</span><span class="dv">9</span><span class="op">,</span> <span class="dt">dy</span><span class="op">:</span> <span class="op">-</span><span class="dv">5</span>})<span class="op">,</span></span>
-<span id="cb4-209"><a></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> ci_est<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">0.3</span> <span class="op">*</span> ci_dmax}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> [<span class="st">"₁"</span>]<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> col<span class="op">,</span> <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"start"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dt">dy</span><span class="op">:</span> <span class="dv">4</span>})</span>
-<span id="cb4-210"><a></a>    ]</span>
-<span id="cb4-211"><a></a>  })<span class="op">;</span></span>
-<span id="cb4-212"><a></a>  <span class="cf">return</span> <span class="fu">html</span><span class="vs">`&lt;div&gt;</span><span class="sc">${</span>plot<span class="sc">}</span><span class="vs">&lt;div style="text-align: center; font-size: 0.8em;"&gt;Estimated City Hall - Business difference (cups)&lt;/div&gt;&lt;/div&gt;`</span><span class="op">;</span></span>
-<span id="cb4-213"><a></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="189" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 188;"><span id="cb3-189"><a></a>{</span>
+<span id="cb3-190"><a></a>  <span class="kw">const</span> pts <span class="op">=</span> ci_z<span class="op">.</span><span class="fu">map</span>((z<span class="op">,</span> i) <span class="kw">=&gt;</span> ({<span class="dt">x</span><span class="op">:</span> beta <span class="op">+</span> z <span class="op">*</span> ci_se<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> ci_d[i] <span class="op">/</span> ci_se<span class="op">,</span> <span class="dt">mid</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(z) <span class="op">&lt;=</span> ci_tstar}))<span class="op">;</span></span>
+<span id="cb3-191"><a></a>  <span class="kw">const</span> inside <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(ci_est <span class="op">-</span> beta) <span class="op">&lt;=</span> ci_tstar <span class="op">*</span> ci_se<span class="op">;</span></span>
+<span id="cb3-192"><a></a>  <span class="kw">const</span> col <span class="op">=</span> inside <span class="op">?</span> <span class="st">"#533860"</span> <span class="op">:</span> <span class="st">"#d53a19"</span><span class="op">;</span></span>
+<span id="cb3-193"><a></a>  <span class="kw">const</span> plot <span class="op">=</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb3-194"><a></a>    <span class="dt">width</span><span class="op">:</span> <span class="dv">900</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">260</span><span class="op">,</span> <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">30</span><span class="op">,</span> <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
+<span id="cb3-195"><a></a>    <span class="dt">x</span><span class="op">:</span> {<span class="dt">domain</span><span class="op">:</span> [<span class="op">-</span><span class="dv">40</span><span class="op">,</span> <span class="dv">70</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="kw">null</span>}<span class="op">,</span></span>
+<span id="cb3-196"><a></a>    <span class="dt">y</span><span class="op">:</span> {<span class="dt">axis</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">1.2</span> <span class="op">*</span> ci_dmax]}<span class="op">,</span></span>
+<span id="cb3-197"><a></a>    <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb3-198"><a></a>      Plot<span class="op">.</span><span class="fu">areaY</span>(pts<span class="op">.</span><span class="fu">filter</span>(p <span class="kw">=&gt;</span> p<span class="op">.</span><span class="at">mid</span>)<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#533860"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.3</span><span class="op">,</span> <span class="dt">clip</span><span class="op">:</span> <span class="kw">true</span>})<span class="op">,</span></span>
+<span id="cb3-199"><a></a>      Plot<span class="op">.</span><span class="fu">line</span>(pts<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#533860"</span><span class="op">,</span> <span class="dt">clip</span><span class="op">:</span> <span class="kw">true</span>})<span class="op">,</span></span>
+<span id="cb3-200"><a></a>      Plot<span class="op">.</span><span class="fu">ruleX</span>([beta]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"grey"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"4"</span>})<span class="op">,</span></span>
+<span id="cb3-201"><a></a>      Plot<span class="op">.</span><span class="fu">ruleX</span>([ci_est]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> col<span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span>})<span class="op">,</span></span>
+<span id="cb3-202"><a></a>      <span class="co">// beta_1 above the dotted line (moves with the slider)</span></span>
+<span id="cb3-203"><a></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> beta<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">1.08</span> <span class="op">*</span> ci_dmax}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> [<span class="st">"β"</span>]<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"grey"</span><span class="op">,</span> <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"middle"</span>})<span class="op">,</span></span>
+<span id="cb3-204"><a></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> beta<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">1.08</span> <span class="op">*</span> ci_dmax}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> [<span class="st">"₁"</span>]<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"grey"</span><span class="op">,</span> <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"start"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="dv">7</span><span class="op">,</span> <span class="dt">dy</span><span class="op">:</span> <span class="dv">4</span>})<span class="op">,</span></span>
+<span id="cb3-205"><a></a>      <span class="co">// "our estimate  beta-hat_1" next to the estimate line, hat drawn by hand</span></span>
+<span id="cb3-206"><a></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> ci_est<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">0.3</span> <span class="op">*</span> ci_dmax}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> [<span class="st">"our estimate"</span>]<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> col<span class="op">,</span> <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"end"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="op">-</span><span class="dv">22</span>})<span class="op">,</span></span>
+<span id="cb3-207"><a></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> ci_est<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">0.3</span> <span class="op">*</span> ci_dmax}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> [<span class="st">"β"</span>]<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> col<span class="op">,</span> <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"middle"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="op">-</span><span class="dv">9</span>})<span class="op">,</span></span>
+<span id="cb3-208"><a></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> ci_est<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">0.3</span> <span class="op">*</span> ci_dmax}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> [<span class="st">"^"</span>]<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> col<span class="op">,</span> <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"middle"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="op">-</span><span class="dv">9</span><span class="op">,</span> <span class="dt">dy</span><span class="op">:</span> <span class="op">-</span><span class="dv">5</span>})<span class="op">,</span></span>
+<span id="cb3-209"><a></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> ci_est<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">0.3</span> <span class="op">*</span> ci_dmax}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> [<span class="st">"₁"</span>]<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> col<span class="op">,</span> <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"start"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dt">dy</span><span class="op">:</span> <span class="dv">4</span>})</span>
+<span id="cb3-210"><a></a>    ]</span>
+<span id="cb3-211"><a></a>  })<span class="op">;</span></span>
+<span id="cb3-212"><a></a>  <span class="cf">return</span> <span class="fu">html</span><span class="vs">`&lt;div&gt;</span><span class="sc">${</span>plot<span class="sc">}</span><span class="vs">&lt;div style="text-align: center; font-size: 0.8em;"&gt;Estimated City Hall - Business difference (cups)&lt;/div&gt;&lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb3-213"><a></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-2" data-nodetype="expression">
 
@@ -364,7 +360,7 @@ Adding another scale for x, which will replace the existing scale.</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="218" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 217;"><span id="cb5-218"><a></a><span class="fu">html</span><span class="vs">`&lt;p style="font-size: 0.9em; color: </span><span class="sc">${</span><span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(ci_est <span class="op">-</span> beta) <span class="op">&lt;=</span> ci_tstar <span class="op">*</span> ci_se <span class="op">?</span> <span class="st">"#533860"</span> <span class="op">:</span> <span class="st">"#d53a19"</span><span class="sc">}</span><span class="vs">"&gt;&lt;b&gt;Our estimate is </span><span class="sc">${</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(ci_est <span class="op">-</span> beta) <span class="op">/</span> ci_se)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs"> standard errors from β₁ = </span><span class="sc">${</span>beta<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">:&lt;/b&gt; </span><span class="sc">${</span><span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(ci_est <span class="op">-</span> beta) <span class="op">&lt;=</span> ci_tstar <span class="op">*</span> ci_se <span class="op">?</span> <span class="st">"a plausible value (inside the middle 95%)."</span> <span class="op">:</span> <span class="st">"not plausible (outside the middle 95%)."</span><span class="sc">}</span><span class="vs">&lt;/p&gt;`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="218" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 217;"><span id="cb4-218"><a></a><span class="fu">html</span><span class="vs">`&lt;p style="font-size: 0.9em; color: </span><span class="sc">${</span><span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(ci_est <span class="op">-</span> beta) <span class="op">&lt;=</span> ci_tstar <span class="op">*</span> ci_se <span class="op">?</span> <span class="st">"#533860"</span> <span class="op">:</span> <span class="st">"#d53a19"</span><span class="sc">}</span><span class="vs">"&gt;&lt;b&gt;Our estimate is </span><span class="sc">${</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(ci_est <span class="op">-</span> beta) <span class="op">/</span> ci_se)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs"> standard errors from β₁ = </span><span class="sc">${</span>beta<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">:&lt;/b&gt; </span><span class="sc">${</span><span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(ci_est <span class="op">-</span> beta) <span class="op">&lt;=</span> ci_tstar <span class="op">*</span> ci_se <span class="op">?</span> <span class="st">"a plausible value (inside the middle 95%)."</span> <span class="op">:</span> <span class="st">"not plausible (outside the middle 95%)."</span><span class="sc">}</span><span class="vs">&lt;/p&gt;`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-3" data-nodetype="expression">
 
@@ -378,7 +374,7 @@ Adding another scale for x, which will replace the existing scale.</code></pre>
 <section id="the-plausible-values-are-the-interval" class="slide level2 smaller">
 <h2>The plausible values are the interval</h2>
 
-<img data-src="21-confidence-intervals_files/figure-html/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><p>A <strong>95% confidence interval</strong> is every true value whose sampling distribution puts our estimate (red line) in its middle 95%. The two extreme values are the interval’s <strong>endpoints</strong>.</p>
+<img data-src="21-confidence-intervals_files/figure-revealjs/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><p>A <strong>95% confidence interval</strong> is every true value whose sampling distribution puts our estimate (red line) in its middle 95%. The two extreme values are the interval’s <strong>endpoints</strong>.</p>
 <div class="question">
 <p>At each endpoint, how many standard errors away is our estimate? What does that tell you about how to compute the endpoints directly?</p>
 </div>
@@ -402,7 +398,7 @@ Adding another scale for x, which will replace the existing scale.</code></pre>
 <section id="in-r" class="slide level2 smaller">
 <h2>In R</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>lunch_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>lunch_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top" style="width:100%;">
 <colgroup>
@@ -450,7 +446,7 @@ Adding another scale for x, which will replace the existing scale.</code></pre>
 </div>
 <p>By default <code>conf.int = TRUE</code> gives a 95% interval. Change the <strong>confidence level</strong> with <code>conf.level</code>:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a>lunch_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">conf.level =</span> <span class="fl">0.90</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>lunch_fit <span class="sc">|&gt;</span> <span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">conf.level =</span> <span class="fl">0.90</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top" style="width:100%;">
 <colgroup>
@@ -527,6 +523,15 @@ Adding another scale for x, which will replace the existing scale.</code></pre>
 </ul>
 </div>
 </section>
+<section id="phrasing" class="slide level2 smaller">
+<h2>Phrasing</h2>
+<p>Here are a few ways to write a confidence interval is as follows:</p>
+<ul>
+<li>We are 95% confident that the Jo will sell between 10 and 26 more cups of coffee at City Hall vs the Business District during lunch, on average.</li>
+<li>We are 95% confident that the true difference in the number of cups Jo will sell in the City vs the Business District, <span class="math inline">\(\beta_1\)</span>, is between 10 and 26.</li>
+<li>For a slope: We are 90% confidence that as [insert explanatory variable] increases by 1 [insert unit], [insert response variable] will increase by [lower bound] to [upper bound] [insert units], on average.</li>
+</ul>
+</section>
 <section id="simulating-the-95" class="slide level2 smaller">
 <h2>Simulating the “95%”</h2>
 <p>Let’s pretend our fitted model is the truth. We run the experiment 1000 times, make a 95% interval each time, and count how often the interval contains the true difference.</p>
@@ -536,7 +541,7 @@ Adding another scale for x, which will replace the existing scale.</code></pre>
 </div>
 
 </div>
-<img data-src="21-confidence-intervals_files/figure-html/unnamed-chunk-11-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><div class="fragment">
+<img data-src="21-confidence-intervals_files/figure-revealjs/unnamed-chunk-11-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"><div class="fragment">
 <p><a href="https://rpsychologist.com/d3/CI/">My favorite visuliazation</a></p>
 </div>
 </section></section>
@@ -591,7 +596,7 @@ Adding another scale for x, which will replace the existing scale.</code></pre>
 <div class="columns">
 <div class="column">
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="fu">lm</span>(Sales <span class="sc">~</span> Temperature, <span class="at">data =</span> coffee) <span class="sc">|&gt;</span> <span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a><span class="fu">lm</span>(Sales <span class="sc">~</span> Temperature, <span class="at">data =</span> coffee) <span class="sc">|&gt;</span> <span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <colgroup>
@@ -637,9 +642,9 @@ Adding another scale for x, which will replace the existing scale.</code></pre>
 </table>
 </div>
 </div>
-</div><div class="columns">
+</div><div class="column">
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a><span class="fu">lm</span>(Sales <span class="sc">~</span> Temperature <span class="sc">+</span> Location <span class="sc">+</span> TimeOfDay, <span class="at">data =</span> coffee) <span class="sc">|&gt;</span> <span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="fu">lm</span>(Sales <span class="sc">~</span> Temperature <span class="sc">+</span> Location <span class="sc">+</span> TimeOfDay, <span class="at">data =</span> coffee) <span class="sc">|&gt;</span> <span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top" style="width:100%;">
 <colgroup>
@@ -730,8 +735,7 @@ Adding another scale for x, which will replace the existing scale.</code></pre>
 </table>
 </div>
 </div>
-</div>
-</div>
+</div></div>
 <div class="question">
 <p>The interval for the <code>Temperature</code> slope moved when we added <code>Location</code> and <code>TimeOfDay</code>. Why? Does Jo’s conclusion about temperature change?</p>
 </div>
@@ -749,13 +753,13 @@ Adding another scale for x, which will replace the existing scale.</code></pre>
 <li>How many cups will I sell <strong>next Tuesday</strong> at City Hall? (a <strong>prediction interval</strong> for one new shift)</li>
 </ol>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a>new_shift <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Location =</span> <span class="st">"CityHall"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>new_shift <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Location =</span> <span class="st">"CityHall"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="columns">
 <div class="column">
 <h4 id="confidence-interval">Confidence interval</h4>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a><span class="fu">predict</span>(lunch_fit, <span class="at">newdata =</span> new_shift, <span class="at">interval =</span> <span class="st">"confidence"</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a><span class="fu">predict</span>(lunch_fit, <span class="at">newdata =</span> new_shift, <span class="at">interval =</span> <span class="st">"confidence"</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
@@ -778,7 +782,7 @@ Adding another scale for x, which will replace the existing scale.</code></pre>
 </div><div class="column">
 <h4 id="prediction-interval">Prediction interval</h4>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a><span class="fu">predict</span>(lunch_fit, <span class="at">newdata =</span> new_shift, <span class="at">interval =</span> <span class="st">"prediction"</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a><span class="fu">predict</span>(lunch_fit, <span class="at">newdata =</span> new_shift, <span class="at">interval =</span> <span class="st">"prediction"</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <thead>
@@ -825,7 +829,7 @@ y_{\text{new}} = \underbrace{\beta_0 + \beta_1 x}_{\text{what we estimate}} + \u
 <section id="both-intervals-in-a-plot" class="slide level2 smaller">
 <h2>Both intervals in a plot</h2>
 
-<img data-src="21-confidence-intervals_files/figure-html/unnamed-chunk-17-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"><div class="question">
+<img data-src="21-confidence-intervals_files/figure-revealjs/unnamed-chunk-17-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"><div class="question">
 <p>The purple band is the confidence interval for the mean, the grey band is the prediction interval for one new shift. Roughly what fraction of the points should fall inside each band?</p>
 </div>
 <div class="fragment">
@@ -846,7 +850,7 @@ y_{\text{new}} = \underbrace{\beta_0 + \beta_1 x}_{\text{what we estimate}} + \u
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_912b8ab6" minutes="30" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_1d8c6fd8" minutes="30" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
 </div>
 </div>
 </section>
@@ -1092,6 +1096,44 @@ y_{\text{new}} = \underbrace{\beta_0 + \beta_1 x}_{\text{what we estimate}} + \u
     window._ojs.selfContained = false;
     window._ojs.runtime.interpretFromScriptTags();
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")

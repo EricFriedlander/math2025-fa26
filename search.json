@@ -135,7 +135,7 @@
     "href": "slides/21-confidence-intervals.html#what-if-the-truth-is-not-0",
     "title": "Confidence Intervals",
     "section": "What if the truth is not 0?",
-    "text": "What if the truth is not 0?\n\nSuppose the true difference were \\(\\beta_1 = 10\\) cups. If Jo ran the experiment many times, where would the estimates be centered? What if the true difference were \\(\\beta_1 = 25\\)?\n\n\nThe sampling distribution of \\(\\hat\\beta_1\\) is centered at the true \\(\\beta_1\\), with the same spread, \\(SE(\\hat\\beta_1)\\). The null distribution is just the special case \\(\\beta_1 = 0\\).\n\n\nScale for x is already present.\nAdding another scale for x, which will replace the existing scale.\n\n\n\n\n\n\n\n\n\n\n\nThe catch: we don’t know the true \\(\\beta_1\\), so we don’t know where to center the distribution."
+    "text": "What if the truth is not 0?\n\nSuppose the true difference were \\(\\beta_1 = 10\\) cups. If Jo ran the experiment many times, where would the estimates be centered? What if the true difference were \\(\\beta_1 = 25\\)?\n\n\nThe sampling distribution of \\(\\hat\\beta_1\\) is centered at the true \\(\\beta_1\\), with the same spread, \\(SE(\\hat\\beta_1)\\). The null distribution is just the special case \\(\\beta_1 = 0\\).\n\n\n\n\n\n\n\n\n\n\n\nThe catch: we don’t know the true \\(\\beta_1\\), so we don’t know where to center the distribution."
   },
   {
     "objectID": "slides/21-confidence-intervals.html#which-true-values-are-plausible",
@@ -173,6 +173,13 @@
     "text": "Interpreting an interval\n\nWhich of these is correct?\n\nThere is a 95% chance that the true difference is between 8.4 and 28.1.\n95% of the Lunch shifts had a difference in this range.\nIf we repeated the experiment many times and made an interval each time, about 95% of the intervals would contain the true difference.\n\n\n\nOnly 3 is right. The true difference is a fixed number. The interval is what changes from sample to sample.\n\n\nAnalogy: Fishing\n\nFish = true \\(\\beta_1\\)\nNet = confidence interval\nConfidence level (i.e. 95%) = size of net"
   },
   {
+    "objectID": "slides/21-confidence-intervals.html#phrasing",
+    "href": "slides/21-confidence-intervals.html#phrasing",
+    "title": "Confidence Intervals",
+    "section": "Phrasing",
+    "text": "Phrasing\nHere are a few ways to write a confidence interval is as follows:\n\nWe are 95% confident that the Jo will sell between 10 and 26 more cups of coffee at City Hall vs the Business District during lunch, on average.\nWe are 95% confident that the true difference in the number of cups Jo will sell in the City vs the Business District, \\(\\beta_1\\), is between 10 and 26.\nFor a slope: We are 90% confidence that as [insert explanatory variable] increases by 1 [insert unit], [insert response variable] will increase by [lower bound] to [upper bound] [insert units], on average."
+  },
+  {
     "objectID": "slides/21-confidence-intervals.html#simulating-the-95",
     "href": "slides/21-confidence-intervals.html#simulating-the-95",
     "title": "Confidence Intervals",
@@ -191,7 +198,7 @@
     "href": "slides/21-confidence-intervals.html#intervals-in-mlr",
     "title": "Confidence Intervals",
     "section": "Intervals in MLR",
-    "text": "Intervals in MLR\nNote that, just like p-values, confidence intervals for coefficients depend on which other variables are in the model.\n\n\n\nlm(Sales ~ Temperature, data = coffee) |&gt; tidy(conf.int = TRUE) |&gt; kable(digits=2)\n\n\n\n\n\n\n\n\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\nconf.low\nconf.high\n\n\n\n\n(Intercept)\n145.17\n22.49\n6.45\n0\n100.78\n189.55\n\n\nTemperature\n-1.24\n0.37\n-3.31\n0\n-1.97\n-0.50\n\n\n\n\n\n\n\nlm(Sales ~ Temperature + Location + TimeOfDay, data = coffee) |&gt; tidy(conf.int = TRUE) |&gt; kable(digits=2)\n\n\n\n\n\n\n\n\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\nconf.low\nconf.high\n\n\n\n\n(Intercept)\n119.75\n16.39\n7.31\n0.00\n87.40\n152.11\n\n\nTemperature\n-0.62\n0.27\n-2.26\n0.02\n-1.16\n-0.08\n\n\nLocationCityHall\n-4.16\n3.31\n-1.26\n0.21\n-10.70\n2.38\n\n\nLocationPark\n11.48\n3.23\n3.56\n0.00\n5.11\n17.86\n\n\nLocationZoo\n-17.63\n3.29\n-5.36\n0.00\n-24.13\n-11.14\n\n\nTimeOfDayLunch\n-0.76\n2.80\n-0.27\n0.79\n-6.29\n4.77\n\n\nTimeOfDayMorning\n-26.21\n2.80\n-9.37\n0.00\n-31.73\n-20.69\n\n\n\n\n\n\n\n\nThe interval for the Temperature slope moved when we added Location and TimeOfDay. Why? Does Jo’s conclusion about temperature change?"
+    "text": "Intervals in MLR\nNote that, just like p-values, confidence intervals for coefficients depend on which other variables are in the model.\n\n\n\nlm(Sales ~ Temperature, data = coffee) |&gt; tidy(conf.int = TRUE) |&gt; kable(digits=2)\n\n\n\n\n\n\n\n\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\nconf.low\nconf.high\n\n\n\n\n(Intercept)\n145.17\n22.49\n6.45\n0\n100.78\n189.55\n\n\nTemperature\n-1.24\n0.37\n-3.31\n0\n-1.97\n-0.50\n\n\n\n\n\n\n\nlm(Sales ~ Temperature + Location + TimeOfDay, data = coffee) |&gt; tidy(conf.int = TRUE) |&gt; kable(digits=2)\n\n\n\n\n\n\n\n\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\nconf.low\nconf.high\n\n\n\n\n(Intercept)\n119.75\n16.39\n7.31\n0.00\n87.40\n152.11\n\n\nTemperature\n-0.62\n0.27\n-2.26\n0.02\n-1.16\n-0.08\n\n\nLocationCityHall\n-4.16\n3.31\n-1.26\n0.21\n-10.70\n2.38\n\n\nLocationPark\n11.48\n3.23\n3.56\n0.00\n5.11\n17.86\n\n\nLocationZoo\n-17.63\n3.29\n-5.36\n0.00\n-24.13\n-11.14\n\n\nTimeOfDayLunch\n-0.76\n2.80\n-0.27\n0.79\n-6.29\n4.77\n\n\nTimeOfDayMorning\n-26.21\n2.80\n-9.37\n0.00\n-31.73\n-20.69\n\n\n\n\n\n\n\nThe interval for the Temperature slope moved when we added Location and TimeOfDay. Why? Does Jo’s conclusion about temperature change?"
   },
   {
     "objectID": "slides/21-confidence-intervals.html#two-different-questions",
