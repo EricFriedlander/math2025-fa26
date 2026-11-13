@@ -1,0 +1,314 @@
+---
+title: "Multicollinearity"
+subtitle: "When predictors overlap"
+author: "Prof. Eric Friedlander"
+footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/)"
+logo: "../images/logo.png"
+format:
+  revealjs:
+    theme: slides.scss
+    multiplex: false
+    transition: fade
+    slide-number: false
+    incremental: false
+    chalkboard: true
+    scrollable: true
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+execute:
+  freeze: auto
+  echo: true
+  cache: false
+knitr:
+  opts_chunk:
+    R.options:
+    width: 200
+bibliography: references.bib
+---
+
+```{r setup}
+#| include: false
+
+library(countdown)
+
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.618,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+
+# load packages
+library(tidyverse)   # for data wrangling and visualization
+library(ggformula)   # for plotting using formulas
+library(broom)       # for formatting model output
+library(knitr)       # for pretty tables
+
+# set default theme and larger font size for ggplot2
+ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
+
+rail_trail <- read_csv(here::here("data/rail_trail.csv"))
+```
+
+## Topics
+
+::: nonincremental
+-   What multicollinearity is, and why it is a problem
+-   Detecting it: plots, correlations, and the variance inflation factor (VIF)
+-   What to do about it
+:::
+
+## Data: `rail_trail` {.smaller}
+
+Daily `volume` of users on a rail trail in Massachusetts over 90 days in 2005 (Pioneer Valley Planning Commission), with weather and calendar variables.
+
+```{r}
+#| echo: false
+rail_trail |> glimpse()
+```
+
+# A puzzle
+
+## One predictor {.smaller}
+
+```{r}
+fit_high <- lm(volume ~ hightemp, data = rail_trail)
+tidy(fit_high) |> kable(digits = 2)
+```
+
+Each additional degree of high temperature is associated with about **5.7** more riders, and the standard error is **0.85**.
+
+## Add the average temperature {.smaller}
+
+```{r}
+fit_both <- lm(volume ~ hightemp + avgtemp, data = rail_trail)
+tidy(fit_both) |> kable(digits = 2)
+```
+
+::: question
+What changed for `hightemp`? What does the coefficient on `avgtemp` seem to say: do warmer average days mean **fewer** riders?
+:::
+
+. . .
+
+-   The `hightemp` estimate more than **doubled**, and its standard error went from 0.85 to 2.04
+-   `avgtemp` has a **negative** coefficient, even though warmer days clearly bring more riders
+
+## What is going on?
+
+```{r}
+#| echo: false
+gf_point(avgtemp ~ hightemp, data = rail_trail, alpha = 0.7) |>
+  gf_smooth(method = "lm", se = FALSE, color = "red") |>
+  gf_labs(x = "High temperature (F)", y = "Average temperature (F)",
+          title = paste0("Correlation: ", round(cor(rail_trail$hightemp, rail_trail$avgtemp), 2)))
+```
+
+`hightemp` and `avgtemp` carry nearly the same information. This is **multicollinearity**.
+
+# What is multicollinearity?
+
+## Definition
+
+**Multicollinearity** is when one or more predictors are strongly related to some combination of the other predictors.
+
+. . .
+
+**Test of intuition:** if you could fit a good linear model with one predictor as the *response* and the other predictors as the *explanatory variables*, then your predictors are exhibiting multicollinearity.
+
+## The extreme case {.smaller}
+
+Suppose the truth is $y = 3 + 4x$, and we fit a model with $x$ and $z = x/10$:
+
+$$
+\begin{aligned}\hat{y}&= \hat{\beta}_0 + \hat{\beta}_1x  + \hat{\beta}_2z\\
+&= \hat{\beta}_0 + \hat{\beta}_1x  + \hat{\beta}_2\frac{x}{10}\\
+&= \hat{\beta}_0 + \bigg(\hat{\beta}_1 + \frac{\hat{\beta}_2}{10}\bigg)x
+\end{aligned}
+$$
+
+. . .
+
+-   Any $\hat\beta_1$ and $\hat\beta_2$ with $\hat{\beta}_1 + \frac{\hat{\beta}_2}{10} = 4$ give **exactly the same predictions**
+-   So the data cannot tell us which pair is "best": the model is **unidentifiable**, and R will give `NA` for one coefficient
+-   This is also why a categorical variable needs a reference level: the indicators for all levels always add up to 1, which is perfectly collinear with the intercept
+
+::: question
+Real data are almost never perfectly collinear. What do you think happens when predictors are *nearly* collinear?
+:::
+
+## Nearly collinear: the coefficients wobble {.smaller}
+
+Back to the wobbling-plane picture from Lecture 20. Each simulated study below has the **same true model**, $y = 2 + 0 \cdot x_1 + 1 \cdot x_2 + \text{noise}$, but a different correlation between $x_1$ and $x_2$. We fit 200 samples of $n = 40$ for each.
+
+```{r}
+#| echo: false
+#| fig.asp: 0.5
+#| out.width: "100%"
+set.seed(2026)
+sim_slope <- function(r, n = 40, reps = 200) {
+  map_dbl(1:reps, \(i) {
+    x1 <- rnorm(n)
+    x2 <- r * x1 + sqrt(1 - r^2) * rnorm(n)
+    y <- 2 + 0 * x1 + 1 * x2 + rnorm(n, 0, 1.5)
+    coef(lm(y ~ x1 + x2))[2]
+  })
+}
+sims <- tibble(r = c(0, 0.9, 0.99)) |>
+  mutate(slope = map(r, sim_slope)) |>
+  unnest(slope) |>
+  mutate(r = factor(paste("corr(x1, x2) =", r), levels = paste("corr(x1, x2) =", c(0, 0.9, 0.99))))
+
+gf_histogram(~slope, data = sims, bins = 30) |>
+  gf_facet_wrap(~r) |>
+  gf_vline(xintercept = 0, color = "red", linetype = "dashed") |>
+  gf_labs(x = expression(hat(beta)[1] ~ "(true value: 0)"), y = "Count")
+```
+
+. . .
+
+The estimates are still centered at the truth, but the more correlated the predictors, the **more they vary from sample to sample**. That is exactly a larger standard error.
+
+# Why it matters
+
+## Consequences
+
+-   **Standard errors inflate**: wide intervals, small $t$-statistics, large p-values, even for variables that are truly related to $y$
+-   **Estimates are unstable**: a small change in the data can swing a coefficient a lot, even flip its sign
+-   **Interpretation breaks down**: "holding `avgtemp` constant, a 1 degree increase in `hightemp`..." describes a day that basically does not exist
+
+. . .
+
+What multicollinearity does **not** hurt: the model's **predictions** and $R^2$. If you only care about predicting $y$, it is mostly harmless. It is a problem when you want to **interpret or test individual coefficients**, which is what most of our projects do.
+
+# Detecting multicollinearity
+
+## In the exploratory analysis
+
+-   Look at the **correlations** among the predictors. Values near $\pm 1$ (rule of thumb: above $|0.8|$ or $|0.9|$) are a warning sign.
+-   Look at **scatterplots** of pairs of quantitative predictors. A tight linear band is a warning sign.
+-   For categorical predictors, look at **boxplots** or **tables** of one predictor against another.
+
+```{r}
+rail_trail |>
+  select(hightemp, avgtemp, cloudcover, precip) |>
+  cor() |>
+  round(2)
+```
+
+## Pairwise checks can miss it
+
+A predictor can be nearly predictable from a **combination** of several others, even if no single pair is highly correlated. We need a number that captures "how well do all the other predictors predict this one?"
+
+## Variance inflation factor (VIF) {.smaller}
+
+For predictor $x_j$, regress it on **all the other predictors**, and let $R^2_j$ be the proportion of the variation in $x_j$ that they explain. Then
+
+$$VIF_j = \frac{1}{1 - R^2_j}$$
+
+. . .
+
+-   $R_j^2 = 0$ (no overlap) $\Rightarrow$ $VIF = 1$
+-   $R_j^2 = 0.9$ $\Rightarrow$ $VIF = 10$
+-   Interpretation: the variance of $\hat\beta_j$ is inflated by a factor of $VIF_j$ (its standard error by $\sqrt{VIF_j}$)
+-   Rules of thumb: $VIF > 5$ deserves a look, $VIF > 10$ is concerning
+
+## Computing VIF by hand {.smaller}
+
+```{r}
+# VIF for hightemp: how well do the other predictors predict hightemp?
+aux <- lm(hightemp ~ avgtemp, data = rail_trail)
+r2 <- glance(aux)$r.squared
+r2
+1 / (1 - r2)
+```
+
+. . .
+
+So the standard error of $\hat\beta_{hightemp}$ is inflated by roughly $\sqrt{6.5} \approx 2.5$, which is about what we saw: 0.85 $\to$ 2.04.
+
+::: question
+What is the VIF of `avgtemp`? (Think about it before computing: its auxiliary regression is `avgtemp ~ hightemp`.)
+:::
+
+. . .
+
+Same: with only two predictors, both VIFs are $1/(1 - r^2)$. With more predictors, each has its own.
+
+## VIF in a bigger model {.smaller}
+
+```{r}
+# Auxiliary regression for hightemp in a larger model
+aux_big <- lm(hightemp ~ season + cloudcover + precip + day_type, data = rail_trail)
+1 / (1 - glance(aux_big)$r.squared)
+```
+
+Much smaller: `season`, `cloudcover`, `precip`, and `day_type` together only moderately predict `hightemp`. No concern here.
+
+::: callout-note
+Packages like `car` and `rms` have a `vif()` function that does this for you. Computing it by hand is the same idea, and works with only the packages we already have.
+:::
+
+# Categorical predictors and study design
+
+## Categorical predictors too
+
+Multicollinearity is not only about two numbers:
+
+-   A categorical predictor can be tied to another (e.g. an Islander's `village` and their `occupation`): check with a **two-way table** or a **boxplot**
+-   A categorical predictor can be tied to a quantitative one (e.g. `season` and `hightemp`: summer days are hot)
+
+. . .
+
+::: question
+In your Islands study, if you **randomly assigned** the primary explanatory variable, should it be related to the demographic variables? What if your study is observational?
+:::
+
+. . .
+
+Randomization breaks the link between the treatment and everything else, so multicollinearity between the treatment and the other variables should be small. In an **observational** study they are often tangled together, which is exactly what makes it hard to separate their effects.
+
+# What to do
+
+## Options
+
+1.  **Drop** one of the redundant predictors and refit.
+    -   Example: keep `hightemp`, drop `avgtemp`.
+2.  **Combine** the redundant predictors into one.
+    -   Example: a single `temp_composite` that is the average of `avgtemp` and `hightemp`.
+3.  **Keep both, but don't interpret them individually.** If you care about the *pair*, test them together with an $F$-test (Lecture 20) instead of one at a time.
+
+. . .
+
+::: question
+Which option would you pick if your research question is *"how does temperature affect ridership?"* Would your answer change if the question were *"does the high temperature matter beyond the average temperature?"*
+:::
+
+## Do **not** panic {.smaller}
+
+-   If your **primary variable** is not involved in the multicollinearity, you can leave it alone: the standard error you care about is not inflated
+-   Control variables included on purpose (confounders) can be highly related to your primary variable, and that is fine, as long as your primary variable's interval is still informative
+-   Always report what you found: "VIFs were all below 3" is a one-line sentence in a Methods section
+
+## Activity: AE 23 {.smaller}
+
+::: appex
+📋 [AE 23 - Your Project Data: Multicollinearity](https://ericfriedlander.github.io/math2025-fa26/ae/ae-23-project-multicollinearity.html)
+
+Use the model you checked in AE 22. Look at how your explanatory variables relate to each other, compute VIFs, and decide whether multicollinearity is a problem for your project.
+:::
+
+```{r}
+#| echo: false
+countdown(minutes = 30)
+```
+
+## Recap
+
+-   **Multicollinearity**: a predictor is strongly related to a combination of the other predictors
+-   It inflates standard errors, makes estimates unstable, and makes individual coefficients hard to interpret. Predictions are not hurt.
+-   Detect it with correlations, plots, and $VIF_j = 1/(1 - R_j^2)$ (worry above 5 to 10)
+-   Fix it by dropping or combining predictors, or by testing the correlated predictors together and not interpreting them individually

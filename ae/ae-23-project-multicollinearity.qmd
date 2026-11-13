@@ -1,0 +1,190 @@
+---
+title: "AE 23: Your Project Data, Multicollinearity"
+subtitle: "Relationships among predictors and variance inflation factors"
+editor: visual
+format:
+  html:
+    embed-resources: true
+    include-in-header:
+      text: |
+        <style>
+        /* Exercise / answer boxes. Canonical source: style/exercise-boxes.css
+           in the course repo — copy from there if this ever drifts. */
+        body { counter-reset: exercise; }
+        .exercise, .answer {
+          border-left: 4px solid #533860;
+          padding: .6em 1em;
+          margin: 1em 0;
+          border-radius: 4px;
+        }
+        .exercise { background: #f2eef5; }
+        .exercise::before {
+          counter-increment: exercise;
+          content: "Exercise " counter(exercise);
+          display: block;
+          font-weight: 700;
+          color: #533860;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .answer {
+          background: transparent;
+          border-left-color: #a49363;
+          border-left-style: dashed;
+          min-height: 3.5em;
+        }
+        .answer::before {
+          content: "Your answer";
+          display: block;
+          font-weight: 700;
+          color: #8a7a4f;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .quarto-dark .exercise {
+          background: rgba(255, 255, 255, .08);
+          border-left-color: #FFCB70;
+        }
+        .quarto-dark .exercise::before {
+          color: #FFCB70;
+        }
+        .quarto-dark .answer::before {
+          color: #ffd283;
+        }
+        </style>
+---
+
+::: callout-important
+- Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-23".
+- Go to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743) to get started.
+- Upload the `ae-23-project-multicollinearity.qmd` file into the folder you just created.
+:::
+
+## Intro
+
+**Multicollinearity** is when one explanatory variable is strongly related to a combination of the others. It inflates standard errors and makes individual coefficients hard to interpret. Today you check whether it is a problem in the model from AE 22.
+
+## Part 0: Bring your work forward
+
+::: exercise
+Copy and paste your `read_csv()` call, your `factor()` cleaning code, and your `my_fit` model from AE 22. Run the chunks and confirm that there are no errors.
+:::
+
+::: answer
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(ggformula)
+library(broom)
+library(knitr)
+```
+
+```{r load-data}
+#| message: false
+# Paste your read_csv() link and factor() cleaning code from AE 22 here
+
+```
+
+```{r refit-model}
+#| eval: false
+# Paste your my_fit code from AE 22 here
+```
+:::
+
+## Part 1: How do your explanatory variables relate to each other?
+
+::: exercise
+For **each pair** of explanatory variables in your model, make the right display:
+
+- two quantitative variables: a scatterplot, and `cor()`
+- one quantitative and one categorical: a boxplot (quantitative on the y-axis)
+- two categorical: a two-way table, `count(pilot, x1, x2)` or `table(pilot$x1, pilot$x2)`
+
+Which pair looks the most related? Is any pair strongly related?
+:::
+
+::: answer
+```{r pairs}
+#| eval: false
+gf_point(x_quant2 ~ x_quant1, data = pilot)
+cor(pilot$x_quant1, pilot$x_quant2)
+
+gf_boxplot(x_quant ~ x_cat, data = pilot)
+
+count(pilot, x_cat1, x_cat2)
+```
+:::
+
+::: exercise
+Was your primary explanatory variable **randomly assigned** or **observed**? Should it be related to your other explanatory variables? Is it? Explain how this connects to what you saw in the plots.
+:::
+
+::: answer
+:::
+
+## Part 2: Did adding variables inflate the standard error?
+
+::: exercise
+Fit a simple model with only your response and your primary explanatory variable, and save it as `simple_fit`. Compare the estimate and standard error for the primary variable in `simple_fit` and in `my_fit`. Did the standard error get bigger, smaller, or stay about the same? Did the estimate move a lot?
+
+(Note: adding a variable that explains a lot of the noise in $y$ can *shrink* the standard error, while one that overlaps with the primary variable can *inflate* it. You are seeing the net effect of the two.)
+:::
+
+::: answer
+```{r compare-se}
+#| eval: false
+simple_fit <- lm(response ~ primary, data = pilot)
+
+tidy(simple_fit) |> kable(digits = 3)
+tidy(my_fit) |> kable(digits = 3)
+```
+:::
+
+## Part 3: Variance inflation factors
+
+For a predictor $x_j$, regress it on all of your other explanatory variables, take the $R^2$, and compute
+
+$$VIF_j = \frac{1}{1 - R^2_j}$$
+
+::: exercise
+A VIF is computed for each **quantitative** explanatory variable by regressing it on **all the other** explanatory variables (quantitative or categorical). Pick one quantitative explanatory variable in your model, fit that auxiliary regression, extract `r.squared` with `glance()`, and compute the VIF. If your model has **no** quantitative explanatory variables, say so, and explain what you used instead from Part 1 to check for overlap.
+:::
+
+::: answer
+```{r vif-one}
+#| eval: false
+aux_fit <- lm(x_quant ~ other1 + other2, data = pilot)
+r2 <- glance(aux_fit)$r.squared
+1 / (1 - r2)
+```
+:::
+
+::: exercise
+Compute the VIF for **every other quantitative** explanatory variable in your model. Are any above 5? Above 10?
+:::
+
+::: answer
+```{r vif-others}
+#| eval: false
+```
+:::
+
+## Part 4: Decide and write
+
+::: exercise
+Is multicollinearity a concern for your project? Choose one: (a) no, because ___; (b) yes, and I will drop a variable, combine variables, or interpret the correlated variables together, because ___. Then write one or two sentences, in the **past tense**, for the Statistical Analysis section of your paper reporting what you checked and what you concluded.
+:::
+
+::: answer
+:::
+
+::: callout-important
+To submit the AE:
+
+- Render the document to produce the HTML with all of your work from today's class.
+- Upload your .qmd and .html files to the Canvas assignment.
+:::

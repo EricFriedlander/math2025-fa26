@@ -1,0 +1,202 @@
+---
+title: "AE 22: Your Project Data, Checking Conditions"
+subtitle: "Linearity, equal variance, normality, and independence"
+editor: visual
+format:
+  html:
+    embed-resources: true
+    include-in-header:
+      text: |
+        <style>
+        /* Exercise / answer boxes. Canonical source: style/exercise-boxes.css
+           in the course repo — copy from there if this ever drifts. */
+        body { counter-reset: exercise; }
+        .exercise, .answer {
+          border-left: 4px solid #533860;
+          padding: .6em 1em;
+          margin: 1em 0;
+          border-radius: 4px;
+        }
+        .exercise { background: #f2eef5; }
+        .exercise::before {
+          counter-increment: exercise;
+          content: "Exercise " counter(exercise);
+          display: block;
+          font-weight: 700;
+          color: #533860;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .answer {
+          background: transparent;
+          border-left-color: #a49363;
+          border-left-style: dashed;
+          min-height: 3.5em;
+        }
+        .answer::before {
+          content: "Your answer";
+          display: block;
+          font-weight: 700;
+          color: #8a7a4f;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .quarto-dark .exercise {
+          background: rgba(255, 255, 255, .08);
+          border-left-color: #FFCB70;
+        }
+        .quarto-dark .exercise::before {
+          color: #FFCB70;
+        }
+        .quarto-dark .answer::before {
+          color: #ffd283;
+        }
+        </style>
+---
+
+::: callout-important
+- Open [RStudio](https://rstudio.collegeofidaho.edu/) and create a subfolder in your AE folder called "AE-22".
+- Go to the assignment for this activity in [Canvas](https://cofi.instructure.com/courses/18743) to get started.
+- Upload the `ae-22-project-conditions.qmd` file into the folder you just created.
+:::
+
+## Intro
+
+Our p-values, $F$-tests, and confidence intervals only mean what we say they mean if the **LINE** conditions hold: **L**inearity, **I**ndependence, **N**ormality, and **E**qual variance. Today you check them for the model you plan to use in your paper, using the data you have collected so far.
+
+You can copy code from AE 19-21 and from your `islands-paper.qmd`. Your results will go straight into the conditions paragraph in your Methods section.
+
+## Part 0: Load your data and fit your model
+
+::: exercise
+Copy and paste your `read_csv()` call (your published link) and your `factor()` cleaning code. Then fit the model you describe in the Statistical Analysis section of your paper and save it as `my_fit`. Use `augment()` to add the fitted values and residuals to your data, and save the result as `my_aug`. Write down your response variable and every explanatory variable.
+:::
+
+::: answer
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(ggformula)
+library(broom)
+library(knitr)
+```
+
+```{r load-data}
+#| message: false
+# Paste your read_csv() link and factor() cleaning code here
+
+```
+
+```{r fit-model}
+#| eval: false
+my_fit <- lm(response ~ primary + other, data = pilot)   # replace with your variable names
+my_aug <- augment(my_fit)
+```
+:::
+
+## Part 1: Linearity
+
+::: exercise
+Make a plot of the residuals vs. the fitted values. Add a horizontal line at 0. Does the plot show any pattern (curve, trend)? 
+:::
+
+::: answer
+```{r resid-fitted}
+#| eval: false
+gf_point(.resid ~ .fitted, data = my_aug) |>
+  gf_hline(yintercept = 0, color = "red", linetype = "dashed")
+```
+:::
+
+::: exercise
+For **each quantitative** explanatory variable in your model, plot the residuals against it (use `gf_smooth()` to help you see any curve). For **each categorical** explanatory variable, make a boxplot of the residuals by group. Is linearity met? If your model has only categorical predictors, explain why linearity is not really a concern (hint: how many different means does the model allow for each group?).
+:::
+
+::: answer
+```{r resid-predictors}
+#| eval: false
+# One plot per explanatory variable. Because augment() keeps your original columns, you can use their names directly.
+gf_point(.resid ~ x_quantitative, data = my_aug) |>
+  gf_hline(yintercept = 0, color = "red", linetype = "dashed") |>
+  gf_smooth(se = FALSE)
+
+gf_boxplot(.resid ~ x_categorical, data = my_aug) |>
+  gf_hline(yintercept = 0, color = "red", linetype = "dashed")
+```
+:::
+
+## Part 2: Equal variance
+
+::: exercise
+Look back at your residuals vs. fitted plot and your boxplots. Is the vertical spread about the same everywhere (no fan or funnel)? Then compute the standard deviation of the residuals within each group of your primary explanatory variable (or of your categorical variable, if the primary one is quantitative). What is the ratio of the largest to the smallest? Is the equal variance condition reasonable?
+:::
+
+::: answer
+```{r sd-by-group}
+#| eval: false
+my_aug |>
+  group_by(x_categorical) |>
+  summarize(sd_resid = sd(.resid), n = n())
+```
+:::
+
+## Part 3: Normality
+
+::: exercise
+Make a histogram and a QQ plot of the residuals. Describe the shape. How many observations do you have? Given that, how worried should you be about normality?
+:::
+
+::: answer
+```{r normality}
+#| eval: false
+gf_histogram(~.resid, data = my_aug, bins = 10)
+
+gf_qq(~.resid, data = my_aug) |>
+  gf_qqline()
+```
+:::
+
+## Part 4: Independence
+
+::: exercise
+Independence comes from how the data were collected. Answer in a few sentences:
+
+- How did you select islanders? Could two islanders in your data share something (village, household, collection day, who surveyed them) that would make their errors related?
+- Does your data have an order (for example the day it was collected)? If so, plot the residuals in that order. Do you see a trend or runs of positive and negative residuals?
+:::
+
+::: answer
+```{r independence}
+#| eval: false
+my_aug |>
+  mutate(order = row_number()) |>
+  gf_point(.resid ~ order) |>
+  gf_hline(yintercept = 0, color = "red", linetype = "dashed")
+```
+:::
+
+## Part 5: Write it up
+
+::: exercise
+Write a paragraph for the Statistical Analysis section of your paper (in the **past tense**, as if the study is finished) that:
+
+- names each of the four conditions and the plot you used to check it,
+- says whether each condition was reasonably met, and why,
+- for any that were not, says what you would do about it (transform the response, add a squared term, report the results as approximate, or something else).
+
+This replaces the placeholder sentence about conditions in your Project 3 draft.
+:::
+
+::: answer
+:::
+
+::: callout-important
+To submit the AE:
+
+- Render the document to produce the HTML with all of your work from today's class.
+- Upload your .qmd and .html files to the Canvas assignment.
+:::
