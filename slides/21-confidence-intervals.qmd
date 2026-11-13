@@ -291,7 +291,6 @@ Which of these is correct?
 2. 95% of the Lunch shifts had a difference in this range.
 3. If we repeated the experiment many times and made an interval each time, about 95% of the intervals would contain the true difference.
 :::
-
 . . .
 
 Only **3** is right. The true difference is a fixed number. The **interval** is what changes from sample to sample.
@@ -303,6 +302,14 @@ Analogy: Fishing
 - Fish = true $\beta_1$
 - Net = confidence interval
 - Confidence level (i.e. 95\%) = size of net
+
+## Phrasing {.smaller}
+
+Here are a few ways to write a confidence interval is as follows:
+
+- We are 95% confident that the Jo will sell between 10 and 26 more cups of coffee at City Hall vs the Business District during lunch, on average.
+- We are 95% confident that the true difference in the number of cups Jo will sell in the City vs the Business District, $\beta_1$, is between 10 and 26.
+- For a slope: We are 90% confidence that as [insert explanatory variable] increases by 1 [insert unit], [insert response variable] will increase by [lower bound] to [upper bound] [insert units], on average.
 
 ## Simulating the "95%" {.smaller}
 
@@ -379,7 +386,7 @@ Note that, just like p-values, confidence intervals for coefficients depend on w
 lm(Sales ~ Temperature, data = coffee) |> tidy(conf.int = TRUE) |> kable(digits=2)
 ```
 :::
-::: columns
+::: column
 ```{r}
 lm(Sales ~ Temperature + Location + TimeOfDay, data = coffee) |> tidy(conf.int = TRUE) |> kable(digits=2)
 ```
