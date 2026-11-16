@@ -46,11 +46,86 @@ library(tidyverse)   # for data wrangling and visualization
 library(ggformula)   # for plotting using formulas
 library(broom)       # for formatting model output
 library(knitr)       # for pretty tables
+library(plotly)      # for the 3D wobble pictures
 
 # set default theme and larger font size for ggplot2
 ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
 
 rail_trail <- read_csv(here::here("data/rail_trail.csv"))
+
+# sim_xy(): n points where corr(X1, X2) is exactly r, and
+# y = 2 + 0*X1 + 1*X2 + noise (so the true X1 slope is 0).
+# Same seed => same X1 and same noise, so r is the only thing that changes between pictures.
+sim_xy <- function(r, n = 40, sigma = 1.5, beta = c(2, 0, 1), seed = 1) {
+  set.seed(seed)
+  z1 <- as.numeric(scale(rnorm(n)))
+  z2 <- as.numeric(scale(resid(lm(rnorm(n) ~ z1))))
+  x2 <- r * z1 + sqrt(1 - r^2) * z2
+  tibble(x1 = z1, x2 = x2,
+         y = beta[1] + beta[2] * z1 + beta[3] * x2 + rnorm(n, 0, sigma))
+}
+
+# wobble_plot(): 3D scatterplot of simulated data with the fitted plane y ~ x1 + x2.
+# The "New noise" button redraws the noise in y, refits the plane, and updates the plot,
+# all in the browser (the x values and the true plane never change).
+wobble_plot <- function(r, sigma = 1.5, beta = c(2, 0, 1), lim = 2.5) {
+  d <- sim_xy(r, sigma = sigma, beta = beta)
+  b <- coef(lm(y ~ x1 + x2, data = d))
+  zmat <- function(b) matrix(b[1] + b[2] * rep(c(-lim, lim), times = 2) + b[3] * rep(c(-lim, lim), each = 2),
+                             nrow = 2, byrow = TRUE)
+  label <- function(b) sprintf("Fitted slopes: b1 = %.2f, b2 = %.2f   (truth: b1 = %g, b2 = %g)",
+                               b[2], b[3], beta[2], beta[3])
+  plot_ly(height = 450) |>
+    add_trace(x = d$x1, y = d$x2, z = d$y, type = "scatter3d", mode = "markers",
+              marker = list(size = 3, color = "#C0392B"), showlegend = FALSE) |>
+    add_surface(x = c(-lim, lim), y = c(-lim, lim), z = zmat(b), opacity = 0.75,
+                colorscale = list(c(0, "#533860"), c(1, "#533860")), showscale = FALSE) |>
+    layout(scene = list(xaxis = list(title = "X1", range = c(-lim, lim)),
+                        yaxis = list(title = "X2", range = c(-lim, lim)),
+                        zaxis = list(title = "Y", range = c(-12, 16)),
+                        aspectmode = "cube",
+                        camera = list(eye = list(x = 1.7, y = -1.7, z = 0.7))),
+           autosize = TRUE,
+           margin = list(l = 0, r = 0, t = 30, b = 0),
+           annotations = list(list(text = label(b), x = 0.5, y = 1, xref = "paper", yref = "paper",
+                                   showarrow = FALSE, font = list(size = 16))),
+           updatemenus = list(list(type = "buttons", showactive = FALSE, x = 0, y = 0.9,
+                                   buttons = list(list(method = "skip", label = "New noise"))))) |>
+    config(displayModeBar = FALSE) |>
+    htmlwidgets::onRender("
+      function(el, x, d) {
+        var n = d.x1.length, L = d.lim;
+        function gauss() { var u = 1 - Math.random(), v = Math.random();
+                           return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+        // least squares for y ~ 1 + x1 + x2 via the normal equations (3 x 3 Gaussian elimination)
+        function fit(y) {
+          var A = [[0,0,0],[0,0,0],[0,0,0]], c = [0,0,0], i, j, k, row;
+          for (i = 0; i < n; i++) {
+            row = [1, d.x1[i], d.x2[i]];
+            for (j = 0; j < 3; j++) { c[j] += row[j] * y[i];
+                                      for (k = 0; k < 3; k++) A[j][k] += row[j] * row[k]; }
+          }
+          for (j = 0; j < 3; j++) {
+            for (i = j + 1; i < 3; i++) { var f = A[i][j] / A[j][j];
+              for (k = j; k < 3; k++) A[i][k] -= f * A[j][k]; c[i] -= f * c[j]; }
+          }
+          var b = [0,0,0];
+          for (j = 2; j >= 0; j--) { var s = c[j];
+            for (k = j + 1; k < 3; k++) s -= A[j][k] * b[k]; b[j] = s / A[j][j]; }
+          return b;
+        }
+        el.on('plotly_buttonclicked', function() {
+          var y = [], i;
+          for (i = 0; i < n; i++) y.push(d.beta[0] + d.beta[1] * d.x1[i] + d.beta[2] * d.x2[i] + d.sigma * gauss());
+          var b = fit(y), e = [-L, L];
+          var z = e.map(function(x2) { return e.map(function(x1) { return b[0] + b[1] * x1 + b[2] * x2; }); });
+          Plotly.restyle(el, {z: [y]}, [0]);
+          Plotly.restyle(el, {z: [z]}, [1]);
+          Plotly.relayout(el, {'annotations[0].text': 'Fitted slopes: b1 = ' + b[1].toFixed(2) +
+            ', b2 = ' + b[2].toFixed(2) + '   (truth: b1 = ' + d.beta[1] + ', b2 = ' + d.beta[2] + ')'});
+        });
+      }", data = list(x1 = d$x1, x2 = d$x2, beta = beta, sigma = sigma, lim = lim))
+}
 ```
 
 ## Topics
@@ -140,9 +215,39 @@ $$
 Real data are almost never perfectly collinear. What do you think happens when predictors are *nearly* collinear?
 :::
 
+## Highly correlated predictors: a wobbly plane {.smaller}
+
+`X1` and `X2` are highly correlated ($r = 0.95$). The truth: `Y` depends on `X2` only (true `X1` slope = 0).
+
+```{r}
+#| echo: false
+wobble_plot(r = 0.95)
+```
+
+::: question
+Click **New noise** several times (you can also rotate the plot). What does the plane do? How far does the `X1` slope stray from 0?
+:::
+
+## Uncorrelated predictors: a steady plane {.smaller}
+
+Same `X1`, same noise, same truth, but now `X1` and `X2` are uncorrelated ($r = 0$).
+
+```{r}
+#| echo: false
+wobble_plot(r = 0)
+```
+
+::: question
+Click **New noise** several times. Compare with the last slide: why does the plane wobble so much less?
+:::
+
+. . .
+
+When the predictors move together, the data cover only a thin strip of the $(X_1, X_2)$ floor. The plane is **pinned down along the strip but free to tilt** across it, so the individual slopes are poorly determined, even though predictions *on the strip* stay good.
+
 ## Nearly collinear: the coefficients wobble {.smaller}
 
-Back to the wobbling-plane picture from Lecture 20. Each simulated study below has the **same true model**, $y = 2 + 0 \cdot x_1 + 1 \cdot x_2 + \text{noise}$, but a different correlation between $x_1$ and $x_2$. We fit 200 samples of $n = 40$ for each.
+Here is the same idea over many samples. Each simulated study below has the **same true model**, $y = 2 + 0 \cdot x_1 + 1 \cdot x_2 + \text{noise}$, but a different correlation between $x_1$ and $x_2$. We fit 200 samples of $n = 40$ for each.
 
 ```{r}
 #| echo: false
@@ -252,6 +357,47 @@ Much smaller: `season`, `cloudcover`, `precip`, and `day_type` together only mod
 Packages like `car` and `rms` have a `vif()` function that does this for you. Computing it by hand is the same idea, and works with only the packages we already have.
 :::
 
+## VIF for every predictor at once {.smaller}
+
+Running one auxiliary regression per predictor gets tedious. There is a shortcut: the VIFs are the **diagonal of the inverse of the correlation matrix of the predictors**.
+
+```{r}
+vif_all <- function(fit) {
+  X <- model.matrix(fit)[, -1, drop = FALSE]   # the predictors, without the intercept column
+  diag(solve(cor(X)))                          # diagonal of the inverse correlation matrix
+}
+
+vif_all(fit_both)
+```
+
+. . .
+
+This matches our by-hand answer for `hightemp` and `avgtemp` (6.48). The same function works for any model you fit with `lm()`: each **column** of the model matrix gets its own VIF, so a categorical predictor with several levels gets one VIF per indicator variable.
+
+## VIFs for a bigger model {.smaller}
+
+```{r}
+fit_big <- lm(volume ~ hightemp + avgtemp + season + cloudcover + precip + day_type,
+              data = rail_trail)
+vif_all(fit_big) |> round(1)
+```
+
+. . .
+
+::: question
+Which predictors are worth worrying about? Which are not? What would you do?
+:::
+
+. . .
+
+-   `hightemp` and `avgtemp` are above 10: they are the correlated pair
+-   `season` indicators are somewhat inflated too, because season is tied to temperature
+-   `cloudcover`, `precip`, and `day_type` are fine
+
+::: callout-note
+Two caveats. (1) A model with an **interaction** or **squared term** will show large VIFs for the terms involved, because $x$ and $x^2$ (or $x$ and $x \cdot z$) are naturally related. That is expected, and usually not a reason to drop them. (2) The `vif()` functions in the `car` and `rms` packages do the same job (and report a generalized VIF for categorical predictors), if those packages are available.
+:::
+
 # Categorical predictors and study design
 
 ## Categorical predictors too
@@ -293,12 +439,12 @@ Which option would you pick if your research question is *"how does temperature 
 -   Control variables included on purpose (confounders) can be highly related to your primary variable, and that is fine, as long as your primary variable's interval is still informative
 -   Always report what you found: "VIFs were all below 3" is a one-line sentence in a Methods section
 
-## Activity: AE 23 {.smaller}
+## Activity: HW 11, Part 2 {.smaller}
 
 ::: appex
-📋 [AE 23 - Your Project Data: Multicollinearity](https://ericfriedlander.github.io/math2025-fa26/ae/ae-23-project-multicollinearity.html)
+📋 [HW 11 - Conditions and Multicollinearity](https://ericfriedlander.github.io/math2025-fa26/hw/hw-11.html)
 
-Use the model you checked in AE 22. Look at how your explanatory variables relate to each other, compute VIFs, and decide whether multicollinearity is a problem for your project.
+Use the model you checked on Monday. Work on **Part 2**: look at how your explanatory variables relate to each other, compare standard errors, compute VIFs, and decide whether multicollinearity is a problem for your project.
 :::
 
 ```{r}

@@ -427,12 +427,12 @@ A good conditions paragraph:
 -   says whether each is reasonably met, with evidence,
 -   says what you did about any that are not (transform, add a term, or caveat the results).
 
-## Activity: AE 22 {.smaller}
+## Activity: start HW 11 {.smaller}
 
 ::: appex
-📋 [AE 22 - Your Project Data: Checking Conditions](https://ericfriedlander.github.io/math2025-fa26/ae/ae-22-project-conditions.html)
+📋 [HW 11 - Conditions and Multicollinearity](https://ericfriedlander.github.io/math2025-fa26/hw/hw-11.html)
 
-Load the data you have collected so far, fit the model you plan to use in your paper, and check all four conditions.
+Load the data you have collected so far, fit the model you plan to use in your paper, and work through **Part 0 and Part 1** (the four LINE conditions). Part 2 (multicollinearity) comes on Wednesday.
 :::
 
 ```{r}

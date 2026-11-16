@@ -1,0 +1,317 @@
+---
+title: "HW 11: Conditions and Multicollinearity"
+author: "Insert Name Here"
+subtitle: "Checking the model for your project data"
+editor: visual
+format:
+  html:
+    embed-resources: true
+    include-in-header:
+      text: |
+        <style>
+        /* Exercise / answer boxes. Canonical source: style/exercise-boxes.css
+           in the course repo — copy from there if this ever drifts. */
+        body { counter-reset: exercise; }
+        .exercise, .answer {
+          border-left: 4px solid #533860;
+          padding: .6em 1em;
+          margin: 1em 0;
+          border-radius: 4px;
+        }
+        .exercise { background: #f2eef5; }
+        .exercise::before {
+          counter-increment: exercise;
+          content: "Exercise " counter(exercise);
+          display: block;
+          font-weight: 700;
+          color: #533860;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .answer {
+          background: transparent;
+          border-left-color: #a49363;
+          border-left-style: dashed;
+          min-height: 3.5em;
+        }
+        .answer::before {
+          content: "Your answer";
+          display: block;
+          font-weight: 700;
+          color: #8a7a4f;
+          text-transform: uppercase;
+          letter-spacing: .04em;
+          font-size: .85em;
+          margin-bottom: .35em;
+        }
+        .quarto-dark .exercise {
+          background: rgba(255, 255, 255, .08);
+          border-left-color: #FFCB70;
+        }
+        .quarto-dark .exercise::before {
+          color: #FFCB70;
+        }
+        .quarto-dark .answer::before {
+          color: #ffd283;
+        }
+        </style>
+---
+
+```{r}
+#| include: FALSE
+knitr::opts_chunk$set(warning = FALSE,
+                      message = FALSE)
+```
+
+# Introduction
+
+This is the **final homework** of the semester. You will check whether the model you plan to use in your project is trustworthy: first the four **LINE** conditions (Lesson 22), then multicollinearity (Lesson 23). You will use **your own Islands data**, collected so far, and the model you described in the Statistical Analysis section of your paper. Your answers here feed directly into the Methods and Results of your Project 4 full draft.
+
+::: callout-note
+This is an **individual** assignment, but you are welcome to talk through ideas with teammates and classmates. Your code and writing should be your own. Teammates will have the same data, but each of you should run the code, look at the plots, and write your own conclusions.
+:::
+
+## Learning goals
+
+By the end of this homework, you will...
+
+- Fit your project model and extract residuals and fitted values with `augment()`
+- Check linearity, equal variance, normality, and independence using appropriate plots and summaries
+- Decide whether each condition is reasonably met, and say what to do about any that are not
+- Examine how your explanatory variables relate to each other
+- Compute variance inflation factors by hand and decide whether multicollinearity is a concern
+- Write up your conclusions in the past tense for the Statistical Analysis section of your paper
+
+# Getting Started
+
+### Log in to RStudio
+
+- Go to [RStudio](https://rstudio.collegeofidaho.edu/) and login with your College of Idaho Email and Password.
+
+- Use the `hw` folder you made earlier in the semester. Create a subfolder called `hw11` to store this homework.
+
+- Log into [Canvas](https://cofi.instructure.com/courses/18743), navigate to HW-11, and download the `hw-11.qmd` file. Upload it into the folder you just made.
+
+## R and RStudio
+
+See the [R resources](https://ericfriedlander.github.io/math2025-fa26/computing-r-resources.html) page for a guide to the RStudio IDE and Quarto file components.
+
+# Packages
+
+```{r load-packages}
+#| message: false
+library(tidyverse)
+library(ggformula)
+library(broom)
+library(knitr)
+```
+
+# Exercises
+
+::: callout-tip
+Write all code and narrative in your Quarto file, in complete sentences. Periodically **render** your document. Break up long lines of code, for example by starting a new line after every pipe (`|>`). The code chunks below are examples with placeholder variable names: replace them with the names in **your** data, and remove `#| eval: false` once a chunk is ready to run.
+:::
+
+## Part 0: Load your data and fit your model
+
+::: exercise
+Copy and paste your `read_csv()` call (your published link) and your `factor()` cleaning code from your earlier work (for example AE 19 or your `islands-paper.qmd`). Then fit the model described in the Statistical Analysis section of your paper and save it as `my_fit`. Use `augment()` to add the fitted values and residuals to your data, and save the result as `my_aug`. List your response variable and every explanatory variable, and say whether each is quantitative or categorical.
+:::
+
+::: answer
+```{r load-data}
+#| message: false
+# Paste your read_csv() link and factor() cleaning code here
+
+```
+
+```{r fit-model}
+#| eval: false
+my_fit <- lm(response ~ primary + other, data = islands)   # replace with your names
+my_aug <- augment(my_fit)
+```
+:::
+
+# Part 1: The LINE conditions
+
+## Linearity
+
+::: exercise
+Make a plot of the residuals vs. the fitted values, with a horizontal line at 0. Then, for **each quantitative** explanatory variable, plot the residuals against it (add `gf_smooth()` to help you see any curve). For **each categorical** explanatory variable, make a boxplot of the residuals by group.
+
+Is linearity reasonably met? Explain what you see in context. If your model has only categorical predictors, explain why linearity is not really a concern (hint: how many different means does the model allow for each group?).
+:::
+
+::: answer
+```{r linearity}
+#| eval: false
+gf_point(.resid ~ .fitted, data = my_aug) |>
+  gf_hline(yintercept = 0, color = "red", linetype = "dashed")
+
+gf_point(.resid ~ x_quantitative, data = my_aug) |>
+  gf_hline(yintercept = 0, color = "red", linetype = "dashed") |>
+  gf_smooth(se = FALSE)
+
+gf_boxplot(.resid ~ x_categorical, data = my_aug) |>
+  gf_hline(yintercept = 0, color = "red", linetype = "dashed")
+```
+:::
+
+## Equal variance
+
+::: exercise
+Look at your residuals vs. fitted plot and your boxplots. Is the vertical spread about the same everywhere (no fan or funnel)? Then compute the standard deviation of the residuals within each group of a categorical variable in your model. What is the ratio of the largest to the smallest? Is the equal variance condition reasonable?
+:::
+
+::: answer
+```{r sd-by-group}
+#| eval: false
+my_aug |>
+  group_by(x_categorical) |>
+  summarize(sd_resid = sd(.resid), n = n())
+```
+:::
+
+## Normality
+
+::: exercise
+Make a histogram and a QQ plot of the residuals. Describe the shape of each in a sentence or two, using what you learned in class (unimodal? symmetric? where do the points leave the line in the QQ plot?). How many observations do you have? Given that, how worried should you be about normality?
+:::
+
+::: answer
+```{r normality}
+#| eval: false
+gf_histogram(~.resid, data = my_aug, bins = 10)
+
+gf_qq(~.resid, data = my_aug) |>
+  gf_qqline()
+```
+:::
+
+## Independence
+
+::: exercise
+Independence comes from how the data were collected. Answer in a few sentences:
+
+a.  How did you select islanders? Could two islanders in your data share something (village, household, collection day, who surveyed them) that would make their errors related?
+b.  Does your data have an order (for example the day it was collected)? If so, plot the residuals in that order. Do you see a trend or runs of positive and negative residuals? If your data have no meaningful order, say so.
+:::
+
+::: answer
+```{r independence}
+#| eval: false
+my_aug |>
+  mutate(order = row_number()) |>
+  gf_point(.resid ~ order) |>
+  gf_hline(yintercept = 0, color = "red", linetype = "dashed")
+```
+:::
+
+# Part 2: Multicollinearity
+
+## How do your explanatory variables relate?
+
+::: exercise
+For **each pair** of explanatory variables in your model, make the right display:
+
+- two quantitative variables: a scatterplot, and `cor()`
+- one quantitative and one categorical: a boxplot (quantitative on the y-axis)
+- two categorical: a two-way table, `count(islands, x1, x2)` or `table(islands$x1, islands$x2)`
+
+Which pair looks the most related? Is any pair strongly related? If your model has only one explanatory variable, say so and skip to the next part.
+:::
+
+::: answer
+```{r pairs}
+#| eval: false
+gf_point(x_quant2 ~ x_quant1, data = islands)
+cor(islands$x_quant1, islands$x_quant2)
+
+gf_boxplot(x_quant ~ x_cat, data = islands)
+
+count(islands, x_cat1, x_cat2)
+```
+:::
+
+::: exercise
+Was your primary explanatory variable **randomly assigned** or **observed**? Should it be related to your other explanatory variables? Is it? Explain how this connects to the plots above.
+:::
+
+::: answer
+:::
+
+## Did adding variables change the standard error?
+
+::: exercise
+Fit a simple model with only your response and your primary explanatory variable, and save it as `simple_fit`. Compare the estimate and standard error for the primary variable in `simple_fit` and in `my_fit`. Did the standard error get bigger, smaller, or stay about the same? Did the estimate move a lot? (Adding a variable that explains a lot of the noise in $y$ can *shrink* the standard error, while one that overlaps with the primary variable can *inflate* it. You are seeing the net effect of the two.)
+:::
+
+::: answer
+```{r compare-se}
+#| eval: false
+simple_fit <- lm(response ~ primary, data = islands)
+
+tidy(simple_fit) |> kable(digits = 3)
+tidy(my_fit) |> kable(digits = 3)
+```
+:::
+
+## Variance inflation factors
+
+For a quantitative predictor $x_j$, regress it on **all the other explanatory variables**, take the $R^2$, and compute
+
+$$VIF_j = \frac{1}{1 - R^2_j}$$
+
+::: exercise
+Compute the VIF for **every quantitative** explanatory variable in your model. Are any above 5? Above 10? If your model has **no** quantitative explanatory variables, say so, and explain what you used from the previous exercises to check for overlap instead.
+:::
+
+::: answer
+```{r vif}
+#| eval: false
+aux_fit <- lm(x_quant ~ other1 + other2, data = islands)
+r2 <- glance(aux_fit)$r.squared
+1 / (1 - r2)
+```
+:::
+
+# Part 3: Write it up
+
+::: exercise
+Write a paragraph for the Statistical Analysis section of your paper (in the **past tense**, as if the study is finished) that:
+
+a.  names each of the four conditions and the plot you used to check it, and says whether each was reasonably met and why,
+b.  says what you did (or would do) about any condition that was not met (transform the response, add a squared term, report the results as approximate, or something else),
+c.  reports what you checked for multicollinearity (plots and VIFs) and whether it was a concern, and what you decided to do about it.
+:::
+
+::: answer
+:::
+
+::: callout-tip
+You're done and ready to submit your work! Render your document and upload the .qmd and .html files to Canvas.
+:::
+
+# Grading (18 pts + 2 pts for writing and workflow)
+
+<br>
+
+| Component                              | Points |
+|:---------------------------------------|:-------|
+| Part 0: Load data and fit model        | 2      |
+| Linearity                              | 2      |
+| Equal variance                         | 2      |
+| Normality                              | 2      |
+| Independence                           | 2      |
+| Relationships among predictors (2 ex.) | 3      |
+| Standard error comparison              | 2      |
+| Variance inflation factors             | 1      |
+| Write-up                               | 2      |
+| Grammar & Writing                      | 1[^1]  |
+| Workflow & formatting                  | 1[^2]  |
+
+[^1]: The "Grammar & Writing" grade is decided based on your grammar and writing. This is typically decided by choosing one of the questions and assessing the writing.
+
+[^2]: The "Workflow & formatting" grade is to assess the reproducible workflow and document format. This includes having a neatly organized document with readable code and your name and the date in the YAML.
