@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<link href="../images/logo.png" rel="icon" type="image/png">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
+
+  <meta name="author" content="Prof.&nbsp;Eric Friedlander">
+  <title>MATH 2025 - Fall 2026 – Multicollinearity</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-5d88f87b865f6c5b14d5e02e8b8f5a37.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+  <script src="../site_libs/plotly-binding-4.12.1/plotly.js"></script>
+  <script src="../site_libs/typedarray-0.1/typedarray.min.js"></script>
+  <script src="../site_libs/jquery-3.5.1/jquery.min.js"></script>
+  <link href="../site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+  <script src="../site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+  <link href="../site_libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet">
+  <script src="../site_libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
+  <link href="../site_libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+  <script src="../site_libs/countdown-0.6.0/countdown.js"></script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Multicollinearity</h1>
+  <p class="subtitle">When predictors overlap</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Prof.&nbsp;Eric Friedlander 
+</div>
+</div>
+</div>
+
+</section>
+<section id="topics" class="slide level2">
+<h2>Topics</h2>
+<ul>
+<li>What multicollinearity is, and why it is a problem</li>
+<li>Detecting it: plots, correlations, and the variance inflation factor (VIF)</li>
+<li>What to do about it</li>
+</ul>
+</section>
+<section id="data-rail_trail" class="slide level2 smaller">
+<h2>Data: <code>rail_trail</code></h2>
+<p>Daily <code>volume</code> of users on a rail trail in Massachusetts over 90 days in 2005 (Pioneer Valley Planning Commission), with weather and calendar variables.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 90
+Columns: 7
+$ volume     &lt;dbl&gt; 501, 419, 397, 385, 200, 375, 417, 629, 533, 547, 432, 418,…
+$ hightemp   &lt;dbl&gt; 83, 73, 74, 95, 44, 69, 66, 66, 80, 79, 78, 65, 41, 59, 50,…
+$ avgtemp    &lt;dbl&gt; 66.5, 61.0, 63.0, 78.0, 48.0, 61.5, 52.5, 52.0, 67.5, 62.0,…
+$ season     &lt;chr&gt; "Summer", "Summer", "Spring", "Summer", "Spring", "Spring",…
+$ cloudcover &lt;dbl&gt; 7.6, 6.3, 7.5, 2.6, 10.0, 6.6, 2.4, 0.0, 3.8, 4.1, 8.5, 7.2…
+$ precip     &lt;dbl&gt; 0.00, 0.29, 0.32, 0.00, 0.14, 0.02, 0.00, 0.00, 0.00, 0.00,…
+$ day_type   &lt;chr&gt; "Weekday", "Weekday", "Weekday", "Weekend", "Weekday", "Wee…</code></pre>
+</div>
+</div>
+</section>
+<section>
+<section id="a-puzzle" class="title-slide slide level1 center">
+<h1>A puzzle</h1>
+
+</section>
+<section id="one-predictor" class="slide level2 smaller">
+<h2>One predictor</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>fit_high <span class="ot">&lt;-</span> <span class="fu">lm</span>(volume <span class="sc">~</span> hightemp, <span class="at">data =</span> rail_trail)</span>
+<span id="cb2-2"><a></a><span class="fu">tidy</span>(fit_high) <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">-17.08</td>
+<td style="text-align: right;">59.40</td>
+<td style="text-align: right;">-0.29</td>
+<td style="text-align: right;">0.77</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hightemp</td>
+<td style="text-align: right;">5.70</td>
+<td style="text-align: right;">0.85</td>
+<td style="text-align: right;">6.72</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Each additional degree of high temperature is associated with about <strong>5.7</strong> more riders, and the standard error is <strong>0.85</strong>.</p>
+</section>
+<section id="add-the-average-temperature" class="slide level2 smaller">
+<h2>Add the average temperature</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>fit_both <span class="ot">&lt;-</span> <span class="fu">lm</span>(volume <span class="sc">~</span> hightemp <span class="sc">+</span> avgtemp, <span class="at">data =</span> rail_trail)</span>
+<span id="cb3-2"><a></a><span class="fu">tidy</span>(fit_both) <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">1.67</td>
+<td style="text-align: right;">56.42</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.98</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hightemp</td>
+<td style="text-align: right;">12.06</td>
+<td style="text-align: right;">2.04</td>
+<td style="text-align: right;">5.91</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">avgtemp</td>
+<td style="text-align: right;">-7.94</td>
+<td style="text-align: right;">2.35</td>
+<td style="text-align: right;">-3.39</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="question">
+<p>What changed for <code>hightemp</code>? What does the coefficient on <code>avgtemp</code> seem to say: do warmer average days mean <strong>fewer</strong> riders?</p>
+</div>
+<div class="fragment">
+<ul>
+<li>The <code>hightemp</code> estimate more than <strong>doubled</strong>, and its standard error went from 0.85 to 2.04</li>
+<li><code>avgtemp</code> has a <strong>negative</strong> coefficient, even though warmer days clearly bring more riders</li>
+</ul>
+</div>
+</section>
+<section id="what-is-going-on" class="slide level2">
+<h2>What is going on?</h2>
+
+<img data-src="23-multicollinearity_files/figure-revealjs/unnamed-chunk-4-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><p><code>hightemp</code> and <code>avgtemp</code> carry nearly the same information. This is <strong>multicollinearity</strong>.</p>
+</section></section>
+<section>
+<section id="what-is-multicollinearity" class="title-slide slide level1 center">
+<h1>What is multicollinearity?</h1>
+
+</section>
+<section id="definition" class="slide level2">
+<h2>Definition</h2>
+<p><strong>Multicollinearity</strong> is when one or more predictors are strongly related to some combination of the other predictors.</p>
+<div class="fragment">
+<p><strong>Test of intuition:</strong> if you could fit a good linear model with one predictor as the <em>response</em> and the other predictors as the <em>explanatory variables</em>, then your predictors are exhibiting multicollinearity.</p>
+</div>
+</section>
+<section id="the-extreme-case" class="slide level2 smaller">
+<h2>The extreme case</h2>
+<p>Suppose the truth is <span class="math inline">\(y = 3 + 4x\)</span>, and we fit a model with <span class="math inline">\(x\)</span> and <span class="math inline">\(z = x/10\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}\hat{y}&amp;= \hat{\beta}_0 + \hat{\beta}_1x  + \hat{\beta}_2z\\
+&amp;= \hat{\beta}_0 + \hat{\beta}_1x  + \hat{\beta}_2\frac{x}{10}\\
+&amp;= \hat{\beta}_0 + \bigg(\hat{\beta}_1 + \frac{\hat{\beta}_2}{10}\bigg)x
+\end{aligned}
+\]</span></p>
+<div class="fragment">
+<ul>
+<li>Any <span class="math inline">\(\hat\beta_1\)</span> and <span class="math inline">\(\hat\beta_2\)</span> with <span class="math inline">\(\hat{\beta}_1 + \frac{\hat{\beta}_2}{10} = 4\)</span> give <strong>exactly the same predictions</strong></li>
+<li>So the data cannot tell us which pair is “best”: the model is <strong>unidentifiable</strong>, and R will give <code>NA</code> for one coefficient</li>
+<li>This is also why a categorical variable needs a reference level: the indicators for all levels always add up to 1, which is perfectly collinear with the intercept</li>
+</ul>
+<div class="question">
+<p>Real data are almost never perfectly collinear. What do you think happens when predictors are <em>nearly</em> collinear?</p>
+</div>
+</div>
+</section>
+<section id="highly-correlated-predictors-a-wobbly-plane" class="slide level2 smaller">
+<h2>Highly correlated predictors: a wobbly plane</h2>
+<p><code>X1</code> and <code>X2</code> are highly correlated (<span class="math inline">\(r = 0.95\)</span>). The truth: <code>Y</code> depends on <code>X2</code> only (true <code>X1</code> slope = 0).</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="htmlwidget-730f0e8140ffc2f7c865" style="width:80%;height:450px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-730f0e8140ffc2f7c865">{"x":{"visdat":{"1218903b28c527":["function () ","plotlyVisDat"]},"cur_data":"1218903b28c527","attrs":{"1218903b28c527":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":[-0.81031547189302355,0.10332756866208691,-1.0462268133293786,1.6953993114427977,0.26783628206948396,-1.0291288179478124,0.44594292232327293,0.72890783739561826,0.54558833497803594,-0.44821174733770647,1.6012268277809114,0.33588377285499404,-0.80443589117862691,-2.6015697694257427,1.1649297176248625,-0.15446586779152416,-0.12204857259909603,0.96068764342291035,0.82240008403815534,0.56602438316620951,0.932651369328382,0.77831939273830353,-0.01969307009572693,-2.3474177698573477,0.59526244733372047,-0.16709195007295499,-0.27949803605334683,-1.7625315484865236,-0.64305566022997063,0.36757359975648768,1.4285558964061382,-0.21971484880407391,0.33343457281817368,-0.16447123796472268,-1.6568629863988311,-0.5718276888255186,-0.54847663418991199,-0.1706836673442238,1.1368407663898976,0.75693531929562119],"y":[-0.80882389198350257,-0.038913632416097022,-0.71705381804661739,1.6370226765474842,-0.045612220830894723,-1.188733394041118,0.47547168298035003,0.86342949874928632,0.39753637723657809,-0.1291599052914324,1.4995500228675287,0.040610632167953631,-0.62845895351722236,-2.7129641530513298,1.4758031624406893,0.50919118816777453,-0.27588158770347398,0.43844174671623032,0.87647226987326932,0.40757725338691386,1.6078711512691166,0.62682832922988085,0.18007139971348982,-2.0891890366044756,0.22244480703653902,-0.12269019927532115,-0.91206167128208038,-1.0784780092055564,-0.55212759126425448,1.033297461433091,1.3750469562985854,-0.48023268429541205,0.46216453883261072,-0.50948998410890489,-1.9281081507779794,-0.44181947950522038,-0.67595186846240063,-0.19087394996246615,0.98038493459887355,0.4174080920795129],"z":[0.33817300878874468,1.7583184448981548,3.0500766768131893,1.3516724759028413,2.8453070606117379,1.3106921627791595,4.0701214388948941,2.4071536132978353,2.9525645921110102,2.2714882808669139,2.6857699763800529,3.852412341142712,3.1121449700252053,0.33735632122116765,5.8560533442519578,3.3469208265157304,-0.19076990039052877,1.5785436253609009,1.0395533475257355,1.6974762987279466,2.6773211354329303,2.6900021389462339,0.81368892688482153,0.14785412200163683,1.2405678411583125,4.5282407047836477,2.1629995427437283,2.2867833350372844,2.0241504454752626,5.5565615822122183,2.4214422753751199,0.82730022016373883,4.6105878966451055,0.51446548592554509,-0.2391792661809275,0.96896862633180381,0.84405882871483917,1.3904560955726954,3.7216674315006144,2.1514123686751034],"type":"scatter3d","mode":"markers","marker":{"size":3,"color":"#C0392B"},"showlegend":false,"inherit":true},"1218903b28c527.1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"z":[[0.34488768195938047,-6.3780584665407121],[10.728577398696967,4.0056312501968732]],"type":"surface","x":[-2.5,2.5],"y":[-2.5,2.5],"opacity":0.75,"colorscale":[["0","#533860"],["1","#533860"]],"showscale":false,"inherit":true}},"layout":{"height":450,"margin":{"b":0,"l":0,"t":30,"r":0},"scene":{"xaxis":{"title":"X1","range":[-2.5,2.5]},"yaxis":{"title":"X2","range":[-2.5,2.5]},"zaxis":{"title":"Y","range":[-12,16]},"aspectmode":"cube","camera":{"eye":{"x":1.7,"y":-1.7,"z":0.69999999999999996}}},"autosize":true,"annotations":[{"text":"Fitted slopes: b1 = -1.34, b2 = 2.08   (truth: b1 = 0, b2 = 1)","x":0.5,"y":1,"xref":"paper","yref":"paper","showarrow":false,"font":{"size":16}}],"updatemenus":[{"type":"buttons","showactive":false,"x":0,"y":0.90000000000000002,"buttons":[{"method":"skip","label":"New noise"}]}],"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displayModeBar":false},"data":[{"x":[-0.81031547189302355,0.10332756866208691,-1.0462268133293786,1.6953993114427977,0.26783628206948396,-1.0291288179478124,0.44594292232327293,0.72890783739561826,0.54558833497803594,-0.44821174733770647,1.6012268277809114,0.33588377285499404,-0.80443589117862691,-2.6015697694257427,1.1649297176248625,-0.15446586779152416,-0.12204857259909603,0.96068764342291035,0.82240008403815534,0.56602438316620951,0.932651369328382,0.77831939273830353,-0.01969307009572693,-2.3474177698573477,0.59526244733372047,-0.16709195007295499,-0.27949803605334683,-1.7625315484865236,-0.64305566022997063,0.36757359975648768,1.4285558964061382,-0.21971484880407391,0.33343457281817368,-0.16447123796472268,-1.6568629863988311,-0.5718276888255186,-0.54847663418991199,-0.1706836673442238,1.1368407663898976,0.75693531929562119],"y":[-0.80882389198350257,-0.038913632416097022,-0.71705381804661739,1.6370226765474842,-0.045612220830894723,-1.188733394041118,0.47547168298035003,0.86342949874928632,0.39753637723657809,-0.1291599052914324,1.4995500228675287,0.040610632167953631,-0.62845895351722236,-2.7129641530513298,1.4758031624406893,0.50919118816777453,-0.27588158770347398,0.43844174671623032,0.87647226987326932,0.40757725338691386,1.6078711512691166,0.62682832922988085,0.18007139971348982,-2.0891890366044756,0.22244480703653902,-0.12269019927532115,-0.91206167128208038,-1.0784780092055564,-0.55212759126425448,1.033297461433091,1.3750469562985854,-0.48023268429541205,0.46216453883261072,-0.50948998410890489,-1.9281081507779794,-0.44181947950522038,-0.67595186846240063,-0.19087394996246615,0.98038493459887355,0.4174080920795129],"z":[0.33817300878874468,1.7583184448981548,3.0500766768131893,1.3516724759028413,2.8453070606117379,1.3106921627791595,4.0701214388948941,2.4071536132978353,2.9525645921110102,2.2714882808669139,2.6857699763800529,3.852412341142712,3.1121449700252053,0.33735632122116765,5.8560533442519578,3.3469208265157304,-0.19076990039052877,1.5785436253609009,1.0395533475257355,1.6974762987279466,2.6773211354329303,2.6900021389462339,0.81368892688482153,0.14785412200163683,1.2405678411583125,4.5282407047836477,2.1629995427437283,2.2867833350372844,2.0241504454752626,5.5565615822122183,2.4214422753751199,0.82730022016373883,4.6105878966451055,0.51446548592554509,-0.2391792661809275,0.96896862633180381,0.84405882871483917,1.3904560955726954,3.7216674315006144,2.1514123686751034],"type":"scatter3d","mode":"markers","marker":{"color":"#C0392B","size":3,"line":{"color":"rgba(31,119,180,1)"}},"showlegend":false,"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"frame":null},{"colorbar":{"title":"","ticklen":2},"colorscale":[["0","#533860"],["1","#533860"]],"showscale":false,"z":[[0.34488768195938047,-6.3780584665407121],[10.728577398696967,4.0056312501968732]],"type":"surface","x":[-2.5,2.5],"y":[-2.5,2.5],"opacity":0.75,"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":{"render":[{"code":"\n      function(el, x, d) {\n        var n = d.x1.length, L = d.lim;\n        function gauss() { var u = 1 - Math.random(), v = Math.random();\n                           return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }\n        // least squares for y ~ 1 + x1 + x2 via the normal equations (3 x 3 Gaussian elimination)\n        function fit(y) {\n          var A = [[0,0,0],[0,0,0],[0,0,0]], c = [0,0,0], i, j, k, row;\n          for (i = 0; i < n; i++) {\n            row = [1, d.x1[i], d.x2[i]];\n            for (j = 0; j < 3; j++) { c[j] += row[j] * y[i];\n                                      for (k = 0; k < 3; k++) A[j][k] += row[j] * row[k]; }\n          }\n          for (j = 0; j < 3; j++) {\n            for (i = j + 1; i < 3; i++) { var f = A[i][j] / A[j][j];\n              for (k = j; k < 3; k++) A[i][k] -= f * A[j][k]; c[i] -= f * c[j]; }\n          }\n          var b = [0,0,0];\n          for (j = 2; j >= 0; j--) { var s = c[j];\n            for (k = j + 1; k < 3; k++) s -= A[j][k] * b[k]; b[j] = s / A[j][j]; }\n          return b;\n        }\n        el.on('plotly_buttonclicked', function() {\n          var y = [], i;\n          for (i = 0; i < n; i++) y.push(d.beta[0] + d.beta[1] * d.x1[i] + d.beta[2] * d.x2[i] + d.sigma * gauss());\n          var b = fit(y), e = [-L, L];\n          var z = e.map(function(x2) { return e.map(function(x1) { return b[0] + b[1] * x1 + b[2] * x2; }); });\n          Plotly.restyle(el, {z: [y]}, [0]);\n          Plotly.restyle(el, {z: [z]}, [1]);\n          Plotly.relayout(el, {'annotations[0].text': 'Fitted slopes: b1 = ' + b[1].toFixed(2) +\n            ', b2 = ' + b[2].toFixed(2) + '   (truth: b1 = ' + d.beta[1] + ', b2 = ' + d.beta[2] + ')'});\n        });\n      }","data":{"x1":[-0.81031547189302355,0.10332756866208691,-1.0462268133293786,1.6953993114427977,0.26783628206948396,-1.0291288179478124,0.44594292232327293,0.72890783739561826,0.54558833497803594,-0.44821174733770647,1.6012268277809114,0.33588377285499404,-0.80443589117862691,-2.6015697694257427,1.1649297176248625,-0.15446586779152416,-0.12204857259909603,0.96068764342291035,0.82240008403815534,0.56602438316620951,0.932651369328382,0.77831939273830353,-0.01969307009572693,-2.3474177698573477,0.59526244733372047,-0.16709195007295499,-0.27949803605334683,-1.7625315484865236,-0.64305566022997063,0.36757359975648768,1.4285558964061382,-0.21971484880407391,0.33343457281817368,-0.16447123796472268,-1.6568629863988311,-0.5718276888255186,-0.54847663418991199,-0.1706836673442238,1.1368407663898976,0.75693531929562119],"x2":[-0.80882389198350257,-0.038913632416097022,-0.71705381804661739,1.6370226765474842,-0.045612220830894723,-1.188733394041118,0.47547168298035003,0.86342949874928632,0.39753637723657809,-0.1291599052914324,1.4995500228675287,0.040610632167953631,-0.62845895351722236,-2.7129641530513298,1.4758031624406893,0.50919118816777453,-0.27588158770347398,0.43844174671623032,0.87647226987326932,0.40757725338691386,1.6078711512691166,0.62682832922988085,0.18007139971348982,-2.0891890366044756,0.22244480703653902,-0.12269019927532115,-0.91206167128208038,-1.0784780092055564,-0.55212759126425448,1.033297461433091,1.3750469562985854,-0.48023268429541205,0.46216453883261072,-0.50948998410890489,-1.9281081507779794,-0.44181947950522038,-0.67595186846240063,-0.19087394996246615,0.98038493459887355,0.4174080920795129],"beta":[2,0,1],"sigma":1.5,"lim":2.5}}]}}</script>
+</div>
+</div>
+<div class="question">
+<p>Click <strong>New noise</strong> several times (you can also rotate the plot). What does the plane do? How far does the <code>X1</code> slope stray from 0?</p>
+</div>
+</section>
+<section id="uncorrelated-predictors-a-steady-plane" class="slide level2 smaller">
+<h2>Uncorrelated predictors: a steady plane</h2>
+<p>Same <code>X1</code>, same noise, same truth, but now <code>X1</code> and <code>X2</code> are uncorrelated (<span class="math inline">\(r = 0\)</span>).</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="htmlwidget-10d37e8428da6b9e7447" style="width:80%;height:450px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-10d37e8428da6b9e7447">{"x":{"visdat":{"121890210f1972":["function () ","plotlyVisDat"]},"cur_data":"121890210f1972","attrs":{"121890210f1972":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":[-0.81031547189302355,0.10332756866208691,-1.0462268133293786,1.6953993114427977,0.26783628206948396,-1.0291288179478124,0.44594292232327293,0.72890783739561826,0.54558833497803594,-0.44821174733770647,1.6012268277809114,0.33588377285499404,-0.80443589117862691,-2.6015697694257427,1.1649297176248625,-0.15446586779152416,-0.12204857259909603,0.96068764342291035,0.82240008403815534,0.56602438316620951,0.932651369328382,0.77831939273830353,-0.01969307009572693,-2.3474177698573477,0.59526244733372047,-0.16709195007295499,-0.27949803605334683,-1.7625315484865236,-0.64305566022997063,0.36757359975648768,1.4285558964061382,-0.21971484880407391,0.33343457281817368,-0.16447123796472268,-1.6568629863988311,-0.5718276888255186,-0.54847663418991199,-0.1706836673442238,1.1368407663898976,0.75693531929562119],"y":[-0.12497744177064088,-0.43899076566632683,0.88666691226257088,0.084526306280947636,-0.96095047227831742,-0.67593621981888596,0.16597573541747218,0.54753277188333915,-0.38678168038974409,0.95001232908470346,-0.069224885355866017,-0.89184640928855308,0.43476440869088867,-0.77333210405768815,1.1821298607036705,2.1006692483742802,-0.51220334666352174,-1.5186922867137873,0.30485899294582586,-0.41680048786040458,2.311777683811207,-0.36052883892157706,0.63660489997085579,0.45110613260766252,-1.0986537322140875,0.11544328213789912,-2.0705804459736035,1.90849368409557,0.18823156058429852,2.19088154020185,0.057386262469098157,-0.86950733371306776,0.46565809850583029,-1.1312807726536065,-1.1339901591318353,0.32479377865303327,-0.49607402923655014,-0.091991914145754014,-0.31901945684234373,-0.96615070598484287],"z":[1.0220194590016063,1.3582413116479251,4.6537974071223775,-0.2008238943636953,1.929968809164315,1.8234893370013916,3.7606254913320161,2.0912568864318879,2.168246534484688,3.35066051524305,1.1169950681566583,2.9199552996862055,4.1753683322333162,2.2769883702148093,5.5623800425149392,4.9383988867222364,-0.42709165935057669,-0.3785904080691167,0.46794007059829212,0.87309855748062803,3.3812276679750206,1.7026449707947757,1.2702224271421876,2.688149291213775,-0.080530698092314168,4.7663741861968685,1.0044807680522052,5.2737550283384103,2.7645095973238156,6.7141456609809778,1.1037815815456327,0.43802557074608306,4.614081456318325,-0.10732530261915652,0.5549387254652165,1.7355818844900575,1.0239366679406896,1.4893381313894076,2.4222630400593967,0.76785357061074755],"type":"scatter3d","mode":"markers","marker":{"size":3,"color":"#C0392B"},"showlegend":false,"inherit":true},"121890210f1972.1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"z":[[-0.36104836274778496,-1.9694892803471724],[6.3200082125034269,4.7115672949040395]],"type":"surface","x":[-2.5,2.5],"y":[-2.5,2.5],"opacity":0.75,"colorscale":[["0","#533860"],["1","#533860"]],"showscale":false,"inherit":true}},"layout":{"height":450,"margin":{"b":0,"l":0,"t":30,"r":0},"scene":{"xaxis":{"title":"X1","range":[-2.5,2.5]},"yaxis":{"title":"X2","range":[-2.5,2.5]},"zaxis":{"title":"Y","range":[-12,16]},"aspectmode":"cube","camera":{"eye":{"x":1.7,"y":-1.7,"z":0.69999999999999996}}},"autosize":true,"annotations":[{"text":"Fitted slopes: b1 = -0.32, b2 = 1.34   (truth: b1 = 0, b2 = 1)","x":0.5,"y":1,"xref":"paper","yref":"paper","showarrow":false,"font":{"size":16}}],"updatemenus":[{"type":"buttons","showactive":false,"x":0,"y":0.90000000000000002,"buttons":[{"method":"skip","label":"New noise"}]}],"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displayModeBar":false},"data":[{"x":[-0.81031547189302355,0.10332756866208691,-1.0462268133293786,1.6953993114427977,0.26783628206948396,-1.0291288179478124,0.44594292232327293,0.72890783739561826,0.54558833497803594,-0.44821174733770647,1.6012268277809114,0.33588377285499404,-0.80443589117862691,-2.6015697694257427,1.1649297176248625,-0.15446586779152416,-0.12204857259909603,0.96068764342291035,0.82240008403815534,0.56602438316620951,0.932651369328382,0.77831939273830353,-0.01969307009572693,-2.3474177698573477,0.59526244733372047,-0.16709195007295499,-0.27949803605334683,-1.7625315484865236,-0.64305566022997063,0.36757359975648768,1.4285558964061382,-0.21971484880407391,0.33343457281817368,-0.16447123796472268,-1.6568629863988311,-0.5718276888255186,-0.54847663418991199,-0.1706836673442238,1.1368407663898976,0.75693531929562119],"y":[-0.12497744177064088,-0.43899076566632683,0.88666691226257088,0.084526306280947636,-0.96095047227831742,-0.67593621981888596,0.16597573541747218,0.54753277188333915,-0.38678168038974409,0.95001232908470346,-0.069224885355866017,-0.89184640928855308,0.43476440869088867,-0.77333210405768815,1.1821298607036705,2.1006692483742802,-0.51220334666352174,-1.5186922867137873,0.30485899294582586,-0.41680048786040458,2.311777683811207,-0.36052883892157706,0.63660489997085579,0.45110613260766252,-1.0986537322140875,0.11544328213789912,-2.0705804459736035,1.90849368409557,0.18823156058429852,2.19088154020185,0.057386262469098157,-0.86950733371306776,0.46565809850583029,-1.1312807726536065,-1.1339901591318353,0.32479377865303327,-0.49607402923655014,-0.091991914145754014,-0.31901945684234373,-0.96615070598484287],"z":[1.0220194590016063,1.3582413116479251,4.6537974071223775,-0.2008238943636953,1.929968809164315,1.8234893370013916,3.7606254913320161,2.0912568864318879,2.168246534484688,3.35066051524305,1.1169950681566583,2.9199552996862055,4.1753683322333162,2.2769883702148093,5.5623800425149392,4.9383988867222364,-0.42709165935057669,-0.3785904080691167,0.46794007059829212,0.87309855748062803,3.3812276679750206,1.7026449707947757,1.2702224271421876,2.688149291213775,-0.080530698092314168,4.7663741861968685,1.0044807680522052,5.2737550283384103,2.7645095973238156,6.7141456609809778,1.1037815815456327,0.43802557074608306,4.614081456318325,-0.10732530261915652,0.5549387254652165,1.7355818844900575,1.0239366679406896,1.4893381313894076,2.4222630400593967,0.76785357061074755],"type":"scatter3d","mode":"markers","marker":{"color":"#C0392B","size":3,"line":{"color":"rgba(31,119,180,1)"}},"showlegend":false,"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"frame":null},{"colorbar":{"title":"","ticklen":2},"colorscale":[["0","#533860"],["1","#533860"]],"showscale":false,"z":[[-0.36104836274778496,-1.9694892803471724],[6.3200082125034269,4.7115672949040395]],"type":"surface","x":[-2.5,2.5],"y":[-2.5,2.5],"opacity":0.75,"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":{"render":[{"code":"\n      function(el, x, d) {\n        var n = d.x1.length, L = d.lim;\n        function gauss() { var u = 1 - Math.random(), v = Math.random();\n                           return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }\n        // least squares for y ~ 1 + x1 + x2 via the normal equations (3 x 3 Gaussian elimination)\n        function fit(y) {\n          var A = [[0,0,0],[0,0,0],[0,0,0]], c = [0,0,0], i, j, k, row;\n          for (i = 0; i < n; i++) {\n            row = [1, d.x1[i], d.x2[i]];\n            for (j = 0; j < 3; j++) { c[j] += row[j] * y[i];\n                                      for (k = 0; k < 3; k++) A[j][k] += row[j] * row[k]; }\n          }\n          for (j = 0; j < 3; j++) {\n            for (i = j + 1; i < 3; i++) { var f = A[i][j] / A[j][j];\n              for (k = j; k < 3; k++) A[i][k] -= f * A[j][k]; c[i] -= f * c[j]; }\n          }\n          var b = [0,0,0];\n          for (j = 2; j >= 0; j--) { var s = c[j];\n            for (k = j + 1; k < 3; k++) s -= A[j][k] * b[k]; b[j] = s / A[j][j]; }\n          return b;\n        }\n        el.on('plotly_buttonclicked', function() {\n          var y = [], i;\n          for (i = 0; i < n; i++) y.push(d.beta[0] + d.beta[1] * d.x1[i] + d.beta[2] * d.x2[i] + d.sigma * gauss());\n          var b = fit(y), e = [-L, L];\n          var z = e.map(function(x2) { return e.map(function(x1) { return b[0] + b[1] * x1 + b[2] * x2; }); });\n          Plotly.restyle(el, {z: [y]}, [0]);\n          Plotly.restyle(el, {z: [z]}, [1]);\n          Plotly.relayout(el, {'annotations[0].text': 'Fitted slopes: b1 = ' + b[1].toFixed(2) +\n            ', b2 = ' + b[2].toFixed(2) + '   (truth: b1 = ' + d.beta[1] + ', b2 = ' + d.beta[2] + ')'});\n        });\n      }","data":{"x1":[-0.81031547189302355,0.10332756866208691,-1.0462268133293786,1.6953993114427977,0.26783628206948396,-1.0291288179478124,0.44594292232327293,0.72890783739561826,0.54558833497803594,-0.44821174733770647,1.6012268277809114,0.33588377285499404,-0.80443589117862691,-2.6015697694257427,1.1649297176248625,-0.15446586779152416,-0.12204857259909603,0.96068764342291035,0.82240008403815534,0.56602438316620951,0.932651369328382,0.77831939273830353,-0.01969307009572693,-2.3474177698573477,0.59526244733372047,-0.16709195007295499,-0.27949803605334683,-1.7625315484865236,-0.64305566022997063,0.36757359975648768,1.4285558964061382,-0.21971484880407391,0.33343457281817368,-0.16447123796472268,-1.6568629863988311,-0.5718276888255186,-0.54847663418991199,-0.1706836673442238,1.1368407663898976,0.75693531929562119],"x2":[-0.12497744177064088,-0.43899076566632683,0.88666691226257088,0.084526306280947636,-0.96095047227831742,-0.67593621981888596,0.16597573541747218,0.54753277188333915,-0.38678168038974409,0.95001232908470346,-0.069224885355866017,-0.89184640928855308,0.43476440869088867,-0.77333210405768815,1.1821298607036705,2.1006692483742802,-0.51220334666352174,-1.5186922867137873,0.30485899294582586,-0.41680048786040458,2.311777683811207,-0.36052883892157706,0.63660489997085579,0.45110613260766252,-1.0986537322140875,0.11544328213789912,-2.0705804459736035,1.90849368409557,0.18823156058429852,2.19088154020185,0.057386262469098157,-0.86950733371306776,0.46565809850583029,-1.1312807726536065,-1.1339901591318353,0.32479377865303327,-0.49607402923655014,-0.091991914145754014,-0.31901945684234373,-0.96615070598484287],"beta":[2,0,1],"sigma":1.5,"lim":2.5}}]}}</script>
+</div>
+</div>
+<div class="question">
+<p>Click <strong>New noise</strong> several times. Compare with the last slide: why does the plane wobble so much less?</p>
+</div>
+<div class="fragment">
+<p>When the predictors move together, the data cover only a thin strip of the <span class="math inline">\((X_1, X_2)\)</span> floor. The plane is <strong>pinned down along the strip but free to tilt</strong> across it, so the individual slopes are poorly determined, even though predictions <em>on the strip</em> stay good.</p>
+</div>
+</section>
+<section id="nearly-collinear-the-coefficients-wobble" class="slide level2 smaller">
+<h2>Nearly collinear: the coefficients wobble</h2>
+<p>Here is the same idea over many samples. Each simulated study below has the <strong>same true model</strong>, <span class="math inline">\(y = 2 + 0 \cdot x_1 + 1 \cdot x_2 + \text{noise}\)</span>, but a different correlation between <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>. We fit 200 samples of <span class="math inline">\(n = 40\)</span> for each.</p>
+
+<img data-src="23-multicollinearity_files/figure-revealjs/unnamed-chunk-7-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"><div class="fragment">
+<p>The estimates are still centered at the truth, but the more correlated the predictors, the <strong>more they vary from sample to sample</strong>. That is exactly a larger standard error.</p>
+</div>
+</section></section>
+<section>
+<section id="why-it-matters" class="title-slide slide level1 center">
+<h1>Why it matters</h1>
+
+</section>
+<section id="consequences" class="slide level2">
+<h2>Consequences</h2>
+<ul>
+<li><strong>Standard errors inflate</strong>: wide intervals, small <span class="math inline">\(t\)</span>-statistics, large p-values, even for variables that are truly related to <span class="math inline">\(y\)</span></li>
+<li><strong>Estimates are unstable</strong>: a small change in the data can swing a coefficient a lot, even flip its sign</li>
+<li><strong>Interpretation breaks down</strong>: “holding <code>avgtemp</code> constant, a 1 degree increase in <code>hightemp</code>…” describes a day that basically does not exist</li>
+</ul>
+<div class="fragment">
+<p>What multicollinearity does <strong>not</strong> hurt: the model’s <strong>predictions</strong> and <span class="math inline">\(R^2\)</span>. If you only care about predicting <span class="math inline">\(y\)</span>, it is mostly harmless. It is a problem when you want to <strong>interpret or test individual coefficients</strong>, which is what most of our projects do.</p>
+</div>
+</section></section>
+<section>
+<section id="detecting-multicollinearity" class="title-slide slide level1 center">
+<h1>Detecting multicollinearity</h1>
+
+</section>
+<section id="in-the-exploratory-analysis" class="slide level2">
+<h2>In the exploratory analysis</h2>
+<ul>
+<li>Look at the <strong>correlations</strong> among the predictors. Values near <span class="math inline">\(\pm 1\)</span> (rule of thumb: above <span class="math inline">\(|0.8|\)</span> or <span class="math inline">\(|0.9|\)</span>) are a warning sign.</li>
+<li>Look at <strong>scatterplots</strong> of pairs of quantitative predictors. A tight linear band is a warning sign.</li>
+<li>For categorical predictors, look at <strong>boxplots</strong> or <strong>tables</strong> of one predictor against another.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>rail_trail <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a></a>  <span class="fu">select</span>(hightemp, avgtemp, cloudcover, precip) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a></a>  <span class="fu">cor</span>() <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a></a>  <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           hightemp avgtemp cloudcover precip
+hightemp       1.00    0.92      -0.10   0.13
+avgtemp        0.92    1.00       0.14   0.27
+cloudcover    -0.10    0.14       1.00   0.37
+precip         0.13    0.27       0.37   1.00</code></pre>
+</div>
+</div>
+</section>
+<section id="pairwise-checks-can-miss-it" class="slide level2">
+<h2>Pairwise checks can miss it</h2>
+<p>A predictor can be nearly predictable from a <strong>combination</strong> of several others, even if no single pair is highly correlated. We need a number that captures “how well do all the other predictors predict this one?”</p>
+</section>
+<section id="variance-inflation-factor-vif" class="slide level2 smaller">
+<h2>Variance inflation factor (VIF)</h2>
+<p>For predictor <span class="math inline">\(x_j\)</span>, regress it on <strong>all the other predictors</strong>, and let <span class="math inline">\(R^2_j\)</span> be the proportion of the variation in <span class="math inline">\(x_j\)</span> that they explain. Then</p>
+<p><span class="math display">\[VIF_j = \frac{1}{1 - R^2_j}\]</span></p>
+<div class="fragment">
+<ul>
+<li><span class="math inline">\(R_j^2 = 0\)</span> (no overlap) <span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(VIF = 1\)</span></li>
+<li><span class="math inline">\(R_j^2 = 0.9\)</span> <span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(VIF = 10\)</span></li>
+<li>Interpretation: the variance of <span class="math inline">\(\hat\beta_j\)</span> is inflated by a factor of <span class="math inline">\(VIF_j\)</span> (its standard error by <span class="math inline">\(\sqrt{VIF_j}\)</span>)</li>
+<li>Rules of thumb: <span class="math inline">\(VIF &gt; 5\)</span> deserves a look, <span class="math inline">\(VIF &gt; 10\)</span> is concerning</li>
+</ul>
+</div>
+</section>
+<section id="computing-vif-by-hand" class="slide level2 smaller">
+<h2>Computing VIF by hand</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="co"># VIF for hightemp: how well do the other predictors predict hightemp?</span></span>
+<span id="cb6-2"><a></a>aux <span class="ot">&lt;-</span> <span class="fu">lm</span>(hightemp <span class="sc">~</span> avgtemp, <span class="at">data =</span> rail_trail)</span>
+<span id="cb6-3"><a></a>r2 <span class="ot">&lt;-</span> <span class="fu">glance</span>(aux)<span class="sc">$</span>r.squared</span>
+<span id="cb6-4"><a></a>r2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8457449</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a><span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> r2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6.482768</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>So the standard error of <span class="math inline">\(\hat\beta_{hightemp}\)</span> is inflated by roughly <span class="math inline">\(\sqrt{6.5} \approx 2.5\)</span>, which is about what we saw: 0.85 <span class="math inline">\(\to\)</span> 2.04.</p>
+<div class="question">
+<p>What is the VIF of <code>avgtemp</code>? (Think about it before computing: its auxiliary regression is <code>avgtemp ~ hightemp</code>.)</p>
+</div>
+</div>
+<div class="fragment">
+<p>Same: with only two predictors, both VIFs are <span class="math inline">\(1/(1 - r^2)\)</span>. With more predictors, each has its own.</p>
+</div>
+</section>
+<section id="vif-in-a-bigger-model" class="slide level2 smaller">
+<h2>VIF in a bigger model</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a><span class="co"># Auxiliary regression for hightemp in a larger model</span></span>
+<span id="cb10-2"><a></a>aux_big <span class="ot">&lt;-</span> <span class="fu">lm</span>(hightemp <span class="sc">~</span> season <span class="sc">+</span> cloudcover <span class="sc">+</span> precip <span class="sc">+</span> day_type, <span class="at">data =</span> rail_trail)</span>
+<span id="cb10-3"><a></a><span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">glance</span>(aux_big)<span class="sc">$</span>r.squared)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.387803</code></pre>
+</div>
+</div>
+<p>Much smaller: <code>season</code>, <code>cloudcover</code>, <code>precip</code>, and <code>day_type</code> together only moderately predict <code>hightemp</code>. No concern here.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Packages like <code>car</code> and <code>rms</code> have a <code>vif()</code> function that does this for you. Computing it by hand is the same idea, and works with only the packages we already have.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="vif-for-every-predictor-at-once" class="slide level2 smaller">
+<h2>VIF for every predictor at once</h2>
+<p>Running one auxiliary regression per predictor gets tedious. There is a shortcut: the VIFs are the <strong>diagonal of the inverse of the correlation matrix of the predictors</strong>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>vif_all <span class="ot">&lt;-</span> <span class="cf">function</span>(fit) {</span>
+<span id="cb12-2"><a></a>  X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(fit)[, <span class="sc">-</span><span class="dv">1</span>, drop <span class="ot">=</span> <span class="cn">FALSE</span>]   <span class="co"># the predictors, without the intercept column</span></span>
+<span id="cb12-3"><a></a>  <span class="fu">diag</span>(<span class="fu">solve</span>(<span class="fu">cor</span>(X)))                          <span class="co"># diagonal of the inverse correlation matrix</span></span>
+<span id="cb12-4"><a></a>}</span>
+<span id="cb12-5"><a></a></span>
+<span id="cb12-6"><a></a><span class="fu">vif_all</span>(fit_both)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>hightemp  avgtemp 
+6.482768 6.482768 </code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>This matches our by-hand answer for <code>hightemp</code> and <code>avgtemp</code> (6.48). The same function works for any model you fit with <code>lm()</code>: each <strong>column</strong> of the model matrix gets its own VIF, so a categorical predictor with several levels gets one VIF per indicator variable.</p>
+</div>
+</section>
+<section id="vifs-for-a-bigger-model" class="slide level2 smaller">
+<h2>VIFs for a bigger model</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>fit_big <span class="ot">&lt;-</span> <span class="fu">lm</span>(volume <span class="sc">~</span> hightemp <span class="sc">+</span> avgtemp <span class="sc">+</span> season <span class="sc">+</span> cloudcover <span class="sc">+</span> precip <span class="sc">+</span> day_type,</span>
+<span id="cb14-2"><a></a>              <span class="at">data =</span> rail_trail)</span>
+<span id="cb14-3"><a></a><span class="fu">vif_all</span>(fit_big) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       hightemp         avgtemp    seasonSpring    seasonSummer      cloudcover 
+           10.3            13.1             2.8             5.8             1.6 
+         precip day_typeWeekend 
+            1.3             1.1 </code></pre>
+</div>
+</div>
+<div class="fragment">
+<div class="question">
+<p>Which predictors are worth worrying about? Which are not? What would you do?</p>
+</div>
+</div>
+<div class="fragment">
+<ul>
+<li><code>hightemp</code> and <code>avgtemp</code> are above 10: they are the correlated pair</li>
+<li><code>season</code> indicators are somewhat inflated too, because season is tied to temperature</li>
+<li><code>cloudcover</code>, <code>precip</code>, and <code>day_type</code> are fine</li>
+</ul>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Two caveats. (1) A model with an <strong>interaction</strong> or <strong>squared term</strong> will show large VIFs for the terms involved, because <span class="math inline">\(x\)</span> and <span class="math inline">\(x^2\)</span> (or <span class="math inline">\(x\)</span> and <span class="math inline">\(x \cdot z\)</span>) are naturally related. That is expected, and usually not a reason to drop them. (2) The <code>vif()</code> functions in the <code>car</code> and <code>rms</code> packages do the same job (and report a generalized VIF for categorical predictors), if those packages are available.</p>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="categorical-predictors-and-study-design" class="title-slide slide level1 center">
+<h1>Categorical predictors and study design</h1>
+
+</section>
+<section id="categorical-predictors-too" class="slide level2">
+<h2>Categorical predictors too</h2>
+<p>Multicollinearity is not only about two numbers:</p>
+<ul>
+<li>A categorical predictor can be tied to another (e.g.&nbsp;an Islander’s <code>village</code> and their <code>occupation</code>): check with a <strong>two-way table</strong> or a <strong>boxplot</strong></li>
+<li>A categorical predictor can be tied to a quantitative one (e.g.&nbsp;<code>season</code> and <code>hightemp</code>: summer days are hot)</li>
+</ul>
+<div class="fragment">
+<div class="question">
+<p>In your Islands study, if you <strong>randomly assigned</strong> the primary explanatory variable, should it be related to the demographic variables? What if your study is observational?</p>
+</div>
+</div>
+<div class="fragment">
+<p>Randomization breaks the link between the treatment and everything else, so multicollinearity between the treatment and the other variables should be small. In an <strong>observational</strong> study they are often tangled together, which is exactly what makes it hard to separate their effects.</p>
+</div>
+</section></section>
+<section>
+<section id="what-to-do" class="title-slide slide level1 center">
+<h1>What to do</h1>
+
+</section>
+<section id="options" class="slide level2 scrollable">
+<h2>Options</h2>
+<ol type="1">
+<li><strong>Drop</strong> one of the redundant predictors and refit.
+<ul>
+<li>Example: keep <code>hightemp</code>, drop <code>avgtemp</code>.</li>
+</ul></li>
+<li><strong>Combine</strong> the redundant predictors into one.
+<ul>
+<li>Example: a single <code>temp_composite</code> that is the average of <code>avgtemp</code> and <code>hightemp</code>.</li>
+</ul></li>
+<li><strong>Keep both, but don’t interpret them individually.</strong> If you care about the <em>pair</em>, test them together with an <span class="math inline">\(F\)</span>-test (Lecture 20) instead of one at a time.</li>
+</ol>
+<div class="fragment">
+<div class="question">
+<p>Which option would you pick if your research question is <em>“how does temperature affect ridership?”</em> Would your answer change if the question were <em>“does the high temperature matter beyond the average temperature?”</em></p>
+</div>
+</div>
+</section>
+<section id="do-not-panic" class="slide level2 smaller">
+<h2>Do <strong>not</strong> panic</h2>
+<ul>
+<li>If your <strong>primary variable</strong> is not involved in the multicollinearity, you can leave it alone: the standard error you care about is not inflated</li>
+<li>Control variables included on purpose (confounders) can be highly related to your primary variable, and that is fine, as long as your primary variable’s interval is still informative</li>
+<li>Always report what you found: “VIFs were all below 3” is a one-line sentence in a Methods section</li>
+</ul>
+</section>
+<section id="activity-hw-11-part-2" class="slide level2 smaller">
+<h2>Activity: HW 11, Part 2</h2>
+<div class="appex">
+<p>📋 <a href="https://ericfriedlander.github.io/math2025-fa26/hw/hw-11.html">HW 11 - Conditions and Multicollinearity</a></p>
+<p>Use the model you checked on Monday. Work on <strong>Part 2</strong>: look at how your explanatory variables relate to each other, compare standard errors, compute VIFs, and decide whether multicollinearity is a problem for your project.</p>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_c23d973b" minutes="30" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+</div>
+</div>
+</section>
+<section id="recap" class="slide level2">
+<h2>Recap</h2>
+<ul>
+<li><strong>Multicollinearity</strong>: a predictor is strongly related to a combination of the other predictors</li>
+<li>It inflates standard errors, makes estimates unstable, and makes individual coefficients hard to interpret. Predictions are not hurt.</li>
+<li>Detect it with correlations, plots, and <span class="math inline">\(VIF_j = 1/(1 - R_j^2)\)</span> (worry above 5 to 10)</li>
+<li>Fix it by dropping or combining predictors, or by testing the correlated predictors together and not interpreting them individually</li>
+</ul>
+
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="../images/logo.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p><a href="https://ericfriedlander.github.io/math2025-fa26/">🔗 MATH 2025 - Fall 2026 - Schedule</a></p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/ericfriedlander\.github\.io\/math2025-fa26\/");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
