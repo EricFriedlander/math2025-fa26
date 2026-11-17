@@ -54,11 +54,11 @@ library(mosaic)
 
 ### Sample size
 
-<!-- Checkpoint 2. Power analysis from your pilot data, the sample size you chose and why, and whether the pilot data are included. -->
+<!-- Checkpoint 2. Past tense. Power analysis from your pilot data, the sample size you chose and why, and whether the pilot data are included. -->
 
 ### Statistical analysis
 
-<!-- Checkpoint 3. Which models will you fit and why? How will you check conditions and decide which variables to include? -->
+<!-- Checkpoint 3. Past tense. Which model(s) did you fit and why? How did you check conditions and decide which variables to include? -->
 
 ## Results
 

@@ -1,5 +1,5 @@
 ---
-title: "Project 4: Final Draft"
+title: "Project 4: Full Draft"
 ---
 
 :::{.callout-important icon=false}
@@ -12,11 +12,11 @@ title: "Project 4: Final Draft"
 
 #### Where this fits
 
-This checkpoint completes your paper: the full **Results** and the **Discussion**, plus revisions to the Introduction and Methods from earlier feedback. See the [project overview](project-overview.qmd) for the full roadmap.
+This checkpoint completes your paper: the final **Results** and the full **Discussion**, plus revisions to the Introduction and Methods (including **Sample size** and **Statistical analysis**) based on feedback from the earlier checkpoints. See the [project overview](project-overview.qmd) for the full roadmap.
 
 #### Goal
 
-The goal of the complete draft is to synthesize all prior work into a cohesive research paper analyzing your collected Islands data.
+The goal of the full draft is to synthesize all prior work into a cohesive research paper analyzing your collected Islands data.
 
 #### To Turn In
 
@@ -29,27 +29,35 @@ Upload both your `islands-paper.qmd` and the rendered PDF (`islands-paper.pdf`) 
 
 ## Assignment Deliverables
 
-Submit a **complete draft** of your Islands research paper in publication style, with these four sections.
+Submit a **complete draft** of your Islands research paper in publication style, with these four sections. Write everything in the **past tense**, as if the study is finished, and use your **complete data set** (data collection ended after Checkpoint 3), so update any numbers, plots, and models you built from partial data. Use the [grading rubric](project-rubric.qmd) as a checklist.
 
 ### Introduction
 
 - Explain the motivation and background of your study.
 - Clearly state the research question and hypothesis.
-- Revise using feedback from the pilot.
+- Mention the ethical or practical implications of your question (for example, usefulness or potential harm).
+- Revise using feedback from the pilot and power checkpoints.
 
 ### Methods
 
-- Fully describe the design, sampling, intervention/exposure, response, demographics, and statistical approach. Build upon and refine your earlier Methods, and keep them concise and non-redundant.
-- **Sample size:** briefly recap your power analysis and sample size determination. Show key calculations but omit full output.
+- Fully describe the design, sampling, intervention/exposure, response, demographics, and statistical approach. Build upon and refine your earlier Methods, and keep them concise and non-redundant. Revise using the feedback you received.
+- **Sample size:** briefly recap your power analysis and sample size determination. Show key calculations but omit full output, and report the sample size you actually collected.
+- **Statistical analysis:** finalize the subsection from Checkpoint 3. Name the final model, justify each variable, and replace the placeholder sentence about conditions with the conditions you actually checked and how.
 
 ### Results
 
 - **Visual and numerical summaries:** present descriptive analyses of all key variables, including demographic balance.
-- **Multiple regression model:** fit and describe a multiple regression model addressing your main research question. Discuss your rationale for variable inclusion and model structure, and check the conditions.
-- **Interpretation:** describe which variables are significant and how they relate to your hypotheses. Every table and figure must be explained in the text.
+- **Multiple regression model:** fit and describe a multiple regression model addressing your main research question. Discuss your rationale for variable inclusion and model structure, and check the conditions (the details of the checks go in Methods, the findings go here).
+- **Interpretation:** describe which variables are significant and how they relate to your hypotheses. Every table and figure must be explained in the text (no "naked" plots or tables), and you should delete plots and tables that do not say anything useful.
 
 ### Discussion
 
 - Restate the question and key results, and say whether the results support your hypothesis.
-- Discuss limitations: sampling and generalizability, randomization and causal claims, sample size and other constraints.
+- Build on the sampling reflection paragraph you wrote at Checkpoint 3. Discuss limitations: sampling and generalizability, randomization and causal claims, sample size and other constraints.
 - Summarize implications and suggest potential extensions.
+
+### Polish
+
+- Give the paper a descriptive title and include your name (and your group members' names).
+- Label every table and figure with a caption and readable axes.
+- Keep code interspersed with the text, and make sure `islands-paper.qmd` renders from start to finish with no errors, loading your data inside the document.

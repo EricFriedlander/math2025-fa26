@@ -47,6 +47,7 @@ library(ggformula)   # for plotting using formulas
 library(broom)       # for formatting model output
 library(knitr)       # for pretty tables
 library(plotly)      # for the 3D wobble pictures
+library(car)         # for vif()
 
 # set default theme and larger font size for ggplot2
 ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
@@ -321,14 +322,13 @@ $$VIF_j = \frac{1}{1 - R^2_j}$$
 -   Interpretation: the variance of $\hat\beta_j$ is inflated by a factor of $VIF_j$ (its standard error by $\sqrt{VIF_j}$)
 -   Rules of thumb: $VIF > 5$ deserves a look, $VIF > 10$ is concerning
 
-## Computing VIF by hand {.smaller}
+## Computing VIF {.smaller}
+
+The `vif()` function from the `car` package computes the VIF of every predictor in a model at once:
 
 ```{r}
-# VIF for hightemp: how well do the other predictors predict hightemp?
-aux <- lm(hightemp ~ avgtemp, data = rail_trail)
-r2 <- glance(aux)$r.squared
-r2
-1 / (1 - r2)
+library(car)
+vif(fit_both)
 ```
 
 . . .
@@ -336,50 +336,19 @@ r2
 So the standard error of $\hat\beta_{hightemp}$ is inflated by roughly $\sqrt{6.5} \approx 2.5$, which is about what we saw: 0.85 $\to$ 2.04.
 
 ::: question
-What is the VIF of `avgtemp`? (Think about it before computing: its auxiliary regression is `avgtemp ~ hightemp`.)
+Why are the VIFs of `hightemp` and `avgtemp` identical here?
 :::
 
 . . .
 
-Same: with only two predictors, both VIFs are $1/(1 - r^2)$. With more predictors, each has its own.
-
-## VIF in a bigger model {.smaller}
-
-```{r}
-# Auxiliary regression for hightemp in a larger model
-aux_big <- lm(hightemp ~ season + cloudcover + precip + day_type, data = rail_trail)
-1 / (1 - glance(aux_big)$r.squared)
-```
-
-Much smaller: `season`, `cloudcover`, `precip`, and `day_type` together only moderately predict `hightemp`. No concern here.
-
-::: callout-note
-Packages like `car` and `rms` have a `vif()` function that does this for you. Computing it by hand is the same idea, and works with only the packages we already have.
-:::
-
-## VIF for every predictor at once {.smaller}
-
-Running one auxiliary regression per predictor gets tedious. There is a shortcut: the VIFs are the **diagonal of the inverse of the correlation matrix of the predictors**.
-
-```{r}
-vif_all <- function(fit) {
-  X <- model.matrix(fit)[, -1, drop = FALSE]   # the predictors, without the intercept column
-  diag(solve(cor(X)))                          # diagonal of the inverse correlation matrix
-}
-
-vif_all(fit_both)
-```
-
-. . .
-
-This matches our by-hand answer for `hightemp` and `avgtemp` (6.48). The same function works for any model you fit with `lm()`: each **column** of the model matrix gets its own VIF, so a categorical predictor with several levels gets one VIF per indicator variable.
+With only two predictors, both VIFs are $1/(1 - r^2)$, where $r$ is the correlation between them. With more predictors, each has its own.
 
 ## VIFs for a bigger model {.smaller}
 
 ```{r}
 fit_big <- lm(volume ~ hightemp + avgtemp + season + cloudcover + precip + day_type,
               data = rail_trail)
-vif_all(fit_big) |> round(1)
+vif(fit_big)
 ```
 
 . . .
@@ -390,12 +359,31 @@ Which predictors are worth worrying about? Which are not? What would you do?
 
 . . .
 
--   `hightemp` and `avgtemp` are above 10: they are the correlated pair
--   `season` indicators are somewhat inflated too, because season is tied to temperature
+-   `hightemp` and `avgtemp` are the correlated pair
+-   `season` may be somewhat inflated too, because season is tied to temperature
 -   `cloudcover`, `precip`, and `day_type` are fine
+-   Because `season` and `day_type` are categorical, `vif()` reports a **generalized VIF**: see the next slide
+
+## Generalized VIF (GVIF) {.smaller}
+
+A categorical predictor with $k$ levels enters the model as $k - 1$ indicator variables. Those indicators are correlated with each other by construction, so judging each one's VIF separately is misleading (it depends on which level you chose as the reference). Instead, we ask about the **whole predictor at once**.
+
+-   **GVIF**: how much the uncertainty about *all* of a predictor's coefficients, taken together, is inflated by correlation with the other predictors. For a quantitative predictor (`Df = 1`) it is exactly the ordinary VIF.
+-   **`Df`**: the number of coefficients the predictor uses ($k - 1$ for a categorical predictor).
+-   **$GVIF^{1/(2 \cdot Df)}$**: GVIF rescaled so that predictors with different `Df` can be compared. It lives on the **standard error scale**: it says how many times larger the standard errors are, roughly, than with uncorrelated predictors.
+
+. . .
+
+**How to interpret and decide**
+
+-   Compare $GVIF^{1/(2 \cdot Df)}$ to $\sqrt{5} \approx 2.2$ (worth a look) and $\sqrt{10} \approx 3.2$ (concerning). These are the usual VIF cutoffs of 5 and 10, put on the same scale.
+-   Below the cutoffs: no action needed, move on.
+-   Above them: first ask whether the inflation matters for your goal. If you only want **predictions**, it usually does not. If you want to **interpret or test** that predictor's effect, wide intervals and unstable coefficients are a real problem.
+-   If it matters, your options: drop or combine redundant predictors, collect more varied data, or keep the model and say honestly that the effects cannot be separated.
+-   Never drop a predictor just because of a VIF if the research question needs it.
 
 ::: callout-note
-Two caveats. (1) A model with an **interaction** or **squared term** will show large VIFs for the terms involved, because $x$ and $x^2$ (or $x$ and $x \cdot z$) are naturally related. That is expected, and usually not a reason to drop them. (2) The `vif()` functions in the `car` and `rms` packages do the same job (and report a generalized VIF for categorical predictors), if those packages are available.
+Two caveats. (1) A model with an **interaction** or **squared term** will show large VIFs for the terms involved, because $x$ and $x^2$ (or $x$ and $x \cdot z$) are naturally related. That is expected, and usually not a reason to drop them. (2) Do not apply the VIF cutoffs to dummy variables of a categorical predictor one at a time: that is why `vif()` gives one generalized VIF per term.
 :::
 
 # Categorical predictors and study design
@@ -445,6 +433,10 @@ Which option would you pick if your research question is *"how does temperature 
 📋 [HW 11 - Conditions and Multicollinearity](https://ericfriedlander.github.io/math2025-fa26/hw/hw-11.html)
 
 Use the model you checked on Monday. Work on **Part 2**: look at how your explanatory variables relate to each other, compare standard errors, compute VIFs, and decide whether multicollinearity is a problem for your project.
+:::
+
+::: callout-important
+**Use `vif()` from the `car` package** (`library(car)`, then `vif(your_model)`) for the VIF exercise, instead of the prewritten `glance()` code in the answer box. It gives you the VIF of every predictor in one step. If your model has a categorical predictor, read the generalized VIF column ($GVIF^{1/(2 \cdot Df)}$) as described on the previous slides.
 :::
 
 ```{r}
