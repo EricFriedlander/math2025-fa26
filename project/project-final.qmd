@@ -16,7 +16,7 @@ This is the last step: revise your whole paper. The [poster](project-poster.qmd)
 
 #### Goal
 
-The goal of the final edited project is to turn your draft into a cohesive research paper (Introduction, Methods, Results, Discussion) analyzing your collected Islands data.
+The goal of the final edited project is to turn your draft into a cohesive research paper (Introduction, Methods, Results, Discussion) analyzing your collected Islands data. You may keep the template subsections in the full draft, but the final paper should flow as a single paper with only those four sections and no leftover template subsections.
 
 #### To Turn In
 

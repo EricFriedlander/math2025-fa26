@@ -34,8 +34,8 @@ Note, however, that this may change.
 |:---|:---|:---|:---|
 | [1: Pilot](project-pilot.qmd) | Wed Nov 4 | **Introduction** (background and research question) and **Methods** (design, sampling, variables) | Collect pilot data (at least 20 islanders) |
 | [2: Power](project-power.qmd) | Wed Nov 11 | **Methods: Sample size** (power analysis and justification); revise the Introduction | Decide on your sample size and start full data collection |
-| [3: Preliminary Analysis](project-preliminary.qmd) | Wed Nov 18 | **Methods: Statistical analysis** and a first draft of **Results** (summaries, plots, one regression) | Finish data collection |
-| [4: Full Draft](project-draft.qmd) | Mon Nov 30 | Complete **Results** (final multiple regression model, conditions) and **Discussion** | None |
+| [3: Preliminary Analysis](project-preliminary.qmd) | Wed Nov 18 | **Methods: Statistical analysis** and a first draft of **Results** (summaries, plots, one regression) | Collect most of your data |
+| [4: Full Draft](project-draft.qmd) | Mon Nov 30 | Complete **Results** (final multiple regression model, conditions) and **Discussion** | Finish any remaining data collection (a little is okay) |
 | [5: Final Paper and Poster](project-final.qmd) | Final exam period, Dec 7-10 (exact slot TBD) | Revise the whole paper using feedback; [poster](project-poster.qmd) presenting the four sections; reflection | None |
 
 Each checkpoint asks for roughly one to two sections' worth of writing, with the sections that depend on your data (Results, Discussion) arriving last. The earlier checkpoints are graded on completeness and feedback, so use them to get comments before the full draft.
@@ -56,7 +56,7 @@ The [preliminary analysis](project-preliminary.qmd) starts the **Results**: nume
 
 ## Full Draft
 
-The [full draft](project-draft.qmd) is a complete paper: all four sections, with a full set of analyses (including a multiple regression model) answering your research question. All plots and tables should be well labelled.
+The [full draft](project-draft.qmd) is a complete paper: all four sections, with a full set of analyses (including a multiple regression model) answering your research question. All plots and tables should be well labelled. You may keep the template subsections in the draft, but the final paper should flow with only an Introduction, Methods, Results, and Discussion.
 
 ## Final Paper, Poster, and Reflection
 

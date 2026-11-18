@@ -29,7 +29,9 @@ Upload both your `islands-paper.qmd` and the rendered PDF (`islands-paper.pdf`) 
 
 ## Assignment Deliverables
 
-Submit a **complete draft** of your Islands research paper in publication style, with these four sections. Write everything in the **past tense**, as if the study is finished, and use your **complete data set** (data collection ended after Checkpoint 3), so update any numbers, plots, and models you built from partial data. Use the [grading rubric](project-rubric.qmd) as a checklist.
+Submit a **complete draft** of your Islands research paper in publication style, with these four sections. Write everything in the **past tense**, as if the study is finished, and use a **nearly complete data set**. It is fine if you still have a little bit of data left to collect, but you should have most of it by now. Update any numbers, plots, and models you built from partial data, and finish collecting before the final paper. Use the [grading rubric](project-rubric.qmd) as a checklist.
+
+**Subsections:** for this draft, you may keep all of the subsections given in the template (for example, Sample size and Statistical analysis under Methods). For the **final submission**, however, you will be expected to turn the paper into one that flows, with only four sections: Introduction, Methods, Results, and Discussion.
 
 ### Introduction
 
