@@ -1,0 +1,94 @@
+---
+title: "Preparation for Exam 2"
+---
+
+Exam 2 is in class on **Wednesday, Dec 2**. This page tells you what to expect, how to turn in your work, and what data sets appear on the exam.
+
+## Logistics
+
+-   **Length:** 75 minutes. The exam is worth 100 points.
+-   **Content:** **Cumulative.** Lectures 0 to 23, the readings, AEs 01 to 21, and HW 01 to 11. About 30% of the points come from Lectures 0 to 10 and about 70% from Lectures 11 to 23.
+-   **Allowed:** a calculator and **one handwritten sheet of notes** (front and back). No computers, phones, textbooks, or other notes.
+-   **You will not write any code.** Some questions show R code or R output for you to *read* and *interpret*.
+-   Every calculation can be done with a basic calculator. No tables or software are needed. If a number is needed (for example a critical value $t^*$ or a p-value), the exam gives it to you.
+
+## Format
+
+| Section | Style                                       | Points  |
+|:--------|:--------------------------------------------|:-------:|
+| A       | Multiple choice                             |   26    |
+| B       | Fill in the blank (choose from a word bank) |   12    |
+| C       | Short answer                                |   42    |
+| D       | Evaluate a response                         |   20    |
+| **Total** |                                           | **100** |
+
+In Section D, a (fictional) student has written an analysis. You decide whether each numbered claim is correct or incorrect, and fix the ones that are wrong.
+
+## How the exam will be handed out
+
+You will receive the exam and **blank paper**. This is how to turn it in:
+
+1.  **Write all of your answers on the blank paper, not on the exam.** Label each answer with its question number, for example "C2(b)".
+2.  Write your **name on every sheet** of paper, including the exam.
+3.  **Number your sheets** (1, 2, 3, ...) in the **bottom right corner**, so I can read them in the right order.
+4.  **Turn in the exam together with your answer sheets.**
+
+## What I am looking for
+
+-   **Show your work.** Partial credit is real, and a correct answer with no work may not receive full credit.
+-   Interpret and explain in complete sentences, and use the **context** of the problem (variable names and units).
+-   Unless told otherwise, rounding to two decimal places is fine.
+
+## Data sets on the exam
+
+Three real data sets appear on the exam. You do not need to know anything about them beyond what is written here and on the exam itself. The other questions use made-up scenarios that are fully described where they appear.
+
+### `counties`: US counties
+
+The data come from the American Community Survey. Each row is **one county**, in a sample of **600 US counties**.
+
+| Variable  | Type         | Meaning                                                          |
+|:----------|:-------------|:-----------------------------------------------------------------|
+| `state`   | categorical  | The state the county is in.                                      |
+| `pop`     | quantitative | The county's population.                                         |
+| `poverty` | quantitative | The **percent** of the county's residents who live below the poverty line. |
+| `pci`     | quantitative | Per-capita income in the county, in **thousands of dollars**.    |
+| `mhi`     | quantitative | Mean household income in the county, in **thousands of dollars**. |
+
+### `heb`: grocery stores in San Antonio
+
+Each row is **one store** of a grocery chain, and there are **37 stores** in the data.
+
+| Variable         | Type         | Meaning                                                                      |
+|:-----------------|:-------------|:-----------------------------------------------------------------------------|
+| `inc`            | quantitative | The average household income in the store's zip code, in **thousands of dollars**. Ranges from 34.2 to 135.5. |
+| `Number_Organic` | quantitative | The number of organic products the store stocks.                             |
+
+### `fr`: the Framingham Heart Study
+
+Each row is **one participant** of a long-running heart health study, with a recorded BMI.
+
+| Variable | Type              | Meaning                                                  |
+|:---------|:------------------|:---------------------------------------------------------|
+| `sysBP`  | quantitative      | Systolic blood pressure, in millimeters of mercury (mmHg). |
+| `age`    | quantitative      | Age in years. Ranges from 32 to 70.                      |
+| `male`   | categorical (0/1) | 1 if the participant is male, 0 if female.               |
+| `BMI`    | quantitative      | Body mass index, in kg/m$^2$. Ranges from 15.5 to 56.8.  |
+
+## Reading R output
+
+You may see output from R functions that we have used in class. You do not need to run anything, but you should be able to read these:
+
+-   `tidy()` from the `broom` package: one row per coefficient, with `estimate`, `std.error`, `statistic`, `p.value`, and sometimes `conf.low` and `conf.high`.
+-   `glance()`: `r.squared`, `sigma`, and the model p-value.
+-   `supernova()` and `anova(reduced, full)`: sums of squares, degrees of freedom, the $F$ statistic and its p-value.
+-   `predict()` with `interval = "confidence"` or `"prediction"`: `fit`, `lwr`, `upr`.
+-   Residual plots and QQ plots, and tables of VIFs.
+-   `dplyr` code, such as `filter()`, `mutate()`, `group_by()`, and `summarize()`.
+
+## How to prepare
+
+1.  Try to do the "You should be able to..." lists in the [Exam 2 study guide](/slides/24-exam-02-review.qmd) **without looking** at the slides.
+2.  Take the [practice exam](/ae/ae-24-exam02.qmd) under timed conditions, **before** you open the solutions.
+3.  Redo the AE and HW questions you struggled with, especially HW 06 to 11.
+4.  Write your notes sheet **last**. Making it is studying.

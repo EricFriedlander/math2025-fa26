@@ -1,0 +1,248 @@
+---
+pagetitle: "MATH 2025 Practice Exam 2 Solutions"
+format:
+  html:
+    embed-resources: true
+    html-math-method: mathml
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup}
+library(tidyverse)
+library(knitr)
+library(broom)
+library(supernova)
+
+rail <- read_csv(here::here("data/rail_trail.csv"), show_col_types = FALSE)
+bike <- read_csv(here::here("data/dcbikeshare.csv"), show_col_types = FALSE)
+tips <- read_csv(here::here("data/tip-data.csv"), show_col_types = FALSE) |>
+  mutate(tip_pct = `Tip Percentage` * 100)
+spot <- read_csv(here::here("data/spotify-popular.csv"), show_col_types = FALSE)
+
+m_hi   <- lm(volume ~ hightemp, data = rail)
+m_add  <- lm(volume ~ hightemp + day_type, data = rail)
+m_int  <- lm(volume ~ hightemp * day_type, data = rail)
+m_two  <- lm(volume ~ hightemp + avgtemp, data = rail)
+m_wx   <- lm(volume ~ hightemp + day_type + cloudcover + precip, data = rail)
+m_null <- lm(volume ~ 1, data = rail)
+m_bike <- lm(count ~ temp_orig, data = bike)
+m_meal <- lm(tip_pct ~ Meal, data = tips)
+m_spot <- lm(track_popularity ~ energy, data = spot)
+
+fmt_p <- function(p) ifelse(p < 0.0001, "<0.0001", sprintf("%.4f", p))
+
+tidy_tab <- function(m, conf = FALSE, d = 3) {
+  out <- tidy(m, conf.int = conf) |>
+    mutate(across(c(estimate, std.error, statistic, any_of(c("conf.low", "conf.high"))),
+                  ~ sprintf(paste0("%.", d, "f"), .x)),
+           p.value = fmt_p(p.value))
+  kable(out, align = c("l", rep("r", ncol(out) - 1)))
+}
+
+anova_tab <- function(a) {
+  out <- tidy(a) |>
+    mutate(rss = sprintf("%.0f", rss),
+           sumsq = ifelse(is.na(sumsq), "", sprintf("%.0f", sumsq)),
+           df = ifelse(is.na(df), "", as.character(df)),
+           statistic = ifelse(is.na(statistic), "", sprintf("%.3f", statistic)),
+           p.value = ifelse(is.na(p.value), "", fmt_p(p.value)))
+  kable(out, align = c("l", rep("r", ncol(out) - 1)))
+}
+
+f <- function(x, d = 2) sprintf(paste0("%.", d, "f"), x)
+
+# C1
+cf <- coef(m_add)
+pred_c1 <- cf[[1]] + cf[[2]] * 70 + cf[[3]]
+se_add <- tidy(m_add)$std.error
+t_wk <- cf[[3]] / se_add[3]
+ci_int <- coef(m_int)
+an_wx <- anova(m_add, m_wx)
+
+# C2
+grp <- tips |> group_by(Meal) |> summarize(n = n(), m = mean(tip_pct))
+m_din <- grp$m[grp$Meal == "Dinner"]
+m_ln  <- grp$m[grp$Meal == "Late Night"]
+m_lu  <- grp$m[grp$Meal == "Lunch"]
+ss <- supernova(m_meal)$tbl
+ssm2 <- ss$SS[1]; sse2 <- ss$SS[2]; sst2 <- ss$SS[3]
+r2_c2 <- ssm2 / sst2
+rmse_c2 <- sqrt(sse2 / nrow(tips))
+
+# C3
+cb <- coef(summary(m_bike))
+ci_25 <- predict(m_bike, tibble(temp_orig = 25), interval = "confidence")
+pi_25 <- predict(m_bike, tibble(temp_orig = 25), interval = "prediction")
+sig_b <- sigma(m_bike)
+
+# D2
+r2_h <- summary(lm(hightemp ~ avgtemp, data = rail))$r.squared
+vif_h <- 1 / (1 - r2_h)
+```
+
+# MATH 2025 Practice Exam 2: Solutions
+
+Fall 2026, Lectures 0 to 23 (cumulative). Use this **after** you have taken the practice exam under timed conditions. The points shown for each part tell you how the part would be scored, so you can check your own work.
+
+Rounding note: R's output is rounded, so if you use the printed values your answers may differ from mine in the last digit. Any answer within rounding is fine. On the real exam, your interpretations should mention **units and context**, and use hedged language ("predicted," "on average," "associated with") for slopes. Causal language where it is not justified can cost a point.
+
+Things to keep in mind when you check your own answers:
+
+- If you used a wrong number from an earlier part correctly in a later part, the later part would still earn full credit unless it prevents me from properly assessing your understand of the topic that the next question is testing.
+- An interpretation that is right but uses "causes" or "will" language could lose 1 point.
+- Common themes where points are lost: forgetting "holding the other predictors constant" in MLR interpretations, reading a coefficient for a non-reference level as a group mean, reading a confidence or prediction interval as a statement about the probability of the parameter or the share of observations, and treating a large p-value as evidence of no effect.
+
+## Tip: "Practice How Your Play"
+
+Dr. Thurston in the Chemistry department gave me this great phrasing. When you take this exam, try and simulate the real testing environment. Work through the entire exam without looking at the solutions. If there are questions you don't understand or that you're not sure about, star them so that you can study them AFTER you finish taking the exam.
+
+## Answer summary
+
+| Q | Ans |
+|:--|:--|
+| A1 | C |
+| A2 | B |
+| A3 | D |
+| A4 | A |
+| A5 | C |
+| A6 | B |
+| A7 | D |
+| A8 | A |
+| A9 | C |
+| A10 | D |
+| A11 | B |
+| A12 | A |
+| A13 | C |
+| B1 | Prediction interval |
+| B2 | Multicollinearity |
+| B3 | Power |
+| B4 | Reduced model |
+| B5 | Residual |
+| B6 | Stratified sample |
+
+# Section A: Multiple Choice (2 pts each, no partial credit)
+
+| Q | Ans | Why |
+|:--|:--|:----------------------------------------------------------|
+| A1 | C | `filter()` keeps only the weekend days with a high above 80 (there are 6 of them), then `summarize()` collapses what is left to **one row**, with two columns: `n` and `mean_volume`. (A) forgets the `summarize()`. (B) forgets the `filter()`. (D) would need a `group_by()`. |
+| A2 | B | Severity is related to which hospital a patient goes to (Y treats mostly severe cases) and to survival, so it is a confounder, and the trend reverses once we compare within groups: Simpson's paradox. (A) ignores the confounder. (C) and (D) have nothing to do with the situation. |
+| A3 | D | $SSM = SST - SSE = 800 - 200 = 600$, and $PRE = 600/800 = 0.75$. (A) and (B) mix up SSE with SSM. (C) has SSM larger than SST, which is impossible. |
+| A4 | A | The records were randomly sampled, so we may generalize to the hospital's patients. Patients chose their own treatment (no random assignment), so we can only claim an association. |
+| A5 | C | With reference level Section A, the intercept (70) is the mean in A. The mean in C is $70 + (-3) = 67$. (A) is the *difference* from A, not the mean. (D) is the mean for Section A. |
+| A6 | B | $SE_{\hat\beta_1} = \hat\sigma_\epsilon / \sqrt{(n-1)s_X^2}$. More spread in $x$ (larger $s_X$) makes the SE smaller. Fewer observations or more scatter make it bigger. $\alpha$ does not affect the SE. |
+| A7 | D | We rejected a true $H_0$: that is a Type I error (false positive). A Type II error would be failing to reject a false $H_0$. |
+| A8 | A | A larger $n$ shrinks the SE and raises power. (B) lowers power, (C) lowers power, and (D) lowers power because a smaller true effect is harder to detect. |
+| A9 | C | The estimated difference in means is 2 kg in both studies, so Cohen's $d = 2/8 = 0.25$ in both: effect size is estimated relative to the spread of the data and does not grow with $n$. The SE (and so the p-value) shrinks with $n$, so Study 2 has a far smaller p-value. |
+| A10 | D | A coefficient in MLR is the change in the mean response for a one-unit increase in that predictor **holding the other predictors constant**. (C) says "ignoring," which is the SLR interpretation. (A) and (B) are not hedged ("exactly," "always"). |
+| A11 | B | The slope of water is $\hat\beta_1 + \hat\beta_3 \times \text{fert} = 3 + (-0.5)(4) = 1$ cm per liter. (A) ignores the interaction. (C) uses fert = 1. |
+| A12 | A | Among poor sleepers, the coffee effect is $0.5 + 1.5 = 2.0$ (the main effect plus the interaction). The 0.5 in (B) is the coffee effect for people who sleep well (the reference level). |
+| A13 | C | The residuals are tightly clustered at small fitted values and fan out at large ones: unequal variance. There is no curve (so linearity is fine), and the plot does not show independence or normality. |
+
+# Section B: Fill in the Blank (2 pts each)
+
+| Q | Answer |
+|:--|:--|
+| B1 | Prediction interval |
+| B2 | Multicollinearity |
+| B3 | Power |
+| B4 | Reduced model |
+| B5 | Residual |
+| B6 | Stratified sample |
+
+# Section C: Short Answer (42 points)
+
+## C1. Trail use, temperature, and weekends (18 pts)
+
+Here is the full table with the `statistic` for `day_typeWeekend` (it was hidden on the exam), then the other two tables as they appeared on the exam:
+
+```{r c1-tables}
+tidy_tab(m_add)
+tidy_tab(m_int)
+anova_tab(an_wx)
+```
+
+(a) (3 pts) $\widehat{\text{volume}} = `r f(cf[[1]], 3)` + `r f(cf[[2]], 3)`(70) + `r f(cf[[3]], 3)`(1) \approx `r f(pred_c1, 1)`$, so about **417 trail users** (anything from 416 to 418 is fine). The points: 1 for substituting 70 for `hightemp`, 1 for setting the weekend indicator equal to 1, and 1 for the value. A common mistake is forgetting the `day_typeWeekend` term, which gives 365.6.
+
+(b) (2 pts) On days with the same high temperature, weekends are predicted to have about 51.6 more trail users than weekdays (the reference level), on average. Because the model has no interaction, the two lines have the **same slope** (are parallel) and differ only in their intercepts, by 51.6 users. 1 pt for the interpretation (with reference level and "same high temperature"), 1 pt for parallel lines / same slope.
+
+(c) (3 pts) $T = `r f(cf[[3]], 3)` / `r f(se_add[3], 3)` \approx `r f(t_wk, 2)`$ (1 pt). The estimated weekend difference is about 2.2 standard errors above 0, i.e., above what we would expect if there were no difference between weekdays and weekends once temperature is accounted for (1 pt). Since $p = 0.0321 < 0.05$, we reject $H_0$: there is moderate evidence of a difference in mean volume between weekends and weekdays, at the same high temperature (1 pt, needs context and "given the temperature in the model").
+
+(d) (4 pts) Weekdays (the reference level): the slope is $`r f(ci_int[[2]], 2)`$ users per degree (1 pt). Weekends: $`r f(ci_int[[2]], 2)` + (`r f(ci_int[[4]], 2)`) = `r f(ci_int[[2]] + ci_int[[4]], 2)`$ users per degree (1 pt). The interaction coefficient is the **change in the slope** of `hightemp` for weekends compared to weekdays: the slope on weekends is about 1.9 users per degree smaller (2 pts: 1 for "change in slope" relative to weekdays, 1 for the direction and size, with units). A common mistake is reporting $-1.91$ as the weekend slope: it is the *change* in slope, not the slope itself.
+
+(e) (6 pts) $H_0$: the coefficients of `cloudcover` and `precip` are both 0, i.e., once `hightemp` and `day_type` are in the model, neither cloud cover nor precipitation is related to trail volume ($H_A$: at least one of them is not 0) (2 pts). The full model has **2** extra coefficients (`cloudcover` and `precip`): the `df` column of the table is 2, and the residual df drops from `r an_wx$Res.Df[1]` to `r an_wx$Res.Df[2]` (1 pt, either way of saying it works). If the extra terms did not help, $F$ would be close to **1** (1 pt). The table gives $F = `r f(an_wx$F[2], 2)`$ with $p = 0.00007$, which is far below 0.05, so there is **strong evidence** that at least one of cloud cover and precipitation is related to volume, beyond high temperature and day type (2 pts: 1 for the conclusion, 1 for context and "at least one"). We do **not** conclude that both help, and we do not conclude cause. Note that the F-test lets us test the two new terms **together**.
+
+## C2. Tipping at different meals (10 pts)
+
+(a) (3 pts) The reference level is **Dinner**: there is no row for `MealDinner`, so Dinner is the level whose mean is the intercept (1 pt). Intercept = `r f(m_din)` (the Dinner mean). `MealLate Night` = `r f(m_ln)` $-$ `r f(m_din)` = $`r f(m_ln - m_din)`$. `MealLunch` = `r f(m_lu)` $-$ `r f(m_din)` = $`r f(m_lu - m_din)`$. The points: 1 for the intercept and 1 for both differences (each a difference from the reference level, with the correct sign). A common mistake is writing the group means (19.01 and 16.06) as the estimates for the non-reference rows: those rows are *differences* from Dinner, not means.
+
+(b) (2 pts) Parties at lunch tip about 0.89 percentage points **less** than parties at dinner, on average (1 pt for the difference from the reference level with direction and size, 1 pt for units and context, "percentage points of the bill"). A common mistake is reading the estimate as the lunch mean.
+
+(c) (2 pts) The model's prediction for a lunch party is the Lunch mean: $`r f(m_din)` + (`r f(m_lu - m_din)`) = `r f(m_lu)`$ percent (1 pt). Residual $= 22 - `r f(m_lu)` = `r f(22 - m_lu)`$ percentage points (positive: this party tipped more than the model predicted) (1 pt).
+
+(d) (3 pts) $SSE = SST - SSM = `r f(sst2, 3)` - `r f(ssm2, 3)` = `r f(sse2, 3)`$ (1 pt). $R^2 = SSM/SST = `r f(ssm2, 3)` / `r f(sst2, 3)` = `r f(r2_c2, 4)`$, about 1.6% (1 pt). $RMSE = \sqrt{SSE/n} = \sqrt{`r f(sse2, 3)` / 169} \approx `r f(rmse_c2, 2)`$ percentage points (1 pt, must use $n = 169$ and give the units). Interpretation (not required, but good to know): meal explains only about 1.6% of the variability in tip percentages.
+
+## C3. Temperature and bike rentals (14 pts)
+
+The coefficient table from the exam:
+
+```{r c3-full}
+tidy_tab(m_bike, d = 2)
+```
+
+(a) (5 pts) **Interval 1** (`r f(pi_25[2], 1)` to `r f(pi_25[3], 1)`) is the prediction interval (1 pt). Both intervals are centered on the same predicted value (about `r f(pi_25[1], 1)` rentals), but Interval 1 is much **wider** (2 pts: 1 for noticing it is wider, 1 for the reason). A prediction interval covers a **single** new day, so it includes the scatter of individual days around the mean (roughly $\pm 2\hat\sigma_\epsilon$, with $\hat\sigma_\epsilon \approx `r f(sig_b, 0)`$), while the confidence interval (Interval 2, `r f(ci_25[2], 1)` to `r f(ci_25[3], 1)`) only reflects uncertainty in the estimated **mean** for all 25-degree days. Interpretation (2 pts): we are 95% confident that the number of bikes rented on a **single** day with a temperature of 25 degrees Celsius will be between about `r f(pi_25[2], 0)` and `r f(pi_25[3], 0)`. Common mistakes: reading it as an interval for the **mean** number of rentals, or saying "95% of days have rentals in this interval."
+
+(b) (4 pts) **Linearity** is the condition most clearly violated (1 pt). The residuals curve: they are mostly positive in the middle of the fitted values and mostly negative on both ends (an upside-down U), instead of being a patternless cloud around 0 (2 pts: 1 for describing the pattern, 1 for connecting it to a curved, non-linear relationship). Fix (1 pt, any one): add a squared term for temperature (a curved relationship), or use a model that allows a non-linear trend. You may also notice that the spread looks a little unequal (a mild funnel), but the curve is the primary problem. Also, because the 731 days are consecutive, Independence (day-to-day correlation) is a reasonable additional concern.
+
+(c) (5 pts) **Disagree** (1 pt). A large p-value is not evidence of no effect. With only 15 days, the test has **low power**, so it is likely to commit a **Type II error** (fail to reject a false $H_0$) even when there is a real relationship (2 pts: 1 for low power from the small sample, 1 for Type II error). The estimate (158 rentals per degree) is similar to the one from all 731 days, which is strong evidence of a relationship (1 pt), and the correct conclusion is "no convincing evidence from this small sample," not "no effect" (1 pt).
+
+# Section D: Evaluate a Response (20 points)
+
+Each claim is worth 2 points: 1 for the correct verdict, and 1 for a correct explanation or fix.
+
+## D1. Energy and popularity of songs (10 pts)
+
+```{r d1-table}
+tidy_tab(m_spot, conf = TRUE)
+```
+
+(1) **Correct.** The slope is $-2.31$ points per **1-unit** increase in energy, so a 0.1 increase corresponds to $-0.231$, about $-0.23$ points, on average. The reason to give is the rescaling.
+
+(2) **Incorrect.** A p-value is computed *assuming* $H_0$ is true. It is the probability of seeing a slope at least this far from 0 if the true slope were 0, **not** the probability that $H_0$ is true. Correct: if there were no linear relationship, only about 3.3% of samples would give a slope this far from 0 (so there is moderate evidence that the slope is not 0).
+
+(3) **Incorrect.** A small p-value says the slope is detectably different from 0, not that the relationship is large. Here $R^2 = `r f(glance(m_spot)$r.squared, 4)`$ (under 1% of the variability), and the slope is only $-0.23$ popularity points per 0.1 of energy, which is tiny relative to the range of popularity scores (80 to 100). This is statistically significant but not practically significant. Correct: there is moderate evidence of a negative relationship, but energy explains very little of popularity.
+
+(4) **Correct.** $T = -2.31/1.08 = -2.14$, about 2.1 standard errors below 0. The interval is $-2.306 \pm 1.965 \times 1.080 = (`r f(confint(m_spot)["energy", 1], 2)`, `r f(confint(m_spot)["energy", 2], 2)`)$. This claim is correct, and the check confirms it. Note that the interval does not contain 0, which agrees with $p < 0.05$.
+
+(5) **Incorrect.** A large sample does not make the sample representative. These songs are not a random sample of songs on Spotify: they were selected because they are popular (every song has a popularity score of at least 80). The results can only be generalized to popular songs like these. Correct: the results apply to popular songs in the collection, not to all songs on Spotify.
+
+## D2. Two temperature measures on the trail (10 pts)
+
+```{r d2-key}
+tidy_tab(m_hi)
+tidy_tab(m_two)
+anova_tab(anova(m_null, m_two))
+```
+
+(1) **Incorrect.** The coefficient $-7.94$ is the change in volume per one-degree increase in the average temperature **holding the high temperature constant**. That describes unusual days, because the two temperatures are very strongly related ($r = 0.92$). A negative sign is the opposite of what we would expect (warmer days bring more users, as the positive slope in Model 1 shows), which is a symptom of multicollinearity. It does not show that warm days cause fewer users, and the data are observational. Correct: among days with the same high temperature, a day with a one-degree higher average temperature is predicted to have about 8 fewer users, on average, but this coefficient is unstable because the predictors overlap.
+
+(2) **Incorrect.** The SE is inflated by a factor of $\sqrt{VIF} = \sqrt{`r f(vif_h, 2)`} \approx `r f(sqrt(vif_h), 2)`$, not 6.48. This matches the data: the SE of `hightemp` went from 0.846 to 2.04, about 2.4 times larger.
+
+(3) **Incorrect.** Multicollinearity inflates the **standard errors** and makes the **individual coefficients** unstable, but it does not harm $R^2$ or predictions. Here $R^2$ actually went up (0.339 to 0.416) and $\hat\sigma_\epsilon$ went down (104 to 98.5). Correct: Model 2 is fine for prediction, but its individual coefficients are hard to interpret.
+
+(4) **Correct.** The nested F-test (empty model versus Model 2) has $F = 31.0$ and a p-value below 0.0001, so there is strong evidence that at least one of the two temperature coefficients is not 0. This is the right tool for asking whether the correlated predictors matter jointly.
+
+(5) **Correct.** $\hat\sigma_\epsilon$ fell, so the extra noise is not the reason. The SE grew because `hightemp` overlaps with `avgtemp` ($R_j^2 = `r f(r2_h, 2)`$ in the formula for the SE), which is exactly what the VIF measures.
+
+# Point summary
+
+| Section | Points |
+|:--|:--|
+| A: 13 items, 2 pts each | 26 |
+| B: 6 items, 2 pts each | 12 |
+| C1 (18) + C2 (10) + C3 (14) | 42 |
+| D1 (10) + D2 (10) | 20 |
+| **Total** | **100** |
+

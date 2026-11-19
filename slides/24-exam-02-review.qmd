@@ -1,0 +1,319 @@
+---
+title: "Exam 2 Study Guide"
+subtitle: "Lectures 0-23 (cumulative)"
+author: "Prof. Eric Friedlander"
+footer: "[🔗 MATH 2025 - Fall 2026 - Schedule](https://ericfriedlander.github.io/math2025-fa26/)"
+logo: "../images/logo.png"
+format:
+  revealjs:
+    theme: slides.scss
+    multiplex: false
+    transition: fade
+    slide-number: false
+    incremental: false
+    chalkboard: true
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+execute:
+  freeze: auto
+  echo: true
+  cache: false
+knitr:
+  opts_chunk:
+    R.options:
+    width: 200
+bibliography: references.bib
+---
+
+```{r setup}
+#| include: false
+
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.618,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+```
+
+## Exam 2 {.midi}
+
+-   **When:** Wednesday, Dec 2, in class
+-   **Length:** 75 minutes
+-   **Allowed:** a calculator and **one sheet of handwritten notes** (front and back)
+-   **Not allowed:** computers, phones, textbooks, other notes
+-   **Content:** **Cumulative.** Lectures 0-23, the readings, AEs 01-21, and HW 01-11. About **30%** of the points come from Lectures 0-10 and about **70%** from Lectures 11-23.
+-   **You will not write any code.** You may be asked to *read* a short piece of code or *interpret* R output.
+-   **Answers go on the blank paper** you are handed, with your name on every sheet and the sheets numbered, just like Exam 1.
+
+## Format {.midi}
+
+Same four sections as Exam 1. Show your work: partial credit is real.
+
+| Section | Style | What it tests |
+|:--|:--|:--|
+| A | Multiple choice | Quick concept checks, and reading short `dplyr` or R output |
+| B | Fill in the blank | Key vocabulary, chosen from a word bank |
+| C | Short answer | Interpreting models and R output, computing by hand |
+| D | Evaluate a response | Diagnosing someone else's statistical reasoning |
+
+. . .
+
+-   Every calculation can be done with a basic calculator. You will not need to look anything up in a table: if a critical value ($t^*$), a p-value, or an F probability is needed, the exam will give it to you.
+-   The focus is **understanding**, not memorization or coding. For Section B, make sure you can match each key term in this guide to its definition.
+
+## How to study {.smaller}
+
+1.  For each topic, try to do the "You should be able to..." list **without looking** at the slides.
+2.  Redo the AE and HW questions you struggled with, especially HW 06-11, which Exam 1 did not cover.
+3.  Take the [practice exam](../ae/ae-24-exam02.qmd) under timed conditions, **before** you look at the solutions.
+4.  Re-read the Exam 1 guide and your Exam 1 mistakes: old material comes back.
+5.  Write your notes sheet **last**. Making it is studying, so don't copy someone else's.
+
+::: callout-tip
+1. The new material is mostly about **multiple regression and inference**, but it is built on simple regression, PRE, and p-values. If those are shaky, the new topics will be too.
+2. The best notes sheets are not a dump of formulas. Include things you *forget*: how to interpret a coefficient "holding other predictors constant," what a confidence interval does and does not mean, and which direction each formula goes.
+:::
+
+# Topic map
+
+## What we covered {.smaller}
+
+| Lectures | Topic |
+|:--|:--|
+| 0-3 | Models, variables, EDA, Simpson's paradox, reading `dplyr` code |
+| 4-5 | Simple linear regression, categorical predictors |
+| 6-7 | Residuals, least squares, SST = SSM + SSE, $R^2$, RMSE |
+| 8-9 | Population vs. sample, study design, sampling, bias |
+| 10 | Shuffling, null distributions, p-values |
+| 11 | $t$-test for a slope: standard error, $T$ statistic |
+| 14 | Decisions, Type I/II errors, power |
+| 15-16 | Effect size, detectable vs. big, study designs |
+| 17-18 | Multiple regression, prediction, interactions |
+| 19-20 | Inference for MLR, nested models and the F-test |
+| 21 | Confidence and prediction intervals |
+| 22 | MLR conditions (LINE) |
+| 23 | Multicollinearity |
+
+# Part 1: Review of Lectures 0-10
+
+## Models, EDA, and `dplyr` {.smaller}
+
+The full list is in the [Exam 1 study guide](12-exam-01-review.qmd). The highlights that tend to come back:
+
+-   **Response vs. explanatory** variable; quantitative vs. categorical; picking a plot (scatterplot, boxplots or jitter plot by group, histogram, bar chart).
+-   **Statistical model** $Y = \beta_0 + \beta_1 X + \epsilon$ (population, Greek letters, has error) vs. **regression equation** $\hat{Y} = \hat\beta_0 + \hat\beta_1 X$ (sample, hats, no error).
+-   **Simpson's paradox** and **confounding variables**: a third variable related to both the explanatory and the response variable.
+-   Reading code: `filter()` keeps **rows**, `mutate()` makes or changes **columns**, `group_by()` + `summarize()` gives **one row per group**.
+
+## SLR, categorical predictors, residuals {.smaller}
+
+-   **Slope:** for each 1-unit increase in $x$, the response is predicted to change by $\hat\beta_1$ units, *on average*. **Intercept:** predicted response at $x = 0$ (often extrapolation). Never extrapolate far outside the data.
+-   **Categorical predictor:** $K$ levels give $K - 1$ indicators. The **intercept** is the mean at the **reference level**, and each coefficient is a **difference in means** from the reference level.
+-   **Residual** $e_i = y_i - \hat y_i$. Positive: point above the line (underpredicted). Least squares minimizes $SSE = \sum e_i^2$.
+-   $SST = SSM + SSE$, $\;R^2 = PRE = \dfrac{SSM}{SST} = 1 - \dfrac{SSE}{SST}$, $\;RMSE = \sqrt{SSE/n}$ (same units as $y$).
+-   The **empty model** predicts $\bar y$ for everyone. $R^2$ and RMSE answer different questions.
+
+## Study design, sampling, shuffling {.smaller}
+
+-   **Parameter** (population) vs. **statistic** (sample).
+-   **Random assignment** supports causal claims. **Random sampling** supports generalizing. Place a study in the 2 × 2 table and justify it.
+-   Simple random, **stratified** (sample from every group), **cluster** (sample some groups), convenience. Bias comes from the process, not the sample size.
+-   **Shuffling:** break the pairing between $x$ and $y$, recompute the statistic, repeat. The histogram is the **null distribution**. The **p-value** is the share of shuffles at least as extreme as the real statistic.
+-   A p-value is **not** the probability $H_0$ is true. A large p-value means "no convincing evidence," not "evidence of no relationship."
+
+# Part 2: Inference for a slope (Lectures 11, 14-16)
+
+## Lecture 11: the $t$-test for a slope {.smaller}
+
+**Hypotheses:** $H_0: \beta_1 = 0$ vs. $H_A: \beta_1 \neq 0$ ($\beta_1$ is the population slope, $\hat\beta_1$ the sample slope).
+
+$$SE_{\hat\beta_1} = \frac{\hat\sigma_\epsilon}{\sqrt{(n-1)\,s_X^2}}, \qquad \hat\sigma_\epsilon = \sqrt{\frac{SSE}{n-2}}, \qquad T = \frac{\hat\beta_1 - 0}{SE_{\hat\beta_1}}$$
+
+-   $T$ follows a $t$ distribution with $n - 2$ degrees of freedom (heavier tails than the normal, because $\sigma$ is estimated).
+-   **Interpret $T$:** "our slope is $T$ standard errors above/below what we'd expect if there were no linear relationship."
+-   **What makes $SE$ smaller?** Larger $n$, more spread in $X$ (larger $s_X$), less scatter around the line (smaller $\hat\sigma_\epsilon$).
+-   The shuffled-slope null distribution is symmetric, centered at 0, and (unlike PRE) can be negative, so the p-value is **two-sided**. Its standard deviation is close to the `std.error` in `tidy()`.
+-   Conclusion template: "The data provide (strong / moderate / weak / no) evidence that the population slope for [x] and [y] differs from 0, i.e., of a linear relationship."
+
+## Lecture 14: decisions, errors, power {.smaller}
+
+-   **Decision rule:** choose $\alpha$ *before* looking (usually 0.05). If $p < \alpha$, **reject $H_0$**. Otherwise **fail to reject** $H_0$. Never "accept" $H_0$.
+-   "Nothing magical happens at $\alpha$": $p = 0.049$ and $p = 0.051$ are nearly identical evidence.
+
+| | $H_0$ true | $H_0$ false |
+|:--|:--|:--|
+| **Reject $H_0$** | **Type I error** (false positive) | correct (this is power) |
+| **Fail to reject** | correct | **Type II error** (false negative) |
+
+-   $P(\text{Type I}) = \alpha$. **Power** $= 1 - P(\text{Type II})$.
+-   **Power goes up with:** larger $n$, larger $\alpha$, less noise ($\hat\sigma_\epsilon$ smaller), a larger true slope, more spread in $X$.
+-   Lowering $\alpha$ trades fewer Type I errors for more Type II errors.
+-   **Power analysis:** we *choose* $\alpha$ and $n$ (or a target power, often 80%), and we must *assume* a true slope and $\sigma$. Do it **before** collecting data. Power computed from the effect you already observed is not a guarantee.
+
+## Lectures 15-16: effect size {.smaller}
+
+-   An **effect size** measures how big a relationship is **relative to the noise** in the data.
+    -   Quantitative predictor: $R^2$ (PRE).
+    -   Two groups: **Cohen's $d$**, $d = \dfrac{\hat\beta_1}{\hat\sigma_\epsilon} = \dfrac{\bar y_1 - \bar y_2}{s_{pooled}}$.
+-   The noise is the **spread of the data**, not the standard error. $SE$ shrinks with $n$, so it is the wrong yardstick.
+-   **Detectable is not the same as big.** With a huge $n$, a tiny effect can have a tiny p-value. With a small $n$, a big effect can have a large p-value.
+-   Effect size does **not** grow with $n$. P-values **shrink** with $n$. Bigger effect size means more power at the same $n$.
+-   **Statistical vs. practical significance:** compare the estimate (or its interval) to a break-even size that matters in context.
+-   $p = 0.30$ with a small $n$ does **not** mean "no effect": it may be a Type II error (low power).
+-   There are no universal cutoffs for "small" or "large": meaning depends on context.
+
+## Lecture 16: study design vocabulary {.smaller}
+
+-   **Randomized experiment:** researchers assign treatments at random. The only design that supports strong causal claims.
+-   **Observational:** descriptive vs. analytical (**cohort**, **case-control**, **cross-sectional**).
+-   **Bias types:** selection, allocation, performance. **Blinding** reduces performance and measurement bias.
+-   Be able to say which design a description is, and what conclusion (causal or association, which population) it supports.
+
+# Part 3: Multiple regression (Lectures 17-23)
+
+## Lecture 17: the MLR model {.smaller}
+
+$$\hat Y = \hat\beta_0 + \hat\beta_1 X_1 + \hat\beta_2 X_2 + \dots + \hat\beta_p X_p$$
+
+-   **Interpreting a coefficient:** "$\hat\beta_j$ is the expected change in the **mean** of $y$ when $x_j$ increases by one unit, **holding the values of all other predictors constant**."
+-   A categorical predictor with $k$ levels gives $k-1$ indicators. Each indicator coefficient is a difference from the reference level, *holding the others constant*.
+-   **Additive model** with one quantitative and one categorical predictor = **parallel lines**: one slope, a different intercept per level. The indicator coefficient is the **vertical gap** between the lines.
+-   **Coefficients change when you add predictors**, especially if the predictors are related. The SLR slope can be "absorbing" a confounder.
+-   Be able to explain why an MLR coefficient differs from the SLR slope for the same variable.
+
+## Lecture 18: prediction and interactions {.smaller}
+
+-   **Prediction:** plug values into the fitted equation. Don't **extrapolate**, including "in many directions at once": each predictor can be in range while the *combination* is not.
+-   **Interaction:** $\mu_Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2$. "The effect of $X_1$ depends on $X_2$." Keep the single-order terms when you keep the interaction.
+
+| Case | What $\hat\beta_3$ means |
+|:--|:--|
+| Categorical × categorical | **Difference in differences**: extra effect of $X_1$ for the non-reference level of $X_2$ |
+| Categorical × quantitative | **Change in slope** from the reference group: slopes are $\hat\beta_1$ and $\hat\beta_1 + \hat\beta_3$ |
+| Quantitative × quantitative | Slope of $X_1$ is $\hat\beta_1 + \hat\beta_3 X_2$ (changes continuously) |
+
+-   With an interaction there is **no single effect**: describe the effect at a value of the other variable.
+-   Without it, "main effects" are effects at the **reference level** of the other variable.
+-   Be able to compute every group's mean or line from a table of coefficients.
+
+## Lecture 19: inference for MLR coefficients {.smaller}
+
+-   $H_0: \beta_j = 0$ **given the other predictors are in the model**. $H_A: \beta_j \neq 0$ given the others.
+
+$$T = \frac{\hat\beta_j - 0}{SE_{\hat\beta_j}}, \quad SE_{\hat\beta_j} = \frac{\hat\sigma_\epsilon}{\sqrt{(n-1)\,s_{X_j}^2\,(1 - R_j^2)}}, \quad \hat\sigma_\epsilon = \sqrt{\frac{SSE}{n-p}}$$
+
+-   $T$ follows a $t$ distribution with $n - p$ df, where $p$ counts **all** coefficients including the intercept.
+-   $R_j^2$ is the $R^2$ from predicting $X_j$ from the other predictors. **Overlap among predictors inflates the SE.**
+-   **The p-value answers a different question in each model.** Estimates change through confounding. SEs change when $\hat\sigma_\epsilon$ shrinks or when predictors overlap.
+-   In a shuffling test for MLR, shuffle the **response**, not an explanatory variable (shuffling $X$ breaks the correlation among predictors, so the null is too narrow).
+-   Categorical $t$-tests compare each level to the **reference level**.
+
+## Lecture 20: nested models and the F-test {.smaller}
+
+-   Model A is **nested** in model B if B has every term of A plus more. Call them **reduced** and **full**. (`Sales ~ Temperature` is **not** nested in `Sales ~ Location`.)
+-   $H_0$: all the extra coefficients are 0. $H_A$: at least one is not 0.
+
+$$F = \frac{(SSE_{\text{reduced}} - SSE_{\text{full}})\,/\,(\text{number of extra coefficients})}{SSE_{\text{full}}\,/\,df_{\text{full}}}$$
+
+-   $F$ near 1: the extra terms do nothing. A large $F$ (small p-value) is evidence at least one extra term helps.
+-   You should be able to read `anova(reduced, full) |> tidy()`: `df.residual`, `rss` (= SSE), `df` (number of extra coefficients), `sumsq` (= $SSE_{\text{reduced}} - SSE_{\text{full}}$), `statistic` ($F$), `p.value`. Fill in a missing entry.
+-   For **one** extra coefficient, $F = T^2$ and the p-values agree.
+-   Use the F-test to test an interaction (`anova(add_fit, int_fit)`) or a categorical predictor with several indicators at once.
+-   **Multiple testing:** many tests inflate false positives. State the primary hypothesis in advance. "Not significant" is not "no effect."
+
+## Lecture 21: confidence intervals {.smaller}
+
+$$\hat\beta_j \pm t^* \times SE_{\hat\beta_j}, \qquad t^* \text{ from a } t \text{ distribution with } n - p \text{ df}$$
+
+-   The exam gives you $t^*$. Width $= 2\,t^*\,SE$. Narrower with more data, less noise, or a **lower** confidence level.
+-   **Correct interpretation:** "We are 95% confident that as [x] increases by 1 [unit], [y] changes by [lower] to [upper] [units], on average (holding the other predictors constant)." It is about the *method*: 95% of intervals built this way capture the true parameter.
+-   **Wrong:** "There is a 95% chance the true slope is in *this* interval" (the parameter is fixed, the interval is random).
+-   A CI shows **significance** (does it contain 0?) *and* **size** (compare to a practical threshold, like a break-even).
+-   **Confidence interval** (for the *mean* response at given $x$) vs. **prediction interval** (for a *new individual* response). The prediction interval is always **wider**. As $n$ grows the CI shrinks toward zero width, but the PI cannot get narrower than about $\pm 2\hat\sigma_\epsilon$.
+-   R output: `tidy(conf.int = TRUE)` adds `conf.low`, `conf.high`. `predict(..., interval = ...)` gives `fit`, `lwr`, `upr`.
+
+## Lecture 22: conditions (LINE) {.smaller}
+
+| Condition | How to check | What a violation looks like |
+|:--|:--|:--|
+| **L**inearity | Residuals vs. fitted, and vs. each predictor | Curvature or a pattern |
+| **I**ndependence | Study design, residuals in time order | Runs, clusters, repeated units |
+| **N**ormality | Histogram and QQ plot of residuals | QQ bow (skew), flared ends (heavy tails) |
+| **E**qual variance | Residuals vs. fitted | Fan or funnel shape |
+
+-   Check conditions on **residuals**, because they remove the effects of the other predictors.
+-   **Worry most** about Independence and Linearity, moderately about Equal variance, least about Normality (large $n$ helps, but it matters more for small $n$ and for prediction intervals).
+-   When Equal variance fails, estimates are fine but **standard errors are wrong**. A log transform of $y$ often helps.
+-   Be able to look at a residual plot or QQ plot, name the condition, say whether it holds, and say what you'd do.
+
+## Lecture 23: multicollinearity {.smaller}
+
+-   **Multicollinearity:** a predictor is strongly related to a combination of the other predictors.
+-   **Symptoms:** inflated standard errors, unstable estimates, coefficients that change sharply or flip sign when a predictor is added, "holding the others constant" describes days that don't exist.
+-   **Not harmed:** predictions and $R^2$ (the overall fit).
+
+$$VIF_j = \frac{1}{1 - R_j^2}, \qquad SE \text{ is inflated by a factor of } \sqrt{VIF_j}$$
+
+-   Concern above $VIF \approx 5$, serious above $\approx 10$. With two predictors both VIFs equal $1/(1-r^2)$.
+-   Detect with `cor()`, scatterplots, and `vif()`. Interactions and squared terms inflate VIF by design.
+-   **Remedies:** drop or combine predictors, or keep both and test them **jointly** with an F-test. Never drop a predictor your research question needs. Randomization reduces multicollinearity.
+
+# R output you might see
+
+## R output {.smaller}
+
+-   **`dplyr` code and tables of group means:** what rows and columns remain, and how to turn group means into a regression equation.
+-   **Scatterplots and jitter plots with fitted lines or group means:** residual signs, how a model is represented.
+-   **`tidy()` for an MLR:** `estimate`, `std.error`, `statistic`, `p.value` (and `conf.low`, `conf.high`). Write the equation, predict, interpret each coefficient, compute $T$ by hand, and compute a CI given $t^*$.
+-   **`glance()`:** `r.squared`, `sigma` ($\hat\sigma_\epsilon$), `p.value`. Compare models by $R^2$ and $\hat\sigma_\epsilon$.
+-   **`supernova()` / ANOVA table:** SSM, SSE, SST, PRE; fill in a missing entry.
+-   **`anova(reduced, full)`:** read $F$ and its p-value, find the missing entry, decide whether the extra terms help.
+-   **`predict()` with `interval =`:** read `fit`, `lwr`, `upr` and say whether it is a confidence or prediction interval.
+-   **Residual plots, QQ plots, residuals vs. time:** check LINE.
+-   **`vif()` or `cor()` output:** diagnose multicollinearity.
+-   **A histogram of shuffled statistics with a red line:** estimate the p-value.
+
+# Checklist
+
+## Concepts {.smaller}
+
+::: columns
+::: {.column width="50%"}
+-   [ ] Response vs. explanatory, plots
+-   [ ] Reference level, indicator variables
+-   [ ] Residuals, SSE, SST, SSM, $R^2$, RMSE
+-   [ ] Parameter vs. statistic, study design, sampling
+-   [ ] Null distribution and p-value
+-   [ ] $SE$ and $T$ for a slope
+-   [ ] Type I/II errors and power
+-   [ ] Effect size ($R^2$, Cohen's $d$)
+:::
+
+::: {.column width="50%"}
+-   [ ] MLR coefficient "holding others constant"
+-   [ ] Interactions (three cases)
+-   [ ] $t$-tests for MLR coefficients
+-   [ ] Nested models and the F-test
+-   [ ] Confidence vs. prediction intervals
+-   [ ] LINE conditions and residual plots
+-   [ ] Multicollinearity and VIF
+-   [ ] Statistical vs. practical significance
+:::
+:::
+
+## Practice {.smaller}
+
+::: appex
+📋 [AE 24 - Exam 2 Practice](../ae/ae-24-exam02.qmd)
+:::
+
+-   Take it in one 75-minute sitting, with only a calculator and a notes sheet.
+-   Then check yourself against the solutions.
+-   Revisit the **AEs and homeworks** for any topic where you missed points.
+-   Come to **office hours** or see the tutor with questions: see the [support page](../support.qmd).
+
+Good luck!

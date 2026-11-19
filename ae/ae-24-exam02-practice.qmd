@@ -1,0 +1,550 @@
+---
+pagetitle: "MATH 2025 Practice Exam 2"
+format:
+  pdf:
+    documentclass: article
+    fontsize: 11pt
+    geometry: "margin=0.7in"
+    colorlinks: false
+    number-sections: false
+    include-in-header:
+      text: |
+        \usepackage{booktabs}
+        \usepackage{needspace}
+        \usepackage{fancyhdr}
+        \pagestyle{fancy}
+        \fancyhf{}
+        \renewcommand{\headrulewidth}{0pt}
+        \fancyfoot[C]{MATH 2025 Practice Exam 2, page \thepage}
+        \setlength{\parindent}{0pt}
+        \setlength{\parskip}{3pt}
+  html:
+    embed-resources: true
+    html-math-method: mathml
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup}
+library(tidyverse)
+library(knitr)
+library(broom)
+library(supernova)
+
+rail <- read_csv(here::here("data/rail_trail.csv"), show_col_types = FALSE)
+bike <- read_csv(here::here("data/dcbikeshare.csv"), show_col_types = FALSE)
+tips <- read_csv(here::here("data/tip-data.csv"), show_col_types = FALSE) |>
+  mutate(tip_pct = `Tip Percentage` * 100)
+spot <- read_csv(here::here("data/spotify-popular.csv"), show_col_types = FALSE)
+
+m_hi   <- lm(volume ~ hightemp, data = rail)
+m_add  <- lm(volume ~ hightemp + day_type, data = rail)
+m_int  <- lm(volume ~ hightemp * day_type, data = rail)
+m_two  <- lm(volume ~ hightemp + avgtemp, data = rail)
+m_wx   <- lm(volume ~ hightemp + day_type + cloudcover + precip, data = rail)
+m_null <- lm(volume ~ 1, data = rail)
+m_bike <- lm(count ~ temp_orig, data = bike)
+m_meal <- lm(tip_pct ~ Meal, data = tips)
+m_spot <- lm(track_popularity ~ energy, data = spot)
+
+# Formatting helpers: PDF-only LaTeX returns "" in HTML
+is_pdf <- knitr::is_latex_output()
+ns    <- function(cm) if (is_pdf) sprintf("\\Needspace{%scm}", cm) else ""
+np    <- if (is_pdf) "\\newpage" else ""
+blank <- function(cm = 3) if (is_pdf) sprintf("\\underline{\\hspace{%dcm}}", cm) else "\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_"
+
+fmt_p <- function(p) ifelse(p < 0.0001, "<0.0001", sprintf("%.4f", p))
+
+tidy_tab <- function(m, conf = FALSE, hide = NULL, d = 3) {
+  out <- tidy(m, conf.int = conf) |>
+    mutate(across(c(estimate, std.error, statistic, any_of(c("conf.low", "conf.high"))),
+                  ~ sprintf(paste0("%.", d, "f"), .x)),
+           p.value = fmt_p(p.value))
+  for (h in hide) out[out$term == h[1], h[2]] <- "?"
+  kable(out, booktabs = TRUE, linesep = "", align = c("l", rep("r", ncol(out) - 1)))
+}
+
+anova_tab <- function(a, hide = NULL) {
+  out <- tidy(a) |>
+    mutate(rss = sprintf("%.0f", rss),
+           sumsq = ifelse(is.na(sumsq), "", sprintf("%.0f", sumsq)),
+           df = ifelse(is.na(df), "", as.character(df)),
+           statistic = ifelse(is.na(statistic), "", sprintf("%.3f", statistic)),
+           p.value = ifelse(is.na(p.value), "", fmt_p(p.value)))
+  for (h in hide) out[h[1] == out$term, h[2]] <- "?"
+  kable(out, booktabs = TRUE, linesep = "", align = c("l", rep("r", ncol(out) - 1)))
+}
+```
+
+::: {.content-visible when-format="pdf"}
+```{=latex}
+\begin{center}
+{\LARGE \textbf{MATH 2025: Multiple Regression Analysis}}\\[4pt]
+{\large \textbf{Practice Exam 2, Fall 2026} (Lectures 0 to 23, cumulative)}\\[4pt]
+This is a \textbf{practice exam}. It is written to match the length, style, and difficulty of the real exam.
+\end{center}
+```
+:::
+
+::: {.content-visible when-format="html"}
+::: {style="text-align: center;"}
+**MATH 2025: Multiple Regression Analysis**
+
+**Practice Exam 2, Fall 2026** (Lectures 0 to 23, cumulative)
+
+This is a **practice exam**. It is written to match the length, style, and difficulty of the real exam.
+:::
+:::
+
+**Name:** `r blank(8)`
+
+## Instructions
+
+- You have **75 minutes**. The exam has four sections and is worth **100 points**.
+- You may use a **calculator** and **one handwritten sheet of notes** (front and back). No computers, phones, textbooks, or other notes.
+- You will **not write any code**. When R output or code appears, you only need to read and interpret it.
+- Every calculation can be done with a basic calculator. No tables or software are needed. When a critical value ($t^*$) or a p-value is needed, it is given to you.
+- **Show your work.** Partial credit is awarded for correct reasoning, even if the final answer is wrong.
+- Interpret and explain in complete sentences, in context.
+- **Write all of your answers on the blank paper you were handed, not on this exam.** Label each answer with its question number (for example, C3(b)).
+- Write your **name on every sheet** of paper, and **number your sheets** (1, 2, 3, ...) in the **bottom right corner** so that I can read them in order. Turn in this exam together with your answer sheets.
+
+::: {.content-visible when-format="pdf"}
+```{=latex}
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Section} & \textbf{Style} & \textbf{Points possible} & \textbf{Points earned}\\
+\midrule
+A & Multiple choice & 26 & \hspace{1.5cm}\\
+B & Fill in the blank & 12 & \\
+C & Short answer & 42 & \\
+D & Evaluate a response & 20 & \\
+\midrule
+\textbf{Total} & & \textbf{100} & \\
+\bottomrule
+\end{tabular}
+\end{center}
+```
+:::
+
+::: {.content-visible when-format="html"}
+| Section | Style | Points possible | Points earned |
+|:--|:--|:-:|:-:|
+| A | Multiple choice | 26 | |
+| B | Fill in the blank | 12 | |
+| C | Short answer | 42 | |
+| D | Evaluate a response | 20 | |
+| **Total** | | **100** | |
+:::
+
+`r np`
+
+## Data sets on the exam
+
+`r if (is_pdf) "\\begingroup\\small" else ""`
+
+Four real data sets appear on this exam. You do not need to know anything about them beyond what is written here and in the questions. Other questions use made-up scenarios that are fully described where they appear.
+
+**`rail`: a rail trail.** Each row is **one day** at a recreational rail trail, and there are **90 days** in the data.
+
+| Variable | Type | Meaning |
+|:--|:--|:--|
+| `volume` | quantitative | The number of trail users counted that day. |
+| `hightemp` | quantitative | The day's high temperature, in degrees Fahrenheit (ranges from 41 to 97). |
+| `avgtemp` | quantitative | The day's average temperature, in degrees Fahrenheit. |
+| `cloudcover` | quantitative | A measure of cloud cover on a scale from 0 to 10. Larger values mean a cloudier day. |
+| `precip` | quantitative | Precipitation that day, in inches (ranges from 0 to 1.49). |
+| `day_type` | categorical | Whether the day was a **Weekday** (62 days) or a **Weekend** (28 days). |
+
+**`bike`: bike sharing in Washington, D.C.** Each row is **one day** (in 2011 or 2012), and there are **731 days** in the data.
+
+| Variable | Type | Meaning |
+|:--|:--|:--|
+| `count` | quantitative | The total number of bikes rented that day (ranges from 22 to 8,714). |
+| `temp_orig` | quantitative | The day's temperature, in degrees **Celsius** (ranges from 2.4 to 35.3). |
+
+**`tips`: restaurant tips.** Each row is **one party's bill** at a restaurant, and there are **169 parties** in the data.
+
+| Variable | Type | Meaning |
+|:--|:--|:--|
+| `Meal` | categorical | The meal: **Dinner** (100 parties), **Late Night** (37), or **Lunch** (32). |
+| `tip_pct` | quantitative | The tip, as a **percentage of the bill** (so 17.5 means a tip of 17.5% of the bill). |
+
+**`spot`: popular Spotify songs.** Each row is **one song** from a collection of popular songs on Spotify, and there are **508 songs** in the data. Every song in the collection has a popularity score of at least 80.
+
+| Variable | Type | Meaning |
+|:--|:--|:--|
+| `track_popularity` | quantitative | Spotify's popularity score for the song (ranges from 80 to 100). |
+| `energy` | quantitative | A measure of how intense and active the song is, on a scale from 0 to 1 (ranges from 0.06 to 0.97). |
+
+`r if (is_pdf) "\\endgroup" else ""`
+
+`r np`
+
+# Section A: Multiple Choice (26 points)
+
+Circle the single best answer on this exam. Each question is worth **2 points**. No justification is needed.
+
+`r ns(6)`
+For question A1, `rail` is the data frame with one row per day and the columns described on the data sets page. It has 90 rows.
+
+**A1.** (2 pts) What does this code return?
+
+```{r a1}
+#| echo: true
+#| eval: false
+rail |>
+  filter(day_type == "Weekend", hightemp > 80) |>
+  summarize(n = n(), mean_volume = mean(volume))
+```
+
+| (A) A data frame with one row for each weekend day, and all of the original columns
+| (B) One row and one column, holding the mean volume for all 90 days
+| (C) One row and two columns: the number of weekend days with a high above 80, and their mean volume
+| (D) Two rows, one for each `day_type`, with the number of days and the mean volume
+
+**A2.** (2 pts) Hospital X has a higher overall survival rate than Hospital Y. But when patients are split into mild cases and severe cases, Hospital Y has the higher survival rate in **both** groups. Hospital Y treats mostly severe cases. Which statement best explains this?
+
+| (A) Hospital Y must be better, so the overall comparison is simply a mistake.
+| (B) This is Simpson's paradox: case severity is related to both the hospital and survival, so the pooled comparison is misleading.
+| (C) This is extrapolation: Hospital Y's patients are outside the range of Hospital X's patients.
+| (D) The hospitals must have been chosen by random assignment.
+
+**A3.** (2 pts) A regression model has $SST = 800$ and $SSE = 200$. Which statement is true?
+
+| (A) $SSM = 200$ and $PRE = 0.25$
+| (B) $SSM = 600$ and $PRE = 0.25$
+| (C) $SSM = 1000$ and $PRE = 0.80$
+| (D) $SSM = 600$ and $PRE = 0.75$
+
+**A4.** (2 pts) A hospital randomly selects 300 of its patient records. Each patient had chosen, with their doctor, one of two pain treatments. The researchers compare recovery times in the two treatment groups. Which conclusion is justified?
+
+| (A) The results may be generalized to the hospital's patients, but they only show an association, not causation.
+| (B) The treatment causes the difference in recovery time, and this applies to the hospital's patients.
+| (C) The treatment causes the difference in recovery time, but only for these 300 patients.
+| (D) The results show only an association, and only for these 300 patients.
+
+**A5.** (2 pts) A professor predicts exam score from the course section (A, B, or C) with a linear model. R reports the rows `(Intercept)` = 70, `sectionB` = 5, and `sectionC` = $-3$. What is the predicted mean exam score for students in Section C?
+
+| (A) $-3$
+| (B) 73
+| (C) 67
+| (D) 70
+
+`r ns(3.5)`
+**A6.** (2 pts) In simple linear regression, which change would make the **standard error of the slope smaller**, if everything else stayed the same?
+
+| (A) Collecting fewer observations
+| (B) Collecting observations whose $x$ values are more spread out
+| (C) Collecting data with more scatter around the line
+| (D) Lowering the significance level from 0.05 to 0.01
+
+**A7.** (2 pts) A school tests whether a new tutoring program increases mean test scores, using $\alpha = 0.05$. The test rejects $H_0$. In reality, the program has no effect at all. What has happened?
+
+| (A) A Type II error
+| (B) A correct decision, since the p-value was below 0.05
+| (C) High power
+| (D) A Type I error
+
+`r ns(4)`
+**A8.** (2 pts) A researcher plans a test of whether a slope is 0. Which change would **increase the power** of the test, if everything else stayed the same?
+
+| (A) Collecting a larger sample
+| (B) Lowering $\alpha$ from 0.05 to 0.01
+| (C) Collecting noisier measurements
+| (D) Studying a population whose true slope is closer to 0
+
+`r ns(5)`
+**A9.** (2 pts) Two studies compare a treatment group to a control group. In **both** studies, the estimated difference in mean weight loss (treatment minus control) is **2 kg**, and the residual standard error is $\hat\sigma_\epsilon = 8$ kg. Study 1 has $n = 30$ and Study 2 has $n = 3000$. Which statement is correct?
+
+| (A) Study 2 has the larger Cohen's $d$, because a larger sample gives a bigger effect size.
+| (B) Both studies have the same p-value, because they have the same estimated difference.
+| (C) Both studies have the same Cohen's $d$ (0.25), but Study 2 has a much smaller p-value.
+| (D) Study 1 has the larger effect size, because a small sample is noisier.
+
+`r ns(5)`
+**A10.** (2 pts) A real estate agent fits a model for the sale price of a home, in **thousands of dollars**: $\widehat{\text{price}} = 40 + 0.12 \times \text{sqft} - 8 \times \text{bedrooms}$. Which interpretation of the $-8$ is correct?
+
+| (A) Adding a bedroom to any home lowers its sale price by exactly 8 thousand dollars.
+| (B) Homes with more bedrooms always sell for less.
+| (C) Each additional bedroom lowers the predicted price by 8 thousand dollars, on average, ignoring square footage.
+| (D) For homes with the same square footage, each additional bedroom is associated with a predicted price that is 8 thousand dollars lower, on average.
+
+`r ns(5)`
+**A11.** (2 pts) A botanist models plant height (cm) as $\widehat{\text{height}} = 10 + 3 \times \text{water} + 2 \times \text{fert} - 0.5 \times \text{water} \times \text{fert}$, where water is in liters per week and fert (fertilizer) is in grams per week. What is the predicted change in height for one more liter of water, for plants that get **4 grams** of fertilizer?
+
+| (A) 3 cm
+| (B) 1 cm
+| (C) 2.5 cm
+| (D) $-2$ cm
+
+`r ns(6)`
+**A12.** (2 pts) A study models mood score (higher is better) from coffee (No or Yes, reference level No) and sleep (Well or Poorly, reference level Well), with an interaction: $\widehat{\text{mood}} = 7.0 + 0.5\,\text{coffeeYes} - 2.0\,\text{sleepPoorly} + 1.5\,\text{coffeeYes} \times \text{sleepPoorly}$. Among people who slept **poorly**, how much higher is the predicted mood score for coffee drinkers than for non-drinkers?
+
+| (A) 2.0
+| (B) 0.5
+| (C) 1.5
+| (D) 7.0
+
+`r ns(8)`
+**A13.** (2 pts) A researcher fits a line to predict a household's monthly electricity use from the size of its home, for 80 households. The plot shows the residuals against the fitted values. Which condition for inference does the plot most clearly suggest is **violated**?
+
+```{r a13, fig.width = 4.8, fig.height = 2.5, fig.align = "center"}
+set.seed(7)
+size <- runif(80, 800, 3500)
+use <- 200 + 0.35 * size + rnorm(80, 0, 60 * (size / 1000)^2)
+m_el <- lm(use ~ size)
+ggplot(augment(m_el), aes(.fitted, .resid)) +
+  geom_point(alpha = 0.6) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(x = "Fitted electricity use", y = "Residual") +
+  theme_bw(base_size = 10)
+```
+
+| (A) Linearity
+| (B) Normality
+| (C) Equal variance
+| (D) Independence
+
+`r np`
+
+# Section B: Fill in the Blank (12 points)
+
+Each question is worth **2 points**. Choose the best answer for each blank from the word bank below. Write the term on your answer paper (for example, "B1: Residual"). A term may be used once, more than once, or not at all.
+
+::: {.content-visible when-format="pdf"}
+```{=latex}
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{llll}
+\toprule
+Cluster sample & Cohen's $d$ & Confidence interval & Effect size \\
+Extrapolation & Full model & Interaction & Multicollinearity \\
+Power & Prediction interval & Reduced model & Residual \\
+Standard error & Stratified sample & Type I error & Type II error \\
+\bottomrule
+\end{tabular}
+\end{center}
+```
+:::
+
+::: {.content-visible when-format="html"}
+| | | | |
+|:--|:--|:--|:--|
+| Cluster sample | Cohen's $d$ | Confidence interval | Effect size |
+| Extrapolation | Full model | Interaction | Multicollinearity |
+| Power | Prediction interval | Reduced model | Residual |
+| Standard error | Stratified sample | Type I error | Type II error |
+:::
+
+**B1.** (2 pts) An interval that is designed to capture the response of a **single new observation** at a given value of $x$ is called a `r blank()`.
+
+**B2.** (2 pts) When one predictor is strongly related to the other predictors in the model, the standard errors of its coefficients are inflated. This problem is called `r blank()`.
+
+**B3.** (2 pts) The probability that a test correctly rejects $H_0$ when $H_0$ is false is called the `r blank()` of the test.
+
+**B4.** (2 pts) When we use an F-test to compare two nested models, the smaller model, which lacks the extra terms, is called the `r blank()`.
+
+**B5.** (2 pts) The difference between an observed response and the response predicted by the model, $y_i - \hat y_i$, is called a `r blank()`.
+
+**B6.** (2 pts) A sampling method that divides the population into groups and then takes a random sample from **every** group is called a `r blank()`.
+
+`r np`
+
+# Section C: Short Answer (42 points)
+
+Show your work. Use full sentences and context for interpretations. Write your answers on your answer paper.
+
+## C1: Trail use, temperature, and weekends (18 points)
+
+A county studies how many people use a rail trail on a given day. The data frame `rail` has one row for each of **90 days**. Let `volume` be the number of trail users, `hightemp` the day's high temperature in degrees Fahrenheit, and `day_type` whether it was a Weekday or a Weekend. We fit the **additive** model `volume ~ hightemp + day_type`. Here is the output, with the `statistic` for `day_typeWeekend` hidden:
+
+```{r c1-table}
+tidy_tab(m_add, hide = list(c("day_typeWeekend", "statistic")))
+```
+
+**C1.** (18 pts)
+
+(a) (3 pts) Use the model to predict the volume on a **weekend** day with a high temperature of 70 degrees. Show your work.
+
+(b) (2 pts) Interpret the coefficient of `day_typeWeekend` in the context of the problem. What does this model say about the lines relating `volume` to `hightemp` for weekdays and weekends?
+
+(c) (3 pts) Compute the missing $T$ statistic for `day_typeWeekend`, and say what it means in words. Using the p-value in the table, what do you conclude at $\alpha = 0.05$?
+
+Now we fit a second model that adds an **interaction** between `hightemp` and `day_type`:
+
+```{r c1-int}
+tidy_tab(m_int)
+```
+
+(d) (4 pts) Using this model, what is the slope of `hightemp` for weekdays? For weekends? In words, what does the coefficient `hightemp:day_typeWeekend` mean?
+
+Finally, we compare the **additive** model (the reduced model) to a larger model that also includes the day's cloud cover (`cloudcover`) and its precipitation (`precip`). Here is the output of the F-test:
+
+```{r c1-anova}
+anova_tab(anova(m_add, m_wx))
+```
+
+(e) (6 pts) Write the null hypothesis for this F-test in words. How many extra coefficients does the full model have, and how can you tell from the table? What would you expect the $F$ statistic to be close to if `cloudcover` and `precip` did not help at all? Based on the p-value, what do you conclude?
+
+`r np`
+
+## C2: Tipping at different meals (10 points)
+
+Now consider the `tips` data: 169 parties and the tip each left as a percentage of the bill. We fit a linear model predicting `tip_pct` from `Meal`. Here are the mean tip percentages for each meal. Remember that the data frame has columns `Meal` and `tip_pct`.
+
+```{r c2-code}
+#| echo: true
+tips |>
+  group_by(Meal) |>
+  summarize(n = n(), mean_tip_pct = mean(tip_pct)) |>
+  kable(digits = 2)
+```
+
+The regression output has three rows: `(Intercept)`, `MealLate Night`, and `MealLunch`.
+
+**C2.** (10 pts)
+
+(a) (3 pts) Which level of `Meal` is the reference level? Give the estimates for all three rows of the regression output. Show how you got them.
+
+(b) (2 pts) Interpret the estimate for `MealLunch` in the context of the problem.
+
+(c) (2 pts) One party at lunch left a tip of 22% of the bill. Use the model's prediction to find that party's residual.
+
+For the rest of the question, here is the ANOVA table for the model `tip_pct ~ Meal`, with the Error sum of squares hidden:
+
+```{r c2-table}
+ss <- supernova(m_meal)$tbl
+tibble(Source = c("Model", "Error", "Total"),
+       SS = c(sprintf("%.3f", ss$SS[1]), "?", sprintf("%.3f", ss$SS[3])),
+       df = c(ss$df[1], ss$df[2], ss$df[3])) |>
+  kable(booktabs = TRUE, linesep = "", align = "lrr")
+```
+
+(d) (3 pts) Find the missing SSE. Then calculate $R^2$ and the RMSE (give its units).
+
+`r np`
+
+## C3: Temperature and bike rentals (14 points)
+
+A bike-share company in Washington, D.C. wants to understand how the weather affects demand. The data frame `bike` has one row for each of **731 days**. Let `count` be the number of bikes rented that day, and `temp_orig` be the day's temperature in degrees **Celsius**. We fit a simple linear regression of `count` on `temp_orig`. The output of `tidy(conf.int = TRUE)` is below, with the `statistic` for `temp_orig` hidden. The p-values are less than 0.0001.
+
+```{r c3-table}
+tidy_tab(m_bike, d = 2)
+```
+
+**C3.** (14 pts)
+
+(a) (5 pts) We used the regression model in the table above to predict the number of rentals on a day when the temperature is 25 degrees Celsius. Here are two 95% intervals from `predict()`, one for the **mean** number of rentals on all 25-degree days and one for the number of rentals on a **single** 25-degree day:
+
+```{r c3-pred}
+ci <- predict(m_bike, tibble(temp_orig = 25), interval = "confidence")
+pi <- predict(m_bike, tibble(temp_orig = 25), interval = "prediction")
+tibble(interval = c("Interval 1", "Interval 2"),
+       fit = sprintf("%.1f", c(pi[1], ci[1])),
+       lwr = sprintf("%.1f", c(pi[2], ci[2])),
+       upr = sprintf("%.1f", c(pi[3], ci[3]))) |>
+  kable(booktabs = TRUE, linesep = "", align = "lrrr")
+```
+
+Which interval is the prediction interval? Explain how you can tell, and interpret that interval in context.
+
+`r ns(9)`
+(b) (4 pts) Here is a plot of the residuals against the fitted values for this model. Which condition for inference looks violated? Describe what you see in the plot that tells you so, and suggest one way to improve the model.
+
+```{r c3-resid, fig.width = 5.2, fig.height = 2.8, fig.align = "center"}
+ggplot(augment(m_bike), aes(.fitted, .resid)) +
+  geom_point(alpha = 0.5, size = 1) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(x = "Fitted number of rentals", y = "Residual") +
+  theme_bw(base_size = 10)
+```
+
+(c) (5 pts) A classmate looks at a random sample of just 15 days and fits the same model. The slope estimate is 158 rentals per degree, with a p-value of 0.17. The classmate says, "The p-value is large, so temperature has no effect on rentals." Do you agree? Explain, using the idea of a Type II error or power.
+
+`r np`
+
+# Section D: Evaluate a Response (20 points)
+
+In each problem, a (fictional) student wrote an analysis. Decide whether each numbered claim is **correct** or **incorrect**. If it is incorrect, explain the mistake and write a corrected version. If it is correct, say so and add a brief reason. Write your answers on your answer paper.
+
+## D1: Energy and popularity of songs (10 points)
+
+A student studies the 508 popular Spotify songs in `spot` and fits a simple linear regression of `track_popularity` on `energy` (which runs from 0 to 1). Here is the output. The model has $n = 508$, so the critical value for a 95% confidence interval is $t^* = 1.965$.
+
+```{r d1-table}
+tidy_tab(m_spot)
+glance(m_spot) |>
+  select(r.squared, sigma) |>
+  mutate(across(everything(), ~ sprintf("%.4f", .x))) |>
+  kable(booktabs = TRUE, linesep = "", align = "rr")
+```
+
+> (1) "For each 0.1 increase in energy, a song's popularity score is predicted to be about 0.23 points lower, on average."
+>
+> (2) "The p-value is 0.033, so there is a 3.3% chance that the true slope is 0."
+>
+> (3) "The p-value is small, so energy is an important predictor of a song's popularity."
+>
+> (4) "The $T$ statistic is about $-2.1$, so our slope is about 2.1 standard errors below 0. The 95% confidence interval is $-2.31 \pm 1.965(1.08)$, or about $-4.43$ to $-0.19$ points."
+>
+> (5) "Because the sample has 508 songs, these results apply to all songs on Spotify."
+
+**D1.** (2 pts per claim) For each claim (1) to (5), say whether it is correct or incorrect. If incorrect, explain the mistake and give a corrected statement. If correct, add a brief reason.
+
+`r np`
+
+## D2: Two temperature measures on the trail (10 points)
+
+Back to the rail trail data. A student wants to know how temperature is related to the number of trail users. Because the high temperature and the average temperature are both available, the student fits two models. The correlation between `hightemp` and `avgtemp` is 0.92.
+
+**Model 1:** `volume ~ hightemp`. **Model 2:** `volume ~ hightemp + avgtemp`.
+
+```{r d2-tables}
+tidy_tab(m_hi)
+tidy_tab(m_two)
+tibble(model = c("Model 1", "Model 2"),
+       r.squared = sprintf("%.3f", c(glance(m_hi)$r.squared, glance(m_two)$r.squared)),
+       sigma = sprintf("%.1f", c(glance(m_hi)$sigma, glance(m_two)$sigma))) |>
+  kable(booktabs = TRUE, linesep = "", align = "lrr")
+```
+
+The VIFs for Model 2, and an F-test comparing the empty model to Model 2, are shown below.
+
+```{r d2-vif}
+r2_h <- summary(lm(hightemp ~ avgtemp, data = rail))$r.squared
+tibble(predictor = c("hightemp", "avgtemp"),
+       VIF = sprintf("%.2f", rep(1 / (1 - r2_h), 2))) |>
+  kable(booktabs = TRUE, linesep = "", align = "lr")
+anova_tab(anova(m_null, m_two))
+```
+
+> (1) "In Model 2, the coefficient of `avgtemp` is negative, so warmer average days lead to fewer trail users."
+>
+> (2) "The VIF of 6.48 means the standard error of each coefficient is 6.48 times larger than it would be without the other predictor."
+>
+> (3) "Because of multicollinearity, the $R^2$ and the predictions from Model 2 cannot be trusted."
+>
+> (4) "To ask whether temperature helps predict volume at all, I can test both temperature coefficients together. The F-test gives a tiny p-value, so there is strong evidence that at least one of them is not zero."
+>
+> (5) "The standard error of `hightemp` grew from Model 1 to Model 2 even though the model fits better, because `hightemp` overlaps with `avgtemp`."
+
+**D2.** (2 pts per claim) For each claim (1) to (5), say whether it is correct or incorrect. If incorrect, explain the mistake and give a corrected statement. If correct, add a brief reason.
+
+::: {.content-visible when-format="pdf"}
+```{=latex}
+\begin{center}
+\textbf{End of exam.} Please check that your name is on every sheet, and that your sheets are numbered in the bottom right corner.
+\end{center}
+```
+:::
+
+::: {.content-visible when-format="html"}
+::: {style="text-align: center;"}
+**End of exam.** Please check that your name is on every sheet, and that your sheets are numbered in the bottom right corner.
+:::
+:::

@@ -86,7 +86,7 @@ Three real data sets appear in this exam. Only the variables listed below are us
 A rail trail is a former railway line that has been converted to a path for walking and biking. Each row is **one day**, and the data cover **90 days** in total (62 weekdays and 28 weekend days). Spring, Summer, and Fall days are all included.
 
 | Variable | Type | Meaning |
-|:----------------|:----------------|:-------------------------------------|
+|:-----------------|:-----------------|:-----------------------------------|
 | `volume` | quantitative | Number of people who used the trail that day (users per day). Ranges from 129 to 736. |
 | `hightemp` | quantitative | The day's high temperature, in degrees Fahrenheit. Ranges from 41 to 97. |
 | `cloudcover` | quantitative | A measure of cloud cover on a scale from 0 to 10. Larger values mean a cloudier day. |
@@ -99,7 +99,7 @@ A rail trail is a former railway line that has been converted to a path for walk
 A server at a restaurant recorded information about **169 parties** (groups of customers) who were served. Each row is **one party's bill**.
 
 | Variable | Type | Meaning |
-|:----------------|:----------------|:-------------------------------------|
+|:-----------------|:-----------------|:-----------------------------------|
 | `Tip` | quantitative | The tip left, in dollars. |
 | `Meal` | categorical | The meal the party ate: Dinner (100 parties), Late Night (37), or Lunch (32). |
 | `Alcohol` | categorical | Whether the party ordered alcohol: Yes (48 parties) or No (121). |
@@ -110,7 +110,7 @@ A server at a restaurant recorded information about **169 parties** (groups of c
 Each row is **one LEGO set**. The full data set has **400 sets** that span many themes. Exercise 14 shows only 8 sets from three themes (Star Wars, Friends, and DUPLO), which are stored in a data frame called `lego_small`.
 
 | Variable | Type | Meaning |
-|:----------------|:----------------|:-------------------------------------|
+|:-----------------|:-----------------|:-----------------------------------|
 | `Set_Name` | categorical | The name of the set. |
 | `Theme` | categorical | The product line the set belongs to (for example, Star Wars, DUPLO, Friends, or NINJAGO). |
 | `Pieces` | quantitative | The number of pieces in the set. |
