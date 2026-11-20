@@ -62,7 +62,7 @@ Same four sections as Exam 1. Show your work: partial credit is real.
 
 . . .
 
--   Every calculation can be done with a basic calculator. You will not need to look anything up in a table: if a critical value ($t^*$), a p-value, or an F probability is needed, the exam will give it to you.
+-   Every calculation can be done with a basic calculator. You will not need to look anything up in a table: if a $t^*$, a p-value, or an F probability is needed, the exam will give it to you.
 -   The focus is **understanding**, not memorization or coding. For Section B, make sure you can match each key term in this guide to its definition.
 
 ## How to study {.smaller}
