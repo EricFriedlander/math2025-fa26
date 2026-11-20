@@ -69,13 +69,15 @@ Same four sections as Exam 1. Show your work: partial credit is real.
 
 1.  For each topic, try to do the "You should be able to..." list **without looking** at the slides.
 2.  Redo the AE and HW questions you struggled with, especially HW 06-11, which Exam 1 did not cover.
-3.  Take the [practice exam](../ae/ae-24-exam02.qmd) under timed conditions, **before** you look at the solutions.
-4.  Re-read the Exam 1 guide and your Exam 1 mistakes: old material comes back.
+3.  Re-read the Exam 1 guide and your Exam 1 mistakes: old material comes back.
+4.  Review the [practice material](../ae/ae-24-exam02.qmd). This includes two things:
+    a.  A practice exam. Complete this under timed conditions, **before** you look at the solutions.
+    b.  An OPTIONAL and EXPERIMENTAL prompt that you can use to have GenAI create practice tests and questions for you. I want to emphasize that this is EXPERIMENTAL and may not always give you relevant questions and answers consistent with this course. It is unlikely to be completely wrong. However, statistics is used across many disciplines that sometimes have different conventions that are contradictory. Even among statisticians, conventions differ. For example, sometimes $p$ means the number of coefficients in a model including the intercept, sometimes it doesn't include the intercept, and sometimes it just refers to the number of variables (i.e. a categorical variable with 5 levels would count as 1). In addition, there are many different ways to do the same thing in R, so if it asks you a question using R code that we've never discussed, skip that.
 5.  Write your notes sheet **last**. Making it is studying, so don't copy someone else's.
 
 ::: callout-tip
 1. The new material is mostly about **multiple regression and inference**, but it is built on simple regression, PRE, and p-values. If those are shaky, the new topics will be too.
-2. The best notes sheets are not a dump of formulas. Include things you *forget*: how to interpret a coefficient "holding other predictors constant," what a confidence interval does and does not mean, and which direction each formula goes.
+2. The best notes sheets are not a dump of formulas. Include things you *forget*: how to interpret a coefficient "holding other predictors constant," what a confidence interval does and does not mean, and which direction each formula goes. This is why you should do your practice exam before creating your note sheet.
 :::
 
 # Topic map
@@ -111,9 +113,9 @@ The full list is in the [Exam 1 study guide](12-exam-01-review.qmd). The highlig
 
 ## SLR, categorical predictors, residuals {.smaller}
 
--   **Slope:** for each 1-unit increase in $x$, the response is predicted to change by $\hat\beta_1$ units, *on average*. **Intercept:** predicted response at $x = 0$ (often extrapolation). Never extrapolate far outside the data.
+-   **Slope:** for each 1-unit increase in $x$, the response is predicted to change by $\hat\beta_1$ units, *on average*. **Intercept:** predicted response at $x = 0$. May not make sense. Check if there are x-values around zero. If not $\Rightarrow$ interpreting it is extrapolation.
 -   **Categorical predictor:** $K$ levels give $K - 1$ indicators. The **intercept** is the mean at the **reference level**, and each coefficient is a **difference in means** from the reference level.
--   **Residual** $e_i = y_i - \hat y_i$. Positive: point above the line (underpredicted). Least squares minimizes $SSE = \sum e_i^2$.
+-   **Residual** $e_i = y_i - \hat y_i$. Positive: point above the line (underpredicted). Least squares minimizes $SSE = \sum e_i^2$. Linear models balance the residuals so they should sum to 0.
 -   $SST = SSM + SSE$, $\;R^2 = PRE = \dfrac{SSM}{SST} = 1 - \dfrac{SSE}{SST}$, $\;RMSE = \sqrt{SSE/n}$ (same units as $y$).
 -   The **empty model** predicts $\bar y$ for everyone. $R^2$ and RMSE answer different questions.
 
@@ -133,6 +135,7 @@ The full list is in the [Exam 1 study guide](12-exam-01-review.qmd). The highlig
 
 $$SE_{\hat\beta_1} = \frac{\hat\sigma_\epsilon}{\sqrt{(n-1)\,s_X^2}}, \qquad \hat\sigma_\epsilon = \sqrt{\frac{SSE}{n-2}}, \qquad T = \frac{\hat\beta_1 - 0}{SE_{\hat\beta_1}}$$
 
+-   You will not be expected to do calculations with these formulas, but you are expected to understand how these quantities change directionally. I.e. "If I increase the sample size without changing anything else, what happens to $SE_{\hat\beta_1}$?"
 -   $T$ follows a $t$ distribution with $n - 2$ degrees of freedom (heavier tails than the normal, because $\sigma$ is estimated).
 -   **Interpret $T$:** "our slope is $T$ standard errors above/below what we'd expect if there were no linear relationship."
 -   **What makes $SE$ smaller?** Larger $n$, more spread in $X$ (larger $s_X$), less scatter around the line (smaller $\hat\sigma_\epsilon$).
@@ -166,10 +169,11 @@ $$SE_{\hat\beta_1} = \frac{\hat\sigma_\epsilon}{\sqrt{(n-1)\,s_X^2}}, \qquad \ha
 -   $p = 0.30$ with a small $n$ does **not** mean "no effect": it may be a Type II error (low power).
 -   There are no universal cutoffs for "small" or "large": meaning depends on context.
 
-## Lecture 16: study design vocabulary {.smaller}
+## Lecture 16 & Pilot Project Reading: study design vocabulary {.smaller}
 
+-   If you didn't, make sure to read [this guide to study design](https://www.cebm.ox.ac.uk/files/testing/cebm-study-design-april-20131.pdf) from the Centre for Evidence-Based Medicine (University of Oxford).
 -   **Randomized experiment:** researchers assign treatments at random. The only design that supports strong causal claims.
--   **Observational:** descriptive vs. analytical (**cohort**, **case-control**, **cross-sectional**).
+-   **Observational:** descriptive vs. analytical (**cohort**, **case-control**, **cross-sectional**). (These are from assigned reading for your project).
 -   **Bias types:** selection, allocation, performance. **Blinding** reduces performance and measurement bias.
 -   Be able to say which design a description is, and what conclusion (causal or association, which population) it supports.
 
@@ -182,7 +186,7 @@ $$\hat Y = \hat\beta_0 + \hat\beta_1 X_1 + \hat\beta_2 X_2 + \dots + \hat\beta_p
 -   **Interpreting a coefficient:** "$\hat\beta_j$ is the expected change in the **mean** of $y$ when $x_j$ increases by one unit, **holding the values of all other predictors constant**."
 -   A categorical predictor with $k$ levels gives $k-1$ indicators. Each indicator coefficient is a difference from the reference level, *holding the others constant*.
 -   **Additive model** with one quantitative and one categorical predictor = **parallel lines**: one slope, a different intercept per level. The indicator coefficient is the **vertical gap** between the lines.
--   **Coefficients change when you add predictors**, especially if the predictors are related. The SLR slope can be "absorbing" a confounder.
+-   **Coefficients, SEs, t-statistics, and p-values change when you add predictors**, especially if the predictors are related. The SLR slope can be "absorbing" a confounder.
 -   Be able to explain why an MLR coefficient differs from the SLR slope for the same variable.
 
 ## Lecture 18: prediction and interactions {.smaller}
@@ -206,6 +210,7 @@ $$\hat Y = \hat\beta_0 + \hat\beta_1 X_1 + \hat\beta_2 X_2 + \dots + \hat\beta_p
 
 $$T = \frac{\hat\beta_j - 0}{SE_{\hat\beta_j}}, \quad SE_{\hat\beta_j} = \frac{\hat\sigma_\epsilon}{\sqrt{(n-1)\,s_{X_j}^2\,(1 - R_j^2)}}, \quad \hat\sigma_\epsilon = \sqrt{\frac{SSE}{n-p}}$$
 
+-   Again... not expecting you to do calculations with these but you will be expected to know how they change directionally in response to changes in things like sample size, residual error, etc...
 -   $T$ follows a $t$ distribution with $n - p$ df, where $p$ counts **all** coefficients including the intercept.
 -   $R_j^2$ is the $R^2$ from predicting $X_j$ from the other predictors. **Overlap among predictors inflates the SE.**
 -   **The p-value answers a different question in each model.** Estimates change through confounding. SEs change when $\hat\sigma_\epsilon$ shrinks or when predictors overlap.
@@ -220,8 +225,8 @@ $$T = \frac{\hat\beta_j - 0}{SE_{\hat\beta_j}}, \quad SE_{\hat\beta_j} = \frac{\
 $$F = \frac{(SSE_{\text{reduced}} - SSE_{\text{full}})\,/\,(\text{number of extra coefficients})}{SSE_{\text{full}}\,/\,df_{\text{full}}}$$
 
 -   $F$ near 1: the extra terms do nothing. A large $F$ (small p-value) is evidence at least one extra term helps.
--   You should be able to read `anova(reduced, full) |> tidy()`: `df.residual`, `rss` (= SSE), `df` (number of extra coefficients), `sumsq` (= $SSE_{\text{reduced}} - SSE_{\text{full}}$), `statistic` ($F$), `p.value`. Fill in a missing entry.
--   For **one** extra coefficient, $F = T^2$ and the p-values agree.
+-   You should be able to read the output of `anova(reduced, full) |> tidy()`
+-   For **one** extra coefficient, $F = T^2$ and the p-values from an F-test and a T-test agree.
 -   Use the F-test to test an interaction (`anova(add_fit, int_fit)`) or a categorical predictor with several indicators at once.
 -   **Multiple testing:** many tests inflate false positives. State the primary hypothesis in advance. "Not significant" is not "no effect."
 
@@ -234,20 +239,21 @@ $$\hat\beta_j \pm t^* \times SE_{\hat\beta_j}, \qquad t^* \text{ from a } t \tex
 -   **Wrong:** "There is a 95% chance the true slope is in *this* interval" (the parameter is fixed, the interval is random).
 -   A CI shows **significance** (does it contain 0?) *and* **size** (compare to a practical threshold, like a break-even).
 -   **Confidence interval** (for the *mean* response at given $x$) vs. **prediction interval** (for a *new individual* response). The prediction interval is always **wider**. As $n$ grows the CI shrinks toward zero width, but the PI cannot get narrower than about $\pm 2\hat\sigma_\epsilon$.
--   R output: `tidy(conf.int = TRUE)` adds `conf.low`, `conf.high`. `predict(..., interval = ...)` gives `fit`, `lwr`, `upr`.
+-   R output: `tidy(conf.int = TRUE)` adds `conf.low`, `conf.high`. 
+-   R output: `predict(..., interval = ...)` gives `fit`, `lwr`, `upr`.
 
 ## Lecture 22: conditions (LINE) {.smaller}
 
 | Condition | How to check | What a violation looks like |
 |:--|:--|:--|
 | **L**inearity | Residuals vs. fitted, and vs. each predictor | Curvature or a pattern |
-| **I**ndependence | Study design, residuals in time order | Runs, clusters, repeated units |
+| **I**ndependence | Study design, depends on the type of dependence | Runs, clusters, repeated units |
 | **N**ormality | Histogram and QQ plot of residuals | QQ bow (skew), flared ends (heavy tails) |
 | **E**qual variance | Residuals vs. fitted | Fan or funnel shape |
 
 -   Check conditions on **residuals**, because they remove the effects of the other predictors.
 -   **Worry most** about Independence and Linearity, moderately about Equal variance, least about Normality (large $n$ helps, but it matters more for small $n$ and for prediction intervals).
--   When Equal variance fails, estimates are fine but **standard errors are wrong**. A log transform of $y$ often helps.
+-   When Equal variance fails, estimates are fine but **standard errors are wrong**. 
 -   Be able to look at a residual plot or QQ plot, name the condition, say whether it holds, and say what you'd do.
 
 ## Lecture 23: multicollinearity {.smaller}
