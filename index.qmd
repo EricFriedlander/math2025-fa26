@@ -37,7 +37,7 @@ editor: source
 | x | M | Nov 23 | No Class Thanksgiving Break | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  |
 | x | W | Nov 25 | No Class Thanksgiving Break | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  |
 | 24 | M | Nov 30 | Final Exam Review | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}](/slides/24-exam-02-review.qmd) | [{{< fa users >}}](/ae/ae-24-exam02.qmd) | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} | HW 11 Due, Project 4: Full draft due |
-| 25 | W | Dec 2 | Exam 2 | [{{< fa book >}}](/prepare/prep-25.qmd) | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  |
+| 25 | W | Dec 2 | Exam 2 | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} |  |
 | Final | M | Dec 7 (12:30-3pm) | Poster Session | [{{< fa book >}}]{.fa-dim} | [{{< fa laptop >}}]{.fa-dim} | [{{< fa users >}}]{.fa-dim} | [{{< fa pen-to-square >}}]{.fa-dim} | [{{< fa chart-line >}}]{.fa-dim} | Project 5: Final project + poster due. |
 :::
 `
